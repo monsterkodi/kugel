@@ -1,0 +1,51 @@
+
+clr                  = {} 
+clr.black            = #000000
+clr.gray-most-dark   = #181818
+clr.gray-super-dark  = #222222
+clr.gray-very-dark   = #282828
+clr.gray-dark        = #333333
+clr.gray-medium      = #555555
+clr.gray             = #888888
+clr.gray-bright      = #cccccc
+clr.gray-very-bright = #dddddd
+clr.white            = #ffffff
+clr.yellow-bright    = #ffff88
+clr.yellow           = #ffff00
+clr.orange-bright    = #ffaa00
+clr.orange           = #ff8800
+clr.red              = #ff0000
+clr.green-bright     = #00ff00
+clr.green            = #00aa00
+clr.green-dark       = #006600
+clr.blue-dark        = #2222aa
+clr.blue             = #4444ff
+clr.blue-medium      = #6666ff
+clr.blue-bright      = #8888ff
+clr.blue-very-bright = #aaaaff
+
+clr.background       = #888888
+
+@font-face
+    font-family UbuntuMono
+    src url('./font/UbuntuMono-R.ttf')
+
+drag()
+    -webkit-app-region  drag
+nodrag()
+    -webkit-app-region  no-drag
+
+body
+    margin: 0
+    font-family       Verdana
+    background-color: clr.background
+    overflow            hidden
+    nodrag()
+    -webkit-user-select none
+    
+canvas 
+    width  100%
+    height 100% 
+    
+::selection
+    color:            clr.yellow

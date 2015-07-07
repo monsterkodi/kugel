@@ -1,0 +1,11 @@
+*.app
+*.zip
+.release.*
+.pepper
+.apitoken.json
+node_modules
+bower_components
+style/*.css
+js
+web
+Icon?
