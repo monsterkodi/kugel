@@ -8,7 +8,7 @@
 
 class StyleSwitch
 
-    @schemes = ['dark.css', 'bright.css']
+    @schemes = ['knix-dark.css', 'knix-bright.css']
     @colors  = {}
 
     @init: =>

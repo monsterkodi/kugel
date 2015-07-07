@@ -413,7 +413,6 @@ class Window extends Widget
 
     del: => @close()
     close: =>
-        console.log 'close'
         if @config.popup?
             knix.delPopup @
         super

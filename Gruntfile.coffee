@@ -57,9 +57,9 @@ module.exports = (grunt) ->
                 compress: false
             compile:
                 files:
-                    'style/app.css':    ['style/app.styl']
-                    'style/bright.css': ['style/bright-style.styl']
-                    'style/dark.css':   ['style/dark-style.styl']
+                    'style/app.css':         ['style/app.styl']
+                    'style/knix-bright.css': ['style/knix-bright-style.styl']
+                    'style/knix-dark.css':   ['style/knix-dark-style.styl']
 
         bower_concat:
             all:
