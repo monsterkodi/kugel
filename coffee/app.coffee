@@ -17,7 +17,7 @@ error   = require './js/knix/error'
 warning = require './js/knix/warning'
 Console = require './js/knix/console'
 
-# OrbitControls = require('three-orbit-controls')(THREE)
+OrbitControls = require('three-orbit-controls')(THREE)
 
 win = remote.getCurrentWindow()
 
@@ -59,10 +59,10 @@ document.observe 'dom:loaded', ->
     renderer.setClearColor 0x888888
     document.body.appendChild renderer.domElement
 
-    # controls = new OrbitControls camera
-    # controls.damping = 0.2
-    # controls.minDistance = 2
-    # controls.maxDistance = 100
+    controls = new OrbitControls camera
+    controls.damping = 0.2
+    controls.minDistance = 2
+    controls.maxDistance = 100
 
     geometry = new THREE.IcosahedronGeometry 1, 3
     moon_mat = new THREE.MeshLambertMaterial color:0xffffff, shading: THREE.SmoothShading

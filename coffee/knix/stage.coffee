@@ -15,7 +15,7 @@ class Stage
     @init: =>
         stage = $('stage_content')
         stage.addEventListener 'mousemove',   Stage.onMove
-        stage.addEventListener 'mousedown',   -> (require './selectangle').start()
+        # stage.addEventListener 'mousedown',   -> (require './selectangle').start()
 
     @onMove: (event) =>
         @mousePos = @absPos event

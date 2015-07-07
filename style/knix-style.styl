@@ -143,6 +143,7 @@ a
     background-color:     colors.button
     color:                textColors.button
     height:               buttonHeight
+    pointer-events:       all
     &:hover
         background-color: colors.button-hover
         color:            colors.button-hover-text
@@ -309,6 +310,7 @@ a
     margin-bottom: 10px
     
 .window .title
+    pointer-events:   all
     color:            textColors.title
     height:           widgetHeaderSize
     text-align:       center
@@ -369,7 +371,8 @@ a
 */
 
 .console-window
-    box-sizing:       border-box    
+    box-sizing:       border-box  
+    pointer-events:   none  
     .content
         padding: 0
         margin: 0
@@ -378,6 +381,7 @@ a
             margin:  0px
 
 .console
+    pointer-events:   none  
     background-color: colors.console
     color:            textColors.console
     padding-bottom: 6px
