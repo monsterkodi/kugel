@@ -47,16 +47,17 @@ document.observe 'dom:loaded', ->
     scene = new (THREE.Scene)
 
     # scene.fog = new THREE.FogExp2 0x000000, 0.01
-    camera    = new THREE.PerspectiveCamera 75, window.innerWidth / window.innerHeight, 0.0001, 1000
+    camera    = new THREE.PerspectiveCamera 75, window.innerWidth / window.innerHeight, 0.001, 200
     renderer  = new THREE.WebGLRenderer antialias: true
     renderer.setSize window.innerWidth, window.innerHeight
     renderer.setClearColor 0x888888
     document.body.appendChild renderer.domElement
 
     controls = new OrbitControls camera
-    controls.damping = 0.95
+    controls.damping = 0.999
     controls.minDistance = .002
     controls.maxDistance = 150
+    controls.distance = 150
 
     if false
         geometry = new THREE.IcosahedronGeometry 1, 3
@@ -85,6 +86,9 @@ document.observe 'dom:loaded', ->
     light = new THREE.AmbientLight 0x000000
     scene.add light
 
+    raycaster = new THREE.Raycaster()
+    mouse     = new THREE.Vector2()
+
     if false
         stats = new Stats
         stats.domElement.style.position = 'absolute'
@@ -106,13 +110,27 @@ document.observe 'dom:loaded', ->
         camera.updateProjectionMatrix()
         renderer.setSize window.innerWidth, window.innerHeight
 
+    onMouseMove = (e) ->
+        mouse.x = 2 * (e.clientX / window.innerWidth) - 1
+        mouse.y = 1 - 2 * ( e.clientY / window.innerHeight )
+        raycaster.setFromCamera( mouse, camera )
+        intersects = raycaster.intersectObjects scene.children        
+        if intersects.length
+            for i in [0..intersects.length]
+                obj = intersects[i].object
+                obj.material.color.setRGB(1,0,0)
+
+    window.addEventListener 'mousemove', onMouseMove, false
     window.addEventListener 'resize', onWindowResize, false
             
     render()
+    
+    doWalk '.'
     # log 'loaded'    
 
 win.on 'close', (event) ->
 win.on 'focus', (event) -> 
+
 
 ###
 000   000   0000000   000      000   000
@@ -123,6 +141,7 @@ win.on 'focus', (event) ->
 ###
 dirs = {}
 addDir = (dir) ->
+    # return if dir.size == 0
     geometry = new THREE.IcosahedronGeometry 1, 2
     material = new THREE.MeshLambertMaterial 
         color:              0x888888, 
@@ -136,12 +155,33 @@ addDir = (dir) ->
         wireframeLinewidth: 4
 
     mesh = new THREE.Mesh geometry, material
-    s = dir.size/dirs['.'].size
+    s = 10*dir.size/dirs['.'].size
+    # dbg name, s
     mesh.scale.x = s
     mesh.scale.y = s
     mesh.scale.z = s
-
     scene.add mesh
+    dir.mesh = mesh
+    dir.scale = s
+
+addBelow = (dir) ->
+    addDir dir
+    ci = 0
+    cn = dir.dirs.length
+    for childname in dir.dirs
+        child = dirs[childname]
+        if child.size > 0
+            addBelow child
+            child.mesh.position.x = ci*dir.scale
+            ci += 1
+
+addDirSize = (dir, size) ->
+    dirs[dir].size += size
+    if dir != '.'
+        addDirSize path.dirname(dir), size
+
+addToParentDir = (dir) ->
+    dirs[path.dirname(dir)]?.dirs.push dir
 
 doWalk = (dirPath) ->
     resolved = resolve dirPath
@@ -152,15 +192,15 @@ doWalk = (dirPath) ->
         "max_depth": 3 # Infinity
     w = walk resolved, opts
     l = resolved.length + 1    
-    dirs['.'] = { children: [], size: 0 }
+    dirs['.'] = { files: [], size: 0, dirs: [], name:'.' }
     w.on 'file', (filename, stat) -> 
         num_files += 1
         file = filename.substr l      
         dir = path.dirname file
         if dirs[dir]?
             # log dir, file
-            dirs[dir]['size'] += stat.size
-            dirs[dir]['children'].push 
+            addDirSize dir, stat.size
+            dirs[dir].files.push 
                 file: path.basename file
                 size: stat.size
         else
@@ -170,16 +210,14 @@ doWalk = (dirPath) ->
         num_dirs += 1
         dir = filename.substr l
         # log 'dir: ', dir
-        dirs[dir] = { children: [], size: 0 }
+        dirs[dir] = { files: [], size: 0, dirs: [], name:dir }
+        addToParentDir dir
     w.on 'end', ->
         log 'files:', num_files, 'dirs:', num_dirs
         
-        # log dirs
-        for dir, value of dirs
-            # log dir, value
-            addDir value
-            if value.children.length
-                log dir, value.children.length, value.size
+        # log dirs['.']
+        
+        addBelow dirs['.']
 
 ###
 000   000  00000000  000   000  0000000     0000000   000   000  000   000
@@ -195,10 +233,12 @@ onKeyDown = (event) ->
     # dbg key
     switch key
         when 'command+e'
-            doWalk('.')
+            doWalk '.'
         when 'command+k'  
             new Console()
         when 'command+c'
             knix.closeAllWindows()
+        when 'command+q'
+            ipc.send 'process.exit'
         
 document.on 'keydown', onKeyDown
