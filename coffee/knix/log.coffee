@@ -8,5 +8,5 @@
 
 module.exports = () -> 
     Console = require './console'
-    Console.logInfo.apply Console, Array.prototype.slice.call(arguments, 0)
+    Console.logInfo.apply Console, [].slice.call(arguments, 0)
     

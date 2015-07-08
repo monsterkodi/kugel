@@ -150,7 +150,6 @@ module.exports = (grunt) ->
     grunt.loadNpmTasks 'grunt-contrib-stylus'
     grunt.loadNpmTasks 'grunt-contrib-clean'
     grunt.loadNpmTasks 'grunt-bower-concat'
-    grunt.loadNpmTasks 'grunt-github-release-asset'
     grunt.loadNpmTasks 'grunt-bumpup'
     grunt.loadNpmTasks 'grunt-pepper'
     grunt.loadNpmTasks 'grunt-shell'

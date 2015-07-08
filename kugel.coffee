@@ -8,6 +8,7 @@
 
 shortcut      = require 'global-shortcut'
 path          = require 'path'
+resolve       = require './tools/resolve'
 app           = require 'app'
 ipc           = require 'ipc'
 fs            = require 'fs'
@@ -139,7 +140,7 @@ createWindow()
 000        000   000  00000000  000       0000000 
 ###
 
-prefsFile = process.env.HOME+'/Library/Preferences/kugel.json'
+prefsFile = resolve '~/Library/Preferences/kugel.json'
 
 loadPrefs = () ->
     try

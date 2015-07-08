@@ -30,8 +30,6 @@ class Button extends Widget
             noMove   : true
             children : children
     
-        log 'button2'
-        
         @connect 'mousedown', @trigger
         @connect 'mouseup',   @release
 
