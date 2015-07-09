@@ -22,12 +22,16 @@ warning = require './js/knix/warning'
 Console = require './js/knix/console'
 Text    = require './js/text'
 
-OrbitControls = require('three-orbit-controls')(THREE)
-
-win    = remote.getCurrentWindow()
-scene  = null
-camera = null
-text   = null
+rootDir      = '.'
+walkDepth    = 4
+win          = remote.getCurrentWindow()
+scene        = null
+camera       = null
+text         = null
+lookAtTarget = new THREE.Vector3()
+maxCamDist   = 150
+minCamDist   = 0.002
+perspective  = false 
 
 jsonStr = (a) -> JSON.stringify a, null, " "
 
@@ -49,20 +53,18 @@ document.observe 'dom:loaded', ->
         
     scene = new (THREE.Scene)
 
-    camera    = new THREE.PerspectiveCamera 75, window.innerWidth / window.innerHeight, 0.001, 200
+    if perspective
+        camera = new THREE.PerspectiveCamera 75, window.innerWidth / window.innerHeight, 0.001, 200
+    else
+        camera = new THREE.OrthographicCamera window.innerWidth/-2, window.innerWidth/2, window.innerHeight/2, window.innerHeight/-2, 0.001, 200
+    camera.position.z = maxCamDist        
     renderer  = new THREE.WebGLRenderer antialias: true
     renderer.setSize window.innerWidth, window.innerHeight
     renderer.setClearColor 0x888888
     document.body.appendChild renderer.domElement
 
-    controls = new OrbitControls camera
-    controls.damping = 0.999
-    controls.minDistance = .002
-    controls.maxDistance = 150
-    camera.position.z = 150
-
     sun = new THREE.DirectionalLight 0xeeeeee
-    sun.position.set 1, 1, 1
+    sun.position.set -1, 1, 1
     scene.add sun
 
     light = new THREE.AmbientLight 0x000000
@@ -79,7 +81,6 @@ document.observe 'dom:loaded', ->
         requestAnimationFrame render
         renderer.render scene, camera
         stats?.update()
-        controls?.update()
         return
 
     onWindowResize = ->
@@ -92,15 +93,36 @@ document.observe 'dom:loaded', ->
         mouse.x = 2 * (e.clientX / window.innerWidth) - 1
         mouse.y = 1 - 2 * ( e.clientY / window.innerHeight )
         selectAt mouse
+        
+    scale = 1
+    onMouseWheel = (e) ->
+        delta = e.wheelDelta
+        camera.lookAt lookAtTarget
+        if perspective
+            camera.position.z *= 1-delta/10000
+            camera.position.z = maxCamDist if camera.position.z > maxCamDist
+            camera.position.z = minCamDist if camera.position.z < minCamDist
+        else
+            scale *= 1-delta/10000
+            scale = 1 if scale > 1
+            scale = 0.000001 if scale < 0.000001
+            w = window.innerWidth * scale
+            h = window.innerHeight * scale
+            camera.left = w/-2
+            camera.right = w/2
+            camera.top = h/2
+            camera.bottom = h/-2
+        camera.updateProjectionMatrix()
 
-    window.addEventListener 'mousemove', onMouseMove, false
-    window.addEventListener 'resize', onWindowResize, false
+    window.addEventListener 'mousemove',   onMouseMove, false
+    window.addEventListener 'resize',   onWindowResize, false
+    window.addEventListener 'mousewheel', onMouseWheel, true
             
     render()
     
-    doWalk '.'
+    doWalk rootDir
     
-    text = new Text path.basename path.resolve('.')
+    text = new Text rootDir
     text.mesh.position.y = 50
 
 ###
@@ -121,27 +143,18 @@ selectAt  = (mouse) ->
     if intersects.length
         selected = intersects[intersects.length-1].object
         selected.material.wireframe = true
-        dbg selected.dir.name 
         text?.remove()
-        text = new Text selected.dir.name, selected.dir.scale
-        text.setPos selected.position.x, 50*selected.dir.scale
+        name = selected.file?.name or selected.dir?.name
+        name = rootDir if name == '.'
+        scale = selected.file?.scale or selected.dir?.scale
+        text = new Text name, scale
+        text.setPos 0, selected.position.y + 50*scale
 
 win.on 'close', (event) ->
 win.on 'focus', (event) -> 
 
-###
-000   000   0000000   000      000   000
-000 0 000  000   000  000      000  000 
-000000000  000000000  000      0000000  
-000   000  000   000  000      000  000 
-00     00  000   000  0000000  000   000
-###
-
-dirs = {}
-addDir = (dir) ->
-
-    geometry = new THREE.IcosahedronGeometry 0.5, 1
-    material = new THREE.MeshLambertMaterial 
+item_material = () -> 
+    new THREE.MeshLambertMaterial 
         color:              0x888888, 
         side:               THREE.FrontSide
         shading:            THREE.FlatShading, 
@@ -152,29 +165,47 @@ addDir = (dir) ->
         opacity:            0.2
         wireframeLinewidth: 2
 
-    mesh = new THREE.Mesh geometry, material
+###
+0000000    000  00000000    0000000
+000   000  000  000   000  000     
+000   000  000  0000000    0000000 
+000   000  000  000   000       000
+0000000    000  000   000  0000000 
+###
+
+dirs = {}
+
+addChildGeom = (dir, prt, geom) ->
+    mesh = new THREE.Mesh geom, item_material()
     s = dir.size/dirs['.'].size
     ss = 100*s
-    mesh.scale.x = ss
-    mesh.scale.y = ss
-    mesh.scale.z = ss
+    mesh.scale.x = mesh.scale.y = mesh.scale.z = ss
     scene.add mesh
     mesh.dir = dir
     dir.mesh = mesh
     dir.scale = s
+    dir.ci = 0.5
+    if prt?
+        relscale = s/prt.scale
+        mesh.position.y = prt.mesh.position.y + (prt.ci - relscale*0.5)*100*prt.scale
+        prt.ci -= relscale    
 
-addBelow = (dir) ->
-    addDir dir
-    ci = -0.5
+addDir = (dir, prt) ->
+    geom = new THREE.IcosahedronGeometry 0.5, 2
+    addChildGeom dir, prt, geom
+
+addFile = (file, prt) ->
+    geom = new THREE.OctahedronGeometry 0.5
+    addChildGeom file, prt, geom
+
+addBelow = (dir, prt) ->
+    addDir dir, prt
     for childname in dir.dirs
         child = dirs[childname]
         if child.size > 0
-            addBelow child
-            dbg dir.mesh.position.x, ci, child.scale, dir.scale
-            child.mesh.position.x = dir.mesh.position.x + (ci + child.scale*0.5)*100*dir.scale
-            dbg child.mesh.position.x
-            ci += child.scale
-    dir
+            addBelow child, dir
+    for file in dir.files
+        addFile file, dir
 
 addDirSize = (dir, size) ->
     dirs[dir].size += size
@@ -184,7 +215,15 @@ addDirSize = (dir, size) ->
 addToParentDir = (dir) ->
     dirs[path.dirname(dir)]?.dirs.push dir
 
-newDir = (dirname) -> dirs[dirname] = { files: [], size: 0, dirs: [], name:dirname }
+newDir = (dirname) -> dirs[dirname] = { files: [], size: 0, dirs: [], name:dirname, y: 0 }
+    
+###
+000   000   0000000   000      000   000
+000 0 000  000   000  000      000  000 
+000000000  000000000  000      0000000  
+000   000  000   000  000      000  000 
+00     00  000   000  0000000  000   000
+###
     
 doWalk = (dirPath) ->
     resolved = resolve dirPath
@@ -192,8 +231,9 @@ doWalk = (dirPath) ->
     num_files = 0
     num_dirs = 0
     opts = 
-        "max_depth": 3 #Infinity
+        "max_depth": walkDepth
     w = walk resolved, opts
+    w.ignore ['electron-packager', 'electron-prebuild']
     l = resolved.length + 1    
     newDir '.'
     w.on 'file', (filename, stat) -> 
@@ -202,17 +242,18 @@ doWalk = (dirPath) ->
         dir = path.dirname file
         if dirs[dir]?
             addDirSize dir, stat.size
-            dirs[dir].files.push 
-                file: path.basename file
+            dirs[dir].files.push
+                name: path.basename file
                 size: stat.size
         else
             log 'WTF?'
                 
-    w.on 'directory', (filename, stat) -> 
+    w.on 'directory', (dirname, stat) -> 
         num_dirs += 1
-        dir = filename.substr l
+        dir = dirname.substr l
         newDir dir
         addToParentDir dir
+        
     w.on 'end', ->
         log 'files:', num_files, 'dirs:', num_dirs
         addBelow dirs['.']
