@@ -7,6 +7,16 @@
         <link   rel="stylesheet" href="bower_components/octicons/octicons/octicons.css">
         <link   rel='stylesheet' href='bower_components/font-awesome/css/font-awesome.css'>
         <link   rel="stylesheet" href="style/knix-dark.css" id="style-link">        
+        <script src="./fonts/helvetiker_bold.typeface.js"></script>
+        <script src="font/pnltri.min.js"></script>
+        <script>
+    			THREE.Shape.Utils.triangulateShape = ( function () {
+    				var pnlTriangulator = new PNLTRI.Triangulator();
+    				return function ( contour, holes ) {
+    					return pnlTriangulator.triangulate_polygon( [ contour ].concat(holes) );
+    				};
+    			} )();
+        </script>        
         <link   rel='stylesheet' href='style/app.css' type='text/css'>
         <script src='./js/app.js'></script>
     </head>

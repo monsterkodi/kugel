@@ -20,11 +20,14 @@ dbg     = require './js/knix/log'
 error   = require './js/knix/error'
 warning = require './js/knix/warning'
 Console = require './js/knix/console'
+Text    = require './js/text'
 
 OrbitControls = require('three-orbit-controls')(THREE)
 
-win = remote.getCurrentWindow()
-scene = null
+win    = remote.getCurrentWindow()
+scene  = null
+camera = null
+text   = null
 
 jsonStr = (a) -> JSON.stringify a, null, " "
 
@@ -65,10 +68,6 @@ document.observe 'dom:loaded', ->
     light = new THREE.AmbientLight 0x000000
     scene.add light
 
-    raycaster = new THREE.Raycaster()
-    mouse     = new THREE.Vector2()
-    selected  = undefined
-
     if false
         stats = new Stats
         stats.domElement.style.position = 'absolute'
@@ -89,15 +88,10 @@ document.observe 'dom:loaded', ->
         renderer.setSize window.innerWidth, window.innerHeight
 
     onMouseMove = (e) ->
+        mouse   = new THREE.Vector2()
         mouse.x = 2 * (e.clientX / window.innerWidth) - 1
         mouse.y = 1 - 2 * ( e.clientY / window.innerHeight )
-        raycaster.setFromCamera( mouse, camera )
-        intersects = raycaster.intersectObjects scene.children        
-        if selected?
-            selected.material.wireframe = false
-        if intersects.length
-            selected = intersects[intersects.length-1].object
-            selected.material.wireframe = true
+        selectAt mouse
 
     window.addEventListener 'mousemove', onMouseMove, false
     window.addEventListener 'resize', onWindowResize, false
@@ -105,6 +99,32 @@ document.observe 'dom:loaded', ->
     render()
     
     doWalk '.'
+    
+    text = new Text path.basename path.resolve('.')
+    text.mesh.position.y = 50
+
+###
+ 0000000  00000000  000      00000000   0000000  000000000  000   0000000   000   000
+000       000       000      000       000          000     000  000   000  0000  000
+0000000   0000000   000      0000000   000          000     000  000   000  000 0 000
+     000  000       000      000       000          000     000  000   000  000  0000
+0000000   00000000  0000000  00000000   0000000     000     000   0000000   000   000
+###
+
+selected  = undefined
+raycaster = new THREE.Raycaster()
+selectAt  = (mouse) ->
+    raycaster.setFromCamera mouse, camera
+    intersects = raycaster.intersectObjects scene.children        
+    if selected?
+        selected.material.wireframe = false
+    if intersects.length
+        selected = intersects[intersects.length-1].object
+        selected.material.wireframe = true
+        dbg selected.dir.name 
+        text?.remove()
+        text = new Text selected.dir.name, selected.dir.scale
+        text.setPos selected.position.x, 50*selected.dir.scale
 
 win.on 'close', (event) ->
 win.on 'focus', (event) -> 
@@ -120,7 +140,7 @@ win.on 'focus', (event) ->
 dirs = {}
 addDir = (dir) ->
 
-    geometry = new THREE.IcosahedronGeometry 1, 2
+    geometry = new THREE.IcosahedronGeometry 0.5, 1
     material = new THREE.MeshLambertMaterial 
         color:              0x888888, 
         side:               THREE.FrontSide
@@ -133,24 +153,28 @@ addDir = (dir) ->
         wireframeLinewidth: 2
 
     mesh = new THREE.Mesh geometry, material
-    s = 10*dir.size/dirs['.'].size
-    mesh.scale.x = s
-    mesh.scale.y = s
-    mesh.scale.z = s
+    s = dir.size/dirs['.'].size
+    ss = 100*s
+    mesh.scale.x = ss
+    mesh.scale.y = ss
+    mesh.scale.z = ss
     scene.add mesh
+    mesh.dir = dir
     dir.mesh = mesh
     dir.scale = s
 
 addBelow = (dir) ->
     addDir dir
-    ci = 0
-    cn = dir.dirs.length
+    ci = -0.5
     for childname in dir.dirs
         child = dirs[childname]
         if child.size > 0
             addBelow child
-            child.mesh.position.x = ci*dir.scale
-            ci += 1
+            dbg dir.mesh.position.x, ci, child.scale, dir.scale
+            child.mesh.position.x = dir.mesh.position.x + (ci + child.scale*0.5)*100*dir.scale
+            dbg child.mesh.position.x
+            ci += child.scale
+    dir
 
 addDirSize = (dir, size) ->
     dirs[dir].size += size
@@ -160,16 +184,18 @@ addDirSize = (dir, size) ->
 addToParentDir = (dir) ->
     dirs[path.dirname(dir)]?.dirs.push dir
 
+newDir = (dirname) -> dirs[dirname] = { files: [], size: 0, dirs: [], name:dirname }
+    
 doWalk = (dirPath) ->
     resolved = resolve dirPath
     log 'walk', resolved
     num_files = 0
     num_dirs = 0
     opts = 
-        "max_depth": 3 # Infinity
+        "max_depth": 3 #Infinity
     w = walk resolved, opts
     l = resolved.length + 1    
-    dirs['.'] = { files: [], size: 0, dirs: [], name:'.' }
+    newDir '.'
     w.on 'file', (filename, stat) -> 
         num_files += 1
         file = filename.substr l      
@@ -185,7 +211,7 @@ doWalk = (dirPath) ->
     w.on 'directory', (filename, stat) -> 
         num_dirs += 1
         dir = filename.substr l
-        dirs[dir] = { files: [], size: 0, dirs: [], name:dir }
+        newDir dir
         addToParentDir dir
     w.on 'end', ->
         log 'files:', num_files, 'dirs:', num_dirs
