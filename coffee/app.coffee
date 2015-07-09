@@ -42,11 +42,10 @@ console.error = () -> ipc.send 'console.error', [].slice.call arguments, 0
 document.observe 'dom:loaded', ->
     
     knix.init
-        console: 'maximized'
+        console: 'shade'
         
     scene = new (THREE.Scene)
 
-    # scene.fog = new THREE.FogExp2 0x000000, 0.01
     camera    = new THREE.PerspectiveCamera 75, window.innerWidth / window.innerHeight, 0.001, 200
     renderer  = new THREE.WebGLRenderer antialias: true
     renderer.setSize window.innerWidth, window.innerHeight
@@ -57,27 +56,7 @@ document.observe 'dom:loaded', ->
     controls.damping = 0.999
     controls.minDistance = .002
     controls.maxDistance = 150
-    controls.distance = 150
-
-    if false
-        geometry = new THREE.IcosahedronGeometry 1, 3
-        moon_mat = new THREE.MeshLambertMaterial color:0xffffff, shading: THREE.SmoothShading
-        plnt_mat = new THREE.MeshLambertMaterial color:0x8888ff, shading: THREE.SmoothShading
-
-        plnt = new THREE.Mesh geometry, plnt_mat
-        moon = new THREE.Mesh geometry, moon_mat
-        moon.scale.x = 0.3
-        moon.scale.y = 0.3
-        moon.scale.z = 0.3
-        moon.position.x = 6
-
-        plnt.add moon
-        scene.add plnt
-
-        moon_light = new THREE.PointLight 0xffffff, 0.1, 100
-        moon.add moon_light
-
-    camera.position.z = 8
+    camera.position.z = 150
 
     sun = new THREE.DirectionalLight 0xeeeeee
     sun.position.set 1, 1, 1
@@ -88,6 +67,7 @@ document.observe 'dom:loaded', ->
 
     raycaster = new THREE.Raycaster()
     mouse     = new THREE.Vector2()
+    selected  = undefined
 
     if false
         stats = new Stats
@@ -97,8 +77,6 @@ document.observe 'dom:loaded', ->
         container.appendChild stats.domElement
 
     render = ->
-        plnt?.rotation.y += 0.002
-        
         requestAnimationFrame render
         renderer.render scene, camera
         stats?.update()
@@ -115,10 +93,11 @@ document.observe 'dom:loaded', ->
         mouse.y = 1 - 2 * ( e.clientY / window.innerHeight )
         raycaster.setFromCamera( mouse, camera )
         intersects = raycaster.intersectObjects scene.children        
+        if selected?
+            selected.material.wireframe = false
         if intersects.length
-            for i in [0..intersects.length]
-                obj = intersects[i].object
-                obj.material.color.setRGB(1,0,0)
+            selected = intersects[intersects.length-1].object
+            selected.material.wireframe = true
 
     window.addEventListener 'mousemove', onMouseMove, false
     window.addEventListener 'resize', onWindowResize, false
@@ -126,11 +105,9 @@ document.observe 'dom:loaded', ->
     render()
     
     doWalk '.'
-    # log 'loaded'    
 
 win.on 'close', (event) ->
 win.on 'focus', (event) -> 
-
 
 ###
 000   000   0000000   000      000   000
@@ -139,24 +116,24 @@ win.on 'focus', (event) ->
 000   000  000   000  000      000  000 
 00     00  000   000  0000000  000   000
 ###
+
 dirs = {}
 addDir = (dir) ->
-    # return if dir.size == 0
+
     geometry = new THREE.IcosahedronGeometry 1, 2
     material = new THREE.MeshLambertMaterial 
         color:              0x888888, 
         side:               THREE.FrontSide
         shading:            THREE.FlatShading, 
-        # blending:           THREE.AdditiveBlending
         transparent:        true
         wireframe:          false
+        depthTest:          false
         doubleSided:        false
         opacity:            0.2
-        wireframeLinewidth: 4
+        wireframeLinewidth: 2
 
     mesh = new THREE.Mesh geometry, material
     s = 10*dir.size/dirs['.'].size
-    # dbg name, s
     mesh.scale.x = s
     mesh.scale.y = s
     mesh.scale.z = s
@@ -198,7 +175,6 @@ doWalk = (dirPath) ->
         file = filename.substr l      
         dir = path.dirname file
         if dirs[dir]?
-            # log dir, file
             addDirSize dir, stat.size
             dirs[dir].files.push 
                 file: path.basename file
@@ -209,14 +185,10 @@ doWalk = (dirPath) ->
     w.on 'directory', (filename, stat) -> 
         num_dirs += 1
         dir = filename.substr l
-        # log 'dir: ', dir
         dirs[dir] = { files: [], size: 0, dirs: [], name:dir }
         addToParentDir dir
     w.on 'end', ->
         log 'files:', num_files, 'dirs:', num_dirs
-        
-        # log dirs['.']
-        
         addBelow dirs['.']
 
 ###
