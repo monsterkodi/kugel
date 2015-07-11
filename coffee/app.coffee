@@ -24,11 +24,12 @@ Text    = require './js/text'
 Dolly   = require './js/dolly'
 
 rootDir   = '.'
-walkDepth = 4
+walkDepth = 2
 win       = remote.getCurrentWindow()
 scene     = null
 text      = null
 dolly     = null
+selected  = undefined
 
 jsonStr = (a) -> JSON.stringify a, null, " "
 
@@ -78,7 +79,6 @@ document.observe 'dom:loaded', ->
         requestAnimationFrame render
         renderer.render scene, dolly.camera
         stats?.update()
-        return
 
     onWindowResize = ->
         renderer.setSize window.innerWidth, window.innerHeight
@@ -92,16 +92,22 @@ document.observe 'dom:loaded', ->
         mouse.y = 1 - 2 * ( e.clientY / window.innerHeight )
         selectAt mouse
         
+    onDoubleClick = (e) ->
+        if selected and selected.dir? and selected.dir.name != '.'
+            rootDir = selected.dir.path
+            doWalk rootDir
+        else 
+            rootDir = resolve rootDir + '/..'
+            doWalk rootDir
+        
+    window.addEventListener 'dblclick',  onDoubleClick
     window.addEventListener 'mousemove',   onMouseMove
     window.addEventListener 'resize',   onWindowResize
             
     render()
     
-    doWalk rootDir
+    doWalk rootDir    
     
-    text = new Text path.basename resolve rootDir
-    text.mesh.position.y = 50
-
 ###
 00     00   0000000   000000000  00000000  00000000   000   0000000   000    
 000   000  000   000     000     000       000   000  000  000   000  000    
@@ -130,24 +136,25 @@ item_material = () ->
 0000000   00000000  0000000  00000000   0000000     000     000   0000000   000   000
 ###
 
-selected  = undefined
+displayTextForNode = (node) ->
+    name = node.file?.name or node.dir?.name
+    name = path.basename resolve rootDir if name == '.'
+    scale = node.file?.scale or node.dir?.scale
+    text = new Text name, scale
+    text.setPos 0, node.position.y + 50*scale
+
 raycaster = new THREE.Raycaster()
 selectAt  = (mouse) ->
     raycaster.setFromCamera mouse, dolly.camera
     intersects = raycaster.intersectObjects scene.children        
     if selected?
-        # selected.material.wireframe = false
         selected?.material?.color?.set 0x888888
+    selected = undefined
+    text?.remove()
     if intersects.length
         selected = intersects[intersects.length-1].object
-        # selected.material.wireframe = true
         selected.material.color.set 0xffffff
-        text?.remove()
-        name = selected.file?.name or selected.dir?.name
-        name = path.basename resolve rootDir if name == '.'
-        scale = selected.file?.scale or selected.dir?.scale
-        text = new Text name, scale
-        text.setPos 0, selected.position.y + 50*scale
+        displayTextForNode selected
 
 ###
 0000000    000  00000000    0000000
@@ -158,6 +165,13 @@ selectAt  = (mouse) ->
 ###
 
 dirs = {}
+
+clearScene = () ->
+    for name, dir of dirs
+        scene.remove dir.mesh
+        for file in dir.files
+            scene.remove file.mesh
+    dirs = {}
 
 addChildGeom = (dir, prt, geom) ->
     mesh = new THREE.Mesh geom, item_material()
@@ -199,7 +213,14 @@ addDirSize = (dir, size) ->
 addToParentDir = (dir) ->
     dirs[path.dirname(dir)]?.dirs.push dir
 
-newDir = (dirname) -> dirs[dirname] = { files: [], size: 0, dirs: [], name:dirname, y: 0 }
+newDir = (dirname) -> 
+    dirs[dirname] = 
+        dirs: []
+        files: []
+        size: 0
+        y: 0
+        name: dirname
+        path: rootDir + '/' + dirname
     
 ###
 000   000   0000000   000      000   000
@@ -209,9 +230,12 @@ newDir = (dirname) -> dirs[dirname] = { files: [], size: 0, dirs: [], name:dirna
 00     00  000   000  0000000  000   000
 ###
     
-doWalk = (dirPath) ->
+doWalk = (dirPath) ->    
     resolved = resolve dirPath
     log 'walk', resolved
+    clearScene()
+    text?.remove()
+    text = undefined
     num_files = 0
     num_dirs = 0
     opts = 
@@ -241,6 +265,7 @@ doWalk = (dirPath) ->
     w.on 'end', ->
         log 'files:', num_files, 'dirs:', num_dirs
         addBelow dirs['.']
+        displayTextForNode dirs['.'].mesh
 
 ###
 000   000  00000000  000   000  0000000     0000000   000   000  000   000

@@ -65,7 +65,7 @@ class Dolly
         else
             mouseYFactor = @mouseY / window.innerHeight
             mouseYPos = @camera.top - mouseYFactor * (@camera.top - @camera.bottom)
-            dbg mouseYFactor, mouseYPos
+            # dbg mouseYFactor, mouseYPos
             @scale *= factor
             @scale = 1 if @scale > 1
             @scale = 0.000001 if @scale < 0.000001
