@@ -93,8 +93,8 @@ document.observe 'dom:loaded', ->
         selectAt mouse
         
     onDoubleClick = (e) ->
-        if selected and selected.dir? and selected.dir.name != '.'
-            rootDir = selected.dir.path
+        if selected and selected.node? and selected.node.name != '.'
+            rootDir = selected.node.path
             doWalk rootDir
         else 
             rootDir = resolve rootDir + '/..'
@@ -117,7 +117,7 @@ document.observe 'dom:loaded', ->
 ###
 
 item_material = () -> 
-    new THREE.MeshLambertMaterial 
+    new THREE.MeshLambertMaterial
         color:              0x888888 
         side:               THREE.FrontSide
         shading:            THREE.FlatShading
@@ -137,16 +137,17 @@ item_material = () ->
 ###
 
 displayTextForNode = (node) ->
-    name = node.file?.name or node.dir?.name
+    name = node.name
     name = path.basename resolve rootDir if name == '.'
-    scale = node.file?.scale or node.dir?.scale
-    text = new Text name, scale
-    text.setPos 0, node.position.y + 50*scale
+    text = new Text name, node.scale
+    y = node.mesh.position.y
+    y += 50*node.scale if node.files?
+    text.setPos 0, y
 
 raycaster = new THREE.Raycaster()
 selectAt  = (mouse) ->
     raycaster.setFromCamera mouse, dolly.camera
-    intersects = raycaster.intersectObjects scene.children        
+    intersects = raycaster.intersectObjects scene.children   
     if selected?
         selected?.material?.color?.set 0x888888
     selected = undefined
@@ -154,7 +155,7 @@ selectAt  = (mouse) ->
     if intersects.length
         selected = intersects[intersects.length-1].object
         selected.material.color.set 0xffffff
-        displayTextForNode selected
+        displayTextForNode selected.node
 
 ###
 0000000    000  00000000    0000000
@@ -173,20 +174,39 @@ clearScene = () ->
             scene.remove file.mesh
     dirs = {}
 
-addChildGeom = (dir, prt, geom) ->
+dirFileRatio = (prt) -> prt.dirs.length / (prt.dirs.length + prt.files.length)
+
+dirFileSizes = (dir) -> 
+    s = 0
+    for file in dir.files
+        s += file.size
+    s
+
+relScaleForNode = (node, prt) ->    
+    if node.files?
+        relscale = dirFileRatio(prt) / prt.dirs.length
+    else
+        relscale = (1-dirFileRatio(prt)) * node.size / dirFileSizes(prt)
+        log node.size, dirFileSizes(prt), relscale
+    log relscale
+    relscale
+
+addChildGeom = (node, prt, geom) ->
     mesh = new THREE.Mesh geom, item_material()
-    s = dir.size/dirs['.'].size
-    ss = 100*s
-    mesh.scale.x = mesh.scale.y = mesh.scale.z = ss
+    relscale = 1
+    relscale = relScaleForNode(node, prt) if prt?
+    prtscale = 1
+    prtscale = prt.scale if prt?
+    node.scale = prtscale * relscale 
+    mesh.scale.x = mesh.scale.y = mesh.scale.z = 100*node.scale
     scene.add mesh
-    mesh.dir = dir
-    dir.mesh = mesh
-    dir.scale = s
-    dir.ci = 0.5
+    mesh.node = node
+    node.mesh = mesh
+    node.ci = 0.5
     if prt?
-        relscale = s/prt.scale
-        mesh.position.y = prt.mesh.position.y + (prt.ci - relscale*0.5)*100*prt.scale
-        prt.ci -= relscale    
+        # relscale = node.scale/prt.scale
+        mesh.position.y = prt.mesh.position.y + (prt.ci - relscale*0.5)*100*prtscale
+        prt.ci -= relscale
 
 addDir = (dir, prt) ->
     geom = new THREE.IcosahedronGeometry 0.5, 2
@@ -196,31 +216,26 @@ addFile = (file, prt) ->
     geom = new THREE.OctahedronGeometry 0.5
     addChildGeom file, prt, geom
 
-addBelow = (dir, prt) ->
-    addDir dir, prt
-    for childname in dir.dirs
-        child = dirs[childname]
-        if child.size > 0
-            addBelow child, dir
-    for file in dir.files
-        addFile file, dir
-
-addDirSize = (dir, size) ->
-    dirs[dir].size += size
-    if dir != '.'
-        addDirSize path.dirname(dir), size
-
 addToParentDir = (dir) ->
     dirs[path.dirname(dir)]?.dirs.push dir
 
-newDir = (dirname) -> 
+newDir = (dirname) ->
     dirs[dirname] = 
         dirs: []
         files: []
         size: 0
+        scale: 1
         y: 0
         name: dirname
         path: rootDir + '/' + dirname
+
+addBelow = (dir, prt) ->
+    addDir dir, prt
+    for childname in dir.dirs
+        child = dirs[childname]
+        addBelow child, dir
+    for file in dir.files
+        addFile file, dir
     
 ###
 000   000   0000000   000      000   000
@@ -238,18 +253,16 @@ doWalk = (dirPath) ->
     text = undefined
     num_files = 0
     num_dirs = 0
-    opts = 
-        "max_depth": walkDepth
+    opts = "max_depth": walkDepth
     w = walk resolved, opts
     w.ignore ['electron-packager', 'electron-prebuild']
-    l = resolved.length + 1    
+    l = resolved.length + 1
     newDir '.'
     w.on 'file', (filename, stat) -> 
         num_files += 1
         file = filename.substr l      
         dir = path.dirname file
         if dirs[dir]?
-            addDirSize dir, stat.size
             dirs[dir].files.push
                 name: path.basename file
                 size: stat.size
@@ -265,7 +278,7 @@ doWalk = (dirPath) ->
     w.on 'end', ->
         log 'files:', num_files, 'dirs:', num_dirs
         addBelow dirs['.']
-        displayTextForNode dirs['.'].mesh
+        displayTextForNode dirs['.']
 
 ###
 000   000  00000000  000   000  0000000     0000000   000   000  000   000
