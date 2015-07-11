@@ -21,17 +21,14 @@ error   = require './js/knix/error'
 warning = require './js/knix/warning'
 Console = require './js/knix/console'
 Text    = require './js/text'
+Dolly   = require './js/dolly'
 
-rootDir      = '.'
-walkDepth    = 4
-win          = remote.getCurrentWindow()
-scene        = null
-camera       = null
-text         = null
-lookAtTarget = new THREE.Vector3()
-maxCamDist   = 150
-minCamDist   = 0.002
-perspective  = false 
+rootDir   = '.'
+walkDepth = 4
+win       = remote.getCurrentWindow()
+scene     = null
+text      = null
+dolly     = null
 
 jsonStr = (a) -> JSON.stringify a, null, " "
 
@@ -53,11 +50,11 @@ document.observe 'dom:loaded', ->
         
     scene = new (THREE.Scene)
 
-    if perspective
-        camera = new THREE.PerspectiveCamera 75, window.innerWidth / window.innerHeight, 0.001, 200
-    else
-        camera = new THREE.OrthographicCamera window.innerWidth/-2, window.innerWidth/2, window.innerHeight/2, window.innerHeight/-2, 0.001, 200
-    camera.position.z = maxCamDist        
+    dolly = new Dolly
+        perspective: false
+        maxDist:     100
+        minDist:     0.002
+    
     renderer  = new THREE.WebGLRenderer antialias: true
     renderer.setSize window.innerWidth, window.innerHeight
     renderer.setClearColor 0x888888
@@ -79,51 +76,51 @@ document.observe 'dom:loaded', ->
 
     render = ->
         requestAnimationFrame render
-        renderer.render scene, camera
+        renderer.render scene, dolly.camera
         stats?.update()
         return
 
     onWindowResize = ->
-        camera.aspect = window.innerWidth / window.innerHeight
-        camera.updateProjectionMatrix()
         renderer.setSize window.innerWidth, window.innerHeight
+        dolly.camera.aspect = window.innerWidth / window.innerHeight
+        dolly.zoom 1
 
     onMouseMove = (e) ->
+        return if dolly.isPivoting
         mouse   = new THREE.Vector2()
         mouse.x = 2 * (e.clientX / window.innerWidth) - 1
         mouse.y = 1 - 2 * ( e.clientY / window.innerHeight )
         selectAt mouse
         
-    scale = 1
-    onMouseWheel = (e) ->
-        delta = e.wheelDelta
-        camera.lookAt lookAtTarget
-        if perspective
-            camera.position.z *= 1-delta/10000
-            camera.position.z = maxCamDist if camera.position.z > maxCamDist
-            camera.position.z = minCamDist if camera.position.z < minCamDist
-        else
-            scale *= 1-delta/10000
-            scale = 1 if scale > 1
-            scale = 0.000001 if scale < 0.000001
-            w = window.innerWidth * scale
-            h = window.innerHeight * scale
-            camera.left = w/-2
-            camera.right = w/2
-            camera.top = h/2
-            camera.bottom = h/-2
-        camera.updateProjectionMatrix()
-
-    window.addEventListener 'mousemove',   onMouseMove, false
-    window.addEventListener 'resize',   onWindowResize, false
-    window.addEventListener 'mousewheel', onMouseWheel, true
+    window.addEventListener 'mousemove',   onMouseMove
+    window.addEventListener 'resize',   onWindowResize
             
     render()
     
     doWalk rootDir
     
-    text = new Text rootDir
+    text = new Text path.basename resolve rootDir
     text.mesh.position.y = 50
+
+###
+00     00   0000000   000000000  00000000  00000000   000   0000000   000    
+000   000  000   000     000     000       000   000  000  000   000  000    
+000000000  000000000     000     0000000   0000000    000  000000000  000    
+000 0 000  000   000     000     000       000   000  000  000   000  000    
+000   000  000   000     000     00000000  000   000  000  000   000  0000000
+###
+
+item_material = () -> 
+    new THREE.MeshLambertMaterial 
+        color:              0x888888 
+        side:               THREE.FrontSide
+        shading:            THREE.FlatShading
+        transparent:        true
+        wireframe:          false
+        depthTest:          false
+        doubleSided:        false
+        opacity:            0.2
+        wireframeLinewidth: 2
 
 ###
  0000000  00000000  000      00000000   0000000  000000000  000   0000000   000   000
@@ -136,34 +133,21 @@ document.observe 'dom:loaded', ->
 selected  = undefined
 raycaster = new THREE.Raycaster()
 selectAt  = (mouse) ->
-    raycaster.setFromCamera mouse, camera
+    raycaster.setFromCamera mouse, dolly.camera
     intersects = raycaster.intersectObjects scene.children        
     if selected?
-        selected.material.wireframe = false
+        # selected.material.wireframe = false
+        selected?.material?.color?.set 0x888888
     if intersects.length
         selected = intersects[intersects.length-1].object
-        selected.material.wireframe = true
+        # selected.material.wireframe = true
+        selected.material.color.set 0xffffff
         text?.remove()
         name = selected.file?.name or selected.dir?.name
-        name = rootDir if name == '.'
+        name = path.basename resolve rootDir if name == '.'
         scale = selected.file?.scale or selected.dir?.scale
         text = new Text name, scale
         text.setPos 0, selected.position.y + 50*scale
-
-win.on 'close', (event) ->
-win.on 'focus', (event) -> 
-
-item_material = () -> 
-    new THREE.MeshLambertMaterial 
-        color:              0x888888, 
-        side:               THREE.FrontSide
-        shading:            THREE.FlatShading, 
-        transparent:        true
-        wireframe:          false
-        depthTest:          false
-        doubleSided:        false
-        opacity:            0.2
-        wireframeLinewidth: 2
 
 ###
 0000000    000  00000000    0000000
