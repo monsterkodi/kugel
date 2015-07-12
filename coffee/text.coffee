@@ -1,17 +1,17 @@
 # found in http://threejs.org/examples/webgl_geometry_text2.html 
 
 material = new THREE.MeshFaceMaterial [
-		new THREE.MeshPhongMaterial( { color: 0xffffff, shading: THREE.FlatShading } ),
-		new THREE.MeshPhongMaterial( { color: 0xffffff, shading: THREE.SmoothShading } )
-	]
+        new THREE.MeshPhongMaterial( { color: 0xffffff, shading: THREE.FlatShading } )
+    ]
     
 class Text
     
-    constructor: (text, scale=1.0) -> 
-        textGeo = new THREE.TextGeometry text,
+    constructor: (config) -> 
+        
+        textGeo = new THREE.TextGeometry config.text,
             size:            20
             height:          4
-            curveSegments:   16
+            curveSegments:   config.segments or 10
             font:            "helvetiker"
             weight:          "bold"
             style:           "normal"
@@ -24,8 +24,8 @@ class Text
         textGeo.computeBoundingBox()
         textGeo.computeVertexNormals()
 
-        @mesh            = new (THREE.Mesh)(textGeo, material)
-        @scale           = scale
+        @mesh            = new (THREE.Mesh)(textGeo, config.material or material)
+        @scale           = config.scale or 1
         @width           = textGeo.boundingBox.max.x - textGeo.boundingBox.min.x
         @centerOffset    = -0.5 * @width * @scale
         @mesh.position.x = @centerOffset
@@ -36,7 +36,10 @@ class Text
         @mesh.scale.y    = @scale
         @mesh.scale.z    = @scale
         @mesh.rotation.y = Math.PI * 2
-        scene.add @mesh
+        if config.prt?
+            config.prt.add @mesh
+        else
+            scene.add @mesh
         
     remove: () =>
         scene.remove @mesh
@@ -45,5 +48,9 @@ class Text
     setPos: (x,y) => 
         @mesh.position.x = @centerOffset+x
         @mesh.position.y = y
+        
+    alignLeft: () =>
+        @mesh.position.x -= @centerOffset
+        @centerOffset = 0
 
 module.exports = Text

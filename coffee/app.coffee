@@ -77,7 +77,7 @@ color =
 
 dir_material = () -> 
     new THREE.MeshPhongMaterial
-        color:              color.dir_material
+        color:              color.dir
         side:               THREE.FrontSide
         shading:            THREE.FlatShading
         transparent:        true
@@ -101,6 +101,10 @@ file_material = () ->
         opacity:            0.2
         wireframeLinewidth: 2
     
+material = 
+    dir:  new THREE.MeshPhongMaterial { color: 0xffffff, shading: THREE.FlatShading }
+    file: new THREE.MeshPhongMaterial { color: 0x8888ff, shading: THREE.FlatShading }
+
 ###
 000       0000000    0000000   0000000    00000000  0000000  
 000      000   000  000   000  000   000  000       000   000
@@ -180,11 +184,31 @@ displayTextForNode = (node) ->
     name = node.name
     name = path.basename resolve rootDir if name == '.'
     name = "/" if name.length == 0  
-    text = new Text name, node.scale
+    text = new Text 
+        text:  name
+        scale: node.scale
     y = node.mesh.position.y
     if node.files?
         y += 58*node.scale 
     text.setPos 0, y
+    
+addNodeText = (node) ->
+    return if node.depth > 1
+    name = node.name
+    name = path.basename resolve rootDir if name == '.'
+    name = "/" if name.length == 0  
+    node.text = new Text 
+        text:  name
+        scale: 0.01
+        prt:   node.mesh
+        material: node.files? and material.dir or material.file
+        segments: Math.max(1, Math.round(node.scale * 8))
+    if node.files?
+        if node.depth == 0
+            node.text.setPos 0, 0.58
+        else 
+            node.text.alignLeft()
+            node.text.setPos 0.58, 0
 
 ###
  0000000  00000000  000      00000000   0000000  000000000  000   0000000   000   000
@@ -207,7 +231,7 @@ selectAt  = (mouse) ->
         selected = intersects[intersects.length-1].object
         # selected.material.color.set color.selected
         # selected.material.shininess = -6
-        displayTextForNode selected.node
+        # displayTextForNode selected.node
         needsRender = true
 
 ###
@@ -217,9 +241,6 @@ selectAt  = (mouse) ->
 000   000  000  000   000       000
 0000000    000  000   000  0000000 
 ###
-
-numDirs = 0
-numFiles = 0
 
 clearScene = () ->
     for name, dir of dirs
@@ -285,17 +306,18 @@ addChildGeom = (node, prt, geom, mat) ->
 
 addDir = (dir, prt) ->
     dir.depth = prt.depth+1 if prt?
-    # if numDirs > 1000
-    #     geom = new THREE.BoxGeometry 0.7,0.7,0.7
-    # else
     geom = new THREE.IcosahedronGeometry 0.5, Math.max(1, 2 - dir.depth)
     mat = dir_material()
     addChildGeom dir, prt, geom, mat
+    addNodeText dir
 
 addFile = (file, prt) ->
+    file.depth = prt.depth+1
     geom = new THREE.OctahedronGeometry 0.5
     mat = file_material()
     addChildGeom file, prt, geom, mat
+    if prt.depth == 0
+        addNodeText file
 
 newDir = (dirname) ->
     dirs[dirname] = 
@@ -323,6 +345,8 @@ resumeWalk = () ->
 currentLevel = 0
 nowDirs = []
 nextDirs = []
+numDirs = 0
+numFiles = 0
 checkAbort = (dirname) ->
     if numFiles + numDirs > 5000
         clearTimeout(timer) if timer?
@@ -398,7 +422,8 @@ doWalk = (dirPath) ->
     l = resolved != "/" and resolved.length + 1 or 1
     newDir '.'
     addDir dirs['.']
-    displayTextForNode dirs['.']
+    # displayTextForNode dirs['.']
+    # addNodeText dirs['.']
     needsRender = true
     currentLevel = 0
     numDirs = 0
