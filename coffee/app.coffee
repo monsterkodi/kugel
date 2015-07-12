@@ -11,7 +11,7 @@ remote  = require 'remote'
 ipc     = require 'ipc'
 keyname = require './js/tools/keyname'
 resolve = require './js/tools/resolve'
-walk    = require 'walkdir'
+walkDir = require 'walkdir'
 path    = require 'path'
 
 knix    = require './js/knix/knix'
@@ -26,16 +26,42 @@ Dolly   = require './js/dolly'
 rootDir   = '.'
 walkDepth = 2
 win       = remote.getCurrentWindow()
+renderer  = null
+stats     = null
 scene     = null
 text      = null
 dolly     = null
-selected  = undefined
+walk      = null
+selected  = null
+dirs      = {}
 
 jsonStr = (a) -> JSON.stringify a, null, " "
 
 console.log   = () -> ipc.send 'console.log',   [].slice.call arguments, 0
 console.error = () -> ipc.send 'console.error', [].slice.call arguments, 0
 
+###
+00000000   00000000  000   000  0000000    00000000  00000000 
+000   000  000       0000  000  000   000  000       000   000
+0000000    0000000   000 0 000  000   000  0000000   0000000  
+000   000  000       000  0000  000   000  000       000   000
+000   000  00000000  000   000  0000000    00000000  000   000
+###
+
+renderIndex = 0
+render = -> 
+    renderIndex += 1
+    renderer.render scene, dolly.camera
+
+needsRender = true
+anim = ->
+    requestAnimationFrame anim
+    if needsRender or dolly.needsRender
+        render()
+        needsRender = false
+        dolly.needsRender = false
+    stats?.update()
+    
 ###
 000       0000000    0000000   0000000    00000000  0000000  
 000      000   000  000   000  000   000  000       000   000
@@ -56,9 +82,11 @@ document.observe 'dom:loaded', ->
         maxDist:     100
         minDist:     0.002
     
-    renderer  = new THREE.WebGLRenderer antialias: true
+    renderer = new THREE.WebGLRenderer antialias: true
     renderer.setSize window.innerWidth, window.innerHeight
     renderer.setClearColor 0x888888
+    renderer.sortObjects = false
+    renderer.autoClear = true
     document.body.appendChild renderer.domElement
 
     sun = new THREE.DirectionalLight 0xeeeeee
@@ -74,11 +102,6 @@ document.observe 'dom:loaded', ->
         stats.domElement.style.top = '0px'
         stats.domElement.style.zIndex = 100
         container.appendChild stats.domElement
-
-    render = ->
-        requestAnimationFrame render
-        renderer.render scene, dolly.camera
-        stats?.update()
 
     onWindowResize = ->
         renderer.setSize window.innerWidth, window.innerHeight
@@ -104,7 +127,7 @@ document.observe 'dom:loaded', ->
     window.addEventListener 'mousemove',   onMouseMove
     window.addEventListener 'resize',   onWindowResize
             
-    render()
+    anim()
     
     doWalk rootDir    
     
@@ -129,20 +152,31 @@ item_material = () ->
         wireframeLinewidth: 2
 
 ###
+000000000  00000000  000   000  000000000
+   000     000        000 000      000   
+   000     0000000     00000       000   
+   000     000        000 000      000   
+   000     00000000  000   000     000   
+###
+
+displayTextForNode = (node) ->
+    name = node.name
+    name = path.basename resolve rootDir if name == '.'
+    name = "/" if name.length == 0  
+    # name += ' ' + node.level if node.level
+    text = new Text name, node.scale
+    y = node.mesh.position.y
+    if node.files?
+        y += 58*node.scale 
+    text.setPos 0, y
+
+###
  0000000  00000000  000      00000000   0000000  000000000  000   0000000   000   000
 000       000       000      000       000          000     000  000   000  0000  000
 0000000   0000000   000      0000000   000          000     000  000   000  000 0 000
      000  000       000      000       000          000     000  000   000  000  0000
 0000000   00000000  0000000  00000000   0000000     000     000   0000000   000   000
 ###
-
-displayTextForNode = (node) ->
-    name = node.name
-    name = path.basename resolve rootDir if name == '.'
-    text = new Text name, node.scale
-    y = node.mesh.position.y
-    y += 50*node.scale if node.files?
-    text.setPos 0, y
 
 raycaster = new THREE.Raycaster()
 selectAt  = (mouse) ->
@@ -156,6 +190,7 @@ selectAt  = (mouse) ->
         selected = intersects[intersects.length-1].object
         selected.material.color.set 0xffffff
         displayTextForNode selected.node
+        needsRender = true
 
 ###
 0000000    000  00000000    0000000
@@ -165,14 +200,11 @@ selectAt  = (mouse) ->
 0000000    000  000   000  0000000 
 ###
 
-dirs = {}
-
 clearScene = () ->
     for name, dir of dirs
         scene.remove dir.mesh
         for file in dir.files
             scene.remove file.mesh
-    dirs = {}
 
 dirFileRatio = (prt) -> prt.dirs.length / (prt.dirs.length + prt.files.length)
 
@@ -182,60 +214,76 @@ dirFileSizes = (dir) ->
         s += file.size
     s
 
-relScaleForNode = (node, prt) ->    
+dirSize = (dir) -> Math.max 1, dir.files.length + dir.dirs.length
+dirDirSizes = (dir) ->
+    s = 0
+    for child in dir.dirs
+        s += dirSize dirs[child]
+    s
+
+relScaleForNode = (node, prt) ->   
+    if not node? 
+        console.log 'fakr'
+        return
     if node.files?
-        relscale = dirFileRatio(prt) / prt.dirs.length
+        relscale = dirFileRatio(prt) * dirSize(node) / dirDirSizes(prt)
     else
         relscale = (1-dirFileRatio(prt)) * node.size / dirFileSizes(prt)
-        log node.size, dirFileSizes(prt), relscale
-    log relscale
     relscale
+
+updateNodeScale = (node, prt) ->
+    prtscale = relscale = 1
+    if prt?
+        prtscale = prt.scale
+        relscale = relScaleForNode node, prt
+    node.scale = prtscale * relscale
+    node.mesh.scale.x = node.mesh.scale.y = node.mesh.scale.z = 100*node.scale
+    if prt?
+        node.mesh.position.y = prt.mesh.position.y + (prt.ci - relscale*0.5)*100*prtscale
+
+updateChildrenScale = (prt) ->
+    prt.ci = 0.5
+    for name in prt.dirs
+        child = dirs[name]
+        if child?
+            updateNodeScale child, prt
+            prt.ci -= relScaleForNode(child, prt)
+            updateChildrenScale child
+        else
+            console.log 'no child', name
+    for file in prt.files
+        updateNodeScale file, prt
+        prt.ci -= relScaleForNode(file, prt)
 
 addChildGeom = (node, prt, geom) ->
     mesh = new THREE.Mesh geom, item_material()
-    relscale = 1
-    relscale = relScaleForNode(node, prt) if prt?
-    prtscale = 1
-    prtscale = prt.scale if prt?
-    node.scale = prtscale * relscale 
-    mesh.scale.x = mesh.scale.y = mesh.scale.z = 100*node.scale
     scene.add mesh
     mesh.node = node
     node.mesh = mesh
-    node.ci = 0.5
     if prt?
-        # relscale = node.scale/prt.scale
-        mesh.position.y = prt.mesh.position.y + (prt.ci - relscale*0.5)*100*prtscale
-        prt.ci -= relscale
+        updateChildrenScale prt 
+    else
+        mesh.scale.x = mesh.scale.y = mesh.scale.z = 100
 
 addDir = (dir, prt) ->
-    geom = new THREE.IcosahedronGeometry 0.5, 2
+    dir.level = prt.level+1 if prt?
+    geom = new THREE.IcosahedronGeometry 0.5, Math.max(0, 2 - dir.level)
     addChildGeom dir, prt, geom
 
 addFile = (file, prt) ->
     geom = new THREE.OctahedronGeometry 0.5
     addChildGeom file, prt, geom
 
-addToParentDir = (dir) ->
-    dirs[path.dirname(dir)]?.dirs.push dir
-
 newDir = (dirname) ->
     dirs[dirname] = 
         dirs: []
         files: []
         size: 0
+        level: 0
         scale: 1
         y: 0
         name: dirname
         path: rootDir + '/' + dirname
-
-addBelow = (dir, prt) ->
-    addDir dir, prt
-    for childname in dir.dirs
-        child = dirs[childname]
-        addBelow child, dir
-    for file in dir.files
-        addFile file, dir
     
 ###
 000   000   0000000   000      000   000
@@ -244,42 +292,83 @@ addBelow = (dir, prt) ->
 000   000  000   000  000      000  000 
 00     00  000   000  0000000  000   000
 ###
+
+deepDirs = []
+deepWalk = () ->
+    return if deepDirs.length == 0
+    dirPath = deepDirs.pop()
+    walk = walkDir resolve(rootDir + '/' + dirPath), "max_depth": 1
+    root = resolve rootDir
+    l = root != "/" and root.length + 1 or 1
     
+    walk.on 'file', (filename, stat) -> 
+
+        file = path.basename filename
+        dir = path.dirname(filename).substr l
+        dirs[dir].files.push
+            name: file
+            size: stat.size or 1
+        addFile dirs[dir].files[dirs[dir].files.length-1], dirs[dir]
+            
+    walk.on 'directory', (dirname, stat) ->
+        
+        dir = dirname.substr l
+        newDir dir
+        dirs[path.dirname(dir)].dirs.push dirs[dir].name
+        addDir dirs[dir], dirs[path.dirname(dir)]
+        
+    walk.on 'end', ->
+        walk = null
+        updateChildrenScale dirs[path.dirname dirPath]
+        needsRender = true
+        setTimeout deepWalk, 10
+            
 doWalk = (dirPath) ->    
     resolved = resolve dirPath
     log 'walk', resolved
     clearScene()
+    dirs = {}
     text?.remove()
-    text = undefined
-    num_files = 0
-    num_dirs = 0
     opts = "max_depth": walkDepth
-    w = walk resolved, opts
-    w.ignore ['electron-packager', 'electron-prebuild']
-    l = resolved.length + 1
+    walk = walkDir resolved, opts
+    l = resolved != "/" and resolved.length + 1 or 1
     newDir '.'
-    w.on 'file', (filename, stat) -> 
-        num_files += 1
+    addDir dirs['.']
+    displayTextForNode dirs['.']
+    needsRender = true
+    
+    walk.on 'file', (filename, stat) -> 
+
         file = filename.substr l      
         dir = path.dirname file
         if dirs[dir]?
             dirs[dir].files.push
                 name: path.basename file
-                size: stat.size
+                size: stat.size or 1
+            addFile dirs[dir].files[dirs[dir].files.length-1], dirs[dir]
         else
             log 'WTF?'
-                
-    w.on 'directory', (dirname, stat) -> 
-        num_dirs += 1
+        needsRender = true
+            
+    walk.on 'directory', (dirname, stat) ->
+        
         dir = dirname.substr l
         newDir dir
-        addToParentDir dir
+        dirs[path.dirname(dir)].dirs.push dirs[dir].name
+        addDir dirs[dir], dirs[path.dirname(dir)]
+        needsRender = true
         
-    w.on 'end', ->
-        log 'files:', num_files, 'dirs:', num_dirs
-        addBelow dirs['.']
-        displayTextForNode dirs['.']
-
+    walk.on 'end', ->
+        updateChildrenScale dirs['.']
+        walk = null
+        needsRender = true
+        
+        for name, dir of dirs
+            if dir.level == 2
+                deepDirs.push name
+        # log deepDirs
+        deepWalk()
+        
 ###
 000   000  00000000  000   000  0000000     0000000   000   000  000   000
 000  000   000        000 000   000   000  000   000  000 0 000  0000  000

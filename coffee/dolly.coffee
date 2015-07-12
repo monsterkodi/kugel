@@ -6,6 +6,7 @@ class Dolly
         @perspective = config.perspective or false
         @maxDist     = config.maxDist or Infinity
         @minDist     = config.minDist or 0
+        @needsRender = false
 
         if @perspective
             @camera = new THREE.PerspectiveCamera 75, window.innerWidth / window.innerHeight, 0.001, 200
@@ -43,6 +44,7 @@ class Dolly
         @mouseY = event.clientY        
         @addHeight deltaY*@scale
         @addPivot deltaX/200.0
+        @needsRender = true
         
     addHeight: (factor) =>
         @target.y -= factor
@@ -78,5 +80,6 @@ class Dolly
             @camera.bottom = @camera.top - h
             
         @camera.updateProjectionMatrix()
+        @needsRender = true
         
 module.exports = Dolly
