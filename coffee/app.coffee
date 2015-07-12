@@ -23,8 +23,8 @@ Console = require './js/knix/console'
 Text    = require './js/text'
 Dolly   = require './js/dolly'
 
-rootDir   = '.'
-walkDepth = 3
+rootDir   = '~'
+walkDepth = 1
 win       = remote.getCurrentWindow()
 renderer  = null
 stats     = null
@@ -59,6 +59,47 @@ anim = ->
         needsRender = false
         dolly.needsRender = false
     stats?.update()
+
+###
+00     00   0000000   000000000  00000000  00000000   000   0000000   000    
+000   000  000   000     000     000       000   000  000  000   000  000    
+000000000  000000000     000     0000000   0000000    000  000000000  000    
+000 0 000  000   000     000     000       000   000  000  000   000  000    
+000   000  000   000     000     00000000  000   000  000  000   000  0000000
+###
+
+color = 
+    background: 0x222222
+    dir:        0x888888
+    file:       0x4444ff
+    selected:   0xffffff
+    sun:        0xffffff
+
+dir_material = () -> 
+    new THREE.MeshPhongMaterial
+        color:              color.dir_material
+        side:               THREE.FrontSide
+        shading:            THREE.FlatShading
+        transparent:        true
+        shininess:          -3
+        wireframe:          false
+        depthTest:          false
+        doubleSided:        false
+        opacity:            0.2
+        wireframeLinewidth: 2
+
+file_material = () -> 
+    new THREE.MeshPhongMaterial
+        color:              color.file
+        side:               THREE.FrontSide
+        shading:            THREE.FlatShading
+        transparent:        true
+        shininess:          -5
+        wireframe:          false
+        depthTest:          false
+        doubleSided:        false
+        opacity:            0.2
+        wireframeLinewidth: 2
     
 ###
 000       0000000    0000000   0000000    00000000  0000000  
@@ -82,17 +123,15 @@ document.observe 'dom:loaded', ->
     
     renderer = new THREE.WebGLRenderer antialias: true
     renderer.setSize window.innerWidth, window.innerHeight
-    renderer.setClearColor 0x888888
+    renderer.setClearColor color.background
     renderer.sortObjects = false
     renderer.autoClear = true
     document.body.appendChild renderer.domElement
 
-    sun = new THREE.DirectionalLight 0xeeeeee
-    sun.position.set -1, 1, 1
+    sun = new THREE.DirectionalLight color.sun
+    sun.position.set -.3, 1, 1
+    # sun.position.set -.2, .2, 1
     scene.add sun
-
-    light = new THREE.AmbientLight 0x000000
-    scene.add light
 
     if false
         stats = new Stats
@@ -130,26 +169,6 @@ document.observe 'dom:loaded', ->
     doWalk rootDir    
     
 ###
-00     00   0000000   000000000  00000000  00000000   000   0000000   000    
-000   000  000   000     000     000       000   000  000  000   000  000    
-000000000  000000000     000     0000000   0000000    000  000000000  000    
-000 0 000  000   000     000     000       000   000  000  000   000  000    
-000   000  000   000     000     00000000  000   000  000  000   000  0000000
-###
-
-item_material = () -> 
-    new THREE.MeshLambertMaterial
-        color:              0x888888 
-        side:               THREE.FrontSide
-        shading:            THREE.FlatShading
-        transparent:        true
-        wireframe:          false
-        depthTest:          false
-        doubleSided:        false
-        opacity:            0.2
-        wireframeLinewidth: 2
-
-###
 000000000  00000000  000   000  000000000
    000     000        000 000      000   
    000     0000000     00000       000   
@@ -179,13 +198,15 @@ raycaster = new THREE.Raycaster()
 selectAt  = (mouse) ->
     raycaster.setFromCamera mouse, dolly.camera
     intersects = raycaster.intersectObjects scene.children   
-    if selected?
-        selected?.material?.color?.set 0x888888
+    # if selected?
+        # selected.material?.color?.set color.material
+        # selected.material.shininess = -6
     selected = undefined
     text?.remove()
     if intersects.length
         selected = intersects[intersects.length-1].object
-        selected.material.color.set 0xffffff
+        # selected.material.color.set color.selected
+        # selected.material.shininess = -6
         displayTextForNode selected.node
         needsRender = true
 
@@ -196,6 +217,9 @@ selectAt  = (mouse) ->
 000   000  000  000   000       000
 0000000    000  000   000  0000000 
 ###
+
+numDirs = 0
+numFiles = 0
 
 clearScene = () ->
     for name, dir of dirs
@@ -219,9 +243,6 @@ dirDirSizes = (dir) ->
     s
 
 relScaleForNode = (node, prt) ->   
-    if not node? 
-        console.log 'fakr'
-        return
     if node.files?
         relscale = dirFileRatio(prt) * dirSize(node) / dirDirSizes(prt)
     else
@@ -252,8 +273,8 @@ updateChildrenScale = (prt) ->
         updateNodeScale file, prt
         prt.ci -= relScaleForNode(file, prt)
 
-addChildGeom = (node, prt, geom) ->
-    mesh = new THREE.Mesh geom, item_material()
+addChildGeom = (node, prt, geom, mat) ->
+    mesh = new THREE.Mesh geom, mat
     scene.add mesh
     mesh.node = node
     node.mesh = mesh
@@ -264,23 +285,28 @@ addChildGeom = (node, prt, geom) ->
 
 addDir = (dir, prt) ->
     dir.depth = prt.depth+1 if prt?
-    geom = new THREE.IcosahedronGeometry 0.5, Math.max(0, 2 - dir.depth)
-    addChildGeom dir, prt, geom
+    # if numDirs > 1000
+    #     geom = new THREE.BoxGeometry 0.7,0.7,0.7
+    # else
+    geom = new THREE.IcosahedronGeometry 0.5, Math.max(1, 2 - dir.depth)
+    mat = dir_material()
+    addChildGeom dir, prt, geom, mat
 
 addFile = (file, prt) ->
     geom = new THREE.OctahedronGeometry 0.5
-    addChildGeom file, prt, geom
+    mat = file_material()
+    addChildGeom file, prt, geom, mat
 
 newDir = (dirname) ->
     dirs[dirname] = 
-        dirs: []
+        dirs:  []
         files: []
-        size: 0
+        size:  0
         depth: 0
         scale: 1
-        y: 0
-        name: dirname
-        path: rootDir + '/' + dirname
+        y:     0
+        name:  dirname
+        path:  rootDir + '/' + dirname
     
 ###
 000   000   0000000   000      000   000
@@ -290,17 +316,31 @@ newDir = (dirname) ->
 00     00  000   000  0000000  000   000
 ###
 
-resumeWalk = () -> walk.resume()
+timer = null
+resumeWalk = () -> 
+    walk.resume()
+    timer = null
 currentLevel = 0
 nowDirs = []
 nextDirs = []
+checkAbort = (dirname) ->
+    if numFiles + numDirs > 5000
+        clearTimeout(timer) if timer?
+        walk.stop()
+        log 'abort', dirname, numDirs, numFiles
+        walk = null
+
 oneWalk = () ->
+    timer = null
     if nowDirs.length == 0
         if currentLevel < walkDepth
             currentLevel += 1
+            log 'level', currentLevel, numDirs, numFiles
             nowDirs  = nextDirs
             nextDirs = []
-    if nowDirs.length == 0 then return
+    if nowDirs.length == 0
+        log 'done', numDirs, numFiles
+        return
             
     dirPath = nowDirs.pop()
     walk = walkDir resolve(rootDir + '/' + dirPath), "max_depth": 1
@@ -318,6 +358,10 @@ oneWalk = () ->
             size: stat.size or 1
         addFile dir.files[dir.files.length-1], dir
         needsRender = true
+        walk.pause()
+        timer = setTimeout resumeWalk, 1
+        numFiles += 1
+        checkAbort dirname
             
     walk.on 'directory', (dirname, stat) ->
         
@@ -333,18 +377,22 @@ oneWalk = () ->
             nextDirs.push dir.name
         needsRender = true
         walk.pause()
-        setTimeout resumeWalk, 1
+        timer = setTimeout resumeWalk, 1
+        numDirs += 1
+        checkAbort dirname
         
     walk.on 'end', ->
         walk = null
         updateChildrenScale dirs[path.dirname dirPath]
         needsRender = true
-        setTimeout oneWalk, 1
+        timer = setTimeout oneWalk, 1
             
 doWalk = (dirPath) ->
     resolved = resolve dirPath
     log 'walk', resolved
     clearScene()
+    walk.stop() if walk?
+    clearTimeout(timer) if timer?
     dirs = {}
     text?.remove()
     l = resolved != "/" and resolved.length + 1 or 1
@@ -352,6 +400,9 @@ doWalk = (dirPath) ->
     addDir dirs['.']
     displayTextForNode dirs['.']
     needsRender = true
+    currentLevel = 0
+    numDirs = 0
+    numFiles = 0
     nowDirs = ['.']
     nextDirs = []
     oneWalk()
