@@ -48,9 +48,7 @@ console.error = () -> ipc.send 'console.error', [].slice.call arguments, 0
 000   000  00000000  000   000  0000000    00000000  000   000
 ###
 
-renderIndex = 0
 render = -> 
-    renderIndex += 1
     renderer.render scene, dolly.camera
 
 needsRender = true
@@ -163,7 +161,6 @@ displayTextForNode = (node) ->
     name = node.name
     name = path.basename resolve rootDir if name == '.'
     name = "/" if name.length == 0  
-    # name += ' ' + node.level if node.level
     text = new Text name, node.scale
     y = node.mesh.position.y
     if node.files?
@@ -266,8 +263,8 @@ addChildGeom = (node, prt, geom) ->
         mesh.scale.x = mesh.scale.y = mesh.scale.z = 100
 
 addDir = (dir, prt) ->
-    dir.level = prt.level+1 if prt?
-    geom = new THREE.IcosahedronGeometry 0.5, Math.max(0, 2 - dir.level)
+    dir.depth = prt.depth+1 if prt?
+    geom = new THREE.IcosahedronGeometry 0.5, Math.max(0, 2 - dir.depth)
     addChildGeom dir, prt, geom
 
 addFile = (file, prt) ->
@@ -279,7 +276,7 @@ newDir = (dirname) ->
         dirs: []
         files: []
         size: 0
-        level: 0
+        depth: 0
         scale: 1
         y: 0
         name: dirname
@@ -293,10 +290,12 @@ newDir = (dirname) ->
 00     00  000   000  0000000  000   000
 ###
 
-deepDirs = []
-deepWalk = () ->
-    return if deepDirs.length == 0
-    dirPath = deepDirs.pop()
+resumeWalk = () -> walk.resume()
+
+oneDirs = []
+oneWalk = () ->
+    return if oneDirs.length == 0
+    dirPath = oneDirs.pop()
     walk = walkDir resolve(rootDir + '/' + dirPath), "max_depth": 1
     root = resolve rootDir
     l = root != "/" and root.length + 1 or 1
@@ -304,70 +303,48 @@ deepWalk = () ->
     walk.on 'file', (filename, stat) -> 
 
         file = path.basename filename
-        dir = path.dirname(filename).substr l
-        dirs[dir].files.push
+        dirname = path.dirname(filename).substr l
+        dirname = '.' if dirname.length == 0
+        dir = dirs[dirname]
+        dir.files.push
             name: file
             size: stat.size or 1
-        addFile dirs[dir].files[dirs[dir].files.length-1], dirs[dir]
+        addFile dir.files[dir.files.length-1], dir
+        needsRender = true
             
     walk.on 'directory', (dirname, stat) ->
         
-        dir = dirname.substr l
-        newDir dir
-        dirs[path.dirname(dir)].dirs.push dirs[dir].name
-        addDir dirs[dir], dirs[path.dirname(dir)]
+        dirname = dirname.substr l
+        newDir dirname
+        dir = dirs[dirname]
+        prt = dirs[path.dirname(dirname)]
+        prt.dirs.push dir.name
+        addDir dir, prt
+        if dir.depth < walkDepth
+            oneDirs.push dir.name
+        needsRender = true
+        walk.pause()
+        setTimeout resumeWalk, 10
         
     walk.on 'end', ->
         walk = null
         updateChildrenScale dirs[path.dirname dirPath]
         needsRender = true
-        setTimeout deepWalk, 10
+        setTimeout oneWalk, 10
             
-doWalk = (dirPath) ->    
+doWalk = (dirPath) ->
     resolved = resolve dirPath
     log 'walk', resolved
     clearScene()
     dirs = {}
     text?.remove()
-    opts = "max_depth": walkDepth
-    walk = walkDir resolved, opts
     l = resolved != "/" and resolved.length + 1 or 1
     newDir '.'
     addDir dirs['.']
     displayTextForNode dirs['.']
     needsRender = true
-    
-    walk.on 'file', (filename, stat) -> 
-
-        file = filename.substr l      
-        dir = path.dirname file
-        if dirs[dir]?
-            dirs[dir].files.push
-                name: path.basename file
-                size: stat.size or 1
-            addFile dirs[dir].files[dirs[dir].files.length-1], dirs[dir]
-        else
-            log 'WTF?'
-        needsRender = true
-            
-    walk.on 'directory', (dirname, stat) ->
-        
-        dir = dirname.substr l
-        newDir dir
-        dirs[path.dirname(dir)].dirs.push dirs[dir].name
-        addDir dirs[dir], dirs[path.dirname(dir)]
-        needsRender = true
-        
-    walk.on 'end', ->
-        updateChildrenScale dirs['.']
-        walk = null
-        needsRender = true
-        
-        for name, dir of dirs
-            if dir.level == 2
-                deepDirs.push name
-        # log deepDirs
-        deepWalk()
+    oneDirs.push '.'
+    oneWalk()
         
 ###
 000   000  00000000  000   000  0000000     0000000   000   000  000   000
