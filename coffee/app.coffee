@@ -24,7 +24,7 @@ Text    = require './js/text'
 Dolly   = require './js/dolly'
 
 rootDir   = '.'
-walkDepth = 2
+walkDepth = 3
 win       = remote.getCurrentWindow()
 renderer  = null
 stats     = null
@@ -291,11 +291,18 @@ newDir = (dirname) ->
 ###
 
 resumeWalk = () -> walk.resume()
-
-oneDirs = []
+currentLevel = 0
+nowDirs = []
+nextDirs = []
 oneWalk = () ->
-    return if oneDirs.length == 0
-    dirPath = oneDirs.pop()
+    if nowDirs.length == 0
+        if currentLevel < walkDepth
+            currentLevel += 1
+            nowDirs  = nextDirs
+            nextDirs = []
+    if nowDirs.length == 0 then return
+            
+    dirPath = nowDirs.pop()
     walk = walkDir resolve(rootDir + '/' + dirPath), "max_depth": 1
     root = resolve rootDir
     l = root != "/" and root.length + 1 or 1
@@ -320,17 +327,19 @@ oneWalk = () ->
         prt = dirs[path.dirname(dirname)]
         prt.dirs.push dir.name
         addDir dir, prt
-        if dir.depth < walkDepth
-            oneDirs.push dir.name
+        if dir.depth == currentLevel+1
+            nowDirs.push dir.name
+        else
+            nextDirs.push dir.name
         needsRender = true
         walk.pause()
-        setTimeout resumeWalk, 10
+        setTimeout resumeWalk, 1
         
     walk.on 'end', ->
         walk = null
         updateChildrenScale dirs[path.dirname dirPath]
         needsRender = true
-        setTimeout oneWalk, 10
+        setTimeout oneWalk, 1
             
 doWalk = (dirPath) ->
     resolved = resolve dirPath
@@ -343,7 +352,8 @@ doWalk = (dirPath) ->
     addDir dirs['.']
     displayTextForNode dirs['.']
     needsRender = true
-    oneDirs.push '.'
+    nowDirs = ['.']
+    nextDirs = []
     oneWalk()
         
 ###
