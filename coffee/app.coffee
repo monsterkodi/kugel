@@ -23,7 +23,7 @@ Console = require './js/knix/console'
 Text    = require './js/text'
 Dolly   = require './js/dolly'
 
-rootDir   = '~'
+rootDir   = '~/Library'
 walkDepth = 1
 win       = remote.getCurrentWindow()
 renderer  = null
@@ -75,8 +75,8 @@ color =
     selected:   0xffffff
     sun:        0xffffff
 
-dir_material = () -> 
-    new THREE.MeshPhongMaterial
+material = 
+    dir_node: new THREE.MeshPhongMaterial
         color:              color.dir
         side:               THREE.FrontSide
         shading:            THREE.FlatShading
@@ -87,9 +87,8 @@ dir_material = () ->
         depthWrite:         true
         opacity:            0.2
         wireframeLinewidth: 2
-
-file_material = () -> 
-    new THREE.MeshPhongMaterial
+        
+    file_node: new THREE.MeshPhongMaterial
         color:              color.file
         side:               THREE.FrontSide
         shading:            THREE.FlatShading
@@ -100,11 +99,16 @@ file_material = () ->
         depthWrite:         true
         opacity:            0.2
         wireframeLinewidth: 2
-    
-material = 
-    dir:     new THREE.MeshPhongMaterial { color: 0xffffff, shading: THREE.FlatShading }
-    file:    new THREE.MeshPhongMaterial { color: 0x8888ff, shading: THREE.FlatShading }
-    outline: new THREE.ShaderMaterial 
+      
+    dir_text:  new THREE.MeshPhongMaterial  
+        color:   0xffffff
+        shading: THREE.FlatShading
+        
+    file_text: new THREE.MeshPhongMaterial 
+        color:   0x8888ff
+        shading: THREE.FlatShading
+        
+    outline:   new THREE.ShaderMaterial 
         transparent: true,
         vertexShader: """
         varying vec3 vnormal;
@@ -154,7 +158,7 @@ document.observe 'dom:loaded', ->
     # sun.position.set -.2, .2, 1
     scene.add sun
 
-    if true
+    if false
         stats = new Stats
         stats.domElement.style.position = 'absolute'
         stats.domElement.style.top = '0px'
@@ -197,35 +201,37 @@ document.observe 'dom:loaded', ->
    000     00000000  000   000     000   
 ###
 
-displayTextForNode = (node) ->
-    name = node.name
-    name = path.basename resolve rootDir if name == '.'
-    name = "/" if name.length == 0  
-    text = new Text 
-        text:  name
-        scale: node.scale
-    y = node.mesh.position.y
-    if node.files?
-        y += 58*node.scale 
-    text.setPos 0, y
-    
 addNodeText = (node) ->
     return if node.depth > 1
     name = node.name
     name = path.basename resolve rootDir if name == '.'
     name = "/" if name.length == 0  
-    node.text = new Text 
-        text:  name
-        scale: 0.01
-        prt:   node.mesh
-        material: node.files? and material.dir or material.file
-        segments: Math.max(1, Math.round(node.scale * 8))
+    segm = Math.min(Math.max(1, Math.round(node.scale / 0.01)), 8)
+    
+    node.text = new Text
+        text:     name
+        bevel:    node.depth == 0
+        scale:    node.depth == 0 and 0.005 or 0.01
+        prt:      node.mesh
+        material: node.files? and material.dir_text or material.file_text
+        segments: segm
+        
     if node.files?
         if node.depth == 0
             node.text.setPos 0, 0.58
         else 
             node.text.alignLeft()
             node.text.setPos 0.58, 0
+    else
+        node.text.setPos 0, 0, 0.52
+
+refreshNodeText = (node) ->
+    return if node.depth > 1
+    if node.text?
+        segm = Math.min(Math.max(1, Math.round(node.scale / 0.01)), 8)
+        if node.text.config.segments != segm
+            node.mesh.remove node.text.mesh
+            addNodeText node
 
 ###
  0000000  00000000  000      00000000   0000000  000000000  000   0000000   000   000
@@ -256,6 +262,8 @@ selectAt  = (mouse) ->
             outline.prt = selected
             selected.add outline
             needsRender = true
+            
+            refreshNodeText selected.node
 
 ###
 0000000    000  00000000    0000000
@@ -330,15 +338,13 @@ addChildGeom = (node, prt, geom, mat) ->
 addDir = (dir, prt) ->
     dir.depth = prt.depth+1 if prt?
     geom = new THREE.IcosahedronGeometry 0.5, Math.max(1, 2 - dir.depth)
-    mat = dir_material()
-    addChildGeom dir, prt, geom, mat
+    addChildGeom dir, prt, geom, material.dir_node
     addNodeText dir
 
 addFile = (file, prt) ->
     file.depth = prt.depth+1
     geom = new THREE.OctahedronGeometry 0.5
-    mat = file_material()
-    addChildGeom file, prt, geom, mat
+    addChildGeom file, prt, geom, material.file_node
     if prt.depth == 0
         addNodeText file
 
@@ -380,6 +386,11 @@ checkAbort = (dirname) ->
 oneWalk = () ->
     timer = null
     if nowDirs.length == 0
+        for child in dirs['.'].files
+            refreshNodeText child
+        for childname in dirs['.'].dirs
+            refreshNodeText dirs[childname]
+        
         if currentLevel < walkDepth
             currentLevel += 1
             log 'level', currentLevel, numDirs, numFiles
@@ -400,12 +411,16 @@ oneWalk = () ->
         dirname = path.dirname(filename).substr l
         dirname = '.' if dirname.length == 0
         dir = dirs[dirname]
+        
+        size = 1
+        if stat.size
+            size = Math.pow(stat.size, 1.0/2.0)
         dir.files.push
             name: file
-            size: stat.size or 1
+            size: size
         addFile dir.files[dir.files.length-1], dir
         needsRender = true
-        walk.pause()
+        walk?.pause()
         timer = setTimeout resumeWalk, 1
         numFiles += 1
         checkAbort dirname
@@ -423,7 +438,7 @@ oneWalk = () ->
         else
             nextDirs.push dir.name
         needsRender = true
-        walk.pause()
+        walk?.pause()
         timer = setTimeout resumeWalk, 1
         numDirs += 1
         checkAbort dirname
@@ -445,8 +460,6 @@ doWalk = (dirPath) ->
     l = resolved != "/" and resolved.length + 1 or 1
     newDir '.'
     addDir dirs['.']
-    # displayTextForNode dirs['.']
-    # addNodeText dirs['.']
     needsRender = true
     currentLevel = 0
     numDirs = 0

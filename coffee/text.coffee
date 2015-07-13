@@ -15,7 +15,7 @@ class Text
             font:            "helvetiker"
             weight:          "bold"
             style:           "normal"
-            bevelEnabled:    true
+            bevelEnabled:    config.bevel or false
             bevelThickness:  1.5
             bevelSize:       1
             material:        0
@@ -24,6 +24,7 @@ class Text
         textGeo.computeBoundingBox()
         textGeo.computeVertexNormals()
 
+        @config = config
         @mesh            = new (THREE.Mesh)(textGeo, config.material or material)
         @scale           = config.scale or 1
         @width           = textGeo.boundingBox.max.x - textGeo.boundingBox.min.x
@@ -45,9 +46,10 @@ class Text
         scene.remove @mesh
         delete @mesh
         
-    setPos: (x,y) => 
+    setPos: (x,y,z) => 
         @mesh.position.x = @centerOffset+x
         @mesh.position.y = y
+        @mesh.position.z = z if z?
         
     alignLeft: () =>
         @mesh.position.x -= @centerOffset
