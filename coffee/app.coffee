@@ -247,14 +247,14 @@ selectAt  = (mouse) ->
         if selected == outline
             selected = intersects[intersects.length-2].object
         return if outline?.name == selected.node.name
-        scene.remove outline
-        outline = null
+        if outline?
+            outline.prt.remove outline
+            outline = null
         if selected.node.name != '.'
             outline = new THREE.Mesh selected.geometry, material.outline
-            outline.position.copy selected.position
-            outline.scale.multiplyScalar 100 * selected.node.scale
             outline.name = selected.node.name
-            scene.add outline
+            outline.prt = selected
+            selected.add outline
             needsRender = true
 
 ###
