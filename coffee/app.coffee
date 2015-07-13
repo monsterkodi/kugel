@@ -149,13 +149,12 @@ document.observe 'dom:loaded', ->
         antialias: true
     renderer.setSize window.innerWidth, window.innerHeight
     renderer.setClearColor color.background
-    # renderer.sortObjects = false
+    renderer.sortObjects = false
     renderer.autoClear = true
     document.body.appendChild renderer.domElement
 
     sun = new THREE.DirectionalLight color.sun
-    sun.position.set -.3, 1, 1
-    # sun.position.set -.2, .2, 1
+    sun.position.set -.3, .8, 1
     scene.add sun
 
     if false
@@ -331,7 +330,7 @@ addChildGeom = (node, prt, geom, mat) ->
     mesh.node = node
     node.mesh = mesh
     if prt?
-        updateChildrenScale prt 
+        updateChildrenScale prt
     else
         mesh.scale.x = mesh.scale.y = mesh.scale.z = 100
 
@@ -369,7 +368,7 @@ newDir = (dirname) ->
 
 timer = null
 resumeWalk = () -> 
-    walk.resume()
+    walk?.resume()
     timer = null
 currentLevel = 0
 nowDirs = []
@@ -420,9 +419,10 @@ oneWalk = () ->
             size: size
         addFile dir.files[dir.files.length-1], dir
         needsRender = true
-        walk?.pause()
-        timer = setTimeout resumeWalk, 1
         numFiles += 1
+        if numFiles % 5 == 0
+            walk?.pause()
+            timer = setTimeout resumeWalk, 1        
         checkAbort dirname
             
     walk.on 'directory', (dirname, stat) ->
@@ -438,9 +438,10 @@ oneWalk = () ->
         else
             nextDirs.push dir.name
         needsRender = true
-        walk?.pause()
-        timer = setTimeout resumeWalk, 1
         numDirs += 1
+        if numDirs % 5 == 0
+            walk?.pause()
+            timer = setTimeout resumeWalk, 1
         checkAbort dirname
         
     walk.on 'end', ->
