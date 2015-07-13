@@ -109,18 +109,15 @@ material =
         vertexShader: """
         varying vec3 vnormal;
         void main(){
-            vec3 worldNormal = normalize( mat3( modelViewMatrix[0].xyz, modelViewMatrix[1].xyz, modelViewMatrix[2].xyz ) * normal );
-            vnormal = worldNormal;
-            vec4 pos = modelViewMatrix * vec4( position, 1.0 );
-            gl_Position = projectionMatrix * pos;
+            vnormal = normalize( mat3( modelViewMatrix[0].xyz, modelViewMatrix[1].xyz, modelViewMatrix[2].xyz ) * normal );
+            gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
         }
         """
         fragmentShader: """
         varying vec3 vnormal;
         void main(){
             float z = abs(vnormal.z);
-            float a = (1.0-z)*(1.0-z)/2.0;
-            gl_FragColor = vec4( 1,1,1, a );
+            gl_FragColor = vec4( 1,1,1, (1.0-z)*(1.0-z)/2.0 );
         }
         """
 
