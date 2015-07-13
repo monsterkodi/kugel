@@ -84,7 +84,7 @@ dir_material = () ->
         shininess:          -3
         wireframe:          false
         depthTest:          false
-        doubleSided:        false
+        depthWrite:         true
         opacity:            0.2
         wireframeLinewidth: 2
 
@@ -97,13 +97,32 @@ file_material = () ->
         shininess:          -5
         wireframe:          false
         depthTest:          false
-        doubleSided:        false
+        depthWrite:         true
         opacity:            0.2
         wireframeLinewidth: 2
     
 material = 
-    dir:  new THREE.MeshPhongMaterial { color: 0xffffff, shading: THREE.FlatShading }
-    file: new THREE.MeshPhongMaterial { color: 0x8888ff, shading: THREE.FlatShading }
+    dir:     new THREE.MeshPhongMaterial { color: 0xffffff, shading: THREE.FlatShading }
+    file:    new THREE.MeshPhongMaterial { color: 0x8888ff, shading: THREE.FlatShading }
+    outline: new THREE.ShaderMaterial 
+        transparent: true,
+        vertexShader: """
+        varying vec3 vnormal;
+        void main(){
+            vec3 worldNormal = normalize( mat3( modelViewMatrix[0].xyz, modelViewMatrix[1].xyz, modelViewMatrix[2].xyz ) * normal );
+            vnormal = worldNormal;
+            vec4 pos = modelViewMatrix * vec4( position, 1.0 );
+            gl_Position = projectionMatrix * pos;
+        }
+        """
+        fragmentShader: """
+        varying vec3 vnormal;
+        void main(){
+            float z = abs(vnormal.z);
+            float a = (1.0-z)*(1.0-z)/2.0;
+            gl_FragColor = vec4( 1,1,1, a );
+        }
+        """
 
 ###
 000       0000000    0000000   0000000    00000000  0000000  
@@ -125,10 +144,11 @@ document.observe 'dom:loaded', ->
         maxDist:     100
         minDist:     0.002
     
-    renderer = new THREE.WebGLRenderer antialias: true
+    renderer = new THREE.WebGLRenderer 
+        antialias: true
     renderer.setSize window.innerWidth, window.innerHeight
     renderer.setClearColor color.background
-    renderer.sortObjects = false
+    # renderer.sortObjects = false
     renderer.autoClear = true
     document.body.appendChild renderer.domElement
 
@@ -137,7 +157,7 @@ document.observe 'dom:loaded', ->
     # sun.position.set -.2, .2, 1
     scene.add sun
 
-    if false
+    if true
         stats = new Stats
         stats.domElement.style.position = 'absolute'
         stats.domElement.style.top = '0px'
@@ -218,21 +238,27 @@ addNodeText = (node) ->
 0000000   00000000  0000000  00000000   0000000     000     000   0000000   000   000
 ###
 
+outline = null
 raycaster = new THREE.Raycaster()
 selectAt  = (mouse) ->
     raycaster.setFromCamera mouse, dolly.camera
     intersects = raycaster.intersectObjects scene.children   
-    # if selected?
-        # selected.material?.color?.set color.material
-        # selected.material.shininess = -6
     selected = undefined
     text?.remove()
     if intersects.length
         selected = intersects[intersects.length-1].object
-        # selected.material.color.set color.selected
-        # selected.material.shininess = -6
-        # displayTextForNode selected.node
-        needsRender = true
+        if selected == outline
+            selected = intersects[intersects.length-2].object
+        return if outline?.name == selected.node.name
+        scene.remove outline
+        outline = null
+        if selected.node.name != '.'
+            outline = new THREE.Mesh selected.geometry, material.outline
+            outline.position.copy selected.position
+            outline.scale.multiplyScalar 100 * selected.node.scale
+            outline.name = selected.node.name
+            scene.add outline
+            needsRender = true
 
 ###
 0000000    000  00000000    0000000

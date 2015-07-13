@@ -48,6 +48,6 @@
   "scripts": {
     "build": "electron-packager . kugel --platform=darwin --arch=x64 --version=0.28.2 --ignore=node_modules/electron --icon=img/appicon.icns",
     "start": "electron .",
-    "bower": "bower install octicons font-awesome prototype.js three.js"
+    "bower": "bower install octicons font-awesome prototype.js three.js stats.js"
   }
 }
