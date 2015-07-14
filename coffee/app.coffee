@@ -25,8 +25,8 @@ Dolly   = require './js/dolly'
 Balls   = require './js/balls'
 Boxes   = require './js/boxes'
 
-rootDir   = '~/Library'
-walkDepth = 1
+rootDir   = '~/Library/Caches/Firefox/Profiles/4knzbnkj.default/cache2/entries' # '~/Library'
+walkDepth = Infinity
 win       = remote.getCurrentWindow()
 renderer  = null
 nodes     = null
@@ -196,6 +196,15 @@ document.observe 'dom:loaded', ->
     nodes = new Boxes material
     doWalk rootDir    
     
+window.toggleNodes = () ->
+    rootDir = nodes.rootDir
+    nodes.clear()
+    if nodes.constructor.name == 'Balls'
+        nodes = new Boxes material
+    else
+        nodes = new Balls material
+    doWalk rootDir 
+    
 ###
  0000000  00000000  000      00000000   0000000  000000000  000   0000000   000   000
 000       000       000      000       000          000     000  000   000  0000  000
@@ -225,8 +234,8 @@ selectAt  = (mouse) ->
             outline.prt = selected
             selected.add outline
             needsRender = true
-            
             nodes.refreshNodeText selected.node
+            console.log selected.node.scale
 
 ###
 000   000   0000000   000      000   000
@@ -246,7 +255,8 @@ nextDirs = []
 numDirs = 0
 numFiles = 0
 checkAbort = (dirname) ->
-    if numFiles + numDirs > 5000
+    return false
+    if numFiles + numDirs > 50000
         clearTimeout(timer) if timer?
         walk.stop()
         log 'abort', dirname, numDirs, numFiles
@@ -313,7 +323,7 @@ oneWalk = () ->
         
     walk.on 'end', ->
         walk = null
-        nodes.walkEnd path.dirname dirPath
+        nodes.walkEnd dirPath
         needsRender = true
         timer = setTimeout oneWalk, 1
             

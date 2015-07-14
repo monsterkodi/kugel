@@ -5,38 +5,21 @@ class Boxes
 
     constructor: (@material) ->
         @dirs = {}
+        @maxMeshDepth = 4
+        @numChars = 0
+        @minTextScale = 0.005
         
-    dirFileRatio: (prt) => prt.dirs.length / (prt.dirs.length + prt.files.length)
-
-    dirFileSizes: (dir) => 
-        s = 0
-        for file in dir.files
-            s += file.size
-        s
-
-    dirSize: (dir) => Math.max 1, dir.files.length + dir.dirs.length
-    dirDirSizes: (dir) =>
-        s = 0
-        for child in dir.dirs
-            s += @dirSize @dirs[child]
-        s
-
-    relScaleForNode: (node, prt) =>   
-        if node.files?
-            relscale = @dirFileRatio(prt) * @dirSize(node) / @dirDirSizes(prt)
-        else
-            relscale = (1-@dirFileRatio(prt)) * node.size / @dirFileSizes(prt)
-        relscale
+    relScaleForNode: (node, prt) => node.size / prt.size
 
     updateNodeScale: (node, prt) =>
-        prtscale = relscale = 1
-        if prt?
-            prtscale = prt.scale
-            relscale = @relScaleForNode node, prt
+        prtscale = prt.scale
+        relscale = @relScaleForNode node, prt
         node.scale = prtscale * relscale
-        node.mesh.scale.x = node.mesh.scale.y = node.mesh.scale.z = 100*node.scale
-        if prt?
-            node.mesh.position.y = prt.mesh.position.y + (prt.ci - relscale*0.5)*100*prtscale
+        @checkTextScale node
+        if node.mesh?
+            node.mesh.scale.x = node.mesh.scale.y = node.mesh.scale.z = 100*node.scale
+            if prt?
+                node.mesh.position.y = prt.mesh.position.y + (prt.ci - relscale*0.5)*100*prtscale
 
     updateChildrenScale: (prt) =>
         prt.ci = 0.5
@@ -45,7 +28,8 @@ class Boxes
             if child?
                 @updateNodeScale child, prt
                 prt.ci -= @relScaleForNode(child, prt)
-                @updateChildrenScale child
+                if child.mesh?
+                    @updateChildrenScale child
         for file in prt.files
             @updateNodeScale file, prt
             prt.ci -= @relScaleForNode(file, prt)
@@ -55,29 +39,39 @@ class Boxes
         scene.add mesh
         mesh.node = node
         node.mesh = mesh
-        if prt?
-            @updateChildrenScale prt
-        else
-            mesh.scale.x = mesh.scale.y = mesh.scale.z = 100
 
-    walkEnd: (dirname) =>
-        # log dirname, @dirs[dirname]?
-        @updateChildrenScale @dirs[dirname]
+    walkEnd: (dirname) => @updateChildrenScale @dirs['.']
 
     addDir: (dir, prt) =>
         dir.depth = prt.depth+1 if prt?
-        geom = new THREE.BoxGeometry 1, 1, 1
-        @addChildGeom dir, prt, geom, @material.dir_node
-        @addNodeText dir
-
+        if dir.depth <= @maxMeshDepth
+            geom = new THREE.BoxGeometry 1, 1, 1
+            @addChildGeom dir, prt, geom, @material.dir_node
+            @addNodeText dir
+        if not prt?
+            dir.mesh.scale.x = dir.mesh.scale.y = dir.mesh.scale.z = 100
+        
+    parentDir: (dir) =>
+        if dir.depth > 0
+            @dirs[path.dirname(dir.name)]
+        
+    addSize: (dir, size) =>
+        dir.size += size
+        if prt = @parentDir dir
+            @addSize prt, size
+        
     addFile: (file, prt) =>
         file.depth = prt.depth+1
-        geom = new THREE.BoxGeometry 1, 1, 1
-        @addChildGeom file, prt, geom, @material.file_node
+        if file.depth <= @maxMeshDepth
+            geom = new THREE.BoxGeometry 1, 1, 1
+            @addChildGeom file, prt, geom, @material.file_node
+        @addSize prt, file.size
+        @updateChildrenScale @dirs['.']
         if prt.depth == 0
             @addNodeText file
 
     clear: () =>
+        @numChars = 0
         for name, dir of @dirs
             scene.remove dir.mesh
             for file in dir.files
@@ -88,7 +82,7 @@ class Boxes
         @dirs[dirname] = 
             dirs:  []
             files: []
-            size:  0
+            size:  1
             depth: 0
             scale: 1
             y:     0
@@ -110,22 +104,34 @@ class Boxes
         name = "/" if name.length == 0  
         segm = Math.min(Math.max(1, Math.round(node.scale / 0.01)), 8)
         
-        node.text = new Text
-            text:     name
-            bevel:    node.depth == 0
-            scale:    node.depth == 0 and 0.005 or 0.01
-            prt:      node.mesh
-            material: node.files? and @material.dir_text or @material.file_text
-            segments: segm
-            
-        if node.files?
-            if node.depth == 0
-                node.text.setPos 0, 0.58
-        else
-            node.text.setPos 0, 0, 0.52
+        if node.scale > @minTextScale or node.files?
+            @numChars += name.length
+            console.log @numChars
+            node.text = new Text
+                text:     name
+                bevel:    node.depth == 0
+                scale:    node.depth == 0 and 0.005 or 0.01
+                prt:      node.mesh
+                material: node.files? and @material.dir_text or @material.file_text
+                segments: segm
+                
+            if node.files?
+                if node.depth == 0
+                    node.text.setPos 0, 0.58
+            else
+                node.text.setPos 0, 0, 0.52
+
+    checkTextScale: (node) =>
+        return if node.depth > 1 or node.files?
+        if node.text? and node.scale < @minTextScale
+            @numChars -= node.name.length
+            console.log @numChars
+            node.mesh.remove node.text.mesh
+            node.text = null
 
     refreshNodeText: (node) =>
         return if node.depth > 1
+        @checkTextScale node
         if node.text?
             segm = Math.min(Math.max(1, Math.round(node.scale / 0.01)), 8)
             if node.text.config.segments != segm

@@ -233,6 +233,13 @@ class Console extends Window
         @scopeTags = []
 
     @allConsoles: => (e.getWindow() for e in $$(".console"))
+    
+    @toggle: => 
+        if @allConsoles().length == 0
+            new Console()
+        else
+            for c in @allConsoles()
+                c.close()
 
     @log: => @allConsoles().each (c) ->
         c.insert Console.toHtml.apply(Console, Array.prototype.slice.call(arguments, 0))

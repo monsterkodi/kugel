@@ -76,13 +76,13 @@ class knix
         Menu.addButton btn,
             tooltip: 'console'
             icon:    'octicon-terminal'
-            action:  -> new Console()
+            action: Console.toggle
 
         Menu.addButton btn,
             tooltip: 'style'
             keys:    ['i']
             icon:    'octicon-color-mode'
-            action:  StyleSwitch.toggle
+            action:  () -> window.toggleNodes()
         
         Menu.addButton btn,
             tooltip: 'about'

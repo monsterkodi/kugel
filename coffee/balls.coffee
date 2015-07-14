@@ -61,8 +61,7 @@ class Balls
             mesh.scale.x = mesh.scale.y = mesh.scale.z = 100
 
     walkEnd: (dirname) =>
-        # log dirname, @dirs[dirname]?
-        @updateChildrenScale @dirs[dirname]
+        @updateChildrenScale @dirs[path.dirname dirname]
 
     addDir: (dir, prt) =>
         dir.depth = prt.depth+1 if prt?
