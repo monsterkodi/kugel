@@ -14,15 +14,6 @@ module.exports = (grunt) ->
             kugel:
                 files:
                     'kugel': [ 'kugel.coffee', 'coffee/**/*.coffee' ]
-            release:
-                options: 
-                    outdir: '.'
-                    type:   '.sh'
-                    pepper:  null
-                    paprika: null
-                    join:    true
-                files:
-                    '.release': ['release.sh']
 
         salt:
             options:
