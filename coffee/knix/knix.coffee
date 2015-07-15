@@ -6,21 +6,21 @@
 000   000  000   000  000  000   000
 ###
 
-capitalize  = require 'lodash.capitalize'
-isEmpty     = require 'lodash.isempty'
-StyleSwitch = require './styleswitch'
-About       = require './about'
-Console     = require './console'
-Widget      = require './widget'
-Stage       = require './stage'
-Menu        = require './menu'
-tools       = require './tools'
-str         = require './str'
-log         = require './log'
-dbg         = require './log'
-def         = require './def'
-
-ipc       = require 'ipc'
+capitalize    = require 'lodash.capitalize'
+isEmpty       = require 'lodash.isempty'
+StyleSwitch   = require './styleswitch'
+About         = require './about'
+Console       = require './console'
+Widget        = require './widget'
+Stage         = require './stage'
+Menu          = require './menu'
+tools         = require './tools'
+str           = require './str'
+log           = require './log'
+dbg           = require './log'
+def           = require './def'
+open          = require 'opener'
+ipc           = require 'ipc'
 console.log   = () -> ipc.send 'console.log',   [].slice.call arguments, 0
 console.error = () -> ipc.send 'console.error', [].slice.call arguments, 0
 
@@ -118,7 +118,7 @@ class knix
                 # dbg cls
                 return new cls cfg
             catch err
-                log cfg.type, err
+                # log cfg.type, err
                 0
 
         # log 'plain'
@@ -159,6 +159,8 @@ class knix
     @shadeWindows:    => @selectedOrAllWindows().each (w) -> w.shade()
     @closeWindows:    => @selectedWindows().each (w) -> w.close()
     @closeAllWindows: => @allWindows().each (w) -> w.close()
+    
+    @openURL: (url)   => open url
                     
     ###
     000000000   0000000    0000000   000      000000000  000  00000000    0000000

@@ -25,6 +25,7 @@
     "lodash.uniq": "^3.2.2",
     "lodash.zipobject": "^3.0.0",
     "node-uuid": "^1.4.3",
+    "opener": "^1.4.1",
     "three-orbit-controls": "^69.0.4",
     "underscore.string": "^3.1.1",
     "walkdir": "0.0.10"

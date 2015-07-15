@@ -18,6 +18,7 @@ BrowserWindow = require 'browser-window'
 
 jsonStr = (a) -> JSON.stringify a, null, " "
 
+menuBarMode = false
 win   = undefined
 tray  = undefined
 
@@ -72,15 +73,15 @@ createWindow = () ->
     
     app.on 'ready', () ->
 
-        if app.dock then app.dock.hide()
-
         cwd = path.join __dirname, '..'
-        
-        iconFile = path.join cwd, 'img', 'menuicon.png'
 
-        tray = new Tray iconFile
-        
-        tray.on 'clicked', toggleWindow
+        if menuBarMode
+            if app.dock then app.dock.hide()
+            iconFile = path.join cwd, 'img', 'menuicon.png'
+            tray = new Tray iconFile
+            tray.on 'clicked', toggleWindow
+        else
+            app.dock
 
         # 000   000  000  000   000
         # 000 0 000  000  0000  000
@@ -120,7 +121,8 @@ createWindow = () ->
 
         win.loadUrl 'file://' + cwd + '/app.html'
         
-        win.on 'blur', win.hide
+        if menuBarMode
+            win.on 'blur', win.hide
             
         win.on 'resize', (e) -> 
             values = loadPrefs()
