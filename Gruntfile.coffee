@@ -100,14 +100,7 @@ module.exports = (grunt) ->
             file: 'package.json'
             
         clean: ['kugel.app', 'kugel.zip', 'style/*.css', 'js', 'pepper', '.release.*']
-            
-            
-        githubAsset:
-            options:
-                credentials: grunt.file.readJSON('.apitoken.json') 
-                repo: 'git@github.com:monsterkodi/kugel.git',
-                file: 'password.zip'
-                
+                            
         shell:
             options:
                 execOptions: 

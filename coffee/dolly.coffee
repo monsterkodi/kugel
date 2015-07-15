@@ -2,6 +2,7 @@
 class Dolly
 
     constructor: (config) -> 
+        @minScale    = config.minScale or 0.0001
         @target      = new THREE.Vector3()
         @needsRender = false
         @scale       = config.scale or 1.0
@@ -12,7 +13,7 @@ class Dolly
             @scale*window.innerWidth/2, 
             @scale*window.innerHeight/2, 
             @scale*window.innerHeight/-2, 
-            0.001, 200)
+            @minScale, 200)
         @camera.position.z = 100
 
         window.addEventListener 'mousewheel', @onMouseWheel
@@ -63,7 +64,7 @@ class Dolly
         mouseYPos = @camera.top - mouseYFactor * (@camera.top - @camera.bottom)
         @scale *= factor
         @scale = 1 if @scale > 1
-        @scale = 0.000001 if @scale < 0.000001
+        @scale = @minScale if @scale < @minScale
         w = window.innerWidth * @scale
         h = window.innerHeight * @scale
                     

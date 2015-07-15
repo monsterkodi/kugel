@@ -13,19 +13,24 @@ keyname = require './js/tools/keyname'
 resolve = require './js/tools/resolve'
 walkDir = require 'walkdir'
 path    = require 'path'
+moment  = require 'moment'
 
 knix    = require './js/knix/knix'
 log     = require './js/knix/log'
 dbg     = require './js/knix/log'
 error   = require './js/knix/error'
 warning = require './js/knix/warning'
+Menu    = require './js/knix/menu'
+Info    = require './js/info'
 Console = require './js/knix/console'
 Text    = require './js/text'
 Dolly   = require './js/dolly'
 Balls   = require './js/balls'
 Boxes   = require './js/boxes'
 
-rootDir   = '~/Library/Caches/Firefox/Profiles/4knzbnkj.default/cache2/entries' # '~/Library'
+# rootDir   = '~/Library/Caches/Firefox/Profiles/4knzbnkj.default/cache2/entries' 
+# rootDir   = '~/Library'
+rootDir   = '~/Pictures/iPhoto/images'
 walkDepth = Infinity
 win       = remote.getCurrentWindow()
 renderer  = null
@@ -139,10 +144,28 @@ material =
 0000000   0000000   000   000  0000000    00000000  0000000  
 ###
 
+initMenu = ->
+
+    btn = 
+        menu: 'menu'
+
+    Menu.addButton btn,
+        tooltip: 'info'
+        icon:    'octicon-dashboard'
+        action: Info.toggle
+
+    Menu.addButton btn,
+        tooltip: 'style'
+        keys:    ['i']
+        icon:    'octicon-color-mode'
+        action:  toggleNodes
+
 document.observe 'dom:loaded', ->
     
     knix.init
         console: 'shade'
+        
+    initMenu()
         
     scene = new (THREE.Scene)
 
@@ -196,7 +219,7 @@ document.observe 'dom:loaded', ->
     nodes = new Boxes material
     doWalk rootDir    
     
-window.toggleNodes = () ->
+toggleNodes = () ->
     rootDir = nodes.rootDir
     nodes.clear()
     if nodes.constructor.name == 'Balls'
@@ -249,35 +272,27 @@ timer = null
 resumeWalk = () -> 
     walk?.resume()
     timer = null
-currentLevel = 0
+startTime = null
+timeSinceStart = () -> moment().subtract(startTime).format('m [m] s [s] SSS [ms]')
 nowDirs = []
 nextDirs = []
-numDirs = 0
-numFiles = 0
-checkAbort = (dirname) ->
-    return false
-    if numFiles + numDirs > 50000
-        clearTimeout(timer) if timer?
-        walk.stop()
-        log 'abort', dirname, numDirs, numFiles
-        walk = null
 
 oneWalk = () ->
     timer = null
     if nowDirs.length == 0
         nodes.nextLevel()
-        
-        if currentLevel < walkDepth
-            currentLevel += 1
-            log 'level', currentLevel, numDirs, numFiles
+        if Info.value.depth < walkDepth
+            Info.value.depth += 1
             nowDirs  = nextDirs
             nextDirs = []
     if nowDirs.length == 0
-        log 'done', numDirs, numFiles
+        Info.value.time = timeSinceStart()
         return
             
     dirPath = nowDirs.pop()
-    walk = walkDir resolve(nodes.rootDir + '/' + dirPath), "max_depth": 1
+    currentDir = resolve(nodes.rootDir + '/' + dirPath)
+    Info.value.current = currentDir.substr Info.value.root.length+1
+    walk = walkDir currentDir, "max_depth": 1
     root = resolve nodes.rootDir
     l = root != "/" and root.length + 1 or 1
     
@@ -296,11 +311,11 @@ oneWalk = () ->
             size: size
         nodes.addFile dir.files[dir.files.length-1], dir
         needsRender = true
-        numFiles += 1
-        if numFiles % 5 == 0
+        Info.value.files += 1
+        Info.value.time = timeSinceStart()
+        if Info.value.files % 5 == 0
             walk?.pause()
             timer = setTimeout resumeWalk, 1        
-        checkAbort dirname
             
     walk.on 'directory', (dirname, stat) ->
         
@@ -310,16 +325,16 @@ oneWalk = () ->
         prt = nodes.dirs[path.dirname(dirname)]
         prt.dirs.push dir.name
         nodes.addDir dir, prt
-        if dir.depth == currentLevel+1
+        if dir.depth == Info.value.depth+1
             nowDirs.push dir.name
         else
             nextDirs.push dir.name
         needsRender = true
-        numDirs += 1
-        if numDirs % 5 == 0
+        Info.value.dirs += 1
+        Info.value.time = timeSinceStart()
+        if Info.value.dirs % 5 == 0
             walk?.pause()
             timer = setTimeout resumeWalk, 1
-        checkAbort dirname
         
     walk.on 'end', ->
         walk = null
@@ -328,7 +343,7 @@ oneWalk = () ->
         timer = setTimeout oneWalk, 1
             
 doWalk = (dirPath) ->
-    
+    startTime = moment()
     resolved = resolve dirPath
     nodes.rootDir = resolved
     log 'walk', resolved
@@ -339,12 +354,15 @@ doWalk = (dirPath) ->
     l = resolved != "/" and resolved.length + 1 or 1
     nodes.newDir '.'
     nodes.addDir nodes.dirs['.']
-    needsRender = true
-    currentLevel = 0
-    numDirs = 0
-    numFiles = 0
-    nowDirs = ['.']
-    nextDirs = []
+    needsRender        = true
+    Info.value.root    = resolved
+    Info.value.current = resolved
+    Info.value.dirs    = 0
+    Info.value.files   = 0
+    Info.value.depth   = 0
+    Info.value.time    = 'start'
+    nowDirs            = ['.']
+    nextDirs           = []
     oneWalk()
         
 ###

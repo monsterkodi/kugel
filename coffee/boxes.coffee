@@ -106,7 +106,7 @@ class Boxes
         
         if node.scale > @minTextScale or node.files?
             @numChars += name.length
-            console.log @numChars
+            # console.log @numChars
             node.text = new Text
                 text:     name
                 bevel:    node.depth == 0
@@ -125,7 +125,7 @@ class Boxes
         return if node.depth > 1 or node.files?
         if node.text? and node.scale < @minTextScale
             @numChars -= node.name.length
-            console.log @numChars
+            # console.log @numChars
             node.mesh.remove node.text.mesh
             node.text = null
 

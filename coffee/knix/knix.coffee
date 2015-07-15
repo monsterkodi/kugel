@@ -77,12 +77,6 @@ class knix
             tooltip: 'console'
             icon:    'octicon-terminal'
             action: Console.toggle
-
-        Menu.addButton btn,
-            tooltip: 'style'
-            keys:    ['i']
-            icon:    'octicon-color-mode'
-            action:  () -> window.toggleNodes()
         
         Menu.addButton btn,
             tooltip: 'about'
@@ -99,7 +93,7 @@ class knix
             icon:    'octicon-x'
             keys:    ['⇧⌥„']
             action:  knix.closeAllWindows            
-
+            
     ###
      0000000  00000000   00000000   0000000   000000000  00000000
     000       000   000  000       000   000     000     000     
