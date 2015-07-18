@@ -193,6 +193,7 @@ class Stack
     ###
 
     addNodeText: (node) =>
+        return if node.depth > 0
         return if node.depth > 1
         name = node.name
         name = path.basename resolve @rootDir if name == '.'

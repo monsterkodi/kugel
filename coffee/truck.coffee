@@ -24,10 +24,14 @@ class Truck
         window.addEventListener 'keypress',   @onKeyPress
         window.addEventListener 'keyrelease', @onKeyRelease
 
+    setTarget: (target) => 
+        @target.copy target
+        @addPivot 0,0
+
     onKeyPress: (event) =>
     onKeyRelease: (event) =>
 
-    onMouseDown:  (event) => 
+    onMouseDown: (event) => 
         @mouseX = event.clientX
         @mouseY = event.clientY
         window.addEventListener    'mousemove',  @onMouseDrag 
@@ -56,7 +60,7 @@ class Truck
         if event.shiftKey or event.altKey or event.ctrlKey or event.metaKey
             @move deltaX, deltaY
         else
-            @addPivot deltaX/200.0, deltaY/200.0
+            @addPivot deltaX/400.0, deltaY/200.0
         @camera.needsRender = true
         
     move: (x, y) =>
@@ -79,7 +83,6 @@ class Truck
         @target.add up
                 
     addPivot: (factorX, factorY) =>
-        # console.log factorX, factorY
         camPos = @camera.position.clone()
         camPos.sub @target
 
@@ -99,11 +102,13 @@ class Truck
         
         camPos.applyQuaternion quat1
         camPos.applyQuaternion quat2
+        
         camPos.add @target
-        # console.log camPos
+        @camera.up.set 0,0,1
         @camera.position.copy camPos
         @camera.lookAt @target
-        @camera.updateProjectionMatrix()
+        # @camera.updateProjectionMatrix()
+        @camera.needsRender = true
 
     onMouseWheel: (event) => @zoom 1-event.wheelDelta/20000
         

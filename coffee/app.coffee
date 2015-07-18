@@ -46,11 +46,13 @@ dolly     = null
 truck     = null
 walk      = null
 selected  = null
+mouse     = new THREE.Vector2()
 
 jsonStr = (a) -> JSON.stringify a, null, " "
 
 console.log   = () -> ipc.send 'console.log',   [].slice.call arguments, 0
 console.error = () -> ipc.send 'console.error', [].slice.call arguments, 0
+clog = console.log
 
 ###
 00000000   00000000  000   000  0000000    00000000  00000000 
@@ -209,9 +211,8 @@ document.observe 'dom:loaded', ->
         dolly?.zoom 1
 
     onMouseMove = (e) ->
-        return if dolly?.isPivoting
-        mouse   = new THREE.Vector2()
-        mouse.x = 2 * (e.clientX / window.innerWidth) - 1
+        # return if dolly?.isPivoting
+        mouse.x = 2 * ( e.clientX / window.innerWidth ) - 1
         mouse.y = 1 - 2 * ( e.clientY / window.innerHeight )
         selectAt mouse
         
@@ -221,13 +222,30 @@ document.observe 'dom:loaded', ->
         else 
             doWalk nodes.rootDir + '/..'
         
-    window.addEventListener 'dblclick',  onDoubleClick
+    mouseDownNode = null
+    mouseDownPos = null    
+    onMouseDown = (e) ->
+        mouseDownNode = null
+        mouseDownPos = new THREE.Vector2 e.clientX, e.clientY
+        if selected and truck
+            mouseDownNode = selected
+
+    onMouseUp = (e) ->
+        if selected and truck and selected == mouseDownNode
+            mousePos = new THREE.Vector2 e.clientX, e.clientY
+            if mouseDownPos.sub(mousePos).length() < 4
+                truck.setTarget selected.position
+        mouseDownNode = null
+        mouseDownPos = null
+        
+    window.addEventListener 'dblclick',    onDoubleClick
+    window.addEventListener 'mousedown',   onMouseDown
+    window.addEventListener 'mouseup',     onMouseUp
     window.addEventListener 'mousemove',   onMouseMove
-    window.addEventListener 'resize',   onWindowResize
+    window.addEventListener 'resize',      onWindowResize
             
     anim()
     # nodes = new Balls material
-    # nodes = new Boxes material
     nodes = new Stack
     doWalk rootDir    
     
@@ -286,7 +304,6 @@ selectAt  = (mouse) ->
             selected.add outline
             needsRender = true
             nodes.refreshNodeText selected.node
-            # console.log selected.node.name
             Info.value.current = "> " + selected.node.name
 
 ###
