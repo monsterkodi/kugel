@@ -1,5 +1,7 @@
-log = require './knix/log'
-dbg = require './knix/log'
+log   = require './knix/log'
+dbg   = require './knix/log'
+tools = require './knix/tools'
+clamp = tools.clamp
 
 class Balls
 
@@ -107,7 +109,7 @@ class Balls
         name = node.name
         name = path.basename resolve @rootDir if name == '.'
         name = "/" if name.length == 0  
-        segm = Math.min(Math.max(1, Math.round(node.scale / 0.01)), 8)
+        segm = clamp 1, 8, Math.round node.scale / 0.01
         
         node.text = new Text
             text:     name
@@ -129,7 +131,7 @@ class Balls
     refreshNodeText: (node) =>
         return if node.depth > 1
         if node.text?
-            segm = Math.min(Math.max(1, Math.round(node.scale / 0.01)), 8)
+            segm = clamp 1, 8, Math.round node.scale / 0.01
             if node.text.config.segments != segm
                 node.mesh.remove node.text.mesh
                 @addNodeText node

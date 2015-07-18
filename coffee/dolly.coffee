@@ -24,13 +24,13 @@ class Dolly
     onMouseDown:  (event) => 
         @mouseX = event.clientX
         @mouseY = event.clientY
-        window.addEventListener 'mousemove',  @onPivotMove 
+        window.addEventListener    'mousemove',  @onPivotMove 
         window.removeEventListener 'mousemove',  @onMouseMove    
         @isPivoting = true    
         
     onMouseUp:    (event) => 
         window.removeEventListener 'mousemove',  @onPivotMove 
-        window.addEventListener 'mousemove',  @onMouseMove  
+        window.addEventListener    'mousemove',  @onMouseMove  
         @isPivoting = false          
         
     onMouseMove:  (event) =>     

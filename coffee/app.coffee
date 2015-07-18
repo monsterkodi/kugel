@@ -25,20 +25,25 @@ Info    = require './js/info'
 Console = require './js/knix/console'
 Text    = require './js/text'
 Dolly   = require './js/dolly'
+Truck   = require './js/truck'
 Balls   = require './js/balls'
 Boxes   = require './js/boxes'
+Stack   = require './js/stack'
 
 # rootDir   = '~/Library/Caches/Firefox/Profiles/4knzbnkj.default/cache2/entries' 
 # rootDir   = '~/Library'
-rootDir   = '~/Pictures/iPhoto/images'
-walkDepth = Infinity
+# rootDir   = '~/Pictures/iPhoto/images'
+rootDir   = '~'
+walkDepth = 1 # Infinity
 win       = remote.getCurrentWindow()
 renderer  = null
+camera    = null
 nodes     = null
 stats     = null
 scene     = null
 text      = null
 dolly     = null
+truck     = null
 walk      = null
 selected  = null
 
@@ -56,15 +61,15 @@ console.error = () -> ipc.send 'console.error', [].slice.call arguments, 0
 ###
 
 render = -> 
-    renderer.render scene, dolly.camera
+    renderer.render scene, camera
 
 needsRender = true
 anim = ->
     requestAnimationFrame anim
-    if needsRender or dolly.needsRender
+    if needsRender or camera.needsRender
         render()
         needsRender = false
-        dolly.needsRender = false
+        camera.needsRender = false
     stats?.update()
 
 ###
@@ -169,9 +174,11 @@ document.observe 'dom:loaded', ->
         
     scene = new (THREE.Scene)
 
-    dolly = new Dolly
-        scale: 0.16
-    
+    # dolly = new Dolly
+    #     scale: 0.16
+    truck = new Truck()
+    camera = truck.camera
+        
     renderer = new THREE.WebGLRenderer 
         antialias: true
         
@@ -182,8 +189,12 @@ document.observe 'dom:loaded', ->
     document.body.appendChild renderer.domElement
 
     sun = new THREE.DirectionalLight color.sun
-    sun.position.set -.3, .8, 1
+    # sun.position.set -.3, .8, 1
+    sun.position.set -1, 1, 1
     scene.add sun
+
+    # ambient = new THREE.AmbientLight color.ambient
+    # scene.add ambient
 
     if false
         stats = new Stats
@@ -194,11 +205,11 @@ document.observe 'dom:loaded', ->
 
     onWindowResize = ->
         renderer.setSize window.innerWidth, window.innerHeight
-        dolly.camera.aspect = window.innerWidth / window.innerHeight
-        dolly.zoom 1
+        camera.aspect = window.innerWidth / window.innerHeight
+        dolly?.zoom 1
 
     onMouseMove = (e) ->
-        return if dolly.isPivoting
+        return if dolly?.isPivoting
         mouse   = new THREE.Vector2()
         mouse.x = 2 * (e.clientX / window.innerWidth) - 1
         mouse.y = 1 - 2 * ( e.clientY / window.innerHeight )
@@ -216,7 +227,8 @@ document.observe 'dom:loaded', ->
             
     anim()
     # nodes = new Balls material
-    nodes = new Boxes material
+    # nodes = new Boxes material
+    nodes = new Stack
     doWalk rootDir    
     
 toggleNodes = () ->
@@ -224,8 +236,19 @@ toggleNodes = () ->
     nodes.clear()
     if nodes.constructor.name == 'Balls'
         nodes = new Boxes material
+        dolly = new Dolly scale: 0.16
+        camera = dolly.camera
+        truck = null        
+    else if nodes.constructor.name == 'Boxes'
+        nodes = new Stack material
+        truck = new Truck()
+        camera = truck.camera        
+        dolly = null
     else
         nodes = new Balls material
+        dolly = new Dolly scale: 0.16
+        camera = dolly.camera
+        truck = null
     doWalk rootDir 
     
 ###
@@ -239,14 +262,19 @@ toggleNodes = () ->
 outline = null
 raycaster = new THREE.Raycaster()
 selectAt  = (mouse) ->
-    raycaster.setFromCamera mouse, dolly.camera
+    raycaster.setFromCamera mouse, camera
     intersects = raycaster.intersectObjects scene.children   
     selected = undefined
     text?.remove()
     if intersects.length
-        selected = intersects[intersects.length-1].object
-        if selected == outline
-            selected = intersects[intersects.length-2].object
+        if nodes.stack?
+            selected = intersects[0].object
+            if selected == outline
+                selected = intersects[1].object
+        else
+            selected = intersects[intersects.length-1].object
+            if selected == outline
+                selected = intersects[intersects.length-2].object
         return if outline?.name == selected.node.name
         if outline?
             outline.prt.remove outline
@@ -258,7 +286,8 @@ selectAt  = (mouse) ->
             selected.add outline
             needsRender = true
             nodes.refreshNodeText selected.node
-            console.log selected.node.scale
+            # console.log selected.node.name
+            Info.value.current = "> " + selected.node.name
 
 ###
 000   000   0000000   000      000   000
@@ -287,6 +316,7 @@ oneWalk = () ->
             nextDirs = []
     if nowDirs.length == 0
         Info.value.time = timeSinceStart()
+        Info.value.current = 'done'
         return
             
     dirPath = nowDirs.pop()
