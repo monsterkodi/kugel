@@ -1,11 +1,11 @@
 
 class Dolly
 
-    constructor: (config) -> 
+    constructor: (config={}) -> 
         @minScale    = config.minScale or 0.0001
         @target      = new THREE.Vector3()
         @needsRender = false
-        @scale       = config.scale or 1.0
+        @scale       = config.scale or 0.16
         @pivot       = 0
 
         @camera = new THREE.OrthographicCamera(
@@ -20,6 +20,10 @@ class Dolly
         window.addEventListener 'mousedown',  @onMouseDown
         window.addEventListener 'mousemove',  @onMouseMove        
         window.addEventListener 'mouseup',    @onMouseUp
+        
+        sun = new THREE.DirectionalLight 0xffffff
+        sun.position.set -.3, .8, 1
+        scene.add sun
 
     onMouseDown:  (event) => 
         @mouseX = event.clientX
@@ -44,7 +48,6 @@ class Dolly
         @mouseY = event.clientY        
         @addHeight deltaY*@scale
         @addPivot deltaX/200.0
-        @needsRender = true
         
     addHeight: (factor) =>
         @target.y -= factor
@@ -55,7 +58,7 @@ class Dolly
         targetToCam.applyEuler new THREE.Euler(0, factor, 0)
         @camera.position.copy @target.clone().add targetToCam
         @camera.lookAt @target
-        @camera.updateProjectionMatrix()
+        @camera.needsRender = true
 
     onMouseWheel: (event) => @zoom 1-event.wheelDelta/10000
         
@@ -67,13 +70,10 @@ class Dolly
         @scale = @minScale if @scale < @minScale
         w = window.innerWidth * @scale
         h = window.innerHeight * @scale
-                    
         @camera.left   = w/-2
         @camera.right  = w/2
         @camera.top = mouseYPos + mouseYFactor * h
-        @camera.bottom = @camera.top - h
-            
-        @camera.updateProjectionMatrix()
-        @needsRender = true
+        @camera.bottom = @camera.top - h            
+        @camera.needsRender = true
         
 module.exports = Dolly

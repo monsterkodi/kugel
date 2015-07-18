@@ -12,11 +12,9 @@ clamp = tools.clamp
 ###
 
 color = 
-    background: 0x222222
     dir:        0xff8800
     file:       0x4444ff
     selected:   0xffffff
-    sun:        0xffffff
 
 material = 
     dir_node: new THREE.MeshPhongMaterial
@@ -24,24 +22,14 @@ material =
         side:               THREE.FrontSide
         shading:            THREE.FlatShading
         transparent:        false
-        wireframe:          false
-        depthTest:          true
-        depthWrite:         true
-        shininess:          -5
-        opacity:            0.25
-        wireframeLinewidth: 2
+        shininess:          30
         
     file_node: new THREE.MeshPhongMaterial
         color:              color.file
         side:               THREE.FrontSide
         shading:            THREE.FlatShading
         transparent:        false
-        wireframe:          false
-        depthTest:          true
-        depthWrite:         true
-        shininess:          -5
-        opacity:            0.25
-        wireframeLinewidth: 2
+        shininess:          30
       
     dir_text:  new THREE.MeshPhongMaterial  
         color:       0xffffff
@@ -55,23 +43,17 @@ material =
         transparent: true
         opacity:     1
         
-    outline:   new THREE.MeshPhongMaterial 
-        transparent: true,
-        shading:     THREE.SmoothShading
-        vertexShader: """
-        varying vec3 vnormal;
-        void main(){
-            vnormal = normalize( mat3( modelViewMatrix[0].xyz, modelViewMatrix[1].xyz, modelViewMatrix[2].xyz ) * normal );
-            gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
-        }
-        """
-        fragmentShader: """
-        varying vec3 vnormal;
-        void main(){
-            float z = abs(vnormal.z);
-            gl_FragColor = vec4( 1,1,1, (1.0-z)*(1.0-z)/2.0 );
-        }
-        """
+    outline:   new THREE.MeshBasicMaterial 
+        color:       0xffffff
+        side:        THREE.BackSide
+
+###
+ 0000000  000000000   0000000    0000000  000   000
+000          000     000   000  000       000  000 
+0000000      000     000000000  000       0000000  
+     000     000     000   000  000       000  000 
+0000000      000     000   000   0000000  000   000
+###
 
 class Stack
 
@@ -85,10 +67,7 @@ class Stack
         
     numChildNodes: (node) => node.files.length + node.dirs.length
     rowCols: (node) => Math.ceil Math.sqrt @numChildNodes node
-    relScaleForNode: (node, prt) => 
-        0.9 /  @rowCols(prt)
-        # (node.size/prt.size)/@rowCols(prt)
-        # Math.sqrt(node.size) / Math.sqrt(prt.size)
+    relScaleForNode: (node, prt) => 0.9 /  @rowCols(prt)
 
     updateNodeScale: (node, prt) =>
         prtscale = prt.scale
@@ -97,14 +76,11 @@ class Stack
         @checkTextScale node
         if node.mesh?
             node.mesh.scale.x = node.mesh.scale.y = node.mesh.scale.z = 100*node.scale
-            # if prt?
-            #     node.mesh.position.y = prt.mesh.position.y + (prt.ci - relscale*0.5)*100*prtscale
             if prt?
                 d = 100 * prt.scale / @rowCols(prt)
                 node.mesh.position.x = prt.mesh.position.x + prt.cx * d - prt.scale * 50 + d/2
                 node.mesh.position.y = prt.mesh.position.y - prt.cy * d + prt.scale * 50 - d/2
                 node.mesh.position.z = prt.mesh.position.z + (prt.depth and 50 * prt.scale or 5) + 50 * node.scale
-                # console.log node.name, node.mesh.position.z, @rowCols(prt), d, node.depth
 
     updateChildrenScale: (prt) =>
         prt.cx = 0
@@ -117,8 +93,6 @@ class Stack
                 if prt.cx >= @rowCols(prt)
                     prt.cx = 0
                     prt.cy += 1
-                # if child.mesh?
-                #     @updateChildrenScale child
         for file in prt.files
             @updateNodeScale file, prt
             prt.cx += 1
@@ -132,9 +106,13 @@ class Stack
         mesh.node = node
         node.mesh = mesh
 
-    walkEnd: (dirname) => 
-        @updateChildrenScale @dirs[dirname]
-        # @updateChildrenScale @dirs['.']
+    walkEnd: (dirname) => @updateChildrenScale @dirs[dirname]
+
+    addOutline: (selected) => 
+        outline = new THREE.Mesh selected.geometry, material.outline
+        outline.scale.multiplyScalar 1.05
+        outline.position.z = 0.03
+        outline
 
     addDir: (dir, prt) =>
         dir.depth = prt.depth+1 if prt?
@@ -159,9 +137,13 @@ class Stack
         file.depth = prt.depth+1
         if file.depth <= @maxMeshDepth
             geom = new THREE.BoxGeometry 1, 1, 1
+            # geom = new THREE.CylinderGeometry .5, .5, 1, 8, 1, false
+            # geom = new THREE.TorusGeometry .3, .2, 16, 8
+            # geom = new THREE.DodecahedronGeometry .6
+            # geom = new THREE.IcosahedronGeometry .6
             @addChildGeom file, prt, geom, @material.file_node
+            # file.mesh.rotation.x = Math.PI/3
         @addSize prt, file.size
-        # @updateChildrenScale @dirs['.']
         if prt.depth == 0
             @addNodeText file
 

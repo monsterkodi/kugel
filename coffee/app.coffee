@@ -75,97 +75,12 @@ anim = ->
     stats?.update()
 
 ###
-00     00   0000000   000000000  00000000  00000000   000   0000000   000    
-000   000  000   000     000     000       000   000  000  000   000  000    
-000000000  000000000     000     0000000   0000000    000  000000000  000    
-000 0 000  000   000     000     000       000   000  000  000   000  000    
-000   000  000   000     000     00000000  000   000  000  000   000  0000000
-###
-
-color = 
-    background: 0x222222
-    dir:        0x888888
-    file:       0x4444ff
-    selected:   0xffffff
-    sun:        0xffffff
-
-material = 
-    dir_node: new THREE.MeshPhongMaterial
-        color:              color.dir
-        side:               THREE.FrontSide
-        shading:            THREE.FlatShading
-        transparent:        true
-        shininess:          -3
-        wireframe:          false
-        depthTest:          false
-        depthWrite:         false
-        opacity:            0.2
-        wireframeLinewidth: 2
-        
-    file_node: new THREE.MeshPhongMaterial
-        color:              color.file
-        side:               THREE.FrontSide
-        shading:            THREE.FlatShading
-        transparent:        true
-        shininess:          -5
-        wireframe:          false
-        depthTest:          false
-        depthWrite:         false
-        opacity:            0.2
-        wireframeLinewidth: 2
-      
-    dir_text:  new THREE.MeshPhongMaterial  
-        color:       0xffffff
-        shading:     THREE.FlatShading
-        transparent: true
-        opacity:     1.0
-        
-    file_text: new THREE.MeshPhongMaterial 
-        color:       0x8888ff
-        shading:     THREE.FlatShading
-        transparent: true
-        opacity:     1.0
-        
-    outline:   new THREE.ShaderMaterial 
-        transparent: true,
-        vertexShader: """
-        varying vec3 vnormal;
-        void main(){
-            vnormal = normalize( mat3( modelViewMatrix[0].xyz, modelViewMatrix[1].xyz, modelViewMatrix[2].xyz ) * normal );
-            gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
-        }
-        """
-        fragmentShader: """
-        varying vec3 vnormal;
-        void main(){
-            float z = abs(vnormal.z);
-            gl_FragColor = vec4( 1,1,1, (1.0-z)*(1.0-z)/2.0 );
-        }
-        """
-
-###
 000       0000000    0000000   0000000    00000000  0000000  
 000      000   000  000   000  000   000  000       000   000
 000      000   000  000000000  000   000  0000000   000   000
 000      000   000  000   000  000   000  000       000   000
 0000000   0000000   000   000  0000000    00000000  0000000  
 ###
-
-initMenu = ->
-
-    btn = 
-        menu: 'menu'
-
-    Menu.addButton btn,
-        tooltip: 'info'
-        icon:    'octicon-dashboard'
-        action: Info.toggle
-
-    Menu.addButton btn,
-        tooltip: 'style'
-        keys:    ['i']
-        icon:    'octicon-color-mode'
-        action:  toggleNodes
 
 document.observe 'dom:loaded', ->
     
@@ -185,15 +100,10 @@ document.observe 'dom:loaded', ->
         antialias: true
         
     renderer.setSize window.innerWidth, window.innerHeight
-    renderer.setClearColor color.background
+    renderer.setClearColor 0x222222
     renderer.sortObjects = false
     renderer.autoClear = true
     document.body.appendChild renderer.domElement
-
-    sun = new THREE.DirectionalLight color.sun
-    # sun.position.set -.3, .8, 1
-    sun.position.set -1, 1, 1
-    scene.add sun
 
     # ambient = new THREE.AmbientLight color.ambient
     # scene.add ambient
@@ -208,6 +118,7 @@ document.observe 'dom:loaded', ->
     onWindowResize = ->
         renderer.setSize window.innerWidth, window.innerHeight
         camera.aspect = window.innerWidth / window.innerHeight
+        camera.updateProjectionMatrix()
         dolly?.zoom 1
 
     onMouseMove = (e) ->
@@ -245,29 +156,60 @@ document.observe 'dom:loaded', ->
     window.addEventListener 'resize',      onWindowResize
             
     anim()
-    # nodes = new Balls material
     nodes = new Stack
     doWalk rootDir    
+
+###
+000   000   0000000   0000000    00000000   0000000
+0000  000  000   000  000   000  000       000     
+000 0 000  000   000  000   000  0000000   0000000 
+000  0000  000   000  000   000  000            000
+000   000   0000000   0000000    00000000  0000000 
+###
     
 toggleNodes = () ->
     rootDir = nodes.rootDir
     nodes.clear()
     if nodes.constructor.name == 'Balls'
-        nodes = new Boxes material
-        dolly = new Dolly scale: 0.16
+        nodes = new Boxes()
+        dolly = new Dolly()
         camera = dolly.camera
         truck = null        
     else if nodes.constructor.name == 'Boxes'
-        nodes = new Stack material
+        nodes = new Stack()
         truck = new Truck()
         camera = truck.camera        
         dolly = null
     else
-        nodes = new Balls material
-        dolly = new Dolly scale: 0.16
+        nodes = new Balls()
+        dolly = new Dolly()
         camera = dolly.camera
         truck = null
     doWalk rootDir 
+    
+###
+00     00  00000000  000   000  000   000
+000   000  000       0000  000  000   000
+000000000  0000000   000 0 000  000   000
+000 0 000  000       000  0000  000   000
+000   000  00000000  000   000   0000000 
+###
+
+initMenu = ->
+
+    btn = 
+        menu: 'menu'
+
+    Menu.addButton btn,
+        tooltip: 'info'
+        icon:    'octicon-dashboard'
+        action: Info.toggle
+
+    Menu.addButton btn,
+        tooltip: 'style'
+        keys:    ['i']
+        icon:    'octicon-color-mode'
+        action:  toggleNodes
     
 ###
  0000000  00000000  000      00000000   0000000  000000000  000   0000000   000   000
@@ -298,12 +240,11 @@ selectAt  = (mouse) ->
             outline.prt.remove outline
             outline = null
         if selected.node.name != '.'
-            outline = new THREE.Mesh selected.geometry, material.outline
+            outline = nodes.addOutline selected
             outline.name = selected.node.name
             outline.prt = selected
             selected.add outline
             needsRender = true
-            nodes.refreshNodeText selected.node
             Info.value.current = "> " + selected.node.name
 
 ###

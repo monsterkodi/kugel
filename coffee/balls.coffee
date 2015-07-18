@@ -3,9 +3,84 @@ dbg   = require './knix/log'
 tools = require './knix/tools'
 clamp = tools.clamp
 
+###
+00     00   0000000   000000000  00000000  00000000   000   0000000   000    
+000   000  000   000     000     000       000   000  000  000   000  000    
+000000000  000000000     000     0000000   0000000    000  000000000  000    
+000 0 000  000   000     000     000       000   000  000  000   000  000    
+000   000  000   000     000     00000000  000   000  000  000   000  0000000
+###
+
+color = 
+    dir:        0x888888
+    file:       0x4444ff
+    selected:   0xffffff
+
+material = 
+    dir_node: new THREE.MeshPhongMaterial
+        color:              color.dir
+        side:               THREE.FrontSide
+        shading:            THREE.FlatShading
+        transparent:        true
+        shininess:          -3
+        wireframe:          false
+        depthTest:          false
+        depthWrite:         false
+        opacity:            0.2
+        wireframeLinewidth: 2
+        
+    file_node: new THREE.MeshPhongMaterial
+        color:              color.file
+        side:               THREE.FrontSide
+        shading:            THREE.FlatShading
+        transparent:        true
+        shininess:          -5
+        wireframe:          false
+        depthTest:          false
+        depthWrite:         false
+        opacity:            0.2
+        wireframeLinewidth: 2
+      
+    dir_text:  new THREE.MeshPhongMaterial  
+        color:       0xffffff
+        shading:     THREE.FlatShading
+        transparent: true
+        opacity:     1.0
+        
+    file_text: new THREE.MeshPhongMaterial 
+        color:       0x8888ff
+        shading:     THREE.FlatShading
+        transparent: true
+        opacity:     1.0
+        
+    outline:   new THREE.ShaderMaterial 
+        transparent: true,
+        vertexShader: """
+        varying vec3 vnormal;
+        void main(){
+            vnormal = normalize( mat3( modelViewMatrix[0].xyz, modelViewMatrix[1].xyz, modelViewMatrix[2].xyz ) * normal );
+            gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+        }
+        """
+        fragmentShader: """
+        varying vec3 vnormal;
+        void main(){
+            float z = abs(vnormal.z);
+            gl_FragColor = vec4( 1,1,1, (1.0-z)*(1.0-z)/2.0 );
+        }
+        """
+###
+0000000     0000000   000      000       0000000
+000   000  000   000  000      000      000     
+0000000    000000000  000      000      0000000 
+000   000  000   000  000      000           000
+0000000    000   000  0000000  0000000  0000000 
+###
+
 class Balls
 
-    constructor: (@material) ->
+    constructor: () ->
+        @material = material
         @dirs = {}
         
     dirFileRatio: (prt) => prt.dirs.length / (prt.dirs.length + prt.files.length)
@@ -64,6 +139,8 @@ class Balls
 
     walkEnd: (dirname) =>
         @updateChildrenScale @dirs[path.dirname dirname]
+
+    addOutline: (selected) => new THREE.Mesh selected.geometry, material.outline
 
     addDir: (dir, prt) =>
         dir.depth = prt.depth+1 if prt?

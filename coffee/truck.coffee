@@ -24,9 +24,18 @@ class Truck
         window.addEventListener 'keypress',   @onKeyPress
         window.addEventListener 'keyrelease', @onKeyRelease
 
-    setTarget: (target) => 
+        @sun = new THREE.PointLight 0xffffff
+        @sun.position.copy @camera.position
+        scene.add @sun
+
+    setTarget: (target) =>
+        diff = new THREE.Vector3()
+        diff.copy target
+        diff.sub @target
         @target.copy target
-        @addPivot 0,0
+        @camera.position.add diff
+        @sun.position.copy @camera.position
+        @camera.needsRender = true
 
     onKeyPress: (event) =>
     onKeyRelease: (event) =>
@@ -81,6 +90,9 @@ class Truck
         @camera.position.add up
         @target.add right
         @target.add up
+        @sun.position.copy @camera.position
+        # @camera.updateProjectionMatrix()
+        @camera.needsRender = true
                 
     addPivot: (factorX, factorY) =>
         camPos = @camera.position.clone()
@@ -107,6 +119,7 @@ class Truck
         @camera.up.set 0,0,1
         @camera.position.copy camPos
         @camera.lookAt @target
+        @sun.position.copy @camera.position
         # @camera.updateProjectionMatrix()
         @camera.needsRender = true
 
@@ -122,7 +135,8 @@ class Truck
             camPos.normalize().multiplyScalar @minDist
         camPos.add @target
         @camera.position.copy camPos
-        @camera.updateProjectionMatrix()
+        @sun.position.copy @camera.position
+        # @camera.updateProjectionMatrix()
         @camera.needsRender = true
         
 module.exports = Truck
