@@ -4,9 +4,7 @@ class Dolly
     constructor: (config={}) -> 
         @minScale    = config.minScale or 0.0001
         @target      = new THREE.Vector3()
-        @needsRender = false
         @scale       = config.scale or 0.16
-        @pivot       = 0
 
         @camera = new THREE.OrthographicCamera(
             @scale*window.innerWidth/-2, 
@@ -70,6 +68,7 @@ class Dolly
         @scale = @minScale if @scale < @minScale
         w = window.innerWidth * @scale
         h = window.innerHeight * @scale
+        console.log w, h, @scale
         @camera.left   = w/-2
         @camera.right  = w/2
         @camera.top = mouseYPos + mouseYFactor * h

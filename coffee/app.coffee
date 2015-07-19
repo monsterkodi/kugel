@@ -91,8 +91,6 @@ document.observe 'dom:loaded', ->
         
     scene = new (THREE.Scene)
 
-    # dolly = new Dolly
-    #     scale: 0.16
     truck = new Truck()
     camera = truck.camera
         
@@ -122,7 +120,7 @@ document.observe 'dom:loaded', ->
         dolly?.zoom 1
 
     onMouseMove = (e) ->
-        # return if dolly?.isPivoting
+        return if nodes?.isPivoting
         mouse.x = 2 * ( e.clientX / window.innerWidth ) - 1
         mouse.y = 1 - 2 * ( e.clientY / window.innerHeight )
         selectAt mouse

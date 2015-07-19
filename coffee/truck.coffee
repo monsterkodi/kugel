@@ -1,17 +1,19 @@
+tools = require './knix/tools'
+clamp = tools.clamp
 
 class Truck
 
     constructor: (config={}) -> 
         @target   = new THREE.Vector3()
-        @mode     = "pivot"
         fov       = config.fov or 60
         far       = config.far or 1000
         near      = config.near or 0.001
         @dist     = config.dist or 100
         @maxDist  = config.maxDist or 200
         @minDist  = config.minDist or 0.001
-        @pivot    = config.pivot or 0
         @yaw      = config.yaw or 0
+        @altitude = Math.PI/2
+        @azimuth  = 0
         aspect    = window.innerWidth / window.innerHeight
 
         @camera = new THREE.PerspectiveCamera fov, aspect, near, far
@@ -47,7 +49,7 @@ class Truck
         window.removeEventListener 'mousemove',  @onMouseMove    
         @isPivoting = true    
         
-    onMouseUp:    (event) => 
+    onMouseUp: (event) => 
         window.removeEventListener 'mousemove',  @onMouseDrag 
         window.addEventListener    'mousemove',  @onMouseMove  
         @isPivoting = false          
@@ -62,14 +64,10 @@ class Truck
         @mouseX = event.clientX
         @mouseY = event.clientY
                 
-        look = new THREE.Vector3 0, 0 ,1
-        look.unproject @camera
-        look.normalize()
-                        
         if event.shiftKey or event.altKey or event.ctrlKey or event.metaKey
             @move deltaX, deltaY
         else
-            @addPivot deltaX/400.0, deltaY/200.0
+            @pivot deltaX/400.0, deltaY/200.0
         @camera.needsRender = true
         
     move: (x, y) =>
@@ -91,38 +89,32 @@ class Truck
         @target.add right
         @target.add up
         @sun.position.copy @camera.position
-        # @camera.updateProjectionMatrix()
         @camera.needsRender = true
-                
-    addPivot: (factorX, factorY) =>
-        camPos = @camera.position.clone()
-        camPos.sub @target
 
-        up = new THREE.Vector3 0, 1 ,0
-        up.applyMatrix4 @camera.matrixWorld
-        up.sub camera.position
-        up.normalize()
-        quat1 = new THREE.Quaternion()
-        quat1.setFromAxisAngle up, factorX
+    pivot: (x, y) =>
+        
+        @altitude = clamp 0, Math.PI/2, @altitude-y
+        @azimuth  += x
 
-        right = new THREE.Vector3 1, 0 ,0
-        right.applyMatrix4 @camera.matrixWorld
-        right.sub @camera.position
-        right.normalize()
-        quat2 = new THREE.Quaternion()
-        quat2.setFromAxisAngle right, factorY
+        # clog @altitude, @azimuth, 180 * @altitude / Math.PI, 180 * @azimuth / Math.PI
         
-        camPos.applyQuaternion quat1
-        camPos.applyQuaternion quat2
+        dist = @camera.position.distanceTo @target
         
+        camUp = new THREE.Vector3(0,0,1)
+        camPos = new THREE.Vector3(0,-1,0)
+        camUp.applyAxisAngle new THREE.Vector3(1,0,0), -@altitude 
+        camPos.applyAxisAngle new THREE.Vector3(1,0,0), -@altitude 
+        camUp.applyAxisAngle new THREE.Vector3(0,0,1), @azimuth
+        camPos.applyAxisAngle new THREE.Vector3(0,0,1), @azimuth
+        
+        camPos.multiplyScalar dist
         camPos.add @target
-        @camera.up.set 0,0,1
         @camera.position.copy camPos
+        @camera.up.copy camUp
         @camera.lookAt @target
         @sun.position.copy @camera.position
-        # @camera.updateProjectionMatrix()
         @camera.needsRender = true
-
+                
     onMouseWheel: (event) => @zoom 1-event.wheelDelta/20000
         
     zoom: (factor) =>
@@ -136,7 +128,6 @@ class Truck
         camPos.add @target
         @camera.position.copy camPos
         @sun.position.copy @camera.position
-        # @camera.updateProjectionMatrix()
         @camera.needsRender = true
         
 module.exports = Truck
