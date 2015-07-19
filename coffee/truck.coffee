@@ -21,14 +21,41 @@ class Truck
 
         window.addEventListener 'mousewheel', @onMouseWheel
         window.addEventListener 'mousedown',  @onMouseDown
-        window.addEventListener 'mousemove',  @onMouseMove        
+        window.addEventListener 'mousemove',  @onMouseMove
         window.addEventListener 'mouseup',    @onMouseUp
         window.addEventListener 'keypress',   @onKeyPress
         window.addEventListener 'keyrelease', @onKeyRelease
 
+        @sun = null
         @sun = new THREE.PointLight 0xffffff
         @sun.position.copy @camera.position
         scene.add @sun
+            
+    updateSun: () => @sun.position.copy @camera.position
+            
+    remove: () =>
+        window.removeEventListener 'mousewheel', @onMouseWheel
+        window.removeEventListener 'mousedown',  @onMouseDown
+        window.removeEventListener 'mousemove',  @onMouseDrag 
+        window.removeEventListener 'mousemove',  @onMouseMove        
+        window.removeEventListener 'mouseup',    @onMouseUp
+        window.removeEventListener 'keypress',   @onKeyPress
+        window.removeEventListener 'keyrelease', @onKeyRelease
+        scene.remove @sun
+        @camera = null
+
+    moveToTargetAnim: () =>
+        @setTarget @target.clone().lerp @moveTarget, 0.1 + @distFactor() * 0.1
+        if @target.distanceTo(@moveTarget) > 0.001 + 0.01 * @distFactor()
+            requestAnimationFrame @moveToTargetAnim
+        else 
+            @setTarget @moveTarget
+            @moveTarget = null
+            clog "movedToTarget"
+
+    moveToTarget: (target) =>
+        @moveTarget = target
+        requestAnimationFrame @moveToTargetAnim
 
     setTarget: (target) =>
         diff = new THREE.Vector3()
@@ -36,7 +63,7 @@ class Truck
         diff.sub @target
         @target.copy target
         @camera.position.add diff
-        @sun.position.copy @camera.position
+        @updateSun()
         @camera.needsRender = true
 
     onKeyPress: (event) =>
@@ -70,9 +97,10 @@ class Truck
             @pivot deltaX/400.0, deltaY/200.0
         @camera.needsRender = true
         
+    distFactor: () => (@dist - @minDist) / (@maxDist - @minDist)
+        
     move: (x, y) =>
-        f = (@dist - @minDist) / (@maxDist - @minDist)
-        f = f*f*f*f*f
+        f = 0.001 + 0.1*@distFactor()
         
         right = new THREE.Vector3 1, 0 ,0
         right.applyMatrix4 @camera.matrixWorld
@@ -88,15 +116,13 @@ class Truck
         @camera.position.add up
         @target.add right
         @target.add up
-        @sun.position.copy @camera.position
+        @updateSun()
         @camera.needsRender = true
 
     pivot: (x, y) =>
         
         @altitude = clamp 0, Math.PI/2, @altitude-y
         @azimuth  += x
-
-        # clog @altitude, @azimuth, 180 * @altitude / Math.PI, 180 * @azimuth / Math.PI
         
         dist = @camera.position.distanceTo @target
         
@@ -112,7 +138,7 @@ class Truck
         @camera.position.copy camPos
         @camera.up.copy camUp
         @camera.lookAt @target
-        @sun.position.copy @camera.position
+        @updateSun()
         @camera.needsRender = true
                 
     onMouseWheel: (event) => @zoom 1-event.wheelDelta/20000
@@ -121,13 +147,16 @@ class Truck
         camPos = @camera.position.clone()
         camPos.sub @target
         camPos.multiplyScalar factor
-        if camPos.length() > @maxDist
+        @dist = camPos.length()
+        if @dist > @maxDist
             camPos.normalize().multiplyScalar @maxDist
-        if camPos.length() < @minDist
+            @dist = @maxDist
+        if @dist < @minDist
             camPos.normalize().multiplyScalar @minDist
+            @dist = @minDist
         camPos.add @target
         @camera.position.copy camPos
-        @sun.position.copy @camera.position
+        @updateSun()
         @camera.needsRender = true
         
 module.exports = Truck

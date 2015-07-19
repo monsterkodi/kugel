@@ -22,6 +22,15 @@ class Dolly
         sun = new THREE.DirectionalLight 0xffffff
         sun.position.set -.3, .8, 1
         scene.add sun
+        
+    remove: () =>
+        window.removeEventListener 'mousewheel', @onMouseWheel
+        window.removeEventListener 'mousedown',  @onMouseDown
+        window.removeEventListener 'mousemove',  @onPivotMove 
+        window.removeEventListener 'mousemove',  @onMouseMove        
+        window.removeEventListener 'mouseup',    @onMouseUp    
+        scene.remove @sun    
+        @camera = null
 
     onMouseDown:  (event) => 
         @mouseX = event.clientX
@@ -68,11 +77,12 @@ class Dolly
         @scale = @minScale if @scale < @minScale
         w = window.innerWidth * @scale
         h = window.innerHeight * @scale
-        console.log w, h, @scale
+        # console.log w, h, @scale
         @camera.left   = w/-2
         @camera.right  = w/2
         @camera.top = mouseYPos + mouseYFactor * h
-        @camera.bottom = @camera.top - h            
+        @camera.bottom = @camera.top - h     
+        @camera.updateProjectionMatrix()       
         @camera.needsRender = true
         
 module.exports = Dolly

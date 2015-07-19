@@ -95,16 +95,14 @@ document.observe 'dom:loaded', ->
     camera = truck.camera
         
     renderer = new THREE.WebGLRenderer 
-        antialias: true
+        antialias:              true
+        logarithmicDepthBuffer: true
+        # sortObjects:            false
+        autoClear:              true
         
     renderer.setSize window.innerWidth, window.innerHeight
     renderer.setClearColor 0x222222
-    renderer.sortObjects = false
-    renderer.autoClear = true
     document.body.appendChild renderer.domElement
-
-    # ambient = new THREE.AmbientLight color.ambient
-    # scene.add ambient
 
     if false
         stats = new Stats
@@ -143,7 +141,7 @@ document.observe 'dom:loaded', ->
         if selected and truck and selected == mouseDownNode
             mousePos = new THREE.Vector2 e.clientX, e.clientY
             if mouseDownPos.sub(mousePos).length() < 4
-                truck.setTarget selected.position
+                truck.moveToTarget selected.position
         mouseDownNode = null
         mouseDownPos = null
         
@@ -172,16 +170,19 @@ toggleNodes = () ->
         nodes = new Boxes()
         dolly = new Dolly()
         camera = dolly.camera
-        truck = null        
+        truck?.remove()
+        truck = null
     else if nodes.constructor.name == 'Boxes'
         nodes = new Stack()
         truck = new Truck()
         camera = truck.camera        
+        dolly?.remove()
         dolly = null
     else
         nodes = new Balls()
         dolly = new Dolly()
         camera = dolly.camera
+        truck?.remove()
         truck = null
     doWalk rootDir 
     
@@ -220,6 +221,7 @@ initMenu = ->
 outline = null
 raycaster = new THREE.Raycaster()
 selectAt  = (mouse) ->
+    return if truck?.isPivoting or dolly?.isPivoting
     raycaster.setFromCamera mouse, camera
     intersects = raycaster.intersectObjects scene.children   
     selected = undefined
