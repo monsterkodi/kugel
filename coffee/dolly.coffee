@@ -4,7 +4,7 @@ class Dolly
     constructor: (config={}) -> 
         @minScale    = config.minScale or 0.0001
         @target      = new THREE.Vector3()
-        @scale       = config.scale or 0.16
+        @scale       = config.scale or 0.22
 
         @camera = new THREE.OrthographicCamera(
             @scale*window.innerWidth/-2, 

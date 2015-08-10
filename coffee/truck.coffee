@@ -8,8 +8,8 @@ class Truck
         fov       = config.fov or 60
         far       = config.far or 1000
         near      = config.near or 0.001
-        @dist     = config.dist or 100
-        @maxDist  = config.maxDist or 200
+        @dist     = config.dist or 300
+        @maxDist  = config.maxDist or 300
         @minDist  = config.minDist or 0.001
         @yaw      = config.yaw or 0
         @altitude = Math.PI/2
