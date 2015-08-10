@@ -1,7 +1,8 @@
-log   = require './knix/log'
-dbg   = require './knix/log'
-tools = require './knix/tools'
-clamp = tools.clamp
+log     = require './knix/log'
+dbg     = require './knix/log'
+tools   = require './knix/tools'
+resolve = require './tools/resolve'
+clamp   = tools.clamp
 
 ###
 00     00   0000000   000000000  00000000  00000000   000   0000000   000    

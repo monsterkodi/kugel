@@ -122,7 +122,7 @@ class Truck
     pivot: (x, y) =>
         
         @altitude = clamp 0, Math.PI/2, @altitude-y
-        @azimuth  += x
+        @azimuth += x
         
         dist = @camera.position.distanceTo @target
         

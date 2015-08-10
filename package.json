@@ -10,6 +10,8 @@
     "url": "https://github.com/monsterkodi/kugel/issues"
   },
   "dependencies": {
+    "chalk": "^1.1.0",
+    "char-spinner": "^1.0.1",
     "format": "^0.2.1",
     "keycode": "^2.1.0",
     "lodash.assign": "^3.2.0",
@@ -24,9 +26,11 @@
     "lodash.remove": "^3.1.0",
     "lodash.uniq": "^3.2.2",
     "lodash.zipobject": "^3.0.0",
-    "node-uuid": "^1.4.3",
     "moment": "^2.10.3",
+    "nedb": "^1.1.2",
+    "node-uuid": "^1.4.3",
     "opener": "^1.4.1",
+    "term-spinner": "^1.0.0",
     "three-orbit-controls": "^69.0.4",
     "underscore.string": "^3.1.1",
     "walkdir": "0.0.10"

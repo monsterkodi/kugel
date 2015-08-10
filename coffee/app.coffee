@@ -14,6 +14,8 @@ resolve = require './js/tools/resolve'
 walkDir = require 'walkdir'
 path    = require 'path'
 moment  = require 'moment'
+nedb    = require 'nedb'
+clone   = require 'lodash.clone'
 
 knix    = require './js/knix/knix'
 log     = require './js/knix/log'
@@ -45,8 +47,10 @@ text      = null
 dolly     = null
 truck     = null
 walk      = null
+dirs      = null
 selected  = null
 mouse     = new THREE.Vector2()
+db        = null
 
 jsonStr = (a) -> JSON.stringify a, null, " "
 
@@ -84,6 +88,13 @@ anim = ->
 
 document.observe 'dom:loaded', ->
     
+    # db = new nedb
+    #     filename: resolve '~/.kugel.db'
+    #     autoload: true
+
+    data = fs.readFileSync resolve('~/.kugel.json')
+    dirs = JSON.parse(data)
+        
     knix.init
         console: 'shade'
         
@@ -341,7 +352,7 @@ doWalk = (dirPath) ->
     text?.remove()
     l = resolved != "/" and resolved.length + 1 or 1
     nodes.newDir '.'
-    nodes.addDir nodes.dirs['.']
+    nodes.addDir nodes.dirs['.']    
     needsRender        = true
     Info.value.root    = resolved
     Info.value.current = resolved
@@ -351,8 +362,49 @@ doWalk = (dirPath) ->
     Info.value.time    = 'start'
     nowDirs            = ['.']
     nextDirs           = []
-    oneWalk()
-        
+
+doWalkNew = (dirPath) ->
+    startTime = moment()
+    resolved = resolve dirPath
+    nodes.rootDir = resolved
+    log 'json', resolved
+    nodes.clear()
+    clearTimeout(timer) if timer?
+    text?.remove()
+    
+    # walk.on 'file', (filename, stat) -> 
+    # 
+    #     file = path.basename filename
+    #     dirname = path.dirname(filename).substr l
+    #     dirname = '.' if dirname.length == 0
+    #     dir = nodes.dirs[dirname]
+    #     
+    #     size = 1
+    #     if stat.size
+    #         size = Math.pow(stat.size, 1.0/2.0)
+    #     dir.files.push
+    #         name: file
+    #         size: size
+    #     nodes.addFile dir.files[dir.files.length-1], dir
+    #     needsRender = true
+    #     Info.value.files += 1
+    #     Info.value.time = timeSinceStart()
+    #     if Info.value.files % 5 == 0
+    #         walk?.pause()
+    #         timer = setTimeout resumeWalk, 1        
+    n = 0
+    loadDir = (dirname) ->
+        n += 1
+        dir = dirs[dirname]
+        prt = dirs[path.dirname(dirname)]
+        nodes.addDir dir, prt
+        needsRender = true
+        if n < 1000
+            for d in dir.dirs
+                loadDir dir.path + "/" + d
+            
+    loadDir resolved
+            
 ###
 000   000  00000000  000   000  0000000     0000000   000   000  000   000
 000  000   000        000 000   000   000  000   000  000 0 000  0000  000
