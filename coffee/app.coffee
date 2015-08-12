@@ -133,7 +133,7 @@ document.observe 'dom:loaded', ->
     spike = new Mesh
         type:   'spike'
         radius: 10
-        dist:   105
+        dist:   110
             
 ###
 00     00  00000000  000   000  000   000
