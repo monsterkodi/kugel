@@ -36,7 +36,7 @@ class Truck
         ambient = new THREE.AmbientLight color.ambient
         scene.add ambient
         
-        @pivot 0, 0
+        # @pivot 0, 0
         @sun.position.copy @camera.position
             
     # updateSun: () => @sun.position.copy @camera.position
@@ -73,7 +73,6 @@ class Truck
         @target.copy target
         @camera.position.add diff
         @updateSun()
-        @camera.needsRender = true
 
     onKeyPress: (event) =>
     onKeyRelease: (event) =>
@@ -104,7 +103,6 @@ class Truck
             @move deltaX, deltaY
         else
             @pivot deltaX/400.0, deltaY/200.0
-        @camera.needsRender = true
         
     distFactor: () => (@dist - @minDist) / (@maxDist - @minDist)
         
@@ -126,21 +124,20 @@ class Truck
         @target.add right
         @target.add up
         @updateSun()
-        @camera.needsRender = true
 
     pivot: (x, y) =>
         
-        @altitude = clamp @minAltitude, @maxAltitude, @altitude-y
+        @altitude = clamp @minAltitude, @maxAltitude, @altitude+y
         @azimuth += x
         
         dist = @camera.position.distanceTo @target
         
-        camUp = new THREE.Vector3(0,0,1)
-        camPos = new THREE.Vector3(0,-1,0)
-        camUp.applyAxisAngle new THREE.Vector3(1,0,0), -@altitude 
-        camPos.applyAxisAngle new THREE.Vector3(1,0,0), -@altitude 
-        camUp.applyAxisAngle new THREE.Vector3(0,0,1), @azimuth
-        camPos.applyAxisAngle new THREE.Vector3(0,0,1), @azimuth
+        camUp  = new THREE.Vector3(0,1,0)
+        camPos = new THREE.Vector3(0,0,1)
+        camUp.applyAxisAngle new THREE.Vector3(1,0,0), @altitude 
+        camPos.applyAxisAngle new THREE.Vector3(1,0,0), @altitude 
+        camUp.applyAxisAngle new THREE.Vector3(0,1,0), @azimuth
+        camPos.applyAxisAngle new THREE.Vector3(0,1,0), @azimuth
         
         camPos.multiplyScalar dist
         camPos.add @target
@@ -148,7 +145,6 @@ class Truck
         @camera.up.copy camUp
         @camera.lookAt @target
         @updateSun()
-        @camera.needsRender = true
                 
     onMouseWheel: (event) => @zoom 1-event.wheelDelta/20000
         
@@ -166,6 +162,5 @@ class Truck
         camPos.add @target
         @camera.position.copy camPos
         @updateSun()
-        @camera.needsRender = true
         
 module.exports = Truck
