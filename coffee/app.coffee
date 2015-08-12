@@ -25,7 +25,8 @@ Console = require './js/knix/console'
 Text    = require './js/text'
 Dolly   = require './js/dolly'
 Truck   = require './js/truck'
-Balls   = require './js/balls'
+Mesh    = require './js/mesh'
+color   = require './js/color'
 
 win       = remote.getCurrentWindow()
 renderer  = null
@@ -86,7 +87,7 @@ document.observe 'dom:loaded', ->
         autoClear:              true
         
     renderer.setSize window.innerWidth, window.innerHeight
-    renderer.setClearColor 0x000000
+    renderer.setClearColor color.space
     document.body.appendChild renderer.domElement
 
     if false
@@ -125,9 +126,15 @@ document.observe 'dom:loaded', ->
             
     anim()
 
-    balls = new Balls()
-    balls.addSphere(100)
-    
+    ball = new Mesh 
+        type:   'sphere'
+        radius: 100
+        
+    spike = new Mesh
+        type:   'spike'
+        radius: 10
+        dist:   105
+            
 ###
 00     00  00000000  000   000  000   000
 000   000  000       0000  000  000   000

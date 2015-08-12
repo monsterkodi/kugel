@@ -1,4 +1,5 @@
 tools = require './knix/tools'
+color = require './color'
 clamp = tools.clamp
 
 class Truck
@@ -12,6 +13,8 @@ class Truck
         @maxDist  = config.maxDist or 300
         @minDist  = config.minDist or 0.001
         @yaw      = config.yaw or 0
+        @minAltitude = -Math.PI/2
+        @maxAltitude =  Math.PI/2
         @altitude = 0
         @azimuth  = 0
         aspect    = window.innerWidth / window.innerHeight
@@ -26,11 +29,11 @@ class Truck
         window.addEventListener 'keypress',   @onKeyPress
         window.addEventListener 'keyrelease', @onKeyRelease
 
-        @sun = new THREE.PointLight 0xffffff
+        @sun = new THREE.PointLight color.sun
         @sun.position.copy @camera.position
         scene.add @sun
         
-        ambient = new THREE.AmbientLight 0x111111
+        ambient = new THREE.AmbientLight color.ambient
         scene.add ambient
         
         @pivot 0, 0
@@ -127,7 +130,7 @@ class Truck
 
     pivot: (x, y) =>
         
-        @altitude = clamp -Math.PI/2, Math.PI/2, @altitude-y
+        @altitude = clamp @minAltitude, @maxAltitude, @altitude-y
         @azimuth += x
         
         dist = @camera.position.distanceTo @target
