@@ -76,10 +76,8 @@ document.observe 'dom:loaded', ->
         
     scene = new (THREE.Scene)
 
-    # truck = new Truck()
-    # camera = truck.camera
-    dolly = new Dolly()
-    camera = dolly.camera
+    truck = new Truck()
+    camera = truck.camera
     
     renderer = new THREE.WebGLRenderer 
         antialias:              true
@@ -88,7 +86,7 @@ document.observe 'dom:loaded', ->
         autoClear:              true
         
     renderer.setSize window.innerWidth, window.innerHeight
-    renderer.setClearColor 0x222222
+    renderer.setClearColor 0x000000
     document.body.appendChild renderer.domElement
 
     if false
@@ -147,7 +145,6 @@ initMenu = ->
         tooltip: 'info'
         icon:    'octicon-dashboard'
         action: Info.toggle
-
     
 ###
  0000000  00000000  000      00000000   0000000  000000000  000   0000000   000   000

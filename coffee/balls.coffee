@@ -1,5 +1,3 @@
-# log     = require './knix/log'
-# dbg     = require './knix/log'
 tools   = require './knix/tools'
 clamp   = tools.clamp
 
@@ -12,7 +10,7 @@ clamp   = tools.clamp
 ###
 
 color = 
-    sphere:        0x888888
+    sphere:        0x333333
     spike:         0x4444ff
     selected:      0xffffff
 
@@ -21,11 +19,12 @@ material =
         color:              color.sphere
         side:               THREE.FrontSide
         shading:            THREE.FlatShading
-        transparent:        true
-        shininess:          -3
-        wireframe:          false
-        depthTest:          false
-        depthWrite:         false
+        # shading:            THREE.SmoothShading
+        transparent:        false
+        shininess:          0
+        # wireframe:          true
+        depthTest:          true
+        depthWrite:         true
         opacity:            0.2
         wireframeLinewidth: 2
         
@@ -75,7 +74,6 @@ class Balls
 
     constructor: () ->
         @material = material
-        # @addSphere()
 
     addChildGeom: (geom, mat) =>
         mesh = new THREE.Mesh geom, mat
@@ -84,7 +82,7 @@ class Balls
     # addOutline: (selected) => new THREE.Mesh selected.geometry, material.outline
     # 
     addSphere: (radius) =>
-        geom = new THREE.IcosahedronGeometry radius, 1
+        geom = new THREE.IcosahedronGeometry radius, 4
         @addChildGeom geom, @material.sphere
 
     # addSpike: (file, prt) =>
