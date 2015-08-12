@@ -130,28 +130,49 @@ document.observe 'dom:loaded', ->
         type:   'sphere'
         radius: 100
         
-    # spike = new Mesh
-    #     type:   'spike'
-    #     radius: 10
-    #     dist:   110
-            
     new Mesh
-        type:     'spike'
-        radius:   10
-        position: [110,0,0]
-        color:    0xff0000
+        type:      'spike'
+        radius:    6
+        position:  [106,0,0]
+        color:     0xff0000
+        wireframe: true
     
     new Mesh
-        type:     'spike'
-        radius:   10
-        position: [0,110,0]
-        color:    0x00ff00
+        type:      'spike'
+        radius:    6
+        position:  [0,106,0]
+        color:     0x00ff00
+        wireframe: true
 
     new Mesh
-        type:     'spike'
-        radius:   10
-        position: [0,0,110]
-        color:    0x8888ff
+        type:      'spike'
+        radius:    6
+        position:  [0,0,106]
+        color:     0x8888ff
+        wireframe: true
+        
+        
+    new Mesh
+        type:   'spike'
+        radius: 10
+        color:  0xff0000
+        dist:   110
+        azim:   45
+    
+    new Mesh
+        type:   'spike'
+        radius: 10
+        color:  0x00ff00
+        dist:   110
+        alti:   45
+
+    new Mesh
+        type:   'spike'
+        radius: 10
+        color:  0x8888ff
+        dist:   110
+        azim:   90
+        alti:   45
             
 ###
 00     00  00000000  000   000  000   000

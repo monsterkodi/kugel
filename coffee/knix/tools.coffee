@@ -49,8 +49,11 @@ win   =       -> win.caller.arguments[0].target.getWidget().getWindow()
 wid   =       -> wid.caller.arguments[0].target.getWidget()
 del   = (l,e) -> remove l, (n) -> n == e
 
+deg2rad = (d) -> Math.PI * d / 180.0
+rad2deg = (r) -> 180.0 * r / Math.PI
+
 exp = 
     [
-        'clamp', 'round', 'floor', 'arg', 'value', 'win', 'wid', 'del'
+        'clamp', 'round', 'floor', 'arg', 'value', 'win', 'wid', 'del', 'deg2rad', 'rad2deg'
     ]
 module.exports = zipObject(exp.map((e) -> [e, eval(e)]))

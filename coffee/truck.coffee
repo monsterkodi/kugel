@@ -36,7 +36,6 @@ class Truck
         ambient = new THREE.AmbientLight color.ambient
         scene.add ambient
         
-        # @pivot 0, 0
         @sun.position.copy @camera.position
             
     # updateSun: () => @sun.position.copy @camera.position
@@ -134,9 +133,9 @@ class Truck
         
         camUp  = new THREE.Vector3(0,1,0)
         camPos = new THREE.Vector3(0,0,1)
-        camUp.applyAxisAngle new THREE.Vector3(1,0,0), @altitude 
+        camUp.applyAxisAngle  new THREE.Vector3(1,0,0), @altitude 
         camPos.applyAxisAngle new THREE.Vector3(1,0,0), @altitude 
-        camUp.applyAxisAngle new THREE.Vector3(0,1,0), @azimuth
+        camUp.applyAxisAngle  new THREE.Vector3(0,1,0), @azimuth
         camPos.applyAxisAngle new THREE.Vector3(0,1,0), @azimuth
         
         camPos.multiplyScalar dist
