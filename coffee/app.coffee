@@ -74,7 +74,7 @@ anim = ->
 document.observe 'dom:loaded', ->
             
     knix.init
-        console: 'shade'
+        console: '!shade'
         
     initMenu()
         
@@ -155,6 +155,30 @@ document.observe 'dom:loaded', ->
         position:  [0,0,106]
         color:     0x8888ff
         wireframe: true
+
+    new Mesh
+        type:      'spike'
+        radius:    4
+        color:     0xff0000
+        dist:      106
+        azim: 90
+        alti: 0
+    
+    new Mesh
+        type:      'spike'
+        radius:    4        
+        color:     0x00ff00
+        dist:      106
+        azim: 0
+        alti: 90
+
+    new Mesh
+        type:      'spike'
+        radius:    4
+        color:     0x8888ff
+        dist:      106
+        azim: 0
+        alti: 0
             
 ###
 00     00  00000000  000   000  000   000
