@@ -1,23 +1,24 @@
-tools = require './knix/tools'
-color = require './color'
-clamp = tools.clamp
+tools   = require './knix/tools'
+color   = require './color'
+clamp   = tools.clamp
+deg2rad = tools.deg2rad
 
 class Truck
 
     constructor: (config={}) -> 
-        @target   = new THREE.Vector3()
-        fov       = config.fov or 60
-        far       = config.far or 1000
-        near      = config.near or 0.001
-        @dist     = config.dist or 300
-        @maxDist  = config.maxDist or 300
-        @minDist  = config.minDist or 0.001
-        @yaw      = config.yaw or 0
-        @minAltitude = -Math.PI/2
-        @maxAltitude =  Math.PI/2
-        @altitude = 0
-        @azimuth  = 0
-        aspect    = window.innerWidth / window.innerHeight
+        @target  = new THREE.Vector3()
+        fov      = config.fov or 60
+        far      = config.far or 1000
+        near     = config.near or 0.001
+        @dist    = config.dist or 300
+        @maxDist = config.maxDist or 300
+        @minDist = config.minDist or 0.001
+        @yaw     = config.yaw or 0
+        @minAlti = -90
+        @maxAlti = 90
+        @alti    = 0
+        @azim    = 0
+        aspect   = window.innerWidth / window.innerHeight
 
         @camera = new THREE.PerspectiveCamera fov, aspect, near, far
         @camera.position.z = @dist
@@ -124,19 +125,23 @@ class Truck
         @target.add up
         @updateSun()
 
-    pivot: (x, y) =>
+    pivot: (x, y) => @setAzimAlti @azim+x, clamp @minAlti, @maxAlti, @alti+y
         
-        @altitude = clamp @minAltitude, @maxAltitude, @altitude+y
-        @azimuth += x
+    setAzimAlti: (azim, alti) =>
+        
+        @alti = alti
+        @azim = azim
         
         dist = @camera.position.distanceTo @target
         
         camUp  = new THREE.Vector3(0,1,0)
         camPos = new THREE.Vector3(0,0,1)
-        camUp.applyAxisAngle  new THREE.Vector3(1,0,0), @altitude 
-        camPos.applyAxisAngle new THREE.Vector3(1,0,0), @altitude 
-        camUp.applyAxisAngle  new THREE.Vector3(0,1,0), @azimuth
-        camPos.applyAxisAngle new THREE.Vector3(0,1,0), @azimuth
+        yaw = deg2rad @azim
+        pitch = deg2rad @alti
+        camUp.applyAxisAngle  new THREE.Vector3(1,0,0), pitch
+        camPos.applyAxisAngle new THREE.Vector3(1,0,0), pitch
+        camUp.applyAxisAngle  new THREE.Vector3(0,1,0), yaw
+        camPos.applyAxisAngle new THREE.Vector3(0,1,0), yaw
         
         camPos.multiplyScalar dist
         camPos.add @target

@@ -22,6 +22,7 @@ class Mesh extends THREE.Mesh
         @detail = config.detail or 4
         @alti   = config.alti   or 0
         @azim   = config.azim   or 0
+        @dist   = config.dist   or 0
                 
         switch @type
             when 'sphere'
@@ -44,14 +45,19 @@ class Mesh extends THREE.Mesh
         scene.add @
         
         if config.dist?
-            pos   = new THREE.Vector3 0,0,config.dist
-            pitch = deg2rad -@alti
-            yaw   = deg2rad  @azim
-            pos.applyAxisAngle new THREE.Vector3(1,0,0), pitch
-            pos.applyAxisAngle new THREE.Vector3(0,1,0), yaw
-            @position.copy pos
-            @rotation.copy new THREE.Euler pitch, yaw, 0, 'YXZ'
+            @setAzimAlti @azim, @alti
         else if config.position?
             @position.copy new THREE.Vector3 config.position[0], config.position[1], config.position[2]
+            
+    setAzimAlti: (azim,alti) =>
+        @alti = alti
+        @azim = azim
+        pos   = new THREE.Vector3 0,0,@dist
+        pitch = deg2rad -@alti
+        yaw   = deg2rad  @azim
+        pos.applyAxisAngle new THREE.Vector3(1,0,0), pitch
+        pos.applyAxisAngle new THREE.Vector3(0,1,0), yaw
+        @position.copy pos
+        @rotation.copy new THREE.Euler pitch, yaw, 0, 'YXZ'
 
 module.exports = Mesh

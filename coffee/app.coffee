@@ -27,6 +27,7 @@ Dolly   = require './js/dolly'
 Truck   = require './js/truck'
 Mesh    = require './js/mesh'
 color   = require './js/color'
+Game    = require './js/game'
 
 win       = remote.getCurrentWindow()
 renderer  = null
@@ -36,6 +37,7 @@ text      = null
 dolly     = null
 truck     = null
 balls     = null
+game      = null
 mouse     = new THREE.Vector2()
 
 jsonStr = (a) -> JSON.stringify a, null, " "
@@ -59,6 +61,7 @@ anim = ->
     requestAnimationFrame anim
     render()
     stats?.update()
+    game.frame()
 
 ###
 000       0000000    0000000   0000000    00000000  0000000  
@@ -83,12 +86,13 @@ document.observe 'dom:loaded', ->
     renderer = new THREE.WebGLRenderer 
         antialias:              true
         logarithmicDepthBuffer: true
-        # sortObjects:            false
         autoClear:              true
         
     renderer.setSize window.innerWidth, window.innerHeight
     renderer.setClearColor color.space
     document.body.appendChild renderer.domElement
+
+    game = new Game truck
 
     if false
         stats = new Stats
@@ -106,7 +110,8 @@ document.observe 'dom:loaded', ->
     onMouseMove = (e) ->
         mouse.x = 2 * ( e.clientX / window.innerWidth ) - 1
         mouse.y = 1 - 2 * ( e.clientY / window.innerHeight )
-        selectAt mouse
+        game.mouse mouse
+        # selectAt mouse
         
     onDoubleClick = (e) ->
 
@@ -150,29 +155,6 @@ document.observe 'dom:loaded', ->
         position:  [0,0,106]
         color:     0x8888ff
         wireframe: true
-        
-        
-    new Mesh
-        type:   'spike'
-        radius: 10
-        color:  0xff0000
-        dist:   110
-        azim:   45
-    
-    new Mesh
-        type:   'spike'
-        radius: 10
-        color:  0x00ff00
-        dist:   110
-        alti:   45
-
-    new Mesh
-        type:   'spike'
-        radius: 10
-        color:  0x8888ff
-        dist:   110
-        azim:   90
-        alti:   45
             
 ###
 00     00  00000000  000   000  000   000
@@ -209,6 +191,7 @@ selectAt  = (mouse) ->
     selected = undefined
     if intersects.length
         selected = intersects[0].object
+        log intersects.length
             
 ###
 000   000  00000000  000   000  0000000     0000000   000   000  000   000
