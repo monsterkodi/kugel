@@ -18,6 +18,11 @@ VectorX = new THREE.Vector3 1,0,0
 VectorY = new THREE.Vector3 0,1,0
 VectorZ = new THREE.Vector3 0,0,1
 
+quazimalti = (azim, alti) ->
+    qaz = new THREE.Quaternion().setFromAxisAngle VectorY, deg2rad(azim)
+    qal = new THREE.Quaternion().setFromAxisAngle VectorX, deg2rad(-alti)
+    qaz.multiply qal
+
 THREE.Vector3.prototype.normalized = () -> 
     v = new THREE.Vector3()
     v.copy @
@@ -60,27 +65,31 @@ class Game
 
         @doto = new Mesh
             type:   'sphere'
-            radius: 8
+            radius: 2
             color:  0x000088
-            dist:   110
+            dist:   120
             
     mouse: (pos) => @tgt = pos
         
     frame: =>
-        s = 1
-        @player.setAzimAlti @player.azim + @tgt.x * s, @player.alti + @tgt.y * s
-        f = 0.01
-        @truck.setAzimAlti @truck.azim * (1.0-f) + f * @player.azim, @truck.alti * (1.0-f) - f * @player.alti
 
         p = new THREE.Vector3 @tgt.x*1000, @tgt.y*1000, 600
         p.applyMatrix4 @truck.camera.matrixWorld
-        # log p
         p.setLength 100
         @dot.position.copy p
         
-        azimAlti = p.azimAlti()
-        dbg azimAlti
+        [azim, alti] = p.azimAlti()
+        q = quazimalti azim, alti
         
-        @doto.setAzimAlti azimAlti[0], azimAlti[1]
+        @doto.setQuat q
+        
+        f = 0.04
+        q2 = @player.getWorldQuaternion().slerp(q,f)
+        @player.setQuat q2
+        
+        f = 0.05
+        q3 = @truck.camera.getWorldQuaternion().slerp(q2,f)
+        @truck.setQuat q3
+        
 
 module.exports = Game

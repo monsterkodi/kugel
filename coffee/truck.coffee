@@ -149,6 +149,22 @@ class Truck
         @camera.up.copy camUp
         @camera.lookAt @target
         @updateSun()
+    
+    setQuat: (quat) =>
+        dist = @camera.position.distanceTo @target
+        
+        camUp  = new THREE.Vector3(0,1,0)
+        camPos = new THREE.Vector3(0,0,1)
+        camUp.applyQuaternion quat
+        camPos.applyQuaternion quat
+        
+        camPos.multiplyScalar dist
+        camPos.add @target
+        @camera.position.copy camPos
+        @camera.up.copy camUp
+        @camera.lookAt @target
+        @updateSun()
+        
                 
     onMouseWheel: (event) => @zoom 1-event.wheelDelta/20000
         

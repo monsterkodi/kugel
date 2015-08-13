@@ -59,5 +59,10 @@ class Mesh extends THREE.Mesh
         pos.applyAxisAngle new THREE.Vector3(0,1,0), yaw
         @position.copy pos
         @rotation.copy new THREE.Euler pitch, yaw, 0, 'YXZ'
+        
+    setQuat: (quat) =>
+        @quaternion.copy quat
+        @position.copy new THREE.Vector3(0,0,@dist).applyQuaternion quat
+        
 
 module.exports = Mesh
