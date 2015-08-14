@@ -11,7 +11,7 @@ class Truck
         far      = config.far or 1000
         near     = config.near or 0.001
         @dist    = config.dist or 300
-        @maxDist = config.maxDist or 300
+        @maxDist = config.maxDist or 600
         @minDist = config.minDist or 0.001
         @yaw     = config.yaw or 0
         @minAlti = -90

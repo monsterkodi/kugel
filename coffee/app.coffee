@@ -59,9 +59,9 @@ render = ->
 
 anim = ->
     requestAnimationFrame anim
+    game.frame()
     render()
     stats?.update()
-    game.frame()
 
 ###
 000       0000000    0000000   0000000    00000000  0000000  
@@ -92,9 +92,9 @@ document.observe 'dom:loaded', ->
     renderer.setClearColor color.space
     document.body.appendChild renderer.domElement
 
-    game = new Game truck
+    game = new Game truck, renderer
 
-    if false
+    if true
         stats = new Stats
         stats.domElement.style.position = 'absolute'
         stats.domElement.style.top = '0px'
@@ -135,74 +135,75 @@ document.observe 'dom:loaded', ->
         type:   'sphere'
         radius: 100
         
-    new Mesh
-        type:      'spike'
-        radius:    6
-        position:  [106,0,0]
-        color:     0xff0000
-        wireframe: true
-    
-    new Mesh
-        type:      'spike'
-        radius:    6
-        position:  [0,106,0]
-        color:     0x00ff00
-        wireframe: true
-
-    new Mesh
-        type:      'spike'
-        radius:    6
-        position:  [0,0,106]
-        color:     0x8888ff
-        wireframe: true
-
-    new Mesh
-        type:      'spike'
-        radius:    4
-        color:     0xff0000
-        dist:      106
-        azim: 90
-        alti: 0
-
-    new Mesh
-        type:      'spike'
-        radius:    4
-        color:     0xff0000
-        dist:      106
-        azim: -90
-        alti: 0
-    
-    new Mesh
-        type:      'spike'
-        radius:    14        
-        color:     0x00ff00
-        dist:      106
-        azim: 0
-        alti: 90
-
-    new Mesh
-        type:      'spike'
-        radius:    14        
-        color:     0x00ff00
-        dist:      106
-        azim: 0
-        alti: -90
-
-    new Mesh
-        type:      'spike'
-        radius:    4
-        color:     0x8888ff
-        dist:      106
-        azim: 0
-        alti: 0
-
-    new Mesh
-        type:      'spike'
-        radius:    4
-        color:     0x8888ff
-        dist:      106
-        azim: 180
-        alti: 0
+    if 0
+        new Mesh
+            type:      'spike'
+            radius:    6
+            position:  [106,0,0]
+            color:     0xff0000
+            wireframe: true
+        
+        new Mesh
+            type:      'spike'
+            radius:    6
+            position:  [0,106,0]
+            color:     0x00ff00
+            wireframe: true
+        
+        new Mesh
+            type:      'spike'
+            radius:    6
+            position:  [0,0,106]
+            color:     0x8888ff
+            wireframe: true
+        
+        new Mesh
+            type:      'spike'
+            radius:    4
+            color:     0xff0000
+            dist:      106
+            azim: 90
+            alti: 0
+        
+        new Mesh
+            type:      'spike'
+            radius:    4
+            color:     0xff0000
+            dist:      106
+            azim: -90
+            alti: 0
+        
+        new Mesh
+            type:      'spike'
+            radius:    14        
+            color:     0x00ff00
+            dist:      106
+            azim: 0
+            alti: 90
+        
+        new Mesh
+            type:      'spike'
+            radius:    14        
+            color:     0x00ff00
+            dist:      106
+            azim: 0
+            alti: -90
+        
+        new Mesh
+            type:      'spike'
+            radius:    4
+            color:     0x8888ff
+            dist:      106
+            azim: 0
+            alti: 0
+        
+        new Mesh
+            type:      'spike'
+            radius:    4
+            color:     0x8888ff
+            dist:      106
+            azim: 180
+            alti: 0
             
 ###
 00     00  00000000  000   000  000   000

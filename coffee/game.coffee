@@ -6,13 +6,14 @@
  0000000   000   000  000   000  00000000
 ###
 
-Mesh    = require './mesh'
-log     = require './knix/log'
-dbg     = require './knix/log'
-tools   = require './knix/tools'
-deg2rad = tools.deg2rad
-rad2deg = tools.rad2deg
-deg     = tools.deg
+Mesh     = require './mesh'
+log      = require './knix/log'
+dbg      = require './knix/log'
+tools    = require './knix/tools'
+material = require './material'
+deg2rad  = tools.deg2rad
+rad2deg  = tools.rad2deg
+deg      = tools.deg
 
 VectorX = new THREE.Vector3 1,0,0
 VectorY = new THREE.Vector3 0,1,0
@@ -47,36 +48,59 @@ THREE.Vector3.prototype.azimAlti = () ->
 
 class Game
     
-    constructor: (truck) ->
+    constructor: (truck,renderer) ->
         @truck = truck
         @tgt = new THREE.Vector2 0,0
         @player = new Mesh
             type:   'spike'
-            radius: 10
+            radius: 4
             color:  0xffffff
-            dist:   110
+            dist:   104
             azim:   0
-            
-        @dot = new Mesh
-            type:   'sphere'
-            radius: 10
-            color:  0x888888
-            position: [0,0,0]
-
+        
         @doto = new Mesh
             type:   'sphere'
             radius: 2
             color:  0x000088
-            dist:   120
+            dist:   0 #106
+            
+        geometry = new THREE.Geometry()
+        
+        particles = 10000
+        colors = []
+            
+        sprite = THREE.ImageUtils.loadTexture "img/disc.png" 
+
+        for i in [0..particles]
+            r = Math.random()
+            r = r * r
+            
+            v = new THREE.Vector3 300 + r*100, 0, 0
+            v.applyQuaternion new THREE.Quaternion().setFromAxisAngle VectorY, 2*Math.random()*Math.PI
+            v.y += Math.random()*10
+            geometry.vertices.push v
+            colors.push new THREE.Color 0,0,0.25+Math.random()*0.25
+
+        geometry.colors = colors
+        mat = new THREE.PointCloudMaterial 
+            size:            5
+            sizeAttenuation: true 
+            map:             sprite 
+            alphaTest:       0.5
+            transparent:     true
+            vertexColors:    THREE.VertexColors
+            
+        particles = new THREE.PointCloud geometry, mat
+        
+        scene.add particles           
             
     mouse: (pos) => @tgt = pos
         
     frame: =>
 
-        p = new THREE.Vector3 @tgt.x*1000, @tgt.y*1000, 600
+        p = new THREE.Vector3 @tgt.x*window.innerWidth, @tgt.y*window.innerHeight, 440
         p.applyMatrix4 @truck.camera.matrixWorld
         p.setLength 100
-        @dot.position.copy p
         
         [azim, alti] = p.azimAlti()
         q = quazimalti azim, alti
@@ -87,7 +111,7 @@ class Game
         q2 = @player.getWorldQuaternion().slerp(q,f)
         @player.setQuat q2
         
-        f = 0.05
+        f = 0.01
         q3 = @truck.camera.getWorldQuaternion().slerp(q2,f)
         @truck.setQuat q3
         
