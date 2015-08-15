@@ -29,6 +29,8 @@ class Mesh extends THREE.Mesh
                 geom = new THREE.IcosahedronGeometry @radius, @detail
             when 'spike'
                 geom = new THREE.OctahedronGeometry @radius
+            when 'box'
+                geom = new THREE.BoxGeometry @radius, @radius, @radius
         
         if config.color?
             @material = new THREE.MeshLambertMaterial
@@ -44,10 +46,15 @@ class Mesh extends THREE.Mesh
         super geom, @material 
         scene.add @
         
-        if config.dist?
+        if config.quat?
+            @quat = config.quat
+            @setQuat config.quat
+        else if config.dist?
             @setAzimAlti @azim, @alti
         else if config.position?
             @position.copy new THREE.Vector3 config.position[0], config.position[1], config.position[2]
+            
+    remove: () => scene.remove @
             
     setAzimAlti: (azim,alti) =>
         @alti = alti

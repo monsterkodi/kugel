@@ -7,6 +7,7 @@
 ###
 
 Mesh     = require './mesh'
+Trail    = require './trail'
 log      = require './knix/log'
 dbg      = require './knix/log'
 tools    = require './knix/tools'
@@ -42,6 +43,8 @@ class Game
             radius: 2
             color:  0x000088
             dist:   108
+            
+        @trail = new Trail()
             
         @createRing()
             
@@ -83,6 +86,10 @@ class Game
         
         @doto.setQuat q
         
+        @trail.frame()
+        if @trail.meshes.length == 0 or @player.position.distanceTo(@trail.meshes[0].position) > 5
+            @trail.add @player.getWorldQuaternion()
+        
         f = 0.04
         q2 = @player.getWorldQuaternion().slerp(q,f)
         @player.setQuat q2
@@ -91,5 +98,4 @@ class Game
         q3 = @truck.camera.getWorldQuaternion().slerp(q,f)
         @truck.setQuat q3
         
-
 module.exports = Game
