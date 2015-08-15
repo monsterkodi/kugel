@@ -1,5 +1,6 @@
 tools   = require './knix/tools'
 color   = require './color'
+log     = require './knix/log'
 clamp   = tools.clamp
 deg2rad = tools.deg2rad
 
@@ -13,11 +14,6 @@ class Truck
         @dist    = config.dist or 300
         @maxDist = config.maxDist or 600
         @minDist = config.minDist or 0.001
-        @yaw     = config.yaw or 0
-        @minAlti = -90
-        @maxAlti = 90
-        @alti    = 0
-        @azim    = 0
         aspect   = window.innerWidth / window.innerHeight
 
         @camera = new THREE.PerspectiveCamera fov, aspect, near, far
@@ -39,8 +35,8 @@ class Truck
         
         @sun.position.copy @camera.position
             
-    # updateSun: () => @sun.position.copy @camera.position
-    updateSun: () =>
+    updateSun: () => @sun.position.copy @camera.position
+    # updateSun: () =>
             
     remove: () =>
         window.removeEventListener 'mousewheel', @onMouseWheel
@@ -102,7 +98,10 @@ class Truck
         if event.shiftKey or event.altKey or event.ctrlKey or event.metaKey
             @move deltaX, deltaY
         else
-            @pivot deltaX/400.0, deltaY/200.0
+            q = @camera.quaternion.clone()
+            q.multiply new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1,0,0), deltaY/400.0)
+            q.multiply new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,1,0), deltaX/200.0)
+            @setQuat q
         
     distFactor: () => (@dist - @minDist) / (@maxDist - @minDist)
         
@@ -124,32 +123,7 @@ class Truck
         @target.add right
         @target.add up
         @updateSun()
-
-    pivot: (x, y) => @setAzimAlti @azim+x, clamp @minAlti, @maxAlti, @alti+y
-        
-    setAzimAlti: (azim, alti) =>
-        
-        @alti = alti
-        @azim = azim
-        
-        dist = @camera.position.distanceTo @target
-        
-        camUp  = new THREE.Vector3(0,1,0)
-        camPos = new THREE.Vector3(0,0,1)
-        yaw = deg2rad @azim
-        pitch = deg2rad @alti
-        camUp.applyAxisAngle  new THREE.Vector3(1,0,0), pitch
-        camPos.applyAxisAngle new THREE.Vector3(1,0,0), pitch
-        camUp.applyAxisAngle  new THREE.Vector3(0,1,0), yaw
-        camPos.applyAxisAngle new THREE.Vector3(0,1,0), yaw
-        
-        camPos.multiplyScalar dist
-        camPos.add @target
-        @camera.position.copy camPos
-        @camera.up.copy camUp
-        @camera.lookAt @target
-        @updateSun()
-    
+            
     setQuat: (quat) =>
         dist = @camera.position.distanceTo @target
         
@@ -164,7 +138,6 @@ class Truck
         @camera.up.copy camUp
         @camera.lookAt @target
         @updateSun()
-        
                 
     onMouseWheel: (event) => @zoom 1-event.wheelDelta/20000
         

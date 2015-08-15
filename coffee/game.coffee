@@ -62,7 +62,7 @@ class Game
             type:   'sphere'
             radius: 2
             color:  0x000088
-            dist:   0 #106
+            dist:   106
             
         geometry = new THREE.Geometry()
         
@@ -75,7 +75,7 @@ class Game
             r = Math.random()
             r = r * r
             
-            v = new THREE.Vector3 300 + r*100, 0, 0
+            v = new THREE.Vector3 200 + r*100, 0, 0
             v.applyQuaternion new THREE.Quaternion().setFromAxisAngle VectorY, 2*Math.random()*Math.PI
             v.y += Math.random()*10
             geometry.vertices.push v
@@ -102,8 +102,9 @@ class Game
         p.applyMatrix4 @truck.camera.matrixWorld
         p.setLength 100
         
-        [azim, alti] = p.azimAlti()
-        q = quazimalti azim, alti
+        q = @player.getWorldQuaternion().clone()
+        q.multiply new THREE.Quaternion().setFromAxisAngle(VectorX,  -@tgt.y*0.3)
+        q.multiply new THREE.Quaternion().setFromAxisAngle(VectorY,  @tgt.x*0.3)
         
         @doto.setQuat q
         
