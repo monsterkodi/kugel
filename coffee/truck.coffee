@@ -95,35 +95,14 @@ class Truck
         @mouseX = event.clientX
         @mouseY = event.clientY
                 
-        if event.shiftKey or event.altKey or event.ctrlKey or event.metaKey
-            @move deltaX, deltaY
-        else
-            q = @camera.quaternion.clone()
-            q.multiply new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1,0,0), deltaY/400.0)
-            q.multiply new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,1,0), deltaX/200.0)
-            @setQuat q
+        # if event.shiftKey or event.altKey or event.ctrlKey or event.metaKey
+        q = @camera.quaternion.clone()
+        q.multiply new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1,0,0), deltaY/400.0)
+        q.multiply new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,1,0), deltaX/200.0)
+        @setQuat q
         
     distFactor: () => (@dist - @minDist) / (@maxDist - @minDist)
         
-    move: (x, y) =>
-        f = 0.001 + 0.1*@distFactor()
-        
-        right = new THREE.Vector3 1, 0 ,0
-        right.applyMatrix4 @camera.matrixWorld
-        right.sub @camera.position
-        right.multiplyScalar x * f
-
-        up = new THREE.Vector3 0, 1 ,0
-        up.applyMatrix4 @camera.matrixWorld
-        up.sub camera.position
-        up.multiplyScalar -y * f
-        
-        @camera.position.add right
-        @camera.position.add up
-        @target.add right
-        @target.add up
-        @updateSun()
-            
     setQuat: (quat) =>
         dist = @camera.position.distanceTo @target
         
