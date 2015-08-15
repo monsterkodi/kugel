@@ -41,26 +41,26 @@ class Game
             type:   'sphere'
             radius: 2
             color:  0x000088
-            # dist:   108
+            dist:   108
             
+        @createRing()
+            
+    createRing: () =>
         geometry = new THREE.Geometry()
         
-        particles = 10000
-        colors = []
+        particles = 6000
             
         sprite = THREE.ImageUtils.loadTexture "img/disc.png" 
 
         for i in [0..particles]
             r = Math.random()
             r = r * r
-            
             v = new THREE.Vector3 200 + r*100, 0, 0
             v.applyQuaternion new THREE.Quaternion().setFromAxisAngle VectorY, 2*Math.random()*Math.PI
             v.y += Math.random()*10
             geometry.vertices.push v
-            colors.push new THREE.Color 0,0,0.25+Math.random()*0.25
+            geometry.colors.push new THREE.Color 0,0,0.25+Math.random()*0.25
 
-        geometry.colors = colors
         mat = new THREE.PointCloudMaterial 
             size:            5
             sizeAttenuation: true 
@@ -76,10 +76,6 @@ class Game
     mouse: (pos) => @tgt = pos
         
     frame: =>
-
-        # p = new THREE.Vector3 @tgt.x*window.innerWidth, @tgt.y*window.innerHeight, 440
-        # p.applyMatrix4 @truck.camera.matrixWorld
-        # p.setLength 100
         
         q = @player.getWorldQuaternion().clone()
         q.multiply new THREE.Quaternion().setFromAxisAngle(VectorX, -@tgt.y*0.3)
@@ -91,7 +87,7 @@ class Game
         q2 = @player.getWorldQuaternion().slerp(q,f)
         @player.setQuat q2
         
-        f = 0.01
+        f = 0.02
         q3 = @truck.camera.getWorldQuaternion().slerp(q,f)
         @truck.setQuat q3
         
