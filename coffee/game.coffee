@@ -19,33 +19,12 @@ VectorX = new THREE.Vector3 1,0,0
 VectorY = new THREE.Vector3 0,1,0
 VectorZ = new THREE.Vector3 0,0,1
 
-quazimalti = (azim, alti) ->
-    qaz = new THREE.Quaternion().setFromAxisAngle VectorY, deg2rad(azim)
-    qal = new THREE.Quaternion().setFromAxisAngle VectorX, deg2rad(-alti)
-    qaz.multiply qal
-
 THREE.Vector3.prototype.normalized = () -> 
     v = new THREE.Vector3()
     v.copy @
     v.normalize()
     v
     
-THREE.Vector3.prototype.azimAlti = () -> 
-    
-    p_y = new THREE.Vector3
-    p_y.copy @
-    p_y.projectOnPlane VectorY
-    
-    azim = rad2deg p_y.angleTo VectorZ
-    if @dot(VectorX) < 0
-        azim = -azim
-        
-    alti = rad2deg @angleTo p_y
-    if @dot(VectorY) < 0
-        alti = -alti
-        
-    [azim, alti]
-
 class Game
     
     constructor: (truck,renderer) ->
@@ -62,7 +41,7 @@ class Game
             type:   'sphere'
             radius: 2
             color:  0x000088
-            dist:   106
+            # dist:   108
             
         geometry = new THREE.Geometry()
         
@@ -98,12 +77,12 @@ class Game
         
     frame: =>
 
-        p = new THREE.Vector3 @tgt.x*window.innerWidth, @tgt.y*window.innerHeight, 440
-        p.applyMatrix4 @truck.camera.matrixWorld
-        p.setLength 100
+        # p = new THREE.Vector3 @tgt.x*window.innerWidth, @tgt.y*window.innerHeight, 440
+        # p.applyMatrix4 @truck.camera.matrixWorld
+        # p.setLength 100
         
         q = @player.getWorldQuaternion().clone()
-        q.multiply new THREE.Quaternion().setFromAxisAngle(VectorX,  -@tgt.y*0.3)
+        q.multiply new THREE.Quaternion().setFromAxisAngle(VectorX, -@tgt.y*0.3)
         q.multiply new THREE.Quaternion().setFromAxisAngle(VectorY,  @tgt.x*0.3)
         
         @doto.setQuat q
@@ -113,7 +92,7 @@ class Game
         @player.setQuat q2
         
         f = 0.01
-        q3 = @truck.camera.getWorldQuaternion().slerp(q2,f)
+        q3 = @truck.camera.getWorldQuaternion().slerp(q,f)
         @truck.setQuat q3
         
 
