@@ -16,6 +16,7 @@ material = require './material'
 deg2rad  = tools.deg2rad
 rad2deg  = tools.rad2deg
 deg      = tools.deg
+Quat     = require './quat'
 
 VectorX = new THREE.Vector3 1,0,0
 VectorY = new THREE.Vector3 0,1,0
@@ -47,8 +48,10 @@ class Game
             
         @trail = new Trail()
         @snakes = []
-        for i in [0..4]
-            @snakes.push new Snake()
+        for i in [0..0]
+            @snakes.push new Snake
+                quat: Quat.rand()
+                angle: Math.random()*180
             
         @createRing()
             

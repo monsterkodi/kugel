@@ -48,7 +48,11 @@ class Mesh extends THREE.Mesh
             @material = config.material or material[@type]
         
         super geom, @material 
-        scene.add @
+        
+        if config.parent?
+            config.parent.add @ 
+        else 
+            scene.add @
         
         if config.quat?
             @quat = config.quat
