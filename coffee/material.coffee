@@ -14,6 +14,12 @@ module.exports =
         side:      THREE.FrontSide
         shading:   THREE.SmoothShading
         shininess: 0
+
+    snake: new THREE.MeshPhongMaterial
+        color:     color.snake
+        side:      THREE.FrontSide
+        shading:   THREE.SmoothShading
+        shininess: 0
         
     spike: new THREE.MeshPhongMaterial
         color:     color.spike

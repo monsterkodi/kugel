@@ -15,6 +15,10 @@ deg2rad  = tools.deg2rad
 
 class Mesh extends THREE.Mesh
 
+    @X = new THREE.Vector3 1,0,0
+    @Y = new THREE.Vector3 0,1,0
+    @Z = new THREE.Vector3 0,0,1
+
     constructor: (config={}) ->
         
         @type   = config.type   or 'sphere'
@@ -52,7 +56,8 @@ class Mesh extends THREE.Mesh
         else if config.dist?
             @setAzimAlti @azim, @alti
         else if config.position?
-            @position.copy new THREE.Vector3 config.position[0], config.position[1], config.position[2]
+            # @position.copy new THREE.Vector3 config.position[0], config.position[1], config.position[2]
+            @position.copy config.position
             
     remove: () => scene.remove @
             

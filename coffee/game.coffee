@@ -8,6 +8,7 @@
 
 Mesh     = require './mesh'
 Trail    = require './trail'
+Snake    = require './snake'
 log      = require './knix/log'
 dbg      = require './knix/log'
 tools    = require './knix/tools'
@@ -45,6 +46,9 @@ class Game
             dist:   108
             
         @trail = new Trail()
+        @snakes = []
+        for i in [0..4]
+            @snakes.push new Snake()
             
         @createRing()
             
@@ -85,7 +89,8 @@ class Game
         q.multiply new THREE.Quaternion().setFromAxisAngle(VectorY,  @tgt.x*0.3)
         
         @doto.setQuat q
-        
+        for snake in @snakes
+            snake.frame()
         @trail.frame()
         if @trail.meshes.length == 0 or @player.position.distanceTo(@trail.meshes[0].position) > 5
             @trail.add @player.getWorldQuaternion()
