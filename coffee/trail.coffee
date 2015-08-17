@@ -6,13 +6,14 @@
    000     000   000  000   000  000  0000000
 ###
 Mesh     = require './mesh'
+Quat     = require './quat'
 log      = require './knix/log'
 
 class Trail
     
     constructor: () -> @meshes = []
         
-    frame: () =>    
+    frame: (step) =>    
 
         for m in @meshes
             m.dist = m.dist-0.008
@@ -27,6 +28,6 @@ class Trail
             color:  0x000044
             dist:   100
             quat:   quat
-        @meshes[0].quaternion.copy new THREE.Quaternion().setFromEuler(new THREE.Euler(Math.random(), Math.random(), Math.random()))
+        @meshes[0].quaternion.copy Quat.rand()
 
 module.exports = Trail

@@ -44,14 +44,15 @@ class Game
             type:   'sphere'
             radius: 2
             color:  0x000088
-            dist:   108
+            # dist:   108
             
         @trail = new Trail()
         @snakes = []
-        for i in [0..4]
+        # @snakes.push new Snake
+        for i in [0..20]
             @snakes.push new Snake
                 quat: Quat.rand()
-                angle: Math.random()*180
+                angle: Math.random()*360 - 180
             
         @createRing()
             
@@ -65,7 +66,7 @@ class Game
         for i in [0..particles]
             r = Math.random()
             r = r * r
-            v = new THREE.Vector3 200 + r*100, 0, 0
+            v = new THREE.Vector3 250 + r*100, 0, 0
             v.applyQuaternion new THREE.Quaternion().setFromAxisAngle VectorY, 2*Math.random()*Math.PI
             v.y += Math.random()*10
             geometry.vertices.push v
@@ -85,24 +86,26 @@ class Game
             
     mouse: (pos) => @tgt = pos
         
-    frame: =>
+    frame: (step) =>
         
         q = @player.getWorldQuaternion().clone()
-        q.multiply new THREE.Quaternion().setFromAxisAngle(VectorX, -@tgt.y*0.3)
-        q.multiply new THREE.Quaternion().setFromAxisAngle(VectorY,  @tgt.x*0.3)
+        d = step.dsecs * 30
+        r = new THREE.Quaternion()
+        q.multiply r.setFromAxisAngle(VectorX, -@tgt.y * d)
+        q.multiply r.setFromAxisAngle(VectorY,  @tgt.x * d)
         
         @doto.setQuat q
         for snake in @snakes
-            snake.frame()
-        @trail.frame()
+            snake.frame step
+        @trail.frame step
         if @trail.meshes.length == 0 or @player.position.distanceTo(@trail.meshes[0].position) > 5
             @trail.add @player.getWorldQuaternion()
         
-        f = 0.04
+        f = step.dsecs * 4
         q2 = @player.getWorldQuaternion().slerp(q,f)
         @player.setQuat q2
         
-        f = 0.02
+        f = step.dsecs * 2
         q3 = @truck.camera.getWorldQuaternion().slerp(q,f)
         @truck.setQuat q3
         

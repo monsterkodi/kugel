@@ -12,6 +12,7 @@ log      = require './knix/log'
 tools    = require './knix/tools'
 material = require './material'
 deg2rad  = tools.deg2rad
+rndrng   = tools.rndrng
 
 class Snake
     
@@ -19,8 +20,8 @@ class Snake
         @steps  = 10
         @index  = 0
         @tail   = []
-        @ctrPos = config.quat or new Quat()
-        @angle  = config.angle or 0
+        @ctrPos = config?.quat or new Quat()
+        @angle  = config?.angle or 0
         @dir = 0
         @ctr = new THREE.Object3D()
         @obj = new THREE.Object3D()
@@ -36,35 +37,33 @@ class Snake
         scene.add @ctr
         
         @ctr.quaternion.copy @ctrPos
-        
-        up = Mesh.Z.clone().applyQuaternion @ctrPos
-        @ctrDir = new THREE.Quaternion().setFromAxisAngle(up, deg2rad(@dir))
-        @ctr.quaternion.multiply @ctrDir
-
         @ctr.position.copy new THREE.Vector3(0,0,100).applyQuaternion(@ctrPos)
         
-        new Mesh
-            type:      'spike'
-            radius:    1   
-            color:     0xff0000
-            position:  new THREE.Vector3 0,-6,0
-            parent:    @ctr
-        
-        new Mesh
-            type:      'spike'
-            radius:    1
-            color:     0x008800
-            position:  new THREE.Vector3 0,6,0
-            parent:    @ctr
-        
-        new Mesh
-            type:      'spike'
-            radius:    1
-            color:     0x0000ff
-            position:  new THREE.Vector3 0,0,6
-            parent:    @ctr
+        if false
+            new Mesh
+                type:      'spike'
+                radius:    1   
+                color:     0xff0000
+                position:  new THREE.Vector3 12,0,0
+                parent:    @ctr
             
-    frame: () =>
+            new Mesh
+                type:      'spike'
+                radius:    1
+                color:     0x008800
+                position:  new THREE.Vector3 0,6,0
+                parent:    @ctr
+            
+            new Mesh
+                type:      'spike'
+                radius:    1
+                color:     0x0000ff
+                position:  new THREE.Vector3 0,0,6
+                parent:    @ctr
+            
+    frame: (step) =>
+        
+        # log "snake", step
         
         @obj.quaternion.copy new THREE.Quaternion().setFromAxisAngle(Mesh.X, deg2rad(@angle))
 
@@ -72,25 +71,12 @@ class Snake
                 
         if @angle >= 360
             @angle = 0
-            rotangle = 45
-
-            # up = Mesh.Z.clone().applyQuaternion @ctrPos
-            # @ctrPos.multiply new THREE.Quaternion().setFromAxisAngle(up, deg2rad(rotangle))
-            # 
-            # rg = Mesh.X.clone().applyQuaternion @ctrPos
-            # @ctrPos.multiply new THREE.Quaternion().setFromAxisAngle(rg, deg2rad(10))
-            # 
-            # up = Mesh.Z.clone().applyQuaternion @ctrPos
-            # @ctrPos.multiply new THREE.Quaternion().setFromAxisAngle(up, deg2rad(rotangle))
-            
-            @ctr.quaternion.copy @ctrPos
-            
-            @dir += rotangle
-            up = Mesh.Z.clone().applyQuaternion @ctrPos
-            @ctrDir = new THREE.Quaternion().setFromAxisAngle(up, deg2rad(@dir))
-            @ctr.quaternion.multiply @ctrDir
-            
-            @ctr.position.copy new THREE.Vector3(0,0,100).applyQuaternion(@ctrPos)
+            rotangle = rndrng(-120, 120)
+            @ctr.translateOnAxis(Mesh.Z, -100)
+            @ctr.rotateOnAxis(Mesh.Z,  deg2rad(rotangle/2))
+            @ctr.rotateOnAxis(Mesh.X,  deg2rad(10))
+            @ctr.rotateOnAxis(Mesh.Z,  deg2rad(rotangle/2))
+            @ctr.translateOnAxis(Mesh.Z,  100)
             
         if @angle > 160 and @angle % 20 == 0
             
@@ -103,12 +89,12 @@ class Snake
                 radius:    1+Math.random()*0.5        
                 color:     0x000044
                 position:  pos
-            t.quaternion.copy new THREE.Quaternion().setFromEuler(new THREE.Euler(Math.random(), Math.random(), Math.random()))
+            t.quaternion.copy Quat.rand()
                 
             @tail.unshift t
             
         for t in @tail
-            t.position.setLength(t.position.length() - 0.0008)
+            t.position.setLength(t.position.length() - 0.04)
             
         if @tail.length > 0
             for i in [@tail.length-1..0]

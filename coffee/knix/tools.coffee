@@ -58,8 +58,11 @@ deg   = (d) ->
 deg2rad = (d) -> Math.PI * d / 180.0
 rad2deg = (r) -> 180.0 * r / Math.PI
 
+rndrng  = (l,h) -> l+Math.random()*(h-l)
+rndint  = (h) -> Math.floor(Math.random()*h)
+
 exp = 
     [
-        'clamp', 'round', 'floor', 'arg', 'value', 'win', 'wid', 'del', 'deg2rad', 'rad2deg', 'deg'
+        'clamp', 'round', 'floor', 'arg', 'value', 'win', 'wid', 'del', 'deg2rad', 'rad2deg', 'deg', 'rndrng', 'rndint'
     ]
 module.exports = zipObject(exp.map((e) -> [e, eval(e)]))

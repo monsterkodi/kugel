@@ -33,6 +33,7 @@ win       = remote.getCurrentWindow()
 renderer  = null
 camera    = null
 scene     = null
+stats     = null
 text      = null
 dolly     = null
 truck     = null
@@ -57,9 +58,21 @@ clog = console.log
 render = -> 
     renderer.render scene, camera
 
-anim = ->
+clock = new THREE.Clock()
+secs = 1.0/60.0
+ssum = secs
+scnt = 1
+anim = () ->
     requestAnimationFrame anim
-    game.frame()
+    # secs = Math.floor(1000*(secs*9+clock.getDelta())/10.0)/1000.0
+    ssum += clock.getDelta()
+    scnt += 1
+    secs = ssum/scnt
+    step = 
+        delta: secs*1000
+        # dsecs: secs
+        dsecs: secs
+    game?.frame step
     render()
     stats?.update()
 
@@ -95,11 +108,12 @@ document.observe 'dom:loaded', ->
     game = new Game truck, renderer
 
     if true
-        stats = new Stats
-        stats.domElement.style.position = 'absolute'
-        stats.domElement.style.top = '0px'
-        stats.domElement.style.zIndex = 100
-        container.appendChild stats.domElement
+        stats = new Stats()
+        stats.domElement.style.position = 'fixed'
+        stats.domElement.style.bottom = '0px'
+        stats.domElement.style.right = '0px'
+        stats.domElement.style.zIndex = 1000
+        document.body.appendChild stats.domElement
 
     onWindowResize = ->
         renderer.setSize window.innerWidth, window.innerHeight
@@ -110,7 +124,7 @@ document.observe 'dom:loaded', ->
     onMouseMove = (e) ->
         mouse.x = 2 * ( e.clientX / window.innerWidth ) - 1
         mouse.y = 1 - 2 * ( e.clientY / window.innerHeight )
-        game.mouse mouse
+        game?.mouse mouse
         # selectAt mouse
         
     onDoubleClick = (e) ->
