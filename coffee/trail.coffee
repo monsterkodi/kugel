@@ -18,10 +18,11 @@ class Trail
     frame: (step) =>    
 
         for m in @meshes
-            m.dist = m.dist-0.008
-            m.position.copy vec(0,0,m.dist).applyQuaternion m.quat
-            if m.dist < 97.5
+            length = m.position.length() - 0.008
+            if length < 100 - m.radius
                 @meshes.splice(@meshes.indexOf(m), 1)[0].remove()
+            else
+                m.position.setLength length    
             
     add: (quat) =>
         @meshes.unshift new Mesh
