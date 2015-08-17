@@ -15,6 +15,7 @@ tools    = require './knix/tools'
 material = require './material'
 deg2rad  = tools.deg2rad
 rad2deg  = tools.rad2deg
+rndrng   = tools.rndrng
 deg      = tools.deg
 Quat     = require './quat'
 
@@ -64,7 +65,7 @@ class Game
             r = Math.random()
             r = r * r
             v = new THREE.Vector3 250 + r*100, 0, 0
-            v.applyQuaternion new THREE.Quaternion().setFromAxisAngle VectorY, 2*Math.random()*Math.PI
+            v.applyQuaternion Quat.axis VectorY, rndrng(-180,180)
             v.y += Math.random()*10
             geometry.vertices.push v
             geometry.colors.push new THREE.Color 0,0,0.25+Math.random()*0.25
@@ -86,10 +87,9 @@ class Game
     frame: (step) =>
         
         q = @player.getWorldQuaternion().clone()
-        d = step.dsecs * 30
-        r = new THREE.Quaternion()
-        q.multiply r.setFromAxisAngle(VectorX, -@tgt.y * d)
-        q.multiply r.setFromAxisAngle(VectorY,  @tgt.x * d)
+        d = step.delta * 1.5
+        q.multiply Quat.axis(VectorX, -@tgt.y * d)
+        q.multiply Quat.axis(VectorY,  @tgt.x * d)
         
         @doto.setQuat q
         for snake in @snakes

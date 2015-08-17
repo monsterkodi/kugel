@@ -79,7 +79,7 @@ class Snake
             @ctr.rotateOnAxis(Mesh.Z,  deg2rad(rotangle/2))
             @ctr.translateOnAxis(Mesh.Z,  100)
         
-        return
+        # return
             
         if @angle > 160 and @angle % 20 == 0
             
