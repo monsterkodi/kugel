@@ -6,10 +6,12 @@
    000     000   000  000   000  000  0000000
 ###
 log      = require './knix/log'
+tools    = require './knix/tools'
 Mesh     = require './mesh'
 Quat     = require './quat'
 Vect     = require './vect'
 vec      = Vect.new
+rndrng   = tools.rndrng
 
 class Trail
     
@@ -19,7 +21,7 @@ class Trail
         for i in [0..num]
             @meshes.push new Mesh
                 type:   'box'
-                radius: 1+Math.random()*2
+                radius: rndrng(1,3)
                 color:  0x000044
                 dist:   0
                 quat:   Quat.rand()

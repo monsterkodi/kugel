@@ -87,7 +87,7 @@ class Snake
                     
             t = new Mesh
                 type:     'box'
-                radius:   1+Math.random()*0.5        
+                radius:   rndrng(1,1.5)
                 color:    0x000044
                 position: pos
             t.quaternion.copy Quat.rand()
