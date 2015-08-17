@@ -13,21 +13,13 @@ log      = require './knix/log'
 dbg      = require './knix/log'
 tools    = require './knix/tools'
 material = require './material'
+Quat     = require './quat'
+Vect     = require './vect'
+vec      = Vect.new
 deg2rad  = tools.deg2rad
 rad2deg  = tools.rad2deg
 rndrng   = tools.rndrng
 deg      = tools.deg
-Quat     = require './quat'
-
-VectorX = new THREE.Vector3 1,0,0
-VectorY = new THREE.Vector3 0,1,0
-VectorZ = new THREE.Vector3 0,0,1
-
-THREE.Vector3.prototype.normalized = () -> 
-    v = new THREE.Vector3()
-    v.copy @
-    v.normalize()
-    v
     
 class Game
     
@@ -64,7 +56,7 @@ class Game
         for i in [0..particles]
             r = Math.random()
             r = r * r
-            v = new THREE.Vector3 250 + r*100, 0, 0
+            v = vec 250 + r*100, 0, 0
             v.applyQuaternion Quat.axis VectorY, rndrng(-180,180)
             v.y += Math.random()*10
             geometry.vertices.push v
@@ -88,8 +80,8 @@ class Game
         
         q = @player.getWorldQuaternion().clone()
         d = step.delta * 1.5
-        q.multiply Quat.axis(VectorX, -@tgt.y * d)
-        q.multiply Quat.axis(VectorY,  @tgt.x * d)
+        q.multiply Quat.axis(Vect.X, -@tgt.y * d)
+        q.multiply Quat.axis(Vect.Y,  @tgt.x * d)
         
         @doto.setQuat q
         for snake in @snakes

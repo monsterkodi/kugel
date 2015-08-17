@@ -32,7 +32,7 @@ class Snake
                 material: material.snake
                 detail: 1
                 radius: 2.0-i/(@steps-1)
-                position: new THREE.Vector3(0,6,0).applyQuaternion new THREE.Quaternion().setFromAxisAngle(Mesh.X, -deg2rad(30+130*i/(@steps-1)))
+                position: new THREE.Vector3(0,6,0).applyQuaternion Quat.axis Mesh.X, -30-130*i/(@steps-1)
                 parent: @obj   
         @ctr.add @obj
         scene.add @ctr
@@ -66,7 +66,7 @@ class Snake
         
         # log "snake", step
         
-        @obj.quaternion.copy new THREE.Quaternion().setFromAxisAngle(Mesh.X, deg2rad(@angle))
+        @obj.quaternion.copy Quat.axis Mesh.X, @angle
 
         @angle += 2
                 

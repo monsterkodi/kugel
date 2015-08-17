@@ -1,13 +1,16 @@
 tools   = require './knix/tools'
 color   = require './color'
 log     = require './knix/log'
+Vect    = require './vect'
+Quat    = require './quat'
+vec     = Vect.new
 clamp   = tools.clamp
 deg2rad = tools.deg2rad
 
 class Truck
 
     constructor: (config={}) -> 
-        @target  = new THREE.Vector3()
+        @target  = vec()
         fov      = config.fov or 60
         far      = config.far or 1000
         near     = config.near or 0.001
@@ -63,7 +66,7 @@ class Truck
         requestAnimationFrame @moveToTargetAnim
 
     setTarget: (target) =>
-        diff = new THREE.Vector3()
+        diff = vec()
         diff.copy target
         diff.sub @target
         @target.copy target
@@ -97,8 +100,8 @@ class Truck
                 
         # if event.shiftKey or event.altKey or event.ctrlKey or event.metaKey
         q = @camera.quaternion.clone()
-        q.multiply new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1,0,0), deltaY/400.0)
-        q.multiply new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,1,0), deltaX/200.0)
+        q.multiply Quat.axis(vec(1,0,0), deltaY*0.2)
+        q.multiply Quat.axis(vec(0,1,0), deltaX*0.1)
         @setQuat q
         
     distFactor: () => (@dist - @minDist) / (@maxDist - @minDist)
@@ -106,8 +109,8 @@ class Truck
     setQuat: (quat) =>
         dist = @camera.position.distanceTo @target
         
-        camUp  = new THREE.Vector3(0,1,0)
-        camPos = new THREE.Vector3(0,0,1)
+        camUp  = vec(0,1,0)
+        camPos = vec(0,0,1)
         camUp.applyQuaternion quat
         camPos.applyQuaternion quat
         
