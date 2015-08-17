@@ -11,6 +11,8 @@ Quat     = require './quat'
 log      = require './knix/log'
 tools    = require './knix/tools'
 material = require './material'
+Vect     = require './vect'
+vec      = Vect.new
 deg2rad  = tools.deg2rad
 rndrng   = tools.rndrng
 rndint   = tools.rndint
@@ -32,58 +34,58 @@ class Snake
                 material: material.snake
                 detail: 1
                 radius: 2.0-i/(@steps-1)
-                position: new THREE.Vector3(0,6,0).applyQuaternion Quat.axis Mesh.X, -30-130*i/(@steps-1)
+                position: vec(0,6,0).applyQuaternion Quat.axis Vect.X, -30-130*i/(@steps-1)
                 parent: @obj   
         @ctr.add @obj
         scene.add @ctr
         
         @ctr.quaternion.copy @ctrPos
-        @ctr.position.copy new THREE.Vector3(0,0,100).applyQuaternion(@ctrPos)
+        @ctr.position.copy vec(0,0,100).applyQuaternion(@ctrPos)
         
         if false
             new Mesh
                 type:      'spike'
                 radius:    1   
                 color:     0xff0000
-                position:  new THREE.Vector3 12,0,0
+                position:  vec 12,0,0
                 parent:    @ctr
             
             new Mesh
                 type:      'spike'
                 radius:    1
                 color:     0x008800
-                position:  new THREE.Vector3 0,6,0
+                position:  vec 0,6,0
                 parent:    @ctr
             
             new Mesh
                 type:      'spike'
                 radius:    1
                 color:     0x0000ff
-                position:  new THREE.Vector3 0,0,6
+                position:  vec 0,0,6
                 parent:    @ctr
             
     frame: (step) =>
         
         # log "snake", step
         
-        @obj.quaternion.copy Quat.axis Mesh.X, @angle
+        @obj.quaternion.copy Quat.axis Vect.X, @angle
 
         @angle += 2
                 
         if @angle >= 360
             @angle = 0
             rotangle = rndrng(-120, 120)
-            @ctr.translateOnAxis(Mesh.Z, -100)
-            @ctr.rotateOnAxis(Mesh.Z,  deg2rad(rotangle/2))
-            @ctr.rotateOnAxis(Mesh.X,  deg2rad(10))
-            @ctr.rotateOnAxis(Mesh.Z,  deg2rad(rotangle/2))
-            @ctr.translateOnAxis(Mesh.Z,  100)
+            @ctr.translateOnAxis(Vect.Z, -100)
+            @ctr.rotateOnAxis(Vect.Z,  deg2rad(rotangle/2))
+            @ctr.rotateOnAxis(Vect.X,  deg2rad(10))
+            @ctr.rotateOnAxis(Vect.Z,  deg2rad(rotangle/2))
+            @ctr.translateOnAxis(Vect.Z,  100)
         
         # return
             
         if @angle > 160 and @angle % 20 == 0
             
-            pos = new THREE.Vector3(0,-5.75,-1.5).applyQuaternion @obj.quaternion
+            pos = vec(0,-5.75,-1.5).applyQuaternion @obj.quaternion
             pos.applyQuaternion @ctr.quaternion
             pos.add @ctr.position
                     

@@ -2,6 +2,8 @@ tools    = require './knix/tools'
 color    = require './color'
 material = require './material'
 log      = require './knix/log'
+Vect     = require './vect'
+vec      = Vect.new
 clamp    = tools.clamp
 deg2rad  = tools.deg2rad
 
@@ -14,10 +16,6 @@ deg2rad  = tools.deg2rad
 ###
 
 class Mesh extends THREE.Mesh
-
-    @X = new THREE.Vector3 1,0,0
-    @Y = new THREE.Vector3 0,1,0
-    @Z = new THREE.Vector3 0,0,1
 
     constructor: (config={}) ->
         
@@ -60,7 +58,6 @@ class Mesh extends THREE.Mesh
         else if config.dist?
             @setAzimAlti @azim, @alti
         else if config.position?
-            # @position.copy new THREE.Vector3 config.position[0], config.position[1], config.position[2]
             @position.copy config.position
             
     remove: () => scene.remove @
@@ -68,17 +65,17 @@ class Mesh extends THREE.Mesh
     setAzimAlti: (azim,alti) =>
         @alti = alti
         @azim = azim
-        pos   = new THREE.Vector3 0,0,@dist
+        pos   = vec 0,0,@dist
         pitch = deg2rad -@alti
         yaw   = deg2rad  @azim
-        pos.applyAxisAngle new THREE.Vector3(1,0,0), pitch
-        pos.applyAxisAngle new THREE.Vector3(0,1,0), yaw
+        pos.applyAxisAngle vec(1,0,0), pitch
+        pos.applyAxisAngle vec(0,1,0), yaw
         @position.copy pos
         @rotation.copy new THREE.Euler pitch, yaw, 0, 'YXZ'
         
     setQuat: (quat) =>
         @quaternion.copy quat
-        @position.copy new THREE.Vector3(0,0,@dist).applyQuaternion quat
+        @position.copy vec(0,0,@dist).applyQuaternion quat
         
 
 module.exports = Mesh

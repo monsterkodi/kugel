@@ -57,7 +57,7 @@ class Game
             r = Math.random()
             r = r * r
             v = vec 250 + r*100, 0, 0
-            v.applyQuaternion Quat.axis VectorY, rndrng(-180,180)
+            v.applyQuaternion Quat.axis Vect.Y, rndrng(-180,180)
             v.y += Math.random()*10
             geometry.vertices.push v
             geometry.colors.push new THREE.Color 0,0,0.25+Math.random()*0.25

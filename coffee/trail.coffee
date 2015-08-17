@@ -8,6 +8,8 @@
 Mesh     = require './mesh'
 Quat     = require './quat'
 log      = require './knix/log'
+Vect     = require './vect'
+vec      = Vect.new
 
 class Trail
     
@@ -17,7 +19,7 @@ class Trail
 
         for m in @meshes
             m.dist = m.dist-0.008
-            m.position.copy new THREE.Vector3(0,0,m.dist).applyQuaternion m.quat
+            m.position.copy vec(0,0,m.dist).applyQuaternion m.quat
             if m.dist < 97.5
                 @meshes.splice(@meshes.indexOf(m), 1)[0].remove()
             
