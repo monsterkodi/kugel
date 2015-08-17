@@ -13,6 +13,7 @@ tools    = require './knix/tools'
 material = require './material'
 deg2rad  = tools.deg2rad
 rndrng   = tools.rndrng
+rndint   = tools.rndint
 
 class Snake
     
@@ -20,8 +21,8 @@ class Snake
         @steps  = 10
         @index  = 0
         @tail   = []
-        @ctrPos = config?.quat or new Quat()
-        @angle  = config?.angle or 0
+        @ctrPos = config?.quat or Quat.rand()
+        @angle  = rndint(360)-180
         @dir = 0
         @ctr = new THREE.Object3D()
         @obj = new THREE.Object3D()
@@ -67,7 +68,7 @@ class Snake
         
         @obj.quaternion.copy new THREE.Quaternion().setFromAxisAngle(Mesh.X, deg2rad(@angle))
 
-        @angle += 4
+        @angle += 2
                 
         if @angle >= 360
             @angle = 0
@@ -77,6 +78,8 @@ class Snake
             @ctr.rotateOnAxis(Mesh.X,  deg2rad(10))
             @ctr.rotateOnAxis(Mesh.Z,  deg2rad(rotangle/2))
             @ctr.translateOnAxis(Mesh.Z,  100)
+        
+        return
             
         if @angle > 160 and @angle % 20 == 0
             

@@ -67,10 +67,9 @@ anim = () ->
     # secs = Math.floor(1000*(secs*9+clock.getDelta())/10.0)/1000.0
     ssum += clock.getDelta()
     scnt += 1
-    secs = ssum/scnt
+    # secs = ssum/scnt
     step = 
         delta: secs*1000
-        # dsecs: secs
         dsecs: secs
     game?.frame step
     render()

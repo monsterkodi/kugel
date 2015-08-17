@@ -44,15 +44,12 @@ class Game
             type:   'sphere'
             radius: 2
             color:  0x000088
-            # dist:   108
             
         @trail = new Trail()
         @snakes = []
-        # @snakes.push new Snake
-        for i in [0..20]
-            @snakes.push new Snake
-                quat: Quat.rand()
-                angle: Math.random()*360 - 180
+
+        for i in [0..50]
+            @snakes.push new Snake()
             
         @createRing()
             
