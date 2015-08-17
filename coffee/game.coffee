@@ -48,7 +48,7 @@ class Game
             
         @trail = new Trail()
         @snakes = []
-        for i in [0..0]
+        for i in [0..4]
             @snakes.push new Snake
                 quat: Quat.rand()
                 angle: Math.random()*180
