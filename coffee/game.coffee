@@ -42,7 +42,7 @@ class Game
         @trail = new Trail()
         @snakes = []
 
-        for i in [0..50]
+        for i in [0..1]
             @snakes.push new Snake()
             
         @createRing()

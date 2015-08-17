@@ -66,8 +66,6 @@ class Snake
             
     frame: (step) =>
         
-        # log "snake", step
-        
         @obj.quaternion.copy Quat.axis Vect.X, @angle
 
         @angle += 2
@@ -81,8 +79,6 @@ class Snake
             @ctr.rotateOnAxis(Vect.Z,  deg2rad(rotangle/2))
             @ctr.translateOnAxis(Vect.Z,  100)
         
-        # return
-            
         if @angle > 160 and @angle % 20 == 0
             
             pos = vec(0,-5.75,-1.5).applyQuaternion @obj.quaternion
@@ -90,10 +86,10 @@ class Snake
             pos.add @ctr.position
                     
             t = new Mesh
-                type:      'box'
-                radius:    1+Math.random()*0.5        
-                color:     0x000044
-                position:  pos
+                type:     'box'
+                radius:   1+Math.random()*0.5        
+                color:    0x000044
+                position: pos
             t.quaternion.copy Quat.rand()
                 
             @tail.unshift t
