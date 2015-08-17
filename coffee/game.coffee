@@ -24,6 +24,7 @@ deg      = tools.deg
 class Game
     
     constructor: (truck,renderer) ->
+        
         @truck = truck
         @tgt = new THREE.Vector2 0,0
         @player = new Mesh
@@ -47,6 +48,7 @@ class Game
         @createRing()
             
     createRing: () =>
+        
         geometry = new THREE.Geometry()
         
         particles = 6000
@@ -91,11 +93,9 @@ class Game
             @trail.add @player.getWorldQuaternion()
         
         f = step.dsecs * 4
-        q2 = @player.getWorldQuaternion().slerp(q,f)
-        @player.setQuat q2
+        @player.setQuat @player.getWorldQuaternion().slerp(q,f)
         
         f = step.dsecs * 2
-        q3 = @truck.camera.getWorldQuaternion().slerp(q,f)
-        @truck.setQuat q3
+        @truck.setQuat @truck.camera.getWorldQuaternion().slerp(q,f)
         
 module.exports = Game
