@@ -6,3 +6,4 @@ module.exports =
     sphere:        0x000033
     spike:         0x4444ff
     snake:         0x000088
+    trail:         0x000044

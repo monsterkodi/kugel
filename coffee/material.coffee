@@ -13,6 +13,8 @@ module.exports =
         color:     color.sphere
         side:      THREE.FrontSide
         shading:   THREE.SmoothShading
+        transparent: true
+        opacity: 0.95
         shininess: 0
 
     snake: new THREE.MeshPhongMaterial
@@ -26,6 +28,14 @@ module.exports =
         side:      THREE.FrontSide
         shading:   THREE.FlatShading
         shininess: -5
+
+    trail: new THREE.MeshPhongMaterial
+        color:     color.trail
+        side:      THREE.FrontSide
+        shading:   THREE.FlatShading
+        transparent: true
+        opacity: 0.75
+        shininess: 0
               
     outline:   new THREE.ShaderMaterial 
         transparent: true,
