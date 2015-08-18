@@ -44,7 +44,7 @@ class Game
             
         @snakes = []
 
-        for i in [0..100]
+        for i in [0..0]
             @snakes.push new Snake()
             
         @createRing()

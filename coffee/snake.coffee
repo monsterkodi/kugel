@@ -26,7 +26,7 @@ class Snake
         @index  = 0
 
         @ctrPos = config?.quat or Quat.rand()
-        @angle  = rndint(360)-180
+        @angle  = 0 #rndint(360)-180
 
         @trail = new Trail 
             num:       7
@@ -37,85 +37,129 @@ class Snake
         @obja = new THREE.Object3D()
         @ctrb = new THREE.Object3D()
         @objb = new THREE.Object3D()
-        for i in [0..@steps-1]
+        
+        for i in [0..@steps-2]
             m = new Mesh
                 type:   'sphere'
                 material: material.snake
                 detail: 1
-                radius: 2.0-i/(@steps-1)
+                radius: 1.1-i/(@steps-1)
                 position: vec(0,6,0).applyQuaternion Quat.axis Vect.X, -180*i/@steps
                 parent: @obja  
+                
         @ctra.add @obja
         @ctrb.add @objb
-        
-        @ctrb.position.copy vec(0,0,100).applyQuaternion(@ctrPos)
-        @ctrb.translateOnAxis Vect.Z, 12
-        @ctrb.position.setLength 100
-        @ctrb.quaternion Quat.vects vec(0,0,100), @ctrb.position
-        
         scene.add @ctra
         scene.add @ctrb
-        
+        @mova = false
+
         @ctra.quaternion.copy @ctrPos
         @ctra.position.copy vec(0,0,100).applyQuaternion(@ctrPos)
+
+        @ctrb.quaternion.copy @ctrPos
+        @ctrb.position.copy vec(0,0,100).applyQuaternion(@ctrPos)
         
-        if false
+        @ctrb.translateOnAxis Vect.Y, 12
+                        
+        if true
+
+            new Mesh
+                type:      'spike'
+                radius:    1   
+                color:     0xffffff
+                position:  vec 0,0,0
+                parent:    @ctra
+
             new Mesh
                 type:      'spike'
                 radius:    1   
                 color:     0xff0000
-                position:  vec 12,0,0
-                parent:    @ctr
+                position:  vec 6,0,0
+                parent:    @ctra
             
             new Mesh
                 type:      'spike'
                 radius:    1
-                color:     0x008800
+                color:     0x004400
                 position:  vec 0,6,0
-                parent:    @ctr
+                parent:    @ctra
             
             new Mesh
                 type:      'spike'
                 radius:    1
                 color:     0x0000ff
                 position:  vec 0,0,6
-                parent:    @ctr
+                parent:    @ctra
+
+            new Mesh
+                type:      'spike'
+                radius:    1   
+                color:     0x888888
+                position:  vec 0,0,0
+                parent:    @ctrb
+                wireframe: true
+
+            new Mesh
+                type:      'spike'
+                radius:    1   
+                color:     0xff0000
+                position:  vec 6,0,0
+                parent:    @ctrb
+                wireframe: true
+            
+            new Mesh
+                type:      'spike'
+                radius:    1
+                color:     0x004400
+                position:  vec 0,6,0
+                parent:    @ctrb
+                wireframe: true
+            
+            new Mesh
+                type:      'spike'
+                radius:    1
+                color:     0x0000ff
+                position:  vec 0,0,6
+                parent:    @ctrb
+                wireframe: true
             
     frame: (step) =>
-        
-        @obj.quaternion.copy Quat.axis Vect.X, @angle
-        @blw.quaternion.copy Quat.axis Vect.X, -@angle
-        @blw.quaternion.multiply Quat.axis Vect.Z, 180
 
-        @angle += 1
-                
-        if @angle >= 360
-            @angle = 0
+        @angle += 2
+
+        intAngle = parseInt @angle
+        fullAngle = Math.abs(intAngle-@angle) < 0.1
+        log intAngle, @angle, intAngle - @angle
+
+        if fullAngle and intAngle%180 == 0
+            if intAngle == 360
+                @angle = 0
             # rotangle = rndrng(-120, 120)
-            # @ctr.translateOnAxis(Vect.Z, -100)
-            # @ctr.rotateOnAxis(Vect.Z,  deg2rad(rotangle/2))
-            # @ctr.rotateOnAxis(Vect.X,  deg2rad(10))
-            # @ctr.rotateOnAxis(Vect.Z,  deg2rad(rotangle/2))
-            # @ctr.translateOnAxis(Vect.Z,  100)
-            pos = @blw.localToWorld vec()
-            pos.setLength 100
-            @ctr.position.copy pos
+            if @mova
+                @ctra.translateOnAxis Vect.Y, -24
+            else
+                @ctrb.translateOnAxis Vect.Y, -24
+            @mova = not @mova
         
+        @obja.quaternion.copy Quat.axis Vect.X, @angle
+        @objb.quaternion.copy Quat.axis Vect.X, -@angle
+        @objb.quaternion.multiply Quat.axis Vect.Z, 180
+            
         @trail.frame step
         
-        if @angle % 18 == 0
-            if @angle < 180 and @blw.children.length
-                @obj.add @blw.children[0]
+        if fullAngle
+            if intAngle % 20 == 0 
+                if @angle < 180 and @objb.children.length
+                    @obja.add @objb.children[0]
+                else if @angle >= 180 
+                    @objb.add @obja.children[0]
                 
-            else if @angle >= 180 
-                @blw.add @obj.children[0]
-            
-        if @angle >= 180 and @angle %20 == 0            
-            pos = vec(0,-5.75,-1.5).applyQuaternion @obj.quaternion
-            pos.applyQuaternion @ctr.quaternion
-            pos.add @ctr.position
-            @trail.add pos
-            
+            if @angle >= 180 and intAngle%20 == 0            
+                pos = vec(0,-5.75,-1.5).applyQuaternion @obja.quaternion
+                pos.applyQuaternion @ctra.quaternion
+                pos.add @ctra.position
+                @trail.add pos
+        
                 
                 
 module.exports = Snake
