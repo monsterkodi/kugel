@@ -43,8 +43,8 @@ class Snake
                 type:   'sphere'
                 material: material.snake
                 detail: 1
-                radius: 1.1-i/(@steps-1)
-                position: vec(0,6,0).applyQuaternion Quat.axis Vect.X, -180*i/@steps
+                radius: 2.0-i/(@steps-1)
+                position: vec(0,6,0).applyQuaternion Quat.axis Vect.X, -180*i/(@steps-1)
                 parent: @obja  
                 
         @ctra.add @obja
@@ -61,7 +61,7 @@ class Snake
         
         @ctrb.translateOnAxis Vect.Y, 12
                         
-        if true
+        if false
 
             new Mesh
                 type:      'spike'
@@ -125,16 +125,15 @@ class Snake
             
     frame: (step) =>
 
-        @angle += 2
+        @angle += 1
 
         intAngle = parseInt @angle
         fullAngle = Math.abs(intAngle-@angle) < 0.1
-        log intAngle, @angle, intAngle - @angle
 
         if fullAngle and intAngle%180 == 0
             if intAngle == 360
                 @angle = 0
-            # rotangle = rndrng(-120, 120)
+                intAngle = 0
             if @mova
                 @ctra.translateOnAxis Vect.Y, -24
             else
