@@ -22,8 +22,6 @@ class Mesh extends THREE.Mesh
         @type   = config.type   or 'sphere'
         @radius = config.radius or 1
         @detail = config.detail or 4
-        @alti   = config.alti   or 0
-        @azim   = config.azim   or 0
         @dist   = config.dist   or 0
                 
         switch @type
@@ -55,23 +53,10 @@ class Mesh extends THREE.Mesh
         if config.quat?
             @quat = config.quat
             @setQuat config.quat
-        else if config.dist?
-            @setAzimAlti @azim, @alti
         else if config.position?
             @position.copy config.position
             
     remove: () => scene.remove @
-            
-    setAzimAlti: (azim,alti) =>
-        @alti = alti
-        @azim = azim
-        pos   = vec 0,0,@dist
-        pitch = deg2rad -@alti
-        yaw   = deg2rad  @azim
-        pos.applyAxisAngle vec(1,0,0), pitch
-        pos.applyAxisAngle vec(0,1,0), yaw
-        @position.copy pos
-        @rotation.copy new THREE.Euler pitch, yaw, 0, 'YXZ'
         
     setQuat: (quat) =>
         @quaternion.copy quat

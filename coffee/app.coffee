@@ -28,6 +28,9 @@ Truck   = require './js/truck'
 Mesh    = require './js/mesh'
 color   = require './js/color'
 Game    = require './js/game'
+Quat    = require './js/quat'
+Vect    = require './js/vect'
+vec     = Vect.new
 
 win       = remote.getCurrentWindow()
 renderer  = null
@@ -152,72 +155,42 @@ document.observe 'dom:loaded', ->
         new Mesh
             type:      'spike'
             radius:    6
-            position:  [106,0,0]
             color:     0xff0000
-            wireframe: true
+            position:  vec(106,0,0)
         
         new Mesh
             type:      'spike'
             radius:    6
-            position:  [0,106,0]
             color:     0x00ff00
-            wireframe: true
+            position:  vec(0,106,0)
         
         new Mesh
             type:      'spike'
             radius:    6
-            position:  [0,0,106]
+            color:     0x8888ff
+            position:  vec(0,0,106)
+        
+        new Mesh
+            type:      'spike'
+            radius:    6
+            color:     0xff0000
+            wireframe: true
+            position:  vec(-106, 0, 0)
+                
+        new Mesh
+            type:      'spike'
+            radius:    6        
+            color:     0x00ff00
+            wireframe: true
+            position:  vec(0, -106, 0)
+
+        new Mesh
+            type:      'spike'
+            radius:    6
             color:     0x8888ff
             wireframe: true
-        
-        new Mesh
-            type:      'spike'
-            radius:    4
-            color:     0xff0000
-            dist:      106
-            azim: 90
-            alti: 0
-        
-        new Mesh
-            type:      'spike'
-            radius:    4
-            color:     0xff0000
-            dist:      106
-            azim: -90
-            alti: 0
-        
-        new Mesh
-            type:      'spike'
-            radius:    14        
-            color:     0x00ff00
-            dist:      106
-            azim: 0
-            alti: 90
-        
-        new Mesh
-            type:      'spike'
-            radius:    14        
-            color:     0x00ff00
-            dist:      106
-            azim: 0
-            alti: -90
-        
-        new Mesh
-            type:      'spike'
-            radius:    4
-            color:     0x8888ff
-            dist:      106
-            azim: 0
-            alti: 0
-        
-        new Mesh
-            type:      'spike'
-            radius:    4
-            color:     0x8888ff
-            dist:      106
-            azim: 180
-            alti: 0
-            
+            position:  vec(0,0,-106)
+                    
 ###
 00     00  00000000  000   000  000   000
 000   000  000       0000  000  000   000

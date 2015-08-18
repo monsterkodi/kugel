@@ -28,11 +28,11 @@ class Game
         @truck = truck
         @tgt = new THREE.Vector2 0,0
         @player = new Mesh
-            type:   'spike'
-            radius: 4
-            color:  0xffffff
-            dist:   104
-            azim:   0
+            type:     'spike'
+            radius:   4
+            color:    0xffffff
+            dist:     104
+            position: vec(0,0,100)
         
         @doto = new Mesh
             type:   'sphere'
@@ -42,7 +42,7 @@ class Game
         @trail = new Trail()
         @snakes = []
 
-        for i in [0..1]
+        for i in [0..100]
             @snakes.push new Snake()
             
         @createRing()
