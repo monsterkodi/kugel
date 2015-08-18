@@ -44,7 +44,7 @@ class Game
             
         @snakes = []
 
-        for i in [0..0]
+        for i in [0..100]
             @snakes.push new Snake()
             
         @createRing()
@@ -92,7 +92,6 @@ class Game
             snake.frame step
         @trail.frame step
         if @trail.meshes.length == 0 or @player.position.distanceTo(@trail.meshes[0].position) > 5
-            # vec(0,0,100).applyQuaternion @player.getWorldQuaternion()
             @trail.add @player.position.clone().setLength(100)
         
         f = step.dsecs * 4

@@ -7,6 +7,7 @@
 ###
 
 tools    = require './knix/tools'
+Vect     = require './vect'
 deg2rad  = tools.deg2rad
 
 class Quat extends THREE.Quaternion
@@ -14,6 +15,6 @@ class Quat extends THREE.Quaternion
     @rand: () -> @euler 2*Math.random()*Math.PI, 2*Math.random()*Math.PI, 2*Math.random()*Math.PI
     @euler: (x,y,z) -> new Quat().setFromEuler new THREE.Euler(x,y,z)
     @axis: (axis,deg) -> new Quat().setFromAxisAngle axis, deg2rad(deg)
-    @vects: (a,b) -> new Quat().setFromUnitVectors a.normalized(), b.normalized()
+    @vecs: (a,b) -> new Quat().setFromUnitVectors a.normalized(), b.normalized()
 
 module.exports = Quat

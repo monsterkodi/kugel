@@ -22,16 +22,19 @@ class Snake
     
     constructor: (config) -> 
         
-        @steps  = 10
+        @steps  = 12
         @index  = 0
+        @radius = 8
 
         @ctrPos = config?.quat or Quat.rand()
-        @angle  = 0 #rndint(360)-180
+        @angle  = rndint(90)*2
 
         @trail = new Trail 
             num:       7
-            maxRadius: 1.5
-            speed:     0.02
+            minRadius: 0.5
+            maxRadius: 1.0
+            speed:     0.03
+            randQuat:  true
         
         @ctra = new THREE.Object3D()
         @obja = new THREE.Object3D()
@@ -44,7 +47,7 @@ class Snake
                 material: material.snake
                 detail: 1
                 radius: 2.0-i/(@steps-1)
-                position: vec(0,6,0).applyQuaternion Quat.axis Vect.X, -180*i/(@steps-1)
+                position: vec(0,@radius,0).applyQuaternion Quat.axis Vect.X, -180*i/(@steps-1)
                 parent: @obja  
                 
         @ctra.add @obja
@@ -59,7 +62,9 @@ class Snake
         @ctrb.quaternion.copy @ctrPos
         @ctrb.position.copy vec(0,0,100).applyQuaternion(@ctrPos)
         
-        @ctrb.translateOnAxis Vect.Y, 12
+        @ctrb.translateOnAxis Vect.Z, -100
+        @ctrb.rotateOnAxis Vect.X, -@nextAngle()*0.5
+        @ctrb.translateOnAxis Vect.Z,  100
                         
         if false
 
@@ -122,10 +127,12 @@ class Snake
                 position:  vec 0,0,6
                 parent:    @ctrb
                 wireframe: true
+        
+    nextAngle: => deg2rad(360*@radius*4/(Math.PI*200.0))
             
     frame: (step) =>
 
-        @angle += 1
+        @angle += 2
 
         intAngle = parseInt @angle
         fullAngle = Math.abs(intAngle-@angle) < 0.1
@@ -135,9 +142,13 @@ class Snake
                 @angle = 0
                 intAngle = 0
             if @mova
-                @ctra.translateOnAxis Vect.Y, -24
+                @ctra.translateOnAxis Vect.Z, -100
+                @ctra.rotateOnAxis Vect.X, @nextAngle()
+                @ctra.translateOnAxis Vect.Z,  100
             else
-                @ctrb.translateOnAxis Vect.Y, -24
+                @ctrb.translateOnAxis Vect.Z, -100
+                @ctrb.rotateOnAxis Vect.X, @nextAngle()
+                @ctrb.translateOnAxis Vect.Z,  100
             @mova = not @mova
         
         @obja.quaternion.copy Quat.axis Vect.X, @angle
@@ -147,14 +158,14 @@ class Snake
         @trail.frame step
         
         if fullAngle
-            if intAngle % 20 == 0 
+            if intAngle % parseInt(180/(@steps-1)) == 0 
                 if @angle < 180 and @objb.children.length
                     @obja.add @objb.children[0]
                 else if @angle >= 180 
                     @objb.add @obja.children[0]
                 
-            if @angle >= 180 and intAngle%20 == 0            
-                pos = vec(0,-5.75,-1.5).applyQuaternion @obja.quaternion
+            if @angle >= 180 and intAngle % 20 == 0            
+                pos = vec(0,-@radius, 0).applyQuaternion @obja.quaternion
                 pos.applyQuaternion @ctra.quaternion
                 pos.add @ctra.position
                 @trail.add pos
