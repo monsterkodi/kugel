@@ -12,6 +12,7 @@ log      = require './knix/log'
 tools    = require './knix/tools'
 material = require './material'
 Vect     = require './vect'
+Trail    = require './trail'
 vec      = Vect.new
 deg2rad  = tools.deg2rad
 rndrng   = tools.rndrng
@@ -20,12 +21,18 @@ rndint   = tools.rndint
 class Snake
     
     constructor: (config) -> 
+        
         @steps  = 10
         @index  = 0
-        @tail   = []
+
         @ctrPos = config?.quat or Quat.rand()
         @angle  = rndint(360)-180
-        @dir = 0
+
+        @trail = new Trail 
+            num:       7
+            maxRadius: 1.5
+            speed:     0.02
+        
         @ctr = new THREE.Object3D()
         @obj = new THREE.Object3D()
         for i in [0..@steps-1]
@@ -79,28 +86,13 @@ class Snake
             @ctr.rotateOnAxis(Vect.Z,  deg2rad(rotangle/2))
             @ctr.translateOnAxis(Vect.Z,  100)
         
+        @trail.frame step
+        
         if @angle > 160 and @angle % 20 == 0
             
             pos = vec(0,-5.75,-1.5).applyQuaternion @obj.quaternion
             pos.applyQuaternion @ctr.quaternion
             pos.add @ctr.position
-                    
-            t = new Mesh
-                type:     'box'
-                radius:   rndrng(1,1.5)
-                color:    0x000044
-                position: pos
-            t.quaternion.copy Quat.rand()
-                
-            @tail.unshift t
-            
-        for t in @tail
-            t.position.setLength(t.position.length() - 0.04)
-            
-        if @tail.length > 0
-            for i in [@tail.length-1..0]
-                t = @tail[i]
-                if t.position.length() < 98
-                    @tail.splice(i, 1)[0].remove()
+            @trail.add pos
                 
 module.exports = Snake

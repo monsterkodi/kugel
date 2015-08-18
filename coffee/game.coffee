@@ -90,7 +90,8 @@ class Game
             snake.frame step
         @trail.frame step
         if @trail.meshes.length == 0 or @player.position.distanceTo(@trail.meshes[0].position) > 5
-            @trail.add @player.getWorldQuaternion()
+            # vec(0,0,100).applyQuaternion @player.getWorldQuaternion()
+            @trail.add @player.position.clone().setLength(100)
         
         f = step.dsecs * 4
         @player.setQuat @player.getWorldQuaternion().slerp(q,f)

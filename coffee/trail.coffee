@@ -15,32 +15,38 @@ rndrng   = tools.rndrng
 
 class Trail
     
-    constructor: (num=50) -> 
-        @num = num
-        @meshes = []
-        for i in [0..num]
-            @meshes.push new Mesh
+    constructor: (config={}) -> 
+        @num       = config.num or 50
+        @minRadius = config.minRadius or 1
+        @maxRadius = config.maxRadius or 2
+        @speed     = config.speed or 0.008
+        @meshes    = []
+        for i in [0..@num]
+            m = new Mesh
                 type:   'box'
-                radius: rndrng(1,3)
+                radius: rndrng @minRadius, @maxRadius
                 color:  0x000044
+                quat:   new Quat() #.rand()
                 dist:   0
-                quat:   Quat.rand()
+            @meshes.push m
         
     frame: (step) =>    
         
-        s = 0.008
+        s = @speed
         for m in @meshes
-            length = m.position.length() - s
+            l = m.position.length()
+            if l < 100 - m.radius
+                break
+            length = l - s
             s += 2*s/@num
             if length < 100 - m.radius
                 @meshes.push @meshes.splice(@meshes.indexOf(m), 1)[0]
             else
                 m.position.setLength length    
             
-    add: (quat) =>
+    add: (pos) =>
         
         @meshes.unshift @meshes.pop()
-        @meshes[0].position.copy vec(0,0,100).applyQuaternion quat
-        @meshes[0].quaternion.copy Quat.rand()
+        @meshes[0].position.copy pos
 
 module.exports = Trail
