@@ -26,7 +26,7 @@ class Trail
                 type:   'box'
                 radius: rndrng @minRadius, @maxRadius
                 color:  0x000044
-                quat:   new Quat() #.rand()
+                quat:   config.randQuat and Quat().rand() or new Quat()
                 dist:   0
             @meshes.push m
         
@@ -34,19 +34,20 @@ class Trail
         
         s = @speed
         for m in @meshes
-            l = m.position.length()
+            l = m.length
             if l < 100 - m.radius
                 break
-            length = l - s
+            m.length = l - s
             s += 2*s/@num
-            if length < 100 - m.radius
+            if m.length < 100 - m.radius
                 @meshes.push @meshes.splice(@meshes.indexOf(m), 1)[0]
             else
-                m.position.setLength length    
+                m.position.setLength m.length    
             
     add: (pos) =>
         
         @meshes.unshift @meshes.pop()
+        @meshes[0].length = pos.length()
         @meshes[0].position.copy pos
 
 module.exports = Trail

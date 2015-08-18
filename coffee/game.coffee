@@ -39,7 +39,9 @@ class Game
             radius: 2
             color:  0x000088
             
-        @trail = new Trail()
+        @trail = new Trail
+            randQuat: true
+            
         @snakes = []
 
         for i in [0..100]
