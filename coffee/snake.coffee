@@ -12,31 +12,26 @@ log      = require './knix/log'
 tools    = require './knix/tools'
 material = require './material'
 Vect     = require './vect'
-Trail    = require './trail'
+Bot      = require './bot'
 vec      = Vect.new
 deg2rad  = tools.deg2rad
 rndrng   = tools.rndrng
 rndint   = tools.rndint
 
-class Snake
+class Snake extends Bot
     
-    constructor: (config) -> 
+    constructor: (config={}) -> 
+        
+        config.trail = true
+        super config
         
         t = rndint(3)
         @steps  = [10, 12, 16][t]
         @radius = [6,  9, 12][t]
         @speed  = [4,  2,  1][t]
 
-        @ctrPos = config?.quat or Quat.rand()
         @angle  = rndint(360/4)*4
         @swapAngle = deg2rad(360*@radius*2/(Math.PI*200.0))
-
-        @trail = new Trail 
-            num:       7
-            minRadius: 0.5
-            maxRadius: 1.0
-            speed:     0.03
-            randQuat:  true
         
         @ctra = new THREE.Object3D()
         @obja = new THREE.Object3D()
@@ -72,72 +67,8 @@ class Snake
             for j in [0..parseInt((@angle-180) / (180 / (@steps-1)))]
                 @objb.add @obja.children[0]
                         
-        if false
-
-            new Mesh
-                type:      'spike'
-                radius:    1   
-                color:     0xffffff
-                position:  vec 0,0,0
-                parent:    @ctra
-
-            new Mesh
-                type:      'spike'
-                radius:    1   
-                color:     0xff0000
-                position:  vec 6,0,0
-                parent:    @ctra
-            
-            new Mesh
-                type:      'spike'
-                radius:    1
-                color:     0x004400
-                position:  vec 0,6,0
-                parent:    @ctra
-            
-            new Mesh
-                type:      'spike'
-                radius:    1
-                color:     0x0000ff
-                position:  vec 0,0,6
-                parent:    @ctra
-
-            new Mesh
-                type:      'spike'
-                radius:    1   
-                color:     0x888888
-                position:  vec 0,0,0
-                parent:    @ctrb
-                wireframe: true
-
-            new Mesh
-                type:      'spike'
-                radius:    1   
-                color:     0xff0000
-                position:  vec 6,0,0
-                parent:    @ctrb
-                wireframe: true
-            
-            new Mesh
-                type:      'spike'
-                radius:    1
-                color:     0x004400
-                position:  vec 0,6,0
-                parent:    @ctrb
-                wireframe: true
-            
-            new Mesh
-                type:      'spike'
-                radius:    1
-                color:     0x0000ff
-                position:  vec 0,0,6
-                parent:    @ctrb
-                wireframe: true
-                
     frame: (step) =>
         
-        # return
-
         @angle += @speed
 
         intAngle = parseInt @angle
@@ -165,9 +96,9 @@ class Snake
         @obja.quaternion.copy Quat.axis Vect.X, @angle
         @objb.quaternion.copy Quat.axis Vect.X, -@angle
         @objb.quaternion.multiply Quat.axis Vect.Z, 180
-            
-        @trail.frame step
         
+        super step
+            
         if fullAngle
             if intAngle % parseInt(180/(@steps-1)) == 0 
                 if @angle < 180 and @objb.children.length
@@ -175,12 +106,11 @@ class Snake
                 else if @angle >= 180 
                     @objb.add @obja.children[0]
                 
-            if @angle >= 180 and intAngle % 20 == 0            
-                pos = vec(0,-@radius, 0).applyQuaternion @obja.quaternion
-                pos.applyQuaternion @ctra.quaternion
-                pos.add @ctra.position
-                @trail.add pos
-        
-                
-                
+            if @trail?
+                if @angle >= 180 and intAngle % 20 == 0            
+                    pos = vec(0,-@radius, 0).applyQuaternion @obja.quaternion
+                    pos.applyQuaternion @ctra.quaternion
+                    pos.add @ctra.position
+                    @trail.add pos
+                            
 module.exports = Snake

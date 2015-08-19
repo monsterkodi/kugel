@@ -29,6 +29,10 @@ class Mesh extends THREE.Mesh
                 geom = new THREE.IcosahedronGeometry @radius, @detail
             when 'spike'
                 geom = new THREE.OctahedronGeometry @radius
+            when 'ring'
+                geom = new THREE.RingGeometry @radius/2, @radius, @detail
+            when 'torus'
+                geom = new THREE.TorusGeometry @radius, @radius/4, @detail, @detail/2
             when 'box'
                 geom = new THREE.BoxGeometry @radius, @radius, @radius
         

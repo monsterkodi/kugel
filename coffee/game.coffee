@@ -9,6 +9,7 @@
 Mesh     = require './mesh'
 Trail    = require './trail'
 Snake    = require './snake'
+Boid     = require './boid'
 log      = require './knix/log'
 dbg      = require './knix/log'
 tools    = require './knix/tools'
@@ -43,9 +44,12 @@ class Game
             randQuat: true
             
         @snakes = []
-
-        for i in [0..100]
+        for i in [0..10]
             @snakes.push new Snake()
+
+        @boids = []
+        for i in [0..20]
+            @boids.push new Boid()
             
         @createRing()
             
@@ -88,8 +92,13 @@ class Game
         q.multiply Quat.axis(Vect.Y,  @tgt.x * d)
         
         @doto.setQuat q
+        
         for snake in @snakes
             snake.frame step
+            
+        for boid in @boids
+            boid.frame step
+            
         @trail.frame step
         if @trail.meshes.length == 0 or @player.position.distanceTo(@trail.meshes[0].position) > 5
             @trail.add @player.position.clone().setLength(100)
