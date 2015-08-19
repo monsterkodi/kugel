@@ -1,3 +1,11 @@
+###
+00     00  00000000   0000000  000   000
+000   000  000       000       000   000
+000000000  0000000   0000000   000000000
+000 0 000  000            000  000   000
+000   000  00000000  0000000   000   000
+###
+
 tools    = require './knix/tools'
 color    = require './color'
 material = require './material'
@@ -7,32 +15,29 @@ vec      = Vect.new
 clamp    = tools.clamp
 deg2rad  = tools.deg2rad
 
-###
-00     00  00000000   0000000  000   000
-000   000  000       000       000   000
-000000000  0000000   0000000   000000000
-000 0 000  000            000  000   000
-000   000  00000000  0000000   000   000
-###
-
 class Mesh extends THREE.Mesh
 
     constructor: (config={}) ->
         
         @type   = config.type   or 'sphere'
         @radius = config.radius or 1
-        @detail = config.detail or 4
+        @detail = config.detail if config.detail?
         @dist   = config.dist   or 0
                 
         switch @type
             when 'sphere'
+                @detail = 4 unless @detail?
                 geom = new THREE.IcosahedronGeometry @radius, @detail
             when 'spike'
                 geom = new THREE.OctahedronGeometry @radius
             when 'ring'
+                @detail = 16 unless @detail?
                 geom = new THREE.RingGeometry @radius/2, @radius, @detail
             when 'torus'
+                @detail = 32 unless @detail?
                 geom = new THREE.TorusGeometry @radius, @radius/4, @detail, @detail/2
+            when 'pyramid'
+                geom = new THREE.TetrahedronGeometry @radius
             when 'box'
                 geom = new THREE.BoxGeometry @radius, @radius, @radius
         

@@ -22,6 +22,14 @@ module.exports =
         side:      THREE.FrontSide
         shading:   THREE.SmoothShading
         shininess: 0
+
+    boid: new THREE.MeshPhongMaterial
+        color:     color.boid
+        side:      THREE.FrontSide
+        shading:   THREE.SmoothShading
+        transparent: true
+        opacity: 0.75        
+        shininess: 0
         
     spike: new THREE.MeshPhongMaterial
         color:     color.spike

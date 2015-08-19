@@ -28,6 +28,7 @@ clamp = (r1, r2, v) ->
     v = Math.min(v, r2) if r2?
     v
 
+fade  = (s,e,v) -> s*(1-v)+e*(v)
 round = (value, stepSize=1) -> Math.round(value/stepSize)*stepSize
 floor = (value, stepSize=1) -> Math.floor(value/stepSize)*stepSize
 
@@ -63,6 +64,7 @@ rndint  = (h) -> Math.floor(Math.random()*h)
 
 exp = 
     [
-        'clamp', 'round', 'floor', 'arg', 'value', 'win', 'wid', 'del', 'deg2rad', 'rad2deg', 'deg', 'rndrng', 'rndint'
+        'clamp', 'round', 'floor', 'fade', 'arg', 'value', 'win', 'wid', 'del', 
+        'deg2rad', 'rad2deg', 'deg', 'rndrng', 'rndint'
     ]
 module.exports = zipObject(exp.map((e) -> [e, eval(e)]))

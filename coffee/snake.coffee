@@ -23,7 +23,9 @@ class Snake extends Bot
     constructor: (config={}) -> 
         
         config.trail = true
-        super config
+        config.height = 100
+
+        super config    
         
         t = rndint(3)
         @steps  = [10, 12, 16][t]
@@ -32,8 +34,7 @@ class Snake extends Bot
 
         @angle  = rndint(360/4)*4
         @swapAngle = deg2rad(360*@radius*2/(Math.PI*200.0))
-        
-        @ctra = new THREE.Object3D()
+    
         @obja = new THREE.Object3D()
         @ctrb = new THREE.Object3D()
         @objb = new THREE.Object3D()
@@ -49,12 +50,8 @@ class Snake extends Bot
                             
         @ctra.add @obja
         @ctrb.add @objb
-        scene.add @ctra
         scene.add @ctrb
         @mova = (@angle >= 180)
-
-        @ctra.quaternion.copy @ctrPos
-        @ctra.position.copy vec(0,0,100).applyQuaternion(@ctrPos)
 
         @ctrb.quaternion.copy @ctrPos
         @ctrb.position.copy vec(0,0,100).applyQuaternion(@ctrPos)
@@ -66,7 +63,7 @@ class Snake extends Bot
         if @angle >= 180    
             for j in [0..parseInt((@angle-180) / (180 / (@steps-1)))]
                 @objb.add @obja.children[0]
-                        
+                                    
     frame: (step) =>
         
         @angle += @speed
