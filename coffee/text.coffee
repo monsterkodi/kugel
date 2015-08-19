@@ -1,3 +1,10 @@
+###
+000000000  00000000  000   000  000000000
+   000     000        000 000      000   
+   000     0000000     00000       000   
+   000     000        000 000      000   
+   000     00000000  000   000     000   
+###
 # found in http://threejs.org/examples/webgl_geometry_text2.html 
 
 material = new THREE.MeshFaceMaterial [

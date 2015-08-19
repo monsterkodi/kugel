@@ -9,6 +9,7 @@
 Mesh     = require './mesh'
 Quat     = require './quat'
 log      = require './knix/log'
+def      = require './knix/def'
 tools    = require './knix/tools'
 material = require './material'
 Trail    = require './trail'
@@ -32,11 +33,11 @@ class Bot
 
         if config.trail
             
-            @trail = new Trail 
-                num:       config.trailNum or 7
+            @trail = new Trail def config.trail,
+                num:       7
                 minRadius: 0.5
                 maxRadius: 1.0
-                speed:     config.trailSpeed or 0.03
+                speed:     0.03
                 randQuat:  true
 
         if config.gimbal

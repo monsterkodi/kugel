@@ -61,15 +61,10 @@ class Mesh extends THREE.Mesh
         
         if config.quat?
             @quat = config.quat
-            @setQuat config.quat
+            @setQuat config.quat, @dist
         else if config.position?
             @position.copy config.position
             
-    remove: () => scene.remove @
-        
-    setQuat: (quat) =>
-        @quaternion.copy quat
-        @position.copy vec(0,0,@dist).applyQuaternion quat
-        
+    remove: () => scene.remove @        
 
 module.exports = Mesh

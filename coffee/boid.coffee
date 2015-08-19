@@ -23,12 +23,12 @@ class Boid extends Bot
     
     constructor: (config={}) -> 
         
-        t = rndint(3)
+        t = rndint(3)        
         
-        config.trail      = true
-        config.trailSpeed = -0.001
-        config.trailNum   = 10
-        config.height     = [110, 120, 130][t]        
+        config.height = [110, 120, 130][t]        
+        config.trail  = 
+            speed: -0.001
+            num:   10
         
         super config
 
@@ -78,8 +78,8 @@ class Boid extends Bot
         @ctra.translateOnAxis Vect.Z,  @height
         
         if @trail?
-            if parseInt(@steerKeep) % 10 == 0
-                @trail.add @ctra.position
+            if parseInt(@steerKeep) % (10*(5-@speed)) == 0
+                @trail.add @ctra.position.clone().add vec(0,-@radius*1.25,0).applyQuaternion @ctra.quaternion
         
         super step
                         

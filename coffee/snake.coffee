@@ -22,7 +22,7 @@ class Snake extends Bot
     
     constructor: (config={}) -> 
         
-        config.trail = true
+        config.trail = {}
         config.height = 100
 
         super config    
