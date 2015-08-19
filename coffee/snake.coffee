@@ -22,12 +22,14 @@ class Snake
     
     constructor: (config) -> 
         
-        @steps  = 12
-        @index  = 0
-        @radius = 8
+        t = rndint(3)
+        @steps  = [10, 12, 16][t]
+        @radius = [6,  9, 12][t]
+        @speed  = [4,  2,  1][t]
 
         @ctrPos = config?.quat or Quat.rand()
-        @angle  = rndint(90)*2
+        @angle  = rndint(360/4)*4
+        @swapAngle = deg2rad(360*@radius*2/(Math.PI*200.0))
 
         @trail = new Trail 
             num:       7
@@ -49,12 +51,12 @@ class Snake
                 radius: 2.0-i/(@steps-1)
                 position: vec(0,@radius,0).applyQuaternion Quat.axis Vect.X, -180*i/(@steps-1)
                 parent: @obja  
-                
+                            
         @ctra.add @obja
         @ctrb.add @objb
         scene.add @ctra
         scene.add @ctrb
-        @mova = false
+        @mova = (@angle >= 180)
 
         @ctra.quaternion.copy @ctrPos
         @ctra.position.copy vec(0,0,100).applyQuaternion(@ctrPos)
@@ -63,8 +65,12 @@ class Snake
         @ctrb.position.copy vec(0,0,100).applyQuaternion(@ctrPos)
         
         @ctrb.translateOnAxis Vect.Z, -100
-        @ctrb.rotateOnAxis Vect.X, -@nextAngle()*0.5
+        @ctrb.rotateOnAxis Vect.X, (@mova and 1 or -1) * @swapAngle
         @ctrb.translateOnAxis Vect.Z,  100
+                
+        if @angle >= 180    
+            for j in [0..parseInt((@angle-180) / (180 / (@steps-1)))]
+                @objb.add @obja.children[0]
                         
         if false
 
@@ -127,12 +133,12 @@ class Snake
                 position:  vec 0,0,6
                 parent:    @ctrb
                 wireframe: true
-        
-    nextAngle: => deg2rad(360*@radius*4/(Math.PI*200.0))
-            
+                
     frame: (step) =>
+        
+        # return
 
-        @angle += 2
+        @angle += @speed
 
         intAngle = parseInt @angle
         fullAngle = Math.abs(intAngle-@angle) < 0.1
@@ -141,14 +147,19 @@ class Snake
             if intAngle == 360
                 @angle = 0
                 intAngle = 0
+            swap = (a,b,r,s) ->
+                a.position.copy b.position
+                a.quaternion.copy b.quaternion
+                a.translateOnAxis Vect.Z, -100
+                a.rotateOnAxis Vect.X, r
+                a.rotateOnAxis Vect.Z, deg2rad s
+                a.rotateOnAxis Vect.X, r
+                a.translateOnAxis Vect.Z,  100
+                
             if @mova
-                @ctra.translateOnAxis Vect.Z, -100
-                @ctra.rotateOnAxis Vect.X, @nextAngle()
-                @ctra.translateOnAxis Vect.Z,  100
+                swap @ctra, @ctrb, @swapAngle*0.5, rndrng(-60,60)
             else
-                @ctrb.translateOnAxis Vect.Z, -100
-                @ctrb.rotateOnAxis Vect.X, @nextAngle()
-                @ctrb.translateOnAxis Vect.Z,  100
+                swap @ctrb, @ctra, @swapAngle*0.5, rndrng(-60,60)
             @mova = not @mova
         
         @obja.quaternion.copy Quat.axis Vect.X, @angle
