@@ -61,10 +61,40 @@ class Mesh extends THREE.Mesh
         
         if config.quat?
             @quat = config.quat
-            @setQuat config.quat, @dist
+            @setQuatHeight config.quat, @dist
         else if config.position?
             @position.copy config.position
             
     remove: () => scene.remove @        
+
+    @addGimbal: (prt) ->
+
+            new Mesh
+                type:      'spike'
+                radius:    1   
+                color:     0xffffff
+                position:  vec 0,0,0
+                parent:    prt
+
+            new Mesh
+                type:      'spike'
+                radius:    1   
+                color:     0xff0000
+                position:  vec 6,0,0
+                parent:    prt
+            
+            new Mesh
+                type:      'spike'
+                radius:    1
+                color:     0x004400
+                position:  vec 0,6,0
+                parent:    prt
+            
+            new Mesh
+                type:      'spike'
+                radius:    1
+                color:     0x0000ff
+                position:  vec 0,0,6
+                parent:    prt
 
 module.exports = Mesh

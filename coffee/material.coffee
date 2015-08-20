@@ -9,6 +9,7 @@
 color = require './color'
 
 module.exports = 
+    
     sphere: new THREE.MeshPhongMaterial
         color:     color.sphere
         side:      THREE.FrontSide
@@ -16,6 +17,17 @@ module.exports =
         transparent: true
         opacity: 0.95
         shininess: 0
+
+    player: new THREE.MeshLambertMaterial
+        wireframe:          true
+        wireframeLinewidth: 2
+        color:              color.player
+        side:               THREE.FrontSide
+        shading:            THREE.SmoothShading
+        shininess:          0
+        # detail:             1
+        # transparent: true
+        # opacity:     0.4
 
     snake: new THREE.MeshPhongMaterial
         color:     color.snake

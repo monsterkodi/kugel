@@ -18,8 +18,8 @@ class Vect extends THREE.Vector3
 
 THREE.Vector3.prototype.normalized = () -> (new Vect @x, @y, @z).normalize()
     
-THREE.Object3D.prototype.setQuat = (quat, dist=100) ->
+THREE.Object3D.prototype.setQuatHeight = (quat, dist=100) ->
     @quaternion.copy quat
-    @position.copy (new Vect(0,0,dist)).applyQuaternion quat
+    @position.copy (new THREE.Vector3(0,0,dist)).applyQuaternion(quat)    
     
 module.exports = Vect

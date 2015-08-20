@@ -40,7 +40,7 @@ class Game
         
     frame: (step) =>
         
-        @player.frame step
+        @player.frame step, @truck.camera 
                 
         for snake in @snakes
             snake.frame step

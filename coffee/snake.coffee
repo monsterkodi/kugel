@@ -29,8 +29,8 @@ class Snake extends Bot
         
         t = rndint(3)
         @steps  = [10, 12, 16][t]
-        @radius = [6,  9, 12][t]
-        @speed  = [4,  2,  1][t]
+        @radius = [6,   9, 12][t]
+        @speed  = [4,   2,  1][t]
 
         @angle  = rndint(360/4)*4
         @swapAngle = deg2rad(360*@radius*2/(Math.PI*200.0))

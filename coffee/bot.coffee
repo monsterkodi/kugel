@@ -41,34 +41,8 @@ class Bot
                 randQuat:  true
 
         if config.gimbal
-
-            new Mesh
-                type:      'spike'
-                radius:    1   
-                color:     0xffffff
-                position:  vec 0,0,0
-                parent:    @ctra
-
-            new Mesh
-                type:      'spike'
-                radius:    1   
-                color:     0xff0000
-                position:  vec 6,0,0
-                parent:    @ctra
             
-            new Mesh
-                type:      'spike'
-                radius:    1
-                color:     0x004400
-                position:  vec 0,6,0
-                parent:    @ctra
-            
-            new Mesh
-                type:      'spike'
-                radius:    1
-                color:     0x0000ff
-                position:  vec 0,0,6
-                parent:    @ctra
+            Mesh.addGimbal @ctra
                 
     frame: (step) =>
         
