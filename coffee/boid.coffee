@@ -25,7 +25,7 @@ class Boid extends Bot
         
         t = rndint(3)        
         
-        config.height = [110, 120, 130][t]        
+        config.height = [130, 120, 110][t]        
         config.trail  = 
             speed: -0.001
             num:   10

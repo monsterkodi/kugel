@@ -61,6 +61,7 @@ class Truck
     onKeyRelease: (event) =>
 
     onMouseDown: (event) => 
+        return
         @mouseX = event.clientX
         @mouseY = event.clientY
         window.addEventListener    'mousemove',  @onMouseDrag

@@ -14,6 +14,7 @@ tools    = require './knix/tools'
 material = require './material'
 vec      = Vect.new
 rad2deg  = tools.rad2deg
+fade     = tools.fade
 
 class Player extends Bot
 
@@ -45,6 +46,16 @@ class Player extends Bot
             
         @rollAngle = 0
         @speed = 0
+        @jumpHeight = 0
+        @jumpTarget = 0
+        @jumpTime = 0
+        
+        window.addEventListener 'mousedown',  @jump
+
+    jump: () => 
+        @jumpTarget = 40
+        @jumpTime = 0
+        @jumpQuat = Quat.axis Vect.X.clone().applyQuaternion(@ball.quaternion), -rad2deg(@ctra.position.angleTo(@dot.position))*0.02
 
     setTargetCamera: (mouse,camera,planet) =>
 
@@ -63,19 +74,34 @@ class Player extends Bot
         
         q = Quat.vecs @ctra.position, @dot.position
         q.multiply @ctra.quaternion
-        
-        f = step.dsecs * 4
-        @ctra.setQuatHeight @ctra.quaternion.slerp(q,f), @height
+                
+        if @jumpTarget > 0
+            @jumpTime += step.dsecs * 2
+            @jumpHeight = Math.sin(@jumpTime) * @jumpTarget
+            if @jumpTime >= 3.3
+                @jumpTarget = 0
+                @jumpTime = 0
+        if @jumpHeight < 0
+            @jumpHeight = fade @jumpHeight, 0, 0.04
+
+        if @jumpTarget == 0
+            f = step.dsecs * 1.5
+            @ctra.setQuatHeight @ctra.quaternion.slerp(q,f), @height
+        else
+            @ctra.setQuatHeight @ctra.quaternion.multiply(@jumpQuat), @height
         
         @ball.quaternion.copy @ctra.quaternion
         @ball.lookAt @ctra.worldToLocal @dot.position.clone()
         @ball.up.copy @ctra.worldToLocal @ctra.position.normalized()
-        @ball.rotateOnAxis Vect.X, -@rollAngle
-        @rollAngle += 0.003* @ctra.position.distanceTo @dot.position
+        @ball.position.copy(@ball.up).setLength -@jumpHeight
+        
+        if @jumpTarget == 0
+            @ball.rotateOnAxis Vect.X, -@rollAngle
+            @rollAngle += 0.009* @ctra.position.clone().setLength(100).distanceTo @dot.position
                 
-        if @trail?
-            if @ctra.position.distanceTo(@trail.meshes[0].position) > 5
-                @trail.add @ctra.position.clone().setLength(100)
+            if @trail?
+                if @ctra.position.distanceTo(@trail.meshes[0].position) > 5
+                    @trail.add @ctra.position.clone().setLength(100)
 
         super step
 
