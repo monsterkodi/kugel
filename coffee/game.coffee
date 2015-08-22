@@ -9,10 +9,12 @@
 Planet   = require './planet'
 Player   = require './player'
 Snake    = require './snake'
+Vect     = require './vect'
 Line     = require './line'
 Boid     = require './boid'
 Mesh     = require './mesh'
 log      = require './knix/log'
+vec      = Vect.new
     
 class Game
     
@@ -33,16 +35,17 @@ class Game
         @planet = new Planet()   
         @cursor = new THREE.Vector2 0,0 
 
-        if false
+        if true
             
             new Mesh
                 type:     'spike'
-                radius:   6
+                radius:   5
                 detail:   1
-                # material: material.player
-                color:    0xffff00
+                wireframe: true
+                color:    0x0000ff
                 position: vec(0,0,-100)
-                
+
+        if false
             
             new Line
                 color: 0xff0000
@@ -60,12 +63,14 @@ class Game
                 to: vec(0,0,200)
         
                         
-    mouse: (pos) => @cursor = pos
+    mouse: (pos) => @cursor.copy pos
         
     frame: (step) =>
 
-        f = step.dsecs * 2
-        @truck.setQuat @truck.camera.getWorldQuaternion().slerp(@player.ctra.getWorldQuaternion(),f)
+        if @truck.isPivoting
+        else
+            f = step.dsecs * 2
+            @truck.setQuat @truck.camera.getWorldQuaternion().slerp(@player.ctra.getWorldQuaternion(),f)
         
         @player.setTargetCamera @cursor, @truck.camera
         @player.frame step 

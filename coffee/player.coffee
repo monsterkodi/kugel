@@ -46,20 +46,18 @@ class Player extends Bot
         @rollAngle = 0
         @speed = 0
 
-    raySphereIntersection: (rp, rd) =>
+    setTargetCamera: (mouse,camera,planet) =>
 
-        cp = rp.clone().add vec().sub(rp).projectOnVector(rd)
+        rd = vec(mouse.x, mouse.y, 1).unproject(camera).sub(camera.position).normalize()
+        cp = camera.position.clone().add vec().sub(camera.position).projectOnVector(rd)
         pl = cp.length()
         if pl > 100
             cp.setLength 100
         else
-            d = cp.sub(rp).length() - Math.sqrt(10000 - pl*pl)
-            rp.clone().add rd.clone().multiplyScalar(d)
-        
-    setTargetCamera: (tgt,camera) =>
-                
-        rd = vec(tgt.x, tgt.y, 1).unproject(camera).sub(camera.position).normalized()        
-        @dot.position.copy @raySphereIntersection camera.position, rd
+            d = cp.sub(camera.position).length() - Math.sqrt(10000 - pl*pl)
+            cp = camera.position.clone().add rd.multiplyScalar(d)
+                        
+        @dot.position.copy cp
         
     frame: (step) =>
         
