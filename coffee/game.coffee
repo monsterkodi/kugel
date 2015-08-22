@@ -9,6 +9,7 @@
 Planet   = require './planet'
 Player   = require './player'
 Snake    = require './snake'
+Line     = require './line'
 Boid     = require './boid'
 Mesh     = require './mesh'
 log      = require './knix/log'
@@ -31,13 +32,30 @@ class Game
         
         @planet = new Planet()   
         @cursor = new THREE.Vector2 0,0 
+
+        if false
+            new Line
+                color: 0xff0000
+                from: vec()
+                to: vec(200,0,0)
+
+            new Line
+                color: 0x006600
+                from: vec()
+                to: vec(0,200,0)
+
+            new Line
+                color: 0x0000ff
+                from: vec()
+                to: vec(0,0,200)
+        
                         
     mouse: (pos) => @cursor = pos
         
     frame: (step) =>
 
-        # f = step.dsecs * 2
-        # @truck.setQuat @truck.camera.getWorldQuaternion().slerp(@player.ctra.getWorldQuaternion(),f)
+        f = step.dsecs * 2
+        @truck.setQuat @truck.camera.getWorldQuaternion().slerp(@player.ctra.getWorldQuaternion(),f)
         
         @player.setTargetCamera @cursor, @truck.camera
         @player.frame step 

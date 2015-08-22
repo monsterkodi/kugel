@@ -20,7 +20,7 @@ class Player extends Bot
 
     constructor: (config={}) ->
         
-        config.gimbal = true
+        # config.gimbal = true
         
         config.height = 104
         config.trail = 
@@ -54,33 +54,16 @@ class Player extends Bot
         @tgt = new THREE.Vector2 0,0
         @speed = 0
         @line = []
-        
-        @line[0] = new Line
-            color: 0xff0000
-            from: vec()
-            to: vec(200,0,0)
-
-        @line[1] = new Line
-            color: 0x006600
-            from: vec()
-            to: vec(0,200,0)
-
-        @line[2] = new Line
-            color: 0x0000ff
-            from: vec()
-            to: vec(0,0,200)
-
 
     raySphereIntersection: (rp, rd) =>
 
         cp = rp.clone().add vec().sub(rp).projectOnVector(rd)
         pl = cp.length()
         if pl > 100
-            cp.setLength(100)
-            return cp
-        
-        d = cp.sub(rp).length() - Math.sqrt(10000 - pl*pl)
-        p = rp.clone().add rd.clone().multiplyScalar(d)
+            cp.setLength 100
+        else
+            d = cp.sub(rp).length() - Math.sqrt(10000 - pl*pl)
+            rp.clone().add rd.clone().multiplyScalar(d)
         
     setTargetCamera: (tgt,camera) =>
         
