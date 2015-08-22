@@ -16,7 +16,9 @@ class Vect extends THREE.Vector3
     @Y: @new 0,1,0
     @Z: @new 0,0,1 
 
-THREE.Vector3.prototype.normalized = () -> (new Vect @x, @y, @z).normalize()
+THREE.Vector3.prototype.normalized = () -> (new THREE.Vector3 @x, @y, @z).normalize()
+
+THREE.Vector2.prototype.normalized = () -> (new THREE.Vector2 @x, @y).normalize()
     
 THREE.Object3D.prototype.setQuatHeight = (quat, dist=100) ->
     @quaternion.copy quat

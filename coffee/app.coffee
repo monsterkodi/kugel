@@ -29,19 +29,19 @@ Quat    = require './js/quat'
 Vect    = require './js/vect'
 vec     = Vect.new
 
-win       = remote.getCurrentWindow()
-renderer  = null
-camera    = null
-scene     = null
-stats     = null
-text      = null
-dolly     = null
-truck     = null
-balls     = null
-game      = null
-mouse     = new THREE.Vector2()
+win      = remote.getCurrentWindow()
+renderer = null
+camera   = null
+scene    = null
+stats    = null
+text     = null
+dolly    = null
+truck    = null
+balls    = null
+game     = null
+mouse    = new THREE.Vector2()
 
-jsonStr = (a) -> JSON.stringify a, null, " "
+jsonStr  = (a) -> JSON.stringify a, null, " "
 
 console.log   = () -> ipc.send 'console.log',   [].slice.call arguments, 0
 console.error = () -> ipc.send 'console.error', [].slice.call arguments, 0
@@ -55,24 +55,19 @@ clog = console.log
 000   000  00000000  000   000  0000000    00000000  000   000
 ###
 
-render = -> 
-    renderer.render scene, camera
-
 clock = new THREE.Clock()
-secs = 1.0/60.0
-ssum = secs
-scnt = 1
-anim = () ->
+secs  = 1.0/60.0
+ssum  = secs
+scnt  = 1
+anim  = () ->
     requestAnimationFrame anim
-    # secs = Math.floor(1000*(secs*9+clock.getDelta())/10.0)/1000.0
     ssum += clock.getDelta()
     scnt += 1
-    # secs = ssum/scnt
     step = 
         delta: secs*1000
         dsecs: secs
     game?.frame step
-    render()
+    renderer.render scene, camera
     stats?.update()
 
 ###

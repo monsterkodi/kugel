@@ -31,7 +31,7 @@ class Bot
 
         scene.add @ctra
 
-        if config.trail
+        if config.trail and false
             
             @trail = new Trail def config.trail,
                 num:       7

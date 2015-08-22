@@ -87,14 +87,14 @@ class Truck
     onMouseDown: (event) => 
         @mouseX = event.clientX
         @mouseY = event.clientY
-        window.addEventListener    'mousemove',  @onMouseDrag 
-        window.removeEventListener 'mousemove',  @onMouseMove    
-        @isPivoting = true    
+        window.addEventListener    'mousemove',  @onMouseDrag
+        window.removeEventListener 'mousemove',  @onMouseMove
+        @isPivoting = true
         
     onMouseUp: (event) => 
-        window.removeEventListener 'mousemove',  @onMouseDrag 
-        window.addEventListener    'mousemove',  @onMouseMove  
-        @isPivoting = false          
+        window.removeEventListener 'mousemove',  @onMouseDrag
+        window.addEventListener    'mousemove',  @onMouseMove
+        @isPivoting = false  
         
     onMouseMove:  (event) =>
         @mouseX = event.clientX

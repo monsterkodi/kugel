@@ -10,14 +10,18 @@ Mesh     = require './mesh'
 Bot      = require './bot'
 Quat     = require './quat'
 Vect     = require './vect'
+Line     = require './line'
+tools    = require './knix/tools'
 material = require './material'
 vec      = Vect.new
+rad2deg  = tools.rad2deg
 
 class Player extends Bot
 
     constructor: (config={}) ->
         
-        # config.gimbal = true
+        config.gimbal = true
+        
         config.height = 104
         config.trail = 
             num:       50
@@ -33,9 +37,7 @@ class Player extends Bot
             detail:   1
             parent:   @ctra
             material: material.player
-            
-        # Mesh.addGimbal @ball
-            
+                        
         @dot = new Mesh
             type:     'sphere'
             radius:   1
@@ -44,30 +46,70 @@ class Player extends Bot
 
         @top = new Mesh
             type:     'spike'
-            radius:   10
+            radius:   6
             detail:   1
             material: material.player
             
         @rollAngle = 0
         @tgt = new THREE.Vector2 0,0
-
-    frame: (step, camera) =>
-
-        camdist = vec(0,1,0).unproject(camera).setZ(0).length()
-        check = vec(0,2,0).unproject(camera).setZ(0).length()
+        @speed = 0
+        @line = []
         
-        tpos = vec(0,0,100).applyQuaternion camera.quaternion.clone().multiply Quat.axis Vect.X, -70
-        zoom = tpos.project(camera).setZ(0).length()
-        log zoom, @tgt.length(), Math.min(1, @tgt.length()/zoom)
+        @line[0] = new Line
+            color: 0xff0000
+            from: vec()
+            to: vec(200,0,0)
 
-        q = @ctra.quaternion.clone()
-        d = step.delta * 1.5
-        tl = @tgt.length()
-        q.multiply Quat.axis(Vect.X, -@tgt.y*tl * d)
-        q.multiply Quat.axis(Vect.Y,  @tgt.x*tl * d)
+        @line[1] = new Line
+            color: 0x006600
+            from: vec()
+            to: vec(0,200,0)
+
+        @line[2] = new Line
+            color: 0x0000ff
+            from: vec()
+            to: vec(0,0,200)
+
+
+    raySphereIntersection: (rp, rd) =>
+
+        cp = rp.clone().add vec().sub(rp).projectOnVector(rd)
+        pl = cp.length()
+        if pl > 100
+            cp.setLength(100)
+            return cp
         
-        @dot.setQuatHeight q, 100
+        d = cp.sub(rp).length() - Math.sqrt(10000 - pl*pl)
+        p = rp.clone().add rd.clone().multiplyScalar(d)
+        
+    setTargetCamera: (tgt,camera) =>
+        
+        # north = vec(0,100,100)
+        # north.applyQuaternion Quat.axis Vect.X, 20 
+        # north.applyQuaternion camera.quaternion
+        # zoom = north.project(camera).setZ(0).length()
+        
+        @top.position.copy vec(0,0,-100)
+                
+        @tgt = tgt.normalized()
 
+        rd = vec(tgt.x, tgt.y, 1).unproject(camera).sub(camera.position).normalized()
+        p1 = @raySphereIntersection camera.position, rd
+        
+        @dot.position.copy p1
+        
+        # for l in @line
+        #     l.remove()
+        #     
+        # @line[0] = new Line
+        #     from: vec()
+        #     to: p1
+
+    frame: (step) =>
+        
+        q = Quat.vecs @ctra.position, @dot.position
+        q.multiply @ctra.quaternion
+        
         f = step.dsecs * 4
         @ctra.setQuatHeight @ctra.quaternion.slerp(q,f), @height
         
@@ -77,8 +119,9 @@ class Player extends Bot
         @ball.rotateOnAxis Vect.X, -@rollAngle
         @rollAngle += 0.003* @ctra.position.distanceTo @dot.position
                 
-        if @ctra.position.distanceTo(@trail.meshes[0].position) > 5
-            @trail.add @ctra.position.clone().setLength(100)
+        if @trail?
+            if @ctra.position.distanceTo(@trail.meshes[0].position) > 5
+                @trail.add @ctra.position.clone().setLength(100)
 
         super step
 

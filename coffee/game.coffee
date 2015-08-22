@@ -20,12 +20,7 @@ class Game
         @truck = truck
         
         @player = new Player()
-        
-        @doto = new Mesh
-            type:   'sphere'
-            radius: 2
-            color:  0x000088
-                        
+                                
         @snakes = []
         for i in [0..10]
             @snakes.push new Snake()
@@ -34,22 +29,23 @@ class Game
         for i in [0..20]
             @boids.push new Boid()
         
-        @planet = new Planet()    
+        @planet = new Planet()   
+        @cursor = new THREE.Vector2 0,0 
                         
-    mouse: (pos) => @player.tgt = pos
+    mouse: (pos) => @cursor = pos
         
     frame: (step) =>
+
+        # f = step.dsecs * 2
+        # @truck.setQuat @truck.camera.getWorldQuaternion().slerp(@player.ctra.getWorldQuaternion(),f)
         
-        @player.frame step, @truck.camera 
-                
+        @player.setTargetCamera @cursor, @truck.camera
+        @player.frame step 
+            
         for snake in @snakes
             snake.frame step
             
         for boid in @boids
             boid.frame step
-            
-        f = step.dsecs * 2
-        @truck.setQuat @truck.camera.getWorldQuaternion().slerp(@player.ctra.getWorldQuaternion(),f)
-            
-                            
+                                                    
 module.exports = Game
