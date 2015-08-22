@@ -10,7 +10,6 @@ Mesh     = require './mesh'
 Bot      = require './bot'
 Quat     = require './quat'
 Vect     = require './vect'
-Line     = require './line'
 tools    = require './knix/tools'
 material = require './material'
 vec      = Vect.new
@@ -43,17 +42,9 @@ class Player extends Bot
             radius:   1
             detail:   1
             material: material.player
-
-        @top = new Mesh
-            type:     'spike'
-            radius:   6
-            detail:   1
-            material: material.player
             
         @rollAngle = 0
-        @tgt = new THREE.Vector2 0,0
         @speed = 0
-        @line = []
 
     raySphereIntersection: (rp, rd) =>
 
@@ -66,28 +57,10 @@ class Player extends Bot
             rp.clone().add rd.clone().multiplyScalar(d)
         
     setTargetCamera: (tgt,camera) =>
-        
-        # north = vec(0,100,100)
-        # north.applyQuaternion Quat.axis Vect.X, 20 
-        # north.applyQuaternion camera.quaternion
-        # zoom = north.project(camera).setZ(0).length()
-        
-        @top.position.copy vec(0,0,-100)
                 
-        @tgt = tgt.normalized()
-
-        rd = vec(tgt.x, tgt.y, 1).unproject(camera).sub(camera.position).normalized()
-        p1 = @raySphereIntersection camera.position, rd
+        rd = vec(tgt.x, tgt.y, 1).unproject(camera).sub(camera.position).normalized()        
+        @dot.position.copy @raySphereIntersection camera.position, rd
         
-        @dot.position.copy p1
-        
-        # for l in @line
-        #     l.remove()
-        #     
-        # @line[0] = new Line
-        #     from: vec()
-        #     to: p1
-
     frame: (step) =>
         
         q = Quat.vecs @ctra.position, @dot.position

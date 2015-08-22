@@ -34,6 +34,16 @@ class Game
         @cursor = new THREE.Vector2 0,0 
 
         if false
+            
+            new Mesh
+                type:     'spike'
+                radius:   6
+                detail:   1
+                # material: material.player
+                color:    0xffff00
+                position: vec(0,0,-100)
+                
+            
             new Line
                 color: 0xff0000
                 from: vec()
