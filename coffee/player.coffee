@@ -93,11 +93,14 @@ class Player extends Bot
         q.multiply @.quaternion
                 
         if @jumpTarget > 0
+            s = Math.sin(@jumpTime)
+            @.scale.copy vec(1+s*0.5,1+s*0.5,1+s*0.5)
             @jumpTime += step.dsecs * 4
             @jumpHeight = Math.sin(@jumpTime) * @jumpTarget
             if @jumpTime >= Math.PI*0.5 
                 @lastboid = null
             if @jumpTime >= 3.3
+                @.scale.copy vec(1,1,1)
                 if @height > 102
                     @jumpHeight = @height - 102
                     @height = 102
@@ -117,7 +120,7 @@ class Player extends Bot
             else if @height >= 109
                 f *= 0.3
             else
-                f *= 0.25
+                f *= 0.55
 
             @.setQuatHeight @.quaternion.slerp(q,f), @height
         else

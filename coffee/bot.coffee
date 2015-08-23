@@ -23,12 +23,13 @@ class Bot extends THREE.Object3D
     
     constructor: (config={}) -> 
 
-        @height = config.height or 100
-        @ctrPos = config.quat or Quat.rand()
+        @height = 100 
+        @height = config.height if config.height?
+
         super
         
-        @quaternion.copy @ctrPos
-        @position.copy vec(0,0,@height).applyQuaternion(@ctrPos)
+        @quaternion.copy config.quat if config.quat?
+        @position.copy vec(0,0,@height).applyQuaternion @quaternion
 
         scene.add @
 

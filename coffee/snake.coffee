@@ -23,9 +23,11 @@ class Snake extends Bot
     constructor: (config={}) -> 
         
         config.trail = {}
-        config.height = 100
+        config.height = 0
 
         super config    
+        
+        @quat = Quat.rand()
         
         t = rndint(3)
         @steps  = [10, 12, 16][t]
@@ -55,12 +57,15 @@ class Snake extends Bot
         @.add @ctrb
         @mova = (@angle >= 180)
 
-        @ctrb.quaternion.copy @ctrPos
-        @ctrb.position.copy vec(0,0,100).applyQuaternion(@ctrPos)
+        @ctra.quaternion.copy @quat
+        @ctra.position.copy vec(0,0,100).applyQuaternion @quat
+
+        @ctrb.quaternion.copy @quat
+        @ctrb.position.copy vec(0,0,100).applyQuaternion @quat
         
         @ctrb.translateOnAxis Vect.Z, -100
         @ctrb.rotateOnAxis Vect.X, (@mova and 1 or -1) * @swapAngle
-        @ctrb.translateOnAxis Vect.Z,  100
+        @ctrb.translateOnAxis Vect.Z, 100
                 
         if @angle >= 180    
             for j in [0..parseInt((@angle-180) / (180 / (@steps-1)))]

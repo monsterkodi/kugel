@@ -26,6 +26,7 @@ class Boid extends Bot
         config.level = rndint(3) if not config.level?
         t = config.level     
         
+        config.quat = Quat.rand()
         config.height = [130, 120, 110][t]        
         config.trail  = 
             speed: -0.001

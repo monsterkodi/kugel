@@ -25,7 +25,7 @@ class Game
         @player = new Player()
                                 
         @snakes = []
-        for i in [0..2]
+        for i in [0..20]
             @snakes.push new Snake()
 
         @boids = []
