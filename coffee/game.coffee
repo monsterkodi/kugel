@@ -55,20 +55,23 @@ class Game
     nextLevel: () =>
         
         @level += 1 
-        log @level   
+        
+        @player.incSnatch()
+        
+        log "nextLevel: ", @level   
             
-        if @level < 10
-            @boids.push new Boid level:0
-            @kerns.push new Kern bot: @boids[@boids.length-1]
-        else
-            if @level % 10 == 0
-                @snakes.push new Snake()        
-            if @level % 100 == 0
+        if @boids.length < 60
+            if @level % 3 == 0 and @boids.length
                 @boids.push new Boid level:2
-                @kerns.push new Kern bot: @boids[@boids.length-1]
-            else if @level % 10 == 0
-                @boids.push new Boid level:1
-                @kerns.push new Kern bot: @boids[@boids.length-1]
+            else if @level % 2 == 0 and @boids.length
+                @boids.push new Boid level:1            
+            else
+                @boids.push new Boid level:0
+        if @level % 60 == 0
+            @snakes.push new Snake()        
+                    
+        for boid in @boids                    
+            @kerns.push new Kern bot: boid
                         
     mouse: (pos) => @cursor.copy pos
         
@@ -85,11 +88,26 @@ class Game
         for boid in @boids
             boid.frame step
             
-            if boid.position.distanceTo(@player.ball.localToWorld(vec())) < (boid.radius + 3)
+            distance = boid.position.distanceTo(@player.center)
+            if distance < (boid.radius + 3)
                 @player.attachTo boid
+                
+            if distance < @player.snatchDistance # attach on same level
+                if boid.kern?
+                    boid.kern.attachTo @player
         
         @player.setTargetCamera @cursor, @truck.camera
         @player.frame step 
+        
+        if @player.center.distanceTo(@tree.position) < 6
+            if @player.kern?
+                for kern in @kerns
+                    if kern.bot == @player
+                        log "kern delivered"
+                        @kerns.splice @kerns.indexOf(kern), 1
+                        kern.remove()
+                        if @kerns.length == 0
+                            @nextLevel()
         
         for kern in @kerns
             kern.frame step

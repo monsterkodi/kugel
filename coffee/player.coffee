@@ -11,7 +11,6 @@ Bot      = require './bot'
 Quat     = require './quat'
 Vect     = require './vect'
 tools    = require './knix/tools'
-material = require './material'
 vec      = Vect.new
 rad2deg  = tools.rad2deg
 deg2rad  = tools.deg2rad
@@ -32,18 +31,27 @@ class Player extends Bot
         
         super config
         
+        @snatchDistance = 20
+                            
         @ball = new Mesh
             type:     'sphere'
+            material: 'player'
             radius:   2
             detail:   1
             parent:   @
-            material: material.player
+
+        @snatch = new Mesh
+            type:     'sphere'
+            material: 'snatch'
+            radius:   1
+            detail:   1
+            parent:   @ball
                         
         @dot = new Mesh
             type:     'sphere'
+            material: 'player'
             radius:   1
             detail:   1
-            material: material.player
             
         @rollAngle = 0
         @speed = 0
@@ -53,6 +61,10 @@ class Player extends Bot
         @jumpTime = 0
         
         window.addEventListener 'mousedown',  @jump
+
+    incSnatch: () =>
+        @snatchDistance += 1
+        @snatch.scale.set @snatchDistance, @snatchDistance, @snatchDistance
 
     jump: () => 
         if @jumpTarget > 0

@@ -18,6 +18,15 @@ module.exports =
         opacity: 0.85
         shininess: 0
 
+    snatch: new THREE.MeshPhongMaterial
+        color:       color.planet
+        side:        THREE.FrontSide
+        shading:     THREE.FlatShading
+        transparent: true
+        opacity:     0.1
+        shininess:   -5
+        depthWrite:  false
+
     player: new THREE.MeshLambertMaterial
         wireframe:          true
         wireframeLinewidth: 2

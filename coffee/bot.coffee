@@ -23,7 +23,7 @@ class Bot extends THREE.Object3D
     
     constructor: (config={}) -> 
 
-        @height = 100 
+        @height = 0 
         @height = config.height if config.height?
 
         super
@@ -48,6 +48,8 @@ class Bot extends THREE.Object3D
         if config.gimbal
             
             Mesh.addGimbal @
+    
+    remove: () => scene.remove @  
                 
     lookUp: (target, up) =>
         @quaternion.copy Quat.posUpTarget @position, up, target
