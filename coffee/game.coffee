@@ -8,6 +8,7 @@
 
 Planet   = require './planet'
 Player   = require './player'
+Kern     = require './kern'
 Snake    = require './snake'
 Vect     = require './vect'
 Line     = require './line'
@@ -23,7 +24,8 @@ class Game
         @truck = truck
         
         @player = new Player()
-                                
+                    
+        @kerns = []
         @snakes = []
         for i in [0..10]
             @snakes.push new Snake()
@@ -33,8 +35,10 @@ class Game
             @boids.push new Boid level:0
         for i in [0..8]
             @boids.push new Boid level:1
+            @kerns.push new Kern bot: @boids[@boids.length-1]
         for i in [0..8]
             @boids.push new Boid level:2
+            @kerns.push new Kern bot: @boids[@boids.length-1]
         
         @planet = new Planet()   
         @cursor = new THREE.Vector2 0,0 
@@ -75,6 +79,9 @@ class Game
         else
             f = step.dsecs * 2
             @truck.setQuat @truck.camera.getWorldQuaternion().slerp(@player.getWorldQuaternion(),f)
+
+        for kern in @kerns
+            kern.frame step
                     
         for snake in @snakes
             snake.frame step
