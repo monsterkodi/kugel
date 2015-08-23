@@ -46,6 +46,10 @@ class Bot extends THREE.Object3D
             
             Mesh.addGimbal @
                 
+    lookUp: (target, up) =>
+        @quaternion.copy Quat.posUpTarget @position, up, target
+        @quaternion.multiply Quat.axis Vect.X, -90
+                
     frame: (step) =>
         
         @trail?.frame step

@@ -25,15 +25,15 @@ class Game
         @player = new Player()
                                 
         @snakes = []
-        for i in [0..20]
+        for i in [0..10]
             @snakes.push new Snake()
 
         @boids = []
-        for i in [0..2]
+        for i in [0..8]
             @boids.push new Boid level:0
-        for i in [0..2]
+        for i in [0..8]
             @boids.push new Boid level:1
-        for i in [0..2]
+        for i in [0..8]
             @boids.push new Boid level:2
         
         @planet = new Planet()   
@@ -82,7 +82,7 @@ class Game
         for boid in @boids
             boid.frame step
             
-            if boid.position.distanceTo(@player.ball.localToWorld(vec())) < 2
+            if boid.position.distanceTo(@player.ball.localToWorld(vec())) < boid.radius
                 @player.attachTo boid
         
         @player.setTargetCamera @cursor, @truck.camera

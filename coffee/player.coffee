@@ -14,6 +14,7 @@ tools    = require './knix/tools'
 material = require './material'
 vec      = Vect.new
 rad2deg  = tools.rad2deg
+deg2rad  = tools.deg2rad
 fade     = tools.fade
 
 class Player extends Bot
@@ -55,10 +56,10 @@ class Player extends Bot
 
     jump: () => 
         if @jumpTarget > 0
-            @jumpTarget = 0
-            @jumpTime = 0
         else
             if @boid
+                @boid.lookUp @dot.position, @position
+                @boid.steer = @boid.steerTarget = 0
                 @lastboid = @boid
                 @boid = null
                 @jumpTarget = @height - 100 + 20
@@ -81,8 +82,9 @@ class Player extends Bot
         @dot.position.copy cp
         
     attachTo: (boid) =>
-        if @boid != boid and boid != @lastboid
+        if not @boid and boid != @lastboid
             @boid = boid
+            @.scale.copy vec(1,1,1)
             @jumpTarget = 0
             @jumpHeight = 0
             @height = boid.position.length()

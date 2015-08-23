@@ -26,8 +26,8 @@ class Boid extends Bot
         config.level = rndint(3) if not config.level?
         t = config.level     
         
-        config.quat = Quat.rand()
-        config.height = [130, 120, 110][t]        
+        config.quat   = Quat.rand()
+        config.height = [110, 120, 130][t]        
         config.trail  = 
             speed: -0.001
             num:   10
@@ -35,18 +35,18 @@ class Boid extends Bot
         super config
 
         @angle       = rndrng 0, 360
-        @speed       = [4,  2,  1][t]
-        @radius      = [2,  3,  4][t]
+        @speed       = [1,  2,  4][t]
+        @radius      = [4,  3,  2][t]
         @steer       = 0
         @steerTarget = 0
-        @steerChange = [30, 60, 120][t]
+        @steerChange = [120, 90, 60][t]
         @steerKeep   = @steerChange*(1+rndint(2))
-        @steerDeg    = [40, 30, 20][t]
+        @steerDeg    = [40, 30, 60][t]
         @steerSpeed  = [4, 3, 2][t]
         
         @obja = new THREE.Object3D()
         
-        m = new Mesh
+        new Mesh
             type:     'torus'
             material: material.boid
             detail:   32
@@ -54,7 +54,7 @@ class Boid extends Bot
             position: vec()
             parent:   @obja  
 
-        m = new Mesh
+        new Mesh
             type:     'sphere'
             material: material.boid
             detail:   1

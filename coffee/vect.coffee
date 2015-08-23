@@ -17,6 +17,7 @@ class Vect extends THREE.Vector3
     @Z: @new 0,0,1 
 
 THREE.Vector3.prototype.normalized = () -> (new THREE.Vector3 @x, @y, @z).normalize()
+THREE.Vector3.prototype.to = (other) -> other.clone().sub(@).normalize()
 
 THREE.Vector2.prototype.normalized = () -> (new THREE.Vector2 @x, @y).normalize()
     

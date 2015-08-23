@@ -16,5 +16,12 @@ class Quat extends THREE.Quaternion
     @euler: (x,y,z) -> new Quat().setFromEuler new THREE.Euler(x,y,z)
     @axis: (axis,deg) -> new Quat().setFromAxisAngle axis, deg2rad(deg)
     @vecs: (a,b) -> new Quat().setFromUnitVectors a.normalized(), b.normalized()
+    @posUpTarget: (pos,up,target) -> 
+        upn = up.normalized()
+        dir = pos.to target
+        right = vec().crossVectors dir, upn
+        target = vec().crossVectors upn, right 
+        m = new THREE.Matrix4().lookAt vec(), target, upn
+        new Quat().setFromRotationMatrix m
 
 module.exports = Quat
