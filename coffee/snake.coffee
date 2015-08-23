@@ -35,6 +35,7 @@ class Snake extends Bot
         @angle  = rndint(360/4)*4
         @swapAngle = deg2rad(360*@radius*2/(Math.PI*200.0))
     
+        @ctra = new THREE.Object3D()
         @obja = new THREE.Object3D()
         @ctrb = new THREE.Object3D()
         @objb = new THREE.Object3D()
@@ -50,7 +51,8 @@ class Snake extends Bot
                             
         @ctra.add @obja
         @ctrb.add @objb
-        scene.add @ctrb
+        @.add @ctra 
+        @.add @ctrb
         @mova = (@angle >= 180)
 
         @ctrb.quaternion.copy @ctrPos

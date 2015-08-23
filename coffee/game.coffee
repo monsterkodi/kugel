@@ -74,7 +74,7 @@ class Game
         if @truck.isPivoting
         else
             f = step.dsecs * 2
-            @truck.setQuat @truck.camera.getWorldQuaternion().slerp(@player.ctra.getWorldQuaternion(),f)
+            @truck.setQuat @truck.camera.getWorldQuaternion().slerp(@player.getWorldQuaternion(),f)
                     
         for snake in @snakes
             snake.frame step
@@ -82,7 +82,7 @@ class Game
         for boid in @boids
             boid.frame step
             
-            if boid.ctra.position.distanceTo(@player.ball.localToWorld(vec())) < 2
+            if boid.position.distanceTo(@player.ball.localToWorld(vec())) < 2
                 @player.attachTo boid
         
         @player.setTargetCamera @cursor, @truck.camera

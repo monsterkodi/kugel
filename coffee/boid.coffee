@@ -61,7 +61,7 @@ class Boid extends Bot
             position: vec(0,-@radius*1.25,0)
             parent:   @obja
                             
-        @ctra.add @obja
+        @add @obja
                                         
     frame: (step) =>
         
@@ -73,14 +73,14 @@ class Boid extends Bot
         @steer = fade @steer, @steerTarget, @steerSpeed * 0.01
         forward = @speed * 0.001
         turn  = @steer * @steerSpeed * 0.01
-        @ctra.translateOnAxis Vect.Z, -@height
-        @ctra.rotateOnAxis Vect.X, -forward
-        @ctra.rotateOnAxis Vect.Z, turn
-        @ctra.translateOnAxis Vect.Z,  @height
+        @translateOnAxis Vect.Z, -@height
+        @rotateOnAxis Vect.X, -forward
+        @rotateOnAxis Vect.Z, turn
+        @translateOnAxis Vect.Z,  @height
         
         if @trail?
             if parseInt(@steerKeep) % (10*(5-@speed)) == 0
-                @trail.add @ctra.position.clone().add vec(0,-@radius*1.25,0).applyQuaternion @ctra.quaternion
+                @trail.add @position.clone().add vec(0,-@radius*1.25,0).applyQuaternion @quaternion
         
         super step
                         

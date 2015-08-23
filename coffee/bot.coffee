@@ -19,17 +19,18 @@ deg2rad  = tools.deg2rad
 rndrng   = tools.rndrng
 rndint   = tools.rndint
 
-class Bot
+class Bot extends THREE.Object3D
     
     constructor: (config={}) -> 
 
         @height = config.height or 100
         @ctrPos = config.quat or Quat.rand()
-        @ctra = new THREE.Object3D()
-        @ctra.quaternion.copy @ctrPos
-        @ctra.position.copy vec(0,0,@height).applyQuaternion(@ctrPos)
+        super
+        
+        @quaternion.copy @ctrPos
+        @position.copy vec(0,0,@height).applyQuaternion(@ctrPos)
 
-        scene.add @ctra
+        scene.add @
 
         if config.trail #and false
             
@@ -42,7 +43,7 @@ class Bot
 
         if config.gimbal
             
-            Mesh.addGimbal @ctra
+            Mesh.addGimbal @
                 
     frame: (step) =>
         
