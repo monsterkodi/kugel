@@ -8,12 +8,9 @@
 
 Mesh     = require './mesh'
 Quat     = require './quat'
-log      = require './knix/log'
-def      = require './knix/def'
-tools    = require './knix/tools'
-material = require './material'
 Bot      = require './bot'
 Vect     = require './vect'
+tools    = require './knix/tools'
 vec      = Vect.new
 deg2rad  = tools.deg2rad
 rndrng   = tools.rndrng
@@ -26,10 +23,10 @@ class Kern extends Bot
         super config
         
         @attachTo config.bot if config.bot?
-        @lerpSpeed = rndrng 0.02, 0.04
+        @lerpSpeed = rndrng 0.04, 0.1
         @krn = new Mesh
             type:     'pyramid'
-            material: material.kern
+            material: 'kern'
             radius:   2
             position: vec()
             parent:   @
