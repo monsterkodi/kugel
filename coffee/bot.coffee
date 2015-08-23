@@ -31,6 +31,9 @@ class Bot extends THREE.Object3D
         @quaternion.copy config.quat if config.quat?
         @position.copy vec(0,0,@height).applyQuaternion @quaternion
 
+        @center = @position.clone()
+        @quat = @quaternion.clone()
+
         scene.add @
 
         if config.trail #and false

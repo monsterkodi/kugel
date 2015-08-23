@@ -79,9 +79,6 @@ class Game
         else
             f = step.dsecs * 2
             @truck.setQuat @truck.camera.getWorldQuaternion().slerp(@player.getWorldQuaternion(),f)
-
-        for kern in @kerns
-            kern.frame step
                     
         for snake in @snakes
             snake.frame step
@@ -95,5 +92,7 @@ class Game
         @player.setTargetCamera @cursor, @truck.camera
         @player.frame step 
         
+        for kern in @kerns
+            kern.frame step
                                                     
 module.exports = Game

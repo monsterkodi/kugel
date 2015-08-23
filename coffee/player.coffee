@@ -84,6 +84,7 @@ class Player extends Bot
     attachTo: (boid) =>
         if not @boid and boid != @lastboid
             @boid = boid
+            @boid.kern?.attachTo @
             @.scale.copy vec(1,1,1)
             @jumpTarget = 0
             @jumpHeight = 0
@@ -139,6 +140,11 @@ class Player extends Bot
         @ball.up.copy @.worldToLocal @.position.normalized()
         @ball.position.copy(@ball.up).setLength -@jumpHeight
         
+        @center.copy @ball.localToWorld vec()
+        
+        @quat.copy Quat.posUpTarget @position, @position, @dot.position
+        @quat.multiply Quat.axis Vect.X, -90
+
         if @jumpHeight < 1 and not @boid?
             
             @ball.rotateOnAxis Vect.X, -@rollAngle

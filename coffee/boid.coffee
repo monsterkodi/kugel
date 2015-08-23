@@ -79,6 +79,9 @@ class Boid extends Bot
         @rotateOnAxis Vect.Z, turn
         @translateOnAxis Vect.Z,  @height
         
+        @center.copy @position
+        @quat.copy @quaternion
+        
         if @trail?
             if parseInt(@steerKeep) % (10*(5-@speed)) == 0
                 @trail.add @position.clone().add vec(0,-@radius*1.25,0).applyQuaternion @quaternion
