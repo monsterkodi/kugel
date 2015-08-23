@@ -8,6 +8,7 @@
 
 Planet   = require './planet'
 Player   = require './player'
+Tree     = require './tree'
 Kern     = require './kern'
 Snake    = require './snake'
 Vect     = require './vect'
@@ -24,35 +25,16 @@ class Game
         @truck = truck
         
         @player = new Player()
-                    
+        @planet = new Planet()
+        @tree   = new Tree()
+        @cursor = new THREE.Vector2 0,0 
+                
         @kerns = []
         @snakes = []
-        for i in [0..10]
-            @snakes.push new Snake()
-
         @boids = []
-        for i in [0..8]
-            @boids.push new Boid level:0
-        for i in [0..8]
-            @boids.push new Boid level:1
-            @kerns.push new Kern bot: @boids[@boids.length-1]
-        for i in [0..8]
-            @boids.push new Boid level:2
-            @kerns.push new Kern bot: @boids[@boids.length-1]
+        @level = -1
+        @nextLevel()
         
-        @planet = new Planet()   
-        @cursor = new THREE.Vector2 0,0 
-
-        if true
-            
-            new Mesh
-                type:     'spike'
-                radius:   5
-                detail:   1
-                wireframe: true
-                color:    0x0000ff
-                position: vec(0,0,-100)
-
         if false
             
             new Line
@@ -70,6 +52,23 @@ class Game
                 from: vec()
                 to: vec(0,0,200)
         
+    nextLevel: () =>
+        
+        @level += 1 
+        log @level   
+            
+        if @level < 10
+            @boids.push new Boid level:0
+            @kerns.push new Kern bot: @boids[@boids.length-1]
+        else
+            if @level % 10 == 0
+                @snakes.push new Snake()        
+            if @level % 100 == 0
+                @boids.push new Boid level:2
+                @kerns.push new Kern bot: @boids[@boids.length-1]
+            else if @level % 10 == 0
+                @boids.push new Boid level:1
+                @kerns.push new Kern bot: @boids[@boids.length-1]
                         
     mouse: (pos) => @cursor.copy pos
         
@@ -86,7 +85,7 @@ class Game
         for boid in @boids
             boid.frame step
             
-            if boid.position.distanceTo(@player.ball.localToWorld(vec())) < boid.radius
+            if boid.position.distanceTo(@player.ball.localToWorld(vec())) < (boid.radius + 3)
                 @player.attachTo boid
         
         @player.setTargetCamera @cursor, @truck.camera

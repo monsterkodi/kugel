@@ -7,12 +7,22 @@
 ###
 
 tools    = require './knix/tools'
+Mesh     = require './mesh'
 rndrng   = tools.rndrng
 
-class Planet
+class Planet extends Mesh
 
     constructor: () ->
+        
+        super 
+            type:     'sphere'
+            material: 'planet'
+            radius:   100
+            position: vec()
+        
         @createRing()
+        
+        scene.add @
 
     createRing: () =>
         
@@ -41,6 +51,6 @@ class Planet
             
         particles = new THREE.PointCloud geometry, mat
         
-        scene.add particles           
+        @.add particles           
 
 module.exports = Planet

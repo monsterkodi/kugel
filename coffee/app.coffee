@@ -37,7 +37,6 @@ stats    = null
 text     = null
 dolly    = null
 truck    = null
-balls    = null
 game     = null
 mouse    = new THREE.Vector2()
 
@@ -138,10 +137,6 @@ document.observe 'dom:loaded', ->
     window.addEventListener 'resize',      onWindowResize
             
     anim()
-
-    ball = new Mesh 
-        type:   'sphere'
-        radius: 100
         
     if 0
         new Mesh

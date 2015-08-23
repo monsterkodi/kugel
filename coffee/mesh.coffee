@@ -50,7 +50,7 @@ class Mesh extends THREE.Mesh
                 wireframeLinewidth: 2
                 shininess: 0
         else
-            @material = config.material or material[@type]
+            @material = material[config.material]? and material[config.material] or config.material? and config.material or material[@type]
         
         super geom, @material 
         

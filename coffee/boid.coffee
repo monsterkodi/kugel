@@ -41,7 +41,7 @@ class Boid extends Bot
         @steerTarget = 0
         @steerChange = [120, 90, 60][t]
         @steerKeep   = @steerChange*(1+rndint(2))
-        @steerDeg    = [40, 30, 60][t]
+        @steerDeg    = [40, 30, 20][t]
         @steerSpeed  = [4, 3, 2][t]
         
         @obja = new THREE.Object3D()
