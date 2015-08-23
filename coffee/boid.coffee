@@ -23,7 +23,8 @@ class Boid extends Bot
     
     constructor: (config={}) -> 
         
-        t = rndint(3)        
+        config.level = rndint(3) if not config.level?
+        t = config.level     
         
         config.height = [130, 120, 110][t]        
         config.trail  = 

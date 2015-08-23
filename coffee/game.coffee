@@ -25,12 +25,16 @@ class Game
         @player = new Player()
                                 
         @snakes = []
-        for i in [0..10]
+        for i in [0..2]
             @snakes.push new Snake()
 
         @boids = []
-        for i in [0..20]
-            @boids.push new Boid()
+        for i in [0..2]
+            @boids.push new Boid level:0
+        for i in [0..2]
+            @boids.push new Boid level:1
+        for i in [0..2]
+            @boids.push new Boid level:2
         
         @planet = new Planet()   
         @cursor = new THREE.Vector2 0,0 
@@ -71,14 +75,18 @@ class Game
         else
             f = step.dsecs * 2
             @truck.setQuat @truck.camera.getWorldQuaternion().slerp(@player.ctra.getWorldQuaternion(),f)
-        
-        @player.setTargetCamera @cursor, @truck.camera
-        @player.frame step 
-            
+                    
         for snake in @snakes
             snake.frame step
             
         for boid in @boids
             boid.frame step
+            
+            if boid.ctra.position.distanceTo(@player.ball.localToWorld(vec())) < 2
+                @player.attachTo boid
+        
+        @player.setTargetCamera @cursor, @truck.camera
+        @player.frame step 
+        
                                                     
 module.exports = Game

@@ -22,7 +22,7 @@ class Player extends Bot
         
         # config.gimbal = true
         
-        config.height = 104
+        config.height = 102
         config.trail = 
             num:       50
             minRadius: 1
@@ -33,7 +33,7 @@ class Player extends Bot
         
         @ball = new Mesh
             type:     'sphere'
-            radius:   4
+            radius:   2
             detail:   1
             parent:   @ctra
             material: material.player
@@ -46,6 +46,7 @@ class Player extends Bot
             
         @rollAngle = 0
         @speed = 0
+        @boid = null
         @jumpHeight = 0
         @jumpTarget = 0
         @jumpTime = 0
@@ -53,9 +54,18 @@ class Player extends Bot
         window.addEventListener 'mousedown',  @jump
 
     jump: () => 
-        @jumpTarget = 40
-        @jumpTime = 0
-        @jumpQuat = Quat.axis Vect.X.clone().applyQuaternion(@ball.quaternion), -rad2deg(@ctra.position.angleTo(@dot.position))*0.02
+        if @jumpTarget > 0
+            @jumpTarget = 0
+            @jumpTime = 0
+        else
+            if @boid
+                @lastboid = @boid
+                @boid = null
+                @jumpTarget = @height - 100 + 20
+            else
+                @jumpTarget = 20
+            @jumpTime = 0
+            @jumpQuat = Quat.axis Vect.X.clone().applyQuaternion(@ball.quaternion), -rad2deg(@ctra.position.angleTo(@dot.position))*0.005
 
     setTargetCamera: (mouse,camera,planet) =>
 
@@ -70,32 +80,62 @@ class Player extends Bot
                         
         @dot.position.copy cp
         
+    attachTo: (boid) =>
+        if @boid != boid and boid != @lastboid
+            @boid = boid
+            @jumpTarget = 0
+            @jumpHeight = 0
+            @height = boid.ctra.position.length()
+        
     frame: (step) =>
         
         q = Quat.vecs @ctra.position, @dot.position
         q.multiply @ctra.quaternion
                 
         if @jumpTarget > 0
-            @jumpTime += step.dsecs * 2
+            @jumpTime += step.dsecs * 4
             @jumpHeight = Math.sin(@jumpTime) * @jumpTarget
+            if @jumpTime >= Math.PI*0.5 
+                @lastboid = null
             if @jumpTime >= 3.3
+                if @height > 102
+                    @jumpHeight = @height - 102
+                    @height = 102
                 @jumpTarget = 0
                 @jumpTime = 0
+        else if @jumpHeight > 0
+            @jumpHeight = fade @jumpHeight, 0, 0.2
         if @jumpHeight < 0
             @jumpHeight = fade @jumpHeight, 0, 0.04
 
         if @jumpTarget == 0
-            f = step.dsecs * 1.5
+            f = step.dsecs
+            if @height >= 129
+                f *= 1.0
+            else if @height >= 119
+                f *= 0.5
+            else if @height >= 109
+                f *= 0.3
+            else
+                f *= 0.25
+
             @ctra.setQuatHeight @ctra.quaternion.slerp(q,f), @height
         else
             @ctra.setQuatHeight @ctra.quaternion.multiply(@jumpQuat), @height
+        
+        if @boid and @jumpTarget == 0
+            @boid.ctra.position.copy @ctra.position
+            ml = new THREE.Matrix4().lookAt(@ctra.position.clone().setLength(100), @dot.position, @ctra.position.normalized())
+            @boid.ctra.quaternion.setFromRotationMatrix(ml)
+            @boid.ctra.quaternion.multiply Quat.axis Vect.X, -90
         
         @ball.quaternion.copy @ctra.quaternion
         @ball.lookAt @ctra.worldToLocal @dot.position.clone()
         @ball.up.copy @ctra.worldToLocal @ctra.position.normalized()
         @ball.position.copy(@ball.up).setLength -@jumpHeight
         
-        if @jumpTarget == 0
+        if @jumpHeight < 1 and not @boid?
+            
             @ball.rotateOnAxis Vect.X, -@rollAngle
             @rollAngle += 0.009* @ctra.position.clone().setLength(100).distanceTo @dot.position
                 
