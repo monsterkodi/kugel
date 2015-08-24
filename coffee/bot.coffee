@@ -11,7 +11,6 @@ Quat     = require './quat'
 log      = require './knix/log'
 def      = require './knix/def'
 tools    = require './knix/tools'
-material = require './material'
 Trail    = require './trail'
 Vect     = require './vect'
 vec      = Vect.new

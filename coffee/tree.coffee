@@ -7,10 +7,10 @@
 ###
 
 tools  = require './knix/tools'
+def    = require './knix/def'
 Quat   = require './quat'
 Bot    = require './bot'
 Mesh   = require './mesh'
-def    = toosl.def
 rndrng = tools.rndrng
 
 class Tree extends Bot
@@ -18,6 +18,7 @@ class Tree extends Bot
     constructor: (config={}) ->
         
         @isTree = true
+        @numKerns = 0
         
         @onKern = config.onKern
         

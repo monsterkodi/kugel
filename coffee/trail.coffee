@@ -11,7 +11,6 @@ tools    = require './knix/tools'
 Mesh     = require './mesh'
 Quat     = require './quat'
 Vect     = require './vect'
-material = require './material'
 vec      = Vect.new
 rndrng   = tools.rndrng
 
@@ -26,8 +25,8 @@ class Trail
         for i in [0..@num]
             m = new Mesh
                 type:     'box'
+                material: 'trail'
                 radius:   rndrng @minRadius, @maxRadius
-                material: material.trail
                 quat:     config.randQuat and Quat.rand() or new Quat()
                 dist:     0
             @meshes.push m

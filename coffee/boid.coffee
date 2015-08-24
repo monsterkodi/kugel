@@ -10,7 +10,6 @@ Mesh     = require './mesh'
 Quat     = require './quat'
 log      = require './knix/log'
 tools    = require './knix/tools'
-material = require './material'
 Vect     = require './vect'
 Bot      = require './bot'
 vec      = Vect.new
@@ -48,7 +47,7 @@ class Boid extends Bot
         
         new Mesh
             type:     'torus'
-            material: material.boid
+            material: 'boid'
             detail:   32
             radius:   @radius
             position: vec()
@@ -56,7 +55,7 @@ class Boid extends Bot
 
         new Mesh
             type:     'sphere'
-            material: material.boid
+            material: 'boid'
             detail:   1
             radius:   @radius/4
             position: vec(0,-@radius*1.25,0)

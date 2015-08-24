@@ -39,6 +39,10 @@ class Game
         @trees.push new Tree
             quat: Quat.axis Vect.X, -90
             onKern: @player.incSnatch
+
+        @trees.push new Tree
+            quat: Quat.axis Vect.X, 90
+            onKern: @player.incSpeed
         
         if false
             
@@ -108,19 +112,20 @@ class Game
         @player.setTargetCamera @cursor, @truck.camera
         @player.frame step 
         
-        if @player.center.distanceTo(@tree.position) < 6
-            if @player.kern?
-                for kern in @kerns
-                    if kern.bot == @player
-                        log "kern delivered"
-                        kern.attachTo @tree
-                        @tree.numKerns += 1
-                        if @tree.numKerns == @kerns.length
-                            @nextLevel()
-                        # @kerns.splice @kerns.indexOf(kern), 1
-                        # kern.remove()
-                        # if @kerns.length == 0
-                            # @nextLevel()
+        if @player.kern?
+            for tree in @trees
+                if @player.center.distanceTo(tree.center) < 6
+                    for kern in @kerns
+                        if kern.bot == @player
+                            kern.attachTo tree
+                            tree.numKerns += 1
+                    sum = 0
+                    for t in @trees         
+                        sum += t.numKerns
+                    log "kerns: ", sum
+                    if sum == @kerns.length
+                        @nextLevel()
+                    break
         
         for kern in @kerns
             kern.frame step

@@ -10,7 +10,6 @@ Mesh     = require './mesh'
 Quat     = require './quat'
 log      = require './knix/log'
 tools    = require './knix/tools'
-material = require './material'
 Vect     = require './vect'
 Bot      = require './bot'
 vec      = Vect.new
@@ -44,12 +43,12 @@ class Snake extends Bot
         
         for i in [0..@steps-2]
             m = new Mesh
-                type:   'sphere'
-                material: material.snake
-                detail: 1
-                radius: 2.0-i/(@steps-1)
+                type:     'sphere'
+                material: 'snake'
+                detail:   1
+                radius:   2.0-i/(@steps-1)
                 position: vec(0,@radius,0).applyQuaternion Quat.axis Vect.X, -180*i/(@steps-1)
-                parent: @obja  
+                parent:   @obja  
                             
         @ctra.add @obja
         @ctrb.add @objb

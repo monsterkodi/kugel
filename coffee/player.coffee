@@ -32,7 +32,7 @@ class Player extends Bot
         super config
         
         @isPlayer = true
-        @snatchDistance = 20
+        @snatchDistance = 0
                             
         @ball = new Mesh
             type:     'sphere'
@@ -55,17 +55,22 @@ class Player extends Bot
             detail:   1
             
         @rollAngle  = 0
-        @speed      = 0
+        @speed      = 1
         @boid       = null
         @jumpHeight = 0
         @jumpTarget = 0
         @jumpTime   = 0
+        
+        @incSnatch()
         
         window.addEventListener 'mousedown',  @jump
 
     incSnatch: () =>
         @snatchDistance += 1
         @snatch.scale.set @snatchDistance, @snatchDistance, @snatchDistance
+        
+    incSpeed: () =>
+        @speed += 0.1
 
     jump: () => 
         if @jumpTarget > 0
@@ -136,7 +141,7 @@ class Player extends Bot
             else if @height >= 109
                 f *= 0.3
             else
-                f *= 0.55
+                f *= 0.55 * @speed
 
             @.setQuatHeight @.quaternion.slerp(q,f), @height
         else
