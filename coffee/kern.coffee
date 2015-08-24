@@ -23,7 +23,7 @@ class Kern extends Bot
         super config
         
         @attachTo config.bot if config.bot?
-        @lerpSpeed = rndrng 0.04, 0.1
+        @lerpSpeed = rndrng 0.04, 0.3
         @krn = new Mesh
             type:     'pyramid'
             material: 'kern'

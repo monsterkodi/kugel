@@ -23,7 +23,7 @@ module.exports =
         side:        THREE.FrontSide
         shading:     THREE.FlatShading
         transparent: true
-        opacity:     0.1
+        opacity:     0.05
         shininess:   -5
         depthWrite:  false
 

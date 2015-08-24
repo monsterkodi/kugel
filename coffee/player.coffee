@@ -44,7 +44,7 @@ class Player extends Bot
             type:     'sphere'
             material: 'snatch'
             radius:   1
-            detail:   1
+            detail:   2
             parent:   @ball
                         
         @dot = new Mesh
@@ -160,7 +160,7 @@ class Player extends Bot
         if @jumpHeight < 1 and not @boid?
             
             @ball.rotateOnAxis Vect.X, -@rollAngle
-            @rollAngle += 0.009* @.position.clone().setLength(100).distanceTo @dot.position
+            @rollAngle += 0.005* @.position.clone().setLength(100).distanceTo @dot.position
                 
             if @trail?
                 if @.position.distanceTo(@trail.meshes[0].position) > 5
