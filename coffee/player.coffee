@@ -31,13 +31,14 @@ class Player extends Bot
         
         super config
         
-        @isPlayer = true
-        @snatchDistance = 0
+        @isPlayer       = true
+        @radius         = 2
+        @snatchDistance = @radius
                             
         @ball = new Mesh
             type:     'sphere'
             material: 'player'
-            radius:   2
+            radius:   @radius
             detail:   1
             parent:   @
 
@@ -66,11 +67,11 @@ class Player extends Bot
         window.addEventListener 'mousedown',  @jump
 
     incSnatch: () =>
-        @snatchDistance += 1
+        @snatchDistance += 0.2
         @snatch.scale.set @snatchDistance, @snatchDistance, @snatchDistance
         
     incSpeed: () =>
-        @speed += 0.1
+        @speed += 0.01
 
     jump: () => 
         if @jumpTarget > 0

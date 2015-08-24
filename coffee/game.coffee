@@ -39,10 +39,12 @@ class Game
         @trees.push new Tree
             quat: Quat.axis Vect.X, -90
             onKern: @player.incSnatch
+            color: 0xffff00
 
         @trees.push new Tree
             quat: Quat.axis Vect.X, 90
             onKern: @player.incSpeed
+            color: 0xffffff
         
         if false
             

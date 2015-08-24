@@ -35,10 +35,9 @@ module.exports =
         shading:            THREE.SmoothShading
         shininess:          0
 
-    tree: new THREE.MeshPhongMaterial
+    tree: 
         wireframe:          true
         wireframeLinewidth: 2    
-        color:              color.kern
         side:               THREE.FrontSide
         shading:            THREE.SmoothShading
         shininess:          10

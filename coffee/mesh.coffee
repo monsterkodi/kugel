@@ -10,6 +10,7 @@ tools    = require './knix/tools'
 color    = require './color'
 material = require './material'
 log      = require './knix/log'
+def      = require './knix/def'
 Vect     = require './vect'
 vec      = Vect.new
 clamp    = tools.clamp
@@ -40,8 +41,15 @@ class Mesh extends THREE.Mesh
                 geom = new THREE.TetrahedronGeometry @radius
             when 'box'
                 geom = new THREE.BoxGeometry @radius, @radius, @radius
-        
-        if config.color?
+
+        if config.material?
+            if config.color?
+                conf = def material[config.material], 
+                    color: config.color
+                @material = new THREE.MeshPhongMaterial conf
+            else
+                @material = material[config.material]
+        else
             @material = new THREE.MeshLambertMaterial
                 color:     config.color
                 side:      THREE.FrontSide
@@ -49,9 +57,7 @@ class Mesh extends THREE.Mesh
                 wireframe: config.wireframe or false
                 wireframeLinewidth: 2
                 shininess: 0
-        else
-            @material = material[config.material]? and material[config.material] or config.material? and config.material or material[@type]
-        
+
         super geom, @material 
         
         if config.parent?

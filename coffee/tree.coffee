@@ -28,6 +28,7 @@ class Tree extends Bot
         new Mesh
             type:     'spike'
             material: 'tree'
+            color:    config.color
             radius:   4
             parent:   @
         
