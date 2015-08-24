@@ -23,7 +23,7 @@ class Kern extends Bot
         super config
         
         @attachTo config.bot if config.bot?
-        @lerpSpeed = rndrng 0.04, 0.3
+        
         @krn = new Mesh
             type:     'pyramid'
             material: 'kern'
@@ -35,13 +35,18 @@ class Kern extends Bot
     attachTo: (bot) =>
         @bot?.kern = null
         @bot = bot
-        @height = @bot.height
         @bot.kern = @
+        if @bot.isPlayer?
+            @lerpSpeed = rndrng 0.04, 0.3
+        else if @bot.isTree?
+            @lerpSpeed = 0.1
+        else
+            @lerpSpeed = 0.2
                 
     frame: (step) =>
         if @bot
             @quaternion.copy @bot.quat
             @position.lerp @bot.center, @lerpSpeed
-            @krn.rotateOnAxis Vect.X, deg2rad(-2)        
+            @krn.rotateOnAxis Vect.X, deg2rad -2
                 
 module.exports = Kern

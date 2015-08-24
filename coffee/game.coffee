@@ -58,7 +58,11 @@ class Game
         
         @player.incSnatch()
         
-        log "nextLevel: ", @level   
+        @tree.numKerns = 0
+        log "level: ", @level   
+
+        if @level % 20 == 0 and @boids.length
+            @snakes.push new Snake()        
             
         if @boids.length < 60
             if @level % 3 == 0 and @boids.length
@@ -67,11 +71,11 @@ class Game
                 @boids.push new Boid level:1            
             else
                 @boids.push new Boid level:0
-        if @level % 60 == 0
-            @snakes.push new Snake()        
                     
-        for boid in @boids                    
-            @kerns.push new Kern bot: boid
+        @kerns.push new Kern()           
+                    
+        for i in [0..@kerns.length-1]
+            @kerns[i].attachTo @boids[i]
                         
     mouse: (pos) => @cursor.copy pos
         
@@ -104,10 +108,14 @@ class Game
                 for kern in @kerns
                     if kern.bot == @player
                         log "kern delivered"
-                        @kerns.splice @kerns.indexOf(kern), 1
-                        kern.remove()
-                        if @kerns.length == 0
+                        kern.attachTo @tree
+                        @tree.numKerns += 1
+                        if @tree.numKerns == @kerns.length
                             @nextLevel()
+                        # @kerns.splice @kerns.indexOf(kern), 1
+                        # kern.remove()
+                        # if @kerns.length == 0
+                            # @nextLevel()
         
         for kern in @kerns
             kern.frame step

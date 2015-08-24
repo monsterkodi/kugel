@@ -31,6 +31,7 @@ class Player extends Bot
         
         super config
         
+        @isPlayer = true
         @snatchDistance = 20
                             
         @ball = new Mesh
@@ -131,7 +132,7 @@ class Player extends Bot
             if @height >= 129
                 f *= 1.0
             else if @height >= 119
-                f *= 0.5
+                f *= 0.7
             else if @height >= 109
                 f *= 0.3
             else
