@@ -10,22 +10,29 @@ tools  = require './knix/tools'
 Quat   = require './quat'
 Bot    = require './bot'
 Mesh   = require './mesh'
+def    = toosl.def
 rndrng = tools.rndrng
 
 class Tree extends Bot
 
-    constructor: () ->
+    constructor: (config={}) ->
         
         @isTree = true
         
-        super 
+        @onKern = config.onKern
+        
+        super def config,
             height: 100
-            quat:   Quat.axis Vect.X, -90
         
         new Mesh
             type:     'spike'
             material: 'tree'
             radius:   4
-            parent: @
+            parent:   @
+        
+    setKern: (kern) =>
+        
+        @kern = kern
+        @onKern()
         
 module.exports = Tree

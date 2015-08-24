@@ -50,7 +50,9 @@ class Bot extends THREE.Object3D
             Mesh.addGimbal @
     
     remove: () => scene.remove @  
-                
+    
+    setKern: (kern) => @kern = kern
+                    
     lookUp: (target, up) =>
         @quaternion.copy Quat.posUpTarget @position, up, target
         @quaternion.multiply Quat.axis Vect.X, -90

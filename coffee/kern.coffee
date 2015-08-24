@@ -35,7 +35,7 @@ class Kern extends Bot
     attachTo: (bot) =>
         @bot?.kern = null
         @bot = bot
-        @bot.kern = @
+        @bot.setKern @
         if @bot.isPlayer?
             @lerpSpeed = rndrng 0.04, 0.3
         else if @bot.isTree?

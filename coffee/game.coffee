@@ -11,6 +11,7 @@ Player   = require './player'
 Tree     = require './tree'
 Kern     = require './kern'
 Snake    = require './snake'
+Quat     = require './quat'
 Vect     = require './vect'
 Line     = require './line'
 Boid     = require './boid'
@@ -26,14 +27,18 @@ class Game
         
         @player = new Player()
         @planet = new Planet()
-        @tree   = new Tree()
         @cursor = new THREE.Vector2 0,0 
                 
-        @kerns = []
+        @kerns  = []
+        @trees  = []
         @snakes = []
-        @boids = []
-        @level = -1
+        @boids  = []
+        @level  = -1
         @nextLevel()
+        
+        @trees.push new Tree
+            quat: Quat.axis Vect.X, -90
+            onKern: @player.incSnatch
         
         if false
             
@@ -55,12 +60,12 @@ class Game
     nextLevel: () =>
         
         @level += 1 
-        
-        @player.incSnatch()
-        
-        @tree.numKerns = 0
-        log "level: ", @level   
 
+        log "level: ", @level   
+                
+        for tree in @trees
+            tree.numKerns = 0
+            
         if @level % 20 == 0 and @boids.length
             @snakes.push new Snake()        
             

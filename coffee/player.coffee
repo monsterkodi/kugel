@@ -54,12 +54,12 @@ class Player extends Bot
             radius:   1
             detail:   1
             
-        @rollAngle = 0
-        @speed = 0
-        @boid = null
+        @rollAngle  = 0
+        @speed      = 0
+        @boid       = null
         @jumpHeight = 0
         @jumpTarget = 0
-        @jumpTime = 0
+        @jumpTime   = 0
         
         window.addEventListener 'mousedown',  @jump
 
