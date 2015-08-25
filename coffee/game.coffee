@@ -45,6 +45,11 @@ class Game
             quat: Quat.axis Vect.X, 90
             onKern: @player.incSpeed
             color: 0xffffff
+
+        @trees.push new Tree
+            quat: Quat.axis Vect.Y, 90
+            onKern: @player.incNearKerns
+            color: 0xff0000
         
         if false
             
@@ -100,16 +105,23 @@ class Game
         for snake in @snakes
             snake.frame step
             
+        @player.clearNearKerns()
+        
         for boid in @boids
             boid.frame step
             
-            distance = boid.position.distanceTo(@player.center)
+            distance = boid.position.distanceTo @player.center
             if distance < (boid.radius + 3)
                 @player.attachTo boid
                 
             if distance < @player.snatchDistance # attach on same level
                 if boid.kern?
                     boid.kern.attachTo @player
+                    
+            if boid.kern?
+                @player.distanceToKern distance, boid.kern
+                
+        @player.drawNearKerns()
         
         @player.setTargetCamera @cursor, @truck.camera
         @player.frame step 

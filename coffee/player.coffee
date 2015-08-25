@@ -9,6 +9,7 @@
 Mesh     = require './mesh'
 Bot      = require './bot'
 Quat     = require './quat'
+Line     = require './line'
 Vect     = require './vect'
 tools    = require './knix/tools'
 vec      = Vect.new
@@ -34,6 +35,8 @@ class Player extends Bot
         @isPlayer       = true
         @radius         = 2
         @snatchDistance = @radius
+        @nearKerns      = []
+        @maxNearKerns   = 1
                             
         @ball = new Mesh
             type:     'sphere'
@@ -72,6 +75,38 @@ class Player extends Bot
         
     incSpeed: () =>
         @speed += 0.01
+        
+    incNearKerns: () =>
+        @maxNearKerns += 1
+
+    clearNearKerns: () => 
+        for nk in @nearKerns
+            nk.line.remove()
+        @nearKerns = []
+        
+    distanceToKern: (distance, kern) =>
+        # log distance, kern.position
+        # log @nearKerns.length
+        for nk in @nearKerns
+            # log nk.distance
+            if distance < nk.distance
+                @nearKerns.splice @nearKerns.indexOf(nk), 1, 
+                    distance: distance
+                    pos: kern.position
+                if @nearKerns.length > @maxNearKerns
+                    rm = @nearKerns.pop()
+                # log @nearKerns
+                return
+        if @nearKerns.length < @maxNearKerns
+            @nearKerns.push
+                distance: distance
+                pos: kern.position
+                    
+    drawNearKerns: () =>
+        for nk in @nearKerns
+            nk.line = new Line
+                from: @position
+                to:   nk.pos
 
     jump: () => 
         if @jumpTarget > 0
