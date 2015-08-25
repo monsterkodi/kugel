@@ -11,7 +11,7 @@ class Line extends THREE.Line
     constructor: (config={}) ->
 
         material = new THREE.LineBasicMaterial
-        	color: config.color? and config.color or 0xffffff
+            color: config.color? and config.color or 0xffffff
 
         geometry = new THREE.Geometry()
         geometry.vertices.push config.from, config.to

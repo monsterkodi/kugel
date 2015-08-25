@@ -35,7 +35,7 @@ class Planet extends Mesh
         for i in [0..particles]
             r = rndrng(0,1)
             r = r * r
-            v = vec 250 + r*100, 0, 0
+            v = vec 280 + r*100, 0, 0
             v.applyQuaternion Quat.axis Vect.Y, rndrng(-180,180)
             v.y += rndrng(0,10)
             geometry.vertices.push v

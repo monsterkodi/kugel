@@ -136,7 +136,7 @@ class Game
                     sum = 0
                     for t in @trees         
                         sum += t.numKerns
-                    log "kerns: ", sum
+                    # log "tree kerns: ", sum
                     if sum == @kerns.length
                         @nextLevel()
                     break

@@ -31,8 +31,8 @@ class knix
     @init: (config) =>
 
         if config.console?
-            c = new Console()
-            c.shade() if config.console == 'shade'
+            @console = new Console()
+            @console.shade() if config.console == 'shade'
 
         StyleSwitch.init()
                 
@@ -40,8 +40,8 @@ class knix
         @initTools()
         Stage.init()
     
-        c?.raise()
-        c?.maximize() if config.console == 'maximized'
+        @console?.raise()
+        @console?.maximize() if config.console == 'maximized'
                 
         @
     

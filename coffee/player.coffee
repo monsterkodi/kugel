@@ -15,6 +15,7 @@ tools    = require './knix/tools'
 vec      = Vect.new
 rad2deg  = tools.rad2deg
 deg2rad  = tools.deg2rad
+clamp    = tools.clamp
 fade     = tools.fade
 
 class Player extends Bot
@@ -85,17 +86,13 @@ class Player extends Bot
         @nearKerns = []
         
     distanceToKern: (distance, kern) =>
-        # log distance, kern.position
-        # log @nearKerns.length
         for nk in @nearKerns
-            # log nk.distance
             if distance < nk.distance
-                @nearKerns.splice @nearKerns.indexOf(nk), 1, 
+                @nearKerns.splice @nearKerns.indexOf(nk), 0, 
                     distance: distance
                     pos: kern.position
                 if @nearKerns.length > @maxNearKerns
                     rm = @nearKerns.pop()
-                # log @nearKerns
                 return
         if @nearKerns.length < @maxNearKerns
             @nearKerns.push
@@ -104,9 +101,23 @@ class Player extends Bot
                     
     drawNearKerns: () =>
         for nk in @nearKerns
+            if nk.distance <= 100
+                d = 1-clamp(0,1,nk.distance/100)
+                col = new THREE.Color d,d,1
+            else
+                d = 1-clamp(0.2,1,(nk.distance-100)/100)
+                col = new THREE.Color 0,0,d
+            
+            # pos = @center.clone().add @center.to(nk.pos.clone().setLength(@center.length())).projectOnPlane(@center.normalized())
+            dir = nk.pos.clone().projectOnPlane(@center.normalized())
+            l = dir.length() * (1-0.8*nk.distance/200)
+            dir.setLength(clamp(0,@snatchDistance,l)) 
+            pos = @center.clone().add dir
+
             nk.line = new Line
-                from: @position
-                to:   nk.pos
+                color:   col
+                from:    @center
+                to:      pos
 
     jump: () => 
         if @jumpTarget > 0

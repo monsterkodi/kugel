@@ -135,7 +135,7 @@ document.observe 'dom:loaded', ->
     window.addEventListener 'mouseup',     onMouseUp
     window.addEventListener 'mousemove',   onMouseMove
     window.addEventListener 'resize',      onWindowResize
-            
+        
     anim()
         
     if 0
@@ -228,10 +228,8 @@ onKeyDown = (event) ->
     e   = document.activeElement
     # dbg key
     switch key
-        when 'command+e'
-            doWalk '.'
         when 'command+k'  
-            new Console()
+            knix.console.clear()
         when 'command+c'
             knix.closeAllWindows()
         when 'command+q'
