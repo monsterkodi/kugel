@@ -17,8 +17,8 @@ class Line extends THREE.Line
         geometry.vertices.push config.from, config.to
 
         super geometry, material
-        scene.add @
+        (config.parent or scene).add @
 
-    remove: () => scene.remove @ 
+    del: () => @parent.remove @ 
 
 module.exports = Line

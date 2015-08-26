@@ -240,5 +240,7 @@ onKeyDown = (event) ->
             pause = not pause
         when 'c'
             game.collectAll()
+        when 'x'
+            game.collectOne()
         
 document.on 'keydown', onKeyDown

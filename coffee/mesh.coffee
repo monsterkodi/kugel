@@ -71,7 +71,7 @@ class Mesh extends THREE.Mesh
         else if config.position?
             @position.copy config.position
             
-    remove: () => scene.remove @        
+    del: () => @parent.remove @        
 
     @addGimbal: (prt) ->
 

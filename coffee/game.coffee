@@ -45,11 +45,13 @@ class Game
             quat: Quat.axis Vect.X, 90
             onKern: @player.incSpeed
             color: 0xffffff
+            branches: [1,2,3,3,3,2,2,2,2,2]
 
         @trees.push new Tree
             quat: Quat.axis Vect.Y, 90
             onKern: @player.incNearKerns
             color: 0x8888ff
+            branches: [1,2,1,1,3,1,1,2,1,1,3,1,1]
 
         @trees.push new Tree
             type: 'sphere'
@@ -57,6 +59,7 @@ class Game
             quat: Quat.axis Vect.Y, -90
             onKern: @addSnake
             color: 0xff0000
+            branches: [1,2,3,4,2,2,2,2,2,2]
         
         if false
             
@@ -79,7 +82,7 @@ class Game
         
         @level += 1 
 
-        log "level: ", @level   
+        log "game.level: ", @level   
                 
         for tree in @trees
             tree.numKerns = 0
@@ -157,6 +160,12 @@ class Game
         for boid in @boids
             if boid.kern?
                 boid.kern.attachTo @player
+                
+    collectOne: () =>
+        for boid in @boids
+            if boid.kern?
+                boid.kern.attachTo @player
+                return
         
                                                     
 module.exports = Game

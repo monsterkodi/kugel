@@ -48,7 +48,7 @@ class Bot extends THREE.Object3D
             
             Mesh.addGimbal @
     
-    remove: () => scene.remove @  
+    del: () => @parent.remove @  
     
     setKern: (kern) => @kern = kern
                     

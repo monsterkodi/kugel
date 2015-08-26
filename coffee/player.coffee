@@ -82,7 +82,7 @@ class Player extends Bot
 
     clearNearKerns: () => 
         for nk in @nearKerns
-            nk.line.remove()
+            nk.line.del()
         @nearKerns = []
         
     distanceToKern: (distance, kern) =>
