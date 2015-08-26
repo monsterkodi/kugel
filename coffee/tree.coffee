@@ -26,7 +26,8 @@ class Tree extends Bot
             height: 100
         
         new Mesh
-            type:     'spike'
+            detail:   config.detail
+            type:     config.type or 'spike'
             material: 'tree'
             color:    config.color
             radius:   4

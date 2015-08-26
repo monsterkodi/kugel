@@ -49,6 +49,13 @@ class Game
         @trees.push new Tree
             quat: Quat.axis Vect.Y, 90
             onKern: @player.incNearKerns
+            color: 0x8888ff
+
+        @trees.push new Tree
+            type: 'sphere'
+            detail: 1
+            quat: Quat.axis Vect.Y, -90
+            onKern: @addSnake
             color: 0xff0000
         
         if false
@@ -77,13 +84,13 @@ class Game
         for tree in @trees
             tree.numKerns = 0
             
-        if @level % 20 == 0 and @boids.length
-            @snakes.push new Snake()        
+        if @level % 20 == 0 and @level > 0
+            @addSnake()
             
         if @boids.length < 60
-            if @level % 3 == 0 and @boids.length
+            if @level % 3 == 0 and @level > 0
                 @boids.push new Boid level:2
-            else if @level % 2 == 0 and @boids.length
+            else if @level % 2 == 0 and @level > 0
                 @boids.push new Boid level:1            
             else
                 @boids.push new Boid level:0
@@ -92,6 +99,8 @@ class Game
                     
         for i in [0..@kerns.length-1]
             @kerns[i].attachTo @boids[i]
+    
+    addSnake: () => @snakes.push new Snake()    
                         
     mouse: (pos) => @cursor.copy pos
         
@@ -143,5 +152,11 @@ class Game
         
         for kern in @kerns
             kern.frame step
+        
+    collectAll: () =>
+        for boid in @boids
+            if boid.kern?
+                boid.kern.attachTo @player
+        
                                                     
 module.exports = Game

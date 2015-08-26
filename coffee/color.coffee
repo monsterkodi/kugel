@@ -6,6 +6,6 @@ module.exports =
     player:        0xffffff
     spike:         0x4444ff
     kern:          0xffff00
-    snake:         0x000088
+    snake:         0x880000
     boid:          0x4444ff
     trail:         0x000044

@@ -69,6 +69,8 @@ class Snake extends Bot
         if @angle >= 180    
             for j in [0..parseInt((@angle-180) / (180 / (@steps-1)))]
                 @objb.add @obja.children[0]
+        
+    @new: -> new Snake()
                                     
     frame: (step) =>
         

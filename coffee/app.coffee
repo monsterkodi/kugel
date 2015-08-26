@@ -54,18 +54,20 @@ clog = console.log
 000   000  00000000  000   000  0000000    00000000  000   000
 ###
 
+pause = false
 clock = new THREE.Clock()
 secs  = 1.0/60.0
-ssum  = secs
-scnt  = 1
+# ssum  = secs
+# scnt  = 1
 anim  = () ->
     requestAnimationFrame anim
-    ssum += clock.getDelta()
-    scnt += 1
-    step = 
-        delta: secs*1000
-        dsecs: secs
-    game?.frame step
+    # ssum += clock.getDelta()
+    # scnt += 1
+    if not pause
+        step = 
+            delta: secs*1000
+            dsecs: secs
+        game?.frame step
     renderer.render scene, camera
     stats?.update()
 
@@ -234,5 +236,9 @@ onKeyDown = (event) ->
             knix.closeAllWindows()
         when 'command+q'
             ipc.send 'process.exit'
+        when 'space'
+            pause = not pause
+        when 'c'
+            game.collectAll()
         
 document.on 'keydown', onKeyDown
