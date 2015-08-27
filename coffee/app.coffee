@@ -242,5 +242,7 @@ onKeyDown = (event) ->
             game.collectAll()
         when 'x'
             game.collectOne()
+        when 'n'
+            game.nextTrees()
         
 document.on 'keydown', onKeyDown

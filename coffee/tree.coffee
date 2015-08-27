@@ -6,20 +6,21 @@
    000     000   000  00000000  00000000
 ###
 
-tools   = require './knix/tools'
-dbg     = require './knix/log'
-log     = require './knix/log'
-def     = require './knix/def'
-Quat    = require './quat'
-Vect    = require './vect'
-Line    = require './line'
-Bot     = require './bot'
-Mesh    = require './mesh'
-rndint  = tools.rndint
-rndrng  = tools.rndrng
-clamp   = tools.clamp
-deg2rad = tools.deg2rad
-vec     = Vect.new
+tools    = require './knix/tools'
+dbg      = require './knix/log'
+log      = require './knix/log'
+def      = require './knix/def'
+Branches = require './branches'
+Quat     = require './quat'
+Vect     = require './vect'
+Line     = require './line'
+Bot      = require './bot'
+Mesh     = require './mesh'
+rndint   = tools.rndint
+rndrng   = tools.rndrng
+clamp    = tools.clamp
+deg2rad  = tools.deg2rad
+vec      = Vect.new
 
 class Tree extends Bot
 
@@ -27,9 +28,8 @@ class Tree extends Bot
         
         @isTree = true
         @numKerns = 0
-        @levelBranchNum = config.branches or [1,2,3,4,1,2,3,4,1,2,3,4]
+        @levelBranchNum = config.branches
         @levelBranches = []
-        @kernLevel = 0
         @level = -1
         @bobls = []
         @color = config.color
@@ -48,66 +48,54 @@ class Tree extends Bot
         new Mesh def @meshDef,
             parent:   @
             
-        @nextLevel()
-        
-    delBobls: () =>
-        for bobl in @bobls
-            bobl.del()
-        @bobls = []
-                
-    nextLevel: () =>
-        @level += 1
-        @kernLevel = 0
-        @levelBranches.push []
-        @delBobls()        
-        leaves = @level > 0 and @levelBranches[@level-1] or [@]
-        for leaf in leaves
+        @branches = new Branches
+            num:    2048
+            color:  @color
+            parent: @
             
-            if @level < @levelBranchNum.length
-                numChildBranches = @levelBranchNum[@level] 
-            else
-                numChildBranches = 1+rndint 2
+        @kerns = []
+        @kernIndex = 0
+        @leaves = [vec()]
+        @nextBranches()
+
+    nextBranches: () =>
+        @level += 1
+        
+        if @level < @levelBranchNum.length
+            numChildBranches = @levelBranchNum[@level] 
+        else
+            numChildBranches = 1+rndint 2
+        
+        newLeaves = []
+        for leaf in @leaves
             
             for i in [0..numChildBranches-1]
-                length = clamp 4, 40, numChildBranches * (40-@level)
-                head = Vect.Z.clone().multiplyScalar length 
-                branch = new Line
-                    color:  @color
-                    from:   vec()
-                    to:     head.clone()
-                    parent: leaf
-                branch.center = head
-                @levelBranches[@level].push branch
-                if @level > 0
-                    branch.position.copy leaf.center
-                    branch.rotateOnAxis Vect.Z, deg2rad(i*360/numChildBranches)
-                    branch.rotateOnAxis Vect.X, deg2rad 20
-        
+                
+                newLeaf = vec(0,0,clamp(1,25,25-@level+2*0.1))
+                newLeaf.applyQuaternion Quat.axis Vect.X, 45
+                newLeaf.applyQuaternion Quat.axis Vect.Z, @level*90+i*360/numChildBranches
+                newLeaf.add leaf
+                newLeaves.push newLeaf
+                @branches.addVecs [leaf, newLeaf]
+                
+        @branches.update()
+        @leaves = newLeaves  
+        log @leaves.length
+                                
     setKern: (kern) =>
         
         @kern = kern
+        @kerns.push kern
+        @kernIndex += 1
                 
-        if @bobls.length == @levelBranches[@kernLevel].length
-            
-            if @kernLevel == @level
-                log 'inc level'
-                @onKern()
-                @nextLevel()
-            else
-                log 'inc kern'
-                @delBobls()
-                @kernLevel += 1
+        # log 'set kern', @level, @kerns.length, @kernIndex, @branches.count
                 
-            branch = @levelBranches[@kernLevel][0]
-            
-        else
-            
-            branch = @levelBranches[@kernLevel][@bobls.length]
-
-        log 'set kern', @level, @kernLevel, @bobls.length , @levelBranches.length, @levelBranches[@kernLevel].length
-        @bobls.push new Mesh def @meshDef,
-            parent:   branch
-            position: branch.center
-
+        if @kernIndex >= @branches.count
+            # log 'next'
+            @onKern()
+            @nextBranches()
+        
+        kern.target = @branches.head @kernIndex
+        @localToWorld kern.target
         
 module.exports = Tree

@@ -12,13 +12,19 @@ class Line extends THREE.Line
 
         material = new THREE.LineBasicMaterial
             color: config.color? and config.color or 0xffffff
+        
+        @geometry = new THREE.Geometry()
+        
+        if config.from? and config.to?
+            @geometry.vertices.push config.from, config.to
+        else if config.lines?
+            @addVecs config.lines 
 
-        geometry = new THREE.Geometry()
-        geometry.vertices.push config.from, config.to
-
-        super geometry, material
+        super @geometry, material, THREE.LinePieces
         (config.parent or scene).add @
 
     del: () => @parent.remove @ 
+    
+    addVecs: (vecs) => @geometry.vertices.push.apply @geometry.vertices, vecs 
 
 module.exports = Line

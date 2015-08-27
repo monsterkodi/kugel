@@ -33,6 +33,7 @@ class Kern extends Bot
             quat:     Quat.axis Vect.X, rndrng 0,360
                 
     attachTo: (bot) =>
+        @target = null
         @bot?.kern = null
         @bot = bot
         @bot.setKern @
@@ -44,7 +45,10 @@ class Kern extends Bot
             @lerpSpeed = 0.2
                 
     frame: (step) =>
-        if @bot
+        if @target?
+            @position.lerp @target, @lerpSpeed
+            @krn.rotateOnAxis Vect.X, deg2rad -2            
+        else if @bot
             @quaternion.copy @bot.quat
             @position.lerp @bot.center, @lerpSpeed
             @krn.rotateOnAxis Vect.X, deg2rad -2

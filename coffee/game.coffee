@@ -40,26 +40,25 @@ class Game
             quat: Quat.axis Vect.X, -90
             onKern: @player.incSnatch
             color: 0xffff00
+            branches: [1,4,2,2,2,2,4,2,2,2,2,4,2,2,2,2,4]
 
         @trees.push new Tree
             quat: Quat.axis Vect.X, 90
             onKern: @player.incSpeed
             color: 0xffffff
-            branches: [1,2,3,3,3,2,2,2,2,2]
+            branches: [1,2,3,2,3,2,3,2,3,2,3,2]
 
         @trees.push new Tree
             quat: Quat.axis Vect.Y, 90
             onKern: @player.incNearKerns
             color: 0x8888ff
-            branches: [1,2,1,1,3,1,1,2,1,1,3,1,1]
+            branches: [1,2,2,3,2,2,3,2,2,3,2,2,3,2,2]
 
         @trees.push new Tree
-            type: 'sphere'
-            detail: 1
             quat: Quat.axis Vect.Y, -90
             onKern: @addSnake
             color: 0xff0000
-            branches: [1,2,3,4,2,2,2,2,2,2]
+            branches: [1,2,3,4,3,2,2,2,3,4,3,2,2,2,3,4]
         
         if false
             
@@ -167,5 +166,6 @@ class Game
                 boid.kern.attachTo @player
                 return
         
+    nextTrees: () => tree.nextBranches() for tree in @trees
                                                     
 module.exports = Game
