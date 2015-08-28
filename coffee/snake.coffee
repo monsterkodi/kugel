@@ -65,7 +65,9 @@ class Snake extends Bot
         @ctrb.translateOnAxis Vect.Z, -100
         @ctrb.rotateOnAxis Vect.X, (@mova and 1 or -1) * @swapAngle
         @ctrb.translateOnAxis Vect.Z, 100
-                
+
+        @pos = @ctra.position
+        
         if @angle >= 180    
             for j in [0..parseInt((@angle-180) / (180 / (@steps-1)))]
                 @objb.add @obja.children[0]
@@ -117,5 +119,10 @@ class Snake extends Bot
                     pos.applyQuaternion @ctra.quaternion
                     pos.add @ctra.position
                     @trail.add pos
+            
+            if @angle < 180
+                @pos = @ctra.position
+            else
+                @pos = @ctrb.position
                             
 module.exports = Snake

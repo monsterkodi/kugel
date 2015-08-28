@@ -39,26 +39,26 @@ class Game
         @trees.push new Tree
             quat: Quat.axis Vect.X, -90
             onKern: @player.incSnatch
-            color: 0xffff00
+            color: 0x8888ff
             branches: [1,4,2,2,2,2,4,2,2,2,2,4,2,2,2,2,4]
 
         @trees.push new Tree
             quat: Quat.axis Vect.X, 90
             onKern: @player.incSpeed
-            color: 0xffffff
+            color: 0xaaaaaa
             branches: [1,2,3,2,3,2,3,2,3,2,3,2]
 
         @trees.push new Tree
             quat: Quat.axis Vect.Y, 90
             onKern: @player.incNearKerns
-            color: 0x8888ff
+            color: 0x00bb00
             branches: [1,2,2,3,2,2,3,2,2,3,2,2,3,2,2]
 
         @trees.push new Tree
             quat: Quat.axis Vect.Y, -90
-            onKern: @addSnake
+            onKern: @incSnakes
             color: 0xff0000
-            branches: [1,2,3,4,3,2,2,2,3,4,3,2,2,2,3,4]
+            branches: [1,3,2,1,2,3,2,1,2,3,2,1,2,2,2,3,2,2,3,2]
         
         if false
             
@@ -102,7 +102,10 @@ class Game
         for i in [0..@kerns.length-1]
             @kerns[i].attachTo @boids[i]
     
-    addSnake: () => @snakes.push new Snake()    
+    addSnake: () => @snakes.push new Snake()
+    incSnakes: () => 
+        @addSnake()
+        @addSnake()
                         
     mouse: (pos) => @cursor.copy pos
         
@@ -114,8 +117,25 @@ class Game
             @truck.setQuat @truck.camera.getWorldQuaternion().slerp(@player.getWorldQuaternion(),f)
                     
         for snake in @snakes
+            
             snake.frame step
             
+            for boid in @boids
+                if boid.kern?
+                    distance = snake.pos.distanceTo boid.pos
+                    if distance < snake.radius
+                        boid.kern.attachTo @player
+                        
+            if @player.kern?
+                distance = snake.pos.distanceTo @player.pos
+                if distance < snake.radius
+                    for kern in @kerns
+                        if kern.bot == @player
+                            for boid in @boids
+                                if not boid.kern?
+                                    kern.attachTo boid
+                                    break
+                            
         @player.clearNearKerns()
         
         for boid in @boids

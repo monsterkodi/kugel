@@ -6,9 +6,11 @@
 0000000    000   000  000   000  000   000   0000000  000   000  00000000  0000000 
 ###
 
-log  = require './knix/log'
-Vect = require './vect'
-vec  = Vect.new
+log   = require './knix/log'
+tools = require './knix/tools'
+Vect  = require './vect'
+clamp = tools.clamp
+vec   = Vect.new
 
 class Branches extends THREE.Line
     
@@ -18,6 +20,7 @@ class Branches extends THREE.Line
             vertexColors: THREE.VertexColors
             blending:     THREE.AdditiveBlending
             transparent:  true
+            linewidth:    2
             
         @color = new THREE.Color config.color
         
@@ -37,6 +40,10 @@ class Branches extends THREE.Line
     del: () => @parent.remove @ 
 
     head: (i) => vec @pos[i*6+3],@pos[i*6+4],@pos[i*6+5]
+    mark: (i) => 
+        for j in [0..5]
+            @col[i*6+j] = clamp(0,1, 4 * @col[i*6+j])
+        @update()
 
     addVecs: (vecs) => 
         for v in vecs
@@ -44,9 +51,9 @@ class Branches extends THREE.Line
             @pos[@used*3+1] = v.y
             @pos[@used*3+2] = v.z
 
-            @col[@used*3+0] = @color.r
-            @col[@used*3+1] = @color.g
-            @col[@used*3+2] = @color.b
+            @col[@used*3+0] = @color.r*0.25
+            @col[@used*3+1] = @color.g*0.25
+            @col[@used*3+2] = @color.b*0.25
             @used += 1
         @count = parseInt @used/2
             

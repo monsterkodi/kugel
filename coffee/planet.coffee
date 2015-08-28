@@ -28,7 +28,7 @@ class Planet extends Mesh
         
         geometry = new THREE.Geometry()
         
-        particles = 6000
+        particles = 5000
             
         sprite = THREE.ImageUtils.loadTexture "img/disc.png" 
 

@@ -29,7 +29,6 @@ class Bot extends THREE.Object3D
         
         @quaternion.copy config.quat if config.quat?
         @position.copy vec(0,0,@height).applyQuaternion @quaternion
-
         @center = @position.clone()
         @quat = @quaternion.clone()
 
@@ -53,7 +52,7 @@ class Bot extends THREE.Object3D
     setKern: (kern) => @kern = kern
                     
     lookUp: (target, up) =>
-        @quaternion.copy Quat.posUpTarget @position, up, target
+        @quaternion.copy Quat.posUpTarget @center, up, target
         @quaternion.multiply Quat.axis Vect.X, -90
                 
     frame: (step) =>

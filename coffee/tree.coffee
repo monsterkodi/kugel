@@ -26,61 +26,63 @@ class Tree extends Bot
 
     constructor: (config={}) ->
         
-        @isTree = true
+        @isTree   = true
         @numKerns = 0
+        @level    = -1
+        @color    = config.color
+        @onKern   = config.onKern
         @levelBranchNum = config.branches
-        @levelBranches = []
-        @level = -1
-        @bobls = []
-        @color = config.color
-        @onKern = config.onKern
+        @kerns     = []
+        @kernIndex = -1
+        @leaves    = [[vec(),0,45]]
         
         super def config,
             height: 100
         
-        @meshDef =            
-            detail:   config.detail
-            type:     config.type or 'spike'
+        new Mesh             
+            type:     'spike'
             material: 'tree'
             color:    @color
             radius:   4
-        
-        new Mesh def @meshDef,
             parent:   @
             
         @branches = new Branches
             num:    2048
             color:  @color
             parent: @
-            
-        @kerns = []
-        @kernIndex = 0
-        @leaves = [vec()]
-        @nextBranches()
-
+                    
     nextBranches: () =>
         @level += 1
-        
+        log @level
         if @level < @levelBranchNum.length
             numChildBranches = @levelBranchNum[@level] 
         else
             numChildBranches = 1+rndint 2
         
         newLeaves = []
-        for leaf in @leaves
+        for [leaf,angle,bngle] in @leaves
             
             for i in [0..numChildBranches-1]
                 
-                newLeaf = vec(0,0,clamp(1,25,25-@level+2*0.1))
-                newLeaf.applyQuaternion Quat.axis Vect.X, 45
-                newLeaf.applyQuaternion Quat.axis Vect.Z, @level*90+i*360/numChildBranches
+                newLeaf = vec(0,0,clamp(1,45,45-@level*3))
+                
+                newBngle = bngle
+                if numChildBranches > 1
+                    newBngle += 2
+                    newLeaf.applyQuaternion Quat.axis Vect.X, newBngle
+                newAngle = angle + @level*90+i*360/numChildBranches
+                newLeaf.applyQuaternion Quat.axis Vect.Z, newAngle
                 newLeaf.add leaf
-                newLeaves.push newLeaf
+                
+                l = @level < 5 and [100,150,200,220,210][@level] or 190+@level*10
+                newLeaf.setLength l
+                newLeaves.push [newLeaf, newAngle, newBngle]
                 @branches.addVecs [leaf, newLeaf]
                 
+        @leaves = newLeaves          
         @branches.update()
-        @leaves = newLeaves  
-        log @leaves.length
+        
+        # log @leaves.length
                                 
     setKern: (kern) =>
         
@@ -88,14 +90,12 @@ class Tree extends Bot
         @kerns.push kern
         @kernIndex += 1
                 
-        # log 'set kern', @level, @kerns.length, @kernIndex, @branches.count
-                
         if @kernIndex >= @branches.count
-            # log 'next'
             @onKern()
             @nextBranches()
         
         kern.target = @branches.head @kernIndex
         @localToWorld kern.target
+        @branches.mark @kernIndex
         
 module.exports = Tree

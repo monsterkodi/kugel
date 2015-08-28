@@ -42,6 +42,7 @@ class Boid extends Bot
         @steerKeep   = @steerChange*(1+rndint(2))
         @steerDeg    = [40, 30, 20][t]
         @steerSpeed  = [4, 3, 2][t]
+        @pos         = vec()
         
         @obja = new THREE.Object3D()
         
@@ -80,6 +81,8 @@ class Boid extends Bot
         
         @center.copy @position
         @quat.copy @quaternion
+        @pos.copy @position
+        @pos.setLength 100
         
         if @trail?
             if parseInt(@steerKeep) % (10*(5-@speed)) == 0

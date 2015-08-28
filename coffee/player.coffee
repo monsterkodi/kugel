@@ -35,7 +35,7 @@ class Player extends Bot
         
         @isPlayer       = true
         @radius         = 2
-        @snatchDistance = @radius
+        @snatchDistance = 1
         @nearKerns      = []
         @maxNearKerns   = 1
                             
@@ -65,13 +65,14 @@ class Player extends Bot
         @jumpHeight = 0
         @jumpTarget = 0
         @jumpTime   = 0
+        @pos = vec()
         
         @incSnatch()
         
         window.addEventListener 'mousedown',  @jump
 
     incSnatch: () =>
-        @snatchDistance += 0.2
+        @snatchDistance *= 1.5
         @snatch.scale.set @snatchDistance, @snatchDistance, @snatchDistance
         
     incSpeed: () =>
@@ -206,6 +207,8 @@ class Player extends Bot
         @ball.position.copy(@ball.up).setLength -@jumpHeight
         
         @center.copy @ball.localToWorld vec()
+        @pos.copy @center
+        @pos.setLength 100
         
         @quat.copy Quat.posUpTarget @position, @position, @dot.position
         @quat.multiply Quat.axis Vect.X, -90
