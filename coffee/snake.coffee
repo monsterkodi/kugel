@@ -41,6 +41,14 @@ class Snake extends Bot
         @ctrb = new THREE.Object3D()
         @objb = new THREE.Object3D()
         
+        @snatchDistance = @radius*2
+        @snatch = new Mesh
+            type:     'sphere'
+            material: 'snatch'
+            radius:   @snatchDistance
+            detail:   2
+            parent:   @      
+        
         for i in [0..@steps-2]
             m = new Mesh
                 type:     'sphere'
@@ -124,5 +132,7 @@ class Snake extends Bot
                 @pos = @ctra.position
             else
                 @pos = @ctrb.position
+                
+            @snatch.position.copy @pos                
                             
 module.exports = Snake

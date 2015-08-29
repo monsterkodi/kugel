@@ -123,12 +123,12 @@ class Game
             for boid in @boids
                 if boid.kern?
                     distance = snake.pos.distanceTo boid.pos
-                    if distance < snake.radius
+                    if distance < snake.snatchDistance
                         boid.kern.attachTo @player
                         
             if @player.kern?
                 distance = snake.pos.distanceTo @player.pos
-                if distance < snake.radius
+                if distance < snake.snatchDistance
                     for kern in @kerns
                         if kern.bot == @player
                             for boid in @boids

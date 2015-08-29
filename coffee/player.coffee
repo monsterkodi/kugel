@@ -35,7 +35,7 @@ class Player extends Bot
         
         @isPlayer       = true
         @radius         = 2
-        @snatchDistance = 1
+        @snatchDistance = @radius
         @nearKerns      = []
         @maxNearKerns   = 1
                             
@@ -49,7 +49,7 @@ class Player extends Bot
         @snatch = new Mesh
             type:     'sphere'
             material: 'snatch'
-            radius:   1
+            radius:   @radius
             detail:   2
             parent:   @ball
                         
@@ -67,13 +67,17 @@ class Player extends Bot
         @jumpTime   = 0
         @pos = vec()
         
-        @incSnatch()
-        
+        @scaleSnatch()
+                
         window.addEventListener 'mousedown',  @jump
 
-    incSnatch: () =>
+    incSnatch: () => 
         @snatchDistance *= 1.5
-        @snatch.scale.set @snatchDistance, @snatchDistance, @snatchDistance
+        @scaleSnatch()
+        
+    scaleSnatch: () =>
+        s = @snatchDistance / @radius
+        @snatch.scale.set s,s,s
         
     incSpeed: () =>
         @speed += 0.01
@@ -109,7 +113,6 @@ class Player extends Bot
                 d = 1-clamp(0.2,1,(nk.distance-100)/100)
                 col = new THREE.Color 0,0,d
             
-            # pos = @center.clone().add @center.to(nk.pos.clone().setLength(@center.length())).projectOnPlane(@center.normalized())
             dir = nk.pos.clone().projectOnPlane(@center.normalized())
             l = dir.length() * (1-0.8*nk.distance/200)
             dir.setLength(clamp(0,@snatchDistance,l)) 
@@ -157,9 +160,12 @@ class Player extends Bot
             @height = boid.position.length()
         
     frame: (step) =>
-        
-        q = Quat.vecs @.position, @dot.position
-        q.multiply @.quaternion
+        dotd = @pos.distanceToSquared(@dot.position)
+        if dotd < @radius*@radius
+            q = @quaternion.clone()
+        else
+            q = Quat.vecs @pos, @dot.position
+            q.multiply @.quaternion
                 
         if @jumpTarget > 0
             s = Math.sin(@jumpTime)
@@ -213,11 +219,10 @@ class Player extends Bot
         @quat.copy Quat.posUpTarget @position, @position, @dot.position
         @quat.multiply Quat.axis Vect.X, -90
 
-        if @jumpHeight < 1 and not @boid?
+        @ball.rotateOnAxis Vect.X, -@rollAngle
+        if @jumpHeight < 1 and not @boid? and dotd >= @radius*@radius
             
-            @ball.rotateOnAxis Vect.X, -@rollAngle
-            @rollAngle += 0.005* @.position.clone().setLength(100).distanceTo @dot.position
-                
+            @rollAngle += 0.005* @.position.clone().setLength(100).distanceTo @dot.position                
             if @trail?
                 if @.position.distanceTo(@trail.meshes[0].position) > 5
                     @trail.add @.position.clone().setLength(100)

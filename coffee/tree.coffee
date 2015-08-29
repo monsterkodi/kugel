@@ -74,7 +74,7 @@ class Tree extends Bot
                 newLeaf.applyQuaternion Quat.axis Vect.Z, newAngle
                 newLeaf.add leaf
                 
-                l = @level < 5 and [100,150,200,220,210][@level] or 190+@level*10
+                l = @level < 5 and [100,150,190,220,240][@level] or 200+@level*10
                 newLeaf.setLength l
                 newLeaves.push [newLeaf, newAngle, newBngle]
                 @branches.addVecs [leaf, newLeaf]
