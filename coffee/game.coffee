@@ -16,10 +16,12 @@ Vect   = require './vect'
 Line   = require './line'
 Boid   = require './boid'
 Mesh   = require './mesh'
+sound  = require './sound'
 log    = require './knix/log'
 Audio  = require './knix/audio'
 Note   = require './knix/note'
-sound  = require './sound'
+tools  = require './knix/tools'
+def    = require './knix/def'
 vec    = Vect.new
 play   = Note.play
     
@@ -47,7 +49,7 @@ class Game
             onKern: @player.incSnatch
             color: 0x8888ff
             branchesSound: 'branchesBlue'
-            kernSound: 'kern1'
+            instr: 'piano1'
             branches: [1,4,2,2,2,2,4,2,2,2,2,4,2,2,2,2,4]
 
         @trees.push new Tree
@@ -55,7 +57,7 @@ class Game
             onKern: @player.incSpeed
             color: 0xaaaaaa
             branchesSound: 'branchesGray'
-            kernSound: 'kern2'
+            instr: 'piano1'
             branches: [1,2,3,2,3,2,3,2,3,2,3,2]
 
         @trees.push new Tree
@@ -63,7 +65,7 @@ class Game
             onKern: @player.incNearKerns
             color: 0x00bb00
             branchesSound: 'branchesGreen'
-            kernSound: 'kern3'
+            instr: 'piano3'
             branches: [1,2,2,3,2,2,3,2,2,3,2,2,3,2,2]
 
         @trees.push new Tree
@@ -71,7 +73,7 @@ class Game
             onKern: @incSnakes
             color: 0xff0000
             branchesSound: 'branchesRed'
-            kernSound: 'kern4'
+            instr: 'piano5'
             branches: [1,3,2,1,2,3,2,1,2,3,2,1,2,2,2,3,2,2,3,2]
                                     
         if false
@@ -145,7 +147,7 @@ class Game
             if @player.kern?
                 distance = snake.pos.distanceTo @player.pos
                 if distance < snake.snatchDistance
-                    play sound.kernFromPlayer
+                    play def { name: @player.kern.note }, sound.kernFromPlayer
                     for kern in @kerns
                         if kern.bot == @player
                             for boid in @boids
@@ -178,8 +180,12 @@ class Game
             for tree in @trees
                 if @player.center.distanceTo(tree.center) < 6
                     for kern in @kerns
+                        notes = 0
                         if kern.bot == @player
                             kern.attachTo tree
+                            if notes < 3
+                                play def { name: kern.note, instr: tree.instr }, sound.kernTree
+                                notes += 1
                             tree.numKerns += 1
                     sum = 0
                     for t in @trees         

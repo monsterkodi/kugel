@@ -20,12 +20,12 @@
 
 module.exports = 
     jump: 
-        # instr: 'hihat1'
         instr: 'perc1'
         
     land: 
-        # instr: 'tom1'
-        instr: 'snare1'
+        instr: 'bell4'
+        duration: 0.4
+        name: 'C5'
 
     boid1:
         instr: 'kick1'
@@ -43,17 +43,19 @@ module.exports =
         # instr: 'kick4'
 
     kernPlayer:
-        instr: 'hihat1'
+        #instr: 'hihat1'
+        duration: 0.3
+        instr: 'flute'
+        octave: '6'
         
     kernTree:
-        duration: 0.4        
-        instr: 'flute'
-        name: 'C6'    
+        duration: 0.6        
+        octave:'5'    
         
     kernFromPlayer:
         duration: 0.8
         instr: 'organ2'
-        name: 'C4'
+        octave: '4'
         
     branchesBlue: # blue 
         instr: 'organ1'
@@ -66,11 +68,11 @@ module.exports =
         name: 'C5'
 
     branchesGreen: # green
-        instr: 'organ1'
+        instr: 'organ3'
         duration: 0.7
-        name: 'C7'
+        name: 'C5'
 
     branchesRed: # red
-        instr: 'organ2'
+        instr: 'organ1'
         duration: 0.7
-        name: 'C7'
+        name: 'C5'

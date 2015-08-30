@@ -10,6 +10,7 @@ Keyboard = require './keyboard'
 Audio    = require './audio'
 tools    = require './tools'
 clamp    = tools.clamp
+rndint   = tools.rndint
 
 class Note
 
@@ -42,30 +43,31 @@ class Note
             
     @keyForNote: (note) => 
         note.instr = 'piano1' if not note.instr?
+        if note.notes?
+            note.name = note.notes[rndint(note.notes.length)]
+            # log 'rnd', note.name
+        if note.octave?
+            note.name = note.name + note.octave
+
         if @drums[note.instr]?
             note.duration = @drums[note.instr].duration
             note.instr
         else
-            note.name     = Keyboard.allNoteNames()[note.index] if not note.name?
-            note.index    = Keyboard.noteIndex note.name if not note.index?
             note.duration = 0.5 if not note.duration?
-            note.instr + '_' + note.index + '_' + note.duration
+            note.instr + '_' + note.name + '_' + note.duration
             
     @bufferForNote: (note) =>
         key = @keyForNote note
         if not @buffers[key]?
-            log 'create buffer for', key, note
+            # log 'create buffer for', key, note
             sampleLength = note.duration*@sampleRate
-            log sampleLength
             audioBuffer = Audio.context.createBuffer 1, sampleLength, @sampleRate
             buffer = audioBuffer.getChannelData 0
             w = 0
             if note.name?
                 frequency = Keyboard.allNotes()[note.name]
-                log 'freq', frequency
                 w = 2.0 * Math.PI * frequency
             func = @[note.instr]
-            log func
             for sampleIndex in [0...sampleLength]
                 x = sampleIndex/(sampleLength-1)
                 buffer[sampleIndex] = func sampleIndex*@isr, w, x
@@ -74,7 +76,7 @@ class Note
         @buffers[key]
                     
     @play: (note) =>
-        log note
+        # log note
         node = Audio.context.createBufferSource()
         node.buffer = @bufferForNote note
         node.connect Audio.master

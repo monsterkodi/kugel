@@ -57,6 +57,7 @@ class Keyboard
             for o in [0..8]
                 for n in @noteNames
                     @_allNoteNames.push '%s%d'.fmt n, o
+            log @_allNoteNames
         @_allNoteNames
 
 module.exports = Keyboard

@@ -6,24 +6,28 @@
 000   000  00000000  000   000  000   000
 ###
 
-Mesh    = require './mesh'
-Quat    = require './quat'
-Bot     = require './bot'
-Vect    = require './vect'
-tools   = require './knix/tools'
-Note    = require './knix/note'
-sound   = require './sound'
-play    = Note.play
-vec     = Vect.new
-deg2rad = tools.deg2rad
-rndrng  = tools.rndrng
-rndint  = tools.rndint
+Mesh     = require './mesh'
+Quat     = require './quat'
+Bot      = require './bot'
+Vect     = require './vect'
+def      = require './knix/def'
+tools    = require './knix/tools'
+Note     = require './knix/note'
+Keyboard = require './knix/keyboard'
+sound    = require './sound'
+play     = Note.play
+vec      = Vect.new
+deg2rad  = tools.deg2rad
+rndrng   = tools.rndrng
+rndint   = tools.rndint
 
 class Kern extends Bot
     
     constructor: (config={}) -> 
 
         super config
+
+        @note = Keyboard.noteNames[rndint(Keyboard.noteNames.length)]
         
         @attachTo config.bot if config.bot?
         
@@ -40,11 +44,12 @@ class Kern extends Bot
         @bot?.kern = null
         @bot = bot
         @bot.setKern @
+        note = 
+            name: @note
         if @bot.isPlayer?
-            play sound.kernPlayer
+            play def note, sound.kernPlayer
             @lerpSpeed = rndrng 0.04, 0.3
         else if @bot.isTree?
-            play sound.kernTree
             @lerpSpeed = 0.1
         else
             @lerpSpeed = 0.2

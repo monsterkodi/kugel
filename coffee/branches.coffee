@@ -42,7 +42,8 @@ class Branches extends THREE.Line
     head: (i) => vec @pos[i*6+3],@pos[i*6+4],@pos[i*6+5]
     mark: (i) => 
         for j in [0..5]
-            @col[i*6+j] = clamp(0,1, 4 * @col[i*6+j])
+            # @col[i*6+j] = clamp(0,1, 4 * @col[i*6+j])
+            @col[i*6+j] = clamp(0,1, 0.25 * @col[i*6+j])
         @update()
 
     addVecs: (vecs) => 
@@ -50,10 +51,10 @@ class Branches extends THREE.Line
             @pos[@used*3+0] = v.x
             @pos[@used*3+1] = v.y
             @pos[@used*3+2] = v.z
-
-            @col[@used*3+0] = @color.r*0.25
-            @col[@used*3+1] = @color.g*0.25
-            @col[@used*3+2] = @color.b*0.25
+            b = 1 # 0.25
+            @col[@used*3+0] = @color.r*1
+            @col[@used*3+1] = @color.g*1
+            @col[@used*3+2] = @color.b*1
             @used += 1
         @count = parseInt @used/2
             

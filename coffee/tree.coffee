@@ -36,6 +36,7 @@ class Tree extends Bot
         @color          = config.color
         @onKern         = config.onKern
         @levelBranchNum = config.branches
+        @instr          = config.instr
         @kerns          = []
         @kernIndex      = -1
         @leaves         = [[vec(),0,45]]
