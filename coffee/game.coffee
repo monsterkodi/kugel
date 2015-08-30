@@ -6,23 +6,29 @@
  0000000   000   000  000   000  00000000
 ###
 
-Planet   = require './planet'
-Player   = require './player'
-Tree     = require './tree'
-Kern     = require './kern'
-Snake    = require './snake'
-Quat     = require './quat'
-Vect     = require './vect'
-Line     = require './line'
-Boid     = require './boid'
-Mesh     = require './mesh'
-log      = require './knix/log'
-vec      = Vect.new
+Planet = require './planet'
+Player = require './player'
+Tree   = require './tree'
+Kern   = require './kern'
+Snake  = require './snake'
+Quat   = require './quat'
+Vect   = require './vect'
+Line   = require './line'
+Boid   = require './boid'
+Mesh   = require './mesh'
+log    = require './knix/log'
+Audio  = require './knix/audio'
+Note   = require './knix/note'
+sound  = require './sound'
+vec    = Vect.new
+play   = Note.play
     
 class Game
     
     constructor: (truck,renderer) ->
         
+        Audio.init()
+
         @truck = truck
         
         @player = new Player()
@@ -40,26 +46,34 @@ class Game
             quat: Quat.axis Vect.X, -90
             onKern: @player.incSnatch
             color: 0x8888ff
+            branchesSound: 'branchesBlue'
+            kernSound: 'kern1'
             branches: [1,4,2,2,2,2,4,2,2,2,2,4,2,2,2,2,4]
 
         @trees.push new Tree
             quat: Quat.axis Vect.X, 90
             onKern: @player.incSpeed
             color: 0xaaaaaa
+            branchesSound: 'branchesGray'
+            kernSound: 'kern2'
             branches: [1,2,3,2,3,2,3,2,3,2,3,2]
 
         @trees.push new Tree
             quat: Quat.axis Vect.Y, 90
             onKern: @player.incNearKerns
             color: 0x00bb00
+            branchesSound: 'branchesGreen'
+            kernSound: 'kern3'
             branches: [1,2,2,3,2,2,3,2,2,3,2,2,3,2,2]
 
         @trees.push new Tree
             quat: Quat.axis Vect.Y, -90
             onKern: @incSnakes
             color: 0xff0000
+            branchesSound: 'branchesRed'
+            kernSound: 'kern4'
             branches: [1,3,2,1,2,3,2,1,2,3,2,1,2,2,2,3,2,2,3,2]
-        
+                                    
         if false
             
             new Line
@@ -80,6 +94,8 @@ class Game
     nextLevel: () =>
         
         @level += 1 
+        
+        play sound.nextLevel
 
         log "game.level: ", @level   
                 
@@ -129,6 +145,7 @@ class Game
             if @player.kern?
                 distance = snake.pos.distanceTo @player.pos
                 if distance < snake.snatchDistance
+                    play sound.kernFromPlayer
                     for kern in @kerns
                         if kern.bot == @player
                             for boid in @boids
@@ -167,7 +184,7 @@ class Game
                     sum = 0
                     for t in @trees         
                         sum += t.numKerns
-                    # log "tree kerns: ", sum
+
                     if sum == @kerns.length
                         @nextLevel()
                     break

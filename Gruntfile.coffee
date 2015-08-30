@@ -85,7 +85,7 @@ module.exports = (grunt) ->
                 expand:  true,
                 flatten: true,
                 cwd:     '.',
-                src:     ['.pepper/coffee/knix/*.coffee'],
+                src:     ['.pepper/coffee/knix/**/*.coffee'],
                 dest:    'js/knix',
                 ext:     '.js'
             tools:

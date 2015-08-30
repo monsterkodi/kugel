@@ -16,6 +16,9 @@ Vect     = require './vect'
 Line     = require './line'
 Bot      = require './bot'
 Mesh     = require './mesh'
+Note     = require './knix/note'
+sound    = require './sound'
+play     = Note.play
 rndint   = tools.rndint
 rndrng   = tools.rndrng
 clamp    = tools.clamp
@@ -26,15 +29,16 @@ class Tree extends Bot
 
     constructor: (config={}) ->
         
-        @isTree   = true
-        @numKerns = 0
-        @level    = -1
-        @color    = config.color
-        @onKern   = config.onKern
+        @isTree         = true
+        @numKerns       = 0
+        @level          = -1
+        @branchesSound  = config.branchesSound
+        @color          = config.color
+        @onKern         = config.onKern
         @levelBranchNum = config.branches
-        @kerns     = []
-        @kernIndex = -1
-        @leaves    = [[vec(),0,45]]
+        @kerns          = []
+        @kernIndex      = -1
+        @leaves         = [[vec(),0,45]]
         
         super def config,
             height: 100
@@ -54,6 +58,7 @@ class Tree extends Bot
     nextBranches: () =>
         @level += 1
         log @level
+        play sound[@branchesSound]
         if @level < @levelBranchNum.length
             numChildBranches = @levelBranchNum[@level] 
         else

@@ -82,7 +82,7 @@ anim  = () ->
 document.observe 'dom:loaded', ->
             
     knix.init
-        console: 'shade'
+        console: 'noshade'
         
     initMenu()
         

@@ -6,17 +6,20 @@
 000        0000000  000   000     000     00000000  000   000
 ###
 
-Mesh     = require './mesh'
-Bot      = require './bot'
-Quat     = require './quat'
-Line     = require './line'
-Vect     = require './vect'
-tools    = require './knix/tools'
-vec      = Vect.new
-rad2deg  = tools.rad2deg
-deg2rad  = tools.deg2rad
-clamp    = tools.clamp
-fade     = tools.fade
+Mesh    = require './mesh'
+Bot     = require './bot'
+Quat    = require './quat'
+Line    = require './line'
+Vect    = require './vect'
+tools   = require './knix/tools'
+Note    = require './knix/note'
+sound   = require './sound'
+play    = Note.play
+vec     = Vect.new
+rad2deg = tools.rad2deg
+deg2rad = tools.deg2rad
+clamp   = tools.clamp
+fade    = tools.fade
 
 class Player extends Bot
 
@@ -126,6 +129,7 @@ class Player extends Bot
     jump: () => 
         if @jumpTarget > 0
         else
+            play sound.jump
             if @boid
                 @boid.lookUp @dot.position, @position
                 @boid.steer = @boid.steerTarget = 0
@@ -153,6 +157,7 @@ class Player extends Bot
     attachTo: (boid) =>
         if not @boid and boid != @lastboid
             @boid = boid
+            play sound[@boid.landSound]
             @boid.kern?.attachTo @
             @.scale.copy vec(1,1,1)
             @jumpTarget = 0
@@ -175,6 +180,7 @@ class Player extends Bot
             if @jumpTime >= Math.PI*0.5 
                 @lastboid = null
             if @jumpTime >= 3.3
+                play sound.land
                 @.scale.copy vec(1,1,1)
                 if @height > 102
                     @jumpHeight = @height - 102

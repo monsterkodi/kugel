@@ -36,6 +36,7 @@ class Boid extends Bot
         @angle       = rndrng 0, 360
         @speed       = [1,  2,  4][t]
         @radius      = [4,  3,  2][t]
+        @landSound   = ['boid1', 'boid2', 'boid3'][t]
         @steer       = 0
         @steerTarget = 0
         @steerChange = [120, 90, 60][t]

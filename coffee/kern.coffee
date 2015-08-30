@@ -6,15 +6,18 @@
 000   000  00000000  000   000  000   000
 ###
 
-Mesh     = require './mesh'
-Quat     = require './quat'
-Bot      = require './bot'
-Vect     = require './vect'
-tools    = require './knix/tools'
-vec      = Vect.new
-deg2rad  = tools.deg2rad
-rndrng   = tools.rndrng
-rndint   = tools.rndint
+Mesh    = require './mesh'
+Quat    = require './quat'
+Bot     = require './bot'
+Vect    = require './vect'
+tools   = require './knix/tools'
+Note    = require './knix/note'
+sound   = require './sound'
+play    = Note.play
+vec     = Vect.new
+deg2rad = tools.deg2rad
+rndrng  = tools.rndrng
+rndint  = tools.rndint
 
 class Kern extends Bot
     
@@ -38,8 +41,10 @@ class Kern extends Bot
         @bot = bot
         @bot.setKern @
         if @bot.isPlayer?
+            play sound.kernPlayer
             @lerpSpeed = rndrng 0.04, 0.3
         else if @bot.isTree?
+            play sound.kernTree
             @lerpSpeed = 0.1
         else
             @lerpSpeed = 0.2
