@@ -206,6 +206,7 @@ class Player extends Bot
             @.setQuatHeight @.quaternion.slerp(q,f), @height
         else
             @.setQuatHeight @.quaternion.multiply(@jumpQuat), @height
+        @quaternion.normalize()
         
         if @boid and @jumpTarget == 0
             @boid.position.copy @.position

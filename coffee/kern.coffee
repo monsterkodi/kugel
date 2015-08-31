@@ -43,16 +43,18 @@ class Kern extends Bot
         @target = null
         @bot?.kern = null
         @bot = bot
-        @bot.setKern @
         note = 
             name: @note
         if @bot.isPlayer?
             play def note, sound.kernPlayer
             @lerpSpeed = rndrng 0.04, 0.3
+            @bot.setKern @
         else if @bot.isTree?
             @lerpSpeed = 0.1
+            @bot.setKern @
         else
             @lerpSpeed = 0.2
+            @bot._kern = @
                 
     frame: (step) =>
         if @target?
@@ -62,5 +64,11 @@ class Kern extends Bot
             @quaternion.copy @bot.quat
             @position.lerp @bot.center, @lerpSpeed
             @krn.rotateOnAxis Vect.X, deg2rad -2
+            
+            if not @bot.isPlayer? and not @bot.isTree?
+                if @position.distanceToSquared(@bot.center) < 6
+                    @bot.setKern @
+                    @bot._kern = null
+                    @lerpSpeed = 1
                 
 module.exports = Kern

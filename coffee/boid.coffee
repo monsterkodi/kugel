@@ -44,6 +44,7 @@ class Boid extends Bot
         @steerDeg    = [40, 30, 20][t]
         @steerSpeed  = [4, 3, 2][t]
         @pos         = vec()
+        @_kern = null
         
         @obja = new THREE.Object3D()
         

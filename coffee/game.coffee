@@ -74,7 +74,7 @@ class Game
             color: 0xff0000
             branchesSound: 'branchesRed'
             instr: 'piano5'
-            branches: [1,3,2,1,2,3,2,1,2,3,2,1,2,2,2,3,2,2,3,2]
+            branches: [1,3,2,2,2,4,2,2,2,4,2,2,3,2,2,4,2,2,3,2]
                                     
         if false
             
@@ -133,17 +133,12 @@ class Game
         else
             f = step.dsecs * 2
             @truck.setQuat @truck.camera.getWorldQuaternion().slerp(@player.getWorldQuaternion(),f)
+            @truck.camera.quaternion.normalize()
                     
         for snake in @snakes
             
             snake.frame step
-            
-            for boid in @boids
-                if boid.kern?
-                    distance = snake.pos.distanceTo boid.pos
-                    if distance < snake.snatchDistance
-                        boid.kern.attachTo @player
-                        
+                                    
             if @player.kern?
                 distance = snake.pos.distanceTo @player.pos
                 if distance < snake.snatchDistance
@@ -151,9 +146,17 @@ class Game
                     for kern in @kerns
                         if kern.bot == @player
                             for boid in @boids
-                                if not boid.kern?
+                                if not boid.kern? and not boid._kern?
                                     kern.attachTo boid
                                     break
+                    continue
+            
+            for boid in @boids
+                if boid.kern?
+                    distance = snake.pos.distanceTo boid.pos
+                    if distance < snake.snatchDistance
+                        boid.kern.attachTo @player
+
                             
         @player.clearNearKerns()
         
