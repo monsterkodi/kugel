@@ -1,248 +1,164 @@
 ###
- 0000000   00000000   00000000 
-000   000  000   000  000   000
-000000000  00000000   00000000 
-000   000  000        000      
-000   000  000        000      
+ 0000000   00000000   00000000   
+000   000  000   000  000   000  
+000000000  00000000   00000000   
+000   000  000        000        
+000   000  000        000
 ###
 
-fs      = require 'fs'
-remote  = require 'remote'
-ipc     = require 'ipc'
-keyname = require './js/tools/keyname'
-path    = require 'path'
-moment  = require 'moment'
-clone   = require 'lodash.clone'
+{ about, prefs, post, noon, fs, log } = require 'kxk'
 
-knix    = require './js/knix/knix'
-log     = require './js/knix/log'
-dbg     = require './js/knix/log'
-Menu    = require './js/knix/menu'
-Info    = require './js/info'
-Console = require './js/knix/console'
-Text    = require './js/text'
-Truck   = require './js/truck'
-Mesh    = require './js/mesh'
-color   = require './js/color'
-Game    = require './js/game'
-Quat    = require './js/quat'
-Vect    = require './js/vect'
-vec     = Vect.new
+pkg      = require '../package.json'
+electron = require 'electron'
 
-win      = remote.getCurrentWindow()
-renderer = null
-camera   = null
-scene    = null
-stats    = null
-text     = null
-dolly    = null
-truck    = null
-game     = null
-mouse    = new THREE.Vector2()
+Window   = electron.BrowserWindow
+app      = null
 
-jsonStr  = (a) -> JSON.stringify a, null, " "
+# 000   000  000  000   000   0000000
+# 000 0 000  000  0000  000  000     
+# 000000000  000  000 0 000  0000000 
+# 000   000  000  000  0000       000
+# 00     00  000  000   000  0000000 
 
-console.log   = () -> ipc.send 'console.log',   [].slice.call arguments, 0
-console.error = () -> ipc.send 'console.error', [].slice.call arguments, 0
-clog = console.log
+win         = null
+wins        = -> Window.getAllWindows()
+visibleWins = -> (w for w in wins() when w?.isVisible() and not w?.isMinimized())
+winWithID   = (winID) -> Window.fromId winID
 
-###
-00000000   00000000  000   000  0000000    00000000  00000000 
-000   000  000       0000  000  000   000  000       000   000
-0000000    0000000   000 0 000  000   000  0000000   0000000  
-000   000  000       000  0000  000   000  000       000   000
-000   000  00000000  000   000  0000000    00000000  000   000
-###
+# 000  00000000    0000000
+# 000  000   000  000     
+# 000  00000000   000     
+# 000  000        000     
+# 000  000         0000000
 
-pause = false
-clock = new THREE.Clock()
-secs  = 1.0/60.0
-# ssum  = secs
-# scnt  = 1
-anim  = () ->
-    requestAnimationFrame anim
-    # ssum += clock.getDelta()
-    # scnt += 1
-    if not pause
-        step = 
-            delta: secs*1000
-            dsecs: secs
-        game?.frame step
-    renderer.render scene, camera
-    stats?.update()
+post.on 'toggleDevTools', => win.browserWindow.toggleDevTools()
+post.on 'maximizeWindow', => app.maximizeWindow()
+                        
+# 000   000  000   000   0000000   00000000  000       0000000   00000000   00000000     
+# 000  000   000   000  000        000       000      000   000  000   000  000   000    
+# 0000000    000   000  000  0000  0000000   000      000000000  00000000   00000000     
+# 000  000   000   000  000   000  000       000      000   000  000        000          
+# 000   000   0000000    0000000   00000000  0000000  000   000  000        000          
 
-###
-000       0000000    0000000   0000000    00000000  0000000  
-000      000   000  000   000  000   000  000       000   000
-000      000   000  000000000  000   000  0000000   000   000
-000      000   000  000   000  000   000  000       000   000
-0000000   0000000   000   000  0000000    00000000  0000000  
-###
-
-document.observe 'dom:loaded', ->
-            
-    knix.init
-        console: 'noshade'
-        
-    initMenu()
-        
-    scene = new (THREE.Scene)
-
-    truck = new Truck()
-    camera = truck.camera
+class App
     
-    renderer = new THREE.WebGLRenderer 
-        antialias:              true
-        logarithmicDepthBuffer: true
-        autoClear:              true
+    constructor: () -> 
         
-    renderer.setSize window.innerWidth, window.innerHeight
-    renderer.setClearColor color.space
-    document.body.appendChild renderer.domElement
+        prefs.init()
+        
+        @createWindow()
 
-    game = new Game truck, renderer
+    # 000   000  000  000   000  0000000     0000000   000   000   0000000
+    # 000 0 000  000  0000  000  000   000  000   000  000 0 000  000     
+    # 000000000  000  000 0 000  000   000  000   000  000000000  0000000 
+    # 000   000  000  000  0000  000   000  000   000  000   000       000
+    # 00     00  000  000   000  0000000     0000000   00     00  0000000 
 
-    if true
-        stats = new Stats()
-        stats.domElement.style.position = 'fixed'
-        stats.domElement.style.bottom = '0px'
-        stats.domElement.style.right = '0px'
-        stats.domElement.style.zIndex = 1000
-        document.body.appendChild stats.domElement
+    reloadWin: (win) -> win?.webContents.reloadIgnoringCache()
 
-    onWindowResize = ->
-        renderer.setSize window.innerWidth, window.innerHeight
-        camera.aspect = window.innerWidth / window.innerHeight
-        camera.updateProjectionMatrix()
-        dolly?.zoom 1
+    maximizeWindow: ->
+        
+        if win?
+            if win.isMaximized()
+                win.unmaximize() 
+            else
+                win.maximize()        
+        else
+            @showWindows()             
 
-    onMouseMove = (e) ->
-        mouse.x = 2 * ( e.clientX / window.innerWidth ) - 1
-        mouse.y = 1 - 2 * ( e.clientY / window.innerHeight )
-        game?.mouse mouse
-        # selectAt mouse
+    hideWindows: =>
         
-    onDoubleClick = (e) ->
-
-    mouseDownPos = null    
-    onMouseDown = (e) ->
-        mouseDownPos = new THREE.Vector2 e.clientX, e.clientY
-
-    onMouseUp = (e) ->
-        mousePos = new THREE.Vector2 e.clientX, e.clientY
-        mouseDownPos = null
+        for w in wins()
+            w.hide()
+            
+    showWindows: =>
         
-    window.addEventListener 'dblclick',    onDoubleClick
-    window.addEventListener 'mousedown',   onMouseDown
-    window.addEventListener 'mouseup',     onMouseUp
-    window.addEventListener 'mousemove',   onMouseMove
-    window.addEventListener 'resize',      onWindowResize
+        for w in wins()
+            w.show()
+            
+    raiseWindows: =>
         
-    anim()
+        if visibleWins().length
+            for w in visibleWins()
+                w.showInactive()
+            visibleWins()[0].showInactive()
+            visibleWins()[0].focus()
         
-    if 0
-        new Mesh
-            type:      'spike'
-            radius:    6
-            color:     0xff0000
-            position:  vec(106,0,0)
-        
-        new Mesh
-            type:      'spike'
-            radius:    6
-            color:     0x00ff00
-            position:  vec(0,106,0)
-        
-        new Mesh
-            type:      'spike'
-            radius:    6
-            color:     0x8888ff
-            position:  vec(0,0,106)
-        
-        new Mesh
-            type:      'spike'
-            radius:    6
-            color:     0xff0000
-            wireframe: true
-            position:  vec(-106, 0, 0)
-                
-        new Mesh
-            type:      'spike'
-            radius:    6        
-            color:     0x00ff00
-            wireframe: true
-            position:  vec(0, -106, 0)
-
-        new Mesh
-            type:      'spike'
-            radius:    6
-            color:     0x8888ff
-            wireframe: true
-            position:  vec(0,0,-106)
+    screenSize: -> electron.screen.getPrimaryDisplay().workAreaSize
                     
-###
-00     00  00000000  000   000  000   000
-000   000  000       0000  000  000   000
-000000000  0000000   000 0 000  000   000
-000 0 000  000       000  0000  000   000
-000   000  00000000  000   000   0000000 
-###
-
-initMenu = ->
-
-    btn = 
-        menu: 'menu'
-
-    Menu.addButton btn,
-        tooltip: 'info'
-        icon:    'octicon-dashboard'
-        action: Info.toggle
-    
-###
- 0000000  00000000  000      00000000   0000000  000000000  000   0000000   000   000
-000       000       000      000       000          000     000  000   000  0000  000
-0000000   0000000   000      0000000   000          000     000  000   000  000 0 000
-     000  000       000      000       000          000     000  000   000  000  0000
-0000000   00000000  0000000  00000000   0000000     000     000   0000000   000   000
-###
-
-outline = null
-raycaster = new THREE.Raycaster()
-selectAt  = (mouse) ->
-    return if truck?.isPivoting or dolly?.isPivoting
-    raycaster.setFromCamera mouse, camera
-    intersects = raycaster.intersectObjects scene.children   
-    selected = undefined
-    if intersects.length
-        selected = intersects[0].object
-        log intersects.length
-            
-###
-000   000  00000000  000   000  0000000     0000000   000   000  000   000
-000  000   000        000 000   000   000  000   000  000 0 000  0000  000
-0000000    0000000     00000    000   000  000   000  000000000  000 0 000
-000  000   000          000     000   000  000   000  000   000  000  0000
-000   000  00000000     000     0000000     0000000   00     00  000   000
-###
-            
-onKeyDown = (event) ->
-    key = keyname.ofEvent event
-    e   = document.activeElement
-    # dbg key
-    switch key
-        when 'command+k'  
-            knix.console.clear()
-        when 'command+c'
-            knix.closeAllWindows()
-        when 'command+q'
-            ipc.send 'process.exit'
-        when 'space'
-            pause = not pause
-        when 'c'
-            game.collectAll()
-        when 'x'
-            game.collectOne()
-        when 'n'
-            game.nextTrees()
+    #  0000000  00000000   00000000   0000000   000000000  00000000
+    # 000       000   000  000       000   000     000     000     
+    # 000       0000000    0000000   000000000     000     0000000 
+    # 000       000   000  000       000   000     000     000     
+    #  0000000  000   000  00000000  000   000     000     00000000
+       
+    createWindow: ->
         
-document.on 'keydown', onKeyDown
+        bounds = prefs.get 'bounds', null
+        if not bounds
+            {w, h} = @screenSize()
+            bounds = {}
+            bounds.width = w
+            bounds.height = h
+            bounds.x = 0
+            bounds.y = 0
+            
+        win = new Window
+            x:               bounds.x
+            y:               bounds.y
+            width:           bounds.width
+            height:          bounds.height
+            minWidth:        556
+            minHeight:       206
+            useContentSize:  true
+            fullscreenable:  false
+            fullscreen:      false
+            show:            false
+            backgroundColor: '#111'
+            titleBarStyle:   'hidden'
+
+        win.loadURL "file://#{__dirname}/index.html"
+        
+        win.on 'move',   @saveBounds
+        win.on 'resize', @saveBounds     
+        
+        winReadyToShow = =>
+            win.show()
+            win.focus()
+             
+            if false then win.webContents.openDevTools()
+                        
+        win.on 'ready-to-show', winReadyToShow
+        win
+    
+    saveBounds: (event) -> prefs.set 'bounds', event.sender.getBounds()
+        
+    quit: => 
+        prefs.save()
+        w.close() for w in wins()
+        electron.app.exit 0
+        process.exit 0
+        
+    showAbout: => about
+        img: "#{__dirname}/../bin/about.svg"
+        pkg: pkg
+        imageWidth:    '250px'
+        imageHeight:   '250px'
+        imageOffset:   '10px'
+        versionOffset: '15px'
+        highlight:     '#88f'
+
+#  0000000   00000000   00000000         0000000   000   000
+# 000   000  000   000  000   000       000   000  0000  000
+# 000000000  00000000   00000000        000   000  000 0 000
+# 000   000  000        000        000  000   000  000  0000
+# 000   000  000        000        000   0000000   000   000
+
+electron.app.on 'ready', -> app = new App
+electron.app.on 'activate', -> app.showWindows()
+electron.app.on 'window-all-closed', -> app.quit()
+electron.app.on 'open-file', (event, file) -> log "open file #{file}"
+        
+electron.app.setName pkg.productName
+
+module.exports = App

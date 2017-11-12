@@ -1,0 +1,11 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset='utf-8')
+        title kugel
+        link(rel='stylesheet' href='css/style.css' type='text/css')
+    body
+        #kugel(tabIndex=0)
+    script.
+        Kugel = require('./kugel');
+        window.kugel = new Kugel('#kugel');
