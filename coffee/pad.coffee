@@ -18,12 +18,14 @@ class Pad extends events
         
         @padIndex = -1
 
-        if not window.navigator.getGamepads then return new Error('The gamepad web api is not available')
+        if not window.navigator.getGamepads? 
+            return new Error 'The gamepad web api is not available'
   
-        window.addEventListener 'gamepadconnected',    @onGamepadConnected
-        window.addEventListener 'gamepaddisconnected', @onGamepadDisconnected
+        window.addEventListener 'gamepadconnected',    @onConnected
+        window.addEventListener 'gamepaddisconnected', @onDisconnected
         
         @startPolling()
+        log 'pad'
   
     startPolling: ->
         
@@ -36,14 +38,16 @@ class Pad extends events
         delete @pollInterval
 
     poll: =>
-        if not @getGamepad() then window.dispatchEvent new Event 'gamepadconnected'
+        
+        if not @getPad() then window.dispatchEvent new Event 'gamepadconnected'
         
     clearIndex: ->
         
         window.clearInterval @emitInterval
         @padIndex = -1
             
-    getGamepad: -> 
+    getPad: -> 
+        
         if @padIndex >= 0 and window.navigator.getGamepads()[@padIndex]
             @stopPolling()
             return window.navigator.getGamepads()[@padIndex]
@@ -55,18 +59,19 @@ class Pad extends events
         @clearIndex()
         null
 
-    onGamepadConnected: (event) =>
+    onConnected: (event) =>
         
-        if @padIndex < 0 or not @getGamepad()
+        if @padIndex < 0 or not @getPad()
             log 'connected', @padIndex, event.gamepad?.index
             return if not event.gamepad?.index?
             @stopPolling()
             @padIndex = event.gamepad.index
-            gp = @getGamepad()
+            gp = @getPad()
             @snapState()
             @emitInterval = window.setInterval @emitEvents, 16
 
-    onGamepadDisconnected: (event) =>
+    onDisconnected: (event) =>
+        
         if @padIndex == event.gamepad.index
             log 'disconnected', @padIndex, event.gamepad.index
             @clearIndex()
@@ -74,20 +79,32 @@ class Pad extends events
 
     snapState: -> 
         
-        if gp = @getGamepad()
+        if gp = @getPad()
             @lastState = 
                 buttons: gp.buttons.map (b) -> pressed:b.pressed
-                axes: _.clone(gp.axes)
+                axes:    gp.axes.map @round
         
+    round: (v) -> 
+        r = Math.round(v*100)/100
+        if Math.abs(r) < 0.05 then r = 0
+        r
+                
     emitEvents: =>
         
-        if gp = @getGamepad()
+        if gp = @getPad()
+            
             for index,button of gp.buttons
                 if button.pressed and not @lastState.buttons[index].pressed
                     @emit 'buttondown', Pad.buttons[index]
                 else if not button.pressed and @lastState.buttons[index].pressed
                     @emit 'buttonup', Pad.buttons[index]
-                    
+
+            if @round(gp.axes[0]) != @lastState.axes[0] or @round(gp.axes[1]) != @lastState.axes[1]
+                @emit 'stick', stick:'L', x:@round(gp.axes[0]), y:@round(gp.axes[1])
+
+            if @round(gp.axes[2]) != @lastState.axes[2] or @round(gp.axes[3]) != @lastState.axes[3]
+                @emit 'stick', stick:'R', x:@round(gp.axes[2]), y:@round(gp.axes[3])
+                
             @snapState()
             
 module.exports = Pad

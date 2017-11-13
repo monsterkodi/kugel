@@ -27,9 +27,10 @@ class Kugel
         
         @world = new World @element
         
-        @pad = new Pad        
+        @pad = new Pad()       
         @pad.addListener 'buttondown', (event) -> log 'buttondown', event
         @pad.addListener 'buttonup',   (event) -> log 'buttonup', event
+        @pad.addListener 'stick',      (event) -> log 'stick', event
         
     onResize: => 
 
