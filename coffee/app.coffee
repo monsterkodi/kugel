@@ -11,6 +11,7 @@
 pkg      = require '../package.json'
 electron = require 'electron'
 
+Menu     = require './menu' 
 Window   = electron.BrowserWindow
 app      = null
 
@@ -45,6 +46,7 @@ class App
     constructor: () -> 
         
         prefs.init()
+        Menu.init @
         
         @createWindow()
 

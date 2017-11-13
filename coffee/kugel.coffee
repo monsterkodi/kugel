@@ -1,21 +1,22 @@
 
-# 000   000   0000000   000      000  
-# 000  000   000   000  000      000  
-# 0000000    000000000  000      000  
-# 000  000   000   000  000      000  
-# 000   000  000   000  0000000  000  
+# 000   000  000   000   0000000   00000000  000      
+# 000  000   000   000  000        000       000      
+# 0000000    000   000  000  0000  0000000   000      
+# 000  000   000   000  000   000  000       000      
+# 000   000   0000000    0000000   00000000  0000000  
 
-{ setStyle, keyinfo, stopEvent, empty, first, post, prefs, elem, sw, sh, pos, log, $, _ } = require 'kxk'
+{ keyinfo, stopEvent, post, prefs, sw, sh, pos, log, $, _ } = require 'kxk'
+
+World = require './world'
+Pad   = require './pad'
 
 class Kugel
 
     constructor: (element) ->
 
-        post.setMaxListeners 30
-        
         prefs.init()
         
-        @element =$ element 
+        @element =$ element
         
         @focus()
         
@@ -24,9 +25,16 @@ class Kugel
                 
         window.onresize = @onResize
         
+        @world = new World @element
+        
+        @pad = new Pad        
+        @pad.addListener 'buttondown', (event) -> log 'buttondown', event
+        @pad.addListener 'buttonup',   (event) -> log 'buttonup', event
+        
     onResize: => 
 
         post.emit 'resize', pos sw(), sh()
+        @world.setBounds sw(), sh()
                 
     # 000   000  00000000  000   000  
     # 000  000   000        000 000   
@@ -39,6 +47,7 @@ class Kugel
     onKeyDown: (event) =>
         
         {mod, key, combo, char} = keyinfo.forEvent event
+        log mod, key, combo, char
 
     onKeyUp: (event) =>
         

@@ -14,9 +14,12 @@
     "url": "git+https://github.com/monsterkodi/kugel.git"
   },
   "dependencies": {
+    "gamepadcontroller": "^1.0.1",
     "kxk": "^0.19.1",
+    "matter-js": "^0.13.0",
     "svg.filter.js": "^2.0.2",
-    "svg.js": "^2.6.3"
+    "svg.js": "^2.6.3",
+    "svgjs": "^2.6.2"
   },
   "devDependencies": {
     "appdmg": "^0.4.5",
