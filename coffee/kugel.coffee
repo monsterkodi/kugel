@@ -30,8 +30,7 @@ class Kugel
         
         @pad = new Pad()       
         @pad.addListener 'buttondown',  @onButton
-        @pad.addListener 'buttonvalue', (event) -> log event
-        @pad.addListener 'stick',       (event) -> log event
+        @pad.addListener 'stick',       @onStick
         
         @svg = SVG(@element).size '100%', '100%'
         @svg.style 
@@ -50,7 +49,14 @@ class Kugel
         switch button 
             when 'cross'    then @physics.showDebug()
             when 'triangle' then @physics.showDebug false
+            when 'circle'   then post.toMain 'reloadWin'
+
+    onStick: (event) =>
         
+        switch event.stick
+            when 'L'
+                @ship.thrust pos event.x, event.y
+            
     onResize: => 
 
         post.emit 'resize', pos sw(), sh()

@@ -34,6 +34,7 @@ winWithID   = (winID) -> Window.fromId winID
 
 post.on 'toggleDevTools', => win.browserWindow.toggleDevTools()
 post.on 'maximizeWindow', => app.maximizeWindow()
+post.on 'reloadWin',      => app.reloadWin win
                         
 # 000   000  000   000   0000000   00000000  000       0000000   00000000   00000000     
 # 000  000   000   000  000        000       000      000   000  000   000  000   000    

@@ -17,10 +17,14 @@ class Ship
             'stroke': '#fff'
             'stroke-width': 4
         
-        @kugel.physics.addItem @ship, x:sw()/2, y:sh()/2
+        @body = @kugel.physics.addItem @ship, x:sw()/2, y:sh()/2
 
     svgFile: (name) -> "#{__dirname}/../svg/#{name}.svg"
         
+    thrust: (dir) ->
+        
+        @body.applyForce dir.times 1000
+    
     addSVG: (name, opt) ->
 
         svgStr = fs.readFileSync @svgFile(name), encoding: 'utf8'

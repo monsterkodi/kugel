@@ -69,6 +69,7 @@ class Physics
         Matter.World.add @world, mouseConstraint
         
         Matter.Render.run @render            
+        @debug = true
 
         @render.mouse = mouse
         @render.canvas.style.background = 'transparent'
@@ -115,6 +116,9 @@ class Physics
             Matter.World.add @world, body
             
             Matter.Body.setPosition body, x:(opt?.x ? 0), y:(opt?.y ? 0)
+            
+            body.applyForce = (force) -> 
+                Matter.Body.applyForce @, @position, force
             
         body
 
@@ -229,10 +233,14 @@ class Physics
     
     showDebug: (show=true) ->
         
-        if show
+        if show and not @debug
+            @debug = true
+            log 'run'
             Matter.Render.run @render  
             @render.canvas.style.display = 'block'
-        else
+        else if not show and @debug
+            @debug = false
+            log 'stop'
             Matter.Render.stop @render  
             @render.canvas.style.display = 'none'
         
