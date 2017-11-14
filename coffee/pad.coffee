@@ -16,7 +16,7 @@ class Pad extends events
 
         super
         
-        @padIndex = -1
+        @connected = false
 
         if not window.navigator.getGamepads? 
             return new Error 'The gamepad web api is not available'
@@ -44,36 +44,30 @@ class Pad extends events
     clearIndex: ->
         
         window.clearInterval @emitInterval
-        @padIndex = -1
+        @connected = false
             
     getPad: -> 
         
-        if @padIndex >= 0 and window.navigator.getGamepads()[@padIndex]
+        if window.navigator.getGamepads()[0]
             @stopPolling()
-            return window.navigator.getGamepads()[@padIndex]
-        for index in [0..3]
-            if window.navigator.getGamepads()[index]
-                @padIndex = index
-                @stopPolling()
-                return window.navigator.getGamepads()[index]
+            return window.navigator.getGamepads()[0]
+                                
         @clearIndex()
         null
 
     onConnected: (event) =>
         
-        if @padIndex < 0 or not @getPad()
-            log 'connected', @padIndex, event.gamepad?.index
-            return if not event.gamepad?.index?
-            @stopPolling()
-            @padIndex = event.gamepad.index
-            gp = @getPad()
-            @snapState()
-            @emitInterval = window.setInterval @emitEvents, 16
+        if not @connected or not @getPad()
+            log 'connected', event.gamepad?.index
+            if gp = @getPad()
+                @stopPolling()
+                @snapState()
+                @emitInterval = window.setInterval @emitEvents, 16
 
     onDisconnected: (event) =>
         
-        if @padIndex == event.gamepad.index
-            log 'disconnected', @padIndex, event.gamepad.index
+        if 0 == event.gamepad.index
+            log 'disconnected'
             @clearIndex()
             @startPolling()
 
