@@ -9,6 +9,8 @@
 
 Physics = require './physics'
 Pad     = require './pad'
+Ship    = require './ship'
+SVG     = require 'svg.js'
 
 class Kugel
 
@@ -32,10 +34,17 @@ class Kugel
         @pad.addListener 'buttonvalue', (event) -> log event
         @pad.addListener 'stick',       (event) -> log event
         
+        @svg = SVG(@element).size '100%', '100%'
+        @svg.id 'svg'
+        @svg.clear()
+        
+        @ship = new Ship @
+        
     onButton: (button) =>
         
-        if button == 'cross'
-            @physics.showDebug()
+        switch button 
+            when 'cross'    then @physics.showDebug()
+            when 'triangle' then @physics.showDebug false
         
     onResize: => 
 
