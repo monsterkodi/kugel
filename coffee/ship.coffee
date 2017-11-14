@@ -5,7 +5,7 @@
 #      000  000   000  000  000      
 # 0000000   000   000  000  000      
 
-{ elem, first, fs, sw, sh, log, _ } = require 'kxk'
+{ elem, first, pos, fs, sw, sh, log, _ } = require 'kxk'
 
 class Ship
 
@@ -20,11 +20,7 @@ class Ship
         @body = @kugel.physics.addItem @ship, x:sw()/2, y:sh()/2
 
     svgFile: (name) -> "#{__dirname}/../svg/#{name}.svg"
-        
-    thrust: (dir) ->
-        
-        @body.applyForce dir.times 1000
-    
+                    
     addSVG: (name, opt) ->
 
         svgStr = fs.readFileSync @svgFile(name), encoding: 'utf8'
@@ -58,10 +54,8 @@ class Ship
                             items.push child
                           
                     if items.length == 1 and first(items).type == 'g'
-                        log 'hello'
                         group = first items
                     else
-                        log 'world'
                         group = svg.group()
                         for item in items
                            group.add item
@@ -70,7 +64,6 @@ class Ship
                     parent.add group
 
                     bbox = group.rbox()
-                    log bbox
                     for item in group.children()
                         item.transform x:-bbox.cx, y:-bbox.cy, relative: true
                     

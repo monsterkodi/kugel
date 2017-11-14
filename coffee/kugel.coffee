@@ -27,9 +27,9 @@ class Kugel
                 
         window.onresize = @onResize
         
-        
         @pad = new Pad()       
         @pad.addListener 'buttondown',  @onButton
+        @pad.addListener 'buttonvalue', @onValue
         @pad.addListener 'stick',       @onStick
         
         @svg = SVG(@element).size '100%', '100%'
@@ -51,11 +51,17 @@ class Kugel
             when 'triangle' then @physics.showDebug false
             when 'circle'   then post.toMain 'reloadWin'
 
+    onValue: (event) =>
+        
+        switch event.button
+            when 'R2' 
+                @physics.shipThrust = event.value
+        
     onStick: (event) =>
         
         switch event.stick
             when 'L'
-                @ship.thrust pos event.x, event.y
+                @physics.shipAngle = event.x
             
     onResize: => 
 

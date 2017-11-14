@@ -37,6 +37,8 @@ class Physics
                 showBounds:     true
 
         @runner = Matter.Runner.create()
+        
+        Matter.Events.on @runner, 'beforeTick', @onTick 
 
         Matter.World.add @world , []
         
@@ -71,6 +73,9 @@ class Physics
         Matter.Render.run @render            
         @debug = true
 
+        @shipAngle = 0
+        @shipThrust = 0
+        
         @render.mouse = mouse
         @render.canvas.style.background = 'transparent'
         @render.canvas.style.position   = 'absolute'
@@ -79,8 +84,15 @@ class Physics
         
         @setBounds br.width, br.height
        
-    onRender: (time) =>
+    onTick: (event) =>
+
+        ship = @itemBodies[0][1]
+        dir = pos(0,-1).rotate ship.angle*180.0/Math.PI
+        ship.applyForce dir.times @shipThrust * 300
+        ship.addAngle @shipAngle/10
         
+    onRender: (time) =>
+
         for [item, body] in @itemBodies
             
             item.translate 0, 0
@@ -117,8 +129,11 @@ class Physics
             
             Matter.Body.setPosition body, x:(opt?.x ? 0), y:(opt?.y ? 0)
             
-            body.applyForce = (force) -> 
-                Matter.Body.applyForce @, @position, force
+            body.applyForce = (force) -> Matter.Body.applyForce @, @position, force
+            body.addAngularVelocity = (value) -> Matter.Body.setAngularVelocity @, @.angularVelocity + value
+            body.addAngle = (value) -> 
+                Matter.Body.setAngle @, @.angle + value
+                Matter.Body.setAngularVelocity @, 0
             
         body
 
