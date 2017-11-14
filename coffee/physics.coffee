@@ -22,6 +22,10 @@ class Physics
                 
         br = @element.getBoundingClientRect()
         
+        window.requestAnimationFrame @onRender
+        
+        @itemBodies = []
+        
         @render = Matter.Render.create
             element: @element
             engine: @engine
@@ -30,6 +34,7 @@ class Physics
                 showPositions:  true
                 showVelcity:    true
                 showCollisions: true
+                showBounds:     true
 
         @runner = Matter.Runner.create()
 
@@ -72,12 +77,22 @@ class Physics
         Matter.Runner.run @runner, @engine            
         
         @setBounds br.width, br.height
-          
-    addItem: (item) ->
+       
+    onRender: (time) =>
         
-        vertices = @verticesForItem first item.instance.children()
+        for [item, body] in @itemBodies
+            
+            item.translate 0, 0
+            item.rotate body.angle*180.0/Math.PI
+            item.translate body.position.x, body.position.y
+            
+        window.requestAnimationFrame @onRender
+        
+    addItem: (item, opt) ->
+        
+        vertices = @verticesForItem first item.children()
         color = '#88f'
-        body = Matter.Bodies.fromVertices item.instance.cx(), item.instance.cy(), vertices,
+        body = Matter.Bodies.fromVertices 0, 0, vertices,
                 render:
                     fillStyle:   'none',
                     strokeStyle: color,
@@ -87,8 +102,21 @@ class Physics
                 friction:        0
                 density:         1000
                 restitution:     0.5
+                
         if body
+            
+            dx = (body.bounds.min.x + body.bounds.max.x)/2
+            dy = (body.bounds.min.y + body.bounds.max.y)/2
+            
+            for child in item.children()
+                child.transform x:dx, y:dy, relative: true
+            
+            @itemBodies.push [item, body]
             Matter.World.add @world, body
+            
+            Matter.Body.setPosition body, x:(opt?.x ? 0), y:(opt?.y ? 0)
+            
+        body
 
     verticesForItem: (item) ->
 
@@ -110,8 +138,8 @@ class Physics
                         for subdiv in [1..subdivisions]
                             addPos @deCasteljauPos index, point, subdiv/(subdivisions+1)
             addPos @posForPoint point
+            
         positions.pop()
-        log positions
         positions
 
     itemMatrix: (item) ->

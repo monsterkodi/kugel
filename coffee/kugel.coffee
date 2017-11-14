@@ -27,7 +27,6 @@ class Kugel
                 
         window.onresize = @onResize
         
-        @physics = new Physics @element
         
         @pad = new Pad()       
         @pad.addListener 'buttondown',  @onButton
@@ -35,8 +34,14 @@ class Kugel
         @pad.addListener 'stick',       (event) -> log event
         
         @svg = SVG(@element).size '100%', '100%'
+        @svg.style 
+            position:'absolute'
+            top:  0
+            left: 0
         @svg.id 'svg'
         @svg.clear()
+        
+        @physics = new Physics @element
         
         @ship = new Ship @
         
@@ -49,7 +54,7 @@ class Kugel
     onResize: => 
 
         post.emit 'resize', pos sw(), sh()
-        @world.setBounds sw(), sh()
+        @physics.setBounds sw(), sh()
                 
     # 000   000  00000000  000   000  
     # 000  000   000        000 000   

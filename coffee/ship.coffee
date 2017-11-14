@@ -12,14 +12,12 @@ class Ship
     constructor: (@kugel) ->
 
         @ship = @addSVG 'ship', parent:@kugel.svg
-        
-        @ship.style 
+
+        @ship.style
             'stroke': '#fff'
             'stroke-width': 4
-        @ship.cx sw()/2
-        @ship.cy sh()/2
         
-        @kugel.physics.addItem ship
+        @kugel.physics.addItem @ship, x:sw()/2, y:sh()/2
 
     svgFile: (name) -> "#{__dirname}/../svg/#{name}.svg"
         
@@ -56,14 +54,21 @@ class Ship
                             items.push child
                           
                     if items.length == 1 and first(items).type == 'g'
-                        group = first items 
+                        log 'hello'
+                        group = first items
                     else
+                        log 'world'
                         group = svg.group()
                         for item in items
                            group.add item
-                        
+                                               
                     group.id name
                     parent.add group
+
+                    bbox = group.rbox()
+                    log bbox
+                    for item in group.children()
+                        item.transform x:-bbox.cx, y:-bbox.cy, relative: true
                     
                     return group
                 else
