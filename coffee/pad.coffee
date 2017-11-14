@@ -25,7 +25,6 @@ class Pad extends events
         window.addEventListener 'gamepaddisconnected', @onDisconnected
         
         @startPolling()
-        log 'pad'
   
     startPolling: ->
         
@@ -58,7 +57,6 @@ class Pad extends events
     onConnected: (event) =>
         
         if not @connected or not @getPad()
-            log 'connected', event.gamepad?.index
             if gp = @getPad()
                 @stopPolling()
                 @snapState()
@@ -67,7 +65,6 @@ class Pad extends events
     onDisconnected: (event) =>
         
         if 0 == event.gamepad.index
-            log 'disconnected'
             @clearIndex()
             @startPolling()
 
@@ -75,12 +72,13 @@ class Pad extends events
         
         if gp = @getPad()
             @lastState = 
-                buttons: gp.buttons.map (b) -> pressed:b.pressed
-                axes:    gp.axes.map @round
+                buttons: gp.buttons.map (b) => pressed:b.pressed, value:@round(b.value, 0)
+                axes:    gp.axes.map (v) => @round v
         
-    round: (v) -> 
-        r = Math.round(v*100)/100
-        if Math.abs(r) < 0.05 then r = 0
+    round: (v, deadzone=0.05) => 
+        
+        r = parseInt(v*100)/100
+        if Math.abs(r) < deadzone then r = 0
         r
                 
     emitEvents: =>
@@ -88,10 +86,15 @@ class Pad extends events
         if gp = @getPad()
             
             for index,button of gp.buttons
+                
                 if button.pressed and not @lastState.buttons[index].pressed
                     @emit 'buttondown', Pad.buttons[index]
                 else if not button.pressed and @lastState.buttons[index].pressed
                     @emit 'buttonup', Pad.buttons[index]
+                   
+                if parseInt(index) in [6, 7]
+                    if @round(button.value, 0) != @lastState.buttons[index].value
+                        @emit 'buttonvalue', button:Pad.buttons[index], value:@round(button.value, 0)
 
             if @round(gp.axes[0]) != @lastState.axes[0] or @round(gp.axes[1]) != @lastState.axes[1]
                 @emit 'stick', stick:'L', x:@round(gp.axes[0]), y:@round(gp.axes[1])

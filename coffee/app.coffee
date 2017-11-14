@@ -128,7 +128,7 @@ class App
             win.show()
             win.focus()
              
-            if false then win.webContents.openDevTools()
+            if true then win.webContents.openDevTools()
                         
         win.on 'ready-to-show', winReadyToShow
         win

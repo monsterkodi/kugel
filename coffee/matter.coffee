@@ -1,15 +1,15 @@
 
-# 000   000   0000000   00000000   000      0000000  
-# 000 0 000  000   000  000   000  000      000   000
-# 000000000  000   000  0000000    000      000   000
-# 000   000  000   000  000   000  000      000   000
-# 00     00   0000000   000   000  0000000  0000000  
+# 00000000   000   000  000   000   0000000  000   0000000   0000000  
+# 000   000  000   000   000 000   000       000  000       000       
+# 00000000   000000000    00000    0000000   000  000       0000000   
+# 000        000   000     000          000  000  000            000  
+# 000        000   000     000     0000000   000   0000000  0000000   
 
 { log, $, _ } = require 'kxk'
 
 Matter = require 'matter-js'
 
-class World
+class Physics
 
     constructor: (@element) ->
 
@@ -84,4 +84,4 @@ class World
         bounds = Matter.Vertices.fromPath "#{x} #{y} #{x+w} #{y} #{x+w} #{y+h} #{x} #{y+h}"
         Matter.Bounds.update @render.bounds, bounds, 0
         
-module.exports = World
+module.exports = Physics

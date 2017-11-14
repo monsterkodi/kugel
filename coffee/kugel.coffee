@@ -7,8 +7,8 @@
 
 { keyinfo, stopEvent, post, prefs, sw, sh, pos, log, $, _ } = require 'kxk'
 
-World = require './world'
-Pad   = require './pad'
+Physics = require './physics'
+Pad     = require './pad'
 
 class Kugel
 
@@ -25,12 +25,17 @@ class Kugel
                 
         window.onresize = @onResize
         
-        @world = new World @element
+        @physics = new Physics @element
         
         @pad = new Pad()       
-        @pad.addListener 'buttondown', (event) -> log 'buttondown', event
-        # @pad.addListener 'buttonup',   (event) -> log 'buttonup', event
-        # @pad.addListener 'stick',      (event) -> log 'stick', event
+        @pad.addListener 'buttondown',  @onButton
+        @pad.addListener 'buttonvalue', (event) -> log event
+        @pad.addListener 'stick',       (event) -> log event
+        
+    onButton: (button) =>
+        
+        if button == 'cross'
+            @physics.showDebug()
         
     onResize: => 
 
