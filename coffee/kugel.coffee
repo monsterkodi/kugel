@@ -58,9 +58,10 @@ class Kugel
         addBody 'ball', sw()/2, sh()/3
         addBody 'trio', sw()/2, sh()*2/3
 
-    onTick: (event) ->
+    onTick: (tick) ->
         
-        @ship.onTick event
+        @tickDelta = tick.source.delta
+        @ship.onTick @tickDelta
         
     onButtonDown: (button) =>
         

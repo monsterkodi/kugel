@@ -29,29 +29,30 @@ class Ship
         @body.collisionFilter.category = 1
         @body.collisionFilter.mask     = 5
                 
-    onTick: (event) ->
+    onTick: (delta) ->
 
         dir = pos(0,-1).rotate @body.angle*180.0/Math.PI
         @body.applyForce dir.times @thrust * 200
         @body.addAngle @angle/10
         
-        if @shoots
+        if @shootDelay > 0 then @shootDelay -= delta
+        if @shoots and @shootDelay <= 0
             @shoot()
 
-    fire: (@shoots) -> 0
+    fire: (@shoots) -> 
+        
+        if not @shoots then @shootDelay = 0
         
     shoot: ->
         
-        @shootDelay--
-        if @shootDelay <= 0
-            bullet = svg.add 'bullet', parent:@kugel.svg
-            obj = @kugel.physics.addItem bullet, @body.position
-            obj.collisionFilter.group    = 2
-            obj.collisionFilter.category = 2
-            obj.collisionFilter.mask     = 6
-            dir = pos(0,-10).rotate @body.angle*180.0/Math.PI
-            obj.setVelocity dir
-            obj.setAngle @body.angle
-            @shootDelay = 15
+        bullet = svg.add 'bullet', parent:@kugel.svg
+        obj = @kugel.physics.addItem bullet, @body.position
+        obj.collisionFilter.group    = 2
+        obj.collisionFilter.category = 2
+        obj.collisionFilter.mask     = 6
+        dir = pos(0,-10).rotate @body.angle*180.0/Math.PI
+        obj.setVelocity dir
+        obj.setAngle @body.angle
+        @shootDelay = 250
         
 module.exports = Ship
