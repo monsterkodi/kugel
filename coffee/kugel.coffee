@@ -11,6 +11,7 @@ Physics = require './physics'
 Pad     = require './pad'
 Ship    = require './ship'
 SVG     = require 'svg.js'
+svg     = require './svg'
 
 class Kugel
 
@@ -40,14 +41,30 @@ class Kugel
         @svg.id 'svg'
         @svg.clear()
         
-        @physics = new Physics @element
+        @physics = new Physics @, @element
         
         @ship = new Ship @
+        
+        pentagon = svg.add 'pentagon', parent:@svg
+        @body = @physics.addItem pentagon, x:sw()*2/3, y:sh()/2
+
+        ball = svg.add 'ball', parent:@svg
+        @body = @physics.addItem ball, x:sw()/2, y:sh()/3
+        
+        trio = svg.add 'trio', parent:@svg
+        @body = @physics.addItem trio, x:sw()/2, y:sh()*2/3
+
+    onTick: (event) ->
+        
+        body = @ship.body
+        dir = pos(0,-1).rotate body.angle*180.0/Math.PI
+        body.applyForce dir.times @ship.thrust * 200
+        body.addAngle @ship.angle/10
         
     onButton: (button) =>
         
         switch button 
-            when 'cross'    then @physics.showDebug()
+            when 'cross'    then @physics.showDebug true
             when 'triangle' then @physics.showDebug false
             when 'circle'   then post.toMain 'reloadWin'
 
@@ -55,13 +72,15 @@ class Kugel
         
         switch event.button
             when 'R2' 
-                @physics.shipThrust = event.value
+                @ship.thrust = event.value
         
     onStick: (event) =>
         
         switch event.stick
             when 'L'
-                @physics.shipAngle = event.x
+                @ship.angle = event.x
+            when 'R'
+                @ship.thrust = event.y < 0 and -event.y or -event.y/2
             
     onResize: => 
 

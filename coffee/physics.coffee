@@ -8,11 +8,11 @@
 { first, pos, log, $, _ } = require 'kxk'
 
 window.decomp = require 'poly-decomp'
-Matter = require 'matter-js'
+Matter        = require 'matter-js'
 
 class Physics
 
-    constructor: (@element) ->
+    constructor: (@kugel, @element) ->
 
         @engine = Matter.Engine.create()
         @engine.timing.timeScale = 1
@@ -42,24 +42,6 @@ class Physics
 
         Matter.World.add @world , []
         
-        chevron = Matter.Vertices.fromPath '100 0 75 50 100 100 25 100 0 50 25 0'
-
-        stack = Matter.Composites.stack 50, 50, 3, 3, 100, 100, (x, y) ->
-            color = Matter.Common.choose ['#556270', '#4ECDC4', '#C7F464', '#FF6B6B', '#C44D58']
-            Matter.Bodies.fromVertices x, y, chevron, 
-                render:
-                    fillStyle:   color,
-                    strokeStyle: color,
-                    lineWidth:   1
-                frictionStatic:  0
-                frictionAir:     0
-                friction:        0
-                density:         1000
-                restitution:     0.5
-            , true
-
-        Matter.World.add @world, stack
-
         mouse = Matter.Mouse.create @render.canvas
         mouseConstraint = Matter.MouseConstraint.create @engine, 
             mouse: mouse,
@@ -70,11 +52,8 @@ class Physics
 
         Matter.World.add @world, mouseConstraint
         
-        Matter.Render.run @render            
-        @debug = true
-
-        @shipAngle = 0
-        @shipThrust = 0
+        @debug = false
+        if @debug then Matter.Render.run @render            
         
         @render.mouse = mouse
         @render.canvas.style.background = 'transparent'
@@ -86,11 +65,8 @@ class Physics
        
     onTick: (event) =>
 
-        ship = @itemBodies[0][1]
-        dir = pos(0,-1).rotate ship.angle*180.0/Math.PI
-        ship.applyForce dir.times @shipThrust * 300
-        ship.addAngle @shipAngle/10
-        
+        @kugel.onTick event
+                
     onRender: (time) =>
 
         for [item, body] in @itemBodies
@@ -158,7 +134,7 @@ class Physics
                             addPos @deCasteljauPos index, point, subdiv/(subdivisions+1)
             addPos @posForPoint point
             
-        positions.pop()
+        positions.pop() if item.type != 'polygon'
         positions
 
     itemMatrix: (item) ->
@@ -250,12 +226,10 @@ class Physics
         
         if show and not @debug
             @debug = true
-            log 'run'
             Matter.Render.run @render  
             @render.canvas.style.display = 'block'
         else if not show and @debug
             @debug = false
-            log 'stop'
             Matter.Render.stop @render  
             @render.canvas.style.display = 'none'
         
