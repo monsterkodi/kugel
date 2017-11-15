@@ -77,6 +77,12 @@ class Physics
             
         window.requestAnimationFrame @onRender
         
+    #  0000000   0000000    0000000          000  000000000  00000000  00     00  
+    # 000   000  000   000  000   000        000     000     000       000   000  
+    # 000000000  000   000  000   000        000     000     0000000   000000000  
+    # 000   000  000   000  000   000        000     000     000       000 0 000  
+    # 000   000  0000000    0000000          000     000     00000000  000   000  
+    
     addItem: (item, opt) ->
         
         vertices = @verticesForItem first item.children()
@@ -106,6 +112,8 @@ class Physics
             Matter.Body.setPosition body, x:(opt?.x ? 0), y:(opt?.y ? 0)
             
             body.applyForce = (force) -> Matter.Body.applyForce @, @position, force
+            body.setVelocity = (value) -> Matter.Body.setVelocity @, value
+            body.setAngle = (value) -> Matter.Body.setAngle @, value
             body.addAngularVelocity = (value) -> Matter.Body.setAngularVelocity @, @.angularVelocity + value
             body.addAngle = (value) -> 
                 Matter.Body.setAngle @, @.angle + value

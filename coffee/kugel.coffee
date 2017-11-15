@@ -29,8 +29,9 @@ class Kugel
         window.onresize = @onResize
         
         @pad = new Pad()       
-        @pad.addListener 'buttondown',  @onButton
-        @pad.addListener 'buttonvalue', @onValue
+        @pad.addListener 'buttondown',  @onButtonDown
+        @pad.addListener 'buttonup',    @onButtonUp
+        # @pad.addListener 'buttonvalue', @onValue
         @pad.addListener 'stick',       @onStick
         
         @svg = SVG(@element).size '100%', '100%'
@@ -45,34 +46,39 @@ class Kugel
         
         @ship = new Ship @
         
-        pentagon = svg.add 'pentagon', parent:@svg
-        @body = @physics.addItem pentagon, x:sw()*2/3, y:sh()/2
+        addBody = (name, x, y) =>
+            item = svg.add name, parent:@svg
+            body = @physics.addItem item, x:x, y:y
 
-        ball = svg.add 'ball', parent:@svg
-        @body = @physics.addItem ball, x:sw()/2, y:sh()/3
-        
-        trio = svg.add 'trio', parent:@svg
-        @body = @physics.addItem trio, x:sw()/2, y:sh()*2/3
+            body.collisionFilter.group    = 3
+            body.collisionFilter.category = 4
+            body.collisionFilter.mask     = 0xffffffffff
+            
+        addBody 'pentagon', sw()*2/3, sh()/2
+        addBody 'ball', sw()/2, sh()/3
+        addBody 'trio', sw()/2, sh()*2/3
 
     onTick: (event) ->
         
-        body = @ship.body
-        dir = pos(0,-1).rotate body.angle*180.0/Math.PI
-        body.applyForce dir.times @ship.thrust * 200
-        body.addAngle @ship.angle/10
+        @ship.onTick event
         
-    onButton: (button) =>
+    onButtonDown: (button) =>
         
         switch button 
-            when 'cross'    then @physics.showDebug true
-            when 'triangle' then @physics.showDebug false
-            when 'circle'   then post.toMain 'reloadWin'
+            when 'L1'      then @physics.showDebug true
+            when 'R1'      then @physics.showDebug false
+            when 'options' then post.toMain 'reloadWin'
+            when 'R1', 'cross' then @ship.fire true
 
-    onValue: (event) =>
+    onButtonUp: (button) =>  
+        switch button 
+            when 'R1', 'cross' then @ship.fire false
         
-        switch event.button
-            when 'R2' 
-                @ship.thrust = event.value
+    # onValue: (event) =>
+#         
+        # switch event.button
+            # when 'R2' 
+                # @ship.thrust = event.value
         
     onStick: (event) =>
         
