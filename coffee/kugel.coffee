@@ -11,7 +11,6 @@ Physics = require './physics'
 Pad     = require './pad'
 Ship    = require './ship'
 SVG     = require 'svg.js'
-svg     = require './svg'
 
 class Kugel
 
@@ -31,7 +30,6 @@ class Kugel
         @pad = new Pad()       
         @pad.addListener 'buttondown',  @onButtonDown
         @pad.addListener 'buttonup',    @onButtonUp
-        # @pad.addListener 'buttonvalue', @onValue
         @pad.addListener 'stick',       @onStick
         
         @svg = SVG(@element).size '100%', '100%'
@@ -46,17 +44,12 @@ class Kugel
         
         @ship = new Ship @
         
-        addBody = (name, x, y) =>
-            item = svg.add name, parent:@svg
-            body = @physics.addItem item, x:x, y:y
-
-            body.collisionFilter.group    = 3
-            body.collisionFilter.category = 4
-            body.collisionFilter.mask     = 0xffffffffff
-            
-        addBody 'pentagon', sw()*2/3, sh()/2
-        addBody 'ball', sw()/2, sh()/3
-        addBody 'trio', sw()/2, sh()*2/3
+        @physics.addBody 'pentagon', x:sw()*2/3, y:sh()/2
+        @physics.addBody 'ball',     x:sw()/2,   y:sh()/3
+        @physics.addBody 'trio',     x:sw()/2,   y:sh()*2/3
+        
+        @physics.addBody 'pipe_corner', { x:sw()/3, y:sh()/3 }, static:true
+        @physics.addBody 'pipe_corner', { x:sw()/3, y:sh()/3 }, static:true, angle:180
 
     onTick: (tick) ->
         
@@ -69,17 +62,13 @@ class Kugel
             when 'L1'      then @physics.showDebug true
             when 'R1'      then @physics.showDebug false
             when 'options' then post.toMain 'reloadWin'
-            when 'R1', 'cross' then @ship.fire true
+            when 'R2', 'cross' then @ship.fire true
+            when 'triangle'    then @ship.laser true
 
     onButtonUp: (button) =>  
         switch button 
-            when 'R1', 'cross' then @ship.fire false
-        
-    # onValue: (event) =>
-#         
-        # switch event.button
-            # when 'R2' 
-                # @ship.thrust = event.value
+            when 'R2', 'cross' then @ship.fire false
+            when 'triangle'    then @ship.laser false
         
     onStick: (event) =>
         

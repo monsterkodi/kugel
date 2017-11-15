@@ -5,10 +5,11 @@
 # 000        000   000     000          000  000  000            000  
 # 000        000   000     000     0000000   000   0000000  0000000   
 
-{ first, pos, log, $, _ } = require 'kxk'
+{ deg2rad, rad2deg, first, pos, log, $, _ } = require 'kxk'
 
 window.decomp = require 'poly-decomp'
 Matter        = require 'matter-js'
+svg           = require './svg'
 
 class Physics
 
@@ -24,7 +25,7 @@ class Physics
         
         window.requestAnimationFrame @onRender
         
-        @itemBodies = []
+        @bodies = []
         
         @render = Matter.Render.create
             element: @element
@@ -69,58 +70,75 @@ class Physics
                 
     onRender: (time) =>
 
-        for [item, body] in @itemBodies
-            
+        for body in @bodies
+            item = body.item
             item.translate 0, 0
-            item.rotate body.angle*180.0/Math.PI
+            if not isNaN body.angle
+                # log 'angle', body.angle, 'deg', rad2deg body.angle
+                item.rotate rad2deg body.angle
+            else 
+                log 'isNaN', body.name
             item.translate body.position.x, body.position.y
             
         window.requestAnimationFrame @onRender
         
-    #  0000000   0000000    0000000          000  000000000  00000000  00     00  
-    # 000   000  000   000  000   000        000     000     000       000   000  
-    # 000000000  000   000  000   000        000     000     0000000   000000000  
-    # 000   000  000   000  000   000        000     000     000       000 0 000  
-    # 000   000  0000000    0000000          000     000     00000000  000   000  
+    #  0000000   0000000    0000000          0000000     0000000   0000000    000   000  
+    # 000   000  000   000  000   000        000   000  000   000  000   000   000 000   
+    # 000000000  000   000  000   000        0000000    000   000  000   000    00000    
+    # 000   000  000   000  000   000        000   000  000   000  000   000     000     
+    # 000   000  0000000    0000000          0000000     0000000   0000000       000     
     
-    addItem: (item, opt) ->
+    addBody: (name, position, opt) ->
         
+        opt ?= {}
+        
+        item = svg.add name, parent:@kugel.svg
+            
         vertices = @verticesForItem first item.children()
-        color = '#88f'
+
         body = Matter.Bodies.fromVertices 0, 0, vertices,
                 render:
-                    fillStyle:   'none',
-                    strokeStyle: color,
+                    fillStyle:   'none'
+                    strokeStyle: '#88f'
                     lineWidth:   1
                 frictionStatic:  0
                 frictionAir:     0
                 friction:        0
-                density:         1000
-                restitution:     0.5
+                density:         1
+                restitution:     1
                 
-        if body
+        if not body
+            log 'no body?', name, opt
+            return null 
             
-            dx = (body.bounds.min.x + body.bounds.max.x)/2
-            dy = (body.bounds.min.y + body.bounds.max.y)/2
+        dx = (body.bounds.min.x + body.bounds.max.x)/2
+        dy = (body.bounds.min.y + body.bounds.max.y)/2
+        
+        for child in item.children()
+            child.transform x:dx, y:dy, relative: true
+        
+        body.item = item
+        @bodies.push body
+        Matter.World.add @world, body
+        
+        body.applyForce  = (value) -> Matter.Body.applyForce  @, @position, value
+        body.setVelocity = (value) -> Matter.Body.setVelocity @, value
+        body.setStatic   = (value) -> Matter.Body.setStatic   @, value
+        body.setDensity  = (value) -> Matter.Body.setDensity  @, value
+        body.setPosition = (value) -> Matter.Body.setPosition @, value
+        body.setAngle    = (value) -> Matter.Body.setAngle    @, value
+        body.setAnglularVelocity = (value) -> Matter.Body.setAngularVelocity @, value
+        body.addAngularVelocity = (value) -> Matter.Body.setAngularVelocity @, @.angularVelocity + value
+        body.addAngle = (value) -> 
+            Matter.Body.setAngle @, @angle + value
+            Matter.Body.setAngularVelocity @, 0
             
-            for child in item.children()
-                child.transform x:dx, y:dy, relative: true
-            
-            @itemBodies.push [item, body]
-            Matter.World.add @world, body
-            
-            Matter.Body.setPosition body, x:(opt?.x ? 0), y:(opt?.y ? 0)
-            
-            body.applyForce = (force) -> Matter.Body.applyForce @, @position, force
-            body.setVelocity = (value) -> Matter.Body.setVelocity @, value
-            body.setAngle = (value) -> Matter.Body.setAngle @, value
-            body.addAngularVelocity = (value) -> Matter.Body.setAngularVelocity @, @.angularVelocity + value
-            body.addAngle = (value) -> 
-                Matter.Body.setAngle @, @.angle + value
-                Matter.Body.setAngularVelocity @, 0
-            
+        body.setPosition position
+        body.setStatic true if opt.static
+        log 'opt.angle', name, opt.angle
+        body.setAngle deg2rad opt.angle if opt.angle?
         body
-
+        
     verticesForItem: (item) ->
 
         subdivisions = 3
