@@ -17,6 +17,7 @@ class Ship
         @thrust     = 0
         @shoots     = false
         @lasers     = false
+        @brakes     = false
         @shootDelay = 0
         @bullets    = []
         @maxBullets = 20
@@ -31,6 +32,10 @@ class Ship
                 
     onTick: (delta) ->
 
+        if @brakes
+            @thrust = 0
+            @body.setVelocity pos(@body.velocity).times 0.99
+        
         @body.applyForce @dir().times @thrust / 10
         @body.addAngle @angle/10
         
@@ -46,7 +51,12 @@ class Ship
             tgt = tip.plus @pos().to(tip).scale 10000
             hits = Matter.Query.ray @kugel.physics.bodies, tip, tgt
             if hits.length
-                log first(hits).depth
+                hit = first hits
+                log 'axisBody', hit
+                # log 'angle', 90 + rad2deg hit.axisBody.angle
+                # log 'vertices', pos hit.axisBody.vertices[0]
+                tgt = pos(hit.axisBody.vertices[0]).plus pos(100,100)
+                # tgt = pos(hit.normal).times hit.depth
             @beam.plot tip.x, tip.y, tgt.x, tgt.y
         else
             if @beam
@@ -54,7 +64,8 @@ class Ship
                 delete @beam
 
     fire:  (@shoots) -> if not @shoots then @shootDelay = 0
-    laser: (@lasers) ->
+    brake: (@brakes) ->         
+    toggleLaser: -> @lasers = not @lasers
      
     pos: -> pos @body.position.x, @body.position.y
     dir: -> pos(0,-1).rotate rad2deg @body.angle
@@ -63,13 +74,11 @@ class Ship
     shoot: ->
         
         if @bullets.length < @maxBullets
-            bullet = @kugel.physics.addBody 'bullet', @tip(0.5)
-            bullet.collisionFilter.category = 4
-            bullet.collisionFilter.mask     = 7
+            bullet = @kugel.physics.addBody 'bullet', @tip()
             bullet.setDensity 10
         else
             bullet = @bullets.shift()
-            bullet.setPosition @tip(0.5)
+            bullet.setPosition @tip()
             bullet.setAnglularVelocity 0
           
         bullet.setVelocity @dir().times 10
