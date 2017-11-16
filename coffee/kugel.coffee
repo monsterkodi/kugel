@@ -64,23 +64,17 @@ class Kugel
             when 'options'      then post.toMain 'reloadWin'
             when 'R2', 'cross'  then @ship.fire true
             when 'triangle'     then @ship.toggleLaser()
-            when 'square'       then @ship.brake true
+            when 'square', 'L2' then @ship.brake true
 
     onButtonUp: (button) =>  
         switch button 
             when 'R2', 'cross'  then @ship.fire  false
-            when 'square'       then @ship.brake false
+            when 'square', 'L2' then @ship.brake false
         
     onStick: (event) =>
         
         switch event.stick
-            when 'L'
-                dir = pos event.x, event.y
-                angle = dir.rotation pos 0,-1
-                thrust = dir.length()
-                thrust = Math.max 0, thrust - 0.1
-                @ship.body.setAngle deg2rad angle
-                @ship.thrust = thrust
+            when 'L' then @ship.steer pos event.x, event.y
             when 'R'
                 @ship.thrust = event.y < 0 and -event.y or -event.y/2
             

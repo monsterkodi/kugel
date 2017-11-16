@@ -25,10 +25,9 @@ class Intersect
                     
         if minIndex >= 0
             next = if minIndex >= body.vertices.length-1 then 0 else minIndex+1
-            # return pos(body.vertices[minIndex]).mid pos body.vertices[next]
             return @linePos start, end, pos(body.vertices[minIndex]), pos(body.vertices[next])
             
-        return end
+        end
 
     @lines: (p1, q1, p2, q2) ->
         
@@ -42,7 +41,7 @@ class Intersect
         o3 = orientation p2, q2, p1
         o4 = orientation p2, q2, q1
  
-        return o1 != o2 and o3 != o4
+        o1 != o2 and o3 != o4
         
     @linePos: (p, p2, q, q2) ->
     
@@ -52,7 +51,6 @@ class Intersect
         s   = q2.minus q
         rxs = r.cross s
     
-        log rxs
         if Math.abs(rxs) > 0.00000000001
     
             v = q.minus p

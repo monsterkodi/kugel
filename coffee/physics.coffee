@@ -74,7 +74,6 @@ class Physics
             item = body.item
             item.translate 0, 0
             if not isNaN body.angle
-                # log 'angle', body.angle, 'deg', rad2deg body.angle
                 item.rotate rad2deg body.angle
             else 
                 log 'isNaN', body.name
@@ -135,7 +134,6 @@ class Physics
             
         body.setPosition position
         body.setStatic true if opt.static
-        log 'opt.angle', name, opt.angle
         body.setAngle deg2rad opt.angle if opt.angle?
         body
         
