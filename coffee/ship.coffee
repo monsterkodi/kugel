@@ -5,7 +5,7 @@
 #      000  000   000  000  000      
 # 0000000   000   000  000  000      
 
-{ deg2rad, rad2deg, elem, first, pos, sw, sh, log, _ } = require 'kxk'
+{ deg2rad, rad2deg, elem, fade, first, pos, sw, sh, log, _ } = require 'kxk'
 
 { fadeAngles } = require './utils'
 
@@ -25,7 +25,7 @@ class Ship
         @bullets    = []
         @maxBullets = 20
         @steerDir   = pos 0,0
-        @thrust
+        @rot        = left:0, right:0
         
         @body = @kugel.physics.addBody 'ship', x:sw()/2, y:sh()/2
         @body.collisionFilter.category = 2
@@ -34,30 +34,36 @@ class Ship
         @body.item.style
             'stroke': '#fff'
             'stroke-width': 4
-                
+            
+    # 000000000  000   0000000  000   000  
+    #    000     000  000       000  000   
+    #    000     000  000       0000000    
+    #    000     000  000       000  000   
+    #    000     000   0000000  000   000  
+    
     onTick: (delta) ->
 
+        @angle = rad2deg @body.angle
+                
         length = @steerDir.length()
         if length - 0.1 > 0
-            if length < 0.5
-                if @steerDir.x > 0
-                    @angle += length*5
-                else
-                    @angle -= length*5
-            else
-                @angle  = @steerDir.rotation pos 0,-1
-                @thrust = length - 0.5
+            @angle  = fadeAngles @angle, @steerDir.rotation(pos 0,-1), length/10
+            @thrust = length - 0.5
         else
             @thrust = 0
         
         if @brakes
             @thrust = 0
             @body.setVelocity pos(@body.velocity).times 0.99
-        
+                    
         @body.applyForce @dir().times @thrust / 10
+
+        rotLeft  = @rot.left  * (@brakes and 0.1 or 1)
+        rotRight = @rot.right * (@brakes and 0.1 or 1)
         
-        angle = fadeAngles 0.04, rad2deg(@body.angle), @angle
-        @body.setAngle deg2rad angle
+        @angle += rotRight - rotLeft
+            
+        @body.setAngle deg2rad @angle
         
         if @shootDelay > 0 then @shootDelay -= delta
         if @shoots and @shootDelay <= 0
@@ -81,18 +87,27 @@ class Ship
 
     steer: (@steerDir) ->
         
+    turn: (leftOrRight, active) -> @rot[leftOrRight] = active and 1 or 0
+        
     fire:  (@shoots) -> if not @shoots then @shootDelay = 0
     brake: (@brakes) ->         
     toggleLaser: -> @lasers = not @lasers
      
-    pos: -> pos @body.position.x, @body.position.y
+    pos: -> pos @body.position
     dir: -> pos(0,-1).rotate rad2deg @body.angle
     tip: (scale=1) -> @dir().scale(30*scale).plus @pos()
         
+    #  0000000  000   000   0000000    0000000   000000000  
+    # 000       000   000  000   000  000   000     000     
+    # 0000000   000000000  000   000  000   000     000     
+    #      000  000   000  000   000  000   000     000     
+    # 0000000   000   000   0000000    0000000      000     
+    
     shoot: ->
         
         if @bullets.length < @maxBullets
             bullet = @kugel.physics.addBody 'bullet', @tip()
+            bullet.item.id "bullet#{@bullets.length}"
             bullet.setDensity 10
         else
             bullet = @bullets.shift()

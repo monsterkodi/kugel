@@ -38,7 +38,7 @@ class Kugel
             top:  0
             left: 0
         @svg.id 'svg'
-        @svg.clear()
+        # @svg.clear()
         
         @physics = new Physics @, @element
         
@@ -53,23 +53,29 @@ class Kugel
 
     onTick: (tick) ->
         
+        @onResize()
+        
         @tickDelta = tick.source.delta
         @ship.onTick @tickDelta
         
     onButtonDown: (button) =>
         
         switch button 
-            when 'L1'           then @physics.showDebug true
-            when 'R1'           then @physics.showDebug false
+            when 'pad'          then @physics.toggleDebug()
             when 'options'      then post.toMain 'reloadWin'
             when 'R2', 'cross'  then @ship.fire true
             when 'triangle'     then @ship.toggleLaser()
             when 'square', 'L2' then @ship.brake true
+            when 'L1'           then @ship.turn 'left',  true
+            when 'R1'           then @ship.turn 'right', true
 
-    onButtonUp: (button) =>  
+    onButtonUp: (button) =>
+        
         switch button 
             when 'R2', 'cross'  then @ship.fire  false
             when 'square', 'L2' then @ship.brake false
+            when 'L1'           then @ship.turn 'left',  false
+            when 'R1'           then @ship.turn 'right', false
         
     onStick: (event) =>
         
@@ -80,8 +86,10 @@ class Kugel
             
     onResize: => 
 
-        post.emit 'resize', pos sw(), sh()
-        @physics.setBounds sw(), sh()
+        # post.emit 'resize', pos sw(), sh()
+        offset = pos(@ship.body.position).minus pos sw()/2, sh()/2
+        @svg.viewbox offset.x, offset.y, sw(), sh()
+        @physics.setBounds offset.x, offset.y, sw(), sh()
                 
     # 000   000  00000000  000   000  
     # 000  000   000        000 000   
@@ -94,7 +102,7 @@ class Kugel
     onKeyDown: (event) =>
         
         {mod, key, combo, char} = keyinfo.forEvent event
-        log mod, key, combo, char
+        # log mod, key, combo, char
 
     onKeyUp: (event) =>
         
