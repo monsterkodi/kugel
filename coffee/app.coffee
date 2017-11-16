@@ -32,9 +32,9 @@ winWithID   = (winID) -> Window.fromId winID
 # 000  000        000     
 # 000  000         0000000
 
-post.on 'toggleDevTools', => win.browserWindow.toggleDevTools()
-post.on 'maximizeWindow', => app.maximizeWindow()
-post.on 'reloadWin',      => app.reloadWin win
+post.on 'toggleDevTools', -> win.browserWindow.toggleDevTools()
+post.on 'maximizeWindow', -> app.maximizeWindow()
+post.on 'reloadWin',      -> app.reloadWin win
                         
 # 000   000  000   000   0000000   00000000  000       0000000   00000000   00000000     
 # 000  000   000   000  000        000       000      000   000  000   000  000   000    
@@ -69,17 +69,17 @@ class App
         else
             @showWindows()             
 
-    hideWindows: =>
+    hideWindows: ->
         
         for w in wins()
             w.hide()
             
-    showWindows: =>
+    showWindows: ->
         
         for w in wins()
             w.show()
             
-    raiseWindows: =>
+    raiseWindows: ->
         
         if visibleWins().length
             for w in visibleWins()
@@ -125,7 +125,7 @@ class App
         win.on 'move',   @saveBounds
         win.on 'resize', @saveBounds     
         
-        winReadyToShow = =>
+        winReadyToShow = ->
             win.show()
             win.focus()
              
@@ -136,13 +136,13 @@ class App
     
     saveBounds: (event) -> prefs.set 'bounds', event.sender.getBounds()
         
-    quit: => 
+    quit: -> 
         prefs.save()
         w.close() for w in wins()
         electron.app.exit 0
         process.exit 0
         
-    showAbout: => about
+    showAbout: -> about
         img: "#{__dirname}/../bin/about.svg"
         pkg: pkg
         imageWidth:    '250px'

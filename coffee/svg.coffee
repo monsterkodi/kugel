@@ -47,7 +47,7 @@ class kSVG
                     else
                         group = svg.group()
                         for item in items
-                           group.add item
+                            group.add item
                                                
                     group.id name
                     parent.add group

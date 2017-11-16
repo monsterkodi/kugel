@@ -75,7 +75,7 @@ class Pad extends events
                 buttons: gp.buttons.map (b) => pressed:b.pressed, value:@round(b.value, 0)
                 axes:    gp.axes.map (v) => @round v
         
-    round: (v, deadzone=0.05) => 
+    round: (v, deadzone=0.05) -> 
         
         r = parseInt(v*100)/100
         if Math.abs(r) < deadzone then r = 0

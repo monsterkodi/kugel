@@ -233,14 +233,6 @@ class Physics
         p4 = p1.interpolate p2, factor
         p5 = p2.interpolate p3, factor
         p6 = p4.interpolate p5, factor
-
-    posForPoint: (point) ->
-                
-        switch point[0]
-            when 'C'      then pos point[5], point[6]
-            when 'S', 'Q' then pos point[3], point[4]
-            when 'M', 'L' then pos point[1], point[2]
-            else               pos point[0], point[1]
         
     # 0000000    00000000  0000000    000   000   0000000   
     # 000   000  000       000   000  000   000  000        
