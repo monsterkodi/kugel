@@ -7,7 +7,8 @@
 
 { rad2deg, elem, first, pos, sw, sh, log, _ } = require 'kxk'
 
-Matter = require 'matter-js'
+intersect = require './intersect'
+Matter    = require 'matter-js'
 
 class Ship
 
@@ -52,11 +53,8 @@ class Ship
             hits = Matter.Query.ray @kugel.physics.bodies, tip, tgt
             if hits.length
                 hit = first hits
-                log 'axisBody', hit
-                # log 'angle', 90 + rad2deg hit.axisBody.angle
-                # log 'vertices', pos hit.axisBody.vertices[0]
-                tgt = pos(hit.axisBody.vertices[0]).plus pos(100,100)
-                # tgt = pos(hit.normal).times hit.depth
+                tgt = intersect.rayBody tip, tgt, hit.bodyA
+                log 'intersect', tgt
             @beam.plot tip.x, tip.y, tgt.x, tgt.y
         else
             if @beam
