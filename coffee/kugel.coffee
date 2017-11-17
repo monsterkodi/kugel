@@ -8,6 +8,7 @@
 { deg2rad, keyinfo, stopEvent, post, prefs, sw, sh, pos, log, $, _ } = require 'kxk'
 
 Physics = require './physics'
+Space   = require './space'
 Pad     = require './pad'
 Ship    = require './ship'
 SVG     = require 'svg.js'
@@ -31,14 +32,15 @@ class Kugel
         @pad.addListener 'buttondown',  @onButtonDown
         @pad.addListener 'buttonup',    @onButtonUp
         @pad.addListener 'stick',       @onStick
-        
+
+        @space = new Space @, @element
+                
         @svg = SVG(@element).size '100%', '100%'
         @svg.style 
             position:'absolute'
             top:  0
             left: 0
         @svg.id 'svg'
-        # @svg.clear()
         
         @physics = new Physics @, @element
         
@@ -51,12 +53,16 @@ class Kugel
         @physics.addBody 'pipe_corner', { x:sw()/3, y:sh()/3 }, static:true
         @physics.addBody 'pipe_corner', { x:sw()/3, y:sh()/3 }, static:true, angle:180
 
-    onTick: (tick) ->
+        @space.addItem 'pentagon', x:sw()/4, y:sh()/4, opacity:0.5
+        
+    beforeTick: (delta) ->
         
         @onResize()
+        @ship.beforeTick delta
         
-        @tickDelta = tick.source.delta
-        @ship.onTick @tickDelta
+    afterTick: (delta) ->
+        
+        @ship.afterTick delta
         
     onButtonDown: (button) =>
         
@@ -89,6 +95,7 @@ class Kugel
         # post.emit 'resize', pos sw(), sh()
         offset = pos(@ship.body.position).minus pos sw()/2, sh()/2
         @svg.viewbox offset.x, offset.y, sw(), sh()
+        @space.svg.viewbox @svg.viewbox()
         @physics.setBounds offset.x, offset.y, sw(), sh()
                 
     # 000   000  00000000  000   000  

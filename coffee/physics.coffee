@@ -23,8 +23,6 @@ class Physics
                 
         br = @element.getBoundingClientRect()
         
-        window.requestAnimationFrame @onRender
-        
         @bodies = []
         
         @render = Matter.Render.create
@@ -43,7 +41,8 @@ class Physics
         @runner = Matter.Runner.create
             delta: 1000/60
         
-        Matter.Events.on @runner, 'beforeTick', @onTick 
+        Matter.Events.on @runner, 'beforeTick', @onBeforeTick 
+        Matter.Events.on @runner, 'afterTick',  @onAfterTick 
 
         Matter.World.add @world , []
         
@@ -72,18 +71,14 @@ class Physics
         
         @setBounds br.width, br.height
        
-    onTick: (event) =>
-
-        @kugel.onTick event
-                
-    # 00000000   00000000  000   000  0000000    00000000  00000000   
-    # 000   000  000       0000  000  000   000  000       000   000  
-    # 0000000    0000000   000 0 000  000   000  0000000   0000000    
-    # 000   000  000       000  0000  000   000  000       000   000  
-    # 000   000  00000000  000   000  0000000    00000000  000   000  
-    
-    onRender: (time) =>
-
+    onBeforeTick: (tick) =>
+        
+        @kugel.beforeTick tick.source.delta
+        
+    onAfterTick: (tick) =>
+        
+        @kugel.afterTick tick.source.delta
+        
         for body in @bodies
             item = body.item
             if not isNaN body.angle
@@ -92,10 +87,8 @@ class Physics
                 item.rotate rad2deg body.angle
             else 
                 log 'isNaN', body.name
-            item.translate body.position.x, body.position.y
-            
-        window.requestAnimationFrame @onRender
-        
+            item.translate body.position.x, body.position.y            
+                    
     #  0000000   0000000    0000000          0000000     0000000   0000000    000   000  
     # 000   000  000   000  000   000        000   000  000   000  000   000   000 000   
     # 000000000  000   000  000   000        0000000    000   000  000   000    00000    
@@ -120,15 +113,14 @@ class Physics
         body.setDensity  = (value) -> Matter.Body.setDensity  @, value
         body.setPosition = (value) -> Matter.Body.setPosition @, value
         body.setAngle    = (value) -> Matter.Body.setAngle    @, value
-        body.setAnglularVelocity = (value) -> Matter.Body.setAngularVelocity @, value
+        body.setAngularVelocity = (value) -> Matter.Body.setAngularVelocity @, value
         body.addAngularVelocity = (value) -> Matter.Body.setAngularVelocity @, @.angularVelocity + value
         body.addAngle = (value) -> 
             Matter.Body.setAngle @, @angle + value
             Matter.Body.setAngularVelocity @, 0
             
         body.setPosition position
-        item.translate 
-        item.translate body.position.x, body.position.y
+        # item.translate body.position.x, body.position.y
         
         body.setStatic true if opt.static
         body.setAngle deg2rad opt.angle if opt.angle?

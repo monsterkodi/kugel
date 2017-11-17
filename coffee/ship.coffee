@@ -19,7 +19,7 @@ class Ship
         @thrust     = 0
         @angle      = 0
         @shoots     = false
-        @lasers     = false
+        @lasers     = true
         @brakes     = false
         @shootDelay = 0
         @bullets    = []
@@ -41,34 +41,39 @@ class Ship
     #    000     000  000       000  000   
     #    000     000   0000000  000   000  
     
-    onTick: (delta) ->
+    beforeTick: (delta) ->
 
         @angle = rad2deg @body.angle
                 
         length = @steerDir.length()
         if length - 0.1 > 0
             @angle  = fadeAngles @angle, @steerDir.rotation(pos 0,-1), length/10
-            @thrust = length - 0.5
+            @thrust = (length - 0.1)/2
+            @body.setAngularVelocity 0
         else
             @thrust = 0
         
         if @brakes
             @thrust = 0
-            @body.setVelocity pos(@body.velocity).times 0.99
+            @body.setVelocity pos(@body.velocity).times 0.95
                     
-        @body.applyForce @dir().times @thrust / 10
+        @body.applyForce @dir().times @thrust
 
         rotLeft  = @rot.left  * (@brakes and 0.1 or 1)
         rotRight = @rot.right * (@brakes and 0.1 or 1)
         
-        @angle += rotRight - rotLeft
+        if Math.abs(rotRight - rotLeft)
+            @body.setAngularVelocity 0
+            @angle += rotRight - rotLeft
             
         @body.setAngle deg2rad @angle
-        
+                    
+    afterTick: (delta) ->
+
         if @shootDelay > 0 then @shootDelay -= delta
         if @shoots and @shootDelay <= 0
             @shoot()
-            
+        
         if @lasers
             if not @beam
                 @beam = @kugel.svg.line()
@@ -84,10 +89,10 @@ class Ship
             if @beam
                 @beam.remove()
                 delete @beam
-
+        
     steer: (@steerDir) ->
         
-    turn: (leftOrRight, active) -> @rot[leftOrRight] = active and 1 or 0
+    turn: (leftOrRight, active) -> @rot[leftOrRight] = active and 2 or 0
         
     fire:  (@shoots) -> if not @shoots then @shootDelay = 0
     brake: (@brakes) ->         
@@ -95,7 +100,7 @@ class Ship
      
     pos: -> pos @body.position
     dir: -> pos(0,-1).rotate rad2deg @body.angle
-    tip: (scale=1) -> @dir().scale(30*scale).plus @pos()
+    tip: (scale=1) -> @pos().plus @dir().scale 30*scale
         
     #  0000000  000   000   0000000    0000000   000000000  
     # 000       000   000  000   000  000   000     000     
@@ -109,12 +114,13 @@ class Ship
             bullet = @kugel.physics.addBody 'bullet', @tip()
             bullet.item.id "bullet#{@bullets.length}"
             bullet.setDensity 10
+            bullet.restitution = 1
         else
             bullet = @bullets.shift()
             bullet.setPosition @tip()
-            bullet.setAnglularVelocity 0
+            bullet.setAngularVelocity 0
           
-        bullet.setVelocity @dir().times 10
+        bullet.setVelocity @dir().times(10).plus pos @body.velocity
         bullet.setAngle @body.angle
         @shootDelay = 250
         

@@ -56,16 +56,23 @@ class kSVG
                     group.id name
                     parent.add group
 
-                    bbox = group.rbox()
+                    bbox = group.bbox()
                     for item in group.children()
                         item.transform x:-bbox.cx, y:-bbox.cy, relative: true
-                    
+                        
                     return group
-                else
-                    log 'dafuk? empty?', svg?
-        log 'dafuk? no content?', name
         null
-       
+      
+    @cloneItem: (name, defs) ->
+        
+        for def in defs.children()
+            if def.id() == name
+                return def.clone()
+        
+        item = @add name, parent:defs
+        item.id name
+        return item.clone()
+        
     @cloneBody: (name, defs) ->
         
         for def in defs.children()
@@ -76,7 +83,16 @@ class kSVG
         if not item?
             template = @add name, parent:defs
             template.id name
+            
+            body = Matter.Bodies.fromVertices 0, 0, @verticesForItem first template.children()
+            dx = (body.bounds.min.x + body.bounds.max.x)/2
+            dy = (body.bounds.min.y + body.bounds.max.y)/2
+            
+            for child in template.children()
+                child.transform x:dx, y:dy, relative: true
+                
             @vertices[name] = @verticesForItem first template.children()
+            
             item = template
     
         body = Matter.Bodies.fromVertices 0, 0, @vertices[name],
@@ -88,20 +104,8 @@ class kSVG
             frictionAir:     0
             friction:        0
             density:         1
-            restitution:     1
-                    
-        if not body
-            log 'no body?', name, opt
-            return null 
-                                
-        if template?
-            
-            dx = (body.bounds.min.x + body.bounds.max.x)/2
-            dy = (body.bounds.min.y + body.bounds.max.y)/2
-            
-            for child in template.children()
-                child.transform x:dx, y:dy, relative: true
-            
+            restitution:     0.5
+                                                                
         body.item = item.clone()
         body
 
