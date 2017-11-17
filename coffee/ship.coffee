@@ -5,9 +5,7 @@
 #      000  000   000  000  000      
 # 0000000   000   000  000  000      
 
-{ deg2rad, rad2deg, elem, fade, first, pos, sw, sh, log, _ } = require 'kxk'
-
-{ fadeAngles } = require './utils'
+{ deg2rad, rad2deg, elem, fade, fadeAngles, first, pos, sw, sh, log, _ } = require 'kxk'
 
 intersect = require './intersect'
 Matter    = require 'matter-js'
@@ -23,7 +21,7 @@ class Ship
         @brakes     = false
         @shootDelay = 0
         @bullets    = []
-        @maxBullets = 20
+        @maxBullets = 10
         @steerDir   = pos 0,0
         @rot        = left:0, right:0
         
@@ -117,7 +115,7 @@ class Ship
             bullet.restitution = 1
         else
             bullet = @bullets.shift()
-            bullet.setPosition @tip()
+            bullet.setPosition @tip(1.5)
             bullet.setAngularVelocity 0
           
         bullet.setVelocity @dir().times(10).plus pos @body.velocity

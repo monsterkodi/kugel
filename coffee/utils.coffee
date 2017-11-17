@@ -8,3 +8,4 @@
 { log } = require 'kxk'
 
 module.exports = 
+    dummy: ->

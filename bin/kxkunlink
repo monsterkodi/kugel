@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+cd ../kxk
+npm unlink
+cd ../kugel
+npm unlink kxk
+rm ./node_modules/kxk
+npm uninstall --save kxk
+npm install --save kxk

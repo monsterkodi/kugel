@@ -46,14 +46,14 @@ class Kugel
         
         @ship = new Ship @
         
-        @physics.addBody 'pentagon', x:sw()*2/3, y:sh()/2
-        @physics.addBody 'ball',     x:sw()/2,   y:sh()/3
+        # @physics.addBody 'pentagon', x:sw()*2/3, y:sh()/2
+        # @physics.addBody 'ball',     x:sw()/2,   y:sh()/3
         @physics.addBody 'trio',     x:sw()/2,   y:sh()*2/3
         
-        @physics.addBody 'pipe_corner', { x:sw()/3, y:sh()/3 }, static:true
-        @physics.addBody 'pipe_corner', { x:sw()/3, y:sh()/3 }, static:true, angle:180
+        @physics.addBody 'pipe_corner', { x:100, y:100 }, static:true
+        @physics.addBody 'pipe_corner', { x:200, y:100 }, static:true, angle:180
 
-        @space.addItem 'pentagon', x:sw()/4, y:sh()/4, opacity:0.5
+        @space.init()
         
     beforeTick: (delta) ->
         
@@ -95,7 +95,7 @@ class Kugel
         # post.emit 'resize', pos sw(), sh()
         offset = pos(@ship.body.position).minus pos sw()/2, sh()/2
         @svg.viewbox offset.x, offset.y, sw(), sh()
-        @space.svg.viewbox @svg.viewbox()
+        @space.onViewbox @svg.viewbox()
         @physics.setBounds offset.x, offset.y, sw(), sh()
                 
     # 000   000  00000000  000   000  

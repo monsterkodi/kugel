@@ -31,15 +31,14 @@ class Physics
             options:
                 wireframes:     false
                 showPositions:  true
-                showVelcity:    true
+                showVelcity:    false
                 showCollisions: true
-                showBounds:     true
+                showBounds:     false
                 width:          sw()
                 height:         sh()
                 hasBounds:      true
 
-        @runner = Matter.Runner.create
-            delta: 1000/60
+        @runner = Matter.Runner.create()
         
         Matter.Events.on @runner, 'beforeTick', @onBeforeTick 
         Matter.Events.on @runner, 'afterTick',  @onAfterTick 
@@ -71,6 +70,12 @@ class Physics
         
         @setBounds br.width, br.height
        
+    # 000000000  000   0000000  000   000  
+    #    000     000  000       000  000   
+    #    000     000  000       0000000    
+    #    000     000  000       000  000   
+    #    000     000   0000000  000   000  
+    
     onBeforeTick: (tick) =>
         
         @kugel.beforeTick tick.source.delta
@@ -81,13 +86,23 @@ class Physics
         
         for body in @bodies
             item = body.item
+            inside = Matter.Bounds.overlaps @render.bounds, body.bounds
+            if inside
+                item.show()
+            else
+                item.hide()
+                
+            continue if not inside or body.isStatic
+            
             if not isNaN body.angle
-                item.rotate 0
-                item.translate 0, 0
-                item.rotate rad2deg body.angle
+                if body.angle != deg2rad item.transform().rotation
+                    item.rotate 0
+                    item.translate 0, 0
+                    item.rotate rad2deg body.angle
             else 
                 log 'isNaN', body.name
-            item.translate body.position.x, body.position.y            
+            if body.velocity.x != 0 or body.velocity.y != 0
+                item.translate body.position.x, body.position.y            
                     
     #  0000000   0000000    0000000          0000000     0000000   0000000    000   000  
     # 000   000  000   000  000   000        000   000  000   000  000   000   000 000   
@@ -120,10 +135,13 @@ class Physics
             Matter.Body.setAngularVelocity @, 0
             
         body.setPosition position
-        # item.translate body.position.x, body.position.y
         
         body.setStatic true if opt.static
-        body.setAngle deg2rad opt.angle if opt.angle?
+        if opt.angle?
+            body.setAngle deg2rad opt.angle 
+            item.rotate opt.angle
+        item.translate body.position.x, body.position.y            
+        
         body
                 
     # 0000000    00000000  0000000    000   000   0000000   
