@@ -46,18 +46,21 @@ class Kugel
         
         @ship = new Ship @
         
+        cx = sw()/2
+        cy = sh()/2
         # @physics.addBody 'pentagon', x:sw()*2/3, y:sh()/2
         # @physics.addBody 'ball',     x:sw()/2,   y:sh()/3
-        @physics.addBody 'trio',     x:sw()/2,   y:sh()*2/3
+        @physics.addBody 'trio', x:cx, y:cy, scale:0.2
+        s = 90
+        @physics.addBody 'pipe_corner', { x:cx+s, y:cy-s }, static:true
+        @physics.addBody 'pipe_corner', { x:cx+s, y:cy+s }, static:true, angle:90
+        @physics.addBody 'pipe_corner', { x:cx-s, y:cy+s }, static:true, angle:180
+        @physics.addBody 'pipe_corner', { x:cx-s, y:cy-s }, static:true, angle:-90
         
-        @physics.addBody 'pipe_corner', { x:100, y:100 }, static:true
-        @physics.addBody 'pipe_corner', { x:200, y:100 }, static:true, angle:180
-
         @space.init()
         
     beforeTick: (delta) ->
         
-        @onResize()
         @ship.beforeTick delta
         
     afterTick: (delta) ->
@@ -74,6 +77,8 @@ class Kugel
             when 'square', 'L2' then @ship.brake true
             when 'L1'           then @ship.turn 'left',  true
             when 'R1'           then @ship.turn 'right', true
+            when 'up'           then @physics.zoomIn()
+            when 'down'         then @physics.zoomOut()
 
     onButtonUp: (button) =>
         
@@ -87,17 +92,14 @@ class Kugel
         
         switch event.stick
             when 'L' then @ship.steer pos event.x, event.y
-            when 'R'
-                @ship.thrust = event.y < 0 and -event.y or -event.y/2
             
-    onResize: => 
+    onResize: => @physics.setViewSize sw(), sh()
 
-        # post.emit 'resize', pos sw(), sh()
-        offset = pos(@ship.body.position).minus pos sw()/2, sh()/2
-        @svg.viewbox offset.x, offset.y, sw(), sh()
+    setViewBox: (x,y,w,h) ->
+        
+        @svg.viewbox x, y, w, h
         @space.onViewbox @svg.viewbox()
-        @physics.setBounds offset.x, offset.y, sw(), sh()
-                
+    
     # 000   000  00000000  000   000  
     # 000  000   000        000 000   
     # 0000000    0000000     00000    

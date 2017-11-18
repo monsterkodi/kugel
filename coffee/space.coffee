@@ -23,23 +23,28 @@ class Space
         @stars = []
         for i in [0...5]
             @stars.push @svg.group()
+
+        # @initStars()
             
+    initStars: ->
+
         for i in [0...4]
             stars = @stars[i]
-            stars.style fill: ['#00a', '#11a', '#44d', '#88f'][i]
-            for s in [0...100-i*20]
-                size = i+2
+            stars.style fill: ['#00a', '#22b', '#44d', '#88f'][i]
+            for s in [0...10]
+                size = (i+2)
                 c = stars.rect size, size
                 p = pos(0,1).rotate _.random 0,360,true
                 p.scale 2 * sw() * (Math.pow(_.random(0, 1, true), 2)-0.5)
-                c.center sw()/2+p.x, sh()/2+p.y
+                c.center p.x, p.y
         
     onViewbox: (vbox) ->
-        
-        z = 0.1
+        zoom = Math.max 1, @kugel.physics?.zoom ? 1
+        z = 0.9
         for stars in @stars
-            stars.translate -vbox.x*z, -vbox.y*z
-            z += 0.1
+            stars.translate (vbox.x+vbox.width/2)*z, (vbox.y+vbox.height/2)*z
+            z -= 0.1
+        @svg.viewbox vbox
         
     init: ->
         

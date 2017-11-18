@@ -25,7 +25,7 @@ class Ship
         @steerDir   = pos 0,0
         @rot        = left:0, right:0
         
-        @body = @kugel.physics.addBody 'ship', x:sw()/2, y:sh()/2
+        @body = @kugel.physics.addBody 'ship', x:sw()/2, y:sh()/3
         @body.collisionFilter.category = 2
         @body.collisionFilter.mask     = 3
 
@@ -41,6 +41,7 @@ class Ship
     
     beforeTick: (delta) ->
 
+        zoom = @kugel.physics.zoom
         @angle = rad2deg @body.angle
                 
         length = @steerDir.length()
@@ -55,7 +56,7 @@ class Ship
             @thrust = 0
             @body.setVelocity pos(@body.velocity).times 0.95
                     
-        @body.applyForce @dir().times @thrust
+        @body.applyForce @dir().times @thrust * (1 + (zoom-1)/4)
 
         rotLeft  = @rot.left  * (@brakes and 0.1 or 1)
         rotRight = @rot.right * (@brakes and 0.1 or 1)

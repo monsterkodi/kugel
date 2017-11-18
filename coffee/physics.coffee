@@ -5,7 +5,7 @@
 # 000        000   000     000          000  000  000            000  
 # 000        000   000     000     0000000   000   0000000  0000000   
 
-{ deg2rad, rad2deg, first, pos, sw, sh, log, $, _ } = require 'kxk'
+{ deg2rad, rad2deg, clamp, first, pos, sw, sh, log, $, _ } = require 'kxk'
 
 window.decomp = require 'poly-decomp'
 Matter        = require 'matter-js'
@@ -17,10 +17,11 @@ class Physics
 
         @engine = Matter.Engine.create()
         @engine.timing.timeScale = 1
+        @engine.timing.isFixed = true
         
         @world = @engine.world
         @world.gravity.y = 0
-                
+
         br = @element.getBoundingClientRect()
         
         @bodies = []
@@ -38,7 +39,7 @@ class Physics
                 height:         sh()
                 hasBounds:      true
 
-        @runner = Matter.Runner.create()
+        @runner = Matter.Runner.create delta:1000/60, isFixed:false
         
         Matter.Events.on @runner, 'beforeTick', @onBeforeTick 
         Matter.Events.on @runner, 'afterTick',  @onAfterTick 
@@ -68,7 +69,9 @@ class Physics
          
         Matter.Runner.run @runner, @engine            
         
-        @setBounds br.width, br.height
+        @zoom = 1
+        @setViewSize br.width, br.height
+        
        
     # 000000000  000   0000000  000   000  
     #    000     000  000       000  000   
@@ -88,9 +91,9 @@ class Physics
             item = body.item
             inside = Matter.Bounds.overlaps @render.bounds, body.bounds
             if inside
-                item.show()
+                item.show() if not item.visible()
             else
-                item.hide()
+                item.hide() if item.visible()
                 
             continue if not inside or body.isStatic
             
@@ -103,7 +106,12 @@ class Physics
                 log 'isNaN', body.name
             if body.velocity.x != 0 or body.velocity.y != 0
                 item.translate body.position.x, body.position.y            
-                    
+
+        if @kugel.pad.axes?[3]
+            @setZoom @zoom * (1+@kugel.pad.axes[3]/75)
+        else
+            @kugel.onResize()
+                        
     #  0000000   0000000    0000000          0000000     0000000   0000000    000   000  
     # 000   000  000   000  000   000        000   000  000   000  000   000   000 000   
     # 000000000  000   000  000   000        0000000    000   000  000   000    00000    
@@ -170,12 +178,31 @@ class Physics
     # 000   000  000   000  000   000  000  0000  000   000       000  
     # 0000000     0000000    0000000   000   000  0000000    0000000   
     
-    setBounds: (x,y,w,h) ->
+    zoomIn:  -> @setZoom clamp 1, 5, @zoom - 1
+    zoomOut: -> 
+        if @zoom < 1 then @setZoom 1
+        else @setZoom clamp 1, 5, @zoom + 1
+
+    setZoom: (@zoom) ->
+        @zoom = clamp 0.25, 5, @zoom
+        w = @render.canvas.width  * @zoom
+        h = @render.canvas.height * @zoom
+        if @kugel.ship?
+            x = @kugel.ship.body.position.x - w/2
+            y = @kugel.ship.body.position.y - h/2
+        else
+            x = - w/2
+            y = - h/2
+        vertices = Matter.Vertices.fromPath "#{x} #{y} #{x+w} #{y} #{x+w} #{y+h} #{x} #{y+h}"
+        Matter.Bounds.update @render.bounds, vertices, 0
+    
+        @kugel.setViewBox x, y, w, h
+        
+    setViewSize: (w,h) ->
         
         @render.canvas.width  = w
         @render.canvas.height = h
         
-        vertices = Matter.Vertices.fromPath "#{x} #{y} #{x+w} #{y} #{x+w} #{y+h} #{x} #{y+h}"
-        Matter.Bounds.update @render.bounds, vertices, 0
+        @setZoom @zoom
         
 module.exports = Physics
