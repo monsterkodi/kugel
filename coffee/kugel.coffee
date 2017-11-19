@@ -5,10 +5,11 @@
 # 000  000   000   000  000   000  000       000      
 # 000   000   0000000    0000000   00000000  0000000  
 
-{ deg2rad, keyinfo, stopEvent, post, prefs, sw, sh, pos, log, $, _ } = require 'kxk'
+{ deg2rad, keyinfo, stopEvent, elem, post, prefs, sw, sh, pos, log, $, _ } = require 'kxk'
 
 Physics = require './physics'
 Space   = require './space'
+Stars   = require './stars'
 Pad     = require './pad'
 Ship    = require './ship'
 SVG     = require 'svg.js'
@@ -33,11 +34,22 @@ class Kugel
         @pad.addListener 'buttonup',    @onButtonUp
         @pad.addListener 'stick',       @onStick
 
-        @space = new Space @, @element
+        @canvas = elem 'canvas', id: 'stars'
+        @canvas.style.position = 'absolute'
+        @canvas.style.background = "#005"
+        @canvas.style.top = '0'
+        @canvas.style.left = '0'
+        @element.appendChild @canvas
+        @ctx = @canvas.getContext '2d'
+        
+        # @space = new Space @, @element
+        @stars = new Stars @, @canvas
                 
         @svg = SVG(@element).size '100%', '100%'
         @svg.style 
             position:'absolute'
+            # display: 'none'
+            opacity: 0
             top:  0
             left: 0
         @svg.id 'svg'
@@ -46,21 +58,17 @@ class Kugel
         
         @ship = new Ship @
         
-        cx = sw()/2
-        cy = sh()/2
-        # @physics.addBody 'pentagon', x:sw()*2/3, y:sh()/2
-        # @physics.addBody 'ball',     x:sw()/2,   y:sh()/3
-        @physics.addBody 'trio', x:cx, y:cy, scale:0.2
+        @physics.addBody 'pentagon', x:300,  y:0
+        @physics.addBody 'ball',     x:0,    y:-300
+        @physics.addBody 'trio',     x:-300, y:0, scale:0.2
         s = 90
-        @physics.addBody 'pipe_corner', { x:cx+s, y:cy-s }, static:true
-        @physics.addBody 'pipe_corner', { x:cx+s, y:cy+s }, static:true, angle:90
-        @physics.addBody 'pipe_corner', { x:cx-s, y:cy+s }, static:true, angle:180
-        @physics.addBody 'pipe_corner', { x:cx-s, y:cy-s }, static:true, angle:-90
-        
-        @space.init()
-        
+        @physics.addBody 'pipe_corner', { x:+s, y:+s }, static:true, angle:90
+        @physics.addBody 'pipe_corner', { x:-s, y:+s }, static:true, angle:180
+        @physics.addBody 'pipe_corner', { x:-s, y:-s }, static:true, angle:-90
+
     beforeTick: (delta) ->
         
+        @pad.emitEvents()
         @ship.beforeTick delta
         
     afterTick: (delta) ->
@@ -95,10 +103,7 @@ class Kugel
             
     onResize: => @physics.setViewSize sw(), sh()
 
-    setViewBox: (x,y,w,h) ->
-        
-        @svg.viewbox x, y, w, h
-        @space.onViewbox @svg.viewbox()
+    setViewBox: (x,y,w,h) -> @svg.viewbox x, y, w, h
     
     # 000   000  00000000  000   000  
     # 000  000   000        000 000   

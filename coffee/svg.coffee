@@ -7,14 +7,42 @@
 
 { first, elem, pos, fs, log, _ } = require 'kxk'
 
+{ growBox } = require './utils'
+
 Matter = require 'matter-js'
 
 class kSVG
     
     @vertices = {}
+    @images = {}
 
     @svgFile: (name) -> "#{__dirname}/../svg/#{name}.svg"
-                    
+
+    @svgImage: (root, opt) ->
+
+        svg = @svg root, opt
+        img = new Image()
+        img.src = window.URL.createObjectURL new Blob [svg], type: 'image/svg+xml;charset=utf-8'
+        img
+
+    @svg: (root, opt) ->
+
+        bb = opt?.box
+        if not bb?
+            padding = not opt?.padding? and 10 or opt.padding
+            bb = growBox new SVG.BBox(opt?.viewbox ? root.bbox()), padding
+
+        svgStr = "<svg width=\"#{bb.width}\" height=\"#{bb.height}\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:svgjs=\"http://svgjs.com/svgjs\" "
+        svgStr += "\nstyle=\"stroke-linecap: round; stroke-linejoin: round; stroke-miterlimit: 20;\""
+        svgStr += "\nviewBox=\"#{bb.x} #{bb.y} #{bb.width} #{bb.height}\">"
+        
+        for item in root.children()                    
+            svgStr += '\n'
+            svgStr += item.svg()
+            
+        svgStr += '</svg>'
+        svgStr
+        
     @add: (name, opt) ->
 
         svgStr = fs.readFileSync @svgFile(name), encoding: 'utf8'
@@ -38,7 +66,6 @@ class kSVG
                     for child in children
                         if child.type == 'defs'
                             for defsChild in child.children()
-                                log 'def child'
                                 parent.doc().defs().add defsChild
                         else if child.type in ['svg', 'g']
                             for layerChild in child.children()
@@ -92,6 +119,7 @@ class kSVG
                 child.transform x:dx, y:dy, relative: true
                 
             @vertices[name] = @verticesForItem first template.children()
+            @images[name]   = @svgImage template
             
             item = template
     
@@ -106,7 +134,8 @@ class kSVG
             density:         1
             restitution:     0.5
                                                                 
-        body.item = item.clone()
+        body.item  = item.clone()
+        body.image = @images[name]
         body
 
     @verticesForItem: (item) ->

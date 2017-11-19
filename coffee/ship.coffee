@@ -21,11 +21,11 @@ class Ship
         @brakes     = false
         @shootDelay = 0
         @bullets    = []
-        @maxBullets = 10
+        @maxBullets = 20
         @steerDir   = pos 0,0
         @rot        = left:0, right:0
         
-        @body = @kugel.physics.addBody 'ship', x:sw()/2, y:sh()/3
+        @body = @kugel.physics.addBody 'ship', x:0, y:0
         @body.collisionFilter.category = 2
         @body.collisionFilter.mask     = 3
 
@@ -73,22 +73,34 @@ class Ship
         if @shoots and @shootDelay <= 0
             @shoot()
         
+    draw: (size, scale, w, h) ->
+        
+        zoom  = @kugel.physics.zoom
+        shipx = @body.position.x
+        shipy = @body.position.y
+        
         if @lasers
-            if not @beam
-                @beam = @kugel.svg.line()
-                @beam.style 'stroke-width': 1, 'stroke': '#88f', 'stroke-opacity': 0.5
+            @kugel.ctx.save()
+            
             tip = @tip()
             tgt = tip.plus @pos().to(tip).scale 10000
+            
             hits = Matter.Query.ray @kugel.physics.bodies, tip, tgt
+            
             if hits.length
+                @kugel.ctx.strokeStyle = '#88f'
                 hit = first hits
                 tgt = intersect.rayBody tip, tgt, hit.bodyA
-            @beam.plot tip.x, tip.y, tgt.x, tgt.y
-        else
-            if @beam
-                @beam.remove()
-                delete @beam
-        
+            else
+                @kugel.ctx.strokeStyle = '#22a'
+                                
+            @kugel.ctx.beginPath()
+            @kugel.ctx.lineWidth = 1
+            @kugel.ctx.moveTo (size.x/2 + tip.x - shipx)/zoom, (size.y/2 + tip.y - shipy)/zoom
+            @kugel.ctx.lineTo (size.x/2 + tgt.x - shipx)/zoom, (size.y/2 + tgt.y - shipy)/zoom
+            @kugel.ctx.stroke()
+            @kugel.ctx.restore()
+                
     steer: (@steerDir) ->
         
     turn: (leftOrRight, active) -> @rot[leftOrRight] = active and 2 or 0

@@ -6,6 +6,8 @@
 
 { log, _ } = require 'kxk'
 
+{ profile } = require './utils'
+
 events = require 'events'
 
 class Pad extends events
@@ -16,8 +18,6 @@ class Pad extends events
 
         super
         
-        @connected = false
-
         if not window.navigator.getGamepads? 
             return new Error 'The gamepad web api is not available'
   
@@ -26,6 +26,18 @@ class Pad extends events
         
         @startPolling()
   
+    onConnected: (event) =>
+        
+        if @getPad()
+            log 'got pad'
+            @stopPolling()
+            @snapState()
+
+    onDisconnected: (event) =>
+        
+        if 0 == event.gamepad.index
+            @startPolling()
+        
     startPolling: ->
         
         if not @pollInterval
@@ -40,40 +52,19 @@ class Pad extends events
         
         if not @getPad() then window.dispatchEvent new Event 'gamepadconnected'
         
-    clearIndex: ->
-        
-        window.clearInterval @emitInterval
-        @connected = false
-            
     getPad: -> 
         
         if window.navigator.getGamepads()[0]
             @stopPolling()
             return window.navigator.getGamepads()[0]
-                                
-        @clearIndex()
         null
-
-    onConnected: (event) =>
-        
-        if not @connected or not @getPad()
-            if gp = @getPad()
-                @stopPolling()
-                @snapState()
-                @emitInterval = window.setInterval @emitEvents, 16
-
-    onDisconnected: (event) =>
-        
-        if 0 == event.gamepad.index
-            @clearIndex()
-            @startPolling()
 
     snapState: -> 
         
         if gp = @getPad()
             @buttons = gp.buttons.map (b) => pressed:b.pressed, value:@round(b.value, 0)
             @axes    = gp.axes.map (v) => @round v
-        
+            
     round: (v, deadzone=0.05) -> 
         
         r = parseInt(v*100)/100
@@ -83,6 +74,8 @@ class Pad extends events
     emitEvents: =>
         
         if gp = @getPad()
+            
+            # prof = profile 'emitEvents'
             
             for index,button of gp.buttons
                 
@@ -100,8 +93,10 @@ class Pad extends events
 
             if @round(gp.axes[2]) != @axes[2] or @round(gp.axes[3]) != @axes[3]
                 @emit 'stick', stick:'R', x:@round(gp.axes[2]), y:@round(gp.axes[3])
-                
+
             @snapState()
+            
+            # prof.end()
             
 module.exports = Pad
     

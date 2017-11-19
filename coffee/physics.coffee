@@ -7,6 +7,8 @@
 
 { deg2rad, rad2deg, clamp, first, pos, sw, sh, log, $, _ } = require 'kxk'
 
+{ profile } = require './utils'
+
 window.decomp = require 'poly-decomp'
 Matter        = require 'matter-js'
 svg           = require './svg'
@@ -85,32 +87,44 @@ class Physics
         
     onAfterTick: (tick) =>
         
-        @kugel.afterTick tick.source.delta
-        
-        for body in @bodies
-            item = body.item
-            inside = Matter.Bounds.overlaps @render.bounds, body.bounds
-            if inside
-                item.show() if not item.visible()
-            else
-                item.hide() if item.visible()
-                
-            continue if not inside or body.isStatic
-            
-            if not isNaN body.angle
-                if body.angle != deg2rad item.transform().rotation
-                    item.rotate 0
-                    item.translate 0, 0
-                    item.rotate rad2deg body.angle
-            else 
-                log 'isNaN', body.name
-            if body.velocity.x != 0 or body.velocity.y != 0
-                item.translate body.position.x, body.position.y            
-
         if @kugel.pad.axes?[3]
             @setZoom @zoom * (1+@kugel.pad.axes[3]/75)
         else
             @kugel.onResize()
+
+        @kugel.afterTick tick.source.delta
+        
+        @draw()
+
+    draw: ->
+        
+        w = sw()
+        h = sh()
+        
+        size  = pos @render.bounds.max.x - @render.bounds.min.x, @render.bounds.max.y - @render.bounds.min.y
+        scale = pos w/size.x, h/size.y
+
+        shipx = @kugel.ship.body.position.x
+        shipy = @kugel.ship.body.position.y
+        
+        @kugel.ctx.fillStyle = '#002'
+        @kugel.ctx.fillRect 0,0,w,h
+        
+        @kugel.stars.draw()
+        @kugel.ship.draw size, scale, w, h
+        
+        for body in @bodies
+
+            if body.image
+
+                @kugel.ctx.save()
+                x = (size.x/2 + body.position.x - shipx)/@zoom
+                y = (size.y/2 + body.position.y - shipy)/@zoom    
+                @kugel.ctx.translate x, y
+                @kugel.ctx.rotate body.angle
+                @kugel.ctx.scale scale.x, scale.y
+                @kugel.ctx.drawImage body.image, -body.image.width/2, -body.image.height/2
+                @kugel.ctx.restore()
                         
     #  0000000   0000000    0000000          0000000     0000000   0000000    000   000  
     # 000   000  000   000  000   000        000   000  000   000  000   000   000 000   
@@ -202,6 +216,9 @@ class Physics
         
         @render.canvas.width  = w
         @render.canvas.height = h
+        
+        @kugel.canvas.width   = w
+        @kugel.canvas.height  = h
         
         @setZoom @zoom
         
