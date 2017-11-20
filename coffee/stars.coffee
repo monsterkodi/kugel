@@ -5,7 +5,7 @@
 #      000     000     000   000  000   000       000
 # 0000000      000     000   000  000   000  0000000 
 
-{ elem, last, sw, sh, pos, log, _ } = require 'kxk'
+{ deg2rad, elem, last, sw, sh, pos, log, _ } = require 'kxk'
 
 { profile } = require './utils'
 
@@ -20,7 +20,7 @@ class Stars
         w = sw()
         h = sh()
         
-        for i in [0...128]
+        for i in [0...256]
             @stars.push 
                 size:   (i%4)+2
                 depth:  i%4
@@ -38,8 +38,8 @@ class Stars
 
         for star in @stars
             
-            cx = star.center.x - @kugel.ship.body.velocity.x / (8 - star.depth) #* @kugel.physics.zoom
-            cy = star.center.y - @kugel.ship.body.velocity.y / (8 - star.depth) #* @kugel.physics.zoom
+            cx = star.center.x - @kugel.ship.body.velocity.x / (8 - star.depth) / @kugel.physics.zoom
+            cy = star.center.y - @kugel.ship.body.velocity.y / (8 - star.depth) / @kugel.physics.zoom
              
             if cx < 0
                 cx = w
@@ -60,6 +60,9 @@ class Stars
             
             @kugel.ctx.fillStyle = star.color
             @kugel.ctx.fillRect parseInt(star.center.x), parseInt(star.center.y), star.size, star.size
+            # @kugel.ctx.beginPath()
+            # @kugel.ctx.ellipse parseInt(star.center.x), parseInt(star.center.y), star.size/2, star.size/2, 0, 0, 2*Math.PI
+            # @kugel.ctx.fill()
         
         # prof.end()
         

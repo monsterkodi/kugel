@@ -13,8 +13,8 @@ Matter = require 'matter-js'
 
 class kSVG
     
-    @vertices = {}
-    @images = {}
+    @items = {}
+    @fakes = null
 
     @svgFile: (name) -> "#{__dirname}/../svg/#{name}.svg"
 
@@ -23,15 +23,12 @@ class kSVG
         svg = @svg root, opt
         img = new Image()
         img.src = window.URL.createObjectURL new Blob [svg], type: 'image/svg+xml;charset=utf-8'
+        # img.onload = -> log @width, @height
         img
 
     @svg: (root, opt) ->
 
-        bb = opt?.box
-        if not bb?
-            padding = not opt?.padding? and 10 or opt.padding
-            bb = growBox new SVG.BBox(opt?.viewbox ? root.bbox()), padding
-
+        bb = opt?.box ? root.bbox()
         svgStr = "<svg width=\"#{bb.width}\" height=\"#{bb.height}\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:svgjs=\"http://svgjs.com/svgjs\" "
         svgStr += "\nstyle=\"stroke-linecap: round; stroke-linejoin: round; stroke-miterlimit: 20;\""
         svgStr += "\nviewBox=\"#{bb.x} #{bb.y} #{bb.width} #{bb.height}\">"
@@ -49,9 +46,9 @@ class kSVG
         
         e = elem 'div'
         e.innerHTML = svgStr
-                
-        parent = opt.parent
 
+        @fakes ?= SVG document.body
+        
         for elemChild in e.children
             
             if elemChild.tagName == 'svg'
@@ -64,9 +61,7 @@ class kSVG
                     items = []
                                             
                     for child in children
-                        if child.type == 'defs'
-                            for defsChild in child.children()
-                                parent.doc().defs().add defsChild
+                        if child.type == 'defs' then
                         else if child.type in ['svg', 'g']
                             for layerChild in child.children()
                                 items.push layerChild
@@ -81,49 +76,35 @@ class kSVG
                             group.add item
                                                
                     group.id name
-                    parent.add group
+                    
+                    @fakes.add group
 
                     bbox = group.bbox()
                     for item in group.children()
                         item.transform x:-bbox.cx, y:-bbox.cy, relative: true
-                        
+                    
                     return group
         null
-      
-    @cloneItem: (name, defs) ->
-        
-        for def in defs.children()
-            if def.id() == name
-                return def.clone()
-        
-        item = @add name, parent:defs
-        item.id name
-        return item.clone()
-        
-    @cloneBody: (name, defs) ->
-        
-        for def in defs.children()
-            if def.id() == name
-                item = def
-                break
+              
+    @cloneBody: (name) ->
+                         
+        if not @items[name]?
             
-        if not item?
-            template = @add name, parent:defs
-            template.id name
+            item = @add name
+            item.id name
             
-            body = Matter.Bodies.fromVertices 0, 0, @verticesForItem first template.children()
+            body = Matter.Bodies.fromVertices 0, 0, @verticesForItem first item.children()
             dx = (body.bounds.min.x + body.bounds.max.x)/2
             dy = (body.bounds.min.y + body.bounds.max.y)/2
-            
-            for child in template.children()
-                child.transform x:dx, y:dy, relative: true
                 
-            @vertices[name] = @verticesForItem first template.children()
-            @images[name]   = @svgImage template
+            @items[name] = 
+                vertices: @verticesForItem first item.children()
+                image:    @svgImage item
+                offset:   pos dx, dy
             
-            item = template
+            log name, @items[name].image.width, @items[name].image.height
     
-        body = Matter.Bodies.fromVertices 0, 0, @vertices[name],
+        body = Matter.Bodies.fromVertices 0, 0, @items[name].vertices,
             render:
                 fillStyle:   'none'
                 strokeStyle: '#88f'
@@ -134,8 +115,7 @@ class kSVG
             density:         1
             restitution:     0.5
                                                                 
-        body.item  = item.clone()
-        body.image = @images[name]
+        body.image = @items[name]
         body
 
     @verticesForItem: (item) ->

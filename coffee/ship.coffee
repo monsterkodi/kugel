@@ -21,7 +21,7 @@ class Ship
         @brakes     = false
         @shootDelay = 0
         @bullets    = []
-        @maxBullets = 20
+        @maxBullets = 100
         @steerDir   = pos 0,0
         @rot        = left:0, right:0
         
@@ -29,10 +29,6 @@ class Ship
         @body.collisionFilter.category = 2
         @body.collisionFilter.mask     = 3
 
-        @body.item.style
-            'stroke': '#fff'
-            'stroke-width': 4
-            
     # 000000000  000   0000000  000   000  
     #    000     000  000       000  000   
     #    000     000  000       0000000    
@@ -121,19 +117,16 @@ class Ship
     
     shoot: ->
         
-        if @bullets.length < @maxBullets
-            bullet = @kugel.physics.addBody 'bullet', @tip()
-            bullet.item.id "bullet#{@bullets.length}"
-            bullet.setDensity 10
-            bullet.restitution = 1
-        else
-            bullet = @bullets.shift()
-            bullet.setPosition @tip(1.5)
-            bullet.setAngularVelocity 0
+        if @bullets.length >= @maxBullets
+            @kugel.physics.delBody @bullets.shift()
+        
+        bullet = @kugel.physics.addBody 'bullet', @tip()
+        bullet.setDensity 10
+        bullet.restitution = 1
           
         bullet.setVelocity @dir().times(10).plus pos @body.velocity
         bullet.setAngle @body.angle
-        @shootDelay = 250
+        @shootDelay = 100
         
         @bullets.push bullet
         

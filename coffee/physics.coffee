@@ -33,13 +33,13 @@ class Physics
             engine: @engine
             options:
                 wireframes:     false
-                showPositions:  true
-                showVelcity:    false
-                showCollisions: true
                 showBounds:     false
+                showVelocity:   true
+                showPositions:  true
+                showCollisions: true
+                hasBounds:      true
                 width:          sw()
                 height:         sh()
-                hasBounds:      true
 
         @runner = Matter.Runner.create delta:1000/60, isFixed:false
         
@@ -123,9 +123,9 @@ class Physics
                 @kugel.ctx.translate x, y
                 @kugel.ctx.rotate body.angle
                 @kugel.ctx.scale scale.x, scale.y
-                @kugel.ctx.drawImage body.image, -body.image.width/2, -body.image.height/2
+                @kugel.ctx.drawImage body.image.image, -body.image.image.width/2 + body.image.offset.x, -body.image.image.height/2 + body.image.offset.y
                 @kugel.ctx.restore()
-                        
+                                        
     #  0000000   0000000    0000000          0000000     0000000   0000000    000   000  
     # 000   000  000   000  000   000        000   000  000   000  000   000   000 000   
     # 000000000  000   000  000   000        0000000    000   000  000   000    00000    
@@ -136,10 +136,7 @@ class Physics
         
         opt ?= {}
         
-        body = svg.cloneBody name, @kugel.svg.defs()
-        
-        item = body.item
-        @kugel.svg.add item
+        body = svg.cloneBody name
         
         @bodies.push body
         Matter.World.add @world, body
@@ -161,11 +158,14 @@ class Physics
         body.setStatic true if opt.static
         if opt.angle?
             body.setAngle deg2rad opt.angle 
-            item.rotate opt.angle
-        item.translate body.position.x, body.position.y            
         
         body
-                
+        
+    delBody: (body) ->
+        
+        _.pull @bodies, body
+        Matter.Composite.remove @world, body
+        
     # 0000000    00000000  0000000    000   000   0000000   
     # 000   000  000       000   000  000   000  000        
     # 000   000  0000000   0000000    000   000  000  0000  
@@ -198,7 +198,7 @@ class Physics
         else @setZoom clamp 1, 5, @zoom + 1
 
     setZoom: (@zoom) ->
-        @zoom = clamp 0.25, 5, @zoom
+        @zoom = clamp 0.2, 5, @zoom
         w = @render.canvas.width  * @zoom
         h = @render.canvas.height * @zoom
         if @kugel.ship?
@@ -210,8 +210,6 @@ class Physics
         vertices = Matter.Vertices.fromPath "#{x} #{y} #{x+w} #{y} #{x+w} #{y+h} #{x} #{y+h}"
         Matter.Bounds.update @render.bounds, vertices, 0
     
-        @kugel.setViewBox x, y, w, h
-        
     setViewSize: (w,h) ->
         
         @render.canvas.width  = w

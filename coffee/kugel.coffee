@@ -8,7 +8,6 @@
 { deg2rad, keyinfo, stopEvent, elem, post, prefs, sw, sh, pos, log, $, _ } = require 'kxk'
 
 Physics = require './physics'
-Space   = require './space'
 Stars   = require './stars'
 Pad     = require './pad'
 Ship    = require './ship'
@@ -42,18 +41,8 @@ class Kugel
         @element.appendChild @canvas
         @ctx = @canvas.getContext '2d'
         
-        # @space = new Space @, @element
         @stars = new Stars @, @canvas
-                
-        @svg = SVG(@element).size '100%', '100%'
-        @svg.style 
-            position:'absolute'
-            # display: 'none'
-            opacity: 0
-            top:  0
-            left: 0
-        @svg.id 'svg'
-        
+                        
         @physics = new Physics @, @element
         
         @ship = new Ship @
@@ -103,8 +92,6 @@ class Kugel
             
     onResize: => @physics.setViewSize sw(), sh()
 
-    setViewBox: (x,y,w,h) -> @svg.viewbox x, y, w, h
-    
     # 000   000  00000000  000   000  
     # 000  000   000        000 000   
     # 0000000    0000000     00000    
