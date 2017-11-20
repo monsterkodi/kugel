@@ -93,9 +93,23 @@ class Physics
             @kugel.onResize()
 
         @kugel.afterTick tick.source.delta
+
+        for body in @bodies.filter((b) -> b.lifetime)
+
+            body.lifetime -= tick.source.delta
+            if body.lifetime <= 0
+                @delBody body
+            else 
+                body.tick?(tick.source.delta)
         
         @draw()
 
+    # 0000000    00000000    0000000   000   000  
+    # 000   000  000   000  000   000  000 0 000  
+    # 000   000  0000000    000000000  000000000  
+    # 000   000  000   000  000   000  000   000  
+    # 0000000    000   000  000   000  00     00  
+    
     draw: ->
         
         w = sw()
@@ -120,12 +134,13 @@ class Physics
                 @kugel.ctx.save()
                 x = (size.x/2 + body.position.x - shipx)/@zoom
                 y = (size.y/2 + body.position.y - shipy)/@zoom    
+                @kugel.ctx.globalAlpha = body.opacity ? 1
                 @kugel.ctx.translate x, y
                 @kugel.ctx.rotate body.angle
-                @kugel.ctx.scale scale.x, scale.y
+                @kugel.ctx.scale scale.x * (body.scale ? 1), scale.y * (body.scale ? 1)
                 @kugel.ctx.drawImage body.image.image, -body.image.image.width/2 + body.image.offset.x, -body.image.image.height/2 + body.image.offset.y
                 @kugel.ctx.restore()
-                                        
+                                                        
     #  0000000   0000000    0000000          0000000     0000000   0000000    000   000  
     # 000   000  000   000  000   000        000   000  000   000  000   000   000 000   
     # 000000000  000   000  000   000        0000000    000   000  000   000    00000    
@@ -145,6 +160,7 @@ class Physics
         body.setVelocity = (value) -> Matter.Body.setVelocity @, value
         body.setStatic   = (value) -> Matter.Body.setStatic   @, value
         body.setDensity  = (value) -> Matter.Body.setDensity  @, value
+        body.setMass     = (value) -> Matter.Body.setMass     @, value
         body.setPosition = (value) -> Matter.Body.setPosition @, value
         body.setAngle    = (value) -> Matter.Body.setAngle    @, value
         body.setAngularVelocity = (value) -> Matter.Body.setAngularVelocity @, value

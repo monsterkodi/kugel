@@ -7,6 +7,7 @@
 
 { deg2rad, rad2deg, elem, fade, fadeAngles, first, pos, sw, sh, log, _ } = require 'kxk'
 
+svg       = require './svg'
 intersect = require './intersect'
 Matter    = require 'matter-js'
 
@@ -20,14 +21,19 @@ class Ship
         @lasers     = true
         @brakes     = false
         @shootDelay = 0
+        @smokeDelay = 0
         @bullets    = []
+        @puffs      = []
         @maxBullets = 100
+        @maxPuffs   = 100
         @steerDir   = pos 0,0
         @rot        = left:0, right:0
         
         @body = @kugel.physics.addBody 'ship', x:0, y:0
         @body.collisionFilter.category = 2
         @body.collisionFilter.mask     = 3
+        
+        @flame = svg.image 'flame'
 
     # 000000000  000   0000000  000   000  
     #    000     000  000       000  000   
@@ -68,7 +74,11 @@ class Ship
         if @shootDelay > 0 then @shootDelay -= delta
         if @shoots and @shootDelay <= 0
             @shoot()
-        
+
+        if @smokeDelay > 0 then @smokeDelay -= delta
+        if @thrust > 0 and @smokeDelay <= 0
+            @smoke()
+            
     draw: (size, scale, w, h) ->
         
         zoom  = @kugel.physics.zoom
@@ -97,6 +107,14 @@ class Ship
             @kugel.ctx.stroke()
             @kugel.ctx.restore()
                 
+        tail = @tip -0.7
+        @kugel.ctx.save()
+        @kugel.ctx.translate (size.x/2 + tail.x - shipx)/zoom, (size.y/2 + tail.y - shipy)/zoom
+        @kugel.ctx.rotate @body.angle
+        @kugel.ctx.scale scale.x * @thrust * 3, scale.y * @thrust * 3
+        @kugel.ctx.drawImage @flame, -@flame.width/2, 0
+        @kugel.ctx.restore()
+            
     steer: (@steerDir) ->
         
     turn: (leftOrRight, active) -> @rot[leftOrRight] = active and 2 or 0
@@ -129,5 +147,32 @@ class Ship
         @shootDelay = 100
         
         @bullets.push bullet
+
+    smoke: ->
+        
+        if @puffs.length >= @maxPuffs
+            @kugel.physics.delBody @puffs.shift()
+        
+        puff = @kugel.physics.addBody 'puff', @tip(-0.7-2*@thrust)
+        # puff.setDensity 0.00001
+        puff.setMass 0.00000001
+        puff.restitution = 0
+        puff.maxScale = @thrust*64
+        puff.lifespan  = Math.max 4000, @thrust*2*6000
+        puff.lifetime = puff.lifespan
+        
+        puff.tick = @onPuffTick
+          
+        puff.setVelocity @dir().times(-1-3*@thrust).plus pos @body.velocity
+        puff.setAngle @body.angle
+
+        @smokeDelay = 300 - Math.min(1, 2*@thrust) * 260
+        
+        @puffs.push puff
+        
+    onPuffTick: (delta) ->
+        f        = 1 - @lifetime/@lifespan
+        @scale   = @maxScale * (Math.log(f+0.2)+2)/2
+        @opacity = 0.25 * @lifetime/@lifespan
         
 module.exports = Ship

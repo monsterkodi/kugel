@@ -16,6 +16,17 @@ class kSVG
     @items = {}
     @fakes = null
 
+    @image: (name) ->
+       
+        if not @items[name]?
+            
+            item = @add name
+            item.id name
+            
+            @items[name] = image: @svgImage item
+            
+        @items[name].image
+    
     @svgFile: (name) -> "#{__dirname}/../svg/#{name}.svg"
 
     @svgImage: (root, opt) ->
