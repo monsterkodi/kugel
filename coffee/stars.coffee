@@ -13,7 +13,7 @@ svg = require './svg'
 
 class Stars
 
-    constructor: (@kugel) ->
+    constructor: (@world) ->
 
         @stars = []
 
@@ -27,19 +27,15 @@ class Stars
                 color:  ['#22b', '#33c', '#44d', '#55e'][i%4]
                 center: pos _.random(0, w, true), _.random(0, h, true)
                 
-    draw: ->
+    draw: (zoom, velocity) ->
 
-        return if not @kugel.ship
-        
         w = sw()
         h = sh()
         
-        # prof = profile 'stars'
-
         for star in @stars
             
-            cx = star.center.x - @kugel.ship.body.velocity.x / (8 - star.depth) / @kugel.physics.zoom
-            cy = star.center.y - @kugel.ship.body.velocity.y / (8 - star.depth) / @kugel.physics.zoom
+            cx = star.center.x - velocity.x / (8 - star.depth) / zoom
+            cy = star.center.y - velocity.y / (8 - star.depth) / zoom
              
             if cx < 0
                 cx = w
@@ -58,12 +54,7 @@ class Stars
             star.center.x = cx
             star.center.y = cy
             
-            @kugel.ctx.fillStyle = star.color
-            @kugel.ctx.fillRect parseInt(star.center.x), parseInt(star.center.y), star.size, star.size
-            # @kugel.ctx.beginPath()
-            # @kugel.ctx.ellipse parseInt(star.center.x), parseInt(star.center.y), star.size/2, star.size/2, 0, 0, 2*Math.PI
-            # @kugel.ctx.fill()
-        
-        # prof.end()
+            @world.ctx.fillStyle = star.color
+            @world.ctx.fillRect parseInt(star.center.x), parseInt(star.center.y), star.size, star.size
         
 module.exports = Stars

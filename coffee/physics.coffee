@@ -15,18 +15,20 @@ svg           = require './svg'
 
 class Physics
 
-    constructor: (@kugel, @element) ->
+    constructor: (@world, @element) ->
 
         @engine = Matter.Engine.create()
         @engine.timing.timeScale = 1
         @engine.timing.isFixed = true
         
-        @world = @engine.world
-        @world.gravity.y = 0
+        @engine.world.gravity.y = 0
+        @center = pos 0,0
 
         br = @element.getBoundingClientRect()
         
         @bodies = []
+        
+        @pad = @world.pad
         
         @render = Matter.Render.create
             element: @element
@@ -46,7 +48,7 @@ class Physics
         Matter.Events.on @runner, 'beforeTick', @onBeforeTick 
         Matter.Events.on @runner, 'afterTick',  @onAfterTick 
 
-        Matter.World.add @world , []
+        Matter.World.add @engine.world, []
         
         mouse = Matter.Mouse.create @render.canvas
         mouseConstraint = Matter.MouseConstraint.create @engine, 
@@ -56,7 +58,7 @@ class Physics
                 render: 
                     visible: true
 
-        Matter.World.add @world, mouseConstraint
+        Matter.World.add @engine.world, mouseConstraint
         
         @debug = false
         if @debug then Matter.Render.run @render            
@@ -83,16 +85,16 @@ class Physics
     
     onBeforeTick: (tick) =>
         
-        @kugel.beforeTick tick.source.delta
+        @world.beforeTick tick.source.delta
         
     onAfterTick: (tick) =>
         
-        if @kugel.pad.axes?[3]
-            @setZoom @zoom * (1+@kugel.pad.axes[3]/75)
+        if @pad.axes?[3]
+            @setZoom @zoom * (1+@pad.axes[3]/75)
         else
-            @kugel.onResize()
+            @world.onResize()
 
-        @kugel.afterTick tick.source.delta
+        @world.afterTick tick.source.delta
 
         for body in @bodies.filter((b) -> b.lifetime)
 
@@ -117,29 +119,24 @@ class Physics
         
         size  = pos @render.bounds.max.x - @render.bounds.min.x, @render.bounds.max.y - @render.bounds.min.y
         scale = pos w/size.x, h/size.y
-
-        shipx = @kugel.ship.body.position.x
-        shipy = @kugel.ship.body.position.y
         
-        @kugel.ctx.fillStyle = '#002'
-        @kugel.ctx.fillRect 0,0,w,h
-        
-        @kugel.stars.draw()
-        @kugel.ship.draw size, scale, w, h
+        @world.draw size, scale, w, h
+        ctx = @world.ctx
         
         for body in @bodies
 
             if body.image
 
-                @kugel.ctx.save()
-                x = (size.x/2 + body.position.x - shipx)/@zoom
-                y = (size.y/2 + body.position.y - shipy)/@zoom    
-                @kugel.ctx.globalAlpha = body.opacity ? 1
-                @kugel.ctx.translate x, y
-                @kugel.ctx.rotate body.angle
-                @kugel.ctx.scale scale.x * (body.scale ? 1), scale.y * (body.scale ? 1)
-                @kugel.ctx.drawImage body.image.image, -body.image.image.width/2 + body.image.offset.x, -body.image.image.height/2 + body.image.offset.y
-                @kugel.ctx.restore()
+                ctx.save()
+                x = (size.x/2 + body.position.x - @center.x)/@zoom
+                y = (size.y/2 + body.position.y - @center.y)/@zoom    
+                ctx.globalAlpha = body.opacity ? 1
+                ctx.translate x, y
+                ctx.rotate body.angle
+                s = if _.isNumber body.scale then body.scale else 1
+                ctx.scale scale.x * s, scale.y * s
+                ctx.drawImage body.image.image, -body.image.image.width/2 + body.image.offset.x, -body.image.image.height/2 + body.image.offset.y
+                ctx.restore()
                                                         
     #  0000000   0000000    0000000          0000000     0000000   0000000    000   000  
     # 000   000  000   000  000   000        000   000  000   000  000   000   000 000   
@@ -147,14 +144,14 @@ class Physics
     # 000   000  000   000  000   000        000   000  000   000  000   000     000     
     # 000   000  0000000    0000000          0000000     0000000   0000000       000     
     
-    addBody: (name, position, opt) ->
+    addBody: (name, opt) ->
         
         opt ?= {}
         
-        body = svg.cloneBody name
+        body = svg.cloneBody name, opt
         
         @bodies.push body
-        Matter.World.add @world, body
+        Matter.World.add @engine.world, body
         
         body.applyForce  = (value) -> Matter.Body.applyForce  @, @position, value
         body.setVelocity = (value) -> Matter.Body.setVelocity @, value
@@ -169,18 +166,20 @@ class Physics
             Matter.Body.setAngle @, @angle + value
             Matter.Body.setAngularVelocity @, 0
             
-        body.setPosition position
+        body.setPosition pos opt.x ? 0, opt.y ? 0
         
         body.setStatic true if opt.static
         if opt.angle?
-            body.setAngle deg2rad opt.angle 
+            body.setAngle deg2rad opt.angle
+        body.scale   = opt.scale   if opt.scale?
+        body.opacity = opt.opacity if opt.opacity?
         
         body
         
     delBody: (body) ->
         
         _.pull @bodies, body
-        Matter.Composite.remove @world, body
+        Matter.Composite.remove @engine.world, body
         
     # 0000000    00000000  0000000    000   000   0000000   
     # 000   000  000       000   000  000   000  000        
@@ -214,15 +213,13 @@ class Physics
         else @setZoom clamp 1, 5, @zoom + 1
 
     setZoom: (@zoom) ->
+        
         @zoom = clamp 0.2, 5, @zoom
         w = @render.canvas.width  * @zoom
         h = @render.canvas.height * @zoom
-        if @kugel.ship?
-            x = @kugel.ship.body.position.x - w/2
-            y = @kugel.ship.body.position.y - h/2
-        else
-            x = - w/2
-            y = - h/2
+        x = @center.x - w/2
+        y = @center.y - h/2
+
         vertices = Matter.Vertices.fromPath "#{x} #{y} #{x+w} #{y} #{x+w} #{y+h} #{x} #{y+h}"
         Matter.Bounds.update @render.bounds, vertices, 0
     
@@ -231,8 +228,8 @@ class Physics
         @render.canvas.width  = w
         @render.canvas.height = h
         
-        @kugel.canvas.width   = w
-        @kugel.canvas.height  = h
+        @world.canvas.width   = w
+        @world.canvas.height  = h
         
         @setZoom @zoom
         

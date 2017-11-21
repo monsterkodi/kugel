@@ -5,7 +5,9 @@ html(lang="en")
         title kugel
         link(rel='stylesheet' href='css/style.css' type='text/css')
     body
-        #kugel(tabIndex=0)
+        #world(tabIndex=0)
     script.
-        Kugel = require('./kugel');
-        window.kugel = new Kugel('#kugel');
+        Space = require('./space');
+        window.world = new Space('#world');
+        // Kugel = require('./kugel');
+        // window.world = new Kugel('#world');

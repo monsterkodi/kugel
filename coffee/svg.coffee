@@ -16,6 +16,12 @@ class kSVG
     @items = {}
     @fakes = null
 
+    # 000  00     00   0000000    0000000   00000000  
+    # 000  000   000  000   000  000        000       
+    # 000  000000000  000000000  000  0000  0000000   
+    # 000  000 0 000  000   000  000   000  000       
+    # 000  000   000  000   000   0000000   00000000  
+    
     @image: (name) ->
        
         if not @items[name]?
@@ -27,16 +33,21 @@ class kSVG
             
         @items[name].image
     
-    @svgFile: (name) -> "#{__dirname}/../svg/#{name}.svg"
-
     @svgImage: (root, opt) ->
 
         svg = @svg root, opt
         img = new Image()
         img.src = window.URL.createObjectURL new Blob [svg], type: 'image/svg+xml;charset=utf-8'
-        # img.onload = -> log @width, @height
         img
 
+    #  0000000  000   000   0000000   
+    # 000       000   000  000        
+    # 0000000    000 000   000  0000  
+    #      000     000     000   000  
+    # 0000000       0       0000000   
+
+    @svgFile: (name) -> "#{__dirname}/../svg/#{name}.svg"
+        
     @svg: (root, opt) ->
 
         bb = opt?.box ? root.bbox()
@@ -51,6 +62,12 @@ class kSVG
         svgStr += '</svg>'
         svgStr
         
+    #  0000000   0000000    0000000    
+    # 000   000  000   000  000   000  
+    # 000000000  000   000  000   000  
+    # 000   000  000   000  000   000  
+    # 000   000  0000000    0000000    
+    
     @add: (name, opt) ->
 
         svgStr = fs.readFileSync @svgFile(name), encoding: 'utf8'
@@ -97,12 +114,24 @@ class kSVG
                     return group
         null
               
-    @cloneBody: (name) ->
-                         
+    #  0000000  000       0000000   000   000  00000000  
+    # 000       000      000   000  0000  000  000       
+    # 000       000      000   000  000 0 000  0000000   
+    # 000       000      000   000  000  0000  000       
+    #  0000000  0000000   0000000   000   000  00000000  
+    
+    @cloneBody: (name, opt) ->
+
+        opt ?= {}
+        
         if not @items[name]?
             
             item = @add name
             item.id name
+            
+            if opt.scale? and _.isNumber opt.scale
+                log 'scale', opt.scale
+                item.scale opt.scale, opt.scale
             
             body = Matter.Bodies.fromVertices 0, 0, @verticesForItem first item.children()
             dx = (body.bounds.min.x + body.bounds.max.x)/2
@@ -113,8 +142,6 @@ class kSVG
                 image:    @svgImage item
                 offset:   pos dx, dy
             
-            log name, @items[name].image.width, @items[name].image.height
-    
         body = Matter.Bodies.fromVertices 0, 0, @items[name].vertices,
             render:
                 fillStyle:   'none'
@@ -129,6 +156,12 @@ class kSVG
         body.image = @items[name]
         body
 
+    # 000   000  00000000  00000000   000000000  000   0000000  00000000   0000000  
+    # 000   000  000       000   000     000     000  000       000       000       
+    #  000 000   0000000   0000000       000     000  000       0000000   0000000   
+    #    000     000       000   000     000     000  000       000            000  
+    #     0      00000000  000   000     000     000   0000000  00000000  0000000   
+    
     @verticesForItem: (item) ->
 
         subdivisions = 3
@@ -153,6 +186,12 @@ class kSVG
         positions.pop() if item.type != 'polygon'
         positions
 
+    # 000  000000000  00000000  00     00  
+    # 000     000     000       000   000  
+    # 000     000     0000000   000000000  
+    # 000     000     000       000 0 000  
+    # 000     000     00000000  000   000  
+    
     @itemMatrix: (item) ->
         
         m = item.transform().matrix.clone()
@@ -184,6 +223,12 @@ class kSVG
                 log "Points.posAt -- unhandled dot? #{dot}"
                 pos point[1], point[2]
         
+    #  0000000   0000000    0000000  000000000  00000000  000            000   0000000   000   000  
+    # 000       000   000  000          000     000       000            000  000   000  000   000  
+    # 000       000000000  0000000      000     0000000   000            000  000000000  000   000  
+    # 000       000   000       000     000     000       000      000   000  000   000  000   000  
+    #  0000000  000   000  0000000      000     00000000  0000000   0000000   000   000   0000000   
+    
     @deCasteljauPos: (points, index, point, factor) ->
         
         thisp = @posAt points, index

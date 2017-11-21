@@ -1,9 +1,9 @@
 
-#  0000000  000   000  000  00000000 
-# 000       000   000  000  000   000
-# 0000000   000000000  000  00000000 
-#      000  000   000  000  000      
-# 0000000   000   000  000  000      
+#  0000000   0000000   00000000   
+# 000       000   000  000   000  
+# 000       000000000  0000000    
+# 000       000   000  000   000  
+#  0000000  000   000  000   000  
 
 { deg2rad, rad2deg, elem, fade, fadeAngles, first, pos, sw, sh, log, _ } = require 'kxk'
 
@@ -11,7 +11,7 @@ svg       = require './svg'
 intersect = require './intersect'
 Matter    = require 'matter-js'
 
-class Ship
+class Car
 
     constructor: (@kugel) ->
 
@@ -175,4 +175,4 @@ class Ship
         @scale   = @maxScale * (Math.log(f+0.2)+2)/2
         @opacity = 0.25 * @lifetime/@lifespan
         
-module.exports = Ship
+module.exports = Car
