@@ -109,40 +109,7 @@ class Physics
             else 
                 body.tick?(tick.source.delta)
         
-        @draw()
-
-    # 0000000    00000000    0000000   000   000  
-    # 000   000  000   000  000   000  000 0 000  
-    # 000   000  0000000    000000000  000000000  
-    # 000   000  000   000  000   000  000   000  
-    # 0000000    000   000  000   000  00     00  
-    
-    draw: ->
-        
-        w = sw()
-        h = sh()
-        
-        size  = pos @render.bounds.max.x - @render.bounds.min.x, @render.bounds.max.y - @render.bounds.min.y
-        scale = pos w/size.x, h/size.y
-        
-        @world.draw size, scale, w, h
-        ctx = @world.ctx
-        
-        for body in @bodies
-
-            if body.image
-
-                ctx.save()
-                x = (size.x/2 + body.position.x - @center.x)/@zoom
-                y = (size.y/2 + body.position.y - @center.y)/@zoom    
-                ctx.globalAlpha = body.opacity ? 1
-                ctx.translate x, y
-                ctx.rotate body.angle
-                s = if _.isNumber(body.scale) then body.scale else 1
-                ctx.scale scale.x * s, scale.y * s
-                ctx.globalCompositeOperation = body.compOp if body.compOp?
-                ctx.drawImage body.image.image, -body.image.image.width/2 + body.image.offset.x, -body.image.image.height/2 + body.image.offset.y
-                ctx.restore()
+        @world.draw()
                                                         
     #  0000000   0000000    0000000          0000000     0000000   0000000    000   000  
     # 000   000  000   000  000   000        000   000  000   000  000   000   000 000   

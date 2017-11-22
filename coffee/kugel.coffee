@@ -5,7 +5,7 @@
 # 000  000   000   000  000   000  000       000      
 # 000   000   0000000    0000000   00000000  0000000  
 
-{ deg2rad, keyinfo, stopEvent, elem, post, prefs, sw, sh, pos, log, $, _ } = require 'kxk'
+{ rad2deg, deg2rad, keyinfo, stopEvent, elem, post, prefs, sw, sh, pos, log, $, _ } = require 'kxk'
 
 Physics = require './physics'
 Stars   = require './stars'
@@ -45,10 +45,12 @@ class Kugel
         @physics = new Physics @, @element
         @car     = new Car     @
         
+        @grav    = pos 0, 2200
+        
         for i in [0..20]
             angle = i * 18
             p = pos(0,1900).rotate angle
-            surface = @physics.addBody 'surface',  x:p.x, y:2200+p.y, scale: 10, static: true
+            surface = @physics.addBody 'surface',  x:@grav.x+p.x, y:@grav.y+p.y, scale: 10, static: true
             Matter.Body.setAngle surface, deg2rad 180+angle
             surface.friction = 1
             surface.frictionStatic = 10
@@ -69,7 +71,7 @@ class Kugel
         
         for body in Matter.Composite.allBodies @physics.engine.world
             if not body.isStatic
-                bodyToCenter = pos(body.position).to(pos(0,2200)).normal().scale(0.05)
+                bodyToCenter = pos(body.position).to(@grav).normal().scale(0.05)
                 body.force.x += 0.007 * body.mass * bodyToCenter.x
                 body.force.y += 0.007 * body.mass * bodyToCenter.y
     
@@ -89,14 +91,37 @@ class Kugel
     # 000   000  000   000  000   000  000   000  
     # 0000000    000   000  000   000  00     00  
     
-    draw: (size, scale, w, h) ->
+    draw: ->
         
+        w = sw()
+        h = sh()
+        
+        b = @physics.render.bounds
+        size  = pos b.max.x - b.min.x, b.max.y - b.min.y
+        scale = pos w/size.x, h/size.y
+
         @ctx.fillStyle = '#002'
         @ctx.fillRect 0, 0, w, h
         
         @stars.draw @physics.zoom, @car.body.velocity
         @car.draw size, scale, w, h
         
+        for body in @physics.bodies
+
+            if body.image
+
+                @ctx.save()
+                x = (size.x/2 + body.position.x - @physics.center.x)/@physics.zoom
+                y = (size.y/2 + body.position.y - @physics.center.y)/@physics.zoom    
+                @ctx.globalAlpha = body.opacity ? 1
+                @ctx.translate x, y
+                @ctx.rotate body.angle
+                s = if _.isNumber(body.scale) then body.scale else 1
+                @ctx.scale scale.x * s, scale.y * s
+                @ctx.globalCompositeOperation = body.compOp if body.compOp?
+                @ctx.drawImage body.image.image, -body.image.image.width/2 + body.image.offset.x, -body.image.image.height/2 + body.image.offset.y
+                @ctx.restore()
+                
     onButtonDown: (button) =>
         
         switch button 
