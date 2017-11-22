@@ -133,8 +133,9 @@ class Physics
                 ctx.globalAlpha = body.opacity ? 1
                 ctx.translate x, y
                 ctx.rotate body.angle
-                s = if _.isNumber body.scale then body.scale else 1
+                s = if _.isNumber(body.scale) then body.scale else 1
                 ctx.scale scale.x * s, scale.y * s
+                ctx.globalCompositeOperation = body.compOp if body.compOp?
                 ctx.drawImage body.image.image, -body.image.image.width/2 + body.image.offset.x, -body.image.image.height/2 + body.image.offset.y
                 ctx.restore()
                                                         
@@ -173,6 +174,8 @@ class Physics
         body.setAngle deg2rad(opt.angle) if _.isNumber opt.angle
         body.scale   = opt.scale   if _.isNumber opt.scale
         body.opacity = opt.opacity if _.isNumber opt.opacity
+        body.frictionStatic = opt.frictionStatic if opt.frictionStatic?
+        body.friction       = opt.friction       if opt.friction?
         
         body
         

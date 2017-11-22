@@ -46,13 +46,14 @@ class Kugel
         
         for i in [0..20]
             surface = @physics.addBody 'surface',  x:-3000+i*550, y:300, scale: 10, static: true
-            # surface.friction = 1
+            surface.friction = 1
+            surface.frictionStatic = 10
             surface.collisionFilter.category = 2
             surface.collisionFilter.mask     = 0xffff
             
-        @physics.addBody 'pentagon', x:-200, y:-300, scale: 0.1
-        @physics.addBody 'ball',     x:-100, y:-300
-        @physics.addBody 'trio',     x:-300, y:-200,    scale: 0.2
+        @physics.addBody 'pentagon', x:-200, y:-300, scale: 0.1, frictionStatic: 2, friction: 0.1
+        @physics.addBody 'ball',     x:-100, y:-300,             frictionStatic: 2, friction: 0.1
+        @physics.addBody 'trio',     x:-300, y:-200, scale: 0.2, frictionStatic: 2, friction: 0.1
         
         @physics.engine.world.gravity.y = 0.3
 
