@@ -12,6 +12,7 @@ Stars   = require './stars'
 Pad     = require './pad'
 Car     = require './car'
 SVG     = require 'svg.js'
+Matter  = require 'matter-js'
 
 class Kugel
 
@@ -45,23 +46,32 @@ class Kugel
         @car     = new Car     @
         
         for i in [0..20]
-            surface = @physics.addBody 'surface',  x:-3000+i*550, y:300, scale: 10, static: true
+            angle = i * 18
+            p = pos(0,1900).rotate angle
+            surface = @physics.addBody 'surface',  x:p.x, y:2200+p.y, scale: 10, static: true
+            Matter.Body.setAngle surface, deg2rad 180+angle
             surface.friction = 1
             surface.frictionStatic = 10
             surface.collisionFilter.category = 2
             surface.collisionFilter.mask     = 0xffff
             
-        @physics.addBody 'pentagon', x:-200, y:-300, scale: 0.1, frictionStatic: 2, friction: 0.1
-        @physics.addBody 'ball',     x:-100, y:-300,             frictionStatic: 2, friction: 0.1
-        @physics.addBody 'trio',     x:-300, y:-200, scale: 0.2, frictionStatic: 2, friction: 0.1
+        @physics.addBody 'pentagon', x:-200, y:-300, scale: 0.1,  frictionStatic: 2, friction: 0.1, density: 0.1
+        @physics.addBody 'ball',     x:-100, y:-300,              frictionStatic: 2, friction: 0.1, density: 0.01
+        @physics.addBody 'trio',     x:-300, y:-200, scale: 0.35, frictionStatic: 2, friction: 0.1, density: 0.01
         
-        @physics.engine.world.gravity.y = 0.3
-
     # 000000000  000   0000000  000   000  
     #    000     000  000       000  000   
     #    000     000  000       0000000    
     #    000     000  000       000  000   
     #    000     000   0000000  000   000  
+    
+    beforeUpdate: ->
+        
+        for body in Matter.Composite.allBodies @physics.engine.world
+            if not body.isStatic
+                bodyToCenter = pos(body.position).to(pos(0,2200)).normal().scale(0.05)
+                body.force.x += 0.007 * body.mass * bodyToCenter.x
+                body.force.y += 0.007 * body.mass * bodyToCenter.y
     
     beforeTick: (delta) ->
         

@@ -148,11 +148,11 @@ class kSVG
                 fillStyle:   'none'
                 strokeStyle: '#88f'
                 lineWidth:   1
-            frictionStatic:  0
-            frictionAir:     0
-            friction:        0
-            density:         1
-            restitution:     0.5
+            frictionStatic:  opt.frictionStatic ? 0
+            frictionAir:     opt.frictionAir ? 0
+            friction:        opt.friction ? 0
+            density:         opt.density ? 1
+            restitution:     opt.restitution ? 0.5
                                                                 
         body.image = @items[name]
         body

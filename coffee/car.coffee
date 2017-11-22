@@ -162,7 +162,7 @@ class Car
     # 0000000   000   000   0000000   000   000  00000000  
     
     smoke: ->
-        
+
         if @puffs.length >= @maxPuffs
             @kugel.physics.delBody @puffs.shift()
         
@@ -173,7 +173,7 @@ class Car
         puff.collisionFilter.category = 8
         puff.collisionFilter.mask     = 10
         
-        puff.setMass 0.0000000001
+        puff.setDensity 0.0000001
         puff.restitution = 0
         puff.maxScale = Math.abs(@thrust) * 32 * _.random 0.5, 1, true
         puff.lifespan = Math.max 2000, Math.abs(@thrust)*2*3000
@@ -188,7 +188,7 @@ class Car
         @puffs.push puff
 
     smokeJump: ->
-        
+
         if @puffs.length >= @maxPuffs
             @kugel.physics.delBody @puffs.shift()
         
@@ -199,7 +199,7 @@ class Car
         puff.collisionFilter.category = 8
         puff.collisionFilter.mask     = 10
         
-        puff.setMass 0.0000000001
+        puff.setDensity 0.0000001
         puff.restitution = 0
         puff.maxScale = 20 * _.random 0.5, 1, true
         puff.lifespan = 3000

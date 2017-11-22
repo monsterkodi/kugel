@@ -45,8 +45,9 @@ class Physics
 
         @runner = Matter.Runner.create delta:1000/60, isFixed:false
         
-        Matter.Events.on @runner, 'beforeTick', @onBeforeTick 
-        Matter.Events.on @runner, 'afterTick',  @onAfterTick 
+        Matter.Events.on @engine, 'beforeUpdate', @onBeforeUpdate
+        Matter.Events.on @runner, 'beforeTick',   @onBeforeTick 
+        Matter.Events.on @runner, 'afterTick',    @onAfterTick 
 
         Matter.World.add @engine.world, []
         
@@ -82,6 +83,10 @@ class Physics
     #    000     000  000       0000000    
     #    000     000  000       000  000   
     #    000     000   0000000  000   000  
+
+    onBeforeUpdate: =>
+        
+        @world.beforeUpdate?()
     
     onBeforeTick: (tick) =>
         
@@ -174,8 +179,6 @@ class Physics
         body.setAngle deg2rad(opt.angle) if _.isNumber opt.angle
         body.scale   = opt.scale   if _.isNumber opt.scale
         body.opacity = opt.opacity if _.isNumber opt.opacity
-        body.frictionStatic = opt.frictionStatic if opt.frictionStatic?
-        body.friction       = opt.friction       if opt.friction?
         
         body
         
