@@ -97,9 +97,14 @@ class Car
             if @jumpDelay <= 0
                 @smokeJump()
             
-    draw: (size, scale, w, h) ->
+    # 0000000    00000000    0000000   000   000  
+    # 000   000  000   000  000   000  000 0 000  
+    # 000   000  0000000    000000000  000000000  
+    # 000   000  000   000  000   000  000   000  
+    # 0000000    000   000  000   000  00     00  
+    
+    draw: ->
         
-        zoom = @kugel.physics.zoom
         carx = @body.position.x
         cary = @body.position.y
         
@@ -107,26 +112,25 @@ class Car
         @kugel.ctx.beginPath()
         @kugel.ctx.strokeStyle = '#fff'
         @kugel.ctx.lineWidth = 5
-        @kugel.ctx.moveTo (size.x/2 + @tire1.position.x - carx)/zoom, (size.y/2 + @tire1.position.y - cary)/zoom
-        @kugel.ctx.lineTo (size.x/2 + @body.position.x  - carx)/zoom, (size.y/2 + @body.position.y  - cary)/zoom
-        @kugel.ctx.lineTo (size.x/2 + @tire2.position.x - carx)/zoom, (size.y/2 + @tire2.position.y - cary)/zoom
+        @kugel.ctx.moveTo @tire1.position.x - carx, @tire1.position.y - cary
+        @kugel.ctx.lineTo @body.position.x  - carx, @body.position.y  - cary
+        @kugel.ctx.lineTo @tire2.position.x - carx, @tire2.position.y - cary
         @kugel.ctx.stroke()
         @kugel.ctx.restore()
                 
         tail = @side -0.64
         @kugel.ctx.save()
-        @kugel.ctx.translate (size.x/2 + tail.x - carx)/zoom, (size.y/2 + tail.y - cary)/zoom
+        @kugel.ctx.translate (tail.x - carx), (tail.y - cary)
         @kugel.ctx.rotate @body.angle + deg2rad 90 - (@thrust < 0 and -14 or 14)
-        @kugel.ctx.scale scale.x * @thrust, scale.y * @thrust
+        @kugel.ctx.scale @thrust, @thrust
         @kugel.ctx.drawImage @flame, -@flame.width/2, 0
         @kugel.ctx.restore()
         
         if @jumping
             tail = @pos().minus @up().times 16
             @kugel.ctx.save()
-            @kugel.ctx.translate (size.x/2 + tail.x - carx)/zoom, (size.y/2 + tail.y - cary)/zoom
+            @kugel.ctx.translate (tail.x - carx), (tail.y - cary)
             @kugel.ctx.rotate @body.angle
-            @kugel.ctx.scale scale.x * 1, scale.y * 1
             @kugel.ctx.drawImage @flame, -@flame.width/2, 0
             @kugel.ctx.restore()
             

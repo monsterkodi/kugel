@@ -104,23 +104,29 @@ class Kugel
         @ctx.fillRect 0, 0, w, h
         
         @stars.draw @physics.zoom, @car.body.velocity
-        @car.draw size, scale, w, h
+        
+        @ctx.save()
+        @ctx.scale 1/@physics.zoom, 1/@physics.zoom
+        @ctx.translate size.x/2, size.y/2
+        
+        @car.draw()
         
         for body in @physics.bodies
 
             if body.image
 
                 @ctx.save()
-                x = (size.x/2 + body.position.x - @physics.center.x)/@physics.zoom
-                y = (size.y/2 + body.position.y - @physics.center.y)/@physics.zoom    
+                x = body.position.x - @physics.center.x 
+                y = body.position.y - @physics.center.y 
                 @ctx.globalAlpha = body.opacity ? 1
                 @ctx.translate x, y
                 @ctx.rotate body.angle
-                s = if _.isNumber(body.scale) then body.scale else 1
-                @ctx.scale scale.x * s, scale.y * s
+                if _.isNumber body.scale then @ctx.scale body.scale, body.scale
                 @ctx.globalCompositeOperation = body.compOp if body.compOp?
                 @ctx.drawImage body.image.image, -body.image.image.width/2 + body.image.offset.x, -body.image.image.height/2 + body.image.offset.y
                 @ctx.restore()
+                
+        @ctx.restore()
                 
     onButtonDown: (button) =>
         
