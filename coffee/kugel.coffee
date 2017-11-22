@@ -31,7 +31,6 @@ class Kugel
         @pad = new Pad()       
         @pad.addListener 'buttondown',  @onButtonDown
         @pad.addListener 'buttonup',    @onButtonUp
-        @pad.addListener 'stick',       @onStick
 
         @canvas = elem 'canvas', id: 'stars'
         @canvas.style.position   = 'absolute'
@@ -45,11 +44,17 @@ class Kugel
         @physics = new Physics @, @element
         @car     = new Car     @
         
-        @physics.addBody 'pentagon', x:0,    y:2000, scale: 20, static: true
-        @physics.addBody 'ball',     x:0,    y:-300
-        @physics.addBody 'trio',     x:-300, y:0,    scale: 0.2
+        for i in [0..20]
+            surface = @physics.addBody 'surface',  x:-3000+i*550, y:300, scale: 10, static: true
+            # surface.friction = 1
+            surface.collisionFilter.category = 2
+            surface.collisionFilter.mask     = 0xffff
+            
+        @physics.addBody 'pentagon', x:-200, y:-300, scale: 0.1
+        @physics.addBody 'ball',     x:-100, y:-300
+        @physics.addBody 'trio',     x:-300, y:-200,    scale: 0.2
         
-        @physics.engine.world.gravity.y = 0.1
+        @physics.engine.world.gravity.y = 0.3
 
     # 000000000  000   0000000  000   000  
     #    000     000  000       000  000   
@@ -86,8 +91,7 @@ class Kugel
         switch button 
             when 'pad'          then @physics.toggleDebug()
             when 'options'      then post.toMain 'reloadWin'
-            when 'R2', 'cross'  then @car.fire true
-            when 'triangle'     then @car.toggleLaser()
+            when 'cross'        then @car.jump()
             when 'square', 'L2' then @car.brake true
             when 'L1'           then @car.turn 'left',  true
             when 'R1'           then @car.turn 'right', true
@@ -97,16 +101,10 @@ class Kugel
     onButtonUp: (button) =>
         
         switch button 
-            when 'R2', 'cross'  then @car.fire  false
             when 'square', 'L2' then @car.brake false
             when 'L1'           then @car.turn 'left',  false
             when 'R1'           then @car.turn 'right', false
-        
-    onStick: (event) =>
-        
-        switch event.stick
-            when 'L' then @car.steer pos event.x, event.y
-            
+                    
     onResize: => @physics.setViewSize sw(), sh()
 
     # 000   000  00000000  000   000  

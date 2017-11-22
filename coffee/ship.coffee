@@ -30,8 +30,8 @@ class Ship
         @rot        = left:0, right:0
         
         @body = @kugel.physics.addBody 'ship', x:0, y:0
-        @body.collisionFilter.category = 2
-        @body.collisionFilter.mask     = 3
+        @body.collisionFilter.category = 4
+        @body.collisionFilter.mask     = 7
         
         @flame = svg.image 'flame'
 
@@ -144,6 +144,7 @@ class Ship
           
         bullet.setVelocity @dir().times(10).plus pos @body.velocity
         bullet.setAngle @body.angle
+
         @shootDelay = 100
         
         @bullets.push bullet
@@ -164,7 +165,6 @@ class Ship
         puff.tick = @onPuffTick
           
         puff.setVelocity @dir().times(-1-3*@thrust).plus pos @body.velocity
-        puff.setAngle @body.angle
 
         @smokeDelay = 300 - Math.min(1, 2*@thrust) * 260
         
