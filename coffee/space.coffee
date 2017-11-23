@@ -30,9 +30,6 @@ class Space
         window.onresize = @onResize
         
         @pad = new Pad()       
-        @pad.addListener 'buttondown',  @onButtonDown
-        # @pad.addListener 'buttonup',    @onButtonUp
-        @pad.addListener 'stick',       @onStick
 
         @canvas = elem 'canvas', id: 'stars'
         @canvas.style.position = 'absolute'
@@ -62,7 +59,7 @@ class Space
     
     beforeTick: (delta) ->
         
-        @pad.emitEvents()
+        @pad.snapState()
         @ship.beforeTick delta
         
     afterTick: (delta) ->
@@ -117,33 +114,7 @@ class Space
                 @ctx.restore()
                 
         @ctx.restore()
-                
-    onButtonDown: (button) =>
-        
-        switch button 
-            when 'pad'          then @physics.toggleDebug()
-            when 'options'      then post.toMain 'reloadWin'
-            # when 'R2', 'cross'  then @ship.fire true
-            # when 'triangle'     then @ship.toggleLaser()
-            # when 'square', 'L2' then @ship.brake true
-            # when 'L1'           then @ship.turn 'left',  true
-            # when 'R1'           then @ship.turn 'right', true
-            when 'up'           then @physics.zoomIn()
-            when 'down'         then @physics.zoomOut()
-
-    # onButtonUp: (button) =>
-#         
-        # switch button 
-            # when 'R2', 'cross'  then @ship.fire  false
-            # when 'square', 'L2' then @ship.brake false
-            # when 'L1'           then @ship.turn 'left',  false
-            # when 'R1'           then @ship.turn 'right', false
-        
-    onStick: (event) =>
-        
-        switch event.stick
-            when 'L' then @ship.steer pos event.x, event.y
-            
+                                    
     onResize: => @physics.setViewSize sw(), sh()
 
     # 000   000  00000000  000   000  

@@ -31,8 +31,6 @@ class Kugel
         window.onresize = @onResize
         
         @pad = new Pad()       
-        @pad.addListener 'buttondown',  @onButtonDown
-        @pad.addListener 'buttonup',    @onButtonUp
 
         @canvas = elem 'canvas', id: 'stars'
         @canvas.style.position   = 'absolute'
@@ -78,7 +76,7 @@ class Kugel
     
     beforeTick: (delta) ->
         
-        @pad.emitEvents()
+        @pad.snapState()
         @car.beforeTick delta
         
     afterTick: (delta) ->
@@ -105,7 +103,6 @@ class Kugel
         @ctx.fillRect 0, 0, w, h
         
         gravAngle = - @grav.to(@car.pos()).rotation(pos(0,-1))
-        # gravAngle = 0
         
         rct = rect w, h
         rct.sub pos w/2, h/2
@@ -138,28 +135,7 @@ class Kugel
                 @ctx.restore()
                 
         @ctx.restore()
-                
-    onButtonDown: (button) =>
-        
-        switch button 
-            when 'pad'          then @physics.toggleDebug()
-            when 'options'      then post.toMain 'reloadWin'
-            when 'cross'        then @car.jump()
-            when 'square', 'L2' then @car.brake true
-            when 'L3'           then @car.boost true
-            when 'L1'           then @car.turn 'left',  true
-            when 'R1'           then @car.turn 'right', true
-            when 'up'           then @physics.zoomIn()
-            when 'down'         then @physics.zoomOut()
-
-    onButtonUp: (button) =>
-        
-        switch button 
-            when 'L3'           then @car.boost false
-            when 'square', 'L2' then @car.brake false
-            when 'L1'           then @car.turn 'left',  false
-            when 'R1'           then @car.turn 'right', false
-                    
+                                    
     onResize: => @physics.setViewSize sw(), sh()
 
     # 000   000  00000000  000   000  

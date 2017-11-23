@@ -55,6 +55,8 @@ class Ship
         @shoots = @pad.button('cross').pressed or @pad.button('R2').pressed
         if not @shoots then @shootDelay = 0
         
+        @steerDir = pos @pad.axis('leftX'), @pad.axis('leftY')
+        
         length = @steerDir.length()
         if length - 0.1 > 0
             @angle  = fadeAngles @angle, @steerDir.rotation(pos 0,-1), length/10
@@ -125,9 +127,7 @@ class Ship
         @kugel.ctx.scale @thrust * 3, @thrust * 3
         @kugel.ctx.drawImage @flame, -@flame.width/2, 0
         @kugel.ctx.restore()
-            
-    steer: (@steerDir) ->
-             
+                         
     pos: -> pos @body.position
     dir: -> pos(0,-1).rotate rad2deg @body.angle
     tip: (scale=1) -> @pos().plus @dir().scale 30*scale

@@ -5,7 +5,7 @@
 # 000        000   000     000          000  000  000            000  
 # 000        000   000     000     0000000   000   0000000  0000000   
 
-{ deg2rad, rad2deg, clamp, first, pos, sw, sh, log, $, _ } = require 'kxk'
+{ deg2rad, rad2deg, post, clamp, first, pos, sw, sh, log, $, _ } = require 'kxk'
 
 { profile } = require './utils'
 
@@ -17,6 +17,7 @@ class Physics
 
     constructor: (@world, @element) ->
 
+        @pad    = @world.pad
         @engine = Matter.Engine.create()
         @engine.timing.timeScale = 1
         @engine.timing.isFixed = true
@@ -89,6 +90,11 @@ class Physics
         @world.beforeUpdate?()
     
     onBeforeTick: (tick) =>
+        
+        if @pad.button('pad').down then @toggleDebug()
+        if @pad.button('up').down then @zoomIn()
+        if @pad.button('down').down then @zoomOut()
+        if @pad.button('options').down then post.toMain 'reloadWin'
         
         @world.beforeTick tick.source.delta
         

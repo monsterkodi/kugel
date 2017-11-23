@@ -67,12 +67,17 @@ class Car
         zoom = @kugel.physics.zoom
         @angle = rad2deg @body.angle
                 
+        @rot.left  = @pad.button('L1').pressed and 2 or 0
+        @rot.right = @pad.button('R1').pressed and 2 or 0
+        
+        if @pad.button('cross').down then @jump()
         @thrust = @pad.axis 'leftX'
+        @brakes = @pad.button('square').pressed or @pad.button('L2').pressed
         @boosts = @pad.button('L3').pressed
         @thrust *= 1.2 if @boosts
         
         if @pad.button('L3').down
-            force = @sideDir().times 3 * Math.abs(@thrust)
+            force = @sideDir().times 10 * Math.abs(@thrust)
             @body.applyForce force
             @tire1.applyForce force.times 0.28
             @tire2.applyForce force.times 0.28
@@ -141,16 +146,12 @@ class Car
             @kugel.ctx.drawImage @flame, -@flame.width/2, 0
             @kugel.ctx.restore()
             
-    turn: (leftOrRight, active) -> @rot[leftOrRight] = active and 2 or 0
     jump: ->
         if not @jumping
             @jumping = 500
             force = @up().times 20
             @body.applyForce force
         
-    brake: (@brakes) ->         
-    boost: (@boosts) ->         
-     
     pos: -> pos @body.position
     dir: -> 
         x = @thrust >= 0 and 1 or -1

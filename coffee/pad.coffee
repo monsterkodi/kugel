@@ -82,33 +82,6 @@ class Pad extends events
        
     button: (name) -> @buttons[Pad.indices[name]]
     axis:   (name) -> @axes[Pad.indices[name]]
-        
-    emitEvents: =>
-        
-        if gp = @getPad()
-            
-            # prof = profile 'emitEvents'
-            
-            for index,button of gp.buttons
-                
-                if button.pressed and not @buttons[index].pressed
-                    @emit 'buttondown', Pad.buttons[index]
-                else if not button.pressed and @buttons[index].pressed
-                    @emit 'buttonup', Pad.buttons[index]
-                   
-                if parseInt(index) in [6, 7]
-                    if @round(button.value, 0) != @buttons[index].value
-                        @emit 'buttonvalue', button:Pad.buttons[index], value:@round(button.value, 0)
-
-            if @round(gp.axes[0]) != @axes[0] or @round(gp.axes[1]) != @axes[1]
-                @emit 'stick', stick:'L', x:@round(gp.axes[0]), y:@round(gp.axes[1])
-
-            if @round(gp.axes[2]) != @axes[2] or @round(gp.axes[3]) != @axes[3]
-                @emit 'stick', stick:'R', x:@round(gp.axes[2]), y:@round(gp.axes[3])
-
-            @snapState()
-            
-            # prof.end()
-            
+                    
 module.exports = Pad
     
