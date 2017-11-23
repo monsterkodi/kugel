@@ -103,12 +103,23 @@ class Kugel
         @ctx.fillStyle = '#002'
         @ctx.fillRect 0, 0, w, h
         
-        @stars.draw @physics.zoom, @car.body.velocity
+        gravAngle = - @grav.to(@car.pos()).rotation(pos(0,-1))
         
         @ctx.save()
+              
         @ctx.scale 1/@physics.zoom, 1/@physics.zoom
         @ctx.translate size.x/2, size.y/2
+        @ctx.rotate deg2rad gravAngle
+        @stars.draw pos @car.body.velocity
         
+        @ctx.restore()
+        @ctx.save()
+        
+        @ctx.scale 1/@physics.zoom, 1/@physics.zoom
+        @ctx.translate size.x/2, size.y/2
+        @ctx.rotate deg2rad gravAngle
+        @ctx.translate -@physics.center.x, -@physics.center.y
+                
         @car.draw()
         
         for body in @physics.bodies
@@ -116,10 +127,8 @@ class Kugel
             if body.image
 
                 @ctx.save()
-                x = body.position.x - @physics.center.x 
-                y = body.position.y - @physics.center.y 
                 @ctx.globalAlpha = body.opacity ? 1
-                @ctx.translate x, y
+                @ctx.translate body.position.x, body.position.y
                 @ctx.rotate body.angle
                 if _.isNumber body.scale then @ctx.scale body.scale, body.scale
                 @ctx.globalCompositeOperation = body.compOp if body.compOp?

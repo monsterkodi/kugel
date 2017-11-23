@@ -25,36 +25,36 @@ class Stars
                 size:   (i%4)+2
                 depth:  i%4
                 color:  ['#22b', '#33c', '#44d', '#55e'][i%4]
-                center: pos _.random(0, w, true), _.random(0, h, true)
+                center: pos _.random(-w/2, w/2, true), _.random(-h/2, h/2, true)
                 
-    draw: (zoom, velocity) ->
+    draw: (velocity) ->
 
         w = sw()
         h = sh()
         
         for star in @stars
             
-            cx = star.center.x - velocity.x / (8 - star.depth) / zoom
-            cy = star.center.y - velocity.y / (8 - star.depth) / zoom
-             
-            if cx < 0
-                cx = w
-                cy = _.random 0, h, true
-            else if cx > w
-                cx = 0
-                cy = _.random 0, h, true
-                 
-            if cy < 0
-                cy = h
-                cx = _.random 0, w, true
-            else if cy > h
-                cy = 0
-                cx = _.random 0, w, true
-                 
-            star.center.x = cx
-            star.center.y = cy
+            np = star.center.minus velocity.times star.depth/4
+            # cx = star.center.x - velocity.x / (8 - star.depth)
+            # cy = star.center.y - velocity.y / (8 - star.depth)
+
+            # if cx < 0
+                # cx = w
+                # cy = _.random 0, h, true
+            # else if cx > w
+                # cx = 0
+                # cy = _.random 0, h, true
+#                  
+            # if cy < 0
+                # cy = h
+                # cx = _.random 0, w, true
+            # else if cy > h
+                # cy = 0
+                # cx = _.random 0, w, true
+#                  
+            star.center = np
             
             @world.ctx.fillStyle = star.color
-            @world.ctx.fillRect parseInt(star.center.x), parseInt(star.center.y), star.size, star.size
+            @world.ctx.fillRect star.center.x, star.center.y, star.size, star.size
         
 module.exports = Stars

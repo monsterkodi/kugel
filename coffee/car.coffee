@@ -104,23 +104,20 @@ class Car
     # 0000000    000   000  000   000  00     00  
     
     draw: ->
-        
-        carx = @body.position.x
-        cary = @body.position.y
-        
+                
         @kugel.ctx.save()
         @kugel.ctx.beginPath()
         @kugel.ctx.strokeStyle = '#fff'
         @kugel.ctx.lineWidth = 5
-        @kugel.ctx.moveTo @tire1.position.x - carx, @tire1.position.y - cary
-        @kugel.ctx.lineTo @body.position.x  - carx, @body.position.y  - cary
-        @kugel.ctx.lineTo @tire2.position.x - carx, @tire2.position.y - cary
+        @kugel.ctx.moveTo @tire1.position.x, @tire1.position.y
+        @kugel.ctx.lineTo @body.position.x,  @body.position.y 
+        @kugel.ctx.lineTo @tire2.position.x, @tire2.position.y
         @kugel.ctx.stroke()
         @kugel.ctx.restore()
                 
         tail = @side -0.64
         @kugel.ctx.save()
-        @kugel.ctx.translate (tail.x - carx), (tail.y - cary)
+        @kugel.ctx.translate tail.x, tail.y
         @kugel.ctx.rotate @body.angle + deg2rad 90 - (@thrust < 0 and -14 or 14)
         @kugel.ctx.scale @thrust, @thrust
         @kugel.ctx.drawImage @flame, -@flame.width/2, 0
@@ -129,7 +126,7 @@ class Car
         if @jumping
             tail = @pos().minus @up().times 16
             @kugel.ctx.save()
-            @kugel.ctx.translate (tail.x - carx), (tail.y - cary)
+            @kugel.ctx.translate tail.x, tail.y
             @kugel.ctx.rotate @body.angle
             @kugel.ctx.drawImage @flame, -@flame.width/2, 0
             @kugel.ctx.restore()
