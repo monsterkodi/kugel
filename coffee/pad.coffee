@@ -21,10 +21,7 @@ class Pad extends events
         
         @buttons = Pad.buttons.map (b) -> pressed:false, value:0
         @axes    = [0,0,0,0]
-        
-        if not window.navigator.getGamepads? 
-            return new Error 'The gamepad web api is not available'
-  
+          
         window.addEventListener 'gamepadconnected',    @onConnected
         window.addEventListener 'gamepaddisconnected', @onDisconnected
         

@@ -42,6 +42,15 @@ class Rect
                 return bp
         null
         
+    randomPos: -> 
+        c = @center()
+        h = c.to(@right()).times _.random -1, 1, true
+        v = c.to(@bot()).times   _.random -1, 1, true
+        c.plus(h).plus(v) 
+        
+    width:  -> @topLeft().to(@topRight()).length()
+    height: -> @topLeft().to(@botLeft()).length()
+        
     top:   -> @topLeft().mid @topRight()
     right: -> @topRight().mid @botRight()
     bot:   -> @botLeft().mid @botRight()

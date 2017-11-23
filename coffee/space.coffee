@@ -94,7 +94,7 @@ class Space
         @ctx.scale 1/@physics.zoom, 1/@physics.zoom
         @ctx.translate size.x/2, size.y/2
         
-        @stars.draw rct, pos @ship.body.velocity
+        @stars.draw rct, @physics.zoom, pos @ship.body.velocity
         
         @ctx.translate -@physics.center.x, -@physics.center.y
                 

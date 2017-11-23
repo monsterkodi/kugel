@@ -103,6 +103,7 @@ class Kugel
         @ctx.fillRect 0, 0, w, h
         
         gravAngle = - @grav.to(@car.pos()).rotation(pos(0,-1))
+        # gravAngle = 0
         
         rct = rect w, h
         rct.sub pos w/2, h/2
@@ -115,7 +116,7 @@ class Kugel
         @ctx.translate size.x/2, size.y/2
         @ctx.rotate deg2rad gravAngle
         
-        @stars.draw rct, pos @car.body.velocity
+        @stars.draw rct, @physics.zoom, pos @car.body.velocity
         
         @ctx.translate -@physics.center.x, -@physics.center.y
                 

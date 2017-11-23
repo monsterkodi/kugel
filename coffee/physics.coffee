@@ -201,7 +201,7 @@ class Physics
 
         vertices = Matter.Vertices.fromPath "#{x} #{y} #{x+w} #{y} #{x+w} #{y+h} #{x} #{y+h}"
         Matter.Bounds.update @render.bounds, vertices, 0
-    
+        
     setViewSize: (w,h) ->
         
         @render.canvas.width  = w
