@@ -12,6 +12,7 @@ Stars   = require './stars'
 Pad     = require './pad'
 Ship    = require './ship'
 SVG     = require 'svg.js'
+rect    = require './rect'
 
 class Space
 
@@ -30,7 +31,7 @@ class Space
         
         @pad = new Pad()       
         @pad.addListener 'buttondown',  @onButtonDown
-        @pad.addListener 'buttonup',    @onButtonUp
+        # @pad.addListener 'buttonup',    @onButtonUp
         @pad.addListener 'stick',       @onStick
 
         @canvas = elem 'canvas', id: 'stars'
@@ -75,34 +76,68 @@ class Space
     # 000   000  000   000  000   000  000   000  
     # 0000000    000   000  000   000  00     00  
     
-    draw: (size, scale, w, h) ->
+    draw: () ->
         
+        w = sw()
+        h = sh()
+        
+        b = @physics.render.bounds
+        size  = pos b.max.x - b.min.x, b.max.y - b.min.y
+        scale = pos w/size.x, h/size.y
+
         @ctx.fillStyle = '#002'
         @ctx.fillRect 0, 0, w, h
         
-        @stars.draw @physics.zoom, @ship.body.velocity
-        @ship.draw size, scale, w, h
+        rct = rect w, h
+        rct.sub pos w/2, h/2
+        rct.scale @physics.zoom*0.99
+            
+        @ctx.save()
+                      
+        @ctx.scale 1/@physics.zoom, 1/@physics.zoom
+        @ctx.translate size.x/2, size.y/2
         
+        @stars.draw rct, pos @ship.body.velocity
+        
+        @ctx.translate -@physics.center.x, -@physics.center.y
+                
+        @ship.draw()
+        
+        for body in @physics.bodies
+
+            if body.image
+
+                @ctx.save()
+                @ctx.globalAlpha = body.opacity ? 1
+                @ctx.translate body.position.x, body.position.y
+                @ctx.rotate body.angle
+                if _.isNumber body.scale then @ctx.scale body.scale, body.scale
+                @ctx.globalCompositeOperation = body.compOp if body.compOp?
+                @ctx.drawImage body.image.image, -body.image.image.width/2 + body.image.offset.x, -body.image.image.height/2 + body.image.offset.y
+                @ctx.restore()
+                
+        @ctx.restore()
+                
     onButtonDown: (button) =>
         
         switch button 
             when 'pad'          then @physics.toggleDebug()
             when 'options'      then post.toMain 'reloadWin'
-            when 'R2', 'cross'  then @ship.fire true
-            when 'triangle'     then @ship.toggleLaser()
-            when 'square', 'L2' then @ship.brake true
-            when 'L1'           then @ship.turn 'left',  true
-            when 'R1'           then @ship.turn 'right', true
+            # when 'R2', 'cross'  then @ship.fire true
+            # when 'triangle'     then @ship.toggleLaser()
+            # when 'square', 'L2' then @ship.brake true
+            # when 'L1'           then @ship.turn 'left',  true
+            # when 'R1'           then @ship.turn 'right', true
             when 'up'           then @physics.zoomIn()
             when 'down'         then @physics.zoomOut()
 
-    onButtonUp: (button) =>
-        
-        switch button 
-            when 'R2', 'cross'  then @ship.fire  false
-            when 'square', 'L2' then @ship.brake false
-            when 'L1'           then @ship.turn 'left',  false
-            when 'R1'           then @ship.turn 'right', false
+    # onButtonUp: (button) =>
+#         
+        # switch button 
+            # when 'R2', 'cross'  then @ship.fire  false
+            # when 'square', 'L2' then @ship.brake false
+            # when 'L1'           then @ship.turn 'left',  false
+            # when 'R1'           then @ship.turn 'right', false
         
     onStick: (event) =>
         

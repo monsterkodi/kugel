@@ -15,9 +15,11 @@ class Car
 
     constructor: (@kugel) ->
 
+        @pad        = @kugel.pad
         @thrust     = 0
         @angle      = 0
         @brakes     = false
+        @boosts     = false
         @smokeDelay = 0
         @jumpDelay  = 0
         @puffs      = []
@@ -65,19 +67,27 @@ class Car
         zoom = @kugel.physics.zoom
         @angle = rad2deg @body.angle
                 
-        @thrust = @kugel.pad.axes?[0] ? 0
+        @thrust = @pad.axis 'leftX'
+        @boosts = @pad.button('L3').pressed
+        @thrust *= 1.2 if @boosts
+        
+        if @pad.button('L3').down
+            force = @sideDir().times 3 * Math.abs(@thrust)
+            @body.applyForce force
+            @tire1.applyForce force.times 0.28
+            @tire2.applyForce force.times 0.28
         
         if @brakes
             @thrust = 0
-            @body.setVelocity pos(@body.velocity).times 0.95
+            @body.setVelocity pos(@body.velocity).times 0.97
         
         force = @sideDir().times 0.2 * Math.abs(@thrust) * (1 + (zoom-1)/4)
         @body.applyForce force
         @tire1.applyForce force.times 0.28
         @tire2.applyForce force.times 0.28
 
-        rotLeft  = @rot.left  * (@brakes and 0.1 or 1)
-        rotRight = @rot.right * (@brakes and 0.1 or 1)
+        rotLeft  = @rot.left  * (@brakes and 1.3 or 2)
+        rotRight = @rot.right * (@brakes and 1.3 or 2)
         
         if Math.abs(rotRight - rotLeft)
             @body.setAngularVelocity 0
@@ -139,6 +149,7 @@ class Car
             @body.applyForce force
         
     brake: (@brakes) ->         
+    boost: (@boosts) ->         
      
     pos: -> pos @body.position
     dir: -> 

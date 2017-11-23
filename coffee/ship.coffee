@@ -15,6 +15,7 @@ class Ship
 
     constructor: (@kugel) ->
 
+        @pad        = @kugel.pad
         @thrust     = 0
         @angle      = 0
         @shoots     = false
@@ -45,7 +46,15 @@ class Ship
 
         zoom = @kugel.physics.zoom
         @angle = rad2deg @body.angle
-                
+
+        @rot.left  = @pad.button('L1').pressed and 2 or 0
+        @rot.right = @pad.button('R1').pressed and 2 or 0
+        
+        @lasers = not @lasers if @pad.button('triangle').down
+        @brakes = @pad.button('square').pressed or @pad.button('L2').pressed
+        @shoots = @pad.button('cross').pressed or @pad.button('R2').pressed
+        if not @shoots then @shootDelay = 0
+        
         length = @steerDir.length()
         if length - 0.1 > 0
             @angle  = fadeAngles @angle, @steerDir.rotation(pos 0,-1), length/10
@@ -79,12 +88,14 @@ class Ship
         if @thrust > 0 and @smokeDelay <= 0
             @smoke()
             
-    draw: (size, scale, w, h) ->
-        
-        zoom  = @kugel.physics.zoom
-        shipx = @body.position.x
-        shipy = @body.position.y
-        
+    # 0000000    00000000    0000000   000   000  
+    # 000   000  000   000  000   000  000 0 000  
+    # 000   000  0000000    000000000  000000000  
+    # 000   000  000   000  000   000  000   000  
+    # 0000000    000   000  000   000  00     00  
+    
+    draw: ->
+                
         if @lasers
             @kugel.ctx.save()
             
@@ -96,33 +107,27 @@ class Ship
             if hits.length
                 @kugel.ctx.strokeStyle = '#88f'
                 hit = first hits
-                tgt = intersect.rayBody tip, tgt, hit.bodyA
+                tgt = intersect.rayBody(tip, tgt, hit.bodyA) ? tgt
             else
                 @kugel.ctx.strokeStyle = '#22a'
                                 
             @kugel.ctx.beginPath()
             @kugel.ctx.lineWidth = 1
-            @kugel.ctx.moveTo (size.x/2 + tip.x - shipx)/zoom, (size.y/2 + tip.y - shipy)/zoom
-            @kugel.ctx.lineTo (size.x/2 + tgt.x - shipx)/zoom, (size.y/2 + tgt.y - shipy)/zoom
+            @kugel.ctx.moveTo tip.x, tip.y
+            @kugel.ctx.lineTo tgt.x, tgt.y
             @kugel.ctx.stroke()
             @kugel.ctx.restore()
                 
         tail = @tip -0.7
         @kugel.ctx.save()
-        @kugel.ctx.translate (size.x/2 + tail.x - shipx)/zoom, (size.y/2 + tail.y - shipy)/zoom
+        @kugel.ctx.translate tail.x, tail.y
         @kugel.ctx.rotate @body.angle
-        @kugel.ctx.scale scale.x * @thrust * 3, scale.y * @thrust * 3
+        @kugel.ctx.scale @thrust * 3, @thrust * 3
         @kugel.ctx.drawImage @flame, -@flame.width/2, 0
         @kugel.ctx.restore()
             
     steer: (@steerDir) ->
-        
-    turn: (leftOrRight, active) -> @rot[leftOrRight] = active and 2 or 0
-        
-    fire:  (@shoots) -> if not @shoots then @shootDelay = 0
-    brake: (@brakes) ->         
-    toggleLaser: -> @lasers = not @lasers
-     
+             
     pos: -> pos @body.position
     dir: -> pos(0,-1).rotate rad2deg @body.angle
     tip: (scale=1) -> @pos().plus @dir().scale 30*scale

@@ -13,6 +13,7 @@ Pad     = require './pad'
 Car     = require './car'
 SVG     = require 'svg.js'
 Matter  = require 'matter-js'
+rect    = require './rect'
 
 class Kugel
 
@@ -72,8 +73,8 @@ class Kugel
         for body in Matter.Composite.allBodies @physics.engine.world
             if not body.isStatic
                 bodyToCenter = pos(body.position).to(@grav).normal().scale(0.05)
-                body.force.x += 0.007 * body.mass * bodyToCenter.x
-                body.force.y += 0.007 * body.mass * bodyToCenter.y
+                body.force.x += 0.008 * body.mass * bodyToCenter.x
+                body.force.y += 0.008 * body.mass * bodyToCenter.y
     
     beforeTick: (delta) ->
         
@@ -104,20 +105,21 @@ class Kugel
         @ctx.fillRect 0, 0, w, h
         
         gravAngle = - @grav.to(@car.pos()).rotation(pos(0,-1))
+        # gravAngle = 0
         
+        rct = rect w, h
+        rct.sub pos w/2, h/2
+        rct.scale @physics.zoom*0.99
+        rct.rotate -gravAngle
+            
         @ctx.save()
-              
+                      
         @ctx.scale 1/@physics.zoom, 1/@physics.zoom
         @ctx.translate size.x/2, size.y/2
         @ctx.rotate deg2rad gravAngle
-        @stars.draw pos @car.body.velocity
         
-        @ctx.restore()
-        @ctx.save()
+        @stars.draw rct, pos @car.body.velocity
         
-        @ctx.scale 1/@physics.zoom, 1/@physics.zoom
-        @ctx.translate size.x/2, size.y/2
-        @ctx.rotate deg2rad gravAngle
         @ctx.translate -@physics.center.x, -@physics.center.y
                 
         @car.draw()
@@ -144,6 +146,7 @@ class Kugel
             when 'options'      then post.toMain 'reloadWin'
             when 'cross'        then @car.jump()
             when 'square', 'L2' then @car.brake true
+            when 'L3'           then @car.boost true
             when 'L1'           then @car.turn 'left',  true
             when 'R1'           then @car.turn 'right', true
             when 'up'           then @physics.zoomIn()
@@ -152,6 +155,7 @@ class Kugel
     onButtonUp: (button) =>
         
         switch button 
+            when 'L3'           then @car.boost false
             when 'square', 'L2' then @car.brake false
             when 'L1'           then @car.turn 'left',  false
             when 'R1'           then @car.turn 'right', false

@@ -45,8 +45,6 @@ class Intersect
         
     @linePos: (p, p2, q, q2) ->
     
-        intersection = p2
-    
         r   = p2.minus p
         s   = q2.minus q
         rxs = r.cross s
@@ -58,8 +56,8 @@ class Intersect
             u = v.cross(r)/rxs
         
             if (0 <= t <= 1) and (0 <= u <= 1)
-                intersection = p.plus r.times(t)
+                return p.plus r.times(t)
     
-        intersection
+        null
     
 module.exports = Intersect
