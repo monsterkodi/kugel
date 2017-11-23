@@ -29,32 +29,21 @@ class Stars
                 
     draw: (velocity) ->
 
-        w = sw()
-        h = sh()
+        s = 1.5 * Math.max sw(), sh()
+        z = Math.max 1, @world.physics.zoom
         
         for star in @stars
             
-            np = star.center.minus velocity.times star.depth/4
-            # cx = star.center.x - velocity.x / (8 - star.depth)
-            # cy = star.center.y - velocity.y / (8 - star.depth)
+            np = star.center.minus velocity.times (star.depth+1)/8
 
-            # if cx < 0
-                # cx = w
-                # cy = _.random 0, h, true
-            # else if cx > w
-                # cx = 0
-                # cy = _.random 0, h, true
-#                  
-            # if cy < 0
-                # cy = h
-                # cx = _.random 0, w, true
-            # else if cy > h
-                # cy = 0
-                # cx = _.random 0, w, true
+            if np.length()/z > s/2
+                r = z*s/2
+                np = velocity.normal().times r
+                np.rotate _.random -60, 60, true
 #                  
             star.center = np
             
             @world.ctx.fillStyle = star.color
-            @world.ctx.fillRect star.center.x, star.center.y, star.size, star.size
+            @world.ctx.fillRect star.center.x, star.center.y, star.size*z, star.size*z
         
 module.exports = Stars
