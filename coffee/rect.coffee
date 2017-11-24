@@ -42,6 +42,8 @@ class Rect
                 return bp
         null
         
+    contains: (p) -> null == @intersectLine @center(), p
+        
     randomPos: -> 
         c = @center()
         h = c.to(@right()).times _.random -1, 1, true
