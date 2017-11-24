@@ -128,12 +128,7 @@ class kSVG
             
             item = @add name
             item.id name
-            
-            scale = 1
-            if _.isNumber opt.scale
-                scale = opt.scale
-                item.scale scale, scale
-            
+                        
             body = Matter.Bodies.fromVertices 0, 0, @verticesForItem first item.children()
             dx = (body.bounds.min.x + body.bounds.max.x)/2
             dy = (body.bounds.min.y + body.bounds.max.y)/2
@@ -141,9 +136,9 @@ class kSVG
             @items[name] = 
                 vertices: @verticesForItem first item.children()
                 image:    @svgImage item
-                offset:   pos dx/scale, dy/scale
+                offset:   pos dx, dy
             
-        body = Matter.Bodies.fromVertices 0, 0, @items[name].vertices,
+        body = Matter.Bodies.fromVertices 0, 0, @scaledVertices(@items[name].vertices, opt),
             render:
                 fillStyle:   'none'
                 strokeStyle: '#88f'
@@ -162,6 +157,12 @@ class kSVG
     #  000 000   0000000   0000000       000     000  000       0000000   0000000   
     #    000     000       000   000     000     000  000       000            000  
     #     0      00000000  000   000     000     000   0000000  00000000  0000000   
+    
+    @scaledVertices: (vertices, opt) -> 
+        if _.isNumber(opt.scale) and opt.scale != 1
+            vertices.map (v) -> v.times opt.scale
+        else
+            vertices
     
     @verticesForItem: (item) ->
 

@@ -39,19 +39,19 @@ class Car
         @tire1.friction = 1
         @tire2.friction = 1
 
-        constraint = Matter.Constraint.create bodyA:@tire2, bodyB:@tire1, stiffness: 0.1, damping: 0.1
+        constraint = Matter.Constraint.create bodyA:@tire2, bodyB:@tire1, stiffness: 0.1, damping: 0.1, render: visible: false
         Matter.World.add @kugel.physics.engine.world, constraint 
         
-        constraint = Matter.Constraint.create bodyA:@body, bodyB:@tire1
+        constraint = Matter.Constraint.create bodyA:@body, bodyB:@tire1, render: visible: false
         Matter.World.add @kugel.physics.engine.world, constraint
 
-        constraint = Matter.Constraint.create bodyA:@body, bodyB:@tire1, pointA:pos(-10,1), stiffness: 0.2, damping: 0.1
+        constraint = Matter.Constraint.create bodyA:@body, bodyB:@tire1, pointA:pos(-10,1), stiffness: 0.2, damping: 0.1, render: visible: false
         Matter.World.add @kugel.physics.engine.world, constraint
         
-        constraint = Matter.Constraint.create bodyA:@body, bodyB:@tire2, pointA:pos(10,1), stiffness: 0.2, damping: 0.1
+        constraint = Matter.Constraint.create bodyA:@body, bodyB:@tire2, pointA:pos(10,1), stiffness: 0.2, damping: 0.1, render: visible: false
         Matter.World.add @kugel.physics.engine.world, constraint
         
-        constraint = Matter.Constraint.create bodyA:@body, bodyB:@tire2
+        constraint = Matter.Constraint.create bodyA:@body, bodyB:@tire2, render: visible: false
         Matter.World.add @kugel.physics.engine.world, constraint
         
         @flame = svg.image 'flame'
@@ -65,7 +65,6 @@ class Car
     beforeTick: (delta) ->
 
         zoom = @kugel.physics.zoom
-        @angle = rad2deg @body.angle
                 
         @rot.left  = @pad.button('L1').pressed and 2 or 0
         @rot.right = @pad.button('R1').pressed and 2 or 0
@@ -94,11 +93,17 @@ class Car
         rotLeft  = @rot.left  * (@brakes and 1.3 or 2)
         rotRight = @rot.right * (@brakes and 1.3 or 2)
         
+        # 
         if Math.abs(rotRight - rotLeft)
             @body.setAngularVelocity 0
-            @angle += rotRight - rotLeft
-            @body.setAngle deg2rad @angle
-                    
+            @body.setAngle @body.angle + deg2rad(rotRight - rotLeft)
+        else    
+            bodyAngle = rad2deg @body.angle
+            gravAngle = @kugel.grav.to(@pos()).rotation(pos 0,-1)
+            if Math.abs(bodyAngle - gravAngle) > 20
+                log Math.abs(bodyAngle - gravAngle), fadeAngles bodyAngle, gravAngle, 0.15
+                @body.setAngle deg2rad fadeAngles bodyAngle, gravAngle, 0.15
+            
     afterTick: (delta) ->
 
         if @smokeDelay > 0 then @smokeDelay -= delta

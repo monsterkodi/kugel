@@ -35,11 +35,11 @@ class Physics
             element: @element
             engine: @engine
             options:
-                wireframes:     false
-                showBounds:     false
-                showVelocity:   true
-                showPositions:  true
-                showCollisions: true
+                wireframes:      true
+                showVelocity:    true
+                # showBounds:      false
+                showPositions:   true
+                # showCollisions:  false
                 hasBounds:      true
                 width:          sw()
                 height:         sh()
@@ -139,6 +139,7 @@ class Physics
         body.setMass     = (value) -> Matter.Body.setMass     @, value
         body.setPosition = (value) -> Matter.Body.setPosition @, value
         body.setAngle    = (value) -> Matter.Body.setAngle    @, value
+        # body.setScale    = (value) -> @scale = value; Matter.Body.scale @, @scale, @scale
         body.setAngularVelocity = (value) -> Matter.Body.setAngularVelocity @, value
         body.addAngularVelocity = (value) -> Matter.Body.setAngularVelocity @, @.angularVelocity + value
         body.addAngle = (value) -> 
@@ -150,7 +151,8 @@ class Physics
         body.setStatic true if opt.static
         
         body.setAngle deg2rad(opt.angle) if _.isNumber opt.angle
-        body.scale   = opt.scale   if _.isNumber opt.scale
+        # body.setScale opt.scale if _.isNumber opt.scale
+        body.scale = opt.scale if _.isNumber opt.scale
         body.opacity = opt.opacity if _.isNumber opt.opacity
         
         body

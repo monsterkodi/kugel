@@ -49,16 +49,22 @@ class Kugel
         for i in [0..20]
             angle = i * 18
             p = pos(0,1900).rotate angle
-            surface = @physics.addBody 'surface',  x:@grav.x+p.x, y:@grav.y+p.y, scale: 10, static: true
+            surface = @physics.addBody 'surface2',  x:@grav.x+p.x, y:@grav.y+p.y, scale: 1, static: true
             Matter.Body.setAngle surface, deg2rad 180+angle
-            surface.friction = 1
-            surface.frictionStatic = 10
             surface.collisionFilter.category = 2
             surface.collisionFilter.mask     = 0xffff
             
-        @physics.addBody 'pentagon', x:-200, y:-300, scale: 0.1,  frictionStatic: 2, friction: 0.1, density: 0.1
-        @physics.addBody 'ball',     x:-100, y:-300,              frictionStatic: 2, friction: 0.1, density: 0.01
-        @physics.addBody 'trio',     x:-300, y:-200, scale: 0.35, frictionStatic: 2, friction: 0.1, density: 0.01
+        @physics.addBody 'ball',     x:-100, y:-300,             frictionStatic: 2, friction: 0.1, density: 0.01
+        @physics.addBody 'trio',     x:-300, y:-200, scale: 0.3, frictionStatic: 2, friction: 0.1, density: 0.01
+        @physics.addBody 'trio',     x:-200, y:-200, scale: 0.4, frictionStatic: 2, friction: 0.1, density: 0.01
+        @physics.addBody 'trio',     x:-100, y:-200, scale: 0.5, frictionStatic: 2, friction: 0.1, density: 0.01
+        
+        @physics.addBody 'pentagon', x: 300, y:-300, scale: 0.2, frictionStatic: 0.1, friction: 0.1, density: 0.1
+        @physics.addBody 'pentagon', x: 400, y:-300, scale: 0.4, frictionStatic: 0.1, friction: 0.1, density: 0.01
+        @physics.addBody 'pentagon', x: 500, y:-300, scale: 0.8, frictionStatic: 0.1, friction: 0.1, density: 0.001
+
+        @physics.addBody 'surface2',  x:-300, y:200,  static: true, angle: -30
+        @physics.addBody 'surface2',  x:300,  y:200,   static: true, angle: 15
         
     # 000000000  000   0000000  000   000  
     #    000     000  000       000  000   
@@ -130,9 +136,12 @@ class Kugel
                 @ctx.globalAlpha = body.opacity ? 1
                 @ctx.translate body.position.x, body.position.y
                 @ctx.rotate body.angle
-                if _.isNumber body.scale then @ctx.scale body.scale, body.scale
+                scale = _.isNumber(body.scale) and body.scale or 1
+                @ctx.scale scale, scale
                 @ctx.globalCompositeOperation = body.compOp if body.compOp?
-                @ctx.drawImage body.image.image, -body.image.image.width/2 + body.image.offset.x, -body.image.image.height/2 + body.image.offset.y
+                x = -body.image.image.width/2  + body.image.offset.x # * scale
+                y = -body.image.image.height/2 + body.image.offset.y # * scale
+                @ctx.drawImage body.image.image, x, y
                 @ctx.restore()
                 
         @ctx.restore()
