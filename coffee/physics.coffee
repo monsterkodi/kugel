@@ -101,9 +101,9 @@ class Physics
     onAfterTick: (tick) =>
         
         if @pad.axes?[3]
-            @setZoom @zoom * (1+@pad.axes[3]/75)
-        else
-            @world.onResize()
+            @setZoom @zoom * (1+@pad.axes[3]/50)
+        # else
+            # @world.onResize()
 
         @world.afterTick tick.source.delta
 
@@ -139,7 +139,7 @@ class Physics
         body.setMass     = (value) -> Matter.Body.setMass     @, value
         body.setPosition = (value) -> Matter.Body.setPosition @, value
         body.setAngle    = (value) -> Matter.Body.setAngle    @, value
-        # body.setScale    = (value) -> @scale = value; Matter.Body.scale @, @scale, @scale
+
         body.setAngularVelocity = (value) -> Matter.Body.setAngularVelocity @, value
         body.addAngularVelocity = (value) -> Matter.Body.setAngularVelocity @, @.angularVelocity + value
         body.addAngle = (value) -> 
@@ -151,7 +151,7 @@ class Physics
         body.setStatic true if opt.static
         
         body.setAngle deg2rad(opt.angle) if _.isNumber opt.angle
-        # body.setScale opt.scale if _.isNumber opt.scale
+
         body.scale = opt.scale if _.isNumber opt.scale
         body.opacity = opt.opacity if _.isNumber opt.opacity
         

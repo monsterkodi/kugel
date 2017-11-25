@@ -77,7 +77,7 @@ class Car
         @boosts = @pad.button('L3').pressed
         
         if @pad.button('L3').down
-            @applySteerForce 20
+            @applySteerForce 50
         
         if @brakes
             @thrust = 0

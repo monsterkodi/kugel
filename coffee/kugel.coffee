@@ -64,6 +64,8 @@ class Kugel
         @physics.addBody 'pentagon', x: 400, y:-300, scale: 0.4, frictionStatic: 0.1, friction: 0.1, density: 0.01
         @physics.addBody 'pentagon', x: 500, y:-300, scale: 0.8, frictionStatic: 0.1, friction: 0.1, density: 0.001
         
+        @onResize()
+        
     # 000000000  000   0000000  000   000  
     #    000     000  000       000  000   
     #    000     000  000       0000000    
@@ -104,7 +106,8 @@ class Kugel
         scale = pos w/size.x, h/size.y
 
         @ctx.fillStyle = '#002'
-        @ctx.fillRect 0, 0, w, h
+        if not @pad.button('menu').pressed
+            @ctx.fillRect 0, 0, w, h
         
         gravAngle = - @gravpos.to(@car.pos()).rotation(pos(0,-1))
         # gravAngle = 0
@@ -115,7 +118,7 @@ class Kugel
         rct.rotate -gravAngle
             
         @ctx.save()
-                      
+        
         @ctx.scale 1/@physics.zoom, 1/@physics.zoom
         @ctx.translate size.x/2, size.y/2
         @ctx.rotate deg2rad gravAngle
@@ -123,7 +126,12 @@ class Kugel
         @stars.draw rct, @physics.zoom, pos @car.body.velocity
         
         @ctx.translate -@physics.center.x, -@physics.center.y
-                
+
+        @ctx.fillStyle = '#666'
+        @ctx.beginPath()
+        @ctx.ellipse @gravpos.x, @gravpos.y, 1900, 1900, 0, 0, 2 * Math.PI
+        @ctx.fill()
+        
         @car.draw()
         
         for body in @physics.bodies
@@ -137,11 +145,11 @@ class Kugel
                 scale = _.isNumber(body.scale) and body.scale or 1
                 @ctx.scale scale, scale
                 @ctx.globalCompositeOperation = body.compOp if body.compOp?
-                x = -body.image.image.width/2  + body.image.offset.x # * scale
-                y = -body.image.image.height/2 + body.image.offset.y # * scale
+                x = -body.image.image.width/2  + body.image.offset.x
+                y = -body.image.image.height/2 + body.image.offset.y
                 @ctx.drawImage body.image.image, x, y
                 @ctx.restore()
-                
+        
         @ctx.restore()
                                     
     onResize: => @physics.setViewSize sw(), sh()
