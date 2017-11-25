@@ -47,7 +47,7 @@ class Kugel
         @gravpos = pos 0, 2200
         @gravity = 0.5
         
-        for i in [0..20]
+        for i in [0...20]
             angle = i * 18
             p = pos(0,1900).rotate angle
             surface = @physics.addBody 'surface2',  x:@gravpos.x+p.x, y:@gravpos.y+p.y, scale: 1, static: true
@@ -63,9 +63,6 @@ class Kugel
         @physics.addBody 'pentagon', x: 300, y:-300, scale: 0.2, frictionStatic: 0.1, friction: 0.1, density: 0.1
         @physics.addBody 'pentagon', x: 400, y:-300, scale: 0.4, frictionStatic: 0.1, friction: 0.1, density: 0.01
         @physics.addBody 'pentagon', x: 500, y:-300, scale: 0.8, frictionStatic: 0.1, friction: 0.1, density: 0.001
-
-        # @physics.addBody 'surface2',  x:-300, y:200,  static: true, angle: -30
-        # @physics.addBody 'surface2',  x:300,  y:200,   static: true, angle: 15
         
     # 000000000  000   0000000  000   000  
     #    000     000  000       000  000   

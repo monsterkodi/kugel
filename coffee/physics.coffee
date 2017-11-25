@@ -188,14 +188,14 @@ class Physics
     # 000   000  000   000  000   000  000  0000  000   000       000  
     # 0000000     0000000    0000000   000   000  0000000    0000000   
     
-    zoomIn:  -> @setZoom clamp 1, 5, @zoom - 1
+    zoomIn:  -> @setZoom Math.max 1, parseInt @zoom / 2
     zoomOut: -> 
         if @zoom < 1 then @setZoom 1
-        else @setZoom clamp 1, 5, @zoom + 1
+        else @setZoom parseInt @zoom * 2
 
     setZoom: (@zoom) ->
         
-        @zoom = clamp 0.2, 5, @zoom
+        @zoom = clamp 0.2, 1000, @zoom
         w = @render.canvas.width  * @zoom
         h = @render.canvas.height * @zoom
         x = @center.x - w/2
