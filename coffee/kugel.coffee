@@ -44,13 +44,14 @@ class Kugel
         @physics = new Physics @, @element
         @car     = new Car     @
         
-        @grav    = pos 0, 2200
+        @gravpos = pos 0, 2200
+        @gravity = 0.5
         
         for i in [0..20]
             angle = i * 18
             p = pos(0,1900).rotate angle
-            surface = @physics.addBody 'surface2',  x:@grav.x+p.x, y:@grav.y+p.y, scale: 1, static: true
-            Matter.Body.setAngle surface, deg2rad 180+angle
+            surface = @physics.addBody 'surface2',  x:@gravpos.x+p.x, y:@gravpos.y+p.y, scale: 1, static: true
+            Matter.Body.setAngle surface, deg2rad 180+angle+ _.random -20, 10, true
             surface.collisionFilter.category = 2
             surface.collisionFilter.mask     = 0xffff
             
@@ -63,8 +64,8 @@ class Kugel
         @physics.addBody 'pentagon', x: 400, y:-300, scale: 0.4, frictionStatic: 0.1, friction: 0.1, density: 0.01
         @physics.addBody 'pentagon', x: 500, y:-300, scale: 0.8, frictionStatic: 0.1, friction: 0.1, density: 0.001
 
-        @physics.addBody 'surface2',  x:-300, y:200,  static: true, angle: -30
-        @physics.addBody 'surface2',  x:300,  y:200,   static: true, angle: 15
+        # @physics.addBody 'surface2',  x:-300, y:200,  static: true, angle: -30
+        # @physics.addBody 'surface2',  x:300,  y:200,   static: true, angle: 15
         
     # 000000000  000   0000000  000   000  
     #    000     000  000       000  000   
@@ -76,9 +77,9 @@ class Kugel
         
         for body in Matter.Composite.allBodies @physics.engine.world
             if not body.isStatic
-                bodyToCenter = pos(body.position).to(@grav).normal().scale(0.05)
-                body.force.x += 0.008 * body.mass * bodyToCenter.x
-                body.force.y += 0.008 * body.mass * bodyToCenter.y
+                bodyToCenter = pos(body.position).to(@gravpos).normal()
+                body.force.x += 0.001 * @gravity * body.mass * bodyToCenter.x
+                body.force.y += 0.001 * @gravity * body.mass * bodyToCenter.y
     
     beforeTick: (delta) ->
         
@@ -108,7 +109,7 @@ class Kugel
         @ctx.fillStyle = '#002'
         @ctx.fillRect 0, 0, w, h
         
-        gravAngle = - @grav.to(@car.pos()).rotation(pos(0,-1))
+        gravAngle = - @gravpos.to(@car.pos()).rotation(pos(0,-1))
         # gravAngle = 0
         
         rct = rect w, h

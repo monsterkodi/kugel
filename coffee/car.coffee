@@ -20,6 +20,7 @@ class Car
         @angle      = 0
         @brakes     = false
         @boosts     = false
+        @steerDir   = pos 0,0
         @smokeDelay = 0
         @jumpDelay  = 0
         @puffs      = []
@@ -69,14 +70,18 @@ class Car
         @rot.left  = @pad.button('L1').pressed and 2 or 0
         @rot.right = @pad.button('R1').pressed and 2 or 0
         
+        
         if @pad.button('cross').down then @jump()
-        @thrust = @pad.axis 'leftX'
+        
+        @steerDir = pos(@pad.axis('leftX'), @pad.axis('leftY')).rotate rad2deg @body.angle
+        @thrust = @steerDir.length()
+        
         @brakes = @pad.button('square').pressed or @pad.button('L2').pressed
         @boosts = @pad.button('L3').pressed
         @thrust *= 1.2 if @boosts
         
         if @pad.button('L3').down
-            force = @sideDir().times 10 * Math.abs(@thrust)
+            force = @steerDir.times 10 * @thrust
             @body.applyForce force
             @tire1.applyForce force.times 0.28
             @tire2.applyForce force.times 0.28
@@ -85,7 +90,7 @@ class Car
             @thrust = 0
             @body.setVelocity pos(@body.velocity).times 0.97
         
-        force = @sideDir().times 0.2 * Math.abs(@thrust) * (1 + (zoom-1)/4)
+        force = @steerDir.times @kugel.gravity * @thrust * (1 + (zoom-1)/8)
         @body.applyForce force
         @tire1.applyForce force.times 0.28
         @tire2.applyForce force.times 0.28
@@ -99,10 +104,9 @@ class Car
             @body.setAngle @body.angle + deg2rad(rotRight - rotLeft)
         else    
             bodyAngle = rad2deg @body.angle
-            gravAngle = @kugel.grav.to(@pos()).rotation(pos 0,-1)
+            gravAngle = @kugel.gravpos.to(@pos()).rotation(pos 0,-1)
             if Math.abs(bodyAngle - gravAngle) > 20
-                log Math.abs(bodyAngle - gravAngle), fadeAngles bodyAngle, gravAngle, 0.15
-                @body.setAngle deg2rad fadeAngles bodyAngle, gravAngle, 0.15
+                @body.setAngle deg2rad fadeAngles bodyAngle, gravAngle, 0.45
             
     afterTick: (delta) ->
 
@@ -154,7 +158,7 @@ class Car
     jump: ->
         if not @jumping
             @jumping = 500
-            force = @up().times 20
+            force = @up().times 60 * @kugel.gravity
             @body.applyForce force
         
     pos: -> pos @body.position
