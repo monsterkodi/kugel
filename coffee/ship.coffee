@@ -7,35 +7,33 @@
 
 { deg2rad, rad2deg, elem, fade, fadeAngles, first, pos, sw, sh, log, _ } = require 'kxk'
 
-svg       = require './svg'
 intersect = require './intersect'
+Vehicle   = require './vehicle'
+Thruster  = require './thruster'
 Matter    = require 'matter-js'
 
-class Ship
+class Ship extends Vehicle
 
     constructor: (@kugel) ->
 
-        @pad        = @kugel.pad
+        @name = 'ship'
+        super @kugel
+        
         @thrust     = 0
         @angle      = 0
         @shoots     = false
         @lasers     = false
-        @brakes     = false
         @shootDelay = 0
-        @smokeDelay = 0
         @bullets    = []
-        @puffs      = []
         @maxBullets = 100
-        @maxPuffs   = 100
         @steerDir   = pos 0,0
-        @rot        = left:0, right:0
-        
-        @body = @kugel.physics.addBody 'ship', x:0, y:0
+                
+        @body = @kugel.physics.newBody 'ship', x:0, y:0
         @body.collisionFilter.category = 4
         @body.collisionFilter.mask     = 7
         
-        @flame = svg.image 'flame'
-
+        @thrusters.down = new Thruster @physics, @body, pos(0,22), pos(0,1)
+        
     # 000000000  000   0000000  000   000  
     #    000     000  000       000  000   
     #    000     000  000       0000000    
@@ -44,14 +42,12 @@ class Ship
     
     beforeTick: (delta) ->
 
+        super delta
+        
         zoom = @kugel.physics.zoom
         @angle = rad2deg @body.angle
 
-        @rot.left  = @pad.button('L1').pressed and 2 or 0
-        @rot.right = @pad.button('R1').pressed and 2 or 0
-        
         @lasers = not @lasers if @pad.button('triangle').down
-        @brakes = @pad.button('square').pressed or @pad.button('L2').pressed
         @shoots = @pad.button('cross').pressed or @pad.button('R2').pressed
         if not @shoots then @shootDelay = 0
         
@@ -60,7 +56,7 @@ class Ship
         length = @steerDir.length()
         if length - 0.1 > 0
             @angle  = fadeAngles @angle, @steerDir.rotation(pos 0,-1), length/10
-            @thrust = (length - 0.1)/2
+            @thrust = length
             @body.setAngularVelocity 0
         else
             @thrust = 0
@@ -86,9 +82,9 @@ class Ship
         if @shoots and @shootDelay <= 0
             @shoot()
 
-        if @smokeDelay > 0 then @smokeDelay -= delta
-        if @thrust > 0 and @smokeDelay <= 0
-            @smoke()
+        @thrusters.down.thrust = @boosts and 1 or Math.max 0, @thrust
+        
+        super delta
             
     # 0000000    00000000    0000000   000   000  
     # 000   000  000   000  000   000  000 0 000  
@@ -96,38 +92,33 @@ class Ship
     # 000   000  000   000  000   000  000   000  
     # 0000000    000   000  000   000  00     00  
     
-    draw: ->
+    draw: (ctx) ->
                 
         if @lasers
-            @kugel.ctx.save()
+            
+            ctx.save()
             
             tip = @tip()
             tgt = tip.plus @pos().to(tip).scale 10000
             
-            hits = Matter.Query.ray @kugel.physics.bodies, tip, tgt
+            hits = Matter.Query.ray @physics.bodies, tip, tgt
             
             if hits.length
-                @kugel.ctx.strokeStyle = '#88f'
+                ctx.strokeStyle = '#88f'
                 hit = first hits
                 tgt = intersect.rayBody(tip, tgt, hit.bodyA) ? tgt
             else
-                @kugel.ctx.strokeStyle = '#22a'
+                ctx.strokeStyle = '#22a'
                                 
-            @kugel.ctx.beginPath()
-            @kugel.ctx.lineWidth = 1
-            @kugel.ctx.moveTo tip.x, tip.y
-            @kugel.ctx.lineTo tgt.x, tgt.y
-            @kugel.ctx.stroke()
-            @kugel.ctx.restore()
-                
-        tail = @tip -0.7
-        @kugel.ctx.save()
-        @kugel.ctx.translate tail.x, tail.y
-        @kugel.ctx.rotate @body.angle
-        @kugel.ctx.scale @thrust * 3, @thrust * 3
-        @kugel.ctx.drawImage @flame, -@flame.width/2, 0
-        @kugel.ctx.restore()
-                         
+            ctx.beginPath()
+            ctx.lineWidth = @physics.zoom
+            ctx.moveTo tip.x, tip.y
+            ctx.lineTo tgt.x, tgt.y
+            ctx.stroke()
+            ctx.restore()
+             
+        super ctx
+                                     
     pos: -> pos @body.position
     dir: -> pos(0,-1).rotate rad2deg @body.angle
     tip: (scale=1) -> @pos().plus @dir().scale 30*scale
@@ -143,7 +134,7 @@ class Ship
         if @bullets.length >= @maxBullets
             @kugel.physics.delBody @bullets.shift()
         
-        bullet = @kugel.physics.addBody 'bullet', @tip()
+        bullet = @kugel.physics.newBody 'bullet', @tip()
         bullet.setDensity 10
         bullet.restitution = 1
           
@@ -153,31 +144,5 @@ class Ship
         @shootDelay = 100
         
         @bullets.push bullet
-
-    smoke: ->
-        
-        if @puffs.length >= @maxPuffs
-            @kugel.physics.delBody @puffs.shift()
-        
-        puff = @kugel.physics.addBody 'puff', @tip(-0.7-2*@thrust)
-
-        puff.setMass 0.00000001
-        puff.restitution = 0
-        puff.maxScale = @thrust*64
-        puff.lifespan = Math.max 4000, @thrust*2*6000
-        puff.lifetime = puff.lifespan
-        
-        puff.tick = @onPuffTick
-          
-        puff.setVelocity @dir().times(-1-3*@thrust).plus pos @body.velocity
-
-        @smokeDelay = 300 - Math.min(1, 2*@thrust) * 260
-        
-        @puffs.push puff
-        
-    onPuffTick: (delta) ->
-        f        = 1 - @lifetime/@lifespan
-        @scale   = @maxScale * (Math.log(f+0.2)+2)/2
-        @opacity = 0.25 * @lifetime/@lifespan
         
 module.exports = Ship

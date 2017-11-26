@@ -43,13 +43,13 @@ class Space
         @physics = new Physics @, @element
         @ship    = new Ship @
         
-        @physics.addBody 'pentagon', x:300,  y:0
-        @physics.addBody 'ball',     x:0,    y:-300
-        @physics.addBody 'trio',     x:-300, y:0, scale:0.2
+        @physics.newBody 'pentagon', x:300,  y:0
+        @physics.newBody 'ball',     x:0,    y:-300
+        @physics.newBody 'trio',     x:-300, y:0, scale:0.2
         s = 90
-        @physics.addBody 'pipe_corner', x:+s, y:+s, static:true, angle:90
-        @physics.addBody 'pipe_corner', x:-s, y:+s, static:true, angle:180
-        @physics.addBody 'pipe_corner', x:-s, y:-s, static:true, angle:-90
+        @physics.newBody 'pipe_corner', x:+s, y:+s, static:true, angle:90
+        @physics.newBody 'pipe_corner', x:-s, y:+s, static:true, angle:180
+        @physics.newBody 'pipe_corner', x:-s, y:-s, static:true, angle:-90
         
         @onResize()
 

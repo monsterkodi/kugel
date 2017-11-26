@@ -86,10 +86,7 @@ class Physics
     #    000     000  000       000  000   
     #    000     000   0000000  000   000  
 
-    onBeforeRender: =>
-        @setZoom @zoom 
-        # @render.context.translate @world.car.body.position.x, @world.car.body.position.y
-        # @render.context.rotate @world.car.body.angle
+    onBeforeRender: => @setZoom @zoom 
         
     onBeforeUpdate: =>
         
@@ -127,25 +124,23 @@ class Physics
     # 000   000  000   000  000   000        000   000  000   000  000   000     000     
     # 000   000  0000000    0000000          0000000     0000000   0000000       000     
     
-    addBody: (name, opt) ->
+    newBody: (name, opt) ->
         
         opt ?= {}
         
         body = svg.cloneBody name, opt
         
-        @bodies.push body
-        Matter.World.add @engine.world, body
+        @addBody body
         
-        body.applyForce  = (value) -> Matter.Body.applyForce  @, @position, value
-        body.setVelocity = (value) -> Matter.Body.setVelocity @, value
-        body.setStatic   = (value) -> Matter.Body.setStatic   @, value
-        body.setDensity  = (value) -> Matter.Body.setDensity  @, value
-        body.setMass     = (value) -> Matter.Body.setMass     @, value
-        body.setPosition = (value) -> Matter.Body.setPosition @, value
-        body.setAngle    = (value) -> Matter.Body.setAngle    @, value
-
+        body.applyForce         = (value) -> Matter.Body.applyForce         @, @position, value
+        body.setVelocity        = (value) -> Matter.Body.setVelocity        @, value
+        body.setStatic          = (value) -> Matter.Body.setStatic          @, value
+        body.setDensity         = (value) -> Matter.Body.setDensity         @, value
+        body.setMass            = (value) -> Matter.Body.setMass            @, value
+        body.setPosition        = (value) -> Matter.Body.setPosition        @, value
+        body.setAngle           = (value) -> Matter.Body.setAngle           @, value
         body.setAngularVelocity = (value) -> Matter.Body.setAngularVelocity @, value
-        body.addAngularVelocity = (value) -> Matter.Body.setAngularVelocity @, @.angularVelocity + value
+        body.addAngularVelocity = (value) -> Matter.Body.setAngularVelocity @, @angularVelocity + value
         body.addAngle = (value) -> 
             Matter.Body.setAngle @, @angle + value
             Matter.Body.setAngularVelocity @, 0
@@ -160,11 +155,16 @@ class Physics
         body.opacity = opt.opacity if _.isNumber opt.opacity
         
         body
-        
+    
     delBody: (body) ->
         
         _.pull @bodies, body
         Matter.Composite.remove @engine.world, body
+        
+    addBody: (body) ->
+        
+        @bodies.push body
+        Matter.World.add @engine.world, body
         
     # 0000000    00000000  0000000    000   000   0000000   
     # 000   000  000       000   000  000   000  000        
@@ -199,8 +199,6 @@ class Physics
 
     setZoom: (@zoom) ->
         
-        # return if not @world.car
-
         @zoom = clamp 0.2, 1000, @zoom
                 
         w = @render.canvas.width  * @zoom

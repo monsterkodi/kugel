@@ -44,7 +44,7 @@ class Thruster
         
         x = position.x+2*direction.x
         y = position.y+2*direction.y
-        puff = @physics.addBody 'puff', x:x, y:y
+        puff = @physics.newBody 'puff', x:x, y:y
 
         puff.compOp = 'lighter'
         puff.collisionFilter.category = 8

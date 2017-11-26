@@ -26,7 +26,7 @@ class Planet
                 for i in [0...20]
                     angle = i * 18
                     p = pos(0,@radius).rotate angle
-                    surface = @physics.addBody @planet,  x:@center.x+p.x, y:@center.y+p.y, scale: 1, static: true
+                    surface = @physics.newBody @planet,  x:@center.x+p.x, y:@center.y+p.y, scale: 1, static: true
                     Matter.Body.setAngle surface, deg2rad 180+angle+ _.random -2*@random, @random, true
                     surface.collisionFilter.category = 2
                     surface.collisionFilter.mask     = 0xffff
@@ -38,7 +38,7 @@ class Planet
                 for i in [0...20]
                     angle = i * 18
                     p = pos(0,@radius).rotate angle
-                    surface = @physics.addBody @planet,  x:@center.x+p.x, y:@center.y+p.y, scale: 1, static: true
+                    surface = @physics.newBody @planet,  x:@center.x+p.x, y:@center.y+p.y, scale: 1, static: true
                     Matter.Body.setAngle surface, deg2rad 180+angle+ _.random -2*@random, @random, true
                     surface.collisionFilter.category = 2
                     surface.collisionFilter.mask     = 0xffff

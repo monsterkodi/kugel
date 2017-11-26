@@ -12,6 +12,7 @@ Stars   = require './stars'
 Planet  = require './planet'
 Pad     = require './pad'
 Car     = require './car'
+Ship    = require './ship'
 rect    = require './rect'
 SVG     = require 'svg.js'
 Matter  = require 'matter-js'
@@ -41,9 +42,12 @@ class Kugel
         @element.appendChild @canvas
         @ctx = @canvas.getContext '2d'
         
-        @stars   = new Stars   @, @canvas
+        @stars   = new Stars()
         @physics = new Physics @, @element
         @car     = new Car     @
+        @ship    = new Ship    @
+        @ship.hide()
+        @vehicle = @car
         
         @planets = []
         @planets.push new Planet @physics, planet:'surface2', center: pos 0, -8200
@@ -51,14 +55,14 @@ class Kugel
         
         @planet = last @planets
                             
-        @physics.addBody 'ball',     x:-100, y:-300, scale: 2,   frictionStatic: 2, friction: 0.1, density: 0.01
-        @physics.addBody 'trio',     x:-300, y:-200, scale: 0.4, frictionStatic: 2, friction: 0.1, density: 0.01
-        @physics.addBody 'trio',     x:-200, y:-200, scale: 0.6, frictionStatic: 2, friction: 0.1, density: 0.01
-        @physics.addBody 'trio',     x:-100, y:-200, scale: 0.8, frictionStatic: 2, friction: 0.1, density: 0.01
+        @physics.newBody 'ball',     x:-100, y:-300, scale: 2,   frictionStatic: 2, friction: 0.1, density: 0.01
+        @physics.newBody 'trio',     x:-300, y:-200, scale: 0.4, frictionStatic: 2, friction: 0.1, density: 0.01
+        @physics.newBody 'trio',     x:-200, y:-200, scale: 0.6, frictionStatic: 2, friction: 0.1, density: 0.01
+        @physics.newBody 'trio',     x:-100, y:-200, scale: 0.8, frictionStatic: 2, friction: 0.1, density: 0.01
         
-        @physics.addBody 'pentagon', x: 300, y:-300, scale: 0.4, frictionStatic: 0.1, friction: 0.1, density: 0.01
-        @physics.addBody 'pentagon', x: 400, y:-300, scale: 0.6, frictionStatic: 0.1, friction: 0.1, density: 0.01
-        @physics.addBody 'pentagon', x: 500, y:-300, scale: 0.8, frictionStatic: 0.1, friction: 0.1, density: 0.01
+        @physics.newBody 'pentagon', x: 300, y:-300, scale: 0.4, frictionStatic: 0.1, friction: 0.1, density: 0.01
+        @physics.newBody 'pentagon', x: 400, y:-300, scale: 0.6, frictionStatic: 0.1, friction: 0.1, density: 0.01
+        @physics.newBody 'pentagon', x: 500, y:-300, scale: 0.8, frictionStatic: 0.1, friction: 0.1, density: 0.01
         
         @onResize()
         
@@ -72,9 +76,13 @@ class Kugel
         
         maxGravity = 0
         for planet in @planets
-            gravity = planet.gravityAt @car.body.position
+            gravity = planet.gravityAt @vehicle.body.position
             if gravity.length() > maxGravity
+                maxGravity = gravity.length()
                 @planet = planet
+                
+        if maxGravity == 0 then @setVehicle @ship
+        else                    @setVehicle @car
         
         for body in Matter.Composite.allBodies @physics.engine.world
             if not body.isStatic
@@ -87,13 +95,29 @@ class Kugel
     beforeTick: (delta) ->
         
         @pad.snapState()
-        @car.beforeTick delta
+        @vehicle.beforeTick delta
         
     afterTick: (delta) ->
         
-        @car.afterTick delta
-        @physics.center = pos @car.body.position
-       
+        @vehicle.afterTick delta
+        @physics.center = pos @vehicle.body.position
+      
+    setVehicle: (vehicle) ->
+        
+        if vehicle != @vehicle
+            oldVehicle = @vehicle
+            velocity = _.clone @vehicle.body.velocity
+            angle    = @vehicle.body.angle
+            angular  = @vehicle.body.angularVelocity
+            oldVehicle.hide()
+            @vehicle = vehicle
+            @vehicle.show()
+            @vehicle.setPos             oldVehicle.pos()
+            @vehicle.body.setAngle      angle
+            @vehicle.body.setVelocity   velocity
+            # @vehicle.body.setAngularVelocity angular
+            @vehicle.body.setAngularVelocity 0
+        
     # 0000000    00000000    0000000   000   000  
     # 000   000  000   000  000   000  000 0 000  
     # 000   000  0000000    000000000  000000000  
@@ -117,8 +141,11 @@ class Kugel
         if streaks then @ctx.fillStyle = 'rgba(0,0,31,0.03)'
         else            @ctx.fillStyle = '#002'
         @ctx.fillRect 0, 0, w, h
-                    
-        gravAngle = - @planet.center.to(@car.pos()).rotation(pos(0,-1))
+               
+        if @vehicle == @ship
+            gravAngle = 0
+        else
+            gravAngle = - @planet.center.to(@vehicle.pos()).rotation(pos(0,-1))
         
         rct = rect w, h
         rct.sub pos w/2, h/2
@@ -132,14 +159,14 @@ class Kugel
         @ctx.rotate deg2rad gravAngle
         
         if not streaks
-            @stars.draw rct, @physics.zoom, pos @car.body.velocity
+            @stars.draw @ctx, rct, @physics.zoom, pos @vehicle.body.velocity
         
         @ctx.translate -@physics.center.x, -@physics.center.y
 
         for planet in @planets
             planet.draw @ctx
         
-        @car.draw()
+        @vehicle.draw @ctx
         
         for body in @physics.bodies
 

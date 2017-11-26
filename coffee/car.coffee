@@ -7,38 +7,33 @@
 
 { deg2rad, rad2deg, elem, fade, fadeAngles, first, pos, sw, sh, log, _ } = require 'kxk'
 
-svg       = require './svg'
 intersect = require './intersect'
 Thruster  = require './thruster'
+Vehicle   = require './vehicle'
 Matter    = require 'matter-js'
 
-class Car
+class Car extends Vehicle
 
     constructor: (@kugel) ->
 
-        @pad        = @kugel.pad
-        @thrust     = 0
-        @angle      = 0
-        @brakes     = false
-        @boosts     = false
-        @steer      = pos 0,0
-        @speed      = 0
-        @rot        = left:0, right:0
+        @name = 'car'
+        super @kugel
         
-        @body = @kugel.physics.addBody 'car', x:0, y:0
+        @thrust     = 0
+        @steer      = pos 0,0
+        
+        @body = @kugel.physics.newBody 'car', x:0, y:0
         @body.collisionFilter.category = 4
         @body.collisionFilter.mask     = 7
         
-        @tire1 = @kugel.physics.addBody 'tire', x: -22, y:25
-        @tire2 = @kugel.physics.addBody 'tire', x:  22, y:25
+        @tire1 = @kugel.physics.newBody 'tire', x: -22, y:25
+        @tire2 = @kugel.physics.newBody 'tire', x:  22, y:25
         
         @tire1.frictionStatic = 2
         @tire2.frictionStatic = 2
         @tire1.friction = 1
         @tire2.friction = 1
-        
-        @thrusters = {}
-        
+                
         @thrusters.left  = new Thruster @kugel.physics, @body, pos(-19.5,5), pos(-1,0).rotate -10
         @thrusters.right = new Thruster @kugel.physics, @body, pos(+19.5,5), pos(1,0).rotate  10
         @thrusters.down  = new Thruster @kugel.physics, @body, pos(  0,16.5), pos(0,1)
@@ -58,14 +53,22 @@ class Car
         constraint = Matter.Constraint.create bodyA:@body, bodyB:@tire2, render: visible: true
         Matter.World.add @kugel.physics.engine.world, constraint
 
+    setPos: (position) ->
+        
+        super position
+        @tire1.setPosition position.plus pos -22, 25
+        @tire2.setPosition position.plus pos  22, 25
+        
     # 0000000    00000000    0000000   000   000  
     # 000   000  000   000  000   000  000 0 000  
     # 000   000  0000000    000000000  000000000  
     # 000   000  000   000  000   000  000   000  
     # 0000000    000   000  000   000  00     00  
     
-    draw: ->
-        ctx = @kugel.ctx      
+    draw: (ctx) ->
+        
+        super ctx
+        
         ctx.save()
         ctx.beginPath()
         ctx.strokeStyle = '#fff'
@@ -76,12 +79,15 @@ class Car
         ctx.stroke()
         ctx.restore()
 
-        ctx.save()
-        ctx.translate @body.position.x, @body.position.y
-        ctx.rotate @body.angle
-        for key,thruster of @thrusters
-            thruster.draw ctx
-        ctx.restore()
+    show: -> 
+        super
+        @physics.addBody @tire1
+        @physics.addBody @tire2
+        
+    hide: -> 
+        super
+        @physics.delBody @tire1
+        @physics.delBody @tire2
         
     # 000000000  000   0000000  000   000  
     #    000     000  000       000  000   
@@ -90,14 +96,12 @@ class Car
     #    000     000   0000000  000   000  
     
     beforeTick: (delta) ->
-
-        @rot.left  = @pad.button('L1').pressed and 2 or 0
-        @rot.right = @pad.button('R1').pressed and 2 or 0
+        
+        super delta
         
         @steer  = pos @pad.axis('leftX'), @pad.axis('leftY')
         @thrust = @steer.length()
                 
-        @brakes = @pad.button('square').pressed or @pad.button('L2').pressed
         @boosts = false
         
         if @pad.button('cross').down
@@ -134,8 +138,7 @@ class Car
         @thrusters.right.thrust = Math.max 0, -@steer.x
         @thrusters.down.thrust  = @boosts and 1 or Math.max 0, -@steer.y
         
-        for key,thruster of @thrusters
-            thruster.afterTick delta
+        super delta
                 
     # 00000000   0000000   00000000    0000000  00000000  
     # 000       000   000  000   000  000       000       
@@ -150,7 +153,5 @@ class Car
         @body.applyForce force
         @tire1.applyForce force.times 0.28
         @tire2.applyForce force.times 0.28
-                                                        
-    pos: -> pos @body.position
-    
+                                                            
 module.exports = Car

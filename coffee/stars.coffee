@@ -14,7 +14,7 @@ intersect = require './intersect'
 
 class Stars
 
-    constructor: (@world) ->
+    constructor: ->
 
         @stars = []
         @zoom  = 1
@@ -35,7 +35,7 @@ class Stars
     # 000   000  000   000  000   000  000   000  
     # 0000000    000   000  000   000  00     00  
     
-    draw: (rect, zoom, velocity) ->
+    draw: (ctx, rect, zoom, velocity) ->
 
         if zoom != @zoom then @setZoom zoom, rect
         
@@ -57,8 +57,8 @@ class Stars
 
             star.center = np
             
-            @world.ctx.fillStyle = star.color   
-            @world.ctx.fillRect star.center.x, star.center.y, star.size*@zoom, star.size*@zoom
+            ctx.fillStyle = star.color   
+            ctx.fillRect star.center.x, star.center.y, star.size*@zoom, star.size*@zoom
             
     # 0000000   0000000    0000000   00     00  
     #    000   000   000  000   000  000   000  
