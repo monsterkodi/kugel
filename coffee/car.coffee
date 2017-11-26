@@ -102,20 +102,19 @@ class Car
         
         if @pad.button('cross').down
             @boosts = true
-            # direction = @kugel.gravpos.to @pos()
-            # direction.normalize()
             direction = pos 0,-1
-            @applySteerForce direction.times 35
+            @applyForce direction.times 35
+            
         if @pad.button('L3').down and not @steer.isZero 0.01
             @boosts   = true
             direction = @steer.copy()
-            @applySteerForce direction.times 35
+            @applyForce direction.times 35
             
         if @brakes
             @thrust = 0
             @body.setVelocity pos(@body.velocity).times 0.98
         
-        @applySteerForce @steer.copy()
+        @applyForce @steer.copy()
 
         rotLeft  = @rot.left  * (@brakes and 1.3 or 2)
         rotRight = @rot.right * (@brakes and 1.3 or 2)
@@ -129,14 +128,6 @@ class Car
             if Math.abs(bodyAngle - gravAngle) > 15
                 @body.setAngle deg2rad fadeAngles bodyAngle, gravAngle, 0.45
 
-    applySteerForce: (direction) ->
-                
-        zoomFactor = 1 + (@kugel.physics.zoom-1)/8
-        force = direction.rotate(rad2deg @body.angle).times @kugel.gravity * zoomFactor
-        @body.applyForce force
-        @tire1.applyForce force.times 0.28
-        @tire2.applyForce force.times 0.28
-                
     afterTick: (delta) ->
 
         @thrusters.left.thrust  = Math.max 0, +@steer.x
@@ -145,11 +136,21 @@ class Car
         
         for key,thruster of @thrusters
             thruster.afterTick delta
-                                        
+                
+    # 00000000   0000000   00000000    0000000  00000000  
+    # 000       000   000  000   000  000       000       
+    # 000000    000   000  0000000    000       0000000   
+    # 000       000   000  000   000  000       000       
+    # 000        0000000   000   000   0000000  00000000  
+    
+    applyForce: (direction) ->
+                
+        zoomFactor = 1 + (@kugel.physics.zoom-1)/8
+        force = direction.rotate(rad2deg @body.angle).times @kugel.gravity * zoomFactor
+        @body.applyForce force
+        @tire1.applyForce force.times 0.28
+        @tire2.applyForce force.times 0.28
+                                                        
     pos: -> pos @body.position
-    dir: -> 
-        x = @thrust >= 0 and 1 or -1
-        pos(x,0).rotate rad2deg @body.angle
-    up: -> pos(0,-1).rotate rad2deg @body.angle
     
 module.exports = Car

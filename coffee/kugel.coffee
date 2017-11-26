@@ -107,9 +107,7 @@ class Kugel
 
         if @pad.button('menu').down
             @streaks = not @streaks
-            if @streaks
-                @ctx.fillRect 0, 0, w, h
-        
+          
         if not @streaks
             @ctx.fillStyle = '#002'
             @ctx.fillRect 0, 0, w, h
