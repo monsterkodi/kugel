@@ -5,15 +5,16 @@
 # 000  000   000   000  000   000  000       000      
 # 000   000   0000000    0000000   00000000  0000000  
 
-{ rad2deg, deg2rad, keyinfo, stopEvent, elem, post, prefs, sw, sh, pos, log, $, _ } = require 'kxk'
+{ rad2deg, deg2rad, keyinfo, stopEvent, elem, last, post, prefs, sw, sh, pos, log, $, _ } = require 'kxk'
 
 Physics = require './physics'
 Stars   = require './stars'
+Planet  = require './planet'
 Pad     = require './pad'
 Car     = require './car'
+rect    = require './rect'
 SVG     = require 'svg.js'
 Matter  = require 'matter-js'
-rect    = require './rect'
 
 class Kugel
 
@@ -44,17 +45,12 @@ class Kugel
         @physics = new Physics @, @element
         @car     = new Car     @
         
-        @gravpos = pos 0, 2200
-        @gravity = 0.5
+        @planets = []
+        @planets.push new Planet @physics, planet:'surface2', center: pos 0, -8200
+        @planets.push new Planet @physics, planet:'surface',  center: pos 0, 2200
         
-        for i in [0...20]
-            angle = i * 18
-            p = pos(0,1900).rotate angle
-            surface = @physics.addBody 'surface2',  x:@gravpos.x+p.x, y:@gravpos.y+p.y, scale: 1, static: true
-            Matter.Body.setAngle surface, deg2rad 180+angle+ _.random -20, 10, true
-            surface.collisionFilter.category = 2
-            surface.collisionFilter.mask     = 0xffff
-            
+        @planet = last @planets
+                            
         @physics.addBody 'ball',     x:-100, y:-300, scale: 2,   frictionStatic: 2, friction: 0.1, density: 0.01
         @physics.addBody 'trio',     x:-300, y:-200, scale: 0.4, frictionStatic: 2, friction: 0.1, density: 0.01
         @physics.addBody 'trio',     x:-200, y:-200, scale: 0.6, frictionStatic: 2, friction: 0.1, density: 0.01
@@ -74,11 +70,19 @@ class Kugel
     
     beforeUpdate: ->
         
+        maxGravity = 0
+        for planet in @planets
+            gravity = planet.gravityAt @car.body.position
+            if gravity.length() > maxGravity
+                @planet = planet
+        
         for body in Matter.Composite.allBodies @physics.engine.world
             if not body.isStatic
-                bodyToCenter = pos(body.position).to(@gravpos).normal()
-                body.force.x += 0.001 * @gravity * body.mass * bodyToCenter.x
-                body.force.y += 0.001 * @gravity * body.mass * bodyToCenter.y
+                for planet in @planets
+                    bodyToCenter = planet.gravityAt body.position
+                    bodyToCenter.scale body.mass
+                    body.force.x += bodyToCenter.x
+                    body.force.y += bodyToCenter.y
     
     beforeTick: (delta) ->
         
@@ -115,8 +119,7 @@ class Kugel
             @ctx.fillStyle = 'rgba(0,0,31,0.03)'
             @ctx.fillRect 0, 0, w, h
                     
-        gravAngle = - @gravpos.to(@car.pos()).rotation(pos(0,-1))
-        # gravAngle = 0
+        gravAngle = - @planet.center.to(@car.pos()).rotation(pos(0,-1))
         
         rct = rect w, h
         rct.sub pos w/2, h/2
@@ -134,10 +137,8 @@ class Kugel
         
         @ctx.translate -@physics.center.x, -@physics.center.y
 
-        @ctx.fillStyle = '#666'
-        @ctx.beginPath()
-        @ctx.ellipse @gravpos.x, @gravpos.y, 1900, 1900, 0, 0, 2 * Math.PI
-        @ctx.fill()
+        for planet in @planets
+            planet.draw @ctx
         
         @car.draw()
         

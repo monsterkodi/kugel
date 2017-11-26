@@ -124,7 +124,7 @@ class Car
             @body.setAngle @body.angle + deg2rad(rotRight - rotLeft)
         else    
             bodyAngle = rad2deg @body.angle
-            gravAngle = @kugel.gravpos.to(@pos()).rotation(pos 0,-1)
+            gravAngle = @kugel.planet.center.to(@pos()).rotation(pos 0,-1)
             if Math.abs(bodyAngle - gravAngle) > 15
                 @body.setAngle deg2rad fadeAngles bodyAngle, gravAngle, 0.45
 
@@ -146,7 +146,7 @@ class Car
     applyForce: (direction) ->
                 
         zoomFactor = 1 + (@kugel.physics.zoom-1)/8
-        force = direction.rotate(rad2deg @body.angle).times @kugel.gravity * zoomFactor
+        force = direction.rotate(rad2deg @body.angle).times @kugel.planet.gravity * zoomFactor
         @body.applyForce force
         @tire1.applyForce force.times 0.28
         @tire2.applyForce force.times 0.28
