@@ -199,10 +199,10 @@ class Physics
 
     setZoom: (@zoom) ->
         
-        return if not @world.car
-        
+        # return if not @world.car
+
         @zoom = clamp 0.2, 1000, @zoom
-        
+                
         w = @render.canvas.width  * @zoom
         h = @render.canvas.height * @zoom
         x = @center.x - w/2
@@ -210,6 +210,8 @@ class Physics
 
         vertices = Matter.Vertices.fromPath "#{x} #{y} #{x+w} #{y} #{x+w} #{y+h} #{x} #{y+h}"
         Matter.Bounds.update @render.bounds, vertices, 0
+        
+        @world.onZoom()
         
     setViewSize: (w,h) ->
         

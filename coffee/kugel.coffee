@@ -100,6 +100,7 @@ class Kugel
     # 000   000  000   000  000   000  000   000  
     # 0000000    000   000  000   000  00     00  
     
+    onZoom: -> @clear = true
     draw: ->
         
         w = sw()
@@ -109,15 +110,13 @@ class Kugel
         size  = pos b.max.x - b.min.x, b.max.y - b.min.y
         scale = pos w/size.x, h/size.y
 
-        if @pad.button('menu').down
-            @streaks = not @streaks
+        if @pad.button('menu').down then @streaks = not @streaks
           
-        if not @streaks
-            @ctx.fillStyle = '#002'
-            @ctx.fillRect 0, 0, w, h
-        else
-            @ctx.fillStyle = 'rgba(0,0,31,0.03)'
-            @ctx.fillRect 0, 0, w, h
+        streaks = @streaks and not @clear
+        @clear = false
+        if streaks then @ctx.fillStyle = 'rgba(0,0,31,0.03)'
+        else            @ctx.fillStyle = '#002'
+        @ctx.fillRect 0, 0, w, h
                     
         gravAngle = - @planet.center.to(@car.pos()).rotation(pos(0,-1))
         
@@ -132,7 +131,7 @@ class Kugel
         @ctx.translate size.x/2, size.y/2
         @ctx.rotate deg2rad gravAngle
         
-        if not @streaks
+        if not streaks
             @stars.draw rct, @physics.zoom, pos @car.body.velocity
         
         @ctx.translate -@physics.center.x, -@physics.center.y
@@ -170,12 +169,7 @@ class Kugel
     
     focus: -> @element.focus()
     
-    onKeyDown: (event) =>
-        
-        {mod, key, combo, char} = keyinfo.forEvent event
-
-    onKeyUp: (event) =>
-        
-        {mod, key, combo, char} = keyinfo.forEvent event
+    onKeyDown: (event) => {mod, key, combo, char} = keyinfo.forEvent event
+    onKeyUp:   (event) => {mod, key, combo, char} = keyinfo.forEvent event
                         
 module.exports = Kugel
