@@ -30,7 +30,7 @@ class Pad extends events
     onConnected: (event) =>
         
         if @getPad()
-            log 'got pad'
+            log 'got pad', event.gamepad.index
             @stopPolling()
             @snapState()
 
@@ -61,7 +61,6 @@ class Pad extends events
         null
 
     snapState: -> 
-        
         if gp = @getPad()
             for i in [0..17]
                 b = gp.buttons[i]

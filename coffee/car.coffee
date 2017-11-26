@@ -9,6 +9,7 @@
 
 svg       = require './svg'
 intersect = require './intersect'
+Thruster  = require './thruster'
 Matter    = require 'matter-js'
 
 class Car
@@ -21,10 +22,6 @@ class Car
         @brakes     = false
         @boosts     = false
         @steer      = pos 0,0
-        @smokeDelay = 0
-        @jumpDelay  = 0
-        @puffs      = []
-        @maxPuffs   = 100
         @speed      = 0
         @rot        = left:0, right:0
         
@@ -39,6 +36,12 @@ class Car
         @tire2.frictionStatic = 2
         @tire1.friction = 1
         @tire2.friction = 1
+        
+        @thrusters = {}
+        
+        @thrusters.left  = new Thruster @kugel.physics, @body, pos(-19.5,5), pos(-1,0).rotate -10
+        @thrusters.right = new Thruster @kugel.physics, @body, pos(+19.5,5), pos(1,0).rotate  10
+        @thrusters.down  = new Thruster @kugel.physics, @body, pos(  0,16.5), pos(0,1)
 
         constraint = Matter.Constraint.create bodyA:@tire2, bodyB:@tire1, stiffness: 0.1, damping: 0.1, render: visible: true
         Matter.World.add @kugel.physics.engine.world, constraint 
@@ -54,9 +57,32 @@ class Car
         
         constraint = Matter.Constraint.create bodyA:@body, bodyB:@tire2, render: visible: true
         Matter.World.add @kugel.physics.engine.world, constraint
-        
-        @flame = svg.image 'flame'
 
+    # 0000000    00000000    0000000   000   000  
+    # 000   000  000   000  000   000  000 0 000  
+    # 000   000  0000000    000000000  000000000  
+    # 000   000  000   000  000   000  000   000  
+    # 0000000    000   000  000   000  00     00  
+    
+    draw: ->
+        ctx = @kugel.ctx      
+        ctx.save()
+        ctx.beginPath()
+        ctx.strokeStyle = '#fff'
+        ctx.lineWidth = 5
+        ctx.moveTo @tire1.position.x, @tire1.position.y
+        ctx.lineTo @body.position.x,  @body.position.y 
+        ctx.lineTo @tire2.position.x, @tire2.position.y
+        ctx.stroke()
+        ctx.restore()
+
+        ctx.save()
+        ctx.translate @body.position.x, @body.position.y
+        ctx.rotate @body.angle
+        for key,thruster of @thrusters
+            thruster.draw ctx
+        ctx.restore()
+        
     # 000000000  000   0000000  000   000  
     #    000     000  000       000  000   
     #    000     000  000       0000000    
@@ -68,22 +94,28 @@ class Car
         @rot.left  = @pad.button('L1').pressed and 2 or 0
         @rot.right = @pad.button('R1').pressed and 2 or 0
         
-        if @pad.button('cross').down then @jump()
-        
-        @steer    = pos @pad.axis('leftX'), @pad.axis('leftY')
-        @thrust   = @steer.length()
-        
+        @steer  = pos @pad.axis('leftX'), @pad.axis('leftY')
+        @thrust = @steer.length()
+                
         @brakes = @pad.button('square').pressed or @pad.button('L2').pressed
-        @boosts = @pad.button('L3').pressed
+        @boosts = false
         
-        if @pad.button('L3').down
-            @applySteerForce 50
-        
+        if @pad.button('cross').down
+            @boosts = true
+            # direction = @kugel.gravpos.to @pos()
+            # direction.normalize()
+            direction = pos 0,-1
+            @applySteerForce direction.times 35
+        if @pad.button('L3').down and not @steer.isZero 0.01
+            @boosts   = true
+            direction = @steer.copy()
+            @applySteerForce direction.times 35
+            
         if @brakes
             @thrust = 0
             @body.setVelocity pos(@body.velocity).times 0.98
         
-        @applySteerForce 1
+        @applySteerForce @steer.copy()
 
         rotLeft  = @rot.left  * (@brakes and 1.3 or 2)
         rotRight = @rot.right * (@brakes and 1.3 or 2)
@@ -97,132 +129,27 @@ class Car
             if Math.abs(bodyAngle - gravAngle) > 15
                 @body.setAngle deg2rad fadeAngles bodyAngle, gravAngle, 0.45
 
-    applySteerForce: (f=1) ->
-        
+    applySteerForce: (direction) ->
+                
         zoomFactor = 1 + (@kugel.physics.zoom-1)/8
-        force = @steer.copy().rotate(rad2deg @body.angle).times f * @kugel.gravity * zoomFactor
+        force = direction.rotate(rad2deg @body.angle).times @kugel.gravity * zoomFactor
         @body.applyForce force
         @tire1.applyForce force.times 0.28
         @tire2.applyForce force.times 0.28
                 
     afterTick: (delta) ->
 
-        if @smokeDelay > 0 then @smokeDelay -= delta
-        if @thrust > 0 and @smokeDelay <= 0
-            @smoke()
-            
-        if @jumping or @steer.y < 0
-            @jumping -= delta
-            @jumping = 0 if @jumping < 0
-            if @jumpDelay > 0 then @jumpDelay -= delta
-            if @jumpDelay <= 0
-                @smokeJump()
-            
-    # 0000000    00000000    0000000   000   000  
-    # 000   000  000   000  000   000  000 0 000  
-    # 000   000  0000000    000000000  000000000  
-    # 000   000  000   000  000   000  000   000  
-    # 0000000    000   000  000   000  00     00  
-    
-    draw: ->
-                
-        @kugel.ctx.save()
-        @kugel.ctx.beginPath()
-        @kugel.ctx.strokeStyle = '#fff'
-        @kugel.ctx.lineWidth = 5
-        @kugel.ctx.moveTo @tire1.position.x, @tire1.position.y
-        @kugel.ctx.lineTo @body.position.x,  @body.position.y 
-        @kugel.ctx.lineTo @tire2.position.x, @tire2.position.y
-        @kugel.ctx.stroke()
-        @kugel.ctx.restore()
-                
-        tail = @side -0.64
-        @kugel.ctx.save()
-        @kugel.ctx.translate tail.x, tail.y
-        @kugel.ctx.rotate @body.angle + deg2rad (@steer.x < 0 and - 90 + 14 or + 90 - 14)
-        @kugel.ctx.scale Math.abs(@steer.x), Math.abs(@steer.x)
-        @kugel.ctx.drawImage @flame, -@flame.width/2, 0
-        @kugel.ctx.restore()
+        @thrusters.left.thrust  = Math.max 0, +@steer.x
+        @thrusters.right.thrust = Math.max 0, -@steer.x
+        @thrusters.down.thrust  = @boosts and 1 or Math.max 0, -@steer.y
         
-        if @jumping or @steer.y < 0
-            tail = @pos().minus @up().times 16
-            @kugel.ctx.save()
-            @kugel.ctx.translate tail.x, tail.y
-            s = @jumping and 1 or - @steer.y
-            @kugel.ctx.scale s, s
-            @kugel.ctx.rotate @body.angle
-            @kugel.ctx.drawImage @flame, -@flame.width/2, 0
-            @kugel.ctx.restore()
-            
-    jump: ->
-        if not @jumping
-            @jumping = 500
-            force = @up().times 60 * @kugel.gravity
-            @body.applyForce force
-        
+        for key,thruster of @thrusters
+            thruster.afterTick delta
+                                        
     pos: -> pos @body.position
     dir: -> 
         x = @thrust >= 0 and 1 or -1
         pos(x,0).rotate rad2deg @body.angle
     up: -> pos(0,-1).rotate rad2deg @body.angle
     
-    sideDir: -> 
-        if @steer.x >= 0
-            pos(1,0).rotate rad2deg(@body.angle) - 14
-        else
-            pos(-1,0).rotate rad2deg(@body.angle) + 14
-            
-    side: (scale=1) -> 
-        
-        @pos().plus @sideDir().scale 30*scale
-        
-    #  0000000  00     00   0000000   000   000  00000000  
-    # 000       000   000  000   000  000  000   000       
-    # 0000000   000000000  000   000  0000000    0000000   
-    #      000  000 0 000  000   000  000  000   000       
-    # 0000000   000   000   0000000   000   000  00000000  
-    
-    smoke: ->
-
-        p = @side -0.9
-        puff = @addPuff p, @thrust
-        puff.setVelocity @sideDir().times(-1-@thrust).plus pos @body.velocity
-        @smokeDelay = 300 - @thrust * 260
-
-    smokeJump: ->
-        
-        p = @pos().plus @up().times -22
-        thrust = @steer.y < 0 and Math.abs(@steer.y) or 1
-        puff = @addPuff p, thrust
-        puff.setVelocity @up().times(-1-thrust).plus pos @body.velocity
-        @jumpDelay = 300 - thrust * 260
-                
-    addPuff: (position, thrust) ->
-
-        if @puffs.length >= @maxPuffs
-            @kugel.physics.delBody @puffs.shift()
-        
-        puff = @kugel.physics.addBody 'puff2', x:position.x, y:position.y
-
-        puff.compOp = 'lighter'
-        puff.collisionFilter.category = 8
-        puff.collisionFilter.mask     = 10
-        
-        puff.setDensity 0.0000001
-        puff.restitution = 0
-        
-        puff.maxScale = thrust * 16 * _.random 0.5, 1, true
-        puff.lifespan = Math.max 2000, thrust*3000
-        puff.lifetime = puff.lifespan
-        
-        puff.tick = @onPuffTick
-        
-        @puffs.push puff
-        puff
-        
-    onPuffTick: (delta) ->
-        f        = 1 - @lifetime/@lifespan
-        @scale   = @maxScale * (Math.log(f+0.2)+2)/2
-        @opacity = 0.25 * @lifetime/@lifespan
-        
 module.exports = Car
