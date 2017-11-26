@@ -50,6 +50,8 @@ class Space
         @physics.addBody 'pipe_corner', x:+s, y:+s, static:true, angle:90
         @physics.addBody 'pipe_corner', x:-s, y:+s, static:true, angle:180
         @physics.addBody 'pipe_corner', x:-s, y:-s, static:true, angle:-90
+        
+        @onResize()
 
     # 000000000  000   0000000  000   000  
     #    000     000  000       000  000   

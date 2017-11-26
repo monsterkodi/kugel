@@ -55,14 +55,14 @@ class Kugel
             surface.collisionFilter.category = 2
             surface.collisionFilter.mask     = 0xffff
             
-        @physics.addBody 'ball',     x:-100, y:-300,             frictionStatic: 2, friction: 0.1, density: 0.01
-        @physics.addBody 'trio',     x:-300, y:-200, scale: 0.3, frictionStatic: 2, friction: 0.1, density: 0.01
-        @physics.addBody 'trio',     x:-200, y:-200, scale: 0.4, frictionStatic: 2, friction: 0.1, density: 0.01
-        @physics.addBody 'trio',     x:-100, y:-200, scale: 0.5, frictionStatic: 2, friction: 0.1, density: 0.01
+        @physics.addBody 'ball',     x:-100, y:-300, scale: 2,   frictionStatic: 2, friction: 0.1, density: 0.01
+        @physics.addBody 'trio',     x:-300, y:-200, scale: 0.4, frictionStatic: 2, friction: 0.1, density: 0.01
+        @physics.addBody 'trio',     x:-200, y:-200, scale: 0.6, frictionStatic: 2, friction: 0.1, density: 0.01
+        @physics.addBody 'trio',     x:-100, y:-200, scale: 0.8, frictionStatic: 2, friction: 0.1, density: 0.01
         
-        @physics.addBody 'pentagon', x: 300, y:-300, scale: 0.2, frictionStatic: 0.1, friction: 0.1, density: 0.1
-        @physics.addBody 'pentagon', x: 400, y:-300, scale: 0.4, frictionStatic: 0.1, friction: 0.1, density: 0.01
-        @physics.addBody 'pentagon', x: 500, y:-300, scale: 0.8, frictionStatic: 0.1, friction: 0.1, density: 0.001
+        @physics.addBody 'pentagon', x: 300, y:-300, scale: 0.4, frictionStatic: 0.1, friction: 0.1, density: 0.01
+        @physics.addBody 'pentagon', x: 400, y:-300, scale: 0.6, frictionStatic: 0.1, friction: 0.1, density: 0.01
+        @physics.addBody 'pentagon', x: 500, y:-300, scale: 0.8, frictionStatic: 0.1, friction: 0.1, density: 0.01
         
         @onResize()
         
@@ -105,16 +105,24 @@ class Kugel
         size  = pos b.max.x - b.min.x, b.max.y - b.min.y
         scale = pos w/size.x, h/size.y
 
-        @ctx.fillStyle = '#002'
-        if not @pad.button('menu').pressed
-            @ctx.fillRect 0, 0, w, h
+        if @pad.button('menu').down
+            @streaks = not @streaks
+            if @streaks
+                @ctx.fillRect 0, 0, w, h
         
+        if not @streaks
+            @ctx.fillStyle = '#002'
+            @ctx.fillRect 0, 0, w, h
+        else
+            @ctx.fillStyle = 'rgba(0,0,31,0.03)'
+            @ctx.fillRect 0, 0, w, h
+                    
         gravAngle = - @gravpos.to(@car.pos()).rotation(pos(0,-1))
         # gravAngle = 0
         
         rct = rect w, h
         rct.sub pos w/2, h/2
-        rct.scale @physics.zoom*0.99
+        rct.scale @physics.zoom*1.02
         rct.rotate -gravAngle
             
         @ctx.save()
@@ -123,7 +131,8 @@ class Kugel
         @ctx.translate size.x/2, size.y/2
         @ctx.rotate deg2rad gravAngle
         
-        @stars.draw rct, @physics.zoom, pos @car.body.velocity
+        if not @streaks
+            @stars.draw rct, @physics.zoom, pos @car.body.velocity
         
         @ctx.translate -@physics.center.x, -@physics.center.y
 

@@ -37,8 +37,8 @@ class Physics
             options:
                 wireframes:      true
                 showVelocity:    true
-                # showBounds:      false
                 showPositions:   true
+                # showBounds:      false
                 # showCollisions:  false
                 hasBounds:      true
                 width:          sw()
@@ -46,6 +46,7 @@ class Physics
 
         @runner = Matter.Runner.create delta:1000/60, isFixed:false
         
+        Matter.Events.on @render, 'beforeRender', @onBeforeRender
         Matter.Events.on @engine, 'beforeUpdate', @onBeforeUpdate
         Matter.Events.on @runner, 'beforeTick',   @onBeforeTick 
         Matter.Events.on @runner, 'afterTick',    @onAfterTick 
@@ -85,6 +86,11 @@ class Physics
     #    000     000  000       000  000   
     #    000     000   0000000  000   000  
 
+    onBeforeRender: =>
+        @setZoom @zoom 
+        # @render.context.translate @world.car.body.position.x, @world.car.body.position.y
+        # @render.context.rotate @world.car.body.angle
+        
     onBeforeUpdate: =>
         
         @world.beforeUpdate?()
@@ -102,8 +108,6 @@ class Physics
         
         if @pad.axes?[3]
             @setZoom @zoom * (1+@pad.axes[3]/50)
-        # else
-            # @world.onResize()
 
         @world.afterTick tick.source.delta
 
@@ -195,7 +199,10 @@ class Physics
 
     setZoom: (@zoom) ->
         
+        return if not @world.car
+        
         @zoom = clamp 0.2, 1000, @zoom
+        
         w = @render.canvas.width  * @zoom
         h = @render.canvas.height * @zoom
         x = @center.x - w/2

@@ -52,7 +52,7 @@ class Stars
                     if velocity.isZero()
                         dir = pos(0,1).rotate _.random 0, 360, true
                     else
-                        dir = velocity.normal().rotate _.random -80, 80, true
+                        dir = velocity.normal().rotate _.random -180, 180, true
                     np = outer.intersectLine pos(0,0), dir.scale o
 
             star.center = np

@@ -40,19 +40,19 @@ class Car
         @tire1.friction = 1
         @tire2.friction = 1
 
-        constraint = Matter.Constraint.create bodyA:@tire2, bodyB:@tire1, stiffness: 0.1, damping: 0.1, render: visible: false
+        constraint = Matter.Constraint.create bodyA:@tire2, bodyB:@tire1, stiffness: 0.1, damping: 0.1, render: visible: true
         Matter.World.add @kugel.physics.engine.world, constraint 
         
-        constraint = Matter.Constraint.create bodyA:@body, bodyB:@tire1, render: visible: false
+        constraint = Matter.Constraint.create bodyA:@body, bodyB:@tire1, render: visible: true
         Matter.World.add @kugel.physics.engine.world, constraint
 
-        constraint = Matter.Constraint.create bodyA:@body, bodyB:@tire1, pointA:pos(-10,1), stiffness: 0.2, damping: 0.1, render: visible: false
+        constraint = Matter.Constraint.create bodyA:@body, bodyB:@tire1, pointA:pos(-10,1), stiffness: 0.2, damping: 0.1, render: visible: true
         Matter.World.add @kugel.physics.engine.world, constraint
         
-        constraint = Matter.Constraint.create bodyA:@body, bodyB:@tire2, pointA:pos(10,1), stiffness: 0.2, damping: 0.1, render: visible: false
+        constraint = Matter.Constraint.create bodyA:@body, bodyB:@tire2, pointA:pos(10,1), stiffness: 0.2, damping: 0.1, render: visible: true
         Matter.World.add @kugel.physics.engine.world, constraint
         
-        constraint = Matter.Constraint.create bodyA:@body, bodyB:@tire2, render: visible: false
+        constraint = Matter.Constraint.create bodyA:@body, bodyB:@tire2, render: visible: true
         Matter.World.add @kugel.physics.engine.world, constraint
         
         @flame = svg.image 'flame'
@@ -100,7 +100,7 @@ class Car
     applySteerForce: (f=1) ->
         
         zoomFactor = 1 + (@kugel.physics.zoom-1)/8
-        force = @steer.rotate(rad2deg @body.angle).times f * @kugel.gravity * zoomFactor
+        force = @steer.copy().rotate(rad2deg @body.angle).times f * @kugel.gravity * zoomFactor
         @body.applyForce force
         @tire1.applyForce force.times 0.28
         @tire2.applyForce force.times 0.28
@@ -139,15 +139,17 @@ class Car
         tail = @side -0.64
         @kugel.ctx.save()
         @kugel.ctx.translate tail.x, tail.y
-        @kugel.ctx.rotate @body.angle + deg2rad 90 - (@steer.x < 0 and -14 or 14)
+        @kugel.ctx.rotate @body.angle + deg2rad (@steer.x < 0 and - 90 + 14 or + 90 - 14)
         @kugel.ctx.scale Math.abs(@steer.x), Math.abs(@steer.x)
         @kugel.ctx.drawImage @flame, -@flame.width/2, 0
         @kugel.ctx.restore()
         
-        if @jumping
+        if @jumping or @steer.y < 0
             tail = @pos().minus @up().times 16
             @kugel.ctx.save()
             @kugel.ctx.translate tail.x, tail.y
+            s = @jumping and 1 or - @steer.y
+            @kugel.ctx.scale s, s
             @kugel.ctx.rotate @body.angle
             @kugel.ctx.drawImage @flame, -@flame.width/2, 0
             @kugel.ctx.restore()
@@ -182,37 +184,25 @@ class Car
     
     smoke: ->
 
-        if @puffs.length >= @maxPuffs
-            @kugel.physics.delBody @puffs.shift()
-        
-        p = @side -0.4-@thrust
-        puff = @kugel.physics.addBody 'puff', x:p.x, y:p.y
-
-        puff.compOp = 'lighter'
-        puff.collisionFilter.category = 8
-        puff.collisionFilter.mask     = 10
-        
-        puff.setDensity 0.0000001
-        puff.restitution = 0
-        puff.maxScale = @thrust * 16 * _.random 0.5, 1, true
-        puff.lifespan = Math.max 2000, @thrust*3000
-        puff.lifetime = puff.lifespan
-        
-        puff.tick = @onPuffTick
-          
+        p = @side -0.9
+        puff = @addPuff p, @thrust
         puff.setVelocity @sideDir().times(-1-@thrust).plus pos @body.velocity
-
         @smokeDelay = 300 - @thrust * 260
-        
-        @puffs.push puff
 
     smokeJump: ->
+        
+        p = @pos().plus @up().times -22
+        thrust = @steer.y < 0 and Math.abs(@steer.y) or 1
+        puff = @addPuff p, thrust
+        puff.setVelocity @up().times(-1-thrust).plus pos @body.velocity
+        @jumpDelay = 300 - thrust * 260
+                
+    addPuff: (position, thrust) ->
 
         if @puffs.length >= @maxPuffs
             @kugel.physics.delBody @puffs.shift()
         
-        p = @pos().plus @up().times -16
-        puff = @kugel.physics.addBody 'puff', x:p.x, y:p.y
+        puff = @kugel.physics.addBody 'puff2', x:position.x, y:position.y
 
         puff.compOp = 'lighter'
         puff.collisionFilter.category = 8
@@ -220,20 +210,15 @@ class Car
         
         puff.setDensity 0.0000001
         puff.restitution = 0
-        puff.maxScale = 20 * _.random 0.5, 1, true
-        puff.lifespan = 3000
+        
+        puff.maxScale = thrust * 16 * _.random 0.5, 1, true
+        puff.lifespan = Math.max 2000, thrust*3000
         puff.lifetime = puff.lifespan
         
         puff.tick = @onPuffTick
         
-        scale = @jumping and -4 or Math.min 0, @steer.y
-        
-        puff.setVelocity @up().times(scale).plus pos @body.velocity
-        puff.setAngle @body.angle
-
-        @jumpDelay = 40
-        
         @puffs.push puff
+        puff
         
     onPuffTick: (delta) ->
         f        = 1 - @lifetime/@lifespan
