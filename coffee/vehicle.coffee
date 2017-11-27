@@ -15,6 +15,9 @@ class Vehicle
         @pad       = @kugel.pad
         @rot       = left:0, right:0
         
+        @steer     = pos 0,0
+        @thrust    = 0
+        
         @brakes    = false
         @boosts    = false
         
@@ -30,6 +33,9 @@ class Vehicle
         ctx.restore()
         
     beforeTick: (delta) ->
+        
+        @steer  = pos @pad.axis('leftX'), @pad.axis('leftY')
+        @thrust = @steer.length()
         
         @brakes = @pad.button('square').pressed or @pad.button('L2').pressed
         @rot.left  = @pad.button('L1').pressed and 2 or 0

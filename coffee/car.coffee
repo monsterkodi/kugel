@@ -52,56 +52,17 @@ class Car extends Vehicle
         
         constraint = Matter.Constraint.create bodyA:@body, bodyB:@tire2, render: visible: true
         Matter.World.add @kugel.physics.engine.world, constraint
-
-    setPos: (position) ->
-        
-        super position
-        @tire1.setPosition position.plus pos -22, 25
-        @tire2.setPosition position.plus pos  22, 25
-        
-    # 0000000    00000000    0000000   000   000  
-    # 000   000  000   000  000   000  000 0 000  
-    # 000   000  0000000    000000000  000000000  
-    # 000   000  000   000  000   000  000   000  
-    # 0000000    000   000  000   000  00     00  
-    
-    draw: (ctx) ->
-        
-        super ctx
-        
-        ctx.save()
-        ctx.beginPath()
-        ctx.strokeStyle = '#fff'
-        ctx.lineWidth = 5
-        ctx.moveTo @tire1.position.x, @tire1.position.y
-        ctx.lineTo @body.position.x,  @body.position.y 
-        ctx.lineTo @tire2.position.x, @tire2.position.y
-        ctx.stroke()
-        ctx.restore()
-
-    show: -> 
-        super
-        @physics.addBody @tire1
-        @physics.addBody @tire2
-        
-    hide: -> 
-        super
-        @physics.delBody @tire1
-        @physics.delBody @tire2
-        
-    # 000000000  000   0000000  000   000  
-    #    000     000  000       000  000   
-    #    000     000  000       0000000    
-    #    000     000  000       000  000   
-    #    000     000   0000000  000   000  
+                
+    # 0000000    00000000  00000000   0000000   00000000   00000000  000000000  000   0000000  000   000  
+    # 000   000  000       000       000   000  000   000  000          000     000  000       000  000   
+    # 0000000    0000000   000000    000   000  0000000    0000000      000     000  000       0000000    
+    # 000   000  000       000       000   000  000   000  000          000     000  000       000  000   
+    # 0000000    00000000  000        0000000   000   000  00000000     000     000   0000000  000   000  
     
     beforeTick: (delta) ->
         
         super delta
-        
-        @steer  = pos @pad.axis('leftX'), @pad.axis('leftY')
-        @thrust = @steer.length()
-                
+                        
         @boosts = false
         
         if @pad.button('cross').down
@@ -132,6 +93,12 @@ class Car extends Vehicle
             if Math.abs(bodyAngle - gravAngle) > 15
                 @body.setAngle deg2rad fadeAngles bodyAngle, gravAngle, 0.45
 
+    #  0000000   00000000  000000000  00000000  00000000   000000000  000   0000000  000   000  
+    # 000   000  000          000     000       000   000     000     000  000       000  000   
+    # 000000000  000000       000     0000000   0000000       000     000  000       0000000    
+    # 000   000  000          000     000       000   000     000     000  000       000  000   
+    # 000   000  000          000     00000000  000   000     000     000   0000000  000   000  
+    
     afterTick: (delta) ->
 
         @thrusters.left.thrust  = Math.max 0, +@steer.x
@@ -139,7 +106,43 @@ class Car extends Vehicle
         @thrusters.down.thrust  = @boosts and 1 or Math.max 0, -@steer.y
         
         super delta
-                
+
+    # 0000000    00000000    0000000   000   000  
+    # 000   000  000   000  000   000  000 0 000  
+    # 000   000  0000000    000000000  000000000  
+    # 000   000  000   000  000   000  000   000  
+    # 0000000    000   000  000   000  00     00  
+    
+    draw: (ctx) ->
+        
+        super ctx
+        
+        ctx.save()
+        ctx.beginPath()
+        ctx.strokeStyle = '#fff'
+        ctx.lineWidth = 5
+        ctx.moveTo @tire1.position.x, @tire1.position.y
+        ctx.lineTo @body.position.x,  @body.position.y 
+        ctx.lineTo @tire2.position.x, @tire2.position.y
+        ctx.stroke()
+        ctx.restore()
+
+    show: -> 
+        super
+        @physics.addBody @tire1
+        @physics.addBody @tire2
+        
+    hide: -> 
+        super
+        @physics.delBody @tire1
+        @physics.delBody @tire2
+
+    setPos: (position) ->
+        delta = @pos().to position
+        super position
+        @tire1.setPosition delta.plus pos @tire1.position
+        @tire2.setPosition delta.plus pos @tire2.position
+        
     # 00000000   0000000   00000000    0000000  00000000  
     # 000       000   000  000   000  000       000       
     # 000000    000   000  0000000    000       0000000   

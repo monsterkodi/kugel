@@ -26,7 +26,6 @@ class Ship extends Vehicle
         @shootDelay = 0
         @bullets    = []
         @maxBullets = 100
-        @steerDir   = pos 0,0
                 
         @body = @kugel.physics.newBody 'ship', x:0, y:0
         @body.collisionFilter.category = 4
@@ -34,11 +33,11 @@ class Ship extends Vehicle
         
         @thrusters.down = new Thruster @physics, @body, pos(0,22), pos(0,1)
         
-    # 000000000  000   0000000  000   000  
-    #    000     000  000       000  000   
-    #    000     000  000       0000000    
-    #    000     000  000       000  000   
-    #    000     000   0000000  000   000  
+    # 0000000    00000000  00000000   0000000   00000000   00000000  000000000  000   0000000  000   000  
+    # 000   000  000       000       000   000  000   000  000          000     000  000       000  000   
+    # 0000000    0000000   000000    000   000  0000000    0000000      000     000  000       0000000    
+    # 000   000  000       000       000   000  000   000  000          000     000  000       000  000   
+    # 0000000    00000000  000        0000000   000   000  00000000     000     000   0000000  000   000  
     
     beforeTick: (delta) ->
 
@@ -51,12 +50,8 @@ class Ship extends Vehicle
         @shoots = @pad.button('cross').pressed or @pad.button('R2').pressed
         if not @shoots then @shootDelay = 0
         
-        @steerDir = pos @pad.axis('leftX'), @pad.axis('leftY')
-        
-        length = @steerDir.length()
-        if length - 0.1 > 0
-            @angle  = fadeAngles @angle, @steerDir.rotation(pos 0,-1), length/10
-            @thrust = length
+        if @thrust - 0.1 > 0
+            @angle  = fadeAngles @angle, @steer.rotation(pos 0,-1), @thrust/10
             @body.setAngularVelocity 0
         else
             @thrust = 0
@@ -76,6 +71,12 @@ class Ship extends Vehicle
             
         @body.setAngle deg2rad @angle
                     
+    #  0000000   00000000  000000000  00000000  00000000   000000000  000   0000000  000   000  
+    # 000   000  000          000     000       000   000     000     000  000       000  000   
+    # 000000000  000000       000     0000000   0000000       000     000  000       0000000    
+    # 000   000  000          000     000       000   000     000     000  000       000  000   
+    # 000   000  000          000     00000000  000   000     000     000   0000000  000   000  
+    
     afterTick: (delta) ->
 
         if @shootDelay > 0 then @shootDelay -= delta
@@ -93,6 +94,8 @@ class Ship extends Vehicle
     # 0000000    000   000  000   000  00     00  
     
     draw: (ctx) ->
+        
+        super ctx
                 
         if @lasers
             
@@ -116,10 +119,7 @@ class Ship extends Vehicle
             ctx.lineTo tgt.x, tgt.y
             ctx.stroke()
             ctx.restore()
-             
-        super ctx
                                      
-    pos: -> pos @body.position
     dir: -> pos(0,-1).rotate rad2deg @body.angle
     tip: (scale=1) -> @pos().plus @dir().scale 30*scale
         
