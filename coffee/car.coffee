@@ -14,20 +14,26 @@ Matter    = require 'matter-js'
 
 class Car extends Vehicle
 
-    constructor: (@kugel) ->
+    constructor: (@kugel, opt) ->
 
+        position = opt?.position ? pos 0,0
+        angle    = opt?.angle ? 0 
+        
         @name = 'car'
         super @kugel
         
-        @thrust     = 0
-        @steer      = pos 0,0
+        @thrust = 0
+        @steer  = pos 0,0
         
-        @body = @kugel.physics.newBody 'car', x:0, y:0
+        @body = @kugel.physics.newBody 'car', x:position.x, y:position.y
         @body.collisionFilter.category = 4
         @body.collisionFilter.mask     = 7
+        @body.setAngle deg2rad angle if angle
         
-        @tire1 = @kugel.physics.newBody 'tire', x: -22, y:25
-        @tire2 = @kugel.physics.newBody 'tire', x:  22, y:25
+        t1p = position.plus pos(-22,25).rotate angle
+        t2p = position.plus pos( 22,25).rotate angle
+        @tire1 = @kugel.physics.newBody 'tire', x:t1p.x, y:t1p.y
+        @tire2 = @kugel.physics.newBody 'tire', x:t2p.x, y:t2p.y
         
         @tire1.frictionStatic = 2
         @tire2.frictionStatic = 2
@@ -37,22 +43,36 @@ class Car extends Vehicle
         @thrusters.left  = new Thruster @kugel.physics, @body, pos(-19.5,5), pos(-1,0).rotate -10
         @thrusters.right = new Thruster @kugel.physics, @body, pos(+19.5,5), pos(1,0).rotate  10
         @thrusters.down  = new Thruster @kugel.physics, @body, pos(  0,16.5), pos(0,1)
-
-        constraint = Matter.Constraint.create bodyA:@tire2, bodyB:@tire1, stiffness: 0.1, damping: 0.1, render: visible: true
-        Matter.World.add @kugel.physics.engine.world, constraint 
         
-        constraint = Matter.Constraint.create bodyA:@body, bodyB:@tire1, render: visible: true
-        Matter.World.add @kugel.physics.engine.world, constraint
-
-        constraint = Matter.Constraint.create bodyA:@body, bodyB:@tire1, pointA:pos(-10,1), stiffness: 0.2, damping: 0.1, render: visible: true
-        Matter.World.add @kugel.physics.engine.world, constraint
+        dw1  = pos(-1,13).rotate angle
+        dw2  = pos( 1,13).rotate angle
+        m1p  = pos(-14,9).rotate angle
+        m2p  = pos( 14,9).rotate angle
+        t1p  = pos(-10,-7).rotate angle
+        t2p  = pos( 10,-7).rotate angle
         
-        constraint = Matter.Constraint.create bodyA:@body, bodyB:@tire2, pointA:pos(10,1), stiffness: 0.2, damping: 0.1, render: visible: true
-        Matter.World.add @kugel.physics.engine.world, constraint
+        visible = true
         
-        constraint = Matter.Constraint.create bodyA:@body, bodyB:@tire2, render: visible: true
+        @constraints = []
+        @addConstraint bodyA:@body, bodyB:@tire1, pointA:m1p, stiffness:   1, damping:   0, render: visible: visible
+        @addConstraint bodyA:@body, bodyB:@tire2, pointA:m2p, stiffness:   1, damping:   0, render: visible: visible
+        @addConstraint bodyA:@body, bodyB:@tire1, pointA:dw1, stiffness: 0.2, damping: 0.1, render: visible: visible
+        @addConstraint bodyA:@body, bodyB:@tire2, pointA:dw2, stiffness: 0.2, damping: 0.1, render: visible: visible
+        @addConstraint bodyA:@body, bodyB:@tire1, pointA:t1p, stiffness: 0.2, damping: 0.1, render: visible: visible
+        @addConstraint bodyA:@body, bodyB:@tire2, pointA:t2p, stiffness: 0.2, damping: 0.1, render: visible: visible
+        
+    addConstraint: (opt) ->
+        constraint = Matter.Constraint.create opt
         Matter.World.add @kugel.physics.engine.world, constraint
+        @constraints.push constraint
                 
+    del: ->
+        for constraint in @constraints
+            Matter.Composite.remove @kugel.physics.engine.world, constraint
+        super
+        @kugel.physics.delBody @tire1
+        @kugel.physics.delBody @tire2
+        
     # 0000000    00000000  00000000   0000000   00000000   00000000  000000000  000   0000000  000   000  
     # 000   000  000       000       000   000  000   000  000          000     000  000       000  000   
     # 0000000    0000000   000000    000   000  0000000    0000000      000     000  000       0000000    
@@ -87,12 +107,10 @@ class Car extends Vehicle
         if Math.abs(rotRight - rotLeft)
             @body.setAngularVelocity 0
             @body.setAngle @body.angle + deg2rad(rotRight - rotLeft)
-        else    
-            bodyAngle = rad2deg @body.angle
-            gravAngle = @kugel.planet.center.to(@pos()).rotation(pos 0,-1)
-            if Math.abs(bodyAngle - gravAngle) > 15
-                @body.setAngle deg2rad fadeAngles bodyAngle, gravAngle, 0.45
-
+        else if @kugel.planet?
+            downAngle = @up().rotation @kugel.planet.center.to @pos()
+            @body.setAngularVelocity -downAngle/1000
+                
     #  0000000   00000000  000000000  00000000  00000000   000000000  000   0000000  000   000  
     # 000   000  000          000     000       000   000     000     000  000       000  000   
     # 000000000  000000       000     0000000   0000000       000     000  000       0000000    
@@ -126,7 +144,7 @@ class Car extends Vehicle
         ctx.lineTo @tire2.position.x, @tire2.position.y
         ctx.stroke()
         ctx.restore()
-
+        
     show: -> 
         super
         @physics.addBody @tire1
@@ -152,7 +170,7 @@ class Car extends Vehicle
     applyForce: (direction) ->
                 
         zoomFactor = 1 + (@kugel.physics.zoom-1)/8
-        force = direction.rotate(rad2deg @body.angle).times @kugel.planet.gravity * zoomFactor
+        force = direction.rotate(rad2deg @body.angle).times zoomFactor
         @body.applyForce force
         @tire1.applyForce force.times 0.28
         @tire2.applyForce force.times 0.28

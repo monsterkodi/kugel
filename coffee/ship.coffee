@@ -14,22 +14,25 @@ Matter    = require 'matter-js'
 
 class Ship extends Vehicle
 
-    constructor: (@kugel) ->
+    constructor: (@kugel, opt) ->
 
+        position = opt?.position ? pos 0,0
+        angle    = opt?.angle ? 0 
+        
         @name = 'ship'
         super @kugel
         
         @thrust     = 0
-        @angle      = 0
         @shoots     = false
-        @lasers     = false
+        @lasers     = true
         @shootDelay = 0
         @bullets    = []
         @maxBullets = 100
                 
-        @body = @kugel.physics.newBody 'ship', x:0, y:0
+        @body = @kugel.physics.newBody 'ship', x:position.x, y:position.y
         @body.collisionFilter.category = 4
         @body.collisionFilter.mask     = 7
+        @body.setAngle deg2rad angle if angle
         
         @thrusters.down = new Thruster @physics, @body, pos(0,22), pos(0,1)
         
@@ -43,15 +46,17 @@ class Ship extends Vehicle
 
         super delta
         
-        zoom = @kugel.physics.zoom
-        @angle = rad2deg @body.angle
+        zoom  = @kugel.physics.zoom
+        angle = rad2deg @body.angle
 
         @lasers = not @lasers if @pad.button('triangle').down
         @shoots = @pad.button('cross').pressed or @pad.button('R2').pressed
         if not @shoots then @shootDelay = 0
         
         if @thrust - 0.1 > 0
-            @angle  = fadeAngles @angle, @steer.rotation(pos 0,-1), @thrust/10
+            steerAngle = @steer.rotation pos 0,-1
+            camAngle = @kugel.camup.rotation pos 0,-1
+            angle = fadeAngles angle, steerAngle+camAngle, @thrust/10
             @body.setAngularVelocity 0
         else
             @thrust = 0
@@ -67,9 +72,9 @@ class Ship extends Vehicle
         
         if Math.abs(rotRight - rotLeft)
             @body.setAngularVelocity 0
-            @angle += rotRight - rotLeft
+            angle += rotRight - rotLeft
             
-        @body.setAngle deg2rad @angle
+        @body.setAngle deg2rad angle
                     
     #  0000000   00000000  000000000  00000000  00000000   000000000  000   0000000  000   000  
     # 000   000  000          000     000       000   000     000     000  000       000  000   

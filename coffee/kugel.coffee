@@ -24,6 +24,7 @@ class Kugel
         prefs.init()
         
         @element =$ element
+        @camup = pos 0,-1
         
         @focus()
         
@@ -44,10 +45,7 @@ class Kugel
         
         @stars   = new Stars()
         @physics = new Physics @, @element
-        @car     = new Car     @
-        @ship    = new Ship    @
-        @ship.hide()
-        @vehicle = @car
+        @vehicle = new Car @
         
         @planets = []
         @planets.push new Planet @physics, planet:'surface2', center: pos 0, -8200
@@ -75,15 +73,25 @@ class Kugel
     beforeUpdate: ->
         
         maxGravity = 0
+        delete @planet
         for planet in @planets
             gravity = planet.gravityAt @vehicle.body.position
-            if gravity.length() > maxGravity
-                maxGravity = gravity.length()
+            glength = gravity.length()
+            if glength > maxGravity
+                maxGravity = glength
+                planetGrav = gravity
                 @planet = planet
                 
-        if maxGravity == 0 then @setVehicle @ship
-        else                    @setVehicle @car
+        if @planet
+            @setVehicle 'car'
+            angle = planetGrav.rotation @camup.times -1
+            @camup.rotate angle/60
+        else            
+            @setVehicle 'ship'
         
+        if @pad.button('share').down
+            @setVehicle @vehicle.name == 'car' and 'ship' or 'car'
+            
         for body in Matter.Composite.allBodies @physics.engine.world
             if not body.isStatic
                 for planet in @planets
@@ -102,20 +110,28 @@ class Kugel
         @vehicle.afterTick delta
         @physics.center = pos @vehicle.body.position
       
-    setVehicle: (vehicle) ->
+    # 000   000  00000000  000   000  000   0000000  000      00000000  
+    # 000   000  000       000   000  000  000       000      000       
+    #  000 000   0000000   000000000  000  000       000      0000000   
+    #    000     000       000   000  000  000       000      000       
+    #     0      00000000  000   000  000   0000000  0000000  00000000  
+    
+    setVehicle: (vehicleName) ->
         
-        if vehicle != @vehicle
-            oldVehicle = @vehicle
+        if @vehicle.name != vehicleName
+            
+            position = @vehicle.pos()
             velocity = _.clone @vehicle.body.velocity
-            angle    = @vehicle.body.angle
-            angular  = @vehicle.body.angularVelocity
-            oldVehicle.hide()
-            @vehicle = vehicle
-            @vehicle.show()
-            @vehicle.setPos             oldVehicle.pos()
-            @vehicle.body.setAngle      angle
-            @vehicle.body.setVelocity   velocity
-            # @vehicle.body.setAngularVelocity angular
+            angle    = rad2deg @vehicle.body.angle
+            @vehicle.del()
+            
+            if vehicleName == 'ship'
+                @vehicle = new Ship @, position: position, angle: angle
+            else
+                @vehicle = new Car  @, position: position, angle: angle
+                # @vehicle.tire1.setVelocity velocity
+                # @vehicle.tire2.setVelocity velocity
+            @vehicle.body.setVelocity velocity
             @vehicle.body.setAngularVelocity 0
         
     # 0000000    00000000    0000000   000   000  
@@ -142,21 +158,18 @@ class Kugel
         else            @ctx.fillStyle = '#002'
         @ctx.fillRect 0, 0, w, h
                
-        if @vehicle == @ship
-            gravAngle = 0
-        else
-            gravAngle = - @planet.center.to(@vehicle.pos()).rotation(pos(0,-1))
+        gravAngle = @camup.rotation pos 0,-1
         
         rct = rect w, h
         rct.sub pos w/2, h/2
         rct.scale @physics.zoom*1.02
-        rct.rotate -gravAngle
+        rct.rotate gravAngle
             
         @ctx.save()
         
         @ctx.scale 1/@physics.zoom, 1/@physics.zoom
         @ctx.translate size.x/2, size.y/2
-        @ctx.rotate deg2rad gravAngle
+        @ctx.rotate deg2rad -gravAngle
         
         if not streaks
             @stars.draw @ctx, rct, @physics.zoom, pos @vehicle.body.velocity

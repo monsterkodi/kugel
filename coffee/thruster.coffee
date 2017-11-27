@@ -19,6 +19,8 @@ class Thruster
         @thrust    = 0
         @flame     = svg.image 'flame'
 
+    del: ->
+        
     draw: (ctx) ->
         
         ctx.save()

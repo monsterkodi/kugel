@@ -5,7 +5,7 @@
 #    000     000       000   000  000  000       000      000     
 #     0      00000000  000   000  000   0000000  0000000  00000000
 
-{ pos, log, _ } = require 'kxk'
+{ rad2deg, deg2rad, pos, log, _ } = require 'kxk'
 
 class Vehicle
 
@@ -23,6 +23,11 @@ class Vehicle
         
         @thrusters = {}
 
+    del: ->
+        @physics.delBody @body
+        for key,thruster of @thrusters
+            thruster.del()
+        
     draw: (ctx) ->
         
         ctx.save()
@@ -30,6 +35,48 @@ class Vehicle
         ctx.rotate @body.angle
         for key,thruster of @thrusters
             thruster.draw ctx
+        ctx.restore()
+        
+        return
+        
+        ctx.save()
+        ctx.beginPath()
+        ctx.strokeStyle = '#ff0'
+        ctx.lineWidth = @physics.zoom
+        ctx.moveTo @pos().x, @pos().y
+        ctx.lineTo @pos().plus(@up().times 60).x, @pos().plus(@up().times 60).y
+        ctx.stroke()
+        ctx.restore()
+        
+        if @kugel.planet?
+            v = @kugel.planet.center.to(@pos()).normal()
+            ctx.save()
+            ctx.beginPath()
+            ctx.strokeStyle = '#00f'
+            ctx.lineWidth = @physics.zoom
+            ctx.moveTo @pos().x, @pos().y
+            ctx.lineTo @pos().plus(v.times 80).x, @pos().plus(v.times 80).y
+            ctx.stroke()
+            ctx.restore()
+
+        v = pos 0,-1
+        ctx.save()
+        ctx.beginPath()
+        ctx.strokeStyle = '#0f0'
+        ctx.lineWidth = @physics.zoom
+        ctx.moveTo @pos().x, @pos().y
+        ctx.lineTo @pos().plus(v.times 100).x, @pos().plus(v.times 100).y
+        ctx.stroke()
+        ctx.restore()
+
+        v = pos 1,0
+        ctx.save()
+        ctx.beginPath()
+        ctx.strokeStyle = '#f00'
+        ctx.lineWidth = @physics.zoom
+        ctx.moveTo @pos().x, @pos().y
+        ctx.lineTo @pos().plus(v.times 100).x, @pos().plus(v.times 100).y
+        ctx.stroke()
         ctx.restore()
         
     beforeTick: (delta) ->
@@ -47,10 +94,11 @@ class Vehicle
             thruster.afterTick delta
         
     pos: -> pos @body.position
+    up:  -> pos(0,-1).rotate rad2deg @body.angle
     
     setPos: (position) -> @body.setPosition position
     
-    show: -> @physics.addBody @body
-    hide: -> @physics.delBody @body
+    show: -> log "show #{@name}"; @physics.addBody @body
+    # hide: -> @physics.delBody @body
     
 module.exports = Vehicle
