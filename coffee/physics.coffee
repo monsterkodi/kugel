@@ -154,13 +154,12 @@ class Physics
             Matter.Body.setAngularVelocity @, 0
             
         body.setPosition pos opt.x ? 0, opt.y ? 0
-        
         body.setStatic true if opt.static
-        
         body.setAngle deg2rad(opt.angle) if _.isNumber opt.angle
 
-        body.scale = opt.scale if _.isNumber opt.scale
+        body.scale   = opt.scale   if _.isNumber opt.scale
         body.opacity = opt.opacity if _.isNumber opt.opacity
+        body.maxZoom = opt.maxZoom ? @maxZoom
         
         body
     

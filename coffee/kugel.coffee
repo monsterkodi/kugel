@@ -189,7 +189,7 @@ class Kugel
         
         for body in @physics.bodies
 
-            if body.image
+            if body.image and body.maxZoom > @physics.zoom
 
                 @ctx.save()
                 @ctx.globalAlpha = body.opacity ? 1
@@ -202,7 +202,7 @@ class Kugel
                 y = -body.image.image.height/2 + body.image.offset.y
                 @ctx.drawImage body.image.image, x, y
                 @ctx.restore()
-        
+                        
         @ctx.restore()
                                     
     onResize: => @physics.setViewSize sw(), sh()

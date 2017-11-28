@@ -20,21 +20,29 @@ class Planet
         switch @planet
             
             when 'surface2'
-                @gravity = 0.5
-                @radius  = 1900
-                @fillStyle = '#666'
-                @plates = 20
+                @gravity    = 0.5
+                @radius     = 1900
+                @fillStyle  = '#666'
+                @plates     = 20
+                @maxZoom    = 64
 
             when 'surface'
-                @gravity = 0.75
-                @radius = 1100
-                @fillStyle = 'rgb(143,141,255)'
-                @plates = 20
+                @gravity    = 0.75
+                @radius     = 1100
+                @fillStyle  = 'rgb(143,141,255)'
+                @plates     = 20
+                @maxZoom    = 64
                 
         for i in [0...@plates]
             angle = i * 360/@plates
             p = pos(0,@radius).rotate angle
-            surface = @physics.newBody @planet,  x:@center.x+p.x, y:@center.y+p.y, scale: 1, static: true
+            surface = @physics.newBody @planet, 
+                x:       @center.x+p.x
+                y:       @center.y+p.y
+                scale:   1
+                static:  true
+                maxZoom: @maxZoom
+                
             Matter.Body.setAngle surface, deg2rad 180+angle+ _.random -2*@random, @random, true
             surface.collisionFilter.category = 2
             surface.collisionFilter.mask     = 0xffff
