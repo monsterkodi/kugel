@@ -50,33 +50,49 @@ class Kugel
         @planets = []
         @planets.push new Planet @physics, planet:'surface2', falloff: 0.1, center: pos 0, -8200
         @planets.push new Planet @physics, planet:'surface',  falloff: 0.1, center: pos 0, 2200
-        
-        @planets.push new Planet @physics, planet:'surface2', falloff: 1,   center: pos 63000, -8200
-        @planets.push new Planet @physics, planet:'surface',  falloff: 1,   center: pos 63000, 2200        
 
-        @planets.push new Planet @physics, planet:'surface2', falloff: 0.5, center: pos -63000, -8200
-        @planets.push new Planet @physics, planet:'surface',  falloff: 0.5, center: pos -63000, 2200        
+        @physics.newBody 'trio', x:-500, y:-200, scale: 2,   frictionStatic: 1, friction: 0.1, density: 0.01
+        @physics.newBody 'trio', x:-300, y:-200, scale: 1.5, frictionStatic: 1, friction: 0.1, density: 0.01
+        @physics.newBody 'trio', x:-100, y:-200, scale: 1,   frictionStatic: 1, friction: 0.1, density: 0.01
         
-        @planet = last @planets
-                            
-        @physics.newBody 'ball',     x:-100, y:-300, scale: 2,   frictionStatic: 2, friction: 0.1, density: 0.01
-        @physics.newBody 'trio',     x:-300, y:-200, scale: 0.4, frictionStatic: 2, friction: 0.1, density: 0.01
-        @physics.newBody 'trio',     x:-200, y:-200, scale: 0.6, frictionStatic: 2, friction: 0.1, density: 0.01
-        @physics.newBody 'trio',     x:-100, y:-200, scale: 0.8, frictionStatic: 2, friction: 0.1, density: 0.01
+        @physics.newBody 'ball', x: 100, y:-300, scale: 3,   frictionStatic: 0.1, friction: 0.1, density: 0.01
+        @physics.newBody 'ball', x: 300, y:-300, scale: 6,   frictionStatic: 0.1, friction: 0.1, density: 0.01
+        @physics.newBody 'ball', x: 500, y:-300, scale: 9,   frictionStatic: 0.1, friction: 0.1, density: 0.01
         
-        @physics.newBody 'pentagon', x: 300, y:-300, scale: 0.4, frictionStatic: 0.1, friction: 0.1, density: 0.01
-        @physics.newBody 'pentagon', x: 400, y:-300, scale: 0.6, frictionStatic: 0.1, friction: 0.1, density: 0.01
-        @physics.newBody 'pentagon', x: 500, y:-300, scale: 0.8, frictionStatic: 0.1, friction: 0.1, density: 0.01
+        sysPos = pos 64000, 0
+        @planets.push new Planet @physics, planet:'surface2', falloff: 1, center: sysPos.plus pos 0, -9200
+        @planets.push new Planet @physics, planet:'surface',  falloff: 1, center: sysPos.plus pos 0, 2200        
+
+        @physics.newBody 'ball',     x:sysPos.x-500, y:sysPos.y-200, scale: 9, frictionStatic: 1, friction: 0.1, density: 0.005
+        @physics.newBody 'ball',     x:sysPos.x-300, y:sysPos.y-200, scale: 6, frictionStatic: 1, friction: 0.1, density: 0.005
+        @physics.newBody 'ball',     x:sysPos.x-100, y:sysPos.y-200, scale: 3, frictionStatic: 1, friction: 0.1, density: 0.005
         
+        @physics.newBody 'pentagon', x:sysPos.x+100, y:sysPos.y-300, scale: 1, frictionStatic: 0.1, friction: 0.1, density: 0.005
+        @physics.newBody 'pentagon', x:sysPos.x+300, y:sysPos.y-300, scale: 2, frictionStatic: 0.1, friction: 0.1, density: 0.005
+        @physics.newBody 'pentagon', x:sysPos.x+500, y:sysPos.y-300, scale: 3, frictionStatic: 0.1, friction: 0.1, density: 0.005
+        
+        sysPos = pos 128000, 0
+        @planets.push new Planet @physics, planet:'surface2', falloff: 2,   center: sysPos.plus pos 0, -11200
+        @planets.push new Planet @physics, planet:'surface',  falloff: 2,   center: sysPos.plus pos 0, 2200        
+        
+        @physics.newBody 'trio',     x:sysPos.x-500, y:sysPos.y-200, scale: 3, frictionStatic: 1, friction: 0.1, density: 0.002
+        @physics.newBody 'trio',     x:sysPos.x-300, y:sysPos.y-200, scale: 2, frictionStatic: 1, friction: 0.1, density: 0.002
+        @physics.newBody 'trio',     x:sysPos.x-100, y:sysPos.y-200, scale: 1, frictionStatic: 1, friction: 0.1, density: 0.002
+        
+        @physics.newBody 'pentagon', x:sysPos.x+100, y:sysPos.y-300, scale: 1, frictionStatic: 0.1, friction: 0.1, density: 0.002
+        @physics.newBody 'pentagon', x:sysPos.x+300, y:sysPos.y-300, scale: 2, frictionStatic: 0.1, friction: 0.1, density: 0.002
+        @physics.newBody 'pentagon', x:sysPos.x+500, y:sysPos.y-300, scale: 3, frictionStatic: 0.1, friction: 0.1, density: 0.002
+
+        @calcClosestPlanet()
         @onResize()
-        
-    # 000000000  000   0000000  000   000  
-    #    000     000  000       000  000   
-    #    000     000  000       0000000    
-    #    000     000  000       000  000   
-    #    000     000   0000000  000   000  
+
+    # 00000000   000       0000000   000   000  00000000  000000000  
+    # 000   000  000      000   000  0000  000  000          000     
+    # 00000000   000      000000000  000 0 000  0000000      000     
+    # 000        000      000   000  000  0000  000          000     
+    # 000        0000000  000   000  000   000  00000000     000     
     
-    beforeUpdate: ->
+    calcClosestPlanet: ->
         
         maxGravity = 0
         delete @planet
@@ -87,6 +103,18 @@ class Kugel
                 maxGravity = glength
                 planetGrav = gravity
                 @planet = planet
+                
+        return planetGrav
+        
+    # 000000000  000   0000000  000   000  
+    #    000     000  000       000  000   
+    #    000     000  000       0000000    
+    #    000     000  000       000  000   
+    #    000     000   0000000  000   000  
+    
+    beforeUpdate: ->
+        
+        planetGrav = @calcClosestPlanet()
                 
         if @planet
             @setVehicle 'car'
@@ -105,7 +133,7 @@ class Kugel
                     bodyToCenter.scale body.mass
                     body.force.x += bodyToCenter.x
                     body.force.y += bodyToCenter.y
-    
+                       
     beforeTick: (delta) ->
         
         @pad.snapState()
