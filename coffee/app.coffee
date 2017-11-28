@@ -129,7 +129,7 @@ class App
             win.show()
             win.focus()
              
-            if true then win.webContents.openDevTools()
+            if false then win.webContents.openDevTools()
                         
         win.on 'ready-to-show', winReadyToShow
         win
@@ -143,12 +143,14 @@ class App
         process.exit 0
         
     showAbout: -> about
-        img: "#{__dirname}/../bin/about.svg"
+        img: "#{__dirname}/../svg/ship.svg"
         pkg: pkg
-        imageWidth:    '250px'
-        imageHeight:   '250px'
-        imageOffset:   '10px'
+        imageWidth:    '200px'
+        imageHeight:   '200px'
+        imageOffset:   '40px'
         versionOffset: '15px'
+        color:         '#226'
+        background:    '#113'
         highlight:     '#88f'
 
 #  0000000   00000000   00000000         0000000   000   000
