@@ -43,16 +43,25 @@ class Planet
                     surface.collisionFilter.category = 2
                     surface.collisionFilter.mask     = 0xffff
 
-        @gravMax   = @radius * 4
-        @gravConst = @radius * 3
+        falloff    = opt.falloff ? 1
+        @gravMax   = @radius * (4 + falloff)
+        @gravConst = @radius * 4
         @gravMaxSquare = @gravMax * @gravMax
                     
-    gravityAt: (position) ->
+    gravityAt: (position, dbg) ->
         
         bodyToCenter = pos(position).to(@center)
         if bodyToCenter.square() < @gravMaxSquare
-            bodyToCenter.normalize().scale 0.001 * @gravity
-            return bodyToCenter
+            baseGravity = 0.001 * @gravity
+            distance = bodyToCenter.length()
+            if distance < @gravConst
+                distanceFactor = 1
+            else
+                distanceFactor = (distance-@gravConst)/(@gravMax-@gravConst)
+                # if dbg then log 'linear', distanceFactor
+                distanceFactor = (1 + Math.cos(distanceFactor * Math.PI))/2
+            # if dbg then log 'distance', distanceFactor
+            return bodyToCenter.normal().times distanceFactor * baseGravity
         else
             pos 0,0
                     
