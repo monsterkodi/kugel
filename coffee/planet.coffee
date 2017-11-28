@@ -23,32 +23,34 @@ class Planet
                 @gravity = 0.5
                 @radius  = 1900
                 @fillStyle = '#666'
-                for i in [0...20]
-                    angle = i * 18
-                    p = pos(0,@radius).rotate angle
-                    surface = @physics.newBody @planet,  x:@center.x+p.x, y:@center.y+p.y, scale: 1, static: true
-                    Matter.Body.setAngle surface, deg2rad 180+angle+ _.random -2*@random, @random, true
-                    surface.collisionFilter.category = 2
-                    surface.collisionFilter.mask     = 0xffff
+                @plates = 20
 
             when 'surface'
                 @gravity = 0.75
                 @radius = 1100
                 @fillStyle = 'rgb(143,141,255)'
-                for i in [0...20]
-                    angle = i * 18
-                    p = pos(0,@radius).rotate angle
-                    surface = @physics.newBody @planet,  x:@center.x+p.x, y:@center.y+p.y, scale: 1, static: true
-                    Matter.Body.setAngle surface, deg2rad 180+angle+ _.random -2*@random, @random, true
-                    surface.collisionFilter.category = 2
-                    surface.collisionFilter.mask     = 0xffff
-
+                @plates = 20
+                
+        for i in [0...@plates]
+            angle = i * 360/@plates
+            p = pos(0,@radius).rotate angle
+            surface = @physics.newBody @planet,  x:@center.x+p.x, y:@center.y+p.y, scale: 1, static: true
+            Matter.Body.setAngle surface, deg2rad 180+angle+ _.random -2*@random, @random, true
+            surface.collisionFilter.category = 2
+            surface.collisionFilter.mask     = 0xffff
+        
         falloff    = opt.falloff ? 1
         @gravMax   = @radius * (4 + falloff)
         @gravConst = @radius * 4
         @gravMaxSquare = @gravMax * @gravMax
                     
-    gravityAt: (position, dbg) ->
+    #  0000000   00000000    0000000   000   000  000  000000000  000   000  
+    # 000        000   000  000   000  000   000  000     000      000 000   
+    # 000  0000  0000000    000000000   000 000   000     000       00000    
+    # 000   000  000   000  000   000     000     000     000        000     
+    #  0000000   000   000  000   000      0      000     000        000     
+    
+    gravityAt: (position) ->
         
         bodyToCenter = pos(position).to(@center)
         if bodyToCenter.square() < @gravMaxSquare
@@ -58,13 +60,17 @@ class Planet
                 distanceFactor = 1
             else
                 distanceFactor = (distance-@gravConst)/(@gravMax-@gravConst)
-                # if dbg then log 'linear', distanceFactor
                 distanceFactor = (1 + Math.cos(distanceFactor * Math.PI))/2
-            # if dbg then log 'distance', distanceFactor
             return bodyToCenter.normal().times distanceFactor * baseGravity
         else
             pos 0,0
                     
+    # 0000000    00000000    0000000   000   000  
+    # 000   000  000   000  000   000  000 0 000  
+    # 000   000  0000000    000000000  000000000  
+    # 000   000  000   000  000   000  000   000  
+    # 0000000    000   000  000   000  00     00  
+    
     draw: (ctx) ->
         
         ctx.fillStyle = @fillStyle
@@ -73,12 +79,12 @@ class Planet
         ctx.fill()
                 
         ctx.lineWidth = 2*@physics.zoom
-        ctx.strokeStyle = 'rgba(192,192,255,0.3)'
+        ctx.strokeStyle = 'rgba(64,64,128,0.8)'
         ctx.beginPath()
         ctx.ellipse @center.x, @center.y, @gravConst, @gravConst, 0, 0, 2 * Math.PI
         ctx.stroke()
 
-        ctx.strokeStyle = 'rgba(65,65,192,0.3)'
+        ctx.strokeStyle = 'rgba(32,32,64,0.8)'
         ctx.beginPath()
         ctx.ellipse @center.x, @center.y, @gravMax, @gravMax, 0, 0, 2 * Math.PI
         ctx.stroke()

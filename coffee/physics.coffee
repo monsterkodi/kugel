@@ -25,6 +25,9 @@ class Physics
         @engine.world.gravity.y = 0
         @center = pos 0,0
 
+        @maxZoom = 256
+        @minZoom = 0.2
+        
         br = @element.getBoundingClientRect()
         
         @bodies = []
@@ -91,6 +94,11 @@ class Physics
     onBeforeUpdate: =>
         
         @world.beforeUpdate?()
+        
+        if @zoom >= 1
+            @engine.timing.timeScale = 1 + 0.2*(@zoom-1)/@maxZoom
+        else
+            @engine.timing.timeScale = 0.5 + 0.5 * (@zoom-@minZoom)/(1-@minZoom)
     
     onBeforeTick: (tick) =>
         
@@ -186,11 +194,11 @@ class Physics
             Matter.Render.stop @render  
             @render.canvas.style.display = 'none'
         
-    # 0000000     0000000   000   000  000   000  0000000     0000000  
-    # 000   000  000   000  000   000  0000  000  000   000  000       
-    # 0000000    000   000  000   000  000 0 000  000   000  0000000   
-    # 000   000  000   000  000   000  000  0000  000   000       000  
-    # 0000000     0000000    0000000   000   000  0000000    0000000   
+    # 0000000   0000000    0000000   00     00  
+    #    000   000   000  000   000  000   000  
+    #   000    000   000  000   000  000000000  
+    #  000     000   000  000   000  000 0 000  
+    # 0000000   0000000    0000000   000   000  
     
     zoomIn:  -> @setZoom Math.max 1, parseInt @zoom / 2
     zoomOut: -> 
@@ -199,7 +207,7 @@ class Physics
 
     setZoom: (@zoom) ->
         
-        @zoom = clamp 0.2, 1000, @zoom
+        @zoom = clamp @minZoom, @maxZoom, @zoom
                 
         w = @render.canvas.width  * @zoom
         h = @render.canvas.height * @zoom

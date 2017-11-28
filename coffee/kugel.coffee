@@ -48,9 +48,14 @@ class Kugel
         @vehicle = new Car @
         
         @planets = []
-        # @planets.push new Planet @physics, planet:'surface2', center: pos 0, -10900
-        @planets.push new Planet @physics, planet:'surface2', falloff: 0, center: pos 0, -8200
-        @planets.push new Planet @physics, planet:'surface',  falloff: 0, center: pos 0, 2200
+        @planets.push new Planet @physics, planet:'surface2', falloff: 0.1, center: pos 0, -8200
+        @planets.push new Planet @physics, planet:'surface',  falloff: 0.1, center: pos 0, 2200
+        
+        @planets.push new Planet @physics, planet:'surface2', falloff: 1,   center: pos 63000, -8200
+        @planets.push new Planet @physics, planet:'surface',  falloff: 1,   center: pos 63000, 2200        
+
+        @planets.push new Planet @physics, planet:'surface2', falloff: 0.5, center: pos -63000, -8200
+        @planets.push new Planet @physics, planet:'surface',  falloff: 0.5, center: pos -63000, 2200        
         
         @planet = last @planets
                             
@@ -76,7 +81,7 @@ class Kugel
         maxGravity = 0
         delete @planet
         for planet in @planets
-            gravity = planet.gravityAt @vehicle.body.position, true
+            gravity = planet.gravityAt @vehicle.body.position
             glength = gravity.length()
             if glength > maxGravity
                 maxGravity = glength
