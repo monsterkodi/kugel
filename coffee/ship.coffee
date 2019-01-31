@@ -14,13 +14,14 @@ Matter    = require 'matter-js'
 
 class Ship extends Vehicle
 
-    constructor: (@kugel, opt) ->
+    constructor: (kugel, opt) ->
 
+        super kugel
+        
         position = opt?.position ? pos 0,0
         angle    = opt?.angle ? 0 
         
         @name = 'ship'
-        super @kugel
         
         @thrust     = 0
         @shoots     = false

@@ -14,8 +14,9 @@
     "url": "git+https://github.com/monsterkodi/kugel.git"
   },
   "dependencies": {
+    "electron-packager": "^13.0.1",
     "gamepadcontroller": "^1.0.1",
-    "kxk": "^0.19.5",
+    "kxk": "^0.233.0",
     "matter-js": "^0.13.0",
     "performance-now": "^2.1.0",
     "poly-decomp": "^0.2.1",
@@ -26,7 +27,6 @@
   "devDependencies": {
     "appdmg": "^0.4.5",
     "electron": "^1.8.0",
-    "electron-packager": "^9.0.1",
     "electron-rebuild": "^1.6.0"
   }
 }

@@ -14,13 +14,14 @@ Matter    = require 'matter-js'
 
 class Car extends Vehicle
 
-    constructor: (@kugel, opt) ->
+    constructor: (kugel, opt) ->
 
+        super kugel
+        
         position = opt?.position ? pos 0,0
         angle    = opt?.angle ? 0 
         
         @name = 'car'
-        super @kugel
         
         @thrust = 0
         @steer  = pos 0,0
@@ -69,7 +70,7 @@ class Car extends Vehicle
     del: ->
         for constraint in @constraints
             Matter.Composite.remove @kugel.physics.engine.world, constraint
-        super
+        super()
         @kugel.physics.delBody @tire1
         @kugel.physics.delBody @tire2
         
@@ -146,12 +147,12 @@ class Car extends Vehicle
         ctx.restore()
         
     show: -> 
-        super
+        super()
         @physics.addBody @tire1
         @physics.addBody @tire2
         
     hide: -> 
-        super
+        super()
         @physics.delBody @tire1
         @physics.delBody @tire2
 

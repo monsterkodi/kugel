@@ -17,7 +17,7 @@ class Pad extends events
     
     constructor: ->
 
-        super
+        super()
         
         @buttons = Pad.buttons.map (b) -> pressed:false, value:0
         @axes    = [0,0,0,0]
@@ -55,15 +55,16 @@ class Pad extends events
         
     getPad: -> 
         
-        if window.navigator.getGamepads()[0]
+        if navigator.getGamepads()[0]
             @stopPolling()            
-            return window.navigator.getGamepads()[0]
+            return navigator.getGamepads()[0]
         null
 
     snapState: -> 
         if gp = @getPad()
             for i in [0..17]
                 b = gp.buttons[i]
+                break if not b
                 @buttons[i].value   = @round b.value, 0
                 @buttons[i].down    = b.pressed and not @buttons[i].pressed
                 @buttons[i].up      = not b.pressed and @buttons[i].pressed
