@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dt4vauql4gx0y"]
+
+[ext_resource type="Script" uid="uid://bkdai28cap2nu" path="res://components/HalfCapsule.gd" id="1_ggher"]
+
+[node name="HalfCapsule" type="Node3D"]
+script = ExtResource("1_ggher")

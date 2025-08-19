@@ -1,0 +1,26 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://w1tw1abbgqbh"]
+
+[ext_resource type="Shader" uid="uid://cfu2rlro88hs7" path="res://materials/HatchingMaterial.gdshader" id="1_8n2am"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_8n2am")
+shader_parameter/light_direction = Vector3(4.58, -2.58, -4.62)
+shader_parameter/roughness_amount = 1.0
+shader_parameter/roughness_channel = 0
+shader_parameter/background_color = Color(0, 0, 0, 1)
+shader_parameter/line_color = Color(1, 0, 0, 1)
+shader_parameter/range = 0.0
+shader_parameter/softness = 1.0
+shader_parameter/angle = 45.0
+shader_parameter/pattern_scale = 27.775001271812503
+shader_parameter/line_thickness = 1.0
+shader_parameter/fade_thickness = 0.550000026125
+shader_parameter/fresnel_thickness = 0.5
+shader_parameter/random_thickness = 0.14000000665
+shader_parameter/random_offset = 10.0
+shader_parameter/random_angle = 10.0
+shader_parameter/overall_noise_scale = 30.0
+shader_parameter/fps_effect_strength = 0.0
+shader_parameter/fps_speed = 0.10000000149012
+shader_parameter/line_jitter_amount = 0.0

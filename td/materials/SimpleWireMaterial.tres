@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://mqxll1d4vmoy"]
+
+[ext_resource type="Shader" uid="uid://c4qwgcbdw8otp" path="res://materials/SimpleWireMaterial.gdshader" id="1_5dqcq"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_5dqcq")
+shader_parameter/albedo = Color(0, 0, 0, 1)
+shader_parameter/outline_width = 10.0

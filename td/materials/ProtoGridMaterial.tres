@@ -1,0 +1,27 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://xloipk58m6mc"]
+
+[ext_resource type="Shader" uid="uid://bfqar7mb0prkq" path="res://materials/ProtoGridMaterial.gdshader" id="1_ctb14"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_ctb14")
+shader_parameter/world_uv = true
+shader_parameter/object_uv = false
+shader_parameter/object_uv_scale = Vector2(10, 10)
+shader_parameter/preset_color = 0
+shader_parameter/base_color = Color(0.015971825, 0.015971795, 0.015971808, 1)
+shader_parameter/metalic = 0.25
+shader_parameter/roughness = 0.75
+shader_parameter/grid_scale = 1.0
+shader_parameter/grid_width = 0.01
+shader_parameter/grid_color = Color(0, 0, 0, 1)
+shader_parameter/inside_scale = 1.0
+shader_parameter/inside_width = 0.01
+shader_parameter/inside_color = Color(0.07, 0.07, 0.07, 0.8)
+shader_parameter/checkered = true
+shader_parameter/sub_checkered_grid = false
+shader_parameter/checkered_color = Color(0.038397167, 0.038397167, 0.03839716, 1)
+shader_parameter/checkered_blend_color = 1.0
+shader_parameter/use_inside_uv = false
+shader_parameter/use_albedo_color = false
+shader_parameter/albedo_alpha = 0.5

@@ -1,0 +1,51 @@
+[gd_scene load_steps=9 format=3 uid="uid://be78v806wl6a5"]
+
+[ext_resource type="Material" uid="uid://h718n8hodgi1" path="res://materials/WireframeMaterial.tres" id="1_ipl3p"]
+[ext_resource type="PhysicsMaterial" uid="uid://dq1r6votcqh1x" path="res://materials/FloorPhysicsMaterial.tres" id="2_uykn3"]
+[ext_resource type="Material" uid="uid://baiafbfas607g" path="res://materials/DashedGridMaterial.tres" id="5_rcg8a"]
+[ext_resource type="Script" uid="uid://cj2681yjc4fy6" path="res://addons/synced_collision_shape_3d/synced_collision_shape_3d.gd" id="6_pyq6l"]
+
+[sub_resource type="TorusMesh" id="TorusMesh_oi3di"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_0b4ue"]
+height = 0.5
+radius = 1.0
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_oi3di"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sypgb"]
+
+[node name="Bouncer" type="Node3D"]
+
+[node name="Torus" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("TorusMesh_oi3di")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("1_ipl3p")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Torus"]
+collision_layer = 4
+collision_mask = 0
+physics_material_override = ExtResource("2_uykn3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Torus/StaticBody3D"]
+shape = SubResource("CylinderShape3D_0b4ue")
+
+[node name="Capsule" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_oi3di")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("5_rcg8a")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Capsule"]
+collision_layer = 4
+collision_mask = 0
+physics_material_override = ExtResource("2_uykn3")
+
+[node name="SyncedCollisionShape3D" type="CollisionShape3D" parent="Capsule/StaticBody3D" node_paths=PackedStringArray("source")]
+shape = SubResource("CapsuleShape3D_sypgb")
+script = ExtResource("6_pyq6l")
+source = NodePath("../..")
+metadata/_custom_type_script = "uid://cj2681yjc4fy6"
+
+[connection signal="mouse_entered" from="Torus/StaticBody3D" to="Torus" method="_on_static_body_3d_mouse_entered"]

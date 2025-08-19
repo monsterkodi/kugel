@@ -1,0 +1,48 @@
+[gd_scene load_steps=6 format=3 uid="uid://b7w2vlfbvmfq7"]
+
+[ext_resource type="Script" uid="uid://cdmoqwyhtu080" path="res://camera/Camera.gd" id="1_diie0"]
+[ext_resource type="Script" uid="uid://cisi34qnple0i" path="res://camera/CameraFreeFlight.gd" id="1_u5kg4"]
+[ext_resource type="Script" uid="uid://dlt622o4w18k" path="res://camera/CameraFollow.gd" id="2_himew"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_1bvp3"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1bvp3"]
+albedo_color = Color(1, 0, 0, 1)
+emission_enabled = true
+emission = Color(1, 0, 0, 1)
+emission_energy_multiplier = 4.09
+
+[node name="Camera" type="Node3D" groups=["save"]]
+script = ExtResource("1_diie0")
+
+[node name="DirectionalLight" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.821488, 2.49254e-08, -0.570226, 0.408926, 0.69694, 0.589113, 0.397413, -0.71713, 0.572527, 1.44324, 1.22455, 0)
+shadow_enabled = true
+sky_mode = 1
+
+[node name="GlowDot" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(0.1, 0, 0, 0, -4.371139e-09, -0.1, 0, 0.1, -4.371139e-09, 0, 0.05, 0)
+visible = false
+mesh = SubResource("CapsuleMesh_1bvp3")
+surface_material_override/0 = SubResource("StandardMaterial3D_1bvp3")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="GlowDot"]
+visible = false
+light_color = Color(1, 0, 0, 1)
+light_energy = 0.5
+
+[node name="Follow" type="Camera3D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("2_himew")
+
+[node name="FreeFlight" type="Camera3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+script = ExtResource("1_u5kg4")
+
+[node name="SpotLight" type="OmniLight3D" parent="FreeFlight"]
+transform = Transform3D(1, 0, 0, 0, 1, -1.0658141e-14, 0, 1.0658141e-14, 1, 0, 0, 0)
+visible = false
+light_color = Color(1, 0, 0, 1)
+light_energy = 0.299

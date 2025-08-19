@@ -1,0 +1,15 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://cqqy80w72vwdd"]
+
+[ext_resource type="Shader" uid="uid://cj78indyh2su8" path="res://materials/GooMaterial.gdshader" id="1_8mhh5"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_8mhh5")
+shader_parameter/Specular = 0.1
+shader_parameter/Hardness = 50.0
+shader_parameter/BaseColor = Color(0.5529412, 0, 0, 1)
+shader_parameter/HighlightColor = Color(0.7647059, 0, 0, 1)
+shader_parameter/Opacity = 0.5
+shader_parameter/DensityLow = 0.25
+shader_parameter/DensityHigh = 0.75
+shader_parameter/refraction = 29999.99994999995

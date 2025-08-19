@@ -1,0 +1,14 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://b2gtoyl87ttku"]
+
+[ext_resource type="Shader" uid="uid://bcp4dvhrevdt7" path="res://materials/ColoredGlass.gdshader" id="1_gkv16"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_gkv16")
+shader_parameter/albedo = Color(1, 1, 1, 0)
+shader_parameter/roughness = 0.15
+shader_parameter/refraction = 0.02
+shader_parameter/edge_color = Color(1, 0, 0, 1)
+shader_parameter/surface_contribution = 0.2
+shader_parameter/specular_contribution = 0.2
+shader_parameter/refraction_contribution = 1.0

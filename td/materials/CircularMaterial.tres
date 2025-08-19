@@ -1,0 +1,14 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://sqyrj2rfc5lt"]
+
+[ext_resource type="Shader" uid="uid://dtroe2sjio7l3" path="res://materials/CircularMaterial.gdshader" id="1_8ages"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_8ages")
+shader_parameter/color = Color(0.050708726, 0.050708726, 0.5042543, 1)
+shader_parameter/density = 0.999999977648
+shader_parameter/num_rings = 1.0
+shader_parameter/num_slices = 1.0
+shader_parameter/line_space = 0.7999999821184001
+shader_parameter/revolutions = 0.0
+shader_parameter/emission = 9.99999977648

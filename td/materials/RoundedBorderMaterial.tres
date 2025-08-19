@@ -1,0 +1,14 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bjb2vl46i7jx5"]
+
+[ext_resource type="Shader" uid="uid://bo3vh1v12acqd" path="res://materials/RoundedBorderMaterial.gdshader" id="1_5gol6"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_5gol6")
+shader_parameter/color = Color(0, 0, 0, 0.48235294)
+shader_parameter/border_color = Color(0.45490196, 0, 0, 1)
+shader_parameter/size = Vector2(0.5, 1)
+shader_parameter/border_size = 0.050000002375
+shader_parameter/border_fade_in = 0.0010000000475
+shader_parameter/border_fade_out = 0.0010000000475
+shader_parameter/corner_radius = 0.499999988824

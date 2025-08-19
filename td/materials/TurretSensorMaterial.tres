@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://b1gsuujsn28vt"]
+
+[ext_resource type="Shader" uid="uid://b7lpd6h1smubj" path="res://materials/CircleMatVis.tres" id="1_7lrnw"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_7lrnw")
+shader_parameter/Color = Color(1, 0, 0, 0.039215688)
+shader_parameter/OuterRadius = 1.0
+shader_parameter/InnerRadius = 0.499999988824

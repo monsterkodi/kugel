@@ -1,0 +1,23 @@
+[gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://c53lxv23v2wwu"]
+
+[sub_resource type="Gradient" id="Gradient_1sirc"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.5123967)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_c1c7q"]
+gradient = SubResource("Gradient_1sirc")
+width = 1
+height = 20
+fill_to = Vector2(0, 0.1)
+repeat = 1
+
+[resource]
+albedo_color = Color(0.47788018, 0.47788012, 0.47788012, 1)
+metallic = 0.82
+metallic_specular = 0.74
+roughness = 0.33
+normal_enabled = true
+normal_scale = -4.19
+normal_texture = SubResource("GradientTexture2D_c1c7q")
+bent_normal_enabled = true

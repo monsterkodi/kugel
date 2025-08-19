@@ -1,0 +1,90 @@
+[gd_scene load_steps=14 format=3 uid="uid://wo631fluqa0p"]
+
+[ext_resource type="Material" uid="uid://xloipk58m6mc" path="res://materials/ProtoGridMaterial.tres" id="1_f2txt"]
+[ext_resource type="PhysicsMaterial" uid="uid://dq1r6votcqh1x" path="res://materials/FloorPhysicsMaterial.tres" id="2_dn5x0"]
+[ext_resource type="PackedScene" uid="uid://be78v806wl6a5" path="res://Bouncer.tscn" id="3_3ywx5"]
+[ext_resource type="PackedScene" uid="uid://cssayoomcrb8o" path="res://Spawner.tscn" id="11_sypgb"]
+[ext_resource type="PackedScene" uid="uid://dt4vauql4gx0y" path="res://components/HalfCapsule.tscn" id="12_d6u53"]
+[ext_resource type="PackedScene" uid="uid://b0ky2r6dv835o" path="res://Base.tscn" id="13_sypgb"]
+[ext_resource type="PackedScene" uid="uid://cqn35mciqmm8s" path="res://Enemy.tscn" id="14_dn5x0"]
+[ext_resource type="PackedScene" uid="uid://kktahfiaqllg" path="res://Turret.tscn" id="15_esphl"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_dn5x0"]
+size = Vector2(1000, 1000)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dn5x0"]
+size = Vector3(1000, 1, 1000)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sypgb"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dn5x0"]
+albedo_color = Color(0, 1, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d6u53"]
+albedo_color = Color(0, 0, 1, 1)
+
+[node name="Level" type="Node3D"]
+
+[node name="Floor" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+mesh = SubResource("PlaneMesh_dn5x0")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("1_f2txt")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Floor"]
+collision_layer = 2147483648
+collision_mask = 0
+physics_material_override = ExtResource("2_dn5x0")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("BoxShape3D_dn5x0")
+
+[node name="Bouncer" parent="." instance=ExtResource("3_3ywx5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4)
+
+[node name="Turret 1" parent="." instance=ExtResource("15_esphl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 0)
+radius = 6.0
+
+[node name="Turret 2" parent="." instance=ExtResource("15_esphl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 0)
+radius = 6.0
+
+[node name="Spawner" parent="." instance=ExtResource("11_sypgb")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 8)
+spawnee = ExtResource("14_dn5x0")
+enemy_health_initial = 16.0
+velocity = 8.0
+seconds = 10.0
+
+[node name="Base" parent="." instance=ExtResource("13_sypgb")]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8)
+maxBaseHitPoints = 3
+maxShieldHitPoints = 3
+
+[node name="Axis" type="Node3D" parent="."]
+visible = false
+
+[node name="Axis X" parent="Axis" instance=ExtResource("12_d6u53")]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
+radius = 0.1
+segments = 12
+rings = 8
+material = SubResource("StandardMaterial3D_sypgb")
+
+[node name="Axis Y" parent="Axis" instance=ExtResource("12_d6u53")]
+radius = 0.1
+segments = 12
+rings = 8
+material = SubResource("StandardMaterial3D_dn5x0")
+
+[node name="Axis Z" parent="Axis" instance=ExtResource("12_d6u53")]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+radius = 0.1
+segments = 12
+rings = 8
+material = SubResource("StandardMaterial3D_d6u53")

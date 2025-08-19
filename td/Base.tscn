@@ -1,0 +1,60 @@
+[gd_scene load_steps=11 format=3 uid="uid://b0ky2r6dv835o"]
+
+[ext_resource type="Material" uid="uid://cwbdq3jrn7uf7" path="res://materials/HologramMaterial.tres" id="1_22hco"]
+[ext_resource type="Script" uid="uid://cpee8s6q4uj4u" path="res://Base.gd" id="1_swcnr"]
+[ext_resource type="PhysicsMaterial" uid="uid://1v27pp7kncuf" path="res://materials/BasePhysics.tres" id="3_22hco"]
+[ext_resource type="Material" uid="uid://d2p62e8h7iovq" path="res://materials/ShieldMaterial.tres" id="5_6ol3t"]
+[ext_resource type="PackedScene" uid="uid://b1t7aquxiadko" path="res://components/Attraction.tscn" id="5_22hco"]
+[ext_resource type="Material" uid="uid://sqyrj2rfc5lt" path="res://materials/CircularMaterial.tres" id="6_4p605"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_lf5p6"]
+size = Vector2(3, 3)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_0k0ig"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_2racw"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_pn4t7"]
+
+[node name="Base" type="Node3D"]
+script = ExtResource("1_swcnr")
+
+[node name="Center" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5879226, 0)
+
+[node name="GroundCircles" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.017252505, 0)
+mesh = SubResource("PlaneMesh_lf5p6")
+surface_material_override/0 = ExtResource("6_4p605")
+
+[node name="CenterSphereBody" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5879226, 0)
+collision_layer = 0
+collision_mask = 2147483651
+physics_material_override = ExtResource("3_22hco")
+gravity_scale = 0.0
+contact_monitor = true
+max_contacts_reported = 2
+linear_damp = 10.0
+
+[node name="CenterSphereCollisionShape" type="CollisionShape3D" parent="CenterSphereBody"]
+shape = SubResource("SphereShape3D_0k0ig")
+
+[node name="CenterSphereMesh" type="MeshInstance3D" parent="CenterSphereBody"]
+mesh = SubResource("SphereMesh_2racw")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("1_22hco")
+
+[node name="Attraction" parent="CenterSphereBody" instance=ExtResource("5_22hco")]
+targetPath = "../../../Base/Center"
+force = 50.0
+impulse = 0.0
+distance_threshold = 0.05
+
+[node name="ShieldHalo" type="MeshInstance3D" parent="."]
+transform = Transform3D(3.77, 0, 0, 0, 3.77, 0, 0, 0, 3.77, 0, 0.5879226, 0)
+mesh = SubResource("SphereMesh_pn4t7")
+surface_material_override/0 = ExtResource("5_6ol3t")
+
+[connection signal="body_entered" from="CenterSphereBody" to="." method="_on_center_sphere_body_entered"]

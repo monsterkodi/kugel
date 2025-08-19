@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://d2p62e8h7iovq"]
+
+[ext_resource type="Shader" uid="uid://c4jr5ae57ic2v" path="res://materials/ShieldMaterial.gdshader" id="1_80pql"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_80pql")
+shader_parameter/color1 = Color(0.4117647, 0.41568628, 1, 0.101960786)
+shader_parameter/color2 = Color(0.32999998, 0.32999998, 1, 0.4392157)
+shader_parameter/threshold = 0.10000000000582077
+shader_parameter/fresnel_sharpness = 5.0

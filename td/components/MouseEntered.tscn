@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dnk8lmv648fco"]
+
+[ext_resource type="Script" uid="uid://dy7v2f60474tu" path="res://components/MouseEntered.gd" id="1_qek01"]
+
+[node name="MouseEntered" type="Node3D"]
+script = ExtResource("1_qek01")
