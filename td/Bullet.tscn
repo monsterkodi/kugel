@@ -7,14 +7,17 @@
 rough = true
 bounce = 0.25
 
-[sub_resource type="PrismMesh" id="PrismMesh_x3e43"]
-size = Vector3(0.1, 0.2, 0.1)
+[sub_resource type="SphereMesh" id="SphereMesh_4s4u5"]
+radius = 0.1
+height = 0.2
+radial_segments = 12
+rings = 6
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x3e43"]
 albedo_color = Color(1, 1, 0, 1)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_x3e43"]
-size = Vector3(0.1, 0.2, 0.1)
+[sub_resource type="SphereShape3D" id="SphereShape3D_7281b"]
+radius = 0.1
 
 [node name="Bullet" type="RigidBody3D" groups=["level_reset"]]
 collision_layer = 8
@@ -27,11 +30,12 @@ max_contacts_reported = 1
 script = ExtResource("1_ayd6b")
 
 [node name="Lifetime" parent="." instance=ExtResource("2_4s4u5")]
+maxAge = 4.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
-mesh = SubResource("PrismMesh_x3e43")
+mesh = SubResource("SphereMesh_4s4u5")
 surface_material_override/0 = SubResource("StandardMaterial3D_x3e43")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("BoxShape3D_x3e43")
+shape = SubResource("SphereShape3D_7281b")

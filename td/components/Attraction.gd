@@ -1,7 +1,6 @@
 
 class_name Attraction extends Node3D
 
-#@export var targetPath:String = "../../Base"
 @export var targetPath:String = "/root/World/Level/Base"
 
 @export_range(0.0, 100.0, 0.1) var force    = 0.0
@@ -23,6 +22,7 @@ func applyImpulse(): get_parent_node_3d().apply_central_impulse(toTarget().norma
     
 func _physics_process(_delta: float):
     
+    if not targetNode: return
     
     if $Timer.is_stopped() and seconds > 0:
         $Timer.start(seconds)

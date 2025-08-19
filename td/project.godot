@@ -17,7 +17,6 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-Signal_Debugger="*res://addons/SignalVisualizer/Debugger/SignalDebugger.gd"
 DebugMenu="*res://addons/debug_menu/debug_menu.tscn"
 MathUtils="*res://utils/MathUtils.gd"
 Layer="*res://utils/Layer.gd"
@@ -27,6 +26,7 @@ Layer="*res://utils/Layer.gd"
 window/size/viewport_width=3840
 window/size/viewport_height=2160
 window/size/initial_position_type=3
+window/size/borderless=true
 window/stretch/mode="viewport"
 window/stretch/aspect="expand"
 window/vsync/vsync_mode=2
@@ -39,7 +39,7 @@ cozy_cube/gizmo_presets={}
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/SignalVisualizer/plugin.cfg", "res://addons/area_lights/plugin.cfg", "res://addons/csgtomesh/plugin.cfg", "res://addons/debug_menu/plugin.cfg", "res://addons/editor_relays/plugin.cfg", "res://addons/exec_script/plugin.cfg", "res://addons/extra_snaps/plugin.cfg", "res://addons/gdterm/plugin.cfg", "res://addons/gizmo_presets/plugin.cfg", "res://addons/lines_and_trails_3d/plugin.cfg", "res://addons/log/plugin.cfg", "res://addons/more_viewport_options/plugin.cfg", "res://addons/nine_patch_mesh/plugin.cfg", "res://addons/seven_segment_display/plugin.cfg", "res://addons/synced_collision_shape_3d/plugin.cfg", "res://addons/tile_path_3d/plugin.cfg")
+enabled=PackedStringArray("res://addons/area_lights/plugin.cfg", "res://addons/csgtomesh/plugin.cfg", "res://addons/debug_menu/plugin.cfg", "res://addons/editor_relays/plugin.cfg", "res://addons/exec_script/plugin.cfg", "res://addons/extra_snaps/plugin.cfg", "res://addons/gizmo_presets/plugin.cfg", "res://addons/lines_and_trails_3d/plugin.cfg", "res://addons/log/plugin.cfg", "res://addons/more_viewport_options/plugin.cfg", "res://addons/nine_patch_mesh/plugin.cfg", "res://addons/seven_segment_display/plugin.cfg", "res://addons/synced_collision_shape_3d/plugin.cfg", "res://addons/tile_path_3d/plugin.cfg")
 
 [global_group]
 

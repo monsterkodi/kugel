@@ -26,7 +26,7 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
         var collider:PhysicsBody3D = state.get_contact_collider_object(i)
         if collider.collision_layer != Layer.Floor:
             var damage = state.get_contact_impulse(i).length()
-            Log.log("damage", damage)
+            #Log.log("damage", damage)
             applyDamage(damage)
 
 func applyDamage(damage:float):
@@ -35,8 +35,9 @@ func applyDamage(damage:float):
     
     if health <= 0:
         mat.albedo_color = Color(0, 0, 0)
-        if get_node("Attraction"):
-            remove_child($Attraction)
+        $Attraction.targetNode = null
+        #if get_node("Attraction"):
+            #remove_child($Attraction)
     else:        
         var hf = 0.5 + 0.5 * health / maxHealth
         scale = Vector3(hf, hf, hf)

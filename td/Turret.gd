@@ -8,7 +8,11 @@ var sensorBodies: Array[Node3D]
 
 func setSensorRadius(r:float):   
 
-    if %Sensor: %Sensor.scale = Vector3(r, 1, r) 
+    if %Sensor: %Sensor.scale = Vector3(r, 1, r)
+    
+func _ready() -> void:
+    
+    $BarrelTarget.look_at(global_position + Vector3.UP*10 + Vector3.RIGHT*0.001)
 
 func _process(_delta: float) -> void:
     
