@@ -52,6 +52,6 @@ func _ready() -> void:
 func _on_center_sphere_body_entered(body: Node) -> void:
     #Log.log("collision with", body, body.get_groups())
     if body.is_in_group("enemy"):
-        body.get_parent().remove_child(body)
+        body.queue_free()
         onHit()
         

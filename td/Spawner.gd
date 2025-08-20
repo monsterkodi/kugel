@@ -14,7 +14,7 @@ func level_reset():
     
     tween.kill()
     tween = null
-    if spawnedBody: spawnedBody.get_parent_node_3d().remove_child(spawnedBody)
+    if spawnedBody: spawnedBody.queue_free()
     _ready()
 
 func _ready() -> void:
@@ -39,7 +39,7 @@ func ejectSpawnBody():
 
     if not spawnedBody: return
     
-    spawnedBody.get_parent_node_3d().remove_child(spawnedBody)
+    spawnedBody.get_parent().remove_child(spawnedBody)
     get_parent_node_3d().add_child(spawnedBody)
     spawnedBody.global_transform = $Torus/SpawnPoint.global_transform
     spawnedBody.linear_velocity = $Torus/SpawnPoint.transform.basis.z * -velocity

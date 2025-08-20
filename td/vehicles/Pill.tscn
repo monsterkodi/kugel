@@ -1,27 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://g0r24pl51awh"]
+[gd_scene load_steps=6 format=3 uid="uid://g0r24pl51awh"]
 
 [ext_resource type="PhysicsMaterial" uid="uid://dms3d8q358dik" path="res://materials/PlayerPhysicsMaterial.tres" id="1_5m86e"]
 [ext_resource type="Script" uid="uid://ch8rdi5m570e7" path="res://vehicles/Pill.gd" id="1_on1es"]
 [ext_resource type="Script" uid="uid://bvt1w1upmd45v" path="res://utils/Interpol.gd" id="2_on1es"]
-[ext_resource type="Material" uid="uid://b2gtoyl87ttku" path="res://materials/ColoredGlass.tres" id="3_5m86e"]
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_5m86e"]
-radius = 0.25
-height = 1.0
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_n8mu1"]
-radius = 0.25
-height = 1.0
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5m86e"]
-shading_mode = 0
-disable_ambient_light = true
-disable_fog = true
-disable_specular_occlusion = true
-albedo_color = Color(0, 0, 0, 0.46666667)
-disable_receive_shadows = true
-grow_amount = -0.33
-stencil_flags = 2
+[ext_resource type="PackedScene" uid="uid://dehmjc447yvug" path="res://vehicles/Capsule.tscn" id="3_5m86e"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dromu"]
 radius = 0.25
@@ -39,16 +21,7 @@ max_contacts_reported = 2
 angular_damp = 50.0
 script = ExtResource("1_on1es")
 
-[node name="Capsule" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5004551, 0)
-mesh = SubResource("CapsuleMesh_5m86e")
-surface_material_override/0 = ExtResource("3_5m86e")
-
-[node name="ShadowCaster" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.7, 0, 0, 0, 0.5, 0, 0, 0, 0.7, 0, 0.46, 0)
-transparency = 0.5
-mesh = SubResource("CapsuleMesh_n8mu1")
-surface_material_override/0 = SubResource("StandardMaterial3D_5m86e")
+[node name="Capsule" parent="." instance=ExtResource("3_5m86e")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5004551, 0)

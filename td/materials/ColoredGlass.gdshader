@@ -22,25 +22,27 @@ float SchlickFresnel(float u) {
 }
 
 void fragment() {
-	
+
 	float VdotN = dot(VIEW, NORMAL);
 	float fresnel = clamp(SchlickFresnel(VdotN), 0.0, 1.0);
-	
+
 	float a = mix(0.001, 1.0, albedo.a);
 	float a_factor_0 = mix(fresnel * edge_color.a, 1.0, a);
 	float a_factor_1 = 0.5 * sqrt(a);
 	float a_factor_2 = a_factor_0 + a_factor_1;
-	
+
 	ALBEDO = mix(edge_color.rgb * edge_color.a, albedo.rgb * surface_contribution, a);
 	ROUGHNESS = roughness;
 	SPECULAR = 0.5 * inversesqrt(specular_contribution);
-	
+
 	vec3 unpacked_normal = NORMAL_MAP;
 	unpacked_normal.xy = unpacked_normal.xy * 2.0 - 1.0;
 	unpacked_normal.z = sqrt(max(0.0, 1.0 - dot(unpacked_normal.xy, unpacked_normal.xy)));
 	vec3 ref_normal = normalize(mix(NORMAL,TANGENT * unpacked_normal.x + BINORMAL * unpacked_normal.y + NORMAL * unpacked_normal.z,NORMAL_MAP_DEPTH));
 	vec2 ref_ofs = SCREEN_UV - ref_normal.xy * refraction;
 	float ref_amount = 1.0 - albedo.a;
-	EMISSION += (textureLod(screen_texture,ref_ofs,ROUGHNESS * 8.0).rgb * ref_amount * EXPOSURE * mix(vec3(mix(0.02, 0.1, a)), albedo.rgb*refraction_contribution, a))/a_factor_2;
+    vec3 refcontr = mix(vec3(mix(0.02, 0.1, a)), albedo.rgb*refraction_contribution, a);
+	EMISSION = (textureLod(screen_texture,ref_ofs,ROUGHNESS * 8.0).rgb * ref_amount * EXPOSURE * refcontr)/a_factor_2;
 	ALBEDO *= 1.0 - ref_amount;
+    ALPHA = 0.8;
 }

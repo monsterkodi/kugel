@@ -75,6 +75,7 @@ monitorable = false
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Sensor"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
+cast_shadow = 0
 mesh = SubResource("PlaneMesh_vc5tq")
 skeleton = NodePath("../..")
 surface_material_override/0 = ExtResource("4_vc5tq")

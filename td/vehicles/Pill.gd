@@ -29,21 +29,12 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
    
     var contactCount = get_contact_count() 
     
-    #for i in range(contactCount):
-        #var collider = state.get_contact_collider_object(i)
-        #if collider.is_in_group("enemy"):
-            #collider.applyDamage(state.get_contact_impulse(i).length())
-    
     state.linear_velocity = MathUtils.max_length(state.linear_velocity, speed)
     if Input.is_action_pressed("alt_down") and %JumpTimer.is_stopped():
         if contactCount > 0:
             apply_central_impulse(Vector3.UP*60)
             %JumpTimer.start()
     
-func _process(_delta: float) -> void:
-    
-    player.transform = transform
-
 func readInput(delta:float):
     
     var dt = delta*60.0
@@ -74,11 +65,11 @@ func readInput(delta:float):
 
 func faster():
     
-    speed *= 1.1; speed = clampf(speed, MIN_SPEED, MAX_SPEED); Log.log("speed", speed)
+    speed *= 1.01; speed = clampf(speed, MIN_SPEED, MAX_SPEED); Log.log("speed", speed)
     
 func slower():
     
-    speed *= 0.9; speed = clampf(speed, MIN_SPEED, MAX_SPEED); Log.log("speed", speed)
+    speed *= 0.99; speed = clampf(speed, MIN_SPEED, MAX_SPEED); Log.log("speed", speed)
 
 func _unhandled_input(event: InputEvent) -> void:
     

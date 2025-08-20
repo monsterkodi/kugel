@@ -12,7 +12,7 @@ func _ready() -> void:
     $Mesh.set_surface_override_material(0, mat)
 
 func level_reset(): despawn()
-func despawn(): get_parent_node_3d().remove_child(self)
+func despawn(): queue_free()
 
 func _physics_process(_delta: float) -> void:
     

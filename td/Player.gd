@@ -9,7 +9,7 @@ func _ready() -> void:
 
 func loadVehicle(vehicle_name:String):
     
-    if vehicle: vehicle.get_parent_node_3d().remove_child(vehicle)
+    if vehicle: vehicle.queue_free()
     vehicleName = vehicle_name
     var res = "res://vehicles/{0}.tscn".format([vehicleName])
     vehicle = load(res).instantiate()

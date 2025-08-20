@@ -8,4 +8,4 @@ func _process(delta: float) -> void:
     
     age += delta
     if age > maxAge:
-        get_parent().get_parent().remove_child(get_parent())
+        owner.queue_free()

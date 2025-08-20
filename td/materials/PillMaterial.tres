@@ -1,0 +1,13 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bcomnioqak46l"]
+
+[ext_resource type="Shader" uid="uid://bynn3jxefftd2" path="res://materials/PillMaterial.gdshader" id="1_s2t8k"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_s2t8k")
+shader_parameter/opacity = 0.0
+shader_parameter/roughness = 0.25
+shader_parameter/refraction = 0.02
+shader_parameter/specular = 0.8
+shader_parameter/fesnel = 1.0
+shader_parameter/boost = 0.02

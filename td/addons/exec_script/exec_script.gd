@@ -23,7 +23,9 @@ func inputEventKeyFromString(shortcut:String) -> InputEventKey:
 
 func _enter_tree() -> void:
     
-    var defaultShortcut = "Option+Command+C"
+    var defaultShortcut = "Ctrl+Alt+C"
+    if OS.get_name() == "macOS":
+         defaultShortcut = "Option+Command+C"
     var currentShortcut = defaultShortcut
     if get_setting("shortcut"): currentShortcut = get_setting("shortcut")
         

@@ -1,11 +1,14 @@
-[gd_scene load_steps=9 format=3 uid="uid://sfii31yqj6q5"]
+[gd_scene load_steps=11 format=3 uid="uid://sfii31yqj6q5"]
 
+[ext_resource type="PhysicsMaterial" uid="uid://dms3d8q358dik" path="res://materials/PlayerPhysicsMaterial.tres" id="1_aeb42"]
 [ext_resource type="Script" uid="uid://d2xxvx1034q51" path="res://vehicles/Heli.gd" id="1_oh2j6"]
 [ext_resource type="Material" uid="uid://lx8t0tfuvrrw" path="res://materials/LackRed.tres" id="2_1sirc"]
-[ext_resource type="PackedScene" uid="uid://dt4vauql4gx0y" path="res://components/HalfCapsule.tscn" id="3_2ngpf"]
+[ext_resource type="PackedScene" uid="uid://dehmjc447yvug" path="res://vehicles/Capsule.tscn" id="3_2ngpf"]
 [ext_resource type="Material" uid="uid://c53lxv23v2wwu" path="res://materials/ThrusterMaterial.tres" id="3_c1c7q"]
-[ext_resource type="Material" uid="uid://b2gtoyl87ttku" path="res://materials/ColoredGlass.tres" id="4_aeb42"]
 [ext_resource type="Script" uid="uid://bvt1w1upmd45v" path="res://utils/Interpol.gd" id="6_aeb42"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_2ngpf"]
+height = 1.0
 
 [sub_resource type="SphereMesh" id="SphereMesh_oh2j6"]
 height = 0.5
@@ -15,56 +18,72 @@ is_hemisphere = true
 inner_radius = 0.001
 outer_radius = 0.5
 
-[node name="Heli" type="Node3D"]
-transform = Transform3D(1.46, 0, 0, 0, 1.46, 0, 0, 0, 1.46, 0, 0, 0)
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_2ngpf"]
+height = 0.7
+
+[node name="Heli" type="RigidBody3D"]
+collision_mask = 6
+mass = 20.0
+physics_material_override = ExtResource("1_aeb42")
+gravity_scale = 0.0
 script = ExtResource("1_oh2j6")
 
 [node name="Body" type="Node3D" parent="."]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.454, 0)
 
+[node name="BodyMesh" type="MeshInstance3D" parent="Body"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -0.5, 0, 1, -2.1855694e-08, 0, 0.012331188, 0)
+mesh = SubResource("CapsuleMesh_2ngpf")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("2_1sirc")
+
 [node name="HalfSphere" type="MeshInstance3D" parent="Body"]
 transform = Transform3D(1, 0, 0, 0, 0.5, 0, 0, 0, 1, 0, 0, 0)
+visible = false
 mesh = SubResource("SphereMesh_oh2j6")
 skeleton = NodePath("../..")
 surface_material_override/0 = ExtResource("2_1sirc")
 
 [node name="Torus" type="MeshInstance3D" parent="Body"]
 transform = Transform3D(1, 0, 0, 0, 0.6, 0, 0, 0, 1, 0, 0, 0)
+visible = false
 mesh = SubResource("TorusMesh_1sirc")
 skeleton = NodePath("../HalfSphere")
 surface_material_override/0 = ExtResource("2_1sirc")
 
-[node name="HalfCapsule" parent="Body" instance=ExtResource("3_2ngpf")]
-transform = Transform3D(0.35, 0, 0, 0, 0.35, 0, 0, 0, 0.35, 0, 0.2598831, 0)
-material = ExtResource("4_aeb42")
+[node name="Capsule" parent="Body" instance=ExtResource("3_2ngpf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1306501, 0)
 
-[node name="TA" type="Node3D" parent="."]
+[node name="Thrusters" type="Node3D" parent="."]
+
+[node name="TA" type="Node3D" parent="Thrusters"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, -0.28439707)
 
-[node name="ThrustA" type="MeshInstance3D" parent="TA"]
+[node name="ThrustA" type="MeshInstance3D" parent="Thrusters/TA"]
 unique_name_in_owner = true
 transform = Transform3D(0.4, 0, 0, 0, 0.6, 0, 0, 0, 0.4, 0, -0.3, 0)
 mesh = SubResource("SphereMesh_oh2j6")
-skeleton = NodePath("../..")
+skeleton = NodePath("../../..")
 surface_material_override/0 = ExtResource("3_c1c7q")
 
-[node name="TB" type="Node3D" parent="."]
+[node name="TB" type="Node3D" parent="Thrusters"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.24114352, 0.3, 0.14292729)
 
-[node name="ThrustB" type="MeshInstance3D" parent="TB"]
+[node name="ThrustB" type="MeshInstance3D" parent="Thrusters/TB"]
 transform = Transform3D(0.4, 0, 0, 0, 0.6, 0, 0, 0, 0.4, 0, -0.3, 0)
 mesh = SubResource("SphereMesh_oh2j6")
-skeleton = NodePath("../..")
+skeleton = NodePath("../../..")
 surface_material_override/0 = ExtResource("3_c1c7q")
 
-[node name="TC" type="Node3D" parent="."]
+[node name="TC" type="Node3D" parent="Thrusters"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.24719566, 0.3, 0.14340425)
 
-[node name="ThrustC" type="MeshInstance3D" parent="TC"]
+[node name="ThrustC" type="MeshInstance3D" parent="Thrusters/TC"]
 transform = Transform3D(0.4, 0, 0, 0, 0.6, 0, 0, 0, 0.4, 0, -0.3, 0)
 mesh = SubResource("SphereMesh_oh2j6")
-skeleton = NodePath("../..")
+skeleton = NodePath("../../..")
 surface_material_override/0 = ExtResource("3_c1c7q")
 
 [node name="forward" type="Node" parent="."]
@@ -82,3 +101,7 @@ unique_name_in_owner = true
 script = ExtResource("6_aeb42")
 secs = 0.1
 metadata/_custom_type_script = "uid://bvt1w1upmd45v"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, 0)
+shape = SubResource("CylinderShape3D_2ngpf")
