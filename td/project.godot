@@ -13,7 +13,6 @@ config_version=5
 config/name="camera"
 run/main_scene="uid://b6mskrm1n176r"
 config/features=PackedStringArray("4.5", "Forward Plus")
-boot_splash/show_image=false
 boot_splash/fullsize=false
 boot_splash/use_filter=false
 config/icon="res://icon.svg"
@@ -22,7 +21,8 @@ config/icon="res://icon.svg"
 
 MathUtils="*res://utils/MathUtils.gd"
 Layer="*res://utils/Layer.gd"
-DebugMenu="*res://addons/debug_menu/debug_menu.tscn"
+Post="*res://utils/Post.gd"
+fps_graph="*res://addons/fps_graph/fps_graph.tscn"
 
 [debug]
 
@@ -46,7 +46,7 @@ cozy_cube/gizmo_presets={}
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/area_lights/plugin.cfg", "res://addons/bottom_panel_shortcuts/plugin.cfg", "res://addons/csgtomesh/plugin.cfg", "res://addons/debug_menu/plugin.cfg", "res://addons/editor_relays/plugin.cfg", "res://addons/exec_script/plugin.cfg", "res://addons/extra_snaps/plugin.cfg", "res://addons/gizmo_presets/plugin.cfg", "res://addons/lines_and_trails_3d/plugin.cfg", "res://addons/log/plugin.cfg", "res://addons/more_viewport_options/plugin.cfg", "res://addons/nine_patch_mesh/plugin.cfg", "res://addons/script-name-on-top/plugin.cfg", "res://addons/seven_segment_display/plugin.cfg", "res://addons/synced_collision_shape_3d/plugin.cfg", "res://addons/tile_path_3d/plugin.cfg")
+enabled=PackedStringArray("res://addons/anthonyec.camera_preview/plugin.cfg", "res://addons/area_lights/plugin.cfg", "res://addons/bottom_panel_shortcuts/plugin.cfg", "res://addons/csgtomesh/plugin.cfg", "res://addons/editor_commands/plugin.cfg", "res://addons/editor_relays/plugin.cfg", "res://addons/exec_script/plugin.cfg", "res://addons/extra_snaps/plugin.cfg", "res://addons/fps_graph/plugin.cfg", "res://addons/gizmo_presets/plugin.cfg", "res://addons/lines_and_trails_3d/plugin.cfg", "res://addons/log/plugin.cfg", "res://addons/more_viewport_options/plugin.cfg", "res://addons/nine_patch_mesh/plugin.cfg", "res://addons/script-name-on-top/plugin.cfg", "res://addons/seven_segment_display/plugin.cfg", "res://addons/synced_collision_shape_3d/plugin.cfg", "res://addons/tile_path_3d/plugin.cfg")
 
 [exec]
 
@@ -56,10 +56,15 @@ script/shortcut=""
 
 folder_colors={
 "res://addons/": "gray",
-"res://camera/": "yellow",
+"res://addons/editor_commands/": "yellow",
+"res://addons/exec_script/": "yellow",
+"res://addons/fps_graph/": "yellow",
+"res://addons/log/": "orange",
 "res://components/": "orange",
 "res://materials/": "red",
+"res://ui/": "teal",
 "res://utils/": "purple",
+"res://utils/camera/": "yellow",
 "res://vehicles/": "blue"
 }
 
@@ -69,6 +74,7 @@ save=""
 player=""
 enemy=""
 level_reset=""
+game=""
 
 [gui]
 
@@ -76,6 +82,20 @@ theme/default_font_multichannel_signed_distance_field=true
 
 [input]
 
+ui_accept={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":4194309,"physical_keycode":0,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":4194310,"physical_keycode":0,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":32,"physical_keycode":0,"key_label":0,"unicode":32,"location":0,"echo":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":0,"pressure":0.0,"pressed":true,"script":null)
+]
+}
+ui_cancel={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":4194305,"physical_keycode":0,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":1,"pressure":0.0,"pressed":true,"script":null)
+]
+}
 forward={
 "deadzone": 0.2,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":87,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
@@ -94,8 +114,8 @@ left={
 }
 right={
 "deadzone": 0.2,
-"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":68,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
-, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":14,"pressure":0.0,"pressed":true,"script":null)
+"events": [Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":14,"pressure":0.0,"pressed":true,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":68,"key_label":0,"unicode":100,"location":0,"echo":false,"script":null)
 ]
 }
 ascend={
@@ -132,17 +152,7 @@ steer_right={
 }
 quit={
 "deadzone": 0.2,
-"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194305,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
-]
-}
-save={
-"deadzone": 0.2,
-"events": [Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":4,"pressure":0.0,"pressed":true,"script":null)
-]
-}
-load={
-"deadzone": 0.2,
-"events": [Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":6,"pressure":0.0,"pressed":true,"script":null)
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":true,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":81,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
 ]
 }
 faster={
@@ -179,7 +189,6 @@ alt_left={
 alt_up={
 "deadzone": 0.2,
 "events": [Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":3,"pressure":0.0,"pressed":true,"script":null)
-, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":89,"key_label":0,"unicode":121,"location":0,"echo":false,"script":null)
 ]
 }
 alt_down={
@@ -187,6 +196,12 @@ alt_down={
 "events": [Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":0,"pressure":0.0,"pressed":true,"script":null)
 , Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":66,"key_label":0,"unicode":98,"location":0,"echo":false,"script":null)
 , Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":32,"key_label":0,"unicode":32,"location":0,"echo":false,"script":null)
+]
+}
+pause={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194305,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":6,"pressure":0.0,"pressed":true,"script":null)
 ]
 }
 
@@ -214,5 +229,4 @@ bottom_panel_shortcuts/toggle_bottom_panel=Object(Shortcut,"resource_local_to_sc
 textures/vram_compression/import_etc2_astc=true
 anti_aliasing/quality/msaa_3d=1
 environment/glow/upscale_mode=0
-environment/defaults/default_clear_color=Color(0, 0, 0, 1)
 anti_aliasing/quality/use_debanding=true

@@ -1,0 +1,33 @@
+[gd_scene load_steps=3 format=3 uid="uid://bf5rvhlendjij"]
+
+[ext_resource type="Script" uid="uid://by4ir0omypaxx" path="res://addons/fps_graph/fps_graph.gd" id="1_65106"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_65106"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0, 0, 0, 0)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[node name="FpsGraph" type="CanvasLayer"]
+script = ExtResource("1_65106")
+
+[node name="Graph" type="Panel" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(1000, 120)
+anchors_preset = -1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -1000.0
+offset_bottom = 120.0
+grow_horizontal = 0
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_65106")
+
+[connection signal="draw" from="Graph" to="." method="drawGraph"]

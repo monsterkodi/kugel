@@ -2,7 +2,7 @@
 extends EditorPlugin
 
 const SCENE_TOP_BAR: PackedScene = preload("res://addons/script-name-on-top/topbar.tscn")
-const MAX_RECENT_ITEMS := 10
+const MAX_RECENT_ITEMS := 20
 const COLOR_BUTTONS := Color8(255, 255, 0, 255)
 
 var _editor_interface: EditorInterface
@@ -50,7 +50,7 @@ func _add_extension_top_bar() -> void:
     _extension_top_bar = SCENE_TOP_BAR.instantiate()
     _script_editor_menu.add_child(_extension_top_bar)
     _script_editor_menu.move_child(_extension_top_bar, -8)
-
+    
     _extension_popup = _extension_top_bar.get_popup()
 
     _extension_top_bar.pressed.connect(_build_recent_scripts_list)
@@ -63,12 +63,16 @@ func _process(_delta: float) -> void:
         _editing_something_new(_current_editor)
 
     _tree_recursive_highlight(_the_tree.get_root())
+    
+    _script_editor_menu.get_child(-7).set_text("")
+    _script_editor_menu.get_child(-6).set_text("")
+    _script_editor_menu.get_child(-6).modulate = Color(1,1,1,0.5)
+    _script_editor_menu.get_child(-7).modulate = Color(1,1,1,0.5)
 
 func _build_recent_scripts_list() -> void:
     _extension_popup.clear()
     for i in _recently_opened.size():
-        var filepath: String = _recently_opened[i]
-        _extension_popup.add_item(filepath)
+        _extension_popup.add_item(_recently_opened[i])
 
     if _recently_opened.size() == 0:
         _extension_popup.visible = false
@@ -96,7 +100,7 @@ func _editing_something_new(current_editor: ScriptEditorBase) -> void:
         _extension_top_bar.modulate = Color(0,0,0,0) # Make it invisible if not using it
 
     _extension_top_bar.text = new_text
-    _extension_top_bar.tooltip_text = new_text
+    #_extension_top_bar.tooltip_text = new_text
 
 func _is_main_screen_visible(screen) -> bool:
     # 0 = 2D, 1 = 3D, 2 = Script, 3 = AssetLib

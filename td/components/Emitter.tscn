@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://dcv50rboew14e"]
 
 [ext_resource type="Script" uid="uid://v00gxfdr7qyk" path="res://components/Emitter.gd" id="1_udpm3"]
-[ext_resource type="PackedScene" uid="uid://b4x04vstro86m" path="res://Bullet.tscn" id="2_lm7ty"]
+[ext_resource type="PackedScene" uid="uid://b4x04vstro86m" path="res://world/Bullet.tscn" id="2_lm7ty"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_udpm3"]
 radius = 0.1

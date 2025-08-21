@@ -1,0 +1,104 @@
+[gd_scene load_steps=14 format=3 uid="uid://kktahfiaqllg"]
+
+[ext_resource type="Script" uid="uid://tsel3doxtedq" path="res://world/Turret.gd" id="1_w3f5i"]
+[ext_resource type="Material" uid="uid://vyhfqa37hcxi" path="res://materials/LackBlue.tres" id="2_vc5tq"]
+[ext_resource type="PhysicsMaterial" uid="uid://cxmvb6atqbyf0" path="res://materials/DefaultPhysicsMaterial.tres" id="3_vc5tq"]
+[ext_resource type="Material" uid="uid://xloipk58m6mc" path="res://materials/ProtoGridMaterial.tres" id="3_wvatt"]
+[ext_resource type="Script" uid="uid://v00gxfdr7qyk" path="res://components/Emitter.gd" id="4_d3wxe"]
+[ext_resource type="Material" uid="uid://b1gsuujsn28vt" path="res://materials/TurretSensorMaterial.tres" id="4_vc5tq"]
+[ext_resource type="PackedScene" uid="uid://b4x04vstro86m" path="res://world/Bullet.tscn" id="5_lugvd"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_w3f5i"]
+radius = 0.25
+height = 1.0
+radial_segments = 32
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_iwplw"]
+radius = 0.25
+height = 1.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_vc5tq"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_vc5tq"]
+radius = 1.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_w3f5i"]
+top_radius = 0.25
+height = 1.0
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_iwplw"]
+height = 1.0
+
+[node name="Turret" type="Node3D"]
+script = ExtResource("1_w3f5i")
+
+[node name="BarrelTarget" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="BarrelPivot" type="Node3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="Barrel" type="MeshInstance3D" parent="BarrelPivot"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_w3f5i")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("2_vc5tq")
+
+[node name="AnimatableBody3D" type="AnimatableBody3D" parent="BarrelPivot"]
+collision_layer = 4
+collision_mask = 0
+physics_material_override = ExtResource("3_vc5tq")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BarrelPivot/AnimatableBody3D"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_iwplw")
+
+[node name="EmitterPoint" type="Node3D" parent="BarrelPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.48402035)
+
+[node name="Emitter" type="Node3D" parent="BarrelPivot/EmitterPoint"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.9975053)
+script = ExtResource("4_d3wxe")
+bullet = ExtResource("5_lugvd")
+seconds = 0.1999999999970896
+metadata/_custom_type_script = "uid://v00gxfdr7qyk"
+
+[node name="Sensor" type="Area3D" parent="."]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 2
+input_ray_pickable = false
+monitorable = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Sensor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_vc5tq")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("4_vc5tq")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Sensor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CylinderShape3D_vc5tq")
+
+[node name="Base" type="StaticBody3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+collision_layer = 4
+collision_mask = 0
+physics_material_override = ExtResource("3_vc5tq")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Base"]
+mesh = SubResource("CylinderMesh_w3f5i")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("3_wvatt")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Base"]
+shape = SubResource("CylinderShape3D_iwplw")
+
+[connection signal="property_list_changed" from="." to="." method="_on_property_list_changed"]
+[connection signal="body_entered" from="Sensor" to="." method="_on_sensor_body_entered"]
+[connection signal="body_exited" from="Sensor" to="." method="_on_sensor_body_exited"]

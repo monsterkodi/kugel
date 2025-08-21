@@ -49,5 +49,3 @@ metadata/_custom_type_script = "uid://bvt1w1upmd45v"
 unique_name_in_owner = true
 wait_time = 0.2
 one_shot = true
-
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]

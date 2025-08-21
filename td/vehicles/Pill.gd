@@ -6,6 +6,8 @@ var speed     = 6
 var MIN_SPEED = 3
 var MAX_SPEED = 6
 
+var mouseDelta = Vector2.ZERO
+
 func _physics_process(delta:float):
     
     if not player.is_processing_unhandled_input(): return
@@ -22,6 +24,9 @@ func _physics_process(delta:float):
     
     apply_central_force(force)
     apply_torque(Vector3(0, -%steer.value*delta*800, 0))
+    
+    apply_torque(Vector3(0, -mouseDelta.x*0.3, 0))
+    mouseDelta = Vector2.ZERO
 
     player.transform = transform
     
@@ -54,7 +59,7 @@ func readInput(delta:float):
     %steer.add(Input.get_joy_axis(0, JOY_AXIS_RIGHT_X)*dt)
     if Input.is_action_pressed("steer_right"):  %steer.add( dt)
     if Input.is_action_pressed("steer_left"):   %steer.add(-dt)
-
+    
     %strafe.zero()
     %strafe.add(Input.get_joy_axis(0, JOY_AXIS_LEFT_X))
     if Input.is_action_pressed("right"):        %strafe.add(1)
@@ -70,6 +75,11 @@ func faster():
 func slower():
     
     speed *= 0.99; speed = clampf(speed, MIN_SPEED, MAX_SPEED); Log.log("speed", speed)
+
+func _input(event: InputEvent) -> void:
+    
+    if event is InputEventMouseMotion:
+        mouseDelta = event.relative
 
 func _unhandled_input(event: InputEvent) -> void:
     

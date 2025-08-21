@@ -1,0 +1,76 @@
+[gd_scene load_steps=12 format=3 uid="uid://cssayoomcrb8o"]
+
+[ext_resource type="Script" uid="uid://c42hpa6ij4j3j" path="res://world/Spawner.gd" id="1_5q6u0"]
+[ext_resource type="Material" uid="uid://cqqy80w72vwdd" path="res://materials/GooMaterial.tres" id="2_5q6u0"]
+[ext_resource type="Shader" uid="uid://bo3vh1v12acqd" path="res://materials/RoundedBorderMaterial.gdshader" id="3_5q6u0"]
+[ext_resource type="Material" uid="uid://dpx5qvy28judg" path="res://materials/CircleMaterial.tres" id="4_5i5hu"]
+[ext_resource type="Shader" uid="uid://buoavpwql810j" path="res://materials/RoundedBorderMatVis.tres" id="5_5i5hu"]
+
+[sub_resource type="TorusMesh" id="TorusMesh_8b0r0"]
+inner_radius = 0.51
+outer_radius = 1.1
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_gnend"]
+size = Vector2(1, 2.5)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1v3v6"]
+render_priority = 0
+shader = ExtResource("3_5q6u0")
+shader_parameter/color = Color(0.6156863, 0, 0, 0.48235294)
+shader_parameter/border_color = Color(0.45490196, 0, 0, 1)
+shader_parameter/size = Vector2(0.5, 1)
+shader_parameter/border_size = 0.050000002375
+shader_parameter/border_fade_in = 0.0
+shader_parameter/border_fade_out = 0.0010000000475
+shader_parameter/corner_radius = 0.499999988824
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_5q6u0"]
+size = Vector2(1.5, 1.5)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_aubng"]
+size = Vector2(1.25, 2.5)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lyyrg"]
+render_priority = 0
+shader = ExtResource("5_5i5hu")
+shader_parameter/AspectRatio = 0.50000002049012
+shader_parameter/CornerRadius = 0.499999988824
+shader_parameter/BorderSize = 0.0499999988824
+shader_parameter/BorderColor = Color(1.6124506, 0, 0, 1)
+shader_parameter/Color = Color(0.8112086, 0, 0, 1)
+
+[node name="Spawner" type="Node3D" groups=["level_reset"]]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+script = ExtResource("1_5q6u0")
+
+[node name="Torus" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("TorusMesh_8b0r0")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("2_5q6u0")
+
+[node name="SpawnPoint" type="Node3D" parent="Torus"]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="RoundedRect" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
+visible = false
+mesh = SubResource("PlaneMesh_gnend")
+surface_material_override/0 = SubResource("ShaderMaterial_1v3v6")
+
+[node name="RoundedRect2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.013578951, 0)
+visible = false
+mesh = SubResource("PlaneMesh_5q6u0")
+surface_material_override/0 = ExtResource("4_5i5hu")
+
+[node name="RoundedRect4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.013578951, 0)
+visible = false
+mesh = SubResource("PlaneMesh_5q6u0")
+surface_material_override/0 = ExtResource("4_5i5hu")
+
+[node name="RoundedRect3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.001, 0)
+mesh = SubResource("PlaneMesh_aubng")
+surface_material_override/0 = SubResource("ShaderMaterial_lyyrg")
