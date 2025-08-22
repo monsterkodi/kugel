@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://kotd4yt27t51"]
+
+[ext_resource type="Shader" uid="uid://b0umrxwlqv1yh" path="res://materials/FloorMatVis.tres" id="1_fc761"]
+
+[resource]
+render_priority = -5
+shader = ExtResource("1_fc761")
+shader_parameter/Inner = Color(0.196773, 0.196773, 0.196773, 1)
+shader_parameter/Outer = Color(0.09803922, 0.09803922, 0.09803922, 0)
+shader_parameter/Size = 0.738000035055

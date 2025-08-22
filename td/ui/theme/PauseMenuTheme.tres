@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=7 format=3 uid="uid://ckxlwln5s1u4b"]
+[gd_resource type="Theme" load_steps=6 format=3 uid="uid://ckxlwln5s1u4b"]
 
 [ext_resource type="FontFile" uid="uid://dfqo0cb4uy7kl" path="res://ui/theme/Rounded.ttf" id="1_4l1ig"]
 
@@ -24,15 +24,6 @@ corner_radius_bottom_left = 80
 content_margin_left = 65.0
 content_margin_right = 65.0
 bg_color = Color(0.07910311, 0.07910311, 0.07910311, 1)
-corner_radius_top_left = 80
-corner_radius_top_right = 80
-corner_radius_bottom_right = 80
-corner_radius_bottom_left = 80
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8dclq"]
-content_margin_left = 65.0
-content_margin_right = 65.0
-bg_color = Color(0.46666667, 0, 0, 1)
 corner_radius_top_left = 80
 corner_radius_top_right = 80
 corner_radius_bottom_right = 80
@@ -67,6 +58,7 @@ Button/constants/icon_max_width = 0
 Button/styles/disabled = null
 Button/styles/focus = SubResource("StyleBoxFlat_4l1ig")
 Button/styles/hover = SubResource("StyleBoxFlat_lcka2")
+Button/styles/hover_pressed = SubResource("StyleBoxFlat_lcka2")
 Button/styles/normal = SubResource("StyleBoxFlat_nopln")
-Button/styles/pressed = SubResource("StyleBoxFlat_8dclq")
+Button/styles/pressed = SubResource("StyleBoxFlat_nopln")
 PanelContainer/styles/panel = SubResource("StyleBoxFlat_5y4im")

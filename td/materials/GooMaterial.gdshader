@@ -1,5 +1,6 @@
 shader_type spatial;
-render_mode depth_draw_always, cull_disabled;
+//render_mode cull_disabled, depth_draw_always;
+render_mode unshaded, cull_disabled, depth_prepass_alpha, depth_test_default, depth_draw_opaque;
 
 uniform sampler2D screen_texture : hint_screen_texture, repeat_disable, filter_nearest;
 

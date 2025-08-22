@@ -1,6 +1,6 @@
 shader_type spatial;
 
-render_mode unshaded, cull_disabled;
+render_mode unshaded, cull_disabled, depth_prepass_alpha, depth_test_default;
 
 uniform sampler2D depth_texture : source_color, hint_depth_texture;
 uniform vec4 color1: source_color = vec4(1,1,1,.1);

@@ -1,11 +1,11 @@
 [gd_scene load_steps=11 format=3 uid="uid://b0ky2r6dv835o"]
 
-[ext_resource type="Material" uid="uid://cwbdq3jrn7uf7" path="res://materials/HologramMaterial.tres" id="1_22hco"]
 [ext_resource type="Script" uid="uid://cpee8s6q4uj4u" path="res://world/Base.gd" id="1_swcnr"]
 [ext_resource type="PhysicsMaterial" uid="uid://1v27pp7kncuf" path="res://materials/BasePhysics.tres" id="3_22hco"]
-[ext_resource type="Material" uid="uid://d2p62e8h7iovq" path="res://materials/ShieldMaterial.tres" id="5_6ol3t"]
+[ext_resource type="Material" uid="uid://1nbr7m78c0uq" path="res://materials/BaseHoloMaterial.tres" id="4_8t0lk"]
 [ext_resource type="PackedScene" uid="uid://b1t7aquxiadko" path="res://components/Attraction.tscn" id="5_22hco"]
 [ext_resource type="Material" uid="uid://sqyrj2rfc5lt" path="res://materials/CircularMaterial.tres" id="6_4p605"]
+[ext_resource type="Material" uid="uid://f1ntunbkapvi" path="res://materials/BaseShieldMaterial.tres" id="6_8t0lk"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_lf5p6"]
 size = Vector2(3, 3)
@@ -44,7 +44,7 @@ shape = SubResource("SphereShape3D_0k0ig")
 [node name="CenterSphereMesh" type="MeshInstance3D" parent="CenterSphereBody"]
 mesh = SubResource("SphereMesh_2racw")
 skeleton = NodePath("../..")
-surface_material_override/0 = ExtResource("1_22hco")
+surface_material_override/0 = ExtResource("4_8t0lk")
 
 [node name="Attraction" parent="CenterSphereBody" instance=ExtResource("5_22hco")]
 targetPath = "../../../Base/Center"
@@ -55,6 +55,6 @@ distance_threshold = 0.05
 [node name="ShieldHalo" type="MeshInstance3D" parent="."]
 transform = Transform3D(3.77, 0, 0, 0, 3.77, 0, 0, 0, 3.77, 0, 0.5879226, 0)
 mesh = SubResource("SphereMesh_pn4t7")
-surface_material_override/0 = ExtResource("5_6ol3t")
+surface_material_override/0 = ExtResource("6_8t0lk")
 
 [connection signal="body_entered" from="CenterSphereBody" to="." method="_on_center_sphere_body_entered"]

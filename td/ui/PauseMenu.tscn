@@ -64,16 +64,14 @@ theme = ExtResource("2_8tehv")
 text = "Save
 "
 
-[node name="QuitButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
+[node name="Quit" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme = ExtResource("2_8tehv")
 text = "Quit"
 
 [connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
-[connection signal="mouse_entered" from="PanelContainer/MarginContainer/VBoxContainer/Resume" to="." method="onButtonHover" flags=18]
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/Resume" to="." method="_on_resume_button_pressed"]
-[connection signal="mouse_entered" from="PanelContainer/MarginContainer/VBoxContainer/Load" to="." method="onButtonHover" flags=18]
-[connection signal="mouse_entered" from="PanelContainer/MarginContainer/VBoxContainer/Save" to="." method="onButtonHover" flags=18]
-[connection signal="mouse_entered" from="PanelContainer/MarginContainer/VBoxContainer/QuitButton" to="." method="onButtonHover" flags=18]
-[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/Load" to="." method="_on_load_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/Save" to="." method="_on_save_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/Quit" to="." method="_on_quit_button_pressed"]
