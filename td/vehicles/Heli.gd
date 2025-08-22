@@ -12,8 +12,6 @@ var MAX_ALTI     = 3.0
 
 func _physics_process(delta:float):
     
-    if not get_parent().is_processing_unhandled_input(): return
-    
     readInput()
     
     var pt = get_parent_node_3d()
@@ -74,8 +72,6 @@ func slower():
     speed *= 0.95; speed = clampf(speed, MIN_SPEED, MAX_SPEED)#; Log.log("speed", speed)
 
 func _unhandled_input(e: InputEvent):
-    
-    if not get_parent().is_processing_unhandled_input(): return
     
     if e is InputEventMouseButton:
         if e.button_index == MOUSE_BUTTON_WHEEL_UP:

@@ -28,7 +28,7 @@ linked_parent_graph_frame = 18
 port_type = 3
 
 [sub_resource type="VisualShaderNodeFrame" id="VisualShaderNodeFrame_cgvtx"]
-size = Vector2(2789, 908.9999)
+size = Vector2(2789, 909.00006)
 title = "polar"
 attached_nodes = PackedInt32Array(6, 16, 15, 17, 12, 11, 14, 8, 4, 5)
 

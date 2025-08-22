@@ -4,7 +4,7 @@
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_sh265"]
 
-[node name="Node3D" type="Node3D" groups=["player"]]
+[node name="Player" type="Node3D" groups=["player"]]
 script = ExtResource("1_xhfnw")
 
 [node name="pill" type="MeshInstance3D" parent="."]

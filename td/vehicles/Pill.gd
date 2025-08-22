@@ -10,8 +10,6 @@ var mouseDelta = Vector2.ZERO
 
 func _physics_process(delta:float):
     
-    if not player.is_processing_unhandled_input(): return
-    
     readInput(delta)
     
     var dt = delta * speed
@@ -82,8 +80,6 @@ func _input(event: InputEvent) -> void:
         mouseDelta = event.relative
 
 func _unhandled_input(event: InputEvent) -> void:
-    
-    if not player.is_processing_unhandled_input(): return
     
     if event is InputEventMouseButton:
         if event.button_index == MOUSE_BUTTON_WHEEL_UP:

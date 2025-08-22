@@ -42,9 +42,3 @@ func on_load(data:Dictionary):
     
     transform = data.Player.transform
     loadVehicle(data.Player.vehicle)
-
-func gamePaused():  input_disable()
-func gameResumed(): input_enable()
-
-func input_enable():  set_process_unhandled_input(true) 
-func input_disable(): set_process_unhandled_input(false)
