@@ -26,12 +26,12 @@ func _ready() -> void:
 func nextSpawnLoop():    
     
     tween = get_tree().create_tween()
-    tween.tween_property($Torus, "position:y", 1.1, seconds).from(-1.2).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+    tween.tween_property(%Body, "position:y", 1.1, seconds).from(-1.2).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
     tween.tween_callback(ejectSpawnBody)
 
     spawnedBody = spawnee.instantiate()
     spawnedBody.maxHealth = enemyHealth
-    $Torus/SpawnPoint.add_child(spawnedBody)
+    %SpawnPoint.add_child(spawnedBody)
     spawnedBody.freeze = true
     enemyHealth += enemy_health_increment
 
@@ -41,11 +41,11 @@ func ejectSpawnBody():
     
     spawnedBody.get_parent().remove_child(spawnedBody)
     get_parent_node_3d().add_child(spawnedBody)
-    spawnedBody.global_transform = $Torus/SpawnPoint.global_transform
-    spawnedBody.linear_velocity = $Torus/SpawnPoint.transform.basis.z * -velocity
+    spawnedBody.global_transform = %SpawnPoint.global_transform
+    spawnedBody.linear_velocity = %SpawnPoint.transform.basis.z * -velocity
     spawnedBody.freeze = false
     spawnedBody = null
     
     tween = get_tree().create_tween()
-    tween.tween_property($Torus, "position:y", -1, 1.5).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
+    tween.tween_property(%Body, "position:y", -1, 1.5).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
     tween.tween_callback(nextSpawnLoop)

@@ -212,6 +212,7 @@ pause={
 3d_physics/layer_2="Enemy"
 3d_physics/layer_3="Static"
 3d_physics/layer_4="Bullets"
+3d_physics/layer_31="Spawner"
 3d_physics/layer_32="Floor"
 
 [physics]
