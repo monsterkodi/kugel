@@ -6,6 +6,8 @@
 [ext_resource type="Material" uid="uid://c6afuil50xpdj" path="res://materials/EnemyMaterial.tres" id="3_e6d4v"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_s7bn3"]
+radial_segments = 32
+rings = 16
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_tt7e2"]
 

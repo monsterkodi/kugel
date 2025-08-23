@@ -23,6 +23,8 @@ radius = 1.1
 [sub_resource type="TorusMesh" id="TorusMesh_8b0r0"]
 inner_radius = 0.51
 outer_radius = 1.1
+rings = 32
+ring_segments = 16
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7j3mf"]
 render_priority = 0

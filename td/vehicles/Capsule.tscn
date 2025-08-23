@@ -7,11 +7,13 @@
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_5m86e"]
 radius = 0.25
 height = 1.0
+radial_segments = 16
+rings = 4
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_vj03p"]
 radius = 0.25
 height = 1.0
-radial_segments = 24
+radial_segments = 8
 rings = 2
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_vevl4"]

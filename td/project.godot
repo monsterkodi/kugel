@@ -30,13 +30,12 @@ gdscript/warnings/unused_parameter=0
 
 [display]
 
-window/size/viewport_width=3840
-window/size/viewport_height=2160
+window/size/viewport_width=1920
+window/size/viewport_height=1080
 window/size/initial_position_type=3
 window/size/borderless=true
 window/stretch/mode="viewport"
 window/stretch/aspect="expand"
-window/vsync/vsync_mode=2
 
 [editor]
 
@@ -233,7 +232,8 @@ bottom_panel_shortcuts/toggle_bottom_panel=Object(Shortcut,"resource_local_to_sc
 
 [rendering]
 
+rendering_device/driver.macos="vulkan"
 textures/vram_compression/import_etc2_astc=true
-anti_aliasing/quality/msaa_3d=1
 environment/glow/upscale_mode=0
+anti_aliasing/quality/screen_space_aa=1
 anti_aliasing/quality/use_debanding=true

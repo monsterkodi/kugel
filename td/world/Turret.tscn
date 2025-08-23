@@ -11,7 +11,7 @@
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_w3f5i"]
 radius = 0.25
 height = 1.0
-radial_segments = 32
+radial_segments = 24
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_iwplw"]
 radius = 0.25
@@ -25,6 +25,8 @@ radius = 1.0
 [sub_resource type="CylinderMesh" id="CylinderMesh_w3f5i"]
 top_radius = 0.25
 height = 1.0
+radial_segments = 24
+rings = 2
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_iwplw"]
 height = 1.0
