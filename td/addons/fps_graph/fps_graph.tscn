@@ -15,6 +15,7 @@ corner_radius_bottom_left = 3
 corner_detail = 5
 
 [node name="FpsGraph" type="CanvasLayer"]
+process_mode = 3
 script = ExtResource("1_65106")
 
 [node name="Graph" type="Panel" parent="."]

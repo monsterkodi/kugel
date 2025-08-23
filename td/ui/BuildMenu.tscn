@@ -1,0 +1,163 @@
+[gd_scene load_steps=13 format=3 uid="uid://bwlnpgve3gc86"]
+
+[ext_resource type="ButtonGroup" uid="uid://dmsauvumaa32t" path="res://ui/BuildMenuButtonGroup.tres" id="2_00r6q"]
+[ext_resource type="Theme" uid="uid://rnx540ue12et" path="res://ui/theme/BuildMenuTheme.tres" id="2_c2ij3"]
+[ext_resource type="Script" uid="uid://db85fb86bo305" path="res://ui/FocusOnHover.gd" id="3_vi3gr"]
+[ext_resource type="PackedScene" uid="uid://kktahfiaqllg" path="res://world/Turret.tscn" id="4_3b6m4"]
+[ext_resource type="PackedScene" uid="uid://cqehuu06xxkum" path="res://vehicles/Car.tscn" id="4_k8ymw"]
+[ext_resource type="PackedScene" uid="uid://sfii31yqj6q5" path="res://vehicles/Heli.tscn" id="5_ediss"]
+
+[sub_resource type="GDScript" id="GDScript_6h2gr"]
+script/source = "extends Control
+
+signal resumeGame
+
+func showMenu():
+    
+    visible = true
+    %Buttons.get_child(0).grab_focus()
+    
+func hideMenu():
+    
+    visible = false
+    get_viewport().gui_release_focus()
+    
+func _input(event: InputEvent):
+    
+    if not visible: return
+    
+    if Input.is_action_just_pressed(\"ui_cancel\"): # to enable joypad B
+        get_viewport().set_input_as_handled()
+        resumeGame.emit()
+"
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_00r6q"]
+viewport_path = NodePath("Buttons/TurretButton/SubViewport")
+
+[sub_resource type="Environment" id="Environment_gc87q"]
+background_mode = 1
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_1rv78"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_vi3gr"]
+viewport_path = NodePath("Buttons/CarButton/SubViewport")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_6ibl5"]
+viewport_path = NodePath("Buttons/HeliButton/SubViewport")
+
+[node name="BuildMenu" type="Control"]
+process_mode = 2
+layout_mode = 3
+anchors_preset = 9
+anchor_bottom = 1.0
+grow_vertical = 2
+theme = ExtResource("2_c2ij3")
+script = SubResource("GDScript_6h2gr")
+
+[node name="Buttons" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -374.0
+offset_right = 300.0
+offset_bottom = 374.0
+grow_vertical = 2
+theme_override_constants/separation = -1
+
+[node name="TurretButton" type="Button" parent="Buttons"]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("2_c2ij3")
+toggle_mode = true
+button_group = ExtResource("2_00r6q")
+icon = SubResource("ViewportTexture_00r6q")
+
+[node name="SubViewport" type="SubViewport" parent="Buttons/TurretButton"]
+own_world_3d = true
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(200, 200)
+
+[node name="Node3D" type="Node3D" parent="Buttons/TurretButton/SubViewport"]
+
+[node name="Turret" parent="Buttons/TurretButton/SubViewport/Node3D" instance=ExtResource("4_3b6m4")]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Buttons/TurretButton/SubViewport/Node3D"]
+transform = Transform3D(0.91790015, 0.23296532, -0.32122657, 0, 0.80951935, 0.5870932, 0.3968115, -0.5388929, 0.7430579, -3.3332899, 3.0700886, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Buttons/TurretButton/SubViewport/Node3D"]
+transform = Transform3D(1, 0, 0, 0, 0.8846705, 0.4662168, 0, -0.4662168, 0.8846705, 0.04812908, 2.433115, 2.7803106)
+fov = 40.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Buttons/TurretButton/SubViewport/Node3D"]
+environment = SubResource("Environment_gc87q")
+camera_attributes = SubResource("CameraAttributesPractical_1rv78")
+
+[node name="FocusOnHover" type="Node" parent="Buttons/TurretButton"]
+script = ExtResource("3_vi3gr")
+
+[node name="CarButton" type="Button" parent="Buttons"]
+layout_mode = 2
+theme = ExtResource("2_c2ij3")
+toggle_mode = true
+button_group = ExtResource("2_00r6q")
+icon = SubResource("ViewportTexture_vi3gr")
+
+[node name="SubViewport" type="SubViewport" parent="Buttons/CarButton"]
+own_world_3d = true
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(200, 200)
+
+[node name="Node3D" type="Node3D" parent="Buttons/CarButton/SubViewport"]
+
+[node name="Car" parent="Buttons/CarButton/SubViewport/Node3D" instance=ExtResource("4_k8ymw")]
+transform = Transform3D(0.6226512, 0, -0.7824995, 0, 1, 0, 0.7824995, 0, 0.6226512, 0, 0, 0)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Buttons/CarButton/SubViewport/Node3D"]
+transform = Transform3D(0.91790015, 0.23296532, -0.32122657, 0, 0.80951935, 0.5870932, 0.3968115, -0.5388929, 0.7430579, -3.3332899, 3.0700886, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Buttons/CarButton/SubViewport/Node3D"]
+transform = Transform3D(1, 0, 0, 0, 0.8846705, 0.4662168, 0, -0.4662168, 0.8846705, 0.04812908, 1.5276724, 2.3001854)
+fov = 40.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Buttons/CarButton/SubViewport/Node3D"]
+environment = SubResource("Environment_gc87q")
+camera_attributes = SubResource("CameraAttributesPractical_1rv78")
+
+[node name="FocusOnHover" type="Node" parent="Buttons/CarButton"]
+script = ExtResource("3_vi3gr")
+
+[node name="HeliButton" type="Button" parent="Buttons"]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("2_c2ij3")
+toggle_mode = true
+button_group = ExtResource("2_00r6q")
+icon = SubResource("ViewportTexture_6ibl5")
+
+[node name="SubViewport" type="SubViewport" parent="Buttons/HeliButton"]
+own_world_3d = true
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(200, 200)
+
+[node name="Node3D" type="Node3D" parent="Buttons/HeliButton/SubViewport"]
+
+[node name="Heli" parent="Buttons/HeliButton/SubViewport/Node3D" instance=ExtResource("5_ediss")]
+
+[node name="Camera3D" type="Camera3D" parent="Buttons/HeliButton/SubViewport/Node3D"]
+transform = Transform3D(1, 0, 0, 0, 0.8846705, 0.4662168, 0, -0.4662168, 0.8846705, 0, 1.5759652, 1.8690566)
+fov = 40.0
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Buttons/HeliButton/SubViewport/Node3D"]
+transform = Transform3D(0.91790015, 0.23296532, -0.32122657, 0, 0.80951935, 0.5870932, 0.3968115, -0.5388929, 0.7430579, -3.3332899, 3.0700886, 0)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Buttons/HeliButton/SubViewport/Node3D"]
+environment = SubResource("Environment_gc87q")
+camera_attributes = SubResource("CameraAttributesPractical_1rv78")
+
+[node name="FocusOnHover" type="Node" parent="Buttons/HeliButton"]
+script = ExtResource("3_vi3gr")

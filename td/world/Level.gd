@@ -1,13 +1,5 @@
 class_name Level extends Node3D
 
-#func _ready():
-
-    #Log.log("ready", self)
-    
-#func _process(delta):
-
-    #Log.log("process", self, delta)
-    
 func gamePaused():
     
     Log.log('gamePaused')

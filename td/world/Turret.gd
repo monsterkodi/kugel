@@ -12,11 +12,14 @@ func setSensorRadius(r:float):
     
 func _ready() -> void:
     
-    $BarrelTarget.look_at(global_position + Vector3.UP*10 + Vector3.RIGHT*0.001)
+    if target:
+        $BarrelTarget.look_at(target.global_position)
+    else:
+        $BarrelTarget.look_at(global_position + Vector3.UP*10 + Vector3.RIGHT*0.001)
 
 func _process(_delta: float) -> void:
     
-    if target:
+    if target and target is Enemy:
         if target.health <= 0:
             _on_sensor_body_exited(target)
             return

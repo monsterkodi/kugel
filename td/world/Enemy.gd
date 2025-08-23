@@ -1,4 +1,4 @@
-extends RigidBody3D
+class_name Enemy extends RigidBody3D
 
 var mat:StandardMaterial3D
 @export var maxHealth = 10.0
@@ -24,7 +24,7 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
     
     for i in range(get_contact_count()):
         var collider:PhysicsBody3D = state.get_contact_collider_object(i)
-        if collider and collider.collision_layer != Layer.Floor:
+        if collider and collider.collision_layer != Layer.LayerFloor:
             var damage = state.get_contact_impulse(i).length()
             #Log.log("damage", damage)
             applyDamage(damage)

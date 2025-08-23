@@ -1,0 +1,11 @@
+[gd_resource type="World3D" load_steps=3 format=3 uid="uid://b16dfb0blg050"]
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_ookig"]
+
+[sub_resource type="Environment" id="Environment_ecj1x"]
+background_mode = 1
+background_color = Color(1, 0, 0, 1)
+
+[resource]
+environment = SubResource("Environment_ecj1x")
+camera_attributes = SubResource("CameraAttributesPractical_ookig")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://b6mskrm1n176r"]
+[gd_scene load_steps=11 format=3 uid="uid://b6mskrm1n176r"]
 
 [ext_resource type="Script" uid="uid://b6inujglidn5n" path="res://world/World.gd" id="1_eu7l1"]
 [ext_resource type="PackedScene" uid="uid://wo631fluqa0p" path="res://world/Level.tscn" id="2_p1v5b"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://bn7yub4ucp6o4" path="res://utils/Saver.gd" id="5_fv4w7"]
 [ext_resource type="PackedScene" uid="uid://mxu6thvv1ycr" path="res://world/MouseHandler.tscn" id="6_p1v5b"]
 [ext_resource type="PackedScene" uid="uid://dnk1mn0lm0c3d" path="res://ui/PauseMenu.tscn" id="7_wygdx"]
+[ext_resource type="PackedScene" uid="uid://bwlnpgve3gc86" path="res://ui/BuildMenu.tscn" id="9_crsqw"]
 
 [sub_resource type="Environment" id="Environment_ig7tw"]
 background_mode = 1
@@ -50,8 +51,12 @@ seconds = 1.0
 
 [node name="PauseMenu" parent="." instance=ExtResource("7_wygdx")]
 unique_name_in_owner = true
-process_mode = 2
+visible = false
+
+[node name="BuildMenu" parent="." instance=ExtResource("9_crsqw")]
+unique_name_in_owner = true
 visible = false
 
 [connection signal="quitGame" from="PauseMenu" to="." method="quitGame"]
-[connection signal="resumeGame" from="PauseMenu" to="." method="resumeGame"]
+[connection signal="resumeGame" from="PauseMenu" to="." method="togglePause"]
+[connection signal="resumeGame" from="BuildMenu" to="." method="toggleBuild"]
