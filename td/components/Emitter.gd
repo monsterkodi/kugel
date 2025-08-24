@@ -2,33 +2,51 @@
 class_name Emitter extends Node3D
 
 @export var bullet:Resource
-@export var seconds  = 0.3
-@export var velocity = 20.0
 
-var active = false
-var timer  = Timer
+var delay     = 0.0
+var interval  = 1.0
+var velocity  = 20.0
+var mass      = 1.0
+
+signal shotFired
+
+var delayTimer:Timer
+var shootTimer:Timer
 
 func _ready():
     
     if not bullet: Log.log("no bullet!")
         
-    timer = Timer.new()
-    add_child(timer)
-    timer.connect("timeout", timeout)
+    delayTimer = Timer.new()
+    shootTimer = Timer.new()
+    add_child(delayTimer)
+    add_child(shootTimer)
+    delayTimer.one_shot = true
+    shootTimer.one_shot = false
+    delayTimer.connect("timeout", startShooting)
+    shootTimer.connect("timeout", shoot)
+    
+func start():
+    
+    delayTimer.start(delay)
+    
+func stop():
+    
+    delayTimer.stop()
+    shootTimer.stop()
     
 func startShooting():
     
-    timer.start(seconds)
+    shoot()
+    shootTimer.start(interval)
     
-func stopShooting():
-    
-    timer.stop()
-
-func timeout():
+func shoot():
     
     if bullet:
         
         var instance:Node3D = bullet.instantiate()
         get_node("/root/World/Level").add_child(instance)
+        instance.mass = mass
         instance.global_transform = global_transform
         instance.linear_velocity = global_transform.basis.z * -velocity
+        shotFired.emit()

@@ -7,7 +7,7 @@ var health = maxHealth
 func _ready() -> void:
     
     health = maxHealth
-    Log.log("enemy", health)
+    #Log.log("enemy", health)
     mat = $Mesh.get_surface_override_material(0).duplicate()
     $Mesh.set_surface_override_material(0, mat)
 

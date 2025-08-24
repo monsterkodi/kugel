@@ -29,7 +29,7 @@ max_contacts_reported = 1
 script = ExtResource("1_ayd6b")
 
 [node name="Lifetime" parent="." instance=ExtResource("2_4s4u5")]
-maxAge = 4.0
+maxAge = 10.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)

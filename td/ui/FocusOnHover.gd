@@ -1,6 +1,6 @@
 extends Node
 
-func _ready() -> void:
+func _ready():
     
     get_parent().connect("mouse_entered", onHover)
     get_parent().connect("focus_entered", onHover)

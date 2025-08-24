@@ -61,16 +61,11 @@ physics_material_override = ExtResource("3_vc5tq")
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
 shape = SubResource("CapsuleShape3D_iwplw")
 
-[node name="EmitterPoint" type="Node3D" parent="BarrelPivot"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.48402035)
-
-[node name="Emitter" type="Node3D" parent="BarrelPivot/EmitterPoint"]
+[node name="Emitter" type="Node3D" parent="BarrelPivot"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.9975053)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.51348495)
 script = ExtResource("4_d3wxe")
 bullet = ExtResource("5_lugvd")
-seconds = 0.6000000000058208
-velocity = 10.0
 metadata/_custom_type_script = "uid://v00gxfdr7qyk"
 
 [node name="Sensor" type="Area3D" parent="."]
@@ -112,6 +107,6 @@ cast_shadow = 0
 mesh = SubResource("PlaneMesh_kyse0")
 surface_material_override/0 = ExtResource("8_km8to")
 
-[connection signal="property_list_changed" from="." to="." method="_on_property_list_changed"]
+[connection signal="shotFired" from="BarrelPivot/Emitter" to="." method="emitterShotFired"]
 [connection signal="body_entered" from="Sensor" to="." method="_on_sensor_body_entered"]
 [connection signal="body_exited" from="Sensor" to="." method="_on_sensor_body_exited"]

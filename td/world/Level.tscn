@@ -73,23 +73,16 @@ mesh = SubResource("PlaneMesh_f0k3j")
 skeleton = NodePath("../..")
 surface_material_override/0 = ExtResource("4_5sqgi")
 
-[node name="Bouncer" parent="." instance=ExtResource("3_3ywx5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.066584, 0, -0.29900932)
-
 [node name="Bouncer2" parent="." instance=ExtResource("3_3ywx5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.933416, 0, -0.29900932)
 
 [node name="SpawnerFast" parent="." instance=ExtResource("11_sypgb")]
 transform = Transform3D(1.3113416e-07, 0, -1, 0, 1, 0, 1, 0, 1.3113416e-07, 0, 0, -24)
 spawnee = ExtResource("14_dn5x0")
-enemy_health_initial = 16.0
-seconds = 9.0
 
 [node name="SpawnerSlow" parent="." instance=ExtResource("11_sypgb")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 24)
 spawnee = ExtResource("14_dn5x0")
-enemy_health_initial = 20.0
-seconds = 17.0
 
 [node name="Base" parent="." instance=ExtResource("13_sypgb")]
 unique_name_in_owner = true
@@ -127,6 +120,7 @@ transform = Transform3D(0.7071067, 0, 0.7071067, 0, 1, 0, -0.7071067, 0, 0.70710
 [node name="Turret" parent="Turrets/Node3D2" instance=ExtResource("15_esphl")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
 radius = 10.0
+emitter_mass = 2.0
 
 [node name="Node3D4" type="Node3D" parent="Turrets"]
 transform = Transform3D(-0.70710677, 0, 0.70710665, 0, 1, 0, -0.70710665, 0, -0.70710677, 0, 0, 0)
@@ -141,6 +135,7 @@ transform = Transform3D(-0.7071067, 0, -0.7071067, 0, 1, 0, 0.7071067, 0, -0.707
 [node name="Turret" parent="Turrets/Node3D6" instance=ExtResource("15_esphl")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
 radius = 10.0
+emitter_delay = 0.4
 
 [node name="Node3D8" type="Node3D" parent="Turrets"]
 transform = Transform3D(0.7071067, 0, -0.7071067, 0, 1, 0, 0.7071067, 0, 0.7071067, 0, 0, 0)
@@ -148,3 +143,6 @@ transform = Transform3D(0.7071067, 0, -0.7071067, 0, 1, 0, 0.7071067, 0, 0.70710
 [node name="Turret" parent="Turrets/Node3D8" instance=ExtResource("15_esphl")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
 radius = 5.0
+rot_slerp = 0.25
+emitter_interval = 0.2
+emitter_mass = 0.1
