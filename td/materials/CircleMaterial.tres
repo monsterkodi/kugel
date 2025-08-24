@@ -6,5 +6,5 @@
 render_priority = 0
 shader = ExtResource("1_51w1s")
 shader_parameter/Color = Color(1.6124506, 0, 0, 1)
-shader_parameter/OuterRadius = 1.0
-shader_parameter/InnerRadius = 0.7999999821184001
+shader_parameter/OuterRadius = 0.9999999776480001
+shader_parameter/InnerRadius = 0.5

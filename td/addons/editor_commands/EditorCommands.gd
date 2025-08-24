@@ -25,11 +25,23 @@ class EditorCommands extends EditorDebuggerPlugin:
                     return true
         if message == "editor:shortcut":
             for cmd in data:
-                Input.parse_input_event(plugin.parseKeyEvent(cmd))
+                plugin.editorShortcut(cmd)
             return true
         return false
         
 var debugger = EditorCommands.new()
+
+func editorShortcut(shortcut:String):
+    match shortcut:
+        "Option+Z", "Shift+Command+D": 
+            EditorInterface.distraction_free_mode = not EditorInterface.distraction_free_mode
+        "Option+O":
+            var button:Button = allBottomPanelButtons()[1]
+            button.toggled.emit(!button.is_pressed())
+        "Option+D":
+            toggleBottomPanelChildWithName("Debugger")
+        _: Log.log("game shortcut", shortcut)
+    #Input.parse_input_event(parseKeyEvent(shortcut))
 
 func parseKeyEvent(text:String) -> InputEventKey:
     var event = InputEventKey.new()
@@ -38,20 +50,19 @@ func parseKeyEvent(text:String) -> InputEventKey:
     for part in parts:
         part = part.strip_edges().to_lower()
         match part:
-            "ctrl", "ctrl":                     event.ctrl_pressed  = true
             "shift":                            event.shift_pressed = true
+            "ctrl", "control":                  event.ctrl_pressed  = true
             "alt", "option":                    event.alt_pressed   = true
             "meta", "command", "cmd", "super":  event.meta_pressed  = true
             _: event.keycode = OS.find_keycode_from_string(part)
     return event
 
 func toggleBottomPanelChildWithName(name:String):
-    
-    var bp = controlWithName("EditorBottomPanel")
-    bp.visible = true
-    var lo = controlWithName("EditorLog")
-    hideAllBottomPanelChildren()
-    lo.visible = true #!lo.visible
+    var buttons = allBottomPanelButtons()
+    var index = buttons.find_custom(func (b): return b.text == name)
+    if index >= 0:
+        var button:Button = buttons[index]
+        button.toggled.emit(!button.is_pressed())
     
 func allBottomPanelChildren():
     var bp = controlWithName("EditorBottomPanel")
@@ -76,7 +87,7 @@ func controlWithName(name:String) -> Control:
     while not children.is_empty():
         var node := children.pop_back() as Node
         if node.name.find(name) >= 0:
-            print(node)
+            #print(node)
             return node
         else:
             children.append_array(node.get_children())

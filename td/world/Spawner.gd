@@ -5,6 +5,8 @@ extends Node3D
 @export_range(1.0, 10.0, 0.1) var enemy_health_increment = 1.0
 @export_range(0.0, 100,  0.1) var velocity               = 10.0
 @export_range(0.0, 60,   0.1) var seconds                = 1.0
+
+@export var curve:Curve
             
 var enemyHealth:float
 var tween:Tween
@@ -27,6 +29,7 @@ func nextSpawnLoop():
     
     tween = get_tree().create_tween()
     tween.tween_property(%Body, "position:y", 1.1, seconds).from(-1.2).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+    tween.parallel().tween_method(preSpawn, 0.0, 1.0, seconds)
     tween.tween_callback(ejectSpawnBody)
 
     spawnedBody = spawnee.instantiate()
@@ -34,6 +37,9 @@ func nextSpawnLoop():
     %SpawnPoint.add_child(spawnedBody)
     spawnedBody.freeze = true
     enemyHealth += enemy_health_increment
+    
+func preSpawn(value): 
+    spawnedBody.position.x = curve.sample(value)
 
 func ejectSpawnBody():
 
@@ -42,7 +48,7 @@ func ejectSpawnBody():
     spawnedBody.get_parent().remove_child(spawnedBody)
     get_parent_node_3d().add_child(spawnedBody)
     spawnedBody.global_transform = %SpawnPoint.global_transform
-    spawnedBody.linear_velocity = %SpawnPoint.transform.basis.z * -velocity
+    spawnedBody.apply_central_impulse(%SpawnPoint.transform.basis.z * -velocity)
     spawnedBody.freeze = false
     spawnedBody = null
     

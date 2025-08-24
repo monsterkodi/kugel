@@ -1,8 +1,10 @@
-[gd_scene load_steps=14 format=3 uid="uid://wo631fluqa0p"]
+[gd_scene load_steps=18 format=3 uid="uid://wo631fluqa0p"]
 
 [ext_resource type="Material" uid="uid://kotd4yt27t51" path="res://materials/FloorMaterial.tres" id="2_35mqu"]
 [ext_resource type="PhysicsMaterial" uid="uid://dq1r6votcqh1x" path="res://materials/FloorPhysicsMaterial.tres" id="2_dn5x0"]
 [ext_resource type="PackedScene" uid="uid://be78v806wl6a5" path="res://world/Bouncer.tscn" id="3_3ywx5"]
+[ext_resource type="Shader" uid="uid://dscrnc7k3wda7" path="res://materials/WaveRingMaterial.gdshader" id="3_ioj0i"]
+[ext_resource type="Material" uid="uid://deqkf3j301h5d" path="res://materials/DotCirclesMaterial.tres" id="4_5sqgi"]
 [ext_resource type="PackedScene" uid="uid://cssayoomcrb8o" path="res://world/Spawner.tscn" id="11_sypgb"]
 [ext_resource type="PackedScene" uid="uid://dt4vauql4gx0y" path="res://components/HalfCapsule.tscn" id="12_d6u53"]
 [ext_resource type="PackedScene" uid="uid://b0ky2r6dv835o" path="res://world/Base.tscn" id="13_sypgb"]
@@ -14,6 +16,21 @@ size = Vector2(100, 100)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_dn5x0"]
 size = Vector3(1000, 1, 1000)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_f0k3j"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vkdmv"]
+render_priority = -2
+shader = ExtResource("3_ioj0i")
+shader_parameter/wave_count = 8.0
+shader_parameter/ring_color = Color(0.5678866, 0, 0, 1)
+shader_parameter/ring_radius = 0.3330000158175
+shader_parameter/ring_width = 0.166000007885
+shader_parameter/inner_strength = 0.01600000076
+shader_parameter/outer_strength = 0.032
+shader_parameter/depth_bias = 2.0
+shader_parameter/phase_degrees = 90.0
+shader_parameter/wave_degrees = 180.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sypgb"]
 albedo_color = Color(1, 0, 0, 1)
@@ -41,25 +58,38 @@ surface_material_override/0 = ExtResource("2_35mqu")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 shape = SubResource("BoxShape3D_dn5x0")
 
+[node name="Node3D" type="Node3D" parent="Floor"]
+transform = Transform3D(14.8, 0, 0, 0, 14.8, 0, 0, 0, 14.8, 0, 0, 0)
+
+[node name="RingWave" type="MeshInstance3D" parent="Floor/Node3D"]
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_f0k3j")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("ShaderMaterial_vkdmv")
+
+[node name="RingDots" type="MeshInstance3D" parent="Floor/Node3D"]
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_f0k3j")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("4_5sqgi")
+
 [node name="Bouncer" parent="." instance=ExtResource("3_3ywx5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.066584, 0, -0.29900932)
 
 [node name="Bouncer2" parent="." instance=ExtResource("3_3ywx5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.933416, 0, -0.29900932)
 
-[node name="Spawner" parent="." instance=ExtResource("11_sypgb")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 24)
-spawnee = ExtResource("14_dn5x0")
-enemy_health_initial = 16.0
-velocity = 8.0
-seconds = 10.0
-
-[node name="Spawner2" parent="." instance=ExtResource("11_sypgb")]
+[node name="SpawnerFast" parent="." instance=ExtResource("11_sypgb")]
 transform = Transform3D(1.3113416e-07, 0, -1, 0, 1, 0, 1, 0, 1.3113416e-07, 0, 0, -24)
 spawnee = ExtResource("14_dn5x0")
 enemy_health_initial = 16.0
-velocity = 8.0
-seconds = 10.0
+seconds = 9.0
+
+[node name="SpawnerSlow" parent="." instance=ExtResource("11_sypgb")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 24)
+spawnee = ExtResource("14_dn5x0")
+enemy_health_initial = 20.0
+seconds = 17.0
 
 [node name="Base" parent="." instance=ExtResource("13_sypgb")]
 unique_name_in_owner = true
@@ -91,57 +121,30 @@ material = SubResource("StandardMaterial3D_d6u53")
 
 [node name="Turrets" type="Node" parent="."]
 
-[node name="Node3D" type="Node3D" parent="Turrets"]
-
-[node name="Turret" parent="Turrets/Node3D" instance=ExtResource("15_esphl")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
-radius = 6.0
-
 [node name="Node3D2" type="Node3D" parent="Turrets"]
-transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, 0.70710677, 0, 0, 0)
+transform = Transform3D(0.7071067, 0, 0.7071067, 0, 1, 0, -0.7071067, 0, 0.7071067, 0, 0, 0)
 
 [node name="Turret" parent="Turrets/Node3D2" instance=ExtResource("15_esphl")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
-radius = 6.0
-
-[node name="Node3D3" type="Node3D" parent="Turrets"]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
-
-[node name="Turret" parent="Turrets/Node3D3" instance=ExtResource("15_esphl")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
-radius = 6.0
+radius = 10.0
 
 [node name="Node3D4" type="Node3D" parent="Turrets"]
-transform = Transform3D(-0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, -0.70710677, 0, 0, 0)
+transform = Transform3D(-0.70710677, 0, 0.70710665, 0, 1, 0, -0.70710665, 0, -0.70710677, 0, 0, 0)
 
 [node name="Turret" parent="Turrets/Node3D4" instance=ExtResource("15_esphl")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
-radius = 6.0
-
-[node name="Node3D5" type="Node3D" parent="Turrets"]
-transform = Transform3D(-0.99999994, 0, -8.742277e-08, 0, 1, 0, 8.742277e-08, 0, -0.99999994, 0, 0, 0)
-
-[node name="Turret" parent="Turrets/Node3D5" instance=ExtResource("15_esphl")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
-radius = 6.0
+radius = 5.0
 
 [node name="Node3D6" type="Node3D" parent="Turrets"]
-transform = Transform3D(-0.70710677, 0, -0.70710665, 0, 1, 0, 0.70710665, 0, -0.70710677, 0, 0, 0)
+transform = Transform3D(-0.7071067, 0, -0.7071067, 0, 1, 0, 0.7071067, 0, -0.7071067, 0, 0, 0)
 
 [node name="Turret" parent="Turrets/Node3D6" instance=ExtResource("15_esphl")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
-radius = 6.0
-
-[node name="Node3D7" type="Node3D" parent="Turrets"]
-transform = Transform3D(1.192488e-08, 0, -0.99999994, 0, 1, 0, 0.99999994, 0, 1.192488e-08, 0, 0, 0)
-
-[node name="Turret" parent="Turrets/Node3D7" instance=ExtResource("15_esphl")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
-radius = 6.0
+radius = 10.0
 
 [node name="Node3D8" type="Node3D" parent="Turrets"]
-transform = Transform3D(0.7071066, 0, -0.7071068, 0, 1, 0, 0.7071068, 0, 0.7071066, 0, 0, 0)
+transform = Transform3D(0.7071067, 0, -0.7071067, 0, 1, 0, 0.7071067, 0, 0.7071067, 0, 0, 0)
 
 [node name="Turret" parent="Turrets/Node3D8" instance=ExtResource("15_esphl")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
-radius = 6.0
+radius = 5.0

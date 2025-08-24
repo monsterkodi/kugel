@@ -21,7 +21,8 @@ func _input(event: InputEvent):
             
 func startTimer():
     #if not get_tree().paused:
-    $HideTimer.start(seconds)
+    #$HideTimer.start(seconds)
+    pass
 
 func _on_hide_timer_timeout():
     if not mouseCaptured(): hideMouse()
