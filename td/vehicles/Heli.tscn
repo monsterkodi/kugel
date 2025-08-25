@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://sfii31yqj6q5"]
+[gd_scene load_steps=12 format=3 uid="uid://sfii31yqj6q5"]
 
 [ext_resource type="PhysicsMaterial" uid="uid://dms3d8q358dik" path="res://materials/PlayerPhysicsMaterial.tres" id="1_aeb42"]
 [ext_resource type="Script" uid="uid://d2xxvx1034q51" path="res://vehicles/Heli.gd" id="1_oh2j6"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://dehmjc447yvug" path="res://vehicles/Capsule.tscn" id="3_2ngpf"]
 [ext_resource type="Material" uid="uid://c53lxv23v2wwu" path="res://materials/ThrusterMaterial.tres" id="3_c1c7q"]
 [ext_resource type="Script" uid="uid://bvt1w1upmd45v" path="res://utils/Interpol.gd" id="6_aeb42"]
+[ext_resource type="PackedScene" uid="uid://drhbf00kh3tau" path="res://components/Collector.tscn" id="7_jiwrc"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_2ngpf"]
 height = 1.0
@@ -105,3 +106,5 @@ metadata/_custom_type_script = "uid://bvt1w1upmd45v"
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, 0)
 shape = SubResource("CylinderShape3D_2ngpf")
+
+[node name="Collector" parent="." instance=ExtResource("7_jiwrc")]

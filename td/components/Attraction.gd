@@ -26,11 +26,10 @@ func _physics_process(_delta: float):
     
     if $Timer.is_stopped() and seconds > 0:
         $Timer.start(seconds)
-        
-    var belowThreshold = get_parent_node_3d().linear_velocity.length() <= velocity_threshold
     
-    if velocity_threshold > 0 and impulse > 0 and belowThreshold:
-        applyImpulse()
+    if velocity_threshold > 0 and impulse > 0:
+        if get_parent_node_3d().linear_velocity.length() <= velocity_threshold:
+            applyImpulse()
         
     if force > 0:
         if toTarget().length() > distance_threshold:

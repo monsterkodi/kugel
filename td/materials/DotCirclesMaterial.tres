@@ -5,7 +5,7 @@
 [resource]
 render_priority = -1
 shader = ExtResource("1_jh1op")
-shader_parameter/dot_color = Color(0.35064948, 0, 0, 1)
+shader_parameter/dot_color = Color(0.22166497, 0, 0, 1)
 shader_parameter/circleCount = 8.0
 shader_parameter/ringRadius = 0.6790000322525
 shader_parameter/circleRadius = 0.1850000087875

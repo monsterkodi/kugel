@@ -1,12 +1,14 @@
-extends RigidBody3D
+class_name Pill extends RigidBody3D
 
 var player: Node3D
-var speed     = 6
+var speed = 6
+var dash  = 0
 
 var MIN_SPEED = 3
 var MAX_SPEED = 6
 
 var mouseDelta = Vector2.ZERO
+var dashDir = Vector3.FORWARD
 
 func _physics_process(delta:float):
     
@@ -22,7 +24,7 @@ func _physics_process(delta:float):
     
     apply_central_force(force)
     apply_torque(Vector3(0, -%steer.value*delta*800, 0))
-    
+        
     apply_torque(Vector3(0, -mouseDelta.x*0.3, 0))
     mouseDelta = Vector2.ZERO
 
@@ -37,6 +39,38 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
         if contactCount > 0:
             apply_central_impulse(Vector3.UP*60)
             %JumpTimer.start()
+                    
+    if dash > 0.99 and %DashBlock.is_stopped():
+        linear_velocity = Vector3.ZERO
+        %DashBlock.start()
+        %DashTimer.start()
+        calcDashDir()
+    if dash < 0.96 and not %DashBlock.is_stopped():
+        %DashBlock.stop()
+        
+    if not %DashTimer.is_stopped():
+        if contactCount > 1:
+            %DashTimer.stop()
+        else:
+            apply_central_impulse(dashDir * 300 * %DashTimer.time_left/%DashTimer.wait_time)
+    else:
+        calcDashDir()
+     
+    %LaserPointer.setDir(dashDir)
+
+func calcDashDir():
+    
+    var dir = linear_velocity
+    dir.y = 0
+    dir = dir.limit_length()
+    var xinp = Input.get_joy_axis(0, JOY_AXIS_LEFT_X) + Input.get_joy_axis(0, JOY_AXIS_RIGHT_X)
+    var yinp = Input.get_joy_axis(0, JOY_AXIS_LEFT_Y) + Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y)
+    const deadzone = 0.25
+    if absf(xinp) > deadzone: dir += xinp  * global_transform.basis.x
+    if absf(yinp) > deadzone: dir += yinp  * global_transform.basis.z
+    
+    dir = dir.normalized()
+    dashDir = lerp(dashDir, dir, 0.1)  
     
 func readInput(delta:float):
     
@@ -45,8 +79,7 @@ func readInput(delta:float):
     %forward.zero()
     %forward.add(-Input.get_joy_axis(0, JOY_AXIS_LEFT_Y))
     %forward.add(-Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y))
-    %forward.add( Input.get_joy_axis(0, JOY_AXIS_TRIGGER_RIGHT))
-    %forward.add(-Input.get_joy_axis(0, JOY_AXIS_TRIGGER_LEFT))
+    dash = Input.get_joy_axis(0, JOY_AXIS_TRIGGER_RIGHT)
     
     if Input.is_action_pressed("forward"):      %forward.add( 1)
     if Input.is_action_pressed("backward"):     %forward.add(-1)

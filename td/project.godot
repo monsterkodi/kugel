@@ -26,7 +26,11 @@ fps_graph="*res://addons/fps_graph/fps_graph.tscn"
 
 [debug]
 
+gdscript/warnings/unused_variable=0
+gdscript/warnings/unused_local_constant=0
+gdscript/warnings/unused_private_class_variable=0
 gdscript/warnings/unused_parameter=0
+gdscript/warnings/unused_signal=0
 
 [display]
 

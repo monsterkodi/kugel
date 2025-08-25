@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://drhbf00kh3tau"]
+
+[ext_resource type="Script" uid="uid://lnq274uit4ey" path="res://components/Collector.gd" id="1_up0ya"]
+[ext_resource type="Material" uid="uid://dpx5qvy28judg" path="res://materials/CircleMaterial.tres" id="2_xmopa"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_up0ya"]
+radius = 5.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_bm2vk"]
+size = Vector2(10, 10)
+
+[node name="Collector" type="Node3D"]
+process_mode = 1
+script = ExtResource("1_up0ya")
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="Shape" type="CollisionShape3D" parent="Area3D"]
+unique_name_in_owner = true
+shape = SubResource("SphereShape3D_up0ya")
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+mesh = SubResource("PlaneMesh_bm2vk")
+surface_material_override/0 = ExtResource("2_xmopa")
+
+[connection signal="body_entered" from="Area3D" to="." method="bodyEntered"]

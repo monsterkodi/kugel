@@ -1,5 +1,6 @@
-[gd_scene load_steps=18 format=3 uid="uid://wo631fluqa0p"]
+[gd_scene load_steps=27 format=3 uid="uid://wo631fluqa0p"]
 
+[ext_resource type="Shader" uid="uid://colhoamqrtuej" path="res://materials/DotCirclesMaterial.gdshader" id="2_5sqgi"]
 [ext_resource type="Material" uid="uid://kotd4yt27t51" path="res://materials/FloorMaterial.tres" id="2_35mqu"]
 [ext_resource type="PhysicsMaterial" uid="uid://dq1r6votcqh1x" path="res://materials/FloorPhysicsMaterial.tres" id="2_dn5x0"]
 [ext_resource type="PackedScene" uid="uid://be78v806wl6a5" path="res://world/Bouncer.tscn" id="3_3ywx5"]
@@ -23,13 +24,73 @@ size = Vector3(1000, 1, 1000)
 render_priority = -2
 shader = ExtResource("3_ioj0i")
 shader_parameter/wave_count = 8.0
-shader_parameter/ring_color = Color(0.5678866, 0, 0, 1)
+shader_parameter/ring_color = Color(0.180933, 0, 0, 1)
 shader_parameter/ring_radius = 0.3330000158175
 shader_parameter/ring_width = 0.166000007885
 shader_parameter/inner_strength = 0.01600000076
 shader_parameter/outer_strength = 0.032
 shader_parameter/depth_bias = 2.0
 shader_parameter/phase_degrees = 90.0
+shader_parameter/wave_degrees = 180.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_5sqgi"]
+size = Vector2(3, 3)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_052yy"]
+render_priority = -2
+shader = ExtResource("3_ioj0i")
+shader_parameter/wave_count = 12.0
+shader_parameter/ring_color = Color(0.07, 0.07, 0.07, 1)
+shader_parameter/ring_radius = 0.3950000187625
+shader_parameter/ring_width = 0.118000005605
+shader_parameter/inner_strength = 0.0110000005225
+shader_parameter/outer_strength = 0.0170000008075
+shader_parameter/depth_bias = 2.0
+shader_parameter/phase_degrees = 90.0
+shader_parameter/wave_degrees = 0.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_jnau8"]
+size = Vector2(3, 3)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_awxuj"]
+render_priority = -1
+shader = ExtResource("2_5sqgi")
+shader_parameter/dot_color = Color(0, 0, 0, 1)
+shader_parameter/circleCount = 12.0
+shader_parameter/ringRadius = 0.8010000380475
+shader_parameter/circleRadius = 0.1170000055575
+shader_parameter/depth_bias = 4.0
+shader_parameter/phase_degrees = 0.0
+shader_parameter/wave_degrees = 0.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_vkdmv"]
+size = Vector2(4, 4)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jnau8"]
+render_priority = -2
+shader = ExtResource("3_ioj0i")
+shader_parameter/wave_count = 16.0
+shader_parameter/ring_color = Color(0.07, 0.07, 0.07, 1)
+shader_parameter/ring_radius = 0.4270000202825
+shader_parameter/ring_width = 0.09200000437
+shader_parameter/inner_strength = 0.0110000005225
+shader_parameter/outer_strength = 0.0170000008075
+shader_parameter/depth_bias = 2.0
+shader_parameter/phase_degrees = 0.0
+shader_parameter/wave_degrees = 180.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_awxuj"]
+size = Vector2(4, 4)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ewwn4"]
+render_priority = -1
+shader = ExtResource("2_5sqgi")
+shader_parameter/dot_color = Color(0, 0, 0, 1)
+shader_parameter/circleCount = 16.0
+shader_parameter/ringRadius = 0.8590000408025
+shader_parameter/circleRadius = 0.094000004465
+shader_parameter/depth_bias = 4.0
+shader_parameter/phase_degrees = 0.0
 shader_parameter/wave_degrees = 180.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sypgb"]
@@ -49,6 +110,7 @@ collision_mask = 11
 physics_material_override = ExtResource("2_dn5x0")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0002374649, -0.0313797, 0.027236938)
 layers = 3
 mesh = SubResource("PlaneMesh_dn5x0")
 skeleton = NodePath("../..")
@@ -58,30 +120,56 @@ surface_material_override/0 = ExtResource("2_35mqu")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 shape = SubResource("BoxShape3D_dn5x0")
 
-[node name="Node3D" type="Node3D" parent="Floor"]
+[node name="Slots" type="Node3D" parent="Floor"]
 transform = Transform3D(14.8, 0, 0, 0, 14.8, 0, 0, 0, 14.8, 0, 0, 0)
 
-[node name="RingWave" type="MeshInstance3D" parent="Floor/Node3D"]
+[node name="RingWave1" type="MeshInstance3D" parent="Floor/Slots"]
 cast_shadow = 0
 mesh = SubResource("PlaneMesh_f0k3j")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("ShaderMaterial_vkdmv")
 
-[node name="RingDots" type="MeshInstance3D" parent="Floor/Node3D"]
+[node name="RingDots1" type="MeshInstance3D" parent="Floor/Slots"]
 cast_shadow = 0
 mesh = SubResource("PlaneMesh_f0k3j")
 skeleton = NodePath("../..")
 surface_material_override/0 = ExtResource("4_5sqgi")
 
+[node name="RingWave2" type="MeshInstance3D" parent="Floor/Slots"]
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_5sqgi")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("ShaderMaterial_052yy")
+
+[node name="RingDots2" type="MeshInstance3D" parent="Floor/Slots"]
+visible = false
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_jnau8")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("ShaderMaterial_awxuj")
+
+[node name="RingWave3" type="MeshInstance3D" parent="Floor/Slots"]
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_vkdmv")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("ShaderMaterial_jnau8")
+
+[node name="RingDots3" type="MeshInstance3D" parent="Floor/Slots"]
+visible = false
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_awxuj")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("ShaderMaterial_ewwn4")
+
 [node name="Bouncer2" parent="." instance=ExtResource("3_3ywx5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.933416, 0, -0.29900932)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
 
 [node name="SpawnerFast" parent="." instance=ExtResource("11_sypgb")]
-transform = Transform3D(1.3113416e-07, 0, -1, 0, 1, 0, 1, 0, 1.3113416e-07, 0, 0, -24)
+transform = Transform3D(1.3113416e-07, 0, -1, 0, 1, 0, 1, 0, 1.3113416e-07, 0, 0, -39.558113)
 spawnee = ExtResource("14_dn5x0")
 
 [node name="SpawnerSlow" parent="." instance=ExtResource("11_sypgb")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 24)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 39.322384)
 spawnee = ExtResource("14_dn5x0")
 
 [node name="Base" parent="." instance=ExtResource("13_sypgb")]
@@ -120,6 +208,7 @@ transform = Transform3D(0.7071067, 0, 0.7071067, 0, 1, 0, -0.7071067, 0, 0.70710
 [node name="Turret" parent="Turrets/Node3D2" instance=ExtResource("15_esphl")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
 radius = 10.0
+emitter_delay = 0.4
 emitter_mass = 2.0
 
 [node name="Node3D4" type="Node3D" parent="Turrets"]
@@ -128,6 +217,9 @@ transform = Transform3D(-0.70710677, 0, 0.70710665, 0, 1, 0, -0.70710665, 0, -0.
 [node name="Turret" parent="Turrets/Node3D4" instance=ExtResource("15_esphl")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
 radius = 5.0
+rot_slerp = 0.25
+emitter_interval = 0.2
+emitter_mass = 0.1
 
 [node name="Node3D6" type="Node3D" parent="Turrets"]
 transform = Transform3D(-0.7071067, 0, -0.7071067, 0, 1, 0, 0.7071067, 0, -0.7071067, 0, 0, 0)
@@ -136,6 +228,7 @@ transform = Transform3D(-0.7071067, 0, -0.7071067, 0, 1, 0, 0.7071067, 0, -0.707
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
 radius = 10.0
 emitter_delay = 0.4
+emitter_mass = 2.0
 
 [node name="Node3D8" type="Node3D" parent="Turrets"]
 transform = Transform3D(0.7071067, 0, -0.7071067, 0, 1, 0, 0.7071067, 0, 0.7071067, 0, 0, 0)

@@ -43,13 +43,13 @@ func onDeath():
     get_tree().call_group("level_reset", "level_reset")
     _ready()
 
-func _ready() -> void:
+func _ready():
     
     $ShieldHalo.visible = true
     setBaseHitPoints(maxBaseHitPoints)
     setShieldHitPoints(maxShieldHitPoints)
 
-func _on_center_sphere_body_entered(body: Node) -> void:
+func _on_center_sphere_body_entered(body: Node):
     #Log.log("collision with", body, body.get_groups())
     if body.is_in_group("enemy"):
         body.queue_free()

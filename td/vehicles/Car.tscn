@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://cqehuu06xxkum"]
+[gd_scene load_steps=9 format=3 uid="uid://cqehuu06xxkum"]
 
 [ext_resource type="Script" uid="uid://csgpl34of36xn" path="res://vehicles/Car.gd" id="1_s5qql"]
 [ext_resource type="Material" uid="uid://lx8t0tfuvrrw" path="res://materials/LackRed.tres" id="2_ompmy"]
+[ext_resource type="PackedScene" uid="uid://drhbf00kh3tau" path="res://components/Collector.tscn" id="2_uacvp"]
 [ext_resource type="PackedScene" uid="uid://dehmjc447yvug" path="res://vehicles/Capsule.tscn" id="3_5fmut"]
 [ext_resource type="Material" uid="uid://5ipfamgkcp7e" path="res://materials/TireMaterial.tres" id="3_mo5vq"]
 [ext_resource type="Script" uid="uid://bvt1w1upmd45v" path="res://utils/Interpol.gd" id="6_uacvp"]
@@ -15,6 +16,9 @@ outer_radius = 0.3
 
 [node name="Car" type="Node3D"]
 script = ExtResource("1_s5qql")
+
+[node name="Collector" parent="." instance=ExtResource("2_uacvp")]
+radius = 5
 
 [node name="Body" type="Node3D" parent="."]
 unique_name_in_owner = true

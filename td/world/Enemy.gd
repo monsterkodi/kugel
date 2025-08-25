@@ -27,15 +27,24 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
         if collider and collider.collision_layer != Layer.LayerFloor:
             var damage = state.get_contact_impulse(i).length()
             #Log.log("damage", damage)
-            applyDamage(damage)
+            applyDamage(damage, collider)
 
-func applyDamage(damage:float):
+func applyDamage(damage:float, source:PhysicsBody3D):
     
     health -= damage
     
     if health <= 0:
         mat.albedo_color = Color(0, 0, 0)
         $Attraction.targetNode = null
+        if source:# and source is Pill:
+            var t:Timer = Timer.new()
+            t.one_shot = true
+            t.wait_time = 1
+            t.connect("timeout", func():Post.enemyDied.emit(self))
+            add_child(t)
+            t.start()
+        else:
+            Post.enemyDied.emit(self)
     else:        
         var hf = 0.5 + 0.5 * health / maxHealth
         scale = Vector3(hf, hf, hf)
