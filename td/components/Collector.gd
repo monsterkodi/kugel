@@ -4,7 +4,10 @@ extends Node3D
 var corpses:Array[Enemy]
 
 func _ready():
-    
+    %Light.position.y = radius
+    %Light.omni_range = sqrt(radius*radius + radius*radius)
+    %Light.light_energy = radius * 0.04
+        
     %Shape.shape.radius = radius
     %Mesh.mesh.size = Vector2(radius*2, radius*2)
     Post.enemyDied.connect(onEnemyDied)

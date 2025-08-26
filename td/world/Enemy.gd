@@ -7,7 +7,6 @@ var health = maxHealth
 func _ready() -> void:
     
     health = maxHealth
-    #Log.log("enemy", health)
     mat = $Mesh.get_surface_override_material(0).duplicate()
     $Mesh.set_surface_override_material(0, mat)
 
@@ -26,12 +25,10 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
         var collider:PhysicsBody3D = state.get_contact_collider_object(i)
         if collider and collider.collision_layer != Layer.LayerFloor:
             var damage = state.get_contact_impulse(i).length()
-            #Log.log("damage", damage)
             applyDamage(damage, collider)
             
     if health <= 0:
-        if global_position.length_squared() > 2200:
-            #linear_velocity = Vector3.ZERO
+        if global_position.length_squared() > 2500:
             linear_velocity = linear_velocity.bounce(-global_position.normalized())
 
 func applyDamage(damage:float, source:PhysicsBody3D):
@@ -41,7 +38,7 @@ func applyDamage(damage:float, source:PhysicsBody3D):
     if health <= 0:
         mat.albedo_color = Color(0, 0, 0)
         $Attraction.targetNode = null
-        if source:# and source is Pill:
+        if source:
             var t:Timer = Timer.new()
             t.one_shot = true
             t.wait_time = 1

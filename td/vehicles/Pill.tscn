@@ -63,7 +63,6 @@ unique_name_in_owner = true
 one_shot = true
 
 [node name="Collector" parent="." instance=ExtResource("5_n8mu1")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7975751, 0)
 radius = 5
 
 [node name="LaserPointer" parent="." instance=ExtResource("6_vevl4")]

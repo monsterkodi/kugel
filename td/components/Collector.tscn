@@ -25,7 +25,14 @@ shape = SubResource("SphereShape3D_up0ya")
 [node name="Mesh" type="MeshInstance3D" parent="."]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+visible = false
 mesh = SubResource("PlaneMesh_bm2vk")
 surface_material_override/0 = ExtResource("2_xmopa")
+
+[node name="Light" type="OmniLight3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+light_color = Color(1, 0, 0, 1)
+omni_attenuation = -1.0
 
 [connection signal="body_entered" from="Area3D" to="." method="bodyEntered"]
