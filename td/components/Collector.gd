@@ -18,9 +18,9 @@ func _physics_process(delta:float):
         if dst < 0.75:
             corpse.queue_free()
             corpses.erase(corpse)
+            Post.corpseCollected.emit()
         else:
             var scl = clampf(dst/radius, 0, 1)
-            #Log.log(scl)
             corpse.scale = corpse.scale.limit_length(scl)
             corpse.apply_central_impulse(dir*delta)
 

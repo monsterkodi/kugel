@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://wo631fluqa0p"]
+[gd_scene load_steps=28 format=3 uid="uid://wo631fluqa0p"]
 
 [ext_resource type="Shader" uid="uid://colhoamqrtuej" path="res://materials/DotCirclesMaterial.gdshader" id="2_5sqgi"]
 [ext_resource type="Material" uid="uid://kotd4yt27t51" path="res://materials/FloorMaterial.tres" id="2_35mqu"]
@@ -8,6 +8,7 @@
 [ext_resource type="Material" uid="uid://deqkf3j301h5d" path="res://materials/DotCirclesMaterial.tres" id="4_5sqgi"]
 [ext_resource type="PackedScene" uid="uid://cssayoomcrb8o" path="res://world/Spawner.tscn" id="11_sypgb"]
 [ext_resource type="PackedScene" uid="uid://dt4vauql4gx0y" path="res://components/HalfCapsule.tscn" id="12_d6u53"]
+[ext_resource type="PackedScene" uid="uid://brnisnmix1e4k" path="res://world/Colors.tscn" id="12_f0k3j"]
 [ext_resource type="PackedScene" uid="uid://b0ky2r6dv835o" path="res://world/Base.tscn" id="13_sypgb"]
 [ext_resource type="PackedScene" uid="uid://cqn35mciqmm8s" path="res://world/Enemy.tscn" id="14_dn5x0"]
 [ext_resource type="PackedScene" uid="uid://kktahfiaqllg" path="res://world/Turret.tscn" id="15_esphl"]
@@ -239,3 +240,6 @@ radius = 5.0
 rot_slerp = 0.25
 emitter_interval = 0.2
 emitter_mass = 0.1
+
+[node name="Colors" parent="." instance=ExtResource("12_f0k3j")]
+turretSensor = Color(0.9546016, 0.74509805, 1, 0.7490196)

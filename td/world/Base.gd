@@ -40,6 +40,7 @@ func onShieldDown():
 
 func onDeath():
     
+    Post.baseDestroyed.emit()
     get_tree().call_group("level_reset", "level_reset")
     _ready()
 

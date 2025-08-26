@@ -1,0 +1,49 @@
+[gd_scene load_steps=3 format=3 uid="uid://dhm8ww2fqxfua"]
+
+[ext_resource type="Script" uid="uid://c4d3iwmln8sl4" path="res://ui/Hud.gd" id="1_1x8ju"]
+[ext_resource type="Theme" uid="uid://g22p2j6a23ol" path="res://ui/theme/HUDTheme.tres" id="2_aaqae"]
+
+[node name="Hud" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("2_aaqae")
+script = ExtResource("1_1x8ju")
+
+[node name="TopLeft" type="PanelContainer" parent="."]
+layout_mode = 1
+offset_right = 91.0
+offset_bottom = 65.0
+size_flags_horizontal = 3
+theme = ExtResource("2_aaqae")
+
+[node name="Corpses" type="Button" parent="TopLeft"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 6
+theme = ExtResource("2_aaqae")
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+text = "999
+"
+
+[node name="TopRight" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -83.0
+offset_bottom = 60.0
+grow_horizontal = 0
+theme = ExtResource("2_aaqae")
+
+[node name="Spawned" type="Button" parent="TopRight"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 6
+theme = ExtResource("2_aaqae")
+theme_override_colors/font_color = Color(1, 0.3472228, 0, 1)
+text = "999"

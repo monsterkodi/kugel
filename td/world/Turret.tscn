@@ -45,7 +45,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 1.5, 0)
 
-[node name="Barrel" type="MeshInstance3D" parent="BarrelPivot"]
+[node name="BarrelMesh" type="MeshInstance3D" parent="BarrelPivot"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
 mesh = SubResource("CapsuleMesh_w3f5i")
@@ -75,7 +75,7 @@ collision_mask = 2
 input_ray_pickable = false
 monitorable = false
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Sensor"]
+[node name="SensorPlane" type="MeshInstance3D" parent="Sensor"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
 cast_shadow = 0
 mesh = SubResource("PlaneMesh_vc5tq")
@@ -93,7 +93,7 @@ collision_layer = 4
 collision_mask = 0
 physics_material_override = ExtResource("3_vc5tq")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Base"]
+[node name="BaseMesh" type="MeshInstance3D" parent="Base"]
 mesh = SubResource("CylinderMesh_w3f5i")
 skeleton = NodePath("../..")
 surface_material_override/0 = ExtResource("3_wvatt")

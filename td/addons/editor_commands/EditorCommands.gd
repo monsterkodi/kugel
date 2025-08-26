@@ -19,7 +19,7 @@ class EditorCommands extends EditorDebuggerPlugin:
                     bp.visible = !bp.visible
                     return true
                 if cmd == "toggle_output":
-                    #plugin.toggleBottomPanelChildWithName("EditorLog")
+                    #plugin.toggleBottomPanelWithName("EditorLog")
                     var event = plugin.parseKeyEvent(cmd)
                     Input.parse_input_event(event)
                     return true
@@ -35,11 +35,26 @@ func editorShortcut(shortcut:String):
     match shortcut:
         "Option+Z", "Shift+Command+D": 
             EditorInterface.distraction_free_mode = not EditorInterface.distraction_free_mode
+        "Option+M":
+            if not visibleBottomPanel().name.contains("Debugger"):
+                toggleBottomPanelWithName("Debugger")
+            var debuggerTabs = visibleBottomPanel().get_child(0).get_child(0).get_child(0)
+            var monitors = debuggerTabs.get_node("Monitors")
+            debuggerTabs.current_tab = debuggerTabs.get_children().find(monitors)
+            var tree:TreeItem = monitors.get_child(0).get_root()
+            tree.get_child(0).get_child(0).set_checked(0, true)
+            tree.get_child(0).get_child(1).set_checked(0, true)
+            tree.get_child(0).get_child(2).set_checked(0, true)
+            tree.get_child(2).get_child(0).set_checked(0, true)
+            tree.get_child(2).get_child(2).set_checked(0, true)
+            tree.get_child(2).get_child(3).set_checked(0, true)
+            tree.get_child(3).get_child(0).set_checked(0, true)
+            tree.get_child(3).get_child(1).set_checked(0, true)
+            tree.get_child(3).get_child(2).set_checked(0, true)
         "Option+O":
-            var button:Button = allBottomPanelButtons()[1]
-            button.toggled.emit(!button.is_pressed())
+            toggleBottomPanelWithName("Output")
         "Option+D":
-            toggleBottomPanelChildWithName("Debugger")
+            toggleBottomPanelWithName("Debugger")
         _: Log.log("game shortcut", shortcut)
     #Input.parse_input_event(parseKeyEvent(shortcut))
 
@@ -57,29 +72,33 @@ func parseKeyEvent(text:String) -> InputEventKey:
             _: event.keycode = OS.find_keycode_from_string(part)
     return event
 
-func toggleBottomPanelChildWithName(name:String):
+func toggleBottomPanelWithName(name:String):
     var buttons = allBottomPanelButtons()
     var index = buttons.find_custom(func (b): return b.text == name)
     if index >= 0:
         var button:Button = buttons[index]
         button.toggled.emit(!button.is_pressed())
-    
-func allBottomPanelChildren():
-    var bp = controlWithName("EditorBottomPanel")
-    var children = bp.get_child(0).get_children()
-    var buttons = children.pop_back()
-    return children
-    
+        
 func allBottomPanelButtons():
     var bp = controlWithName("EditorBottomPanel")
     var children = bp.get_child(0).get_children()
     var buttons = children[-1].get_child(1).get_child(0).get_children()
     return buttons
         
-func hideAllBottomPanelChildren():
+#func hideAllBottomPanelChildren():
+    #
+    #for child in allBottomPanelChildren():
+        #child.visible = false
+
+func allBottomPanelChildren():
     
-    for child in allBottomPanelChildren():
-        child.visible = false
+    return controlWithName("EditorBottomPanel").get_child(0).get_children()
+    
+func visibleBottomPanel():
+    var panels = allBottomPanelChildren()
+    var index = panels.find_custom(func (b): return b.visible)
+    if index >= 0:
+        return panels[index]
 
 func controlWithName(name:String) -> Control:
     
@@ -96,12 +115,12 @@ func controlWithName(name:String) -> Control:
 func _enter_tree() -> void:
     add_debugger_plugin(debugger)
     debugger.plugin = self
-    
+    Log.log("EditorCommands", EditorInterface.has_method("get_inspector"))
     #controlWithName("EditorBottomPanel").get_child(0).get_child(-1).print_tree_pretty()
     #for button in allBottomPanelButtons():
         #Log.log(button, button.text, button.shortcut)
 
-func _exit_tree() -> void:
+func _exit_tree():
     remove_debugger_plugin(debugger)
 
 var editor_view_hierarchy = '''

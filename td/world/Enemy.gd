@@ -28,6 +28,11 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
             var damage = state.get_contact_impulse(i).length()
             #Log.log("damage", damage)
             applyDamage(damage, collider)
+            
+    if health <= 0:
+        if global_position.length_squared() > 2200:
+            #linear_velocity = Vector3.ZERO
+            linear_velocity = linear_velocity.bounce(-global_position.normalized())
 
 func applyDamage(damage:float, source:PhysicsBody3D):
     
@@ -48,4 +53,7 @@ func applyDamage(damage:float, source:PhysicsBody3D):
     else:        
         var hf = 0.5 + 0.5 * health / maxHealth
         scale = Vector3(hf, hf, hf)
+        
+    if source is Bullet:
+        source.queue_free()
             

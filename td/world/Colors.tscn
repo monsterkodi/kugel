@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://brnisnmix1e4k"]
+
+[ext_resource type="Script" uid="uid://xvxycrxx1o5j" path="res://utils/Colors.gd" id="1_0yr73"]
+
+[node name="Colors" type="Node"]
+script = ExtResource("1_0yr73")
+turretSensor = Color(0.7466193, 0.7466193, 1, 0.7490196)

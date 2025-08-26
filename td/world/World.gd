@@ -37,6 +37,8 @@ func toggleBuild():
         pauseGame()
         %BuildMenu.showMenu()
     elif %BuildMenu.visible:
+        %Builder.visible = false
+        %Camera/Follow.target = %Player
         resumeGame()
         %BuildMenu.hideMenu()
             
@@ -63,3 +65,16 @@ func quitGame():
     
     %Saver.save()
     get_tree().quit()
+
+func onBuildItem(item):
+    
+    Log.log("buildItem", item.name)
+    %Builder.visible = true
+    %Builder.loadGhost(item.name)
+    %Builder.vehicle.global_transform = %Player.global_transform
+    %Builder.ghost.global_transform   = %Player.global_transform
+    %Camera/Follow.target = %Builder.vehicle
+    
+func onBuilderDone():
+    pass
+    #%Camera/Follow.target = %Player

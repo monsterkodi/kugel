@@ -3,7 +3,7 @@ extends Node3D
 @export var target : Node3D
 
 @export_range(1, 10, 0.1) var radius:float = 2:
-    set(v): setSensorRadius(v)
+    set(v): radius = v; setSensorRadius(v)
 
 @export_range(0.1, 1, 0.01) var rot_slerp:float = 0.2
     
@@ -33,6 +33,8 @@ func _ready():
     %Emitter.velocity = emitter_velocity
     %Emitter.mass     = emitter_mass
 
+    setSensorRadius(radius)
+    
     if target:
         $BarrelTarget.look_at(target.global_position)
     else:

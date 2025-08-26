@@ -1,7 +1,5 @@
 extends Control
 
-func _ready():
-    pass
+signal pressed
 
-func _process(delta: float):
-    pass
+func buttonPressed(): pressed.emit(self)

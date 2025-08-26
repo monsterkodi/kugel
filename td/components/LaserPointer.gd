@@ -23,5 +23,6 @@ func _physics_process(delta:float):
     base.scale = Vector3(1,1,distance)
 
 func setDir(dir:Vector3):
-    
-    look_at(global_position + dir)
+    if dir.length() > 0.01:
+        #Log.log("dir", dir.length())
+        look_at(global_position + dir)

@@ -1,0 +1,12 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://g22p2j6a23ol"]
+
+[ext_resource type="FontFile" uid="uid://dfqo0cb4uy7kl" path="res://ui/theme/Rounded.ttf" id="1_kc1wr"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kc1wr"]
+bg_color = Color(0.3201005, 0.3201005, 0.3201005, 1)
+
+[resource]
+default_font = ExtResource("1_kc1wr")
+default_font_size = 48
+Label/constants/line_spacing = 0
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_kc1wr")

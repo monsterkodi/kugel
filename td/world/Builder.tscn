@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://bsyn633trcvrm"]
+
+[ext_resource type="Script" uid="uid://r6v0jx4rvh70" path="res://world/Builder.gd" id="1_0gt1h"]
+
+[node name="Builder" type="Node3D" groups=["player"]]
+process_mode = 2
+script = ExtResource("1_0gt1h")
+
+[connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]

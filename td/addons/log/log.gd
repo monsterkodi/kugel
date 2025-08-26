@@ -333,7 +333,9 @@ static func to_printable(msgs: Array, opts: Dictionary = {}) -> String:
         msgs = [msgs]
     var stack: Array = opts.get("stack", [])
     var pretty: bool = opts.get("pretty", true)
-    var m: String = ""
+    var m: String = "       "
+    if Engine.is_editor_hint():
+        m = "[color=#333333]EDITOR[/color] "
     if len(stack) > 0:
         var prefix: String = Log.log_prefix(stack)
         var prefix_type: String = "SRC"

@@ -1,47 +1,33 @@
-extends Node3D
+class_name Drone extends Node3D
   
 var steer        = 0.0
-var speed        = 10.0
+var speed        = 15.0
 
 var MIN_SPEED    = 10.0
 var MAX_SPEED    = 20.0
-
-var STEER_SPEED  = 1.5
-var ASCEND_SPEED = 2.0
 var MAX_ALTI     = 3.0
 
-func _physics_process(delta:float):
+var STEER_SPEED  = 1.5
+
+func _ready():
+    %Body.position.y = 16.0
+
+func _process(delta:float):
     
     readInput()
     
-    var pt = get_parent_node_3d()
     var dt = delta * speed
-    var af = pt.position.y / MAX_ALTI
     
-    var alti_soft = 1.0
-    if pt.position.y < 0.1 and %ascend.value < 0:
-        alti_soft = pt.position.y/0.1
-    if pt.position.y > MAX_ALTI-2.0 and %ascend.value > 0:
-        alti_soft = -(pt.position.y-MAX_ALTI)/2.0
-
     var fs = Vector2(%strafe.value, %forward.value).limit_length()
 
-    pt.rotate_object_local(Vector3.UP, -steer * delta * STEER_SPEED)
-    pt.translate_object_local(Vector3.FORWARD * fs.y * dt * af)
-    pt.translate_object_local(Vector3.RIGHT   * fs.x  * dt * af)
-    pt.translate_object_local(Vector3.UP * %ascend.value * delta * ASCEND_SPEED * alti_soft)
-    pt.position.y = clamp(pt.position.y, 0, MAX_ALTI)
+    rotate_object_local(Vector3.UP, -steer * delta * STEER_SPEED)
+    translate_object_local(Vector3.FORWARD * fs.y * dt)
+    translate_object_local(Vector3.RIGHT   * fs.x * dt)
+    
+    %Body.position.y = lerp(%Body.position.y, MAX_ALTI, 0.05)
 
 func readInput():
 
-    %ascend.zero()
-    %ascend.add(Input.get_joy_axis(0, JOY_AXIS_TRIGGER_RIGHT))
-    %ascend.add(-Input.get_joy_axis(0, JOY_AXIS_TRIGGER_LEFT))
-    
-    if Input.is_action_pressed("alt_down"): %ascend.add( 1)
-    if Input.is_key_pressed(KEY_R): %ascend.add( 1)
-    if Input.is_key_pressed(KEY_F): %ascend.add(-1)
-    
     %forward.zero()
     %forward.add(-Input.get_joy_axis(0, JOY_AXIS_LEFT_Y))
     %forward.add(-Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y))
@@ -65,11 +51,11 @@ func readInput():
 
 func faster():
     
-    speed *= 1.05; speed = clampf(speed, MIN_SPEED, MAX_SPEED)#; Log.log("speed", speed)
+    speed *= 1.05; speed = clampf(speed, MIN_SPEED, MAX_SPEED)
     
 func slower():
     
-    speed *= 0.95; speed = clampf(speed, MIN_SPEED, MAX_SPEED)#; Log.log("speed", speed)
+    speed *= 0.95; speed = clampf(speed, MIN_SPEED, MAX_SPEED)
 
 func _unhandled_input(e: InputEvent):
     

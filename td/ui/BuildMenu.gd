@@ -1,15 +1,26 @@
 extends Control
 
 signal resumeGame
+signal buildItem
 
 const BUILD_BUTTON = preload("res://ui/BuildButton.tscn")
 
 func _ready():
     
-    var button1 = BUILD_BUTTON.instantiate()
-    %Buttons.add_child(button1)
-    var button2 = BUILD_BUTTON.instantiate()
-    %Buttons.add_child(button2)
+    addButton("Turret")
+    
+func addButton(id:String):
+    
+    var button = BUILD_BUTTON.instantiate()
+    %Buttons.add_child(button)
+    button.name = id
+    button.pressed.connect(buttonPressed)
+    #button.get_node("Button").connect("pressed", buttonPressed2, CONNECT_APPEND_SOURCE_OBJECT)
+
+func buttonPressed(button):
+    
+    Log.log("button pressed", button)
+    buildItem.emit(button)
 
 func showMenu():
     

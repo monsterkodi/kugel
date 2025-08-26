@@ -39,6 +39,7 @@ func nextSpawnLoop():
     enemyHealth += enemy_health_increment
     
 func preSpawn(value): 
+    
     spawnedBody.position.x = curve.sample(value)
 
 func ejectSpawnBody():
@@ -52,6 +53,8 @@ func ejectSpawnBody():
     spawnedBody.apply_central_impulse(%SpawnPoint.transform.basis.z * -velocity)
     spawnedBody.freeze = false
     spawnedBody = null
+    
+    Post.enemySpawned.emit()
     
     tween = get_tree().create_tween()
     tween.tween_property(%Body, "position:y", -1, 1.5).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
