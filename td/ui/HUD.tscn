@@ -1,7 +1,20 @@
-[gd_scene load_steps=3 format=3 uid="uid://dhm8ww2fqxfua"]
+[gd_scene load_steps=6 format=3 uid="uid://dhm8ww2fqxfua"]
 
 [ext_resource type="Script" uid="uid://c4d3iwmln8sl4" path="res://ui/Hud.gd" id="1_1x8ju"]
 [ext_resource type="Theme" uid="uid://g22p2j6a23ol" path="res://ui/theme/HUDTheme.tres" id="2_aaqae"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aaqae"]
+bg_color = Color(0.10965204, 0.10965204, 0.10965204, 1)
+corner_radius_bottom_right = 30
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jd13s"]
+bg_color = Color(0.10965204, 0.10965204, 0.10965204, 1)
+corner_radius_bottom_left = 30
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wxbmk"]
+bg_color = Color(0.10965204, 0.10965204, 0.10965204, 1)
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
 
 [node name="Hud" type="Control"]
 layout_mode = 3
@@ -20,14 +33,15 @@ offset_right = 91.0
 offset_bottom = 65.0
 size_flags_horizontal = 3
 theme = ExtResource("2_aaqae")
+theme_override_styles/panel = SubResource("StyleBoxFlat_aaqae")
 
-[node name="Corpses" type="Button" parent="TopLeft"]
+[node name="Balance" type="Button" parent="TopLeft"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 6
 theme = ExtResource("2_aaqae")
 theme_override_colors/font_color = Color(1, 1, 0, 1)
-text = "999
+text = "0
 "
 
 [node name="TopRight" type="PanelContainer" parent="."]
@@ -39,6 +53,7 @@ offset_left = -83.0
 offset_bottom = 60.0
 grow_horizontal = 0
 theme = ExtResource("2_aaqae")
+theme_override_styles/panel = SubResource("StyleBoxFlat_jd13s")
 
 [node name="Spawned" type="Button" parent="TopRight"]
 unique_name_in_owner = true
@@ -46,4 +61,24 @@ layout_mode = 2
 size_flags_horizontal = 6
 theme = ExtResource("2_aaqae")
 theme_override_colors/font_color = Color(1, 0.3472228, 0, 1)
-text = "999"
+text = "0"
+
+[node name="Center" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -41.5
+offset_right = 41.5
+offset_bottom = 65.0
+grow_horizontal = 2
+theme = ExtResource("2_aaqae")
+theme_override_styles/panel = SubResource("StyleBoxFlat_wxbmk")
+
+[node name="Base" type="Button" parent="Center"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 6
+theme = ExtResource("2_aaqae")
+theme_override_colors/font_color = Color(0.6599067, 0.6644344, 1, 1)
+text = "0"

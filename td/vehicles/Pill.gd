@@ -61,9 +61,6 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
 
 func calcDashDir():
     
-    #var dir = linear_velocity - 5.0 * global_basis.z
-    #dir.y = 0
-    #dir = dir.limit_length()
     var dir = Vector3.ZERO
     
     if mouseDelta.x != 0: 
@@ -78,8 +75,8 @@ func calcDashDir():
     if absf(xinp) < deadzone: xinp = 0
     if absf(yinp) < deadzone: yinp = 0
 
-    if Input.is_key_pressed(KEY_LEFT):  xinp -= 1 
-    if Input.is_key_pressed(KEY_RIGHT): xinp += 1 
+    #if Input.is_key_pressed(KEY_LEFT):  xinp -= 0.1 
+    #if Input.is_key_pressed(KEY_RIGHT): xinp += 0.1 
     if Input.is_key_pressed(KEY_UP):    yinp -= 1 
     if Input.is_key_pressed(KEY_DOWN):  yinp += 1 
     if Input.is_key_pressed(KEY_A):  xinp -= 1 
@@ -93,6 +90,9 @@ func calcDashDir():
         dir = dir.normalized()
     else:
         dir = -global_basis.z
+    
+    if Input.is_key_pressed(KEY_LEFT):   mouseRot -= 0.01
+    if Input.is_key_pressed(KEY_RIGHT):  mouseRot += 0.01
     
     if mouseRot:
         dir = dir.rotated(Vector3.UP, -mouseRot)

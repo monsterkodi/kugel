@@ -6,12 +6,17 @@ class_name Base extends Node3D
 var baseHitPoints:int
 var shieldHitPoints:int
 
-func onHit(): 
+func _ready():
     
+    setBaseHitPoints(maxBaseHitPoints)
+    setShieldHitPoints(0)
+
+func onHit(): 
     if shieldHitPoints:
         setShieldHitPoints(shieldHitPoints - 1)
     else:
         setBaseHitPoints(baseHitPoints - 1)
+    Post.baseDamaged.emit(self)
         
 func ringParam(param:String, value:Variant):
     var mat:ShaderMaterial = %GroundCircles.get_surface_override_material(0)
@@ -20,6 +25,7 @@ func ringParam(param:String, value:Variant):
 func setShieldHitPoints(hp):
     
     shieldHitPoints = clampi(hp, 0, maxShieldHitPoints)
+    Post.statChanged.emit("baseShieldHitPoints", shieldHitPoints)
     if shieldHitPoints == 0:
         onShieldDown()
     else:
@@ -28,6 +34,7 @@ func setShieldHitPoints(hp):
 func setBaseHitPoints(hp):
     
     baseHitPoints = clampi(hp, 0, maxBaseHitPoints)
+    Post.statChanged.emit("baseHitPoints", baseHitPoints)
     if baseHitPoints == 0:
         onDeath()
     else:
@@ -35,7 +42,7 @@ func setBaseHitPoints(hp):
         
 func onShieldDown():
     
-    $ShieldHalo.visible = false       
+    %Shield.visible = false       
     ringParam("num_rings", baseHitPoints)
 
 func onDeath():
@@ -43,12 +50,6 @@ func onDeath():
     Post.baseDestroyed.emit()
     get_tree().call_group("level_reset", "level_reset")
     _ready()
-
-func _ready():
-    
-    $ShieldHalo.visible = true
-    setBaseHitPoints(maxBaseHitPoints)
-    setShieldHitPoints(maxShieldHitPoints)
 
 func _on_center_sphere_body_entered(body: Node):
     #Log.log("collision with", body, body.get_groups())

@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://g0r24pl51awh"]
 
-[ext_resource type="PhysicsMaterial" uid="uid://dms3d8q358dik" path="res://materials/PlayerPhysicsMaterial.tres" id="1_5m86e"]
+[ext_resource type="PhysicsMaterial" uid="uid://dms3d8q358dik" path="res://materials/physics/PlayerPhysics.tres" id="1_5m86e"]
 [ext_resource type="Script" uid="uid://ch8rdi5m570e7" path="res://vehicles/Pill.gd" id="1_on1es"]
 [ext_resource type="Script" uid="uid://bvt1w1upmd45v" path="res://utils/Interpol.gd" id="2_on1es"]
 [ext_resource type="PackedScene" uid="uid://dehmjc447yvug" path="res://vehicles/Capsule.tscn" id="3_5m86e"]

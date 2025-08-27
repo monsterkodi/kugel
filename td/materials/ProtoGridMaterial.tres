@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://xloipk58m6mc"]
 
-[ext_resource type="Shader" uid="uid://bfqar7mb0prkq" path="res://materials/ProtoGridMaterial.gdshader" id="1_ctb14"]
+[ext_resource type="Shader" uid="uid://bfqar7mb0prkq" path="res://materials/shader/ProtoGridMaterial.gdshader" id="1_ctb14"]
 
 [resource]
 render_priority = 0

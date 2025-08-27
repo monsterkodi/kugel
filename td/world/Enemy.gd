@@ -4,22 +4,27 @@ var mat:StandardMaterial3D
 @export var maxHealth = 10.0
 var health = maxHealth
 
-func _ready() -> void:
+func _ready():
     
     health = maxHealth
     mat = $Mesh.get_surface_override_material(0).duplicate()
     $Mesh.set_surface_override_material(0, mat)
 
-func level_reset(): despawn()
-func despawn(): queue_free()
+func alive(): return health > 0
+func dead():  return health <= 0
 
-func _physics_process(_delta: float) -> void:
+func level_reset(): 
+    
+    if alive():
+        applyDamage(maxHealth, null)
+    
+func _physics_process(_delta: float):
     
     if health > 0:
         var vl = clampf(linear_velocity.length(), 0.0 , 1.0)
         mat.albedo_color = Color(1, 1-vl, 0)
 
-func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
+func _integrate_forces(state: PhysicsDirectBodyState3D):
     
     for i in range(get_contact_count()):
         var collider:PhysicsBody3D = state.get_contact_collider_object(i)
@@ -36,6 +41,7 @@ func applyDamage(damage:float, source:PhysicsBody3D):
     health -= damage
     
     if health <= 0:
+        health = 0
         mat.albedo_color = Color(0, 0, 0)
         $Attraction.targetNode = null
         if source:

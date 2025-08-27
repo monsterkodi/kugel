@@ -36,11 +36,13 @@ func toggleBuild():
     if not get_tree().paused:
         pauseGame()
         %BuildMenu.showMenu()
+        %Builder.appear(%Player.global_transform)
+        %Camera/Follow.target = %Builder.vehicle
     elif %BuildMenu.visible:
-        %Builder.visible = false
         %Camera/Follow.target = %Player
-        resumeGame()
+        %Builder.vanish()
         %BuildMenu.hideMenu()
+        resumeGame()
             
 func togglePause():
     
@@ -69,11 +71,8 @@ func quitGame():
 func onBuildItem(item):
     
     Log.log("buildItem", item.name)
-    %Builder.visible = true
     %Builder.loadGhost(item.name)
-    %Builder.vehicle.global_transform = %Player.global_transform
-    %Builder.ghost.global_transform   = %Player.global_transform
-    %Camera/Follow.target = %Builder.vehicle
+    %Builder.ghost.global_transform = %Player.global_transform
     
 func onBuilderDone():
     pass

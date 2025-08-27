@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://be78v806wl6a5"]
 
 [ext_resource type="Material" uid="uid://h718n8hodgi1" path="res://materials/WireframeMaterial.tres" id="1_ipl3p"]
-[ext_resource type="PhysicsMaterial" uid="uid://dq1r6votcqh1x" path="res://materials/FloorPhysicsMaterial.tres" id="2_uykn3"]
+[ext_resource type="PhysicsMaterial" uid="uid://dq1r6votcqh1x" path="res://materials/physics/FloorPhysics.tres" id="2_uykn3"]
 [ext_resource type="Material" uid="uid://baiafbfas607g" path="res://materials/DashedGridMaterial.tres" id="5_rcg8a"]
 [ext_resource type="Script" uid="uid://cj2681yjc4fy6" path="res://addons/synced_collision_shape_3d/synced_collision_shape_3d.gd" id="6_pyq6l"]
 

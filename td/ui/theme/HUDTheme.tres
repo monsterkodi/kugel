@@ -3,7 +3,7 @@
 [ext_resource type="FontFile" uid="uid://dfqo0cb4uy7kl" path="res://ui/theme/Rounded.ttf" id="1_kc1wr"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kc1wr"]
-bg_color = Color(0.3201005, 0.3201005, 0.3201005, 1)
+bg_color = Color(0.10965204, 0.10965204, 0.10965204, 1)
 
 [resource]
 default_font = ExtResource("1_kc1wr")

@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://dpx5qvy28judg"]
 
-[ext_resource type="Shader" uid="uid://b7lpd6h1smubj" path="res://materials/CircleMatVis.tres" id="1_51w1s"]
+[ext_resource type="Shader" uid="uid://b7lpd6h1smubj" path="res://materials/visual/CircleMatVis.tres" id="1_51w1s"]
 
 [resource]
 render_priority = 0

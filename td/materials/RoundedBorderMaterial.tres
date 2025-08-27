@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bjb2vl46i7jx5"]
 
-[ext_resource type="Shader" uid="uid://bo3vh1v12acqd" path="res://materials/RoundedBorderMaterial.gdshader" id="1_5gol6"]
+[ext_resource type="Shader" uid="uid://bo3vh1v12acqd" path="res://materials/shader/RoundedBorderMaterial.gdshader" id="1_5gol6"]
 
 [resource]
 render_priority = 0

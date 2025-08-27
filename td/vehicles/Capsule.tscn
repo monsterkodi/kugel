@@ -2,7 +2,7 @@
 
 [ext_resource type="Material" uid="uid://bcomnioqak46l" path="res://materials/PillMaterial.tres" id="1_ievty"]
 [ext_resource type="Material" uid="uid://lx8t0tfuvrrw" path="res://materials/LackRed.tres" id="2_f2ncf"]
-[ext_resource type="Shader" uid="uid://bcp4dvhrevdt7" path="res://materials/ColoredGlass.gdshader" id="3_ovndg"]
+[ext_resource type="Shader" uid="uid://bcp4dvhrevdt7" path="res://materials/shader/ColoredGlass.gdshader" id="3_ovndg"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_5m86e"]
 radius = 0.25

@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://deqkf3j301h5d"]
 
-[ext_resource type="Shader" uid="uid://colhoamqrtuej" path="res://materials/DotCirclesMaterial.gdshader" id="1_jh1op"]
+[ext_resource type="Shader" uid="uid://colhoamqrtuej" path="res://materials/shader/DotCirclesMaterial.gdshader" id="1_jh1op"]
 
 [resource]
 render_priority = -1

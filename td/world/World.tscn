@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://b6mskrm1n176r"]
+[gd_scene load_steps=14 format=3 uid="uid://b6mskrm1n176r"]
 
 [ext_resource type="Script" uid="uid://b6inujglidn5n" path="res://world/World.gd" id="1_eu7l1"]
 [ext_resource type="PackedScene" uid="uid://wo631fluqa0p" path="res://world/Level.tscn" id="2_p1v5b"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://dnk1mn0lm0c3d" path="res://ui/PauseMenu.tscn" id="7_wygdx"]
 [ext_resource type="PackedScene" uid="uid://bwlnpgve3gc86" path="res://ui/BuildMenu.tscn" id="9_crsqw"]
 [ext_resource type="PackedScene" uid="uid://dhm8ww2fqxfua" path="res://ui/HUD.tscn" id="10_8mymi"]
+[ext_resource type="PackedScene" uid="uid://dq3xg6c4dujk6" path="res://world/Wallet.tscn" id="12_gqh78"]
 
 [sub_resource type="Environment" id="Environment_ig7tw"]
 background_mode = 1
@@ -28,6 +29,8 @@ fog_density = 1.0
 [node name="World" type="Node3D"]
 process_mode = 3
 script = ExtResource("1_eu7l1")
+
+[node name="Hud" parent="." instance=ExtResource("10_8mymi")]
 
 [node name="Level" parent="." groups=["game"] instance=ExtResource("2_p1v5b")]
 unique_name_in_owner = true
@@ -52,8 +55,6 @@ environment = SubResource("Environment_ig7tw")
 [node name="MouseHandler" parent="." groups=["game"] instance=ExtResource("6_p1v5b")]
 seconds = 1.0
 
-[node name="Hud" parent="." instance=ExtResource("10_8mymi")]
-
 [node name="Builder" parent="." instance=ExtResource("5_0n6y5")]
 unique_name_in_owner = true
 visible = false
@@ -65,6 +66,8 @@ visible = false
 [node name="BuildMenu" parent="." instance=ExtResource("9_crsqw")]
 unique_name_in_owner = true
 visible = false
+
+[node name="Wallet" parent="." groups=["save"] instance=ExtResource("12_gqh78")]
 
 [connection signal="done" from="Builder" to="." method="onBuilderDone"]
 [connection signal="quitGame" from="PauseMenu" to="." method="quitGame"]

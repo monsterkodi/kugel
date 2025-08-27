@@ -1,13 +1,13 @@
 [gd_scene load_steps=10 format=3 uid="uid://cssayoomcrb8o"]
 
 [ext_resource type="Script" uid="uid://c42hpa6ij4j3j" path="res://world/Spawner.gd" id="1_5q6u0"]
-[ext_resource type="Shader" uid="uid://cj78indyh2su8" path="res://materials/GooMaterial.gdshader" id="2_xgr6b"]
-[ext_resource type="Shader" uid="uid://buoavpwql810j" path="res://materials/RoundedBorderMatVis.tres" id="5_5i5hu"]
+[ext_resource type="Shader" uid="uid://cj78indyh2su8" path="res://materials/shader/GooMaterial.gdshader" id="2_xgr6b"]
+[ext_resource type="Shader" uid="uid://buoavpwql810j" path="res://materials/visual/RoundedBorderMatVis.tres" id="5_5i5hu"]
 
 [sub_resource type="Curve" id="Curve_bjyd8"]
 _limits = [-1.0, 1.0, 0.0, 1.0]
-_data = [Vector2(0.50477326, -0.0070238113), 0.0, -0.04146033, 0, 0, Vector2(0.99999, -0.43487847), 0.023382397, 0.023382397, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
-point_count = 3
+_data = [Vector2(0.50477326, -0.0070238113), 0.0, -0.04146033, 0, 0, Vector2(0.99999, -0.43487847), 0.023382397, 0.023382397, 0, 0]
+point_count = 2
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_aubng"]
 size = Vector2(1.25, 2.5)

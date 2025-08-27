@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://sfii31yqj6q5"]
 
-[ext_resource type="PhysicsMaterial" uid="uid://dms3d8q358dik" path="res://materials/PlayerPhysicsMaterial.tres" id="1_aeb42"]
+[ext_resource type="PhysicsMaterial" uid="uid://dms3d8q358dik" path="res://materials/physics/PlayerPhysics.tres" id="1_aeb42"]
 [ext_resource type="Script" uid="uid://d2xxvx1034q51" path="res://vehicles/Heli.gd" id="1_oh2j6"]
 [ext_resource type="Material" uid="uid://lx8t0tfuvrrw" path="res://materials/LackRed.tres" id="2_1sirc"]
 [ext_resource type="PackedScene" uid="uid://dehmjc447yvug" path="res://vehicles/Capsule.tscn" id="3_2ngpf"]

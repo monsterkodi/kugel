@@ -2,7 +2,7 @@ extends Node3D
 
 @export var target : Node3D
 
-@export_range(1, 10, 0.1) var radius:float = 2:
+@export_range(1, 10, 0.1) var radius:float = 3:
     set(v): radius = v; setSensorRadius(v)
 
 @export_range(0.1, 1, 0.01) var rot_slerp:float = 0.2
@@ -21,6 +21,13 @@ extends Node3D
 
 var sensorBodies: Array[Node3D]
 var targetPos:Vector3
+
+func level_reset():
+    
+    var tween = get_tree().create_tween()
+    tween.set_ease(Tween.EASE_IN)
+    tween.tween_property(self, "position:y", -5, 0.5)
+    tween.finished.connect(queue_free)
 
 func setSensorRadius(r:float):  
 
