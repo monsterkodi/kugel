@@ -7,25 +7,36 @@ const BUILD_BUTTON = preload("res://ui/BuildButton.tscn")
 
 func _ready():
     
-    addButton("Turret")
+    pass
+        
+func addButton(building:String):
     
-func addButton(id:String):
-    
-    var button = BUILD_BUTTON.instantiate()
+    var button:BuildButton = BUILD_BUTTON.instantiate()
     %Buttons.add_child(button)
-    button.name = id
+    button.setBuilding(building)
     button.pressed.connect(buttonPressed)
-    #button.get_node("Button").connect("pressed", buttonPressed2, CONNECT_APPEND_SOURCE_OBJECT)
+    button.focused.connect(buttonFocused)
 
 func buttonPressed(button):
+    pass
     
-    Log.log("button pressed", button)
+func buttonFocused(button):
+
     buildItem.emit(button)
 
 func showMenu():
+
+    while %Buttons.get_child_count():
+        %Buttons.remove_child(%Buttons.get_child(0))
     
+    for building in ["Pole", "Turret", "Bouncer", "Shield"]:
+        if Wallet.balance >= Wallet.priceForBuilding(building):    
+            addButton(building)
+    
+    if %Buttons.get_child_count():
+        %Buttons.get_child(0).get_child(0).grab_focus()
+        
     visible = true
-    %Buttons.get_child(0).get_child(0).grab_focus()
     
 func hideMenu():
     

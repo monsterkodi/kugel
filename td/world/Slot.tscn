@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://ck8f443nev0dm"]
+
+[ext_resource type="Material" uid="uid://d2p62e8h7iovq" path="res://materials/ShieldMaterial.tres" id="1_ubm34"]
+[ext_resource type="Script" uid="uid://b012an17c0mke" path="res://world/Slot.gd" id="2_kcdft"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_kcdft"]
+top_radius = 0.1
+bottom_radius = 0.1
+height = 0.1
+radial_segments = 16
+rings = 1
+
+[node name="Slot" type="MeshInstance3D"]
+mesh = SubResource("CylinderMesh_kcdft")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("1_ubm34")
+script = ExtResource("2_kcdft")

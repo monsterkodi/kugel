@@ -12,6 +12,7 @@ radius = 0.25
 height = 1.0
 
 [node name="Pill" type="RigidBody3D"]
+process_mode = 1
 collision_mask = 3221225478
 axis_lock_angular_x = true
 axis_lock_angular_z = true
@@ -49,6 +50,11 @@ secs = 0.0
 metadata/_custom_type_script = "uid://bvt1w1upmd45v"
 
 [node name="JumpTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.1
+one_shot = true
+
+[node name="JumpBlock" type="Timer" parent="."]
 unique_name_in_owner = true
 wait_time = 0.2
 one_shot = true

@@ -75,10 +75,20 @@ grow_horizontal = 2
 theme = ExtResource("2_aaqae")
 theme_override_styles/panel = SubResource("StyleBoxFlat_wxbmk")
 
-[node name="Base" type="Button" parent="Center"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Center"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Base" type="Button" parent="Center/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 6
 theme = ExtResource("2_aaqae")
 theme_override_colors/font_color = Color(0.6599067, 0.6644344, 1, 1)
 text = "0"
+
+[node name="Shield" type="Button" parent="Center/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.14756489, 0, 1, 1)

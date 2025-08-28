@@ -1,15 +1,17 @@
 [gd_scene load_steps=7 format=3 uid="uid://bifcnnq8lc03w"]
 
 [ext_resource type="Script" uid="uid://bq6di37l1gyjw" path="res://vehicles/Drone.gd" id="2_6qb8p"]
-[ext_resource type="Material" uid="uid://lx8t0tfuvrrw" path="res://materials/LackRed.tres" id="3_4q74u"]
+[ext_resource type="Material" uid="uid://vyhfqa37hcxi" path="res://materials/LackBlue.tres" id="2_tjqyq"]
 [ext_resource type="Material" uid="uid://c53lxv23v2wwu" path="res://materials/ThrusterMaterial.tres" id="5_bfag8"]
 [ext_resource type="Script" uid="uid://bvt1w1upmd45v" path="res://utils/Interpol.gd" id="6_ks2wa"]
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_2ngpf"]
-height = 1.0
+[sub_resource type="TorusMesh" id="TorusMesh_0eloc"]
+inner_radius = 0.4
+outer_radius = 0.757
 
 [sub_resource type="SphereMesh" id="SphereMesh_oh2j6"]
-height = 0.5
+radius = 0.2
+height = 0.4
 is_hemisphere = true
 
 [node name="Drone" type="Node3D"]
@@ -20,41 +22,45 @@ script = ExtResource("2_6qb8p")
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.64, 0)
 
-[node name="Mesh" type="Node3D" parent="Body"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.454, 0)
-
-[node name="BodyMesh" type="MeshInstance3D" parent="Body/Mesh"]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -0.5, 0, 1, -2.1855694e-08, 0, 0, 0)
-mesh = SubResource("CapsuleMesh_2ngpf")
-skeleton = NodePath("../../..")
-surface_material_override/0 = ExtResource("3_4q74u")
+[node name="Torus" type="MeshInstance3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6010492, 0)
+mesh = SubResource("TorusMesh_0eloc")
+surface_material_override/0 = ExtResource("2_tjqyq")
 
 [node name="Thrusters" type="Node3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.29651213, 0)
 
 [node name="TA" type="Node3D" parent="Body/Thrusters"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, -0.28439707)
 
 [node name="ThrustA" type="MeshInstance3D" parent="Body/Thrusters/TA"]
-unique_name_in_owner = true
-transform = Transform3D(0.4, 0, 0, 0, 0.6, 0, 0, 0, 0.4, 0, -0.3, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5784817, -0.29999995, 0)
 mesh = SubResource("SphereMesh_oh2j6")
 skeleton = NodePath("../../../..")
 surface_material_override/0 = ExtResource("5_bfag8")
 
-[node name="TB" type="Node3D" parent="Body/Thrusters"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.24114352, 0.3, 0.14292729)
+[node name="TA2" type="Node3D" parent="Body/Thrusters"]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
 
-[node name="ThrustB" type="MeshInstance3D" parent="Body/Thrusters/TB"]
-transform = Transform3D(0.4, 0, 0, 0, 0.6, 0, 0, 0, 0.4, 0, -0.3, 0)
+[node name="ThrustA" type="MeshInstance3D" parent="Body/Thrusters/TA2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5784817, -0.29999995, 0)
 mesh = SubResource("SphereMesh_oh2j6")
 skeleton = NodePath("../../../..")
 surface_material_override/0 = ExtResource("5_bfag8")
 
-[node name="TC" type="Node3D" parent="Body/Thrusters"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.24719566, 0.3, 0.14340425)
+[node name="TA3" type="Node3D" parent="Body/Thrusters"]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
 
-[node name="ThrustC" type="MeshInstance3D" parent="Body/Thrusters/TC"]
-transform = Transform3D(0.4, 0, 0, 0, 0.6, 0, 0, 0, 0.4, 0, -0.3, 0)
+[node name="ThrustA" type="MeshInstance3D" parent="Body/Thrusters/TA3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5784817, -0.29999995, 0)
+mesh = SubResource("SphereMesh_oh2j6")
+skeleton = NodePath("../../../..")
+surface_material_override/0 = ExtResource("5_bfag8")
+
+[node name="TA4" type="Node3D" parent="Body/Thrusters"]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0, 0, 0)
+
+[node name="ThrustA" type="MeshInstance3D" parent="Body/Thrusters/TA4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5784817, -0.29999995, 0)
 mesh = SubResource("SphereMesh_oh2j6")
 skeleton = NodePath("../../../..")
 surface_material_override/0 = ExtResource("5_bfag8")

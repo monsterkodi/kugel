@@ -21,8 +21,11 @@ extends Node3D
 
 var sensorBodies: Array[Node3D]
 var targetPos:Vector3
+var inert = false
 
 func level_reset():
+    
+    if inert: return
     
     var tween = get_tree().create_tween()
     tween.set_ease(Tween.EASE_IN)

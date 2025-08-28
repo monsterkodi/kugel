@@ -1,0 +1,28 @@
+[gd_scene load_steps=6 format=3 uid="uid://bik78bwiax5lx"]
+
+[ext_resource type="Script" uid="uid://ce71hab7lsis" path="res://world/buildings/Pole.gd" id="1_j6u8t"]
+[ext_resource type="PhysicsMaterial" uid="uid://dq1r6votcqh1x" path="res://materials/physics/FloorPhysics.tres" id="2_wyfb2"]
+[ext_resource type="Material" uid="uid://baiafbfas607g" path="res://materials/DashedGridMaterial.tres" id="3_62n4q"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_i7n1g"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_oi3di"]
+radial_segments = 24
+rings = 4
+
+[node name="Pole" type="Node3D"]
+script = ExtResource("1_j6u8t")
+
+[node name="Capsule" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5034244, 0)
+collision_layer = 4
+collision_mask = 0
+physics_material_override = ExtResource("2_wyfb2")
+
+[node name="Shape" type="CollisionShape3D" parent="Capsule"]
+shape = SubResource("CapsuleShape3D_i7n1g")
+
+[node name="CapsuleMesh" type="MeshInstance3D" parent="Capsule"]
+mesh = SubResource("CapsuleMesh_oi3di")
+skeleton = NodePath("../../..")
+surface_material_override/0 = ExtResource("3_62n4q")

@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://busmvxaat6dqv"]
+
+[ext_resource type="Script" uid="uid://dnu6hgtxtai7j" path="res://world/buildings/Shield.gd" id="1_5dv8q"]
+[ext_resource type="Material" uid="uid://f1ntunbkapvi" path="res://materials/BaseShieldMaterial.tres" id="1_5yvm2"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_5dv8q"]
+radial_segments = 48
+rings = 24
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_5dv8q"]
+radius = 1.9
+
+[node name="Shield" type="Area3D"]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("1_5dv8q")
+
+[node name="HaloMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(3.77, 0, 0, 0, 3.77, 0, 0, 0, 3.77, 0, 0.5879226, 0)
+mesh = SubResource("SphereMesh_5dv8q")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("1_5yvm2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+shape = SubResource("SphereShape3D_5dv8q")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

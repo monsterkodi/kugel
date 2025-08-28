@@ -2,12 +2,15 @@ extends Node
 
 func _ready():
     
+    %Builder.visible = false
+    %PauseMenu.visible = false
+    %BuildMenu.visible = false
     %Saver.load()
     
 func _input(event: InputEvent):
     
     if Input.is_action_just_pressed("pause"): togglePause(); return
-    if Input.is_action_just_pressed("build"): toggleBuild(); return
+    if Input.is_action_just_pressed("build"): buildMode(); return
     if Input.is_action_just_pressed("quit"):  quitGame();    return
     #if Input.is_action_just_pressed("save"): %Saver.save(); return
     #if Input.is_action_just_pressed("load"): %Saver.load(); return
@@ -31,17 +34,28 @@ func _input(event: InputEvent):
             #else:
                 #Log.log("unknown key", event.as_text(), Input.is_key_pressed(KEY_CTRL), Input.is_key_pressed(KEY_META), Input.is_key_pressed(KEY_ALT))
 
+func buildMode():
+    
+    if not %BuildMenu.visible:
+        toggleBuild()
+
 func toggleBuild():
     
     if not get_tree().paused:
+        if %Player.vehicle is RigidBody3D:
+            %Player.vehicle.linear_velocity = Vector3.ZERO
         pauseGame()
+        var trans:Transform3D = %Player.global_transform
+        trans.origin.y = 0
+        %Builder.appear(trans)
         %BuildMenu.showMenu()
-        %Builder.appear(%Player.global_transform)
         %Camera/Follow.target = %Builder.vehicle
     elif %BuildMenu.visible:
         %Camera/Follow.target = %Player
         %Builder.vanish()
         %BuildMenu.hideMenu()
+        if %Player.vehicle is RigidBody3D:
+            %Player.vehicle.linear_velocity = Vector3.ZERO
         resumeGame()
             
 func togglePause():
@@ -70,10 +84,7 @@ func quitGame():
 
 func onBuildItem(item):
     
-    Log.log("buildItem", item.name)
     %Builder.loadGhost(item.name)
-    %Builder.ghost.global_transform = %Player.global_transform
     
 func onBuilderDone():
     pass
-    #%Camera/Follow.target = %Player

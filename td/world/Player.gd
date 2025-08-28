@@ -22,7 +22,7 @@ func loadVehicle(vehicle_name:String):
     
 func _unhandled_input(_event: InputEvent) -> void:
     
-    if Input.is_action_just_pressed("alt_right", true):
+    if Input.is_action_just_pressed("alt_up", true):
         get_viewport().set_input_as_handled()
         position.y = 0
         match vehicleName:

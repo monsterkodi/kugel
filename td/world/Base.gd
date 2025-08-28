@@ -1,50 +1,28 @@
 class_name Base extends Node3D
 
-@export var maxBaseHitPoints   = 10
-@export var maxShieldHitPoints = 10
-
-var baseHitPoints:int
-var shieldHitPoints:int
+var hitPoints:int
 
 func _ready():
     
-    setBaseHitPoints(maxBaseHitPoints)
-    setShieldHitPoints(0)
+    setHitPoints(3)
 
 func onHit(): 
-    if shieldHitPoints:
-        setShieldHitPoints(shieldHitPoints - 1)
-    else:
-        setBaseHitPoints(baseHitPoints - 1)
+    setHitPoints(hitPoints - 1)
     Post.baseDamaged.emit(self)
         
 func ringParam(param:String, value:Variant):
     var mat:ShaderMaterial = %GroundCircles.get_surface_override_material(0)
     mat.set_shader_parameter(param, value)
 
-func setShieldHitPoints(hp):
+func setHitPoints(hp):
     
-    shieldHitPoints = clampi(hp, 0, maxShieldHitPoints)
-    Post.statChanged.emit("baseShieldHitPoints", shieldHitPoints)
-    if shieldHitPoints == 0:
-        onShieldDown()
-    else:
-        ringParam("num_rings", shieldHitPoints)
-    
-func setBaseHitPoints(hp):
-    
-    baseHitPoints = clampi(hp, 0, maxBaseHitPoints)
-    Post.statChanged.emit("baseHitPoints", baseHitPoints)
-    if baseHitPoints == 0:
+    hitPoints = clampi(hp, 0, 3)
+    Post.statChanged.emit("baseHitPoints", hitPoints)
+    if hitPoints == 0:
         onDeath()
     else:
-        ringParam("num_rings", baseHitPoints)
+        ringParam("num_rings", hitPoints)
         
-func onShieldDown():
-    
-    %Shield.visible = false       
-    ringParam("num_rings", baseHitPoints)
-
 func onDeath():
     
     Post.baseDestroyed.emit()
@@ -52,8 +30,11 @@ func onDeath():
     _ready()
 
 func _on_center_sphere_body_entered(body: Node):
-    #Log.log("collision with", body, body.get_groups())
+
     if body.is_in_group("enemy"):
+        if body.alive():
+            onHit()
+        else:
+            Post.corpseCollected.emit()
         body.queue_free()
-        onHit()
         

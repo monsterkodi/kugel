@@ -1,0 +1,1 @@
+class_name Slot extends MeshInstance3D

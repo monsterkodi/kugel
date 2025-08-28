@@ -5,10 +5,10 @@
 [resource]
 render_priority = -1
 shader = ExtResource("1_jh1op")
-shader_parameter/dot_color = Color(0.22166497, 0, 0, 1)
-shader_parameter/circleCount = 8.0
-shader_parameter/ringRadius = 0.6790000322525
-shader_parameter/circleRadius = 0.1850000087875
+shader_parameter/dot_color = Color(0.06, 0.06, 0.06, 1)
+shader_parameter/circleCount = 16.0
+shader_parameter/ringRadius = 0.6750000320625
+shader_parameter/circleRadius = 0.102000004845
 shader_parameter/depth_bias = 4.0
 shader_parameter/phase_degrees = 90.0
 shader_parameter/wave_degrees = 180.0

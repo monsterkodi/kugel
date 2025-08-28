@@ -5,10 +5,10 @@ func _ready() -> void:
     %Follow.target  = %Player
     %Follow.current = true
     
-func _input(event: InputEvent) -> void:
-    
-    if event.is_action_pressed("alt_left"):
-        toggleFreeFlight()
+#func _input(event: InputEvent):
+    #
+    #if event.is_action_pressed("alt_left"):
+        #toggleFreeFlight()
         
 func toggleFreeFlight():
     

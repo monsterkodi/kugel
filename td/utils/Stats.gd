@@ -1,6 +1,6 @@
 extends Node
 
-var numEnemiesSpawned  = 0
+var numEnemiesSpawned = 0
 
 func _ready():
     

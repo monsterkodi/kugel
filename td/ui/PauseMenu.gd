@@ -18,8 +18,10 @@ func _input(event: InputEvent):
         resumeGame.emit()
 
 func _on_visibility_changed():
+    
     if is_visible_in_tree():
-        %Resume.grab_focus()
+        if %Resume.is_inside_tree():
+            %Resume.grab_focus()
 
 func onButtonHover(button: Node): 
     button.grab_focus()

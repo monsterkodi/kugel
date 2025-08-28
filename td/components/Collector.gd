@@ -4,9 +4,10 @@ extends Node3D
 var corpses:Array[Enemy]
 
 func _ready():
+    
     %Light.position.y = radius
     %Light.omni_range = sqrt(radius*radius + radius*radius)
-    %Light.light_energy = radius * 0.04
+    %Light.light_energy = radius * 0.06
         
     %Shape.shape.radius = radius
     %Mesh.mesh.size = Vector2(radius*2, radius*2)
@@ -33,8 +34,8 @@ func bodyEntered(body:Node3D):
         var corpse:RigidBody3D = body
         corpse.mass = 0.01
         corpse.gravity_scale   = 0
-        corpse.collision_mask  = 0
-        corpse.collision_layer = 0
+        #corpse.collision_layer = 0
+        corpse.collision_mask  = Layer.LayerFloor
         corpse.linear_velocity = Vector3.ZERO
         var dir = global_position - corpse.global_position
         corpse.apply_central_impulse(dir*0.01)

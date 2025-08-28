@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://befrr3c5mskgo"]
+
+[ext_resource type="Script" uid="uid://7c1aiis7pati" path="res://world/SlotRing.gd" id="1_ocnf3"]
+
+[node name="SlotRing" type="Node3D"]
+script = ExtResource("1_ocnf3")

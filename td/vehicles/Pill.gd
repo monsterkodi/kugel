@@ -31,18 +31,24 @@ func _physics_process(delta:float):
 
     player.transform = transform
     
-func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
+func _integrate_forces(state: PhysicsDirectBodyState3D):
    
     var contactCount = get_contact_count() 
     
     state.linear_velocity = state.linear_velocity.limit_length(speed)
-    if Input.is_action_pressed("jump") and %JumpTimer.is_stopped():
+    
+    if Input.is_action_pressed("jump") and %JumpBlock.is_stopped():
         if contactCount > 0:
-            apply_central_impulse(Vector3.UP*60)
+            #apply_central_impulse(Vector3.UP*400)
             %JumpTimer.start()
+            
+    if not %JumpTimer.is_stopped():
+        apply_central_impulse(Vector3.UP * 100 * %JumpTimer.time_left/%JumpTimer.wait_time)
                     
     if dash > 0.99 and %DashBlock.is_stopped():
-        linear_velocity = Vector3.ZERO
+        #linear_velocity = Vector3.ZERO
+        state.linear_velocity.x = 0
+        state.linear_velocity.z = 0
         %DashBlock.start()
         %DashTimer.start()
         calcDashDir()
@@ -53,7 +59,7 @@ func _integrate_forces(state: PhysicsDirectBodyState3D) -> void:
         if contactCount > 1:
             %DashTimer.stop()
         else:
-            apply_central_impulse(dashDir * 300 * %DashTimer.time_left/%DashTimer.wait_time)
+            apply_central_impulse(dashDir * 200 * %DashTimer.time_left/%DashTimer.wait_time)
     else:
         calcDashDir()
      
@@ -75,8 +81,6 @@ func calcDashDir():
     if absf(xinp) < deadzone: xinp = 0
     if absf(yinp) < deadzone: yinp = 0
 
-    #if Input.is_key_pressed(KEY_LEFT):  xinp -= 0.1 
-    #if Input.is_key_pressed(KEY_RIGHT): xinp += 0.1 
     if Input.is_key_pressed(KEY_UP):    yinp -= 1 
     if Input.is_key_pressed(KEY_DOWN):  yinp += 1 
     if Input.is_key_pressed(KEY_A):  xinp -= 1 
@@ -107,7 +111,7 @@ func readInput(delta:float):
     %forward.add(-Input.get_joy_axis(0, JOY_AXIS_LEFT_Y))
     %forward.add(-Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y))
     dash = Input.get_joy_axis(0, JOY_AXIS_TRIGGER_RIGHT)
-    if Input.is_action_pressed("dash"):         dash = 1
+    if Input.is_action_just_pressed("dash"):    dash = 1
     
     if Input.is_action_pressed("forward"):      %forward.add( 1)
     if Input.is_action_pressed("backward"):     %forward.add(-1)

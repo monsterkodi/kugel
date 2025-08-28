@@ -9,8 +9,7 @@ var MAX_ALTI     = 3.0
 
 var STEER_SPEED  = 1.5
 
-func _ready():
-    %Body.position.y = 16.0
+@onready var body: Node3D = %Body
 
 func _process(delta:float):
     
@@ -24,8 +23,6 @@ func _process(delta:float):
     translate_object_local(Vector3.FORWARD * fs.y * dt)
     translate_object_local(Vector3.RIGHT   * fs.x * dt)
     
-    %Body.position.y = lerp(%Body.position.y, MAX_ALTI, 0.05)
-
 func readInput():
 
     %forward.zero()
@@ -34,8 +31,6 @@ func readInput():
     
     if Input.is_action_pressed("forward"):      %forward.add(1)
     if Input.is_action_pressed("backward"):     %forward.add(-1)
-    if Input.is_key_pressed(KEY_UP):            %forward.add(1)
-    if Input.is_key_pressed(KEY_DOWN):          %forward.add(-1)
     
     %strafe.zero()
     %strafe.add(Input.get_joy_axis(0, JOY_AXIS_LEFT_X))
@@ -43,8 +38,6 @@ func readInput():
     if Input.is_action_pressed("left"):         %strafe.add(-1)
     
     steer  = Input.get_joy_axis(0, JOY_AXIS_RIGHT_X)
-    if Input.is_action_pressed("steer_right"):  steer += 1
-    if Input.is_action_pressed("steer_left"):   steer -= 1
 
     if Input.is_action_pressed("faster"):   faster()
     if Input.is_action_pressed("slower"):   slower()

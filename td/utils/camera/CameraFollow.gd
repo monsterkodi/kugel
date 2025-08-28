@@ -17,7 +17,7 @@ var alti  := 2.5
 var pitch := 45.0
 var zoom  := 0.0
 
-func _ready() -> void:
+func _ready():
 
     translate_object_local(Vector3.FORWARD * -tail)
     translate_object_local(Vector3.UP * alti)
@@ -47,9 +47,8 @@ func _physics_process(delta:float):
     global_translate(Vector3.UP * alti)
 
 func readInput():
-
+    
     zoom = 0
-    #if Input.is_joy_button_pressed(0, JOY_BUTTON_DPAD_UP):   zoom += 1
-    #if Input.is_joy_button_pressed(0, JOY_BUTTON_DPAD_DOWN): zoom -= 1
-    if Input.is_action_pressed("ascend"):  zoom -= 1
-    if Input.is_action_pressed("descend"): zoom += 1
+    if not get_tree().paused:
+        if Input.is_action_pressed("ascend"):  zoom -= 1
+        if Input.is_action_pressed("descend"): zoom += 1

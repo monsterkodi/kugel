@@ -18,7 +18,7 @@ func _ready() -> void:
         Log.log("Attraction - no target!", targetPath, get_path())
     
 func toTarget(): return (targetNode.global_position - get_parent_node_3d().global_position)
-func applyImpulse(): get_parent_node_3d().apply_central_impulse(toTarget().normalized() * impulse)
+func applyImpulse(): get_parent_node_3d().apply_central_impulse(toTarget().normalized() * impulse * get_parent_node_3d().mass)
     
 func _physics_process(_delta: float):
     

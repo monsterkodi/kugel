@@ -19,7 +19,6 @@ contact_monitor = true
 max_contacts_reported = 2
 linear_damp = 0.2
 script = ExtResource("2_2hac7")
-maxHealth = 100.0
 
 [node name="Mesh" type="MeshInstance3D" parent="."]
 mesh = SubResource("SphereMesh_s7bn3")

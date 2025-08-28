@@ -2,7 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://rnx540ue12et" path="res://ui/theme/BuildMenuTheme.tres" id="1_0oqca"]
 [ext_resource type="ButtonGroup" uid="uid://dmsauvumaa32t" path="res://ui/BuildMenuButtonGroup.tres" id="2_f54gh"]
-[ext_resource type="PackedScene" uid="uid://kktahfiaqllg" path="res://world/Turret.tscn" id="3_6hmcv"]
+[ext_resource type="PackedScene" uid="uid://kktahfiaqllg" path="res://world/buildings/Turret.tscn" id="3_6hmcv"]
 [ext_resource type="Script" uid="uid://db85fb86bo305" path="res://ui/FocusOnHover.gd" id="4_5vfwm"]
 [ext_resource type="PackedScene" uid="uid://cqehuu06xxkum" path="res://vehicles/Car.tscn" id="5_0deug"]
 [ext_resource type="PackedScene" uid="uid://sfii31yqj6q5" path="res://vehicles/Heli.tscn" id="6_45evs"]
