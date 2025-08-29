@@ -24,8 +24,9 @@ func deductPriceForBuilding(building):
     deductPrice(price)
     
 func priceForBuilding(building):
-    Log.log("priceForBuilding", building)
+    #Log.log("priceForBuilding", building)
     match building:
+        "Laser":   return 40
         "Shield":  return 20
         "Turret":  return 10
         "Bouncer": return 5
@@ -43,7 +44,7 @@ func deductPrice(price):
 func setBalance(newBalance):
     
     balance = max(newBalance, 0)
-    Log.log("balance", balance)
+    #Log.log("balance", balance)
     Post.statChanged.emit("balance", balance)
     
 func on_save(data:Dictionary):

@@ -29,7 +29,7 @@ func showMenu():
     while %Buttons.get_child_count():
         %Buttons.remove_child(%Buttons.get_child(0))
     
-    for building in ["Pole", "Turret", "Bouncer", "Shield"]:
+    for building in ["Pole", "Turret", "Bouncer", "Laser", "Shield"]:
         if Wallet.balance >= Wallet.priceForBuilding(building):    
             addButton(building)
     

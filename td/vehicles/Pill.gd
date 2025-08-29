@@ -39,14 +39,12 @@ func _integrate_forces(state: PhysicsDirectBodyState3D):
     
     if Input.is_action_pressed("jump") and %JumpBlock.is_stopped():
         if contactCount > 0:
-            #apply_central_impulse(Vector3.UP*400)
             %JumpTimer.start()
             
     if not %JumpTimer.is_stopped():
         apply_central_impulse(Vector3.UP * 100 * %JumpTimer.time_left/%JumpTimer.wait_time)
                     
     if dash > 0.99 and %DashBlock.is_stopped():
-        #linear_velocity = Vector3.ZERO
         state.linear_velocity.x = 0
         state.linear_velocity.z = 0
         %DashBlock.start()

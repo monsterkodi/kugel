@@ -19,13 +19,14 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-MathUtils="*res://utils/MathUtils.gd"
 Layer="*res://utils/Layer.gd"
 Post="*res://utils/Post.gd"
-fps_graph="*res://addons/fps_graph/fps_graph.tscn"
 Stats="*res://utils/Stats.gd"
 Colors="res://utils/Colors.gd"
 Wallet="*res://world/Wallet.gd"
+MathUtils="*res://utils/MathUtils.gd"
+MeshUtils="*res://utils/MeshUtils.gd"
+fps_graph="*res://addons/fps_graph/fps_graph.tscn"
 
 [debug]
 

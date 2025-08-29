@@ -1,1 +1,1 @@
-class_name Pole extends Node3D
+class_name Pole extends Building

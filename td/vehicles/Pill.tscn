@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://g0r24pl51awh"]
+[gd_scene load_steps=10 format=3 uid="uid://g0r24pl51awh"]
 
 [ext_resource type="PhysicsMaterial" uid="uid://dms3d8q358dik" path="res://materials/physics/PlayerPhysics.tres" id="1_5m86e"]
 [ext_resource type="Script" uid="uid://ch8rdi5m570e7" path="res://vehicles/Pill.gd" id="1_on1es"]
@@ -10,6 +10,26 @@
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dromu"]
 radius = 0.25
 height = 1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vevl4"]
+transparency = 1
+blend_mode = 4
+depth_draw_mode = 1
+shading_mode = 0
+disable_ambient_light = true
+disable_fog = true
+disable_specular_occlusion = true
+albedo_color = Color(0, 0, 0, 0.2627451)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vj03p"]
+transparency = 1
+blend_mode = 4
+depth_draw_mode = 1
+shading_mode = 0
+disable_ambient_light = true
+disable_fog = true
+disable_specular_occlusion = true
+albedo_color = Color(1.7212527, 0.8493732, 0, 0.34509805)
 
 [node name="Pill" type="RigidBody3D"]
 process_mode = 1
@@ -73,4 +93,9 @@ radius = 5
 
 [node name="LaserPointer" parent="." instance=ExtResource("6_vevl4")]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+radiusTip = 0.01
+radiusBase = 0.04
+laserRange = 5.0
+passiveMat = SubResource("StandardMaterial3D_vevl4")
+activeMat = SubResource("StandardMaterial3D_vj03p")

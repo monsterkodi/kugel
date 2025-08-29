@@ -2,6 +2,7 @@ extends Node
 
 func _ready():
     
+    
     %Builder.visible = false
     %PauseMenu.visible = false
     %BuildMenu.visible = false
@@ -36,6 +37,7 @@ func _input(event: InputEvent):
 
 func buildMode():
     
+    MeshUtils.buildingClassNames()
     if not %BuildMenu.visible:
         toggleBuild()
 

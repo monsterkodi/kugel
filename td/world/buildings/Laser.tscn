@@ -1,12 +1,12 @@
-[gd_scene load_steps=14 format=3 uid="uid://kktahfiaqllg"]
+[gd_scene load_steps=16 format=3 uid="uid://dfa3dn75qvqpn"]
 
-[ext_resource type="Script" uid="uid://tsel3doxtedq" path="res://world/buildings/Turret.gd" id="1_w3f5i"]
-[ext_resource type="Material" uid="uid://vyhfqa37hcxi" path="res://materials/LackBlue.tres" id="2_vc5tq"]
-[ext_resource type="PhysicsMaterial" uid="uid://cxmvb6atqbyf0" path="res://materials/physics/DefaultPhysics.tres" id="3_vc5tq"]
-[ext_resource type="Script" uid="uid://v00gxfdr7qyk" path="res://components/Emitter.gd" id="4_d3wxe"]
-[ext_resource type="Material" uid="uid://b1gsuujsn28vt" path="res://materials/TurretSensorMaterial.tres" id="4_vc5tq"]
-[ext_resource type="PackedScene" uid="uid://b4x04vstro86m" path="res://world/Bullet.tscn" id="5_lugvd"]
-[ext_resource type="Material" uid="uid://du8bjg8b10yx2" path="res://materials/TurretBaseMaterial.tres" id="8_kyse0"]
+[ext_resource type="Script" uid="uid://chm30gbe4og0n" path="res://world/buildings/Laser.gd" id="1_6q26n"]
+[ext_resource type="Material" uid="uid://bcomnioqak46l" path="res://materials/PillMaterial.tres" id="2_hjr40"]
+[ext_resource type="PhysicsMaterial" uid="uid://cxmvb6atqbyf0" path="res://materials/physics/DefaultPhysics.tres" id="3_mxbe4"]
+[ext_resource type="PackedScene" uid="uid://bv5vo4rgym2a7" path="res://components/LaserPointer.tscn" id="4_hjr40"]
+[ext_resource type="Material" uid="uid://b1gsuujsn28vt" path="res://materials/TurretSensorMaterial.tres" id="6_f4mat"]
+[ext_resource type="Shader" uid="uid://b7lpd6h1smubj" path="res://materials/visual/CircleMatVis.tres" id="7_4njab"]
+[ext_resource type="Material" uid="uid://du8bjg8b10yx2" path="res://materials/TurretBaseMaterial.tres" id="8_2ild4"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_w3f5i"]
 radius = 0.25
@@ -27,8 +27,19 @@ radius = 1.0
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_iwplw"]
 height = 1.0
 
-[node name="Turret" type="Node3D" groups=["level_reset"]]
-script = ExtResource("1_w3f5i")
+[sub_resource type="PlaneMesh" id="PlaneMesh_kyse0"]
+size = Vector2(0.1, 0.1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6q26n"]
+render_priority = 0
+shader = ExtResource("7_4njab")
+shader_parameter/Color = Color(1, 0, 0, 0.4627451)
+shader_parameter/OuterRadius = 0.999999977648
+shader_parameter/InnerRadius = 0.5
+
+[node name="Laser" type="Node3D" groups=["level_reset"]]
+script = ExtResource("1_6q26n")
+radius = 8.0
 
 [node name="BarrelTarget" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
@@ -41,23 +52,22 @@ transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 1
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
 mesh = SubResource("CapsuleMesh_w3f5i")
-surface_material_override/0 = ExtResource("2_vc5tq")
+surface_material_override/0 = ExtResource("2_hjr40")
 
 [node name="AnimatableBody3D" type="AnimatableBody3D" parent="BarrelPivot"]
 collision_layer = 4
 collision_mask = 0
-physics_material_override = ExtResource("3_vc5tq")
+physics_material_override = ExtResource("3_mxbe4")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="BarrelPivot/AnimatableBody3D"]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
 shape = SubResource("CapsuleShape3D_iwplw")
 
-[node name="Emitter" type="Node3D" parent="BarrelPivot"]
+[node name="LaserPointer" parent="BarrelPivot" instance=ExtResource("4_hjr40")]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.51348495)
-script = ExtResource("4_d3wxe")
-bullet = ExtResource("5_lugvd")
-metadata/_custom_type_script = "uid://v00gxfdr7qyk"
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.556708e-08, -0.24684334)
+radiusTip = 0.01
+radiusBase = 0.04999999999999999
 
 [node name="Sensor" type="Area3D" parent="."]
 unique_name_in_owner = true
@@ -71,7 +81,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
 cast_shadow = 0
 mesh = SubResource("PlaneMesh_vc5tq")
 skeleton = NodePath("../..")
-surface_material_override/0 = ExtResource("4_vc5tq")
+surface_material_override/0 = ExtResource("6_f4mat")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Sensor"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -82,15 +92,21 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 collision_layer = 4
 collision_mask = 0
-physics_material_override = ExtResource("3_vc5tq")
+physics_material_override = ExtResource("3_mxbe4")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Base"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 mesh = SubResource("CapsuleMesh_km8to")
-surface_material_override/0 = ExtResource("8_kyse0")
+surface_material_override/0 = ExtResource("8_2ild4")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Base"]
 shape = SubResource("CylinderShape3D_iwplw")
+
+[node name="LaserDot" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_kyse0")
+surface_material_override/0 = SubResource("ShaderMaterial_6q26n")
 
 [connection signal="body_entered" from="Sensor" to="." method="_on_sensor_body_entered"]
 [connection signal="body_exited" from="Sensor" to="." method="_on_sensor_body_exited"]

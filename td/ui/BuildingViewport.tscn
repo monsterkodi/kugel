@@ -26,9 +26,11 @@ transform = Transform3D(0.91790015, 0.23296532, -0.32122657, 0, 0.80951935, 0.58
 
 [node name="Camera" type="Camera3D" parent="Scene"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 0.8846705, 0.4662168, 0, -0.4662168, 0.8846705, 0.04812908, 2.433115, 2.7803106)
+transform = Transform3D(1, 0, 0, 0, 0.70710677, 0.70710677, 0, -0.70710677, 0.70710677, 0, 3.67, 3)
 current = true
-fov = 40.0
+fov = 56.1
+size = 0.05
+far = 100.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Scene"]
 environment = SubResource("Environment_gc87q")

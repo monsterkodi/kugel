@@ -1,11 +1,11 @@
-class_name Shield extends Node3D
+class_name Shield extends Building
 
-var inert = false
 var hitPoints:int
 
-func _ready():
-    
-    setHitPoints(3)
+func _enter_tree():
+
+    if not inert:
+        setHitPoints(3)
 
 func onHit():
     

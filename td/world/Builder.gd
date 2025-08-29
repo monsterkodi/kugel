@@ -57,6 +57,7 @@ func loadGhost(ghostName:String):
         
     ghost = load("res://world/buildings/%s.tscn" % ghostName).instantiate()
     ghost.name = ghostName
+    ghost.inert = true
     get_parent_node_3d().add_child(ghost)
     ghost.global_transform = vehicle.global_transform
     var meshes = ghost.find_children("*Mesh*")

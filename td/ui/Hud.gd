@@ -11,11 +11,11 @@ func _ready():
     Post.statChanged.connect(statChanged)
     
 func statChanged(statName, value):
-    #Log.log("HUD.statChanged", statName, value)
+    Log.log("HUD.statChanged", statName, value)
     match statName:
         "balance":            balance.text = str(value)
         "baseHitPoints":      base.text    = str(value)
         "shieldHitPoints":    
-            shield.visible = value > 0
+            shield.visible = (value > 0)
             shield.text = "+ %d" % value 
         "numEnemiesSpawned":  spawned.text = str(value)

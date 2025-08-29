@@ -1,4 +1,4 @@
-extends Node3D
+class_name Turret extends Building
 
 @export var target : Node3D
 
@@ -21,16 +21,6 @@ extends Node3D
 
 var sensorBodies: Array[Node3D]
 var targetPos:Vector3
-var inert = false
-
-func level_reset():
-    
-    if inert: return
-    
-    var tween = get_tree().create_tween()
-    tween.set_ease(Tween.EASE_IN)
-    tween.tween_property(self, "position:y", -5, 0.5)
-    tween.finished.connect(queue_free)
 
 func setSensorRadius(r:float):  
 
@@ -107,14 +97,9 @@ func _on_sensor_body_exited(body: Node3D):
             target = sensorBodies.front()
         else:
             target = null
-            %LaserDot.visible = false
             %Emitter.stop()
             lookUp()
 
 func lookUp():
-    $BarrelTarget.look_at(global_position + Vector3.UP*10 + Vector3.RIGHT*0.001)
-
-func emitterShotFired():
     
-    %LaserDot.visible = true
-    %LaserDot.global_position = targetPos
+    $BarrelTarget.look_at(global_position + Vector3.UP*10 + Vector3.RIGHT*0.001)

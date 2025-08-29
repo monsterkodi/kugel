@@ -2,6 +2,7 @@ class_name Enemy extends RigidBody3D
 
 var mat:StandardMaterial3D
 var health = 1.0
+var damageAccum = 0.0
 
 func _ready():
     
@@ -39,22 +40,27 @@ func _integrate_forces(state: PhysicsDirectBodyState3D):
             var damage = minf(state.get_contact_impulse(i).length()*0.1, 1.5)
             applyDamage(damage, collider)
             
+    if damageAccum:
+        applyDamage(damageAccum, null)
+        damageAccum = 0
+            
     if health <= 0:
         if global_position.length_squared() > 2500:
             linear_velocity = linear_velocity.bounce(-global_position.normalized())
 
+func addDamage(damage:float):
+    
+    damageAccum += damage
+
 func applyDamage(damage:float, source:PhysicsBody3D):
-        
+    
     setMass(mass-damage)
     
     if health <= 0:
         health = 0
         mat.albedo_color = Color(0, 0, 0)
         $Attraction.targetNode = null
-        if source:
-            get_tree().create_timer(0.5).connect("timeout", func():Post.enemyDied.emit(self))
-        else:
-            Post.enemyDied.emit(self)
+        get_tree().create_timer(0.5).connect("timeout", func():Post.enemyDied.emit(self))
         
     if source is Bullet:
         source.queue_free()
