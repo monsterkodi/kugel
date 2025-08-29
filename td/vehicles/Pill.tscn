@@ -33,7 +33,7 @@ albedo_color = Color(1.7212527, 0.8493732, 0, 0.34509805)
 
 [node name="Pill" type="RigidBody3D"]
 process_mode = 1
-collision_mask = 3221225478
+collision_mask = 3221225734
 axis_lock_angular_x = true
 axis_lock_angular_z = true
 mass = 10.0

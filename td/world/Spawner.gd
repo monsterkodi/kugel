@@ -48,6 +48,7 @@ func nextSpawnLoop():
     mass     += mass_increment
     velocity += velocity_increment
     seconds  -= seconds_decrement
+    seconds   = maxf(seconds, 1.0)
     
 func preSpawn(value): 
     

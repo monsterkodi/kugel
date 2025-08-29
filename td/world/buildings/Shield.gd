@@ -6,7 +6,7 @@ func _enter_tree():
 
     if not inert:
         setHitPoints(3)
-
+        
 func onHit():
     
     setHitPoints(hitPoints - 1)
@@ -27,4 +27,4 @@ func _on_body_entered(body: Node3D):
     if body.is_in_group("enemy"):
         if body.alive():
             onHit()
-            body.queue_free()
+            body.die()

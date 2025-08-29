@@ -12,6 +12,9 @@ func _ready():
 func alive(): return health > 0
 func dead():  return health <= 0
 
+func die(): 
+    get_tree().create_timer(0.5).connect("timeout", func():Post.enemyDied.emit(self))
+    
 func setMass(m:float):
     
     mass = maxf(m, 0.5)
@@ -60,7 +63,7 @@ func applyDamage(damage:float, source:PhysicsBody3D):
         health = 0
         mat.albedo_color = Color(0, 0, 0)
         $Attraction.targetNode = null
-        get_tree().create_timer(0.5).connect("timeout", func():Post.enemyDied.emit(self))
+        die()
         
     if source is Bullet:
         source.queue_free()

@@ -27,7 +27,7 @@ func priceForBuilding(building):
     #Log.log("priceForBuilding", building)
     match building:
         "Laser":   return 40
-        "Shield":  return 20
+        #"Shield":  return 20
         "Turret":  return 10
         "Bouncer": return 5
         "Pole":    return 2

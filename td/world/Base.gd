@@ -7,6 +7,7 @@ func _ready():
     setHitPoints(3)
 
 func onHit(): 
+    
     setHitPoints(hitPoints - 1)
     Post.baseDamaged.emit(self)
         
