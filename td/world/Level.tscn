@@ -97,7 +97,7 @@ script = ExtResource("1_f0k3j")
 
 [node name="Floor" type="StaticBody3D" parent="."]
 collision_layer = 2147483648
-collision_mask = 11
+collision_mask = 43
 physics_material_override = ExtResource("2_dn5x0")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
@@ -143,7 +143,7 @@ metadata/_edit_lock_ = true
 
 [node name="SlotRing5" type="Node3D" parent="Floor/Slots"]
 script = ExtResource("3_5sqgi")
-numSlots = 32.0
+numSlots = 40.0
 radius = 25.0
 metadata/_custom_type_script = "uid://7c1aiis7pati"
 metadata/_edit_lock_ = true
@@ -155,6 +155,7 @@ metadata/_edit_lock_ = true
 
 [node name="RingWave1" type="MeshInstance3D" parent="Floor/Waves"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0030175415)
+visible = false
 cast_shadow = 0
 mesh = SubResource("PlaneMesh_052yy")
 skeleton = NodePath("../..")
@@ -162,6 +163,7 @@ surface_material_override/0 = SubResource("ShaderMaterial_vkdmv")
 metadata/_edit_lock_ = true
 
 [node name="RingDots1" type="MeshInstance3D" parent="Floor/Waves"]
+visible = false
 cast_shadow = 0
 mesh = SubResource("PlaneMesh_f0k3j")
 skeleton = NodePath("../..")
@@ -169,6 +171,7 @@ surface_material_override/0 = ExtResource("4_5sqgi")
 metadata/_edit_lock_ = true
 
 [node name="RingWave2" type="MeshInstance3D" parent="Floor/Waves"]
+visible = false
 cast_shadow = 0
 mesh = SubResource("PlaneMesh_5sqgi")
 skeleton = NodePath("../..")
@@ -176,6 +179,7 @@ surface_material_override/0 = SubResource("ShaderMaterial_052yy")
 metadata/_edit_lock_ = true
 
 [node name="RingDots2" type="MeshInstance3D" parent="Floor/Waves"]
+visible = false
 cast_shadow = 0
 mesh = SubResource("PlaneMesh_jnau8")
 skeleton = NodePath("../..")
@@ -184,6 +188,7 @@ metadata/_edit_lock_ = true
 
 [node name="RingWave3" type="MeshInstance3D" parent="Floor/Waves"]
 transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0.003017477, 0, 0)
+visible = false
 cast_shadow = 0
 mesh = SubResource("PlaneMesh_vkdmv")
 skeleton = NodePath("../..")
@@ -191,14 +196,14 @@ surface_material_override/0 = SubResource("ShaderMaterial_jnau8")
 metadata/_edit_lock_ = true
 
 [node name="Node3D" type="Node3D" parent="."]
-transform = Transform3D(0.99556196, 0, 0.09410831, 0, 1, 0, -0.09410831, 0, 0.99556196, 0, 0, 0)
+transform = Transform3D(0.99619466, 0, 0.08715573, 0, 1, 0, -0.08715573, 0, 0.99619466, 0, 0, 0)
 
 [node name="Spawner" parent="Node3D" instance=ExtResource("11_sypgb")]
 transform = Transform3D(1.2665987e-07, 0, -1, 0, 1, 0, 1, 0, 1.2665987e-07, -2.3841858e-07, 0, -39.558113)
 spawnee = ExtResource("14_dn5x0")
 
 [node name="Node3D2" type="Node3D" parent="."]
-transform = Transform3D(0.99556196, 0, -0.09410831, 0, 1, 0, 0.09410831, 0, 0.99556196, 0, 0, 0)
+transform = Transform3D(0.99619466, 0, -0.08715573, 0, 1, 0, 0.08715573, 0, 0.99619466, 0, 0, 0)
 
 [node name="Spawner" parent="Node3D2" instance=ExtResource("11_sypgb")]
 transform = Transform3D(1.3113416e-07, 0, -1, 0, 1, 0, 1, 0, 1.3113416e-07, 0, 0, -39.558113)

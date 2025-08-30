@@ -54,7 +54,10 @@ func calcTargetPos():
 func setTargetPos(pos:Vector3):
     
     targetPos = pos
-    var up = (Vector3.UP + global_position.normalized()*-0.01).normalized()
+    var dir = Vector3(-0.01,0,0)
+    if not global_position.is_zero_approx():
+        dir = global_position.normalized()*-0.01
+    var up = (Vector3.UP + dir).normalized()
     #var tn = (targetPos-global_position).normalized()
     #if tn.dot(up) == 1.0:
         #up = global_position.normalized()

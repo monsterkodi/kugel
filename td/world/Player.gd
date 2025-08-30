@@ -3,9 +3,10 @@ extends Node3D
 var vehicleName := "Pill"
 var vehicle : Node3D
 
-func _ready() -> void:
+func _ready():
     
-    Log.log("ready player one", get_parent_node_3d())
+    #Log.log("ready player one", get_parent_node_3d())
+    loadVehicle.call_deferred("Pill")
 
 func loadVehicle(vehicle_name:String):
     
@@ -20,7 +21,7 @@ func loadVehicle(vehicle_name:String):
     else:
         add_child(vehicle)
     
-func _unhandled_input(_event: InputEvent) -> void:
+func _unhandled_input(_event: InputEvent):
     
     if Input.is_action_just_pressed("alt_up", true):
         get_viewport().set_input_as_handled()

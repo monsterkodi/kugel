@@ -11,6 +11,10 @@ var mouseRot = 0.0
 var mouseDelta = Vector2.ZERO
 var dashDir = Vector3.FORWARD
 
+func _ready():
+    
+    global_position = Vector3.UP
+
 func _physics_process(delta:float):
     
     readInput(delta)

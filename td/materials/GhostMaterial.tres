@@ -3,7 +3,7 @@
 [ext_resource type="Shader" uid="uid://6qt0ttc1mt1j" path="res://materials/shader/GhostMaterial.gdshader" id="1_gy2fk"]
 
 [resource]
-render_priority = 0
+render_priority = 10
 shader = ExtResource("1_gy2fk")
 shader_parameter/opacity = 20.0
 shader_parameter/ghost_color = Color(0.59575117, 1.853034e-06, 3.85046e-07, 1)

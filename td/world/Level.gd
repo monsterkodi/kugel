@@ -25,9 +25,7 @@ func on_load(data:Dictionary):
     
     get_tree().call_group("level", "level_load")
     
-    #Log.log("on_load", data.Level)
     for building in data.Level.buildings:
-        #Log.log("load building", building)
         var bld = load(building.type).instantiate()
         var slot = Info.slotForPos(building.position)
         if slot:

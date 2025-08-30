@@ -28,7 +28,8 @@ func setSensorRadius(r:float):
     
 func _ready():
     
-    look_at(Vector3.ZERO)
+    if not global_position.is_zero_approx():
+        look_at(Vector3.ZERO)
     
     %Emitter.delay    = emitter_delay
     %Emitter.interval = emitter_interval
