@@ -19,7 +19,7 @@ class_name Turret extends Building
 @export_range(0.1, 100, 0.1) var emitter_mass:float = 1:
     set(v): emitter_mass = v; %Emitter.mass = v
 
-var sensorBodies: Array[Node3D]
+var sensorBodies:Array[Node3D]
 var targetPos:Vector3
 
 func setSensorRadius(r:float):  
@@ -27,6 +27,8 @@ func setSensorRadius(r:float):
     if %Sensor: %Sensor.scale = Vector3(r, 1, r)
     
 func _ready():
+    
+    look_at(Vector3.ZERO)
     
     %Emitter.delay    = emitter_delay
     %Emitter.interval = emitter_interval
@@ -39,8 +41,10 @@ func _ready():
         $BarrelTarget.look_at(target.global_position)
     else:
         lookUp()
+        
+    super._ready()
 
-func _process(_delta:float):
+func _physics_process(_delta:float):
     
     if target and target is Enemy:
         if target.health <= 0:

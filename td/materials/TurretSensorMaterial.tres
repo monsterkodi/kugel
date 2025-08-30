@@ -3,8 +3,8 @@
 [ext_resource type="Shader" uid="uid://b7lpd6h1smubj" path="res://materials/visual/CircleMatVis.tres" id="1_7lrnw"]
 
 [resource]
-render_priority = 0
+render_priority = 1
 shader = ExtResource("1_7lrnw")
-shader_parameter/Color = Color(0.39, 0.39, 1, 0.023529412)
+shader_parameter/Color = Color(0.26870733, 0.23365116, 1, 1)
 shader_parameter/OuterRadius = 1.0
-shader_parameter/InnerRadius = 0.499999988824
+shader_parameter/InnerRadius = 0.97999997809504

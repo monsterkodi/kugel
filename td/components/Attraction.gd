@@ -16,6 +16,11 @@ func _ready():
     
     if not targetPath.is_empty():
         targetNode = get_node(targetPath)
+
+func disable():
+    
+    set_process(false)
+    set_physics_process(false)
     
 func targetPos(): 
     if targetNode: 

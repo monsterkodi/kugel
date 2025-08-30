@@ -1,7 +1,7 @@
 extends CanvasLayer
 
 const HISTORY = 1920/4
-const HEIGHT  = 60.0
+const HEIGHT  = 20.0
 const LINEW   = 4
 
 var fps_history: Array[float] = []

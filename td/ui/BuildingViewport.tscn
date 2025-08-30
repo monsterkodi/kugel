@@ -36,10 +36,6 @@ far = 100.0
 environment = SubResource("Environment_gc87q")
 camera_attributes = SubResource("CameraAttributesPractical_1rv78")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Scene"]
+[node name="Floor" type="MeshInstance3D" parent="Scene"]
 mesh = SubResource("PlaneMesh_yo4bm")
 surface_material_override/0 = ExtResource("2_0gnvr")
-
-[node name="Shield" type="Node3D" parent="Scene"]
-unique_name_in_owner = true
-visible = false

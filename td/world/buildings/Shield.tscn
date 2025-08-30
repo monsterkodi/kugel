@@ -18,7 +18,7 @@ metadata/_custom_type_script = "uid://bisy5vkf6ejho"
 
 [node name="ShieldBody" type="RigidBody3D" parent="."]
 collision_layer = 256
-collision_mask = 3
+collision_mask = 2
 mass = 20.0
 physics_material_override = ExtResource("1_78rkl")
 gravity_scale = 0.0
@@ -26,10 +26,13 @@ contact_monitor = true
 max_contacts_reported = 2
 linear_damp = 2.0
 
-[node name="HaloMesh" type="MeshInstance3D" parent="ShieldBody"]
+[node name="Halos" type="Node3D" parent="ShieldBody"]
+unique_name_in_owner = true
+
+[node name="HaloMesh" type="MeshInstance3D" parent="ShieldBody/Halos"]
 transform = Transform3D(3.77, 0, 0, 0, 3.77, 0, 0, 0, 3.77, 0, 0.5879226, 0)
 mesh = SubResource("SphereMesh_5dv8q")
-skeleton = NodePath("../../..")
+skeleton = NodePath("../../../..")
 surface_material_override/0 = ExtResource("1_5yvm2")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ShieldBody"]

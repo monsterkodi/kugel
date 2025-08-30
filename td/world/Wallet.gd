@@ -5,7 +5,7 @@ var balance:int = 0
 func _ready():
     
     add_to_group("save")
-    Post.buildingPlaced.connect(deductPriceForBuilding)
+    Post.buildingBought.connect(deductPriceForBuilding)
     Post.corpseCollected.connect(addRewardForCorpseCollected)
     Post.statChanged.emit("balance", balance)
     
@@ -20,18 +20,7 @@ func rewardForCorpseCollected():
     
 func deductPriceForBuilding(building):
 
-    var price = priceForBuilding(building)
-    deductPrice(price)
-    
-func priceForBuilding(building):
-    #Log.log("priceForBuilding", building)
-    match building:
-        "Laser":   return 40
-        #"Shield":  return 20
-        "Turret":  return 10
-        "Bouncer": return 5
-        "Pole":    return 2
-        _:         return 0
+    deductPrice(Info.priceForBuilding(building))
     
 func addPrice(price):
     

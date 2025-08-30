@@ -1,10 +1,9 @@
-[gd_scene load_steps=16 format=3 uid="uid://dfa3dn75qvqpn"]
+[gd_scene load_steps=14 format=3 uid="uid://dfa3dn75qvqpn"]
 
 [ext_resource type="Script" uid="uid://chm30gbe4og0n" path="res://world/buildings/Laser.gd" id="1_6q26n"]
 [ext_resource type="Material" uid="uid://bcomnioqak46l" path="res://materials/PillMaterial.tres" id="2_hjr40"]
 [ext_resource type="PhysicsMaterial" uid="uid://cxmvb6atqbyf0" path="res://materials/physics/DefaultPhysics.tres" id="3_mxbe4"]
 [ext_resource type="PackedScene" uid="uid://bv5vo4rgym2a7" path="res://components/LaserPointer.tscn" id="4_hjr40"]
-[ext_resource type="Material" uid="uid://b1gsuujsn28vt" path="res://materials/TurretSensorMaterial.tres" id="6_f4mat"]
 [ext_resource type="Shader" uid="uid://b7lpd6h1smubj" path="res://materials/visual/CircleMatVis.tres" id="7_4njab"]
 [ext_resource type="Material" uid="uid://du8bjg8b10yx2" path="res://materials/TurretBaseMaterial.tres" id="8_2ild4"]
 
@@ -16,8 +15,6 @@ radial_segments = 24
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_iwplw"]
 radius = 0.25
 height = 1.0
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_vc5tq"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_vc5tq"]
 radius = 1.0
@@ -37,11 +34,12 @@ shader_parameter/Color = Color(1, 0, 0, 0.4627451)
 shader_parameter/OuterRadius = 0.999999977648
 shader_parameter/InnerRadius = 0.5
 
-[node name="Laser" type="Node3D" groups=["level_reset"]]
+[node name="Laser" type="Node3D"]
 script = ExtResource("1_6q26n")
 radius = 8.0
+metadata/_custom_type_script = "uid://bisy5vkf6ejho"
 
-[node name="BarrelTarget" type="Node3D" parent="."]
+[node name="Target" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 
 [node name="BarrelPivot" type="Node3D" parent="."]
@@ -75,13 +73,6 @@ collision_layer = 0
 collision_mask = 2
 input_ray_pickable = false
 monitorable = false
-
-[node name="SensorPlane" type="MeshInstance3D" parent="Sensor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
-cast_shadow = 0
-mesh = SubResource("PlaneMesh_vc5tq")
-skeleton = NodePath("../..")
-surface_material_override/0 = ExtResource("6_f4mat")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Sensor"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)

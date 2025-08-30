@@ -5,5 +5,3 @@
 [node name="Builder" type="Node3D" groups=["player"]]
 process_mode = 2
 script = ExtResource("1_0gt1h")
-
-[connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]

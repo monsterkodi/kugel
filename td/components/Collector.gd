@@ -24,9 +24,9 @@ func _physics_process(delta:float):
             corpses.erase(corpse)
             Post.corpseCollected.emit()
         else:
-            var scl = clampf(dst/radius, 0, 1)
+            var scl = clampf(dst/radius, 0.3, 1)
             corpse.scale = corpse.scale.limit_length(scl)
-            corpse.apply_central_impulse(dir*delta)
+            corpse.apply_central_impulse(dir*delta*0.1)
 
 func bodyEntered(body:Node3D):
 
@@ -34,12 +34,10 @@ func bodyEntered(body:Node3D):
         var corpse:RigidBody3D = body
         corpse.mass = 0.01
         corpse.gravity_scale   = 0
-        #corpse.collision_layer = 0
         corpse.collision_mask  = Layer.LayerFloor
         corpse.linear_velocity = Vector3.ZERO
-        var dir = global_position - corpse.global_position
-        corpse.apply_central_impulse(dir*0.01)
-        
+        #var dir = global_position - corpse.global_position
+        #corpse.apply_central_impulse(dir*0.01)
         corpses.append(corpse)
 
 func onEnemyDied(enemy:Enemy):

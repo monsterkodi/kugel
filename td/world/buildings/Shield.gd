@@ -2,10 +2,11 @@ class_name Shield extends Building
 
 var hitPoints:int
 
-func _enter_tree():
+func _ready():
 
-    if not inert:
-        setHitPoints(3)
+    setHitPoints(6)
+    
+    super._ready()
         
 func onHit():
     
@@ -17,7 +18,17 @@ func setHitPoints(hp):
     hitPoints = maxi(0, hp)
     if hitPoints == 0:
         onShieldDown()
-    Post.statChanged.emit("shieldHitPoints", hitPoints)
+    
+    if not inert:
+        Post.statChanged.emit("shieldHitPoints", hitPoints)
+    
+    while %Halos.get_child_count() < hitPoints:
+        var clone = %Halos.get_child(0).duplicate()
+        var s = clone.scale.x + ((3.0/hitPoints)*%Halos.get_child_count())
+        clone.scale = Vector3(s,s,s)
+        %Halos.add_child(clone)
+    while %Halos.get_child_count() > hitPoints:
+        %Halos.get_child(-1).free()
 
 func onShieldDown():
     queue_free()

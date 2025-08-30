@@ -2,16 +2,18 @@ extends Node
 
 func _ready():
     
-    
-    %Builder.visible = false
+    Engine.time_scale = 1
+    Engine.physics_ticks_per_second = int(60 * Engine.time_scale)
+
+    %Builder.visible   = false
     %PauseMenu.visible = false
     %BuildMenu.visible = false
-    %Saver.load()
+    %Saver.load.call_deferred()
     
 func _input(event: InputEvent):
     
     if Input.is_action_just_pressed("pause"): togglePause(); return
-    if Input.is_action_just_pressed("build"): buildMode(); return
+    if Input.is_action_just_pressed("build"): buildMode();   return
     if Input.is_action_just_pressed("quit"):  quitGame();    return
     #if Input.is_action_just_pressed("save"): %Saver.save(); return
     #if Input.is_action_just_pressed("load"): %Saver.load(); return
@@ -24,7 +26,7 @@ func _input(event: InputEvent):
         if event.keycode not in [KEY_CTRL, KEY_META, KEY_ALT, KEY_SHIFT]:        
             if  Input.is_key_pressed(KEY_CTRL) or \
                 Input.is_key_pressed(KEY_META) or \
-                Input.is_key_pressed(KEY_ALT) or \
+                Input.is_key_pressed(KEY_ALT)  or \
                 Input.is_key_pressed(KEY_SHIFT):
                 
                 var shortcut = event.as_text()
@@ -37,7 +39,6 @@ func _input(event: InputEvent):
 
 func buildMode():
     
-    MeshUtils.buildingClassNames()
     if not %BuildMenu.visible:
         toggleBuild()
 
@@ -83,10 +84,11 @@ func quitGame():
     
     %Saver.save()
     get_tree().quit()
-
-func onBuildItem(item):
     
-    %Builder.loadGhost(item.name)
+func saveGame():
     
-func onBuilderDone():
-    pass
+    %Saver.save()
+    
+func loadGame():
+    
+    %Saver.load()

@@ -72,8 +72,8 @@ func calcDashDir():
         mouseRot = clampf(mouseRot,-PI, PI)
     mouseRot = lerpf(mouseRot, 0.0, 0.01)
 
-    var xinp = Input.get_joy_axis(0, JOY_AXIS_LEFT_X) + Input.get_joy_axis(0, JOY_AXIS_RIGHT_X)
-    var yinp = Input.get_joy_axis(0, JOY_AXIS_LEFT_Y) + Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y)
+    var xinp = Input.get_joy_axis(0, JOY_AXIS_LEFT_X) #+ Input.get_joy_axis(0, JOY_AXIS_RIGHT_X)
+    var yinp = Input.get_joy_axis(0, JOY_AXIS_LEFT_Y) #+ Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y)
     
     const deadzone = 0.25
     if absf(xinp) < deadzone: xinp = 0
@@ -96,6 +96,8 @@ func calcDashDir():
     if Input.is_key_pressed(KEY_LEFT):   mouseRot -= 0.01
     if Input.is_key_pressed(KEY_RIGHT):  mouseRot += 0.01
     
+    mouseRot += Input.get_joy_axis(0, JOY_AXIS_RIGHT_X) * 0.01
+    
     if mouseRot:
         dir = dir.rotated(Vector3.UP, -mouseRot)
     
@@ -107,7 +109,7 @@ func readInput(delta:float):
     
     %forward.zero()
     %forward.add(-Input.get_joy_axis(0, JOY_AXIS_LEFT_Y))
-    %forward.add(-Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y))
+    #%forward.add(-Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y))
     dash = Input.get_joy_axis(0, JOY_AXIS_TRIGGER_RIGHT)
     if Input.is_action_just_pressed("dash"):    dash = 1
     

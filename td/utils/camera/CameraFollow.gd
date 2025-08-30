@@ -32,8 +32,6 @@ func _physics_process(delta:float):
     var pt = get_parent_node_3d()
     pt.transform = target.transform.interpolate_with(pt.transform, INTERPOL)
     
-    %GlowDot.global_position = target.position
-    
     dist += zoom * ZOOM_SPEED * delta 
     dist = clampf(dist, 0, 1)
     
@@ -49,6 +47,8 @@ func _physics_process(delta:float):
 func readInput():
     
     zoom = 0
-    if not get_tree().paused:
-        if Input.is_action_pressed("ascend"):  zoom -= 1
-        if Input.is_action_pressed("descend"): zoom += 1
+    
+    zoom = Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y)
+    #if not get_tree().paused:
+    if Input.is_action_pressed("ascend"):  zoom -= 1
+    if Input.is_action_pressed("descend"): zoom += 1

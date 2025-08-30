@@ -1,8 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://b6mskrm1n176r"]
+[gd_scene load_steps=12 format=3 uid="uid://b6mskrm1n176r"]
 
 [ext_resource type="Script" uid="uid://b6inujglidn5n" path="res://world/World.gd" id="1_eu7l1"]
 [ext_resource type="PackedScene" uid="uid://wo631fluqa0p" path="res://world/Level.tscn" id="2_p1v5b"]
-[ext_resource type="Script" uid="uid://dm5k4y4py5jhc" path="res://world/Level.gd" id="3_bah7m"]
 [ext_resource type="PackedScene" uid="uid://baj5gp1mlm380" path="res://world/Player.tscn" id="3_wygdx"]
 [ext_resource type="PackedScene" uid="uid://b7w2vlfbvmfq7" path="res://utils/camera/Camera.tscn" id="4_bah7m"]
 [ext_resource type="PackedScene" uid="uid://bsyn633trcvrm" path="res://world/Builder.tscn" id="5_0n6y5"]
@@ -17,6 +16,7 @@ background_mode = 1
 background_color = Color(0.2522139, 0.2522139, 0.2522139, 1)
 ambient_light_source = 2
 ambient_light_color = Color(0.2484, 0.2484, 0.2484, 1)
+tonemap_exposure = 0.8
 ssao_intensity = 16.0
 ssao_power = 0.123703785
 sdfgi_read_sky_light = false
@@ -35,10 +35,9 @@ script = ExtResource("1_eu7l1")
 
 [node name="Hud" parent="." instance=ExtResource("10_8mymi")]
 
-[node name="Level" parent="." groups=["game"] instance=ExtResource("2_p1v5b")]
+[node name="Level" parent="." groups=["level_reset"] instance=ExtResource("2_p1v5b")]
 unique_name_in_owner = true
 process_mode = 1
-script = ExtResource("3_bah7m")
 
 [node name="Player" parent="." groups=["game", "save"] instance=ExtResource("3_wygdx")]
 unique_name_in_owner = true
@@ -67,8 +66,8 @@ unique_name_in_owner = true
 [node name="BuildMenu" parent="." instance=ExtResource("9_crsqw")]
 unique_name_in_owner = true
 
-[connection signal="done" from="Builder" to="." method="onBuilderDone"]
+[connection signal="loadGame" from="PauseMenu" to="." method="loadGame"]
 [connection signal="quitGame" from="PauseMenu" to="." method="quitGame"]
 [connection signal="resumeGame" from="PauseMenu" to="." method="togglePause"]
-[connection signal="buildItem" from="BuildMenu" to="." method="onBuildItem"]
+[connection signal="saveGame" from="PauseMenu" to="." method="saveGame"]
 [connection signal="resumeGame" from="BuildMenu" to="." method="toggleBuild"]

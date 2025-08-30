@@ -1,4 +1,4 @@
-extends Control
+class_name HUD extends Control
 
 @onready var balance: Button = %Balance
 @onready var spawned: Button = %Spawned
@@ -11,7 +11,7 @@ func _ready():
     Post.statChanged.connect(statChanged)
     
 func statChanged(statName, value):
-    Log.log("HUD.statChanged", statName, value)
+    #Log.log("HUD.statChanged", statName, value)
     match statName:
         "balance":            balance.text = str(value)
         "baseHitPoints":      base.text    = str(value)

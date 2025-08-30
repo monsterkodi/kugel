@@ -29,7 +29,7 @@ func _ready():
     
     base.position.z = -baseOffset
     base.add_child(laser)
-    
+        
 func setLength(length):
     if laser:
         laser.mesh.height = length

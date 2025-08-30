@@ -1,14 +1,17 @@
 class_name Builder extends Node3D
 
-signal done
-
-var vehicle     : Node3D
-var ghost       : Node3D
 var vanishTween : Tween
 var appearTween : Tween
+var vehicle     : Node3D
+var ghost       : Node3D
+var targetSlot  : Node3D
 var targetPos   = Vector3(5, 0, 0)
 
 const GHOST_MATERIAL = preload("res://materials/BuilderGhostMaterial.tres")
+
+func _ready():
+    
+    Post.builderGhost.connect(loadGhost)
 
 func _input(event: InputEvent):
     
@@ -16,31 +19,39 @@ func _input(event: InputEvent):
     
         if Input.is_action_just_pressed("place_building"):
             get_viewport().set_input_as_handled()
-            var building = load(ghost.scene_file_path).instantiate()
-            Post.buildingPlaced.emit(building.name)
-            get_parent_node_3d().add_child(building)
-            building.global_position = targetPos
-            done.emit()
+            placeBuilding()
+            
+func placeBuilding():
+    
+    var building = load(ghost.scene_file_path).instantiate()
+    Post.buildingBought.emit(building.name)
+    building.inert = false
+    if targetSlot != get_parent_node_3d():
+        while targetSlot.get_child_count():
+            var old = targetSlot.get_child(0)
+            Wallet.addPrice(Info.priceForBuilding(old.type))
+            old.free()
+    targetSlot.add_child(building)
+    building.global_position = targetPos
+    building.look_at(Vector3.ZERO)
+    Post.buildingPlaced.emit(building.name)
 
 func _process(delta:float):
     
     if visible and ghost and vehicle:
-        
-        if ghost.name == "Shield":
-            targetPos = Vector3.ZERO
+        if ghost is Shield:
+            targetPos  = Vector3.ZERO
+            targetSlot = get_parent_node_3d()
         else:
-            var vehiclePos = vehicle.global_position
-            if vehiclePos.length() > 0.01:
-                var radius = snappedf(vehiclePos.length(), 5)
-                radius = clampf(radius, 5, 25)
-                var num:float = 32
-                match int(radius):
-                    5:  num = 8
-                    10: num = 16
-                    15: num = 24
-                var angle = snappedf(rad_to_deg(vehiclePos.signed_angle_to(Vector3.FORWARD, Vector3.UP)), 360/num)
-                targetPos = Vector3.FORWARD.rotated(Vector3.UP, -deg_to_rad(angle))*radius
+            findTargetPos()
         ghost.global_position = ghost.global_position.lerp(targetPos, 0.1)
+        
+func findTargetPos():
+    
+    var slot = Info.slotForPos(vehicle.global_position)    
+    if slot:
+        targetPos  = slot.global_position
+        targetSlot = slot
         
 func loadVehicle(vehicleName:String):
     
@@ -54,6 +65,9 @@ func loadGhost(ghostName:String):
     
     if ghost: 
         ghost.queue_free()
+        ghost = null
+        
+    if ghostName.is_empty(): return
         
     ghost = load("res://world/buildings/%s.tscn" % ghostName).instantiate()
     ghost.name = ghostName

@@ -20,19 +20,19 @@ func setHitPoints(hp):
     hitPoints = clampi(hp, 0, 3)
     Post.statChanged.emit("baseHitPoints", hitPoints)
     if hitPoints == 0:
-        onDeath()
+        onDeath.call_deferred()
     else:
         ringParam("num_rings", hitPoints)
         
 func onDeath():
     
     Post.baseDestroyed.emit()
-    get_tree().call_group("level_reset", "level_reset")
+    get_tree().call_group("level", "level_reset")
     _ready()
 
 func _on_center_sphere_body_entered(body: Node):
 
-    if body.is_in_group("enemy"):
+    if body is Enemy:
         if body.alive():
             onHit()
         else:

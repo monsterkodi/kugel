@@ -11,7 +11,7 @@ var STEER_SPEED  = 1.5
 
 @onready var body: Node3D = %Body
 
-func _process(delta:float):
+func _physics_process(delta:float):
     
     readInput()
     
@@ -27,7 +27,7 @@ func readInput():
 
     %forward.zero()
     %forward.add(-Input.get_joy_axis(0, JOY_AXIS_LEFT_Y))
-    %forward.add(-Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y))
+    #%forward.add(-Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y))
     
     if Input.is_action_pressed("forward"):      %forward.add(1)
     if Input.is_action_pressed("backward"):     %forward.add(-1)
@@ -37,7 +37,7 @@ func readInput():
     if Input.is_action_pressed("right"):        %strafe.add(1)
     if Input.is_action_pressed("left"):         %strafe.add(-1)
     
-    steer  = Input.get_joy_axis(0, JOY_AXIS_RIGHT_X)
+    steer = Input.get_joy_axis(0, JOY_AXIS_RIGHT_X)
 
     if Input.is_action_pressed("faster"):   faster()
     if Input.is_action_pressed("slower"):   slower()
