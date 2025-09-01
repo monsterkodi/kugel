@@ -1,11 +1,12 @@
 [gd_resource type="Resource" script_class="Card" load_steps=3 format=3 uid="uid://cuhldoeycainr"]
 
 [ext_resource type="PackedScene" uid="uid://be78v806wl6a5" path="res://world/buildings/Bouncer.tscn" id="1_7jphl"]
-[ext_resource type="Script" uid="uid://dcn508r6heipo" path="res://player/Card.gd" id="2_7jphl"]
+[ext_resource type="Script" uid="uid://dcn508r6heipo" path="res://player/CardRes.gd" id="2_7jphl"]
 
 [resource]
 script = ExtResource("2_7jphl")
 name = &"Bouncer"
 text = "A Bouncer that doesn't cost anything"
 scene = ExtResource("1_7jphl")
+maxNum = 5
 metadata/_custom_type_script = "uid://dcn508r6heipo"

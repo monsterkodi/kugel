@@ -13,8 +13,8 @@ func setCard(c:Card):
     
     card = c
     text = card.name
-    if card.scene:
-        %Scene.setScene(card.scene)
+    if card.res.scene:
+        %Scene.setScene(card.res.scene)
         
 func setWidth(width:int):
     

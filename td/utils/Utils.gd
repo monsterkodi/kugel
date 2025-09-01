@@ -12,6 +12,16 @@ func resourcesInDir(dir:String) -> Array[Resource]:
     for path in ResourceLoader.list_directory(dir):
         resources.append(load(dir + "/" + path))
     return resources
+    
+func allCards() -> Array[Card]:
+    
+    var cards:Array[Card] = []
+    var cardResources = resourcesInDir("res://cards")
+    for cardRes in cardResources:
+        var card:Card = Card.new()
+        card.setRes(cardRes)
+        cards.append(card)
+    return cards
 
 func resourceNamesInDir(dir:String) -> PackedStringArray:
 

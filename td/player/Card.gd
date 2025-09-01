@@ -1,6 +1,9 @@
 class_name Card
-extends Resource
+extends Node
 
-@export var name:StringName
-@export var text:String
-@export var scene:PackedScene
+@export var res:CardRes
+
+func setRes(cardRes:CardRes):
+    
+    res = cardRes
+    name = res.name

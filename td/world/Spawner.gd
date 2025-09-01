@@ -50,11 +50,10 @@ func level_reset():
         tween = null
     if spawnedBody: 
         spawnedBody.queue_free()
-    #_ready()
 
 func nextSpawnLoop():    
     
-    tween = get_tree().create_tween()
+    tween = create_tween()
     tween.tween_property(%Body, "position:y", 1.1, seconds/Info.enemySpeed).from(-1.2).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
     tween.parallel().tween_method(preSpawn, 0.0, 1.0, seconds/Info.enemySpeed)
     tween.tween_callback(ejectSpawnBody)
@@ -89,6 +88,6 @@ func ejectSpawnBody():
     
     Post.enemySpawned.emit()
     
-    tween = get_tree().create_tween()
+    tween = create_tween()
     tween.tween_property(%Body, "position:y", -1, seconds/(6.0*Info.enemySpeed)).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
     tween.tween_callback(nextSpawnLoop)

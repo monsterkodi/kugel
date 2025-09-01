@@ -6,9 +6,22 @@ func _ready():
     Post.cardChosen.connect(cardChosen)
     Post.handChosen.connect(handChosen)
     
+func _unhandled_input(event: InputEvent):
+    
+    if event.is_action_pressed("ui_cancel"):
+        Log.log("InputHandler.ui_cancel")
+        if get_tree().paused:
+            get_viewport().set_input_as_handled()
+            get_node("/root/World").togglePause.call_deferred()
+            return
+                
 func cardChosen(card:Card):
     
-    %Player.deck.addCard(card.duplicate())
+    if %Player.hand.cards.size() < Info.maxHandCards:
+        %Player.hand.addCard(card)
+    else:
+        %Player.deck.addCard(card)
+        
     appear(%HandChooser)
 
 func handChosen():
@@ -25,11 +38,16 @@ func showCardChooser(cards:Array):
     %CardChooser.setCards(cards)
     appear(%CardChooser)
     
-func appear(menu:Control):
+func appear(menu:Control, reverse=false):
     
     menu.show()
-    menu.anchor_top    = 1
-    menu.anchor_bottom = 2
+    if reverse:
+        menu.anchor_top    = -1
+        menu.anchor_bottom = 0
+    else:
+        menu.anchor_top    = 1
+        menu.anchor_bottom = 2
+        
     var tween = create_tween()
     tween.set_ease(Tween.EASE_OUT)
     tween.set_trans(Tween.TRANS_QUINT)

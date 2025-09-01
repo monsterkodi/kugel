@@ -1,7 +1,6 @@
-[gd_scene load_steps=16 format=3 uid="uid://b6mskrm1n176r"]
+[gd_scene load_steps=15 format=3 uid="uid://b6mskrm1n176r"]
 
 [ext_resource type="Script" uid="uid://b6inujglidn5n" path="res://world/World.gd" id="1_eu7l1"]
-[ext_resource type="PackedScene" uid="uid://wo631fluqa0p" path="res://world/Level.tscn" id="2_p1v5b"]
 [ext_resource type="PackedScene" uid="uid://baj5gp1mlm380" path="res://world/Player.tscn" id="3_wygdx"]
 [ext_resource type="PackedScene" uid="uid://b7w2vlfbvmfq7" path="res://utils/camera/Camera.tscn" id="4_bah7m"]
 [ext_resource type="PackedScene" uid="uid://bsyn633trcvrm" path="res://world/Builder.tscn" id="5_0n6y5"]
@@ -40,9 +39,6 @@ script = ExtResource("1_eu7l1")
 [node name="Hud" parent="." instance=ExtResource("10_8mymi")]
 unique_name_in_owner = true
 
-[node name="Level" parent="." instance=ExtResource("2_p1v5b")]
-process_mode = 1
-
 [node name="Player" parent="." groups=["game", "save"] instance=ExtResource("3_wygdx")]
 unique_name_in_owner = true
 process_mode = 1
@@ -66,7 +62,6 @@ unique_name_in_owner = true
 
 [node name="MenuHandler" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
-process_mode = 2
 script = ExtResource("9_ww6ps")
 
 [node name="PauseMenu" parent="MenuHandler" instance=ExtResource("7_wygdx")]
@@ -89,11 +84,12 @@ anchors_preset = 15
 
 [node name="HandChooser" parent="MenuHandler" instance=ExtResource("14_x3yhk")]
 unique_name_in_owner = true
+process_mode = 2
 visible = false
-anchors_preset = 15
 
 [connection signal="loadGame" from="MenuHandler/PauseMenu" to="." method="loadGame"]
 [connection signal="quitGame" from="MenuHandler/PauseMenu" to="." method="quitGame"]
 [connection signal="resumeGame" from="MenuHandler/PauseMenu" to="." method="togglePause"]
 [connection signal="saveGame" from="MenuHandler/PauseMenu" to="." method="saveGame"]
 [connection signal="settings" from="MenuHandler/PauseMenu" to="." method="settings"]
+[connection signal="visibility_changed" from="MenuHandler/CardChooser" to="MenuHandler/CardChooser" method="_on_visibility_changed"]

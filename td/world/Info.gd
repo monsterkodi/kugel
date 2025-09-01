@@ -1,7 +1,9 @@
 extends Node
 
 var buildingNames:PackedStringArray
+
 var enemySpeed:float
+var maxHandCards:int = 3
 
 func _ready():
     
@@ -9,6 +11,14 @@ func _ready():
     buildingNames = Utils.resourceNamesInDir("res://world/buildings")
     #Log.log("Info.buildingNames", buildingNames)
     #Log.log("Info.buildingNamesSortedByPrice", buildingNamesSortedByPrice())
+
+func numberOfCardsOwnedByPlayer(card:Card, player:Player) -> int:
+    var num = 0
+    for c in player.deck.cards:
+        if c.name == card.name: num += 1
+    for c in player.hand.cards:
+        if c.name == card.name: num += 1
+    return num
 
 func priceForBuilding(buildingName):
     

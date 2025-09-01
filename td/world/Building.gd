@@ -20,7 +20,7 @@ func level_reset():
     var tween = get_tree().create_tween()
     tween.set_ease(Tween.EASE_IN)
     tween.tween_property(self, "position:y", -5, 1.5)
-    tween.finished.connect(queue_free)
+    tween.tween_callback(queue_free)
     
 func level_load():
     

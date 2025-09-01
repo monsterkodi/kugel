@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="CardRes" load_steps=2 format=3 uid="uid://dgp5mgwq274xr"]
+
+[ext_resource type="Script" uid="uid://dcn508r6heipo" path="res://player/CardRes.gd" id="1_fl063"]
+
+[resource]
+script = ExtResource("1_fl063")
+name = &"4 Battle Cards"
+text = "Take up to 4 cards into battle"
+maxNum = 1
+type = 1
+metadata/_custom_type_script = "uid://dcn508r6heipo"

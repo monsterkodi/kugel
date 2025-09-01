@@ -1,6 +1,10 @@
 class_name World
 extends Node
 
+const LEVEL = preload("uid://wo631fluqa0p")
+
+var currentLevel:Node3D
+
 func _ready():
     
     %MenuHandler.hideAllMenus()
@@ -9,6 +13,8 @@ func _ready():
     Post.startLevel.connect(startLevel)
     
     %Saver.load.call_deferred()
+    
+    startLevel()
         
 func _unhandled_input(event: InputEvent):
     
@@ -67,22 +73,38 @@ func toggleBuild():
         if %Player.vehicle is RigidBody3D:
             %Player.vehicle.linear_velocity = Vector3.ZERO
         resumeGame()
+
+func threeRandomCards():
+    
+    var allCards:Array[Card] = Utils.allCards()
+    var cards:Array[Card] = []
+    while cards.size() < 3:
+        var randomCard = allCards[randi_range(0, allCards.size()-1)]
+        if randomCard.res.maxNum > 0:
+            var cardCount = Info.numberOfCardsOwnedByPlayer(randomCard, %Player)
+            if cardCount >= randomCard.res.maxNum:
+                allCards.erase(randomCard)
+                continue
+        cards.append(randomCard)
+        if randomCard.res.maxNum > 0:
+            allCards.erase(randomCard)
+        
+    return cards
             
 func baseDestroyed():
     
     pauseGame()
-    const FREE_POLE = preload("uid://dffragbxehrqg")
-    var allCards = Utils.resourcesInDir("res://cards")
-    var cards = []
-    for i in range(3):
-        cards.append(allCards[randi_range(0,allCards.size()-1)])
-    %MenuHandler.showCardChooser(cards)
+    %MenuHandler.showCardChooser(threeRandomCards())
        
 func startLevel():
     
     Log.log("startLevel")
+    if currentLevel:
+        remove_child(currentLevel)
+    currentLevel = LEVEL.instantiate()
+    add_child(currentLevel)
     resumeGame()
-         
+                  
 func togglePause():
     
     if not get_tree().paused:

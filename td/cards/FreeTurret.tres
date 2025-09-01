@@ -1,11 +1,12 @@
-[gd_resource type="Resource" script_class="Card" load_steps=3 format=3 uid="uid://bt1f7bq20o84p"]
+[gd_resource type="Resource" script_class="CardRes" load_steps=3 format=3 uid="uid://bt1f7bq20o84p"]
 
 [ext_resource type="PackedScene" uid="uid://kktahfiaqllg" path="res://world/buildings/Turret.tscn" id="1_xjgm8"]
-[ext_resource type="Script" uid="uid://dcn508r6heipo" path="res://player/Card.gd" id="2_xjgm8"]
+[ext_resource type="Script" uid="uid://dcn508r6heipo" path="res://player/CardRes.gd" id="2_xjgm8"]
 
 [resource]
 script = ExtResource("2_xjgm8")
 name = &"Turret"
 text = "A Turret that doesn't cost anything"
 scene = ExtResource("1_xjgm8")
+maxNum = 5
 metadata/_custom_type_script = "uid://dcn508r6heipo"

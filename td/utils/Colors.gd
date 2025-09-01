@@ -20,6 +20,7 @@ func _ready() -> void:
 func inspectorPropertyEdited(property):
     
     var obj = EditorInterface.get_inspector().get_edited_object()
+    if not obj is Node: return
     Log.log("propedit", property, obj, obj.get_tree())
 
     #obj.get_tree().root.print_tree_pretty()

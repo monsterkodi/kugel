@@ -94,6 +94,7 @@ func appear(trans:Transform3D):
     appearTween.tween_property(vehicle.body, "position:y", 3, 1.0)
 
 func vanish():
+    
     freeGhost()
     appearTween.stop()
     if vehicle:
@@ -104,11 +105,13 @@ func vanish():
         vanishTween.finished.connect(freeVehicle)
     
 func freeGhost():
+    
     if ghost:
         ghost.queue_free()
         ghost = null
         
 func freeVehicle():
+    
     if vehicle:
         vehicle.queue_free()
         vehicle = null

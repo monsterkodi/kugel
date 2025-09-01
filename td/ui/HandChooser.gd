@@ -11,10 +11,10 @@ func _ready():
 
 func _on_visibility_changed():
     
+    set_process_input(visible)
+    
     if visible:
-        
-        %MenuHandler.vanish(%Hud)
-        
+                
         Utils.freeChildren(%Hand)
         for card in %Player.hand.cards:
             var button = CARD_BUTTON.instantiate()
@@ -30,15 +30,16 @@ func _on_visibility_changed():
             button.pressed.connect(buttonPressed.bind(button))
             %Deck.add_child(button)
             button.setSize(DECK_SIZE)
-            
-        #%Deck.get_child(%Deck.get_child_count()-1).grab_focus()
-        %Done.grab_focus()
-        set_process_input(true)
-            
+        
+        #if %Hand.get_child_count() < Info.maxHandCards: 
+            #%Deck.get_child(%Deck.get_child_count()-1).grab_focus()
+        #else:
+        %Done.grab_focus()            
     else:
+        if is_inside_tree():
+            %MenuHandler.appear(%Hud, true)
         Utils.freeChildren(%Hand)
         Utils.freeChildren(%Deck)
-        set_process_input(false)
 
 func buttonPressed(button):
     
@@ -47,24 +48,35 @@ func buttonPressed(button):
     else:
         deckButtonPressed(button)
 
-func deckButtonPressed(button):
+func moveHandCardToDeck(index:int):
     
-    Log.log("deck", button, button.card, button.card.name)
-    %Player.hand.addCard(button.card)
-    %Player.deck.delCard(button.card)
-    %Deck.remove_child(button)
-    %Hand.add_child(button)
-    button.setSize(HAND_SIZE)
-    button.grab_focus()
-    
-func handButtonPressed(button):
-    
-    Log.log("hand", button, button.card, button.card.name)
+    var button = %Hand.get_child(index)
     %Player.deck.addCard(button.card)
     %Player.hand.delCard(button.card)
     %Hand.remove_child(button)
     %Deck.add_child(button)
     button.setSize(DECK_SIZE)
+    
+func moveDeckCardToHand(index:int):
+    
+    var button = %Deck.get_child(index)
+    if %Player.hand.cards.size() == Info.maxHandCards:
+        moveHandCardToDeck(%Player.hand.cards.size()-1)
+        
+    %Player.hand.addCard(button.card)
+    %Player.deck.delCard(button.card)
+    %Deck.remove_child(button)
+    %Hand.add_child(button)
+    button.setSize(HAND_SIZE)
+
+func deckButtonPressed(button):
+    
+    moveDeckCardToHand(%Deck.get_children().find(button))
+    button.grab_focus()
+    
+func handButtonPressed(button):
+    
+    moveHandCardToDeck(%Hand.get_children().find(button))
     button.grab_focus()
 
 func vanish():
