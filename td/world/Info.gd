@@ -3,7 +3,7 @@ extends Node
 var buildingNames:PackedStringArray
 
 var enemySpeed:float
-var maxHandCards:int = 3
+var player:Player
 
 func _ready():
     
@@ -12,12 +12,21 @@ func _ready():
     #Log.log("Info.buildingNames", buildingNames)
     #Log.log("Info.buildingNamesSortedByPrice", buildingNamesSortedByPrice())
 
-func numberOfCardsOwnedByPlayer(card:Card, player:Player) -> int:
+func maxShieldHitPoints() -> int:
+    
+    return 1 + numberOfCardsOwned("Shield +1")
+
+func maxHandCards() -> int:
+    
+    return 1 + numberOfCardsOwned("Card +1")
+
+func numberOfCardsOwned(cardName:String) -> int:
+    
     var num = 0
     for c in player.deck.cards:
-        if c.name == card.name: num += 1
+        if c.name == cardName: num += 1
     for c in player.hand.cards:
-        if c.name == card.name: num += 1
+        if c.name == cardName: num += 1
     return num
 
 func priceForBuilding(buildingName):

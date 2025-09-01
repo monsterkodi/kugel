@@ -22,6 +22,14 @@ func allCards() -> Array[Card]:
         card.setRes(cardRes)
         cards.append(card)
     return cards
+    
+func cardWithName(cardName:String) -> Card:
+    
+    var cards = allCards()
+    var index = cards.find_custom(func(c): return c.name == cardName)
+    if index >= 0:
+        return cards[index]
+    return null
 
 func resourceNamesInDir(dir:String) -> PackedStringArray:
 

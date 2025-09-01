@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://cj3gelhoeb5ps"]
+[gd_scene load_steps=6 format=3 uid="uid://cj3gelhoeb5ps"]
 
 [ext_resource type="Script" uid="uid://nx4bwsc1c850" path="res://ui/CardButton.gd" id="1_swfof"]
 [ext_resource type="PackedScene" uid="uid://bfs4v0hjfo8pg" path="res://ui/BuildingViewport.tscn" id="2_4734n"]
+[ext_resource type="PackedScene" uid="uid://c2q8strea6bfu" path="res://ui/Circle.tscn" id="3_8i0oo"]
 [ext_resource type="Script" uid="uid://db85fb86bo305" path="res://ui/FocusOnHover.gd" id="3_h1554"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_4734n"]
@@ -20,6 +21,20 @@ script = ExtResource("1_swfof")
 [node name="Scene" parent="." instance=ExtResource("2_4734n")]
 unique_name_in_owner = true
 size = Vector2i(150, 100)
+
+[node name="Circle" parent="." instance=ExtResource("3_8i0oo")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+diameter = 12.0
+color = Color(0.39806402, 0.44126523, 1, 1)
 
 [node name="FocusOnHover" type="Node" parent="."]
 script = ExtResource("3_h1554")

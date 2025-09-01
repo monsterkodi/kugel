@@ -8,10 +8,7 @@ func _ready():
     
 func buildingPlaced(building):
     
-    #if Wallet.balance < Info.priceForBuilding(building):        
     showMenu()
-    #else:
-        #showButtons()
     var button = %Buttons.find_child(building, true, false)
     if button:
         button.get_child(0).grab_focus()

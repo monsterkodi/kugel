@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://dr04x0hyo62i1"]
+[gd_scene load_steps=3 format=3 uid="uid://dr04x0hyo62i1"]
 
 [ext_resource type="Script" uid="uid://dvus7um37khkq" path="res://ui/BattleCards.gd" id="1_21nu1"]
+[ext_resource type="Theme" uid="uid://b51vqxi6d1hrs" path="res://ui/theme/BattleCardsTheme.tres" id="1_71owk"]
 
 [node name="BattleCards" type="PanelContainer"]
 anchors_preset = 11
@@ -9,8 +10,15 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 0
 grow_vertical = 2
+theme = ExtResource("1_71owk")
 script = ExtResource("1_21nu1")
 
 [node name="Cards" type="VBoxContainer" parent="."]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+theme_override_constants/separation = 30
+alignment = 1
+
+[connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]

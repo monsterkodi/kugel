@@ -82,7 +82,6 @@ folder_colors={
 [global_group]
 
 save=""
-player=""
 enemy=""
 game=""
 slot=""

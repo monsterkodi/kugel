@@ -13,6 +13,7 @@ corner_radius_bottom_left = 30
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wxbmk"]
 bg_color = Color(0.10965204, 0.10965204, 0.10965204, 1)
+draw_center = false
 corner_radius_bottom_right = 30
 corner_radius_bottom_left = 30
 
@@ -76,6 +77,7 @@ theme = ExtResource("2_aaqae")
 theme_override_styles/panel = SubResource("StyleBoxFlat_wxbmk")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Center"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -92,3 +94,21 @@ text = "0"
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.14756489, 0, 1, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="Center"]
+layout_mode = 2
+theme_override_constants/margin_top = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Center/MarginContainer"]
+layout_mode = 2
+
+[node name="ShieldPoints" type="HBoxContainer" parent="Center/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="BasePoints" type="HBoxContainer" parent="Center/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4

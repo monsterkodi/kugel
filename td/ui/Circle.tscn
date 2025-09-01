@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://c2q8strea6bfu"]
+
+[ext_resource type="Script" uid="uid://bpw012rado8i0" path="res://ui/Circle.gd" id="1_qmgku"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qmgku"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+
+[sub_resource type="Theme" id="Theme_uhgoj"]
+Panel/styles/panel = SubResource("StyleBoxFlat_qmgku")
+
+[node name="Circle" type="Panel"]
+modulate = Color(1, 0, 0, 1)
+theme = SubResource("Theme_uhgoj")
+script = ExtResource("1_qmgku")

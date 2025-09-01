@@ -21,12 +21,13 @@ func inspectorPropertyEdited(property):
     
     var obj = EditorInterface.get_inspector().get_edited_object()
     if not obj is Node: return
-    Log.log("propedit", property, obj, obj.get_tree())
+    #Log.log("propedit", property, obj, obj.get_tree())
 
     #obj.get_tree().root.print_tree_pretty()
-    #obj.get_tree().
-    Log.log("current_scene", obj.get_tree().current_scene)
-    Log.log("edited_scene_root", obj.get_tree().edited_scene_root)
+    #obj.get_tree()
+    
+    #Log.log("current_scene", obj.get_tree().current_scene)
+    #Log.log("edited_scene_root", obj.get_tree().edited_scene_root)
     
     match property:
         "turretSensor":

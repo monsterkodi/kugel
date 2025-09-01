@@ -17,7 +17,7 @@ func _unhandled_input(event: InputEvent):
                 
 func cardChosen(card:Card):
     
-    if %Player.hand.cards.size() < Info.maxHandCards:
+    if %Player.hand.cards.size() < Info.maxHandCards():
         %Player.hand.addCard(card)
     else:
         %Player.deck.addCard(card)

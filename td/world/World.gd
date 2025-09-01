@@ -12,18 +12,12 @@ func _ready():
     Post.baseDestroyed.connect(baseDestroyed)
     Post.startLevel.connect(startLevel)
     
-    %Saver.load.call_deferred()
+    Info.player = %Player
     
-    startLevel()
+    %Saver.load()
+    Post.startLevel.emit()
         
 func _unhandled_input(event: InputEvent):
-    
-    #if Input.is_action_just_pressed("ui_cancel"):
-        ##Log.log("World.ui_cancel")
-        #if get_tree().paused:
-            #get_viewport().set_input_as_handled()
-            #togglePause.call_deferred()
-            #return
     
     if Input.is_action_just_pressed("pause"): togglePause(); return
     if Input.is_action_just_pressed("build"): buildMode();   return
@@ -81,7 +75,7 @@ func threeRandomCards():
     while cards.size() < 3:
         var randomCard = allCards[randi_range(0, allCards.size()-1)]
         if randomCard.res.maxNum > 0:
-            var cardCount = Info.numberOfCardsOwnedByPlayer(randomCard, %Player)
+            var cardCount = Info.numberOfCardsOwned(randomCard.name)
             if cardCount >= randomCard.res.maxNum:
                 allCards.erase(randomCard)
                 continue
@@ -93,6 +87,7 @@ func threeRandomCards():
             
 func baseDestroyed():
     
+    Post.levelEnd.emit()
     pauseGame()
     %MenuHandler.showCardChooser(threeRandomCards())
        
@@ -103,6 +98,7 @@ func startLevel():
         remove_child(currentLevel)
     currentLevel = LEVEL.instantiate()
     add_child(currentLevel)
+    Post.levelStart.emit()
     resumeGame()
                   
 func togglePause():

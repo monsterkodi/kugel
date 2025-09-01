@@ -6,14 +6,20 @@ var restoks:int = 0
 func _ready():
     
     add_to_group("save")
-    add_to_group("level")
 
+    Post.startLevel.connect(startLevel)
+    Post.levelEnd.connect(levelEnd)
     Post.buildingBought.connect(deductPriceForBuilding)
     Post.corpseCollected.connect(addRewardForCorpseCollected)
-    Post.statChanged.emit("balance", balance)
-    Post.statChanged.emit("restoks", restoks)
     
-func level_reset():
+    #Post.statChanged.emit("balance", balance)
+    #Post.statChanged.emit("restoks", restoks)
+    
+func startLevel():
+    
+    setBalance(0)
+
+func levelEnd():
     
     setRestoks(restoks+balance)
     setBalance(0)
@@ -47,7 +53,7 @@ func setBalance(newBalance):
 func setRestoks(newRestoks):
     
     restoks = max(newRestoks, 0)
-    Post.statChanged.emit("restkos", restoks)
+    Post.statChanged.emit("restoks", restoks)
     
 func on_save(data:Dictionary):
 

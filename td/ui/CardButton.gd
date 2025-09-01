@@ -19,6 +19,7 @@ func setCard(c:Card):
 func setWidth(width:int):
     
     scene.size.x = width
+    %Circle.diameter = width/20.0
 
 func setHeight(height:int):
     

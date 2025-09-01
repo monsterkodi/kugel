@@ -14,3 +14,5 @@ signal shieldDown
 signal cardChosen
 signal handChosen
 signal startLevel
+signal levelStart
+signal levelEnd

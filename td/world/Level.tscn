@@ -92,7 +92,8 @@ albedo_color = Color(0, 1, 0, 1)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d6u53"]
 albedo_color = Color(0, 0, 1, 1)
 
-[node name="Level" type="Node3D" groups=["game", "save"]]
+[node name="Level" type="Node3D"]
+process_mode = 1
 script = ExtResource("1_f0k3j")
 
 [node name="Floor" type="StaticBody3D" parent="."]

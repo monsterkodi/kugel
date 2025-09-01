@@ -9,11 +9,15 @@ var hand : Deck
 
 func _ready():
     
+    add_to_group("save")
+    
     #Log.log("ready player one", get_parent_node_3d())
     deck = Deck.new()
     hand = Deck.new()
     
     loadVehicle.call_deferred("Pill")
+    
+    Post.levelStart.connect(levelStart)
 
 func loadVehicle(vehicle_name:String):
     
@@ -43,6 +47,8 @@ func on_save(data:Dictionary):
     data.Player = {}
     data.Player.transform = transform
     data.Player.vehicle   = vehicleName
+    data.Player.hand      = hand.toDict()
+    data.Player.deck      = deck.toDict()
     
 func on_load(data:Dictionary):
     
@@ -50,3 +56,23 @@ func on_load(data:Dictionary):
     
     transform = data.Player.transform
     loadVehicle(data.Player.vehicle)
+    
+    if data.Player.has("hand"): hand.fromDict(data.Player.hand)
+    if data.Player.has("deck"): deck.fromDict(data.Player.deck)
+
+const SHIELD = preload("uid://busmvxaat6dqv")
+    
+func addShield():
+    
+    var shield = SHIELD.instantiate()
+    shield.inert = false
+    get_parent_node_3d().add_child(shield)
+    shield.global_position = Vector3.ZERO
+
+func levelStart():
+    
+    for card in hand.cards:
+        match card.name:
+            "Money":  Wallet.addPrice(100)
+            "Shield": addShield()
+            _: Log.log("card", card.name)

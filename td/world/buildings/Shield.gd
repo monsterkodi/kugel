@@ -4,7 +4,7 @@ var hitPoints:int
 
 func _ready():
 
-    setHitPoints(6)
+    setHitPoints(Info.maxShieldHitPoints())
     
     super._ready()
         

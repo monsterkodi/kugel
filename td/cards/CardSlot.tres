@@ -4,8 +4,8 @@
 
 [resource]
 script = ExtResource("1_fl063")
-name = &"4 Battle Cards"
-text = "Take up to 4 cards into battle"
-maxNum = 1
+name = &"Card +1"
+text = "Take an additional card into battle"
+maxNum = 4
 type = 1
 metadata/_custom_type_script = "uid://dcn508r6heipo"

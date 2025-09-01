@@ -28,12 +28,11 @@ func _on_visibility_changed():
             var button = CARD_BUTTON.instantiate()
             button.card = card
             button.pressed.connect(buttonPressed.bind(button))
+            if card.res.type == CardRes.CardType.PERMANENT:
+                button.get_node("Circle").visible = true
             %Deck.add_child(button)
             button.setSize(DECK_SIZE)
         
-        #if %Hand.get_child_count() < Info.maxHandCards: 
-            #%Deck.get_child(%Deck.get_child_count()-1).grab_focus()
-        #else:
         %Done.grab_focus()            
     else:
         if is_inside_tree():
@@ -60,7 +59,7 @@ func moveHandCardToDeck(index:int):
 func moveDeckCardToHand(index:int):
     
     var button = %Deck.get_child(index)
-    if %Player.hand.cards.size() == Info.maxHandCards:
+    if %Player.hand.cards.size() == Info.maxHandCards():
         moveHandCardToDeck(%Player.hand.cards.size()-1)
         
     %Player.hand.addCard(button.card)

@@ -31,12 +31,15 @@ func _ready():
     base.add_child(laser)
         
 func setLength(length):
+    
     if laser:
         laser.mesh.height = length
         laser.position.z = -0.5 * length
         rc.target_position.z = -length
 
 func _physics_process(delta:float):
+    
+    if not is_inside_tree(): return
     
     var collider = rc.get_collider()
     var distance = laserRange

@@ -14,3 +14,19 @@ func delCard(card:Card):
     assert(card in cards)
     cards.erase(card)
         
+func toDict() -> Dictionary:
+    
+    var dict = {"cards": []}
+    for card in cards:
+        dict.cards.append(card.name)
+    return dict
+    
+func fromDict(dict:Dictionary):
+    
+    cards = []
+    for cardName in dict.cards:
+        var card = Utils.cardWithName(cardName)
+        addCard(card)
+    
+    
+    

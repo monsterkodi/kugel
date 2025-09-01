@@ -1,5 +1,10 @@
 class_name Level extends Node3D
 
+func _ready():
+    
+    add_to_group("game")
+    #add_to_group("save")
+
 func gamePaused():
     
     set_physics_process(false)
