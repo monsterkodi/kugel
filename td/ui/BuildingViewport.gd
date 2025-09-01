@@ -11,3 +11,16 @@ func setBuilding(buildingName:String):
     building.inert = true
         
     %Scene.add_child(building)
+
+func setScene(scene:PackedScene):
+    
+    var node = scene.instantiate()
+
+    if node is Building:
+        node.inert = true
+
+    %Scene.add_child(node)
+    
+    var mesh = node.find_child("*Mesh*")
+    var bb:AABB = mesh.get_aabb()
+    %Camera.look_at(bb.get_center(), Vector3.UP)

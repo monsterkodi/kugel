@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://b6mskrm1n176r"]
+[gd_scene load_steps=16 format=3 uid="uid://b6mskrm1n176r"]
 
 [ext_resource type="Script" uid="uid://b6inujglidn5n" path="res://world/World.gd" id="1_eu7l1"]
 [ext_resource type="PackedScene" uid="uid://wo631fluqa0p" path="res://world/Level.tscn" id="2_p1v5b"]
@@ -9,7 +9,11 @@
 [ext_resource type="PackedScene" uid="uid://mxu6thvv1ycr" path="res://world/MouseHandler.tscn" id="6_p1v5b"]
 [ext_resource type="PackedScene" uid="uid://dnk1mn0lm0c3d" path="res://ui/PauseMenu.tscn" id="7_wygdx"]
 [ext_resource type="PackedScene" uid="uid://bwlnpgve3gc86" path="res://ui/BuildMenu.tscn" id="9_crsqw"]
+[ext_resource type="Script" uid="uid://cjj7kxg86ixf" path="res://ui/MenuHandler.gd" id="9_ww6ps"]
 [ext_resource type="PackedScene" uid="uid://dhm8ww2fqxfua" path="res://ui/HUD.tscn" id="10_8mymi"]
+[ext_resource type="PackedScene" uid="uid://dqn51jaojemgy" path="res://ui/SettingsMenu.tscn" id="11_0n6y5"]
+[ext_resource type="PackedScene" uid="uid://dm1uyl1udh0ph" path="res://ui/CardChooser.tscn" id="12_gqh78"]
+[ext_resource type="PackedScene" uid="uid://cj01e8082l0kk" path="res://ui/HandChooser.tscn" id="14_x3yhk"]
 
 [sub_resource type="Environment" id="Environment_ig7tw"]
 background_mode = 1
@@ -34,9 +38,9 @@ process_mode = 3
 script = ExtResource("1_eu7l1")
 
 [node name="Hud" parent="." instance=ExtResource("10_8mymi")]
-
-[node name="Level" parent="." groups=["level_reset"] instance=ExtResource("2_p1v5b")]
 unique_name_in_owner = true
+
+[node name="Level" parent="." instance=ExtResource("2_p1v5b")]
 process_mode = 1
 
 [node name="Player" parent="." groups=["game", "save"] instance=ExtResource("3_wygdx")]
@@ -60,14 +64,36 @@ seconds = 1.0
 [node name="Builder" parent="." instance=ExtResource("5_0n6y5")]
 unique_name_in_owner = true
 
-[node name="PauseMenu" parent="." instance=ExtResource("7_wygdx")]
+[node name="MenuHandler" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
+process_mode = 2
+script = ExtResource("9_ww6ps")
 
-[node name="BuildMenu" parent="." instance=ExtResource("9_crsqw")]
+[node name="PauseMenu" parent="MenuHandler" instance=ExtResource("7_wygdx")]
 unique_name_in_owner = true
+visible = false
 
-[connection signal="loadGame" from="PauseMenu" to="." method="loadGame"]
-[connection signal="quitGame" from="PauseMenu" to="." method="quitGame"]
-[connection signal="resumeGame" from="PauseMenu" to="." method="togglePause"]
-[connection signal="saveGame" from="PauseMenu" to="." method="saveGame"]
-[connection signal="resumeGame" from="BuildMenu" to="." method="toggleBuild"]
+[node name="BuildMenu" parent="MenuHandler" instance=ExtResource("9_crsqw")]
+unique_name_in_owner = true
+visible = false
+
+[node name="SettingsMenu" parent="MenuHandler" instance=ExtResource("11_0n6y5")]
+unique_name_in_owner = true
+visible = false
+
+[node name="CardChooser" parent="MenuHandler" instance=ExtResource("12_gqh78")]
+unique_name_in_owner = true
+process_mode = 2
+visible = false
+anchors_preset = 15
+
+[node name="HandChooser" parent="MenuHandler" instance=ExtResource("14_x3yhk")]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 15
+
+[connection signal="loadGame" from="MenuHandler/PauseMenu" to="." method="loadGame"]
+[connection signal="quitGame" from="MenuHandler/PauseMenu" to="." method="quitGame"]
+[connection signal="resumeGame" from="MenuHandler/PauseMenu" to="." method="togglePause"]
+[connection signal="saveGame" from="MenuHandler/PauseMenu" to="." method="saveGame"]
+[connection signal="settings" from="MenuHandler/PauseMenu" to="." method="settings"]

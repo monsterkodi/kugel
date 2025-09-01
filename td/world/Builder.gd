@@ -33,7 +33,7 @@ func placeBuilding():
             old.free()
     targetSlot.add_child(building)
     building.global_position = targetPos
-    building.look_at(Vector3.ZERO)
+    #building.look_at(Vector3.ZERO)
     Post.buildingPlaced.emit(building.name)
 
 func _process(delta:float):
@@ -73,7 +73,7 @@ func loadGhost(ghostName:String):
     ghost.name = ghostName
     ghost.inert = true
     get_parent_node_3d().add_child(ghost)
-    ghost.global_transform = vehicle.global_transform
+    ghost.global_position = targetPos
     var meshes = ghost.find_children("*Mesh*")
     for mesh in meshes:
         if mesh is MeshInstance3D:

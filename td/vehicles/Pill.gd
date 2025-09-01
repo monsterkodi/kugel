@@ -17,9 +17,9 @@ func _ready():
 
 func _physics_process(delta:float):
     
-    readInput(delta)
-    
     var dt = delta * speed
+    
+    readInput(dt)
 
     var fs = Vector2(%strafe.value, %forward.value).limit_length()
         
@@ -28,10 +28,14 @@ func _physics_process(delta:float):
     force -= player.transform.basis.z * fs.y * dt * 1000
     
     apply_central_force(force)
-    apply_torque(Vector3(0, -%steer.value*delta*800, 0))
+    apply_torque(Vector3(0, -%steer.value*dt*100, 0))
         
-    apply_torque(Vector3(0, -mouseDelta.x*0.3, 0))
+    apply_torque(Vector3(0, -mouseDelta.x*dt*1.5, 0))
     mouseDelta = Vector2.ZERO
+
+    calcDashDir(dt)
+     
+    %LaserPointer.setDir(dashDir)
 
     player.transform = transform
     
@@ -53,7 +57,6 @@ func _integrate_forces(state: PhysicsDirectBodyState3D):
         state.linear_velocity.z = 0
         %DashBlock.start()
         %DashTimer.start()
-        calcDashDir()
     if dash < 0.96 and not %DashBlock.is_stopped():
         %DashBlock.stop()
         
@@ -62,19 +65,16 @@ func _integrate_forces(state: PhysicsDirectBodyState3D):
             %DashTimer.stop()
         else:
             apply_central_impulse(dashDir * 200 * %DashTimer.time_left/%DashTimer.wait_time)
-    else:
-        calcDashDir()
-     
-    %LaserPointer.setDir(dashDir)
 
-func calcDashDir():
+func calcDashDir(delta:float):
     
+    var dt  = delta
     var dir = Vector3.ZERO
     
     if mouseDelta.x != 0: 
         mouseRot += mouseDelta.x*0.0005
         mouseRot = clampf(mouseRot,-PI, PI)
-    mouseRot = lerpf(mouseRot, 0.0, 0.01)
+    mouseRot = lerpf(mouseRot, 0.0, dt)
 
     var xinp = Input.get_joy_axis(0, JOY_AXIS_LEFT_X) #+ Input.get_joy_axis(0, JOY_AXIS_RIGHT_X)
     var yinp = Input.get_joy_axis(0, JOY_AXIS_LEFT_Y) #+ Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y)
@@ -83,12 +83,12 @@ func calcDashDir():
     if absf(xinp) < deadzone: xinp = 0
     if absf(yinp) < deadzone: yinp = 0
 
-    if Input.is_key_pressed(KEY_UP):    yinp -= 1 
-    if Input.is_key_pressed(KEY_DOWN):  yinp += 1 
-    if Input.is_key_pressed(KEY_A):  xinp -= 1 
-    if Input.is_key_pressed(KEY_D):  xinp += 1 
-    if Input.is_key_pressed(KEY_W):  yinp -= 1 
-    if Input.is_key_pressed(KEY_S):  yinp += 1 
+    if Input.is_key_pressed(KEY_UP):    yinp -= dt*60 
+    if Input.is_key_pressed(KEY_DOWN):  yinp += dt*60 
+    if Input.is_key_pressed(KEY_A):     xinp -= dt*60 
+    if Input.is_key_pressed(KEY_D):     xinp += dt*60 
+    if Input.is_key_pressed(KEY_W):     yinp -= dt*60 
+    if Input.is_key_pressed(KEY_S):     yinp += dt*60 
     
     if xinp or yinp:
         if absf(xinp) > 0: dir += xinp  * global_transform.basis.x
@@ -97,30 +97,30 @@ func calcDashDir():
     else:
         dir = -global_basis.z
     
-    if Input.is_key_pressed(KEY_LEFT):   mouseRot -= 0.01
-    if Input.is_key_pressed(KEY_RIGHT):  mouseRot += 0.01
+    if Input.is_key_pressed(KEY_LEFT):   mouseRot -= dt
+    if Input.is_key_pressed(KEY_RIGHT):  mouseRot += dt
     
-    mouseRot += Input.get_joy_axis(0, JOY_AXIS_RIGHT_X) * 0.01
+    mouseRot += Input.get_joy_axis(0, JOY_AXIS_RIGHT_X) * dt * 0.5
     
     if mouseRot:
         dir = dir.rotated(Vector3.UP, -mouseRot)
     
-    dashDir = lerp(dashDir, dir, 0.1)  
+    dashDir = lerp(dashDir, dir, dt*0.2)  
     
 func readInput(delta:float):
     
-    var dt = delta*60.0
+    var dt = 1
     
     %forward.zero()
-    %forward.add(-Input.get_joy_axis(0, JOY_AXIS_LEFT_Y))
+    %forward.add(-Input.get_joy_axis(0, JOY_AXIS_LEFT_Y)*dt)
     #%forward.add(-Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y))
     dash = Input.get_joy_axis(0, JOY_AXIS_TRIGGER_RIGHT)
     if Input.is_action_just_pressed("dash"):    dash = 1
     
-    if Input.is_action_pressed("forward"):      %forward.add( 1)
-    if Input.is_action_pressed("backward"):     %forward.add(-1)
-    if Input.is_key_pressed(KEY_UP):            %forward.add( 1)
-    if Input.is_key_pressed(KEY_DOWN):          %forward.add(-1)
+    if Input.is_action_pressed("forward"):      %forward.add( dt)
+    if Input.is_action_pressed("backward"):     %forward.add(-dt)
+    if Input.is_key_pressed(KEY_UP):            %forward.add( dt)
+    if Input.is_key_pressed(KEY_DOWN):          %forward.add(-dt)
     
     %steer.zero()
     %steer.add(Input.get_joy_axis(0, JOY_AXIS_RIGHT_X)*dt)
@@ -128,9 +128,9 @@ func readInput(delta:float):
     if Input.is_action_pressed("steer_left"):   %steer.add(-dt)
     
     %strafe.zero()
-    %strafe.add(Input.get_joy_axis(0, JOY_AXIS_LEFT_X))
-    if Input.is_action_pressed("right"):        %strafe.add(1)
-    if Input.is_action_pressed("left"):         %strafe.add(-1)
+    %strafe.add(Input.get_joy_axis(0, JOY_AXIS_LEFT_X)*dt)
+    if Input.is_action_pressed("right"):        %strafe.add( dt)
+    if Input.is_action_pressed("left"):         %strafe.add(-dt)
 
     if Input.is_action_pressed("faster"): faster()
     if Input.is_action_pressed("slower"): slower()

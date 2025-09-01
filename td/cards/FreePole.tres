@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Card" load_steps=3 format=3 uid="uid://dffragbxehrqg"]
+
+[ext_resource type="PackedScene" uid="uid://bik78bwiax5lx" path="res://world/buildings/Pole.tscn" id="1_37tx3"]
+[ext_resource type="Script" uid="uid://dcn508r6heipo" path="res://player/Card.gd" id="2_37tx3"]
+
+[resource]
+script = ExtResource("2_37tx3")
+name = &"Pole"
+text = "A Pole that doesn't cost anything"
+scene = ExtResource("1_37tx3")
+metadata/_custom_type_script = "uid://dcn508r6heipo"

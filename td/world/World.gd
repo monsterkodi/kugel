@@ -1,16 +1,23 @@
+class_name World
 extends Node
 
 func _ready():
     
-    Engine.time_scale = 1
-    Engine.physics_ticks_per_second = int(60 * Engine.time_scale)
-
-    %Builder.visible   = false
-    %PauseMenu.visible = false
-    %BuildMenu.visible = false
-    %Saver.load.call_deferred()
+    %MenuHandler.hideAllMenus()
     
-func _input(event: InputEvent):
+    Post.baseDestroyed.connect(baseDestroyed)
+    Post.startLevel.connect(startLevel)
+    
+    %Saver.load.call_deferred()
+        
+func _unhandled_input(event: InputEvent):
+    
+    #if Input.is_action_just_pressed("ui_cancel"):
+        ##Log.log("World.ui_cancel")
+        #if get_tree().paused:
+            #get_viewport().set_input_as_handled()
+            #togglePause.call_deferred()
+            #return
     
     if Input.is_action_just_pressed("pause"): togglePause(); return
     if Input.is_action_just_pressed("build"): buildMode();   return
@@ -61,14 +68,33 @@ func toggleBuild():
             %Player.vehicle.linear_velocity = Vector3.ZERO
         resumeGame()
             
+func baseDestroyed():
+    
+    pauseGame()
+    const FREE_POLE = preload("uid://dffragbxehrqg")
+    var allCards = Utils.resourcesInDir("res://cards")
+    var cards = []
+    for i in range(3):
+        cards.append(allCards[randi_range(0,allCards.size()-1)])
+    %MenuHandler.showCardChooser(cards)
+       
+func startLevel():
+    
+    Log.log("startLevel")
+    resumeGame()
+         
 func togglePause():
     
     if not get_tree().paused:
         pauseGame()
         %PauseMenu.visible = true
-    elif %PauseMenu.visible:
+    else:
         %PauseMenu.visible = false
-        resumeGame()
+        %SettingsMenu.visible = false
+        if %BuildMenu.visible:
+            toggleBuild()
+        else:
+            resumeGame()
         
 func pauseGame():
     
@@ -92,3 +118,8 @@ func saveGame():
 func loadGame():
     
     %Saver.load()
+    
+func settings():
+    
+    %PauseMenu.visible    = false
+    %SettingsMenu.visible = true

@@ -1,6 +1,6 @@
-[gd_resource type="Theme" load_steps=16 format=3 uid="uid://ckxlwln5s1u4b"]
+[gd_resource type="Theme" load_steps=16 format=3 uid="uid://clh031dvmhoxe"]
 
-[ext_resource type="FontFile" uid="uid://dfqo0cb4uy7kl" path="res://ui/theme/Rounded.ttf" id="1_4l1ig"]
+[ext_resource type="FontFile" uid="uid://dfqo0cb4uy7kl" path="res://ui/theme/Rounded.ttf" id="1_p5imd"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4l1ig"]
 content_margin_left = 65.0
@@ -109,9 +109,13 @@ corner_radius_top_left = 50
 corner_radius_top_right = 50
 corner_radius_bottom_right = 50
 corner_radius_bottom_left = 50
+expand_margin_left = 25.0
+expand_margin_top = 9.0
+expand_margin_right = 25.0
+expand_margin_bottom = 25.0
 
 [resource]
-default_font = ExtResource("1_4l1ig")
+default_font = ExtResource("1_p5imd")
 default_font_size = 64
 Button/colors/font_color = Color(0.21035051, 0.21035051, 0.21035051, 1)
 Button/colors/font_disabled_color = Color(0.875, 0.875, 0.875, 0.5)

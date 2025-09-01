@@ -2,7 +2,7 @@ class_name Turret extends Building
 
 @export var target : Node3D
 
-@export_range(1, 10, 0.1) var radius:float = 3:
+@export_range(1, 10, 0.1) var radius:float = 4:
     set(v): radius = v; setSensorRadius(v)
 
 @export_range(0.1, 1, 0.01) var rot_slerp:float = 0.2
@@ -24,7 +24,7 @@ var targetPos:Vector3
 
 func setSensorRadius(r:float):  
 
-    if %Sensor: %Sensor.scale = Vector3(r, 1, r)
+    %Sensor.scale = Vector3(r, 1, r)
     
 func _ready():
     
@@ -87,6 +87,7 @@ func setTargetPos(pos:Vector3):
     $BarrelTarget.look_at(targetPos)
     
 func _on_sensor_body_entered(body: Node3D):
+    
     if body.health > 0:
         sensorBodies.append(body)
         if not target:
@@ -102,7 +103,8 @@ func _on_sensor_body_exited(body: Node3D):
             target = sensorBodies.front()
         else:
             target = null
-            %Emitter.stop()
+            if %Emitter:
+                %Emitter.stop()
             lookUp()
 
 func lookUp():

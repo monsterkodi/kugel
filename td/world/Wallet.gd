@@ -1,13 +1,22 @@
 extends Node
 
 var balance:int = 0
+var restoks:int = 0
 
 func _ready():
     
     add_to_group("save")
+    add_to_group("level")
+
     Post.buildingBought.connect(deductPriceForBuilding)
     Post.corpseCollected.connect(addRewardForCorpseCollected)
     Post.statChanged.emit("balance", balance)
+    Post.statChanged.emit("restoks", restoks)
+    
+func level_reset():
+    
+    setRestoks(restoks+balance)
+    setBalance(0)
     
 func addRewardForCorpseCollected():
     
@@ -33,16 +42,23 @@ func deductPrice(price):
 func setBalance(newBalance):
     
     balance = max(newBalance, 0)
-    #Log.log("balance", balance)
     Post.statChanged.emit("balance", balance)
+
+func setRestoks(newRestoks):
+    
+    restoks = max(newRestoks, 0)
+    Post.statChanged.emit("restkos", restoks)
     
 func on_save(data:Dictionary):
 
     data.Wallet = {}
     data.Wallet.balance = max(balance, 0)
+    data.Wallet.restoks = max(restoks, 0)
     
 func on_load(data:Dictionary):
     
     if not data.has("Wallet"): return
-    
-    setBalance(data.Wallet.balance)
+    if data.Wallet.has("balance"):
+        setBalance(data.Wallet.balance)
+    if data.Wallet.has("restoks"):
+        setRestoks(data.Wallet.restoks)

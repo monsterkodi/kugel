@@ -11,3 +11,6 @@ signal builderGhost
 signal baseDamaged
 signal shieldDamaged
 signal shieldDown
+signal cardChosen
+signal handChosen
+signal startLevel

@@ -1,7 +1,5 @@
 extends Control
 
-signal resumeGame
-
 const BUILD_BUTTON = preload("res://ui/BuildButton.tscn")
 
 func _ready():
@@ -63,10 +61,3 @@ func hideMenu():
     visible = false
     get_viewport().gui_release_focus()
     
-func _input(event:InputEvent):
-    
-    if not visible: return
-    
-    if Input.is_action_just_pressed("ui_cancel"): # to enable joypad B
-        get_viewport().set_input_as_handled()
-        resumeGame.emit()

@@ -1,3 +1,4 @@
+class_name FocusOnHover
 extends Node
 
 func _ready():

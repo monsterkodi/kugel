@@ -1,0 +1,71 @@
+[gd_resource type="Theme" load_steps=8 format=3 uid="uid://beiokf4qmynpf"]
+
+[ext_resource type="FontFile" uid="uid://dfqo0cb4uy7kl" path="res://ui/theme/Rounded.ttf" id="1_qbwus"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qbwus"]
+content_margin_bottom = 25.0
+bg_color = Color(1, 0, 0, 1)
+border_color = Color(0, 0, 0, 0)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tpx4w"]
+content_margin_bottom = 25.0
+bg_color = Color(0.068920076, 0.068920076, 0.068920076, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+shadow_size = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q46md"]
+content_margin_bottom = 25.0
+bg_color = Color(0.52156866, 0, 0, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+shadow_size = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6pgrv"]
+content_margin_bottom = 25.0
+bg_color = Color(0.1, 0.1, 0.1, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+shadow_size = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ya8aw"]
+content_margin_bottom = 25.0
+bg_color = Color(0.52156866, 0, 0, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+shadow_size = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ahg8i"]
+content_margin_left = 50.0
+content_margin_top = 25.0
+content_margin_right = 50.0
+content_margin_bottom = 75.0
+bg_color = Color(0.15, 0.15, 0.15, 1)
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+
+[resource]
+default_font = ExtResource("1_qbwus")
+default_font_size = 18
+Button/styles/focus = SubResource("StyleBoxFlat_qbwus")
+Button/styles/hover = SubResource("StyleBoxFlat_tpx4w")
+Button/styles/hover_pressed = SubResource("StyleBoxFlat_q46md")
+Button/styles/normal = SubResource("StyleBoxFlat_6pgrv")
+Button/styles/pressed = SubResource("StyleBoxFlat_ya8aw")
+GridContainer/constants/h_separation = 25
+GridContainer/constants/v_separation = 25
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_ahg8i")

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Card" load_steps=3 format=3 uid="uid://d06sf48iqf6wt"]
+
+[ext_resource type="PackedScene" uid="uid://busmvxaat6dqv" path="res://world/buildings/Shield.tscn" id="1_yijss"]
+[ext_resource type="Script" uid="uid://dcn508r6heipo" path="res://player/Card.gd" id="2_yijss"]
+
+[resource]
+script = ExtResource("2_yijss")
+name = &"Shield"
+text = "The Base comes pre-equipped with a Shield"
+scene = ExtResource("1_yijss")
+metadata/_custom_type_script = "uid://dcn508r6heipo"

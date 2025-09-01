@@ -1,11 +1,18 @@
+class_name Player
 extends Node3D
 
 var vehicleName := "Pill"
 var vehicle : Node3D
 
+var deck : Deck
+var hand : Deck
+
 func _ready():
     
     #Log.log("ready player one", get_parent_node_3d())
+    deck = Deck.new()
+    hand = Deck.new()
+    
     loadVehicle.call_deferred("Pill")
 
 func loadVehicle(vehicle_name:String):

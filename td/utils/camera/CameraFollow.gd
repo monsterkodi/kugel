@@ -8,7 +8,7 @@ var MIN_TAIL   := 5.0
 var MAX_TAIL   := 10.0
 var MIN_ALTI   := 2.5
 var MAX_ALTI   := 5.5
-var ZOOM_SPEED := 1.0
+var ZOOM_SPEED := 0.5
 var INTERPOL   := 0.9
 
 var dist  := 0.5

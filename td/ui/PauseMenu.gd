@@ -1,21 +1,16 @@
-extends Control
+class_name PauseMenu extends Control
 
-signal resumeGame
+signal settings
 signal loadGame
 signal saveGame
 signal quitGame
+signal resumeGame
 
-func _on_quit_button_pressed():   quitGame.emit()
-func _on_resume_button_pressed(): resumeGame.emit()
-func _on_load_pressed():          loadGame.emit()
-func _on_save_pressed():          saveGame.emit()
-
-func _input(event: InputEvent):
-    
-    if not visible: return
-    if Input.is_action_just_pressed("ui_cancel"): # to enable joypad B
-        get_viewport().set_input_as_handled()
-        resumeGame.emit()
+func _on_quit_pressed():     quitGame.emit()
+func _on_resume_pressed():   resumeGame.emit()
+func _on_settings_pressed(): settings.emit()
+func _on_load_pressed():     loadGame.emit()
+func _on_save_pressed():     saveGame.emit()
 
 func _on_visibility_changed():
     

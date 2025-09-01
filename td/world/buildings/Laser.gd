@@ -58,11 +58,6 @@ func setTargetPos(pos:Vector3):
     if not global_position.is_zero_approx():
         dir = global_position.normalized()*-0.01
     var up = (Vector3.UP + dir).normalized()
-    #var tn = (targetPos-global_position).normalized()
-    #if tn.dot(up) == 1.0:
-        #up = global_position.normalized()
-        #Log.log("up", up)
-    #Log.log("dot", tn.dot(up))
     $Target.look_at(targetPos, up)
     
 func _on_sensor_body_entered(body: Node3D):
@@ -80,7 +75,6 @@ func _on_sensor_body_exited(body: Node3D):
             target = sensorBodies.front()
         else:
             target = null
-            %LaserDot.visible = false
             lookUp()
 
 func lookUp():

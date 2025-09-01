@@ -1,10 +1,12 @@
 extends Node
 
 var buildingNames:PackedStringArray
+var enemySpeed:float
 
 func _ready():
     
-    buildingNames = MeshUtils.resourceNamesInDir("res://world/buildings")
+    enemySpeed = 1
+    buildingNames = Utils.resourceNamesInDir("res://world/buildings")
     #Log.log("Info.buildingNames", buildingNames)
     #Log.log("Info.buildingNamesSortedByPrice", buildingNamesSortedByPrice())
 
@@ -39,7 +41,7 @@ func isAnyBuildingPlaced(type):
 func slotForPos(pos):
     
     var slots = get_tree().get_nodes_in_group("slot")
-    return MeshUtils.closestNode(slots, pos)
+    return Utils.closestNode(slots, pos)
 
     
     

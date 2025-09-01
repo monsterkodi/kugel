@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Card" load_steps=2 format=3 uid="uid://qhg4x816wuyi"]
+
+[ext_resource type="Script" uid="uid://dcn508r6heipo" path="res://player/Card.gd" id="1_gxlup"]
+
+[resource]
+script = ExtResource("1_gxlup")
+name = &"Money"
+text = "Start with some money"
+metadata/_custom_type_script = "uid://dcn508r6heipo"

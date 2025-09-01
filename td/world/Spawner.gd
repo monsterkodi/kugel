@@ -1,16 +1,19 @@
 extends Node3D
 
 @export var spawnee:Resource
+
+@export var activation_level:int = 0
+
 @export_range(1.0, 100,  1.0)  var mass_initial       = 1.0
 @export_range(0.0, 100,  0.1)  var velocity_initial   = 2.0
 @export_range(0.0, 60,   0.1)  var seconds_initial    = 10.0
 
-@export var mass_increment     = 0.2
+@export var mass_increment     = 0.1
 @export var mass_max           = 1000.0
 @export var velocity_increment = 0.05
 @export var velocity_max       = 10.0
-@export var seconds_decrement  = 0.1
-@export var seconds_min        = 2.0
+@export var seconds_decrement  = 0.05
+@export var seconds_min        = 4.0
 
 @export var curve:Curve
             
@@ -27,20 +30,33 @@ func _ready():
     seconds  = seconds_initial
     mass     = mass_initial
     
-    nextSpawnLoop()
+    if activation_level == 0:
+        nextSpawnLoop()
+    else:
+        Post.statChanged.connect(statChanged)
+        %Body.position.y = -1.2
 
+func statChanged(statName, value):
+    match statName:
+        "numEnemiesSpawned":
+            if value >= activation_level:
+                nextSpawnLoop()
+                Post.statChanged.disconnect(statChanged)
+    
 func level_reset():
     
-    tween.kill()
-    tween = null
-    if spawnedBody: spawnedBody.queue_free()
-    _ready()
+    if tween:
+        tween.kill()
+        tween = null
+    if spawnedBody: 
+        spawnedBody.queue_free()
+    #_ready()
 
 func nextSpawnLoop():    
     
     tween = get_tree().create_tween()
-    tween.tween_property(%Body, "position:y", 1.1, seconds).from(-1.2).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-    tween.parallel().tween_method(preSpawn, 0.0, 1.0, seconds)
+    tween.tween_property(%Body, "position:y", 1.1, seconds/Info.enemySpeed).from(-1.2).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+    tween.parallel().tween_method(preSpawn, 0.0, 1.0, seconds/Info.enemySpeed)
     tween.tween_callback(ejectSpawnBody)
 
     spawnedBody = spawnee.instantiate()
@@ -74,5 +90,5 @@ func ejectSpawnBody():
     Post.enemySpawned.emit()
     
     tween = get_tree().create_tween()
-    tween.tween_property(%Body, "position:y", -1, 1.5).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
+    tween.tween_property(%Body, "position:y", -1, seconds/(6.0*Info.enemySpeed)).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
     tween.tween_callback(nextSpawnLoop)

@@ -1,5 +1,18 @@
 extends Node
 
+func freeChildren(node:Node):
+    
+    while node.get_child_count():
+        node.get_child(0).free()
+    assert(node.get_child_count() == 0)
+
+func resourcesInDir(dir:String) -> Array[Resource]:
+    
+    var resources:Array[Resource] = []
+    for path in ResourceLoader.list_directory(dir):
+        resources.append(load(dir + "/" + path))
+    return resources
+
 func resourceNamesInDir(dir:String) -> PackedStringArray:
 
     var buildings = ResourceLoader.list_directory(dir)
@@ -9,7 +22,7 @@ func resourceNamesInDir(dir:String) -> PackedStringArray:
         if name not in names:
             names.append(name)
     return names
-            
+    
 func closestNode(nodes:Array, to:Vector3) -> Node3D:
     
     var minDist = INF

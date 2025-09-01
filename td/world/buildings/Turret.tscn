@@ -1,10 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://kktahfiaqllg"]
+[gd_scene load_steps=15 format=3 uid="uid://kktahfiaqllg"]
 
 [ext_resource type="Script" uid="uid://tsel3doxtedq" path="res://world/buildings/Turret.gd" id="1_w3f5i"]
 [ext_resource type="Material" uid="uid://vyhfqa37hcxi" path="res://materials/LackBlue.tres" id="2_vc5tq"]
 [ext_resource type="PhysicsMaterial" uid="uid://cxmvb6atqbyf0" path="res://materials/physics/DefaultPhysics.tres" id="3_vc5tq"]
 [ext_resource type="Script" uid="uid://v00gxfdr7qyk" path="res://components/Emitter.gd" id="4_d3wxe"]
 [ext_resource type="PackedScene" uid="uid://b4x04vstro86m" path="res://world/Bullet.tscn" id="5_lugvd"]
+[ext_resource type="Shader" uid="uid://b7lpd6h1smubj" path="res://materials/visual/CircleMatVis.tres" id="6_wsb1a"]
 [ext_resource type="Material" uid="uid://du8bjg8b10yx2" path="res://materials/TurretBaseMaterial.tres" id="8_kyse0"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_w3f5i"]
@@ -18,6 +19,15 @@ height = 1.0
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_vc5tq"]
 radius = 1.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ail6x"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rlav8"]
+render_priority = 2
+shader = ExtResource("6_wsb1a")
+shader_parameter/Color = Color(0.56799984, 0.45999998, 1, 0.078431375)
+shader_parameter/OuterRadius = 0.999999977648
+shader_parameter/InnerRadius = 0.0
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_km8to"]
 
@@ -66,6 +76,11 @@ monitorable = false
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Sensor"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CylinderShape3D_vc5tq")
+
+[node name="SensorPlane" type="MeshInstance3D" parent="Sensor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
+mesh = SubResource("PlaneMesh_ail6x")
+surface_material_override/0 = SubResource("ShaderMaterial_rlav8")
 
 [node name="Base" type="StaticBody3D" parent="."]
 unique_name_in_owner = true

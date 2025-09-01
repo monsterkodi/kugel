@@ -7,7 +7,8 @@
 [node name="Camera" type="Node3D" groups=["save"]]
 script = ExtResource("1_diie0")
 
-[node name="DirectionalLight" type="DirectionalLight3D" parent="."]
+[node name="Light" type="DirectionalLight3D" parent="."]
+unique_name_in_owner = true
 transform = Transform3D(0.821488, 2.49254e-08, -0.570226, 0.408926, 0.69694, 0.589113, 0.397413, -0.71713, 0.572527, 1.44324, 1.22455, 0)
 shadow_enabled = true
 sky_mode = 1

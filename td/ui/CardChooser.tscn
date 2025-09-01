@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://dm1uyl1udh0ph"]
+
+[ext_resource type="Theme" uid="uid://diyaevcibcg7y" path="res://ui/theme/CardChooserTheme.tres" id="1_d7g8y"]
+[ext_resource type="Script" uid="uid://ngmfo584ofh0" path="res://ui/CardChooser.gd" id="1_dhhyv"]
+
+[node name="CardChooser" type="PanelContainer"]
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 860.0
+offset_top = 415.0
+offset_right = -860.0
+offset_bottom = -415.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_d7g8y")
+script = ExtResource("1_dhhyv")
+
+[node name="CardButtons" type="HBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 50
+alignment = 1
