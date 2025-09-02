@@ -6,6 +6,3 @@ extends Panel
 @export var color:Color = Color(1,1,1):
     set(v): modulate = v
     
-func _ready():
-    
-    Log.log("constant_type_list", theme.get_constant_type_list())

@@ -15,6 +15,8 @@ func _ready():
 
 func _physics_process(delta:float):
     
+    if not is_inside_tree(): return
+    
     for corpse in corpses:
         if corpse == null or corpse.is_queued_for_deletion(): continue 
         var dir = global_position - corpse.global_position

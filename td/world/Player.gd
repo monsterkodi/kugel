@@ -73,6 +73,6 @@ func levelStart():
     
     for card in hand.cards:
         match card.name:
-            "Money":  Wallet.addPrice(100)
+            "Money":  Wallet.addPrice(card.res.data.amount)
             "Shield": addShield()
             _: Log.log("card", card.name)

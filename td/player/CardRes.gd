@@ -8,7 +8,8 @@ enum CardType {
 }
 
 @export var name:StringName
-@export var text:String
-@export var scene:PackedScene
-@export var maxNum:int
 @export var type:CardType
+@export var text:String
+@export var maxNum:int
+@export var scene:PackedScene
+@export var data:Dictionary
