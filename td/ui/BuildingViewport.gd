@@ -22,5 +22,7 @@ func setScene(scene:PackedScene):
     %Scene.add_child(node)
     
     var mesh = node.find_child("*Mesh*")
-    var bb:AABB = mesh.get_aabb()
-    %Camera.look_at(bb.get_center(), Vector3.UP)
+    if mesh:
+        var bb:AABB = mesh.get_aabb()
+        %Camera.look_at(bb.get_center(), Vector3.UP)
+    

@@ -1,10 +1,10 @@
 [gd_scene load_steps=27 format=3 uid="uid://wo631fluqa0p"]
 
-[ext_resource type="Script" uid="uid://dm5k4y4py5jhc" path="res://world/Level.gd" id="1_f0k3j"]
+[ext_resource type="Script" uid="uid://dm5k4y4py5jhc" path="res://world/gd/Level.gd" id="1_f0k3j"]
 [ext_resource type="Shader" uid="uid://colhoamqrtuej" path="res://materials/shader/DotCirclesMaterial.gdshader" id="2_5sqgi"]
 [ext_resource type="Material" uid="uid://kotd4yt27t51" path="res://materials/FloorMaterial.tres" id="2_35mqu"]
 [ext_resource type="PhysicsMaterial" uid="uid://dq1r6votcqh1x" path="res://materials/physics/FloorPhysics.tres" id="2_dn5x0"]
-[ext_resource type="Script" uid="uid://7c1aiis7pati" path="res://world/SlotRing.gd" id="3_5sqgi"]
+[ext_resource type="Script" uid="uid://7c1aiis7pati" path="res://world/gd/SlotRing.gd" id="3_5sqgi"]
 [ext_resource type="Shader" uid="uid://dscrnc7k3wda7" path="res://materials/shader/WaveRingMaterial.gdshader" id="3_ioj0i"]
 [ext_resource type="Material" uid="uid://deqkf3j301h5d" path="res://materials/DotCirclesMaterial.tres" id="4_5sqgi"]
 [ext_resource type="PackedScene" uid="uid://cssayoomcrb8o" path="res://world/Spawner.tscn" id="11_sypgb"]
@@ -113,36 +113,39 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 shape = SubResource("BoxShape3D_dn5x0")
 metadata/_edit_lock_ = true
 
-[node name="Slots" type="Node3D" parent="Floor"]
+[node name="SlotsRings" type="Node3D" parent="Floor"]
 metadata/_edit_lock_ = true
 
-[node name="SlotRing1" type="Node3D" parent="Floor/Slots"]
+[node name="SlotRing1" type="Node3D" parent="Floor/SlotsRings"]
 script = ExtResource("3_5sqgi")
 metadata/_custom_type_script = "uid://7c1aiis7pati"
 metadata/_edit_lock_ = true
 
-[node name="SlotRing2" type="Node3D" parent="Floor/Slots"]
+[node name="SlotRing2" type="Node3D" parent="Floor/SlotsRings"]
 script = ExtResource("3_5sqgi")
 numSlots = 16.0
 radius = 10.0
 metadata/_custom_type_script = "uid://7c1aiis7pati"
 metadata/_edit_lock_ = true
 
-[node name="SlotRing3" type="Node3D" parent="Floor/Slots"]
+[node name="SlotRing3" type="Node3D" parent="Floor/SlotsRings"]
+unique_name_in_owner = true
 script = ExtResource("3_5sqgi")
 numSlots = 24.0
 radius = 15.0
 metadata/_custom_type_script = "uid://7c1aiis7pati"
 metadata/_edit_lock_ = true
 
-[node name="SlotRing4" type="Node3D" parent="Floor/Slots"]
+[node name="SlotRing4" type="Node3D" parent="Floor/SlotsRings"]
+unique_name_in_owner = true
 script = ExtResource("3_5sqgi")
 numSlots = 32.0
 radius = 20.0
 metadata/_custom_type_script = "uid://7c1aiis7pati"
 metadata/_edit_lock_ = true
 
-[node name="SlotRing5" type="Node3D" parent="Floor/Slots"]
+[node name="SlotRing5" type="Node3D" parent="Floor/SlotsRings"]
+unique_name_in_owner = true
 script = ExtResource("3_5sqgi")
 numSlots = 40.0
 radius = 25.0
@@ -196,76 +199,79 @@ skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("ShaderMaterial_jnau8")
 metadata/_edit_lock_ = true
 
-[node name="Node3D" type="Node3D" parent="."]
+[node name="Spawners" type="Node3D" parent="."]
+
+[node name="Node3D1" type="Node3D" parent="Spawners"]
 transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, 0, 0, 0)
 
-[node name="Spawner" parent="Node3D" instance=ExtResource("11_sypgb")]
+[node name="Spawner" parent="Spawners/Node3D1" instance=ExtResource("11_sypgb")]
 transform = Transform3D(1.2665987e-07, 0, -1, 0, 1, 0, 1, 0, 1.2665987e-07, -2.3841858e-07, 0, -39.558113)
 spawnee = ExtResource("14_dn5x0")
+seconds_min = 5.0
 
-[node name="Node3D2" type="Node3D" parent="."]
+[node name="Node3D2" type="Node3D" parent="Spawners"]
 transform = Transform3D(0.7071067, 0, 0.7071067, 0, 1, 0, -0.7071067, 0, 0.7071067, 0, 0, 0)
 
-[node name="Spawner" parent="Node3D2" instance=ExtResource("11_sypgb")]
+[node name="Spawner" parent="Spawners/Node3D2" instance=ExtResource("11_sypgb")]
 transform = Transform3D(1.3113416e-07, 0, -1, 0, 1, 0, 1, 0, 1.3113416e-07, 0, 0, -39.558113)
 spawnee = ExtResource("14_dn5x0")
 activation_level = 100
 
-[node name="Node3D3" type="Node3D" parent="."]
+[node name="Node3D3" type="Node3D" parent="Spawners"]
 transform = Transform3D(0.7071067, 0, -0.7071067, 0, 1, 0, 0.7071067, 0, 0.7071067, 0, 0, 0)
 
-[node name="Spawner" parent="Node3D3" instance=ExtResource("11_sypgb")]
+[node name="Spawner" parent="Spawners/Node3D3" instance=ExtResource("11_sypgb")]
 transform = Transform3D(1.3113416e-07, 0, -1, 0, 1, 0, 1, 0, 1.3113416e-07, 0, 0, -39.558113)
-spawnee = ExtResource("14_dn5x0")
-activation_level = 100
-
-[node name="Node3D4" type="Node3D" parent="."]
-transform = Transform3D(-4.3711385e-08, 0, -0.9999999, 0, 1, 0, 0.9999999, 0, -4.3711385e-08, 0, 0, 0)
-
-[node name="Spawner" parent="Node3D4" instance=ExtResource("11_sypgb")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, -39.558113)
-spawnee = ExtResource("14_dn5x0")
-activation_level = 400
-
-[node name="Node3D5" type="Node3D" parent="."]
-transform = Transform3D(-4.3711385e-08, 0, 0.9999999, 0, 1, 0, -0.9999999, 0, -4.3711385e-08, 0, 0, 0)
-
-[node name="Spawner" parent="Node3D5" instance=ExtResource("11_sypgb")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, -39.558113)
 spawnee = ExtResource("14_dn5x0")
 activation_level = 200
 
-[node name="Node3D6" type="Node3D" parent="."]
+[node name="Node3D4" type="Node3D" parent="Spawners"]
+transform = Transform3D(-4.3711385e-08, 0, -0.9999999, 0, 1, 0, 0.9999999, 0, -4.3711385e-08, 0, 0, 0)
+
+[node name="Spawner" parent="Spawners/Node3D4" instance=ExtResource("11_sypgb")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, -39.558113)
+spawnee = ExtResource("14_dn5x0")
+activation_level = 300
+
+[node name="Node3D5" type="Node3D" parent="Spawners"]
 transform = Transform3D(-4.3711385e-08, 0, 0.9999999, 0, 1, 0, -0.9999999, 0, -4.3711385e-08, 0, 0, 0)
 
-[node name="Spawner" parent="Node3D6" instance=ExtResource("11_sypgb")]
+[node name="Spawner" parent="Spawners/Node3D5" instance=ExtResource("11_sypgb")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, -39.558113)
 spawnee = ExtResource("14_dn5x0")
 activation_level = 400
 
-[node name="Node3D7" type="Node3D" parent="."]
+[node name="Node3D6" type="Node3D" parent="Spawners"]
+transform = Transform3D(-4.3711385e-08, 0, 0.9999999, 0, 1, 0, -0.9999999, 0, -4.3711385e-08, 0, 0, 0)
+
+[node name="Spawner" parent="Spawners/Node3D6" instance=ExtResource("11_sypgb")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, -39.558113)
+spawnee = ExtResource("14_dn5x0")
+activation_level = 500
+
+[node name="Node3D7" type="Node3D" parent="Spawners"]
 transform = Transform3D(-0.7071067, 0, 0.7071067, 0, 1, 0, -0.7071067, 0, -0.7071067, 0, 0, 0)
 
-[node name="Spawner" parent="Node3D7" instance=ExtResource("11_sypgb")]
+[node name="Spawner" parent="Spawners/Node3D7" instance=ExtResource("11_sypgb")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, -39.558113)
 spawnee = ExtResource("14_dn5x0")
-activation_level = 800
+activation_level = 600
 
-[node name="Node3D8" type="Node3D" parent="."]
+[node name="Node3D8" type="Node3D" parent="Spawners"]
 transform = Transform3D(-0.7071067, 0, -0.7071067, 0, 1, 0, 0.7071067, 0, -0.7071067, 0, 0, 0)
 
-[node name="Spawner" parent="Node3D8" instance=ExtResource("11_sypgb")]
+[node name="Spawner" parent="Spawners/Node3D8" instance=ExtResource("11_sypgb")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, -39.558113)
+spawnee = ExtResource("14_dn5x0")
+activation_level = 700
+
+[node name="Node3D9" type="Node3D" parent="Spawners"]
+transform = Transform3D(-0.9999999, 0, -8.742277e-08, 0, 1, 0, 8.742277e-08, 0, -0.9999999, 0, 0, 0)
+
+[node name="Spawner" parent="Spawners/Node3D9" instance=ExtResource("11_sypgb")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, -39.558113)
 spawnee = ExtResource("14_dn5x0")
 activation_level = 800
-
-[node name="Node3D9" type="Node3D" parent="."]
-transform = Transform3D(-0.9999999, 0, -8.742277e-08, 0, 1, 0, 8.742277e-08, 0, -0.9999999, 0, 0, 0)
-
-[node name="Spawner" parent="Node3D9" instance=ExtResource("11_sypgb")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, -39.558113)
-spawnee = ExtResource("14_dn5x0")
-activation_level = 1000
 
 [node name="Base" parent="." instance=ExtResource("13_sypgb")]
 unique_name_in_owner = true

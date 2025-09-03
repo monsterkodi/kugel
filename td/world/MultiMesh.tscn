@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://c2avn203eitto"]
 
-[ext_resource type="Script" uid="uid://bvomy8grf01e8" path="res://world/MultiMesh.gd" id="1_4npgi"]
+[ext_resource type="Script" uid="uid://bvomy8grf01e8" path="res://world/gd/MultiMesh.gd" id="1_4npgi"]
 [ext_resource type="Material" uid="uid://c6afuil50xpdj" path="res://materials/EnemyMaterial.tres" id="2_ugn5w"]
 [ext_resource type="Shader" uid="uid://b7lpd6h1smubj" path="res://materials/visual/CircleMatVis.tres" id="3_ugn5w"]
 

@@ -7,10 +7,9 @@ func _ready():
     
     add_to_group("save")
 
-    Post.startLevel.connect(startLevel)
-    Post.levelEnd.connect(levelEnd)
-    Post.buildingBought.connect(deductPriceForBuilding)
-    Post.corpseCollected.connect(addRewardForCorpseCollected)
+    #Post.startLevel.connect(startLevel)
+    #Post.levelEnd.connect(levelEnd)
+    Post.subscribe(self)
     
     #Post.statChanged.emit("balance", balance)
     #Post.statChanged.emit("restoks", restoks)
@@ -24,7 +23,7 @@ func levelEnd():
     setRestoks(restoks+balance)
     setBalance(0)
     
-func addRewardForCorpseCollected():
+func corpseCollected():
     
     var reward = rewardForCorpseCollected()
     addPrice(reward)
@@ -33,7 +32,7 @@ func rewardForCorpseCollected():
     
     return 1
     
-func deductPriceForBuilding(building):
+func buildingBought(building):
 
     deductPrice(Info.priceForBuilding(building))
     

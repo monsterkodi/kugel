@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://mxu6thvv1ycr"]
 
-[ext_resource type="Script" uid="uid://c8brtkfu03h0r" path="res://world/MouseHandler.gd" id="1_kf1s2"]
+[ext_resource type="Script" uid="uid://c8brtkfu03h0r" path="res://world/gd/MouseHandler.gd" id="1_kf1s2"]
 
 [node name="MouseHandler" type="Control"]
 layout_mode = 3

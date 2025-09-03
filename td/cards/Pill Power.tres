@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CardRes" load_steps=3 format=3 uid="uid://dml257fljbcas"]
+
+[ext_resource type="PackedScene" uid="uid://dehmjc447yvug" path="res://vehicles/Capsule.tscn" id="1_sicoq"]
+[ext_resource type="Script" uid="uid://dcn508r6heipo" path="res://player/CardRes.gd" id="2_dagpe"]
+
+[resource]
+script = ExtResource("2_dagpe")
+name = &"Pill Power"
+type = 1
+text = "More power to the player laser and punch"
+maxNum = 3
+scene = ExtResource("1_sicoq")
+metadata/_custom_type_script = "uid://dcn508r6heipo"

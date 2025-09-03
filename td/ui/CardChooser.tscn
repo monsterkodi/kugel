@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://ngmfo584ofh0" path="res://ui/CardChooser.gd" id="1_dhhyv"]
 
 [node name="CardChooser" type="PanelContainer"]
-anchors_preset = -1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 860.0

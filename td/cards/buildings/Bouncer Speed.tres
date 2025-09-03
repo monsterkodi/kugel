@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CardRes" load_steps=3 format=3 uid="uid://cud24rd2fnktd"]
+
+[ext_resource type="PackedScene" uid="uid://be78v806wl6a5" path="res://world/buildings/Bouncer.tscn" id="1_4w6yd"]
+[ext_resource type="Script" uid="uid://dcn508r6heipo" path="res://player/CardRes.gd" id="2_yehin"]
+
+[resource]
+script = ExtResource("2_yehin")
+name = &"Bouncer Speed"
+type = 1
+text = "Bouncer trigger faster"
+maxNum = 5
+scene = ExtResource("1_4w6yd")
+metadata/_custom_type_script = "uid://dcn508r6heipo"

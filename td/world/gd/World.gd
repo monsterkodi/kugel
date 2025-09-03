@@ -1,6 +1,5 @@
 class_name World
 extends Node
-
 const LEVEL = preload("uid://wo631fluqa0p")
 
 var currentLevel:Node3D
@@ -9,8 +8,7 @@ func _ready():
     
     %MenuHandler.hideAllMenus()
     
-    Post.baseDestroyed.connect(baseDestroyed)
-    Post.startLevel.connect(startLevel)
+    Post.subscribe(self)
     
     Info.player = %Player
     
@@ -98,17 +96,22 @@ func startLevel():
         remove_child(currentLevel)
     currentLevel = LEVEL.instantiate()
     add_child(currentLevel)
+    %MenuHandler.slideIn(%Hud)
     Post.levelStart.emit()
     resumeGame()
+    
+func restartLevel():
+    
+    pauseGame()
+    %MenuHandler.appear(%HandChooser)
                   
 func togglePause():
     
     if not get_tree().paused:
         pauseGame()
-        %PauseMenu.visible = true
+        %MenuHandler.appear(%PauseMenu)
     else:
-        %PauseMenu.visible = false
-        %SettingsMenu.visible = false
+        %MenuHandler.vanishActive()
         if %BuildMenu.visible:
             toggleBuild()
         else:
@@ -139,5 +142,4 @@ func loadGame():
     
 func settings():
     
-    %PauseMenu.visible    = false
-    %SettingsMenu.visible = true
+    %MenuHandler.appear(%SettingsMenu)

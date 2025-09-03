@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="CardRes" load_steps=2 format=3 uid="uid://bqoarucx4740p"]
+
+[ext_resource type="Script" uid="uid://dcn508r6heipo" path="res://player/CardRes.gd" id="1_8yq60"]
+
+[resource]
+script = ExtResource("1_8yq60")
+name = &"Research"
+type = 2
+text = "Add research points"
+metadata/_custom_type_script = "uid://dcn508r6heipo"

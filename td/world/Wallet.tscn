@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dq3xg6c4dujk6"]
 
-[ext_resource type="Script" uid="uid://csqf7yks7eerr" path="res://world/Wallet.gd" id="1_w4k10"]
+[ext_resource type="Script" uid="uid://csqf7yks7eerr" path="res://world/gd/Wallet.gd" id="1_w4k10"]
 
 [node name="Wallet" type="Node"]
 script = ExtResource("1_w4k10")

@@ -26,7 +26,8 @@ func fromDict(dict:Dictionary):
     cards = []
     for cardName in dict.cards:
         var card = Utils.cardWithName(cardName)
-        addCard(card)
+        if card: addCard(card)
+        else: Log.log("no card with name", cardName)
     
     
     

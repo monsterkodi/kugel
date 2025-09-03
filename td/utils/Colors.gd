@@ -14,8 +14,8 @@ func _ready() -> void:
         Log.log("connected", EditorInterface.get_inspector().property_edited.has_connections())
         if not EditorInterface.get_inspector().property_edited.has_connections():
             EditorInterface.get_inspector().property_edited.connect(inspectorPropertyEdited)
-    else:
-        Log.log("game current_scene", get_tree().current_scene, get_tree())
+    #else:
+        #Log.log("game current_scene", get_tree().current_scene, get_tree())
 
 func inspectorPropertyEdited(property):
     

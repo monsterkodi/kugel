@@ -18,7 +18,7 @@ func _physics_process(delta:float):
     if not is_inside_tree(): return
     
     for corpse in corpses:
-        if corpse == null or corpse.is_queued_for_deletion(): continue 
+        if corpse == null or corpse.is_queued_for_deletion() or not corpse.is_inside_tree(): continue 
         var dir = global_position - corpse.global_position
         var dst = dir.length()
         if dst < 0.75:

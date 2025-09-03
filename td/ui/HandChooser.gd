@@ -14,8 +14,11 @@ func _on_visibility_changed():
     set_process_input(visible)
     
     if visible:
+
+        %MenuHandler.slideOut(%Hud)
                 
         Utils.freeChildren(%Hand)
+        %Hand.custom_minimum_size.x = Info.maxHandCards() * 300
         for card in %Player.hand.cards:
             var button = CARD_BUTTON.instantiate()
             button.card = card
@@ -34,9 +37,7 @@ func _on_visibility_changed():
             button.setSize(DECK_SIZE)
         
         %Done.grab_focus()            
-    else:
-        if is_inside_tree():
-            %MenuHandler.appear(%Hud, true)
+    else:            
         Utils.freeChildren(%Hand)
         Utils.freeChildren(%Deck)
 

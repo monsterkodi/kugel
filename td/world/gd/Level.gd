@@ -4,6 +4,16 @@ func _ready():
     
     add_to_group("game")
     #add_to_group("save")
+    
+    Post.levelStart.connect(levelStart)
+    
+func levelStart():
+    
+    var rings = Info.numberOfCardsOwned("Slot Ring")
+    Log.log("rings", rings)
+    %SlotRing3.visible = (rings >= 1)
+    %SlotRing4.visible = (rings >= 2)
+    %SlotRing5.visible = (rings >= 3)
 
 func gamePaused():
     

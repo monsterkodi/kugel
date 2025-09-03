@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://cssayoomcrb8o"]
 
-[ext_resource type="Script" uid="uid://c42hpa6ij4j3j" path="res://world/Spawner.gd" id="1_5q6u0"]
+[ext_resource type="Script" uid="uid://c42hpa6ij4j3j" path="res://world/gd/Spawner.gd" id="1_5q6u0"]
 [ext_resource type="Shader" uid="uid://cj78indyh2su8" path="res://materials/shader/GooMaterial.gdshader" id="2_xgr6b"]
 [ext_resource type="Shader" uid="uid://buoavpwql810j" path="res://materials/visual/RoundedBorderMatVis.tres" id="5_5i5hu"]
 

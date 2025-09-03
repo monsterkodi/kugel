@@ -7,13 +7,20 @@ var dash  = 0
 var MIN_SPEED = 3
 var MAX_SPEED = 6
 
-var mouseRot = 0.0
+var mouseRot   = 0.0
 var mouseDelta = Vector2.ZERO
-var dashDir = Vector3.FORWARD
+var dashDir    = Vector3.FORWARD
 
 func _ready():
     
     global_position = Vector3.UP
+    
+    Post.levelStart.connect(levelStart)
+    
+func levelStart():
+    
+    %LaserPointer.laserRange  = 5 + 5 * Info.numberOfCardsOwned("Pill Range")
+    %LaserPointer.laserDamage = 1 + 1 * Info.numberOfCardsOwned("Pill Damage")
 
 func _physics_process(delta:float):
     

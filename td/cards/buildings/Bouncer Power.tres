@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CardRes" load_steps=3 format=3 uid="uid://dyj28he83g7l0"]
+
+[ext_resource type="PackedScene" uid="uid://be78v806wl6a5" path="res://world/buildings/Bouncer.tscn" id="1_fb87o"]
+[ext_resource type="Script" uid="uid://dcn508r6heipo" path="res://player/CardRes.gd" id="2_26lwa"]
+
+[resource]
+script = ExtResource("2_26lwa")
+name = &"Bouncer Power"
+type = 1
+text = "Bouncers do more damage"
+maxNum = 5
+scene = ExtResource("1_fb87o")
+metadata/_custom_type_script = "uid://dcn508r6heipo"

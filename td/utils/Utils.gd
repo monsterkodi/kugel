@@ -1,5 +1,15 @@
 extends Node
 
+func nameDict(arr:Array) -> Dictionary:
+    
+    var dict = {}
+    for item in arr:
+        dict[item.name] = item
+    return dict    
+
+func methodDict(node:Node): return nameDict(node.get_method_list())
+func signalDict(node:Node): return nameDict(node.get_signal_list())
+
 func freeChildren(node:Node):
     
     while node.get_child_count():
@@ -10,7 +20,11 @@ func resourcesInDir(dir:String) -> Array[Resource]:
     
     var resources:Array[Resource] = []
     for path in ResourceLoader.list_directory(dir):
-        resources.append(load(dir + "/" + path))
+        if path[-1] == "/":
+            resources.append_array(resourcesInDir(dir + path))
+        else:
+            var res = load(dir + "/" + path)
+            if res: resources.append(res)
     return resources
     
 func allCards() -> Array[Card]:

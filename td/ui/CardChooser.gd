@@ -41,7 +41,7 @@ func _on_visibility_changed():
     
     set_process_input(visible)
     if visible:
-        %MenuHandler.vanish(%Hud)
+        %MenuHandler.slideOut(%Hud)
 
 func _input(event: InputEvent):
     

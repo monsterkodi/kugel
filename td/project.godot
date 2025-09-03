@@ -23,12 +23,13 @@ Layer="*res://utils/Layer.gd"
 Post="*res://utils/Post.gd"
 Stats="*res://utils/Stats.gd"
 Colors="res://utils/Colors.gd"
-Wallet="*res://world/Wallet.gd"
+Wallet="*res://world/gd/Wallet.gd"
 Utils="*res://utils/Utils.gd"
 fps_graph="*res://addons/fps_graph/fps_graph.tscn"
-Info="*res://world/Info.gd"
+Info="*res://world/gd/Info.gd"
 Materials="*res://utils/Materials.gd"
 GlobalMultiMesh="*res://world/MultiMesh.tscn"
+Tst="*res://utils/Test.gd"
 
 [debug]
 
@@ -37,6 +38,7 @@ gdscript/warnings/unused_local_constant=0
 gdscript/warnings/unused_private_class_variable=0
 gdscript/warnings/unused_parameter=0
 gdscript/warnings/unused_signal=0
+gdscript/warnings/shadowed_global_identifier=0
 
 [display]
 
@@ -57,7 +59,7 @@ cozy_cube/gizmo_presets={}
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/anthonyec.camera_preview/plugin.cfg", "res://addons/area_lights/plugin.cfg", "res://addons/bottom_panel_shortcuts/plugin.cfg", "res://addons/csgtomesh/plugin.cfg", "res://addons/editor_commands/plugin.cfg", "res://addons/editor_relays/plugin.cfg", "res://addons/exec_script/plugin.cfg", "res://addons/extra_snaps/plugin.cfg", "res://addons/fps_graph/plugin.cfg", "res://addons/gizmo_presets/plugin.cfg", "res://addons/lines_and_trails_3d/plugin.cfg", "res://addons/log/plugin.cfg", "res://addons/more_viewport_options/plugin.cfg", "res://addons/nine_patch_mesh/plugin.cfg", "res://addons/script-name-on-top/plugin.cfg", "res://addons/seven_segment_display/plugin.cfg", "res://addons/tile_path_3d/plugin.cfg")
+enabled=PackedStringArray("res://addons/anthonyec.camera_preview/plugin.cfg", "res://addons/area_lights/plugin.cfg", "res://addons/bottom_panel_shortcuts/plugin.cfg", "res://addons/csgtomesh/plugin.cfg", "res://addons/editor_commands/plugin.cfg", "res://addons/editor_relays/plugin.cfg", "res://addons/exec_script/plugin.cfg", "res://addons/extra_snaps/plugin.cfg", "res://addons/fps_graph/plugin.cfg", "res://addons/gizmo_presets/plugin.cfg", "res://addons/lines_and_trails_3d/plugin.cfg", "res://addons/log/plugin.cfg", "res://addons/more_viewport_options/plugin.cfg", "res://addons/nine_patch_mesh/plugin.cfg", "res://addons/script-name-on-top/plugin.cfg", "res://addons/script-tabs/plugin.cfg", "res://addons/seven_segment_display/plugin.cfg", "res://addons/tile_path_3d/plugin.cfg")
 
 [exec]
 

@@ -4,7 +4,7 @@ const BUILD_BUTTON = preload("res://ui/BuildButton.tscn")
 
 func _ready():
     
-    Post.buildingPlaced.connect(buildingPlaced)
+    Post.subscribe(self)
     
 func buildingPlaced(building):
     
@@ -26,7 +26,7 @@ func buttonPressed(button):
     
 func buttonFocused(button):
 
-    Post.builderGhost.emit(button.name)
+    Post.buildingGhost.emit(button.name)
     
 func showButtons():
     
@@ -49,7 +49,7 @@ func showMenu():
     if %Buttons.get_child_count():
         %Buttons.get_child(0).get_child(0).grab_focus()
     else:
-        Post.builderGhost.emit("")
+        Post.buildingGhost.emit("")
         
     visible = true
     

@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://b4x04vstro86m"]
 
-[ext_resource type="Script" uid="uid://brq2knwpagtjf" path="res://world/Bullet.gd" id="1_ayd6b"]
+[ext_resource type="Script" uid="uid://brq2knwpagtjf" path="res://world/gd/Bullet.gd" id="1_ayd6b"]
 [ext_resource type="PackedScene" uid="uid://v6wvw0y87xg8" path="res://components/Lifetime.tscn" id="2_4s4u5"]
 [ext_resource type="Material" uid="uid://nh64fodnmcgk" path="res://materials/BulletMaterial.tres" id="3_oknpv"]
 

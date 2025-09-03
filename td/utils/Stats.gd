@@ -4,14 +4,22 @@ var numEnemiesSpawned = 0
 
 func _ready():
     
-    Post.enemySpawned.connect(enemySpawned)
-    Post.baseDestroyed.connect(baseDestroyed)
+    #Post.enemySpawned.connect(enemySpawned)
+    #Post.baseDestroyed.connect(baseDestroyed)
+    #Post.levelStart.connect(levelStart)
     
-func baseDestroyed():
+    Post.subscribe(self)
     
+func levelStart():
+
     numEnemiesSpawned  = 0
-    
     Post.statChanged.emit("numEnemiesSpawned",  numEnemiesSpawned)
+    
+#func baseDestroyed():
+    
+    #numEnemiesSpawned  = 0
+    #
+    #Post.statChanged.emit("numEnemiesSpawned",  numEnemiesSpawned)
 
 func enemySpawned():
     

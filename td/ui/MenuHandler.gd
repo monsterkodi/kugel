@@ -1,10 +1,16 @@
 class_name MenuHandler
 extends CanvasLayer
 
+const APPEAR_TIME     = 1.0
+const VANISH_TIME     = 0.5
+const SLIDE_IN_TIME   = 1.0
+const SLIDE_OUT_TIME  = 0.5
+
+var activeMenu : Control
+
 func _ready():
     
-    Post.cardChosen.connect(cardChosen)
-    Post.handChosen.connect(handChosen)
+    Post.subscribe(self)
     
 func _unhandled_input(event: InputEvent):
     
@@ -17,7 +23,7 @@ func _unhandled_input(event: InputEvent):
                 
 func cardChosen(card:Card):
     
-    if %Player.hand.cards.size() < Info.maxHandCards():
+    if %Player.hand.cards.size() < Info.maxHandCards() and card.isBattleCard():
         %Player.hand.addCard(card)
     else:
         %Player.deck.addCard(card)
@@ -33,36 +39,71 @@ func hideAllMenus():
     for child in get_children():
         child.visible = false
 
+func vanishActive():
+    
+    if activeMenu:
+        vanish(activeMenu)
+
 func showCardChooser(cards:Array):
     
     %CardChooser.setCards(cards)
     appear(%CardChooser)
     
-func appear(menu:Control, reverse=false):
+func appear(menu:Control):
+    
+    if activeMenu and activeMenu != menu:
+        vanish(activeMenu)
+        
+    activeMenu = menu
     
     menu.show()
-    if reverse:
-        menu.anchor_top    = -1
-        menu.anchor_bottom = 0
-    else:
-        menu.anchor_top    = 1
-        menu.anchor_bottom = 2
+    
+    menu.anchor_top    = 1
+    menu.anchor_bottom = 2
         
     var tween = create_tween()
     tween.set_ease(Tween.EASE_OUT)
     tween.set_trans(Tween.TRANS_QUINT)
-    tween.tween_property(menu, "anchor_top", 0, 2.0)
-    tween.parallel().tween_property(menu, "anchor_bottom", 1, 3.0)
+    tween.tween_property(menu, "anchor_top", 0, APPEAR_TIME)
+    tween.parallel().tween_property(menu, "anchor_bottom", 1, APPEAR_TIME)
     return tween
 
 func vanish(menu):
     
+    if menu == activeMenu:
+        activeMenu = null
+        
     menu.anchor_top    = 0
     menu.anchor_bottom = 1
 
     var tween = create_tween()
-    tween.tween_property(menu, "anchor_top", -1, 0.5)
-    tween.parallel().tween_property(menu, "anchor_bottom", 0, 0.5)
+    tween.tween_property(menu, "anchor_top", -1, VANISH_TIME)
+    tween.parallel().tween_property(menu, "anchor_bottom", 0, VANISH_TIME)
     tween.tween_callback(menu.hide)
     #tween.tween_callback(func(): menu.anchor_top = 0; menu.anchor_bottom = 1)
     return tween
+
+func slideIn(menu:Control):
+    #Log.log("slideIn", menu, menu.size.y)
+    menu.show()
+    
+    menu.anchor_top    = 0 - menu.size.y/1080.0
+    menu.anchor_bottom = 1 - menu.size.y/1080.0
+        
+    var tween = create_tween()
+    tween.set_ease(Tween.EASE_OUT)
+    tween.set_trans(Tween.TRANS_QUINT)
+    tween.tween_property(menu, "anchor_top", 0, SLIDE_IN_TIME)
+    tween.parallel().tween_property(menu, "anchor_bottom", 1, SLIDE_IN_TIME)
+    return tween
+    
+func slideOut(menu:Control):
+    #Log.log("slideOut", menu, menu.size.y)
+    menu.anchor_top    = 0
+    menu.anchor_bottom = 1
+
+    var tween = create_tween()
+    tween.tween_property(menu, "anchor_top", 0 - menu.size.y/1080.0, SLIDE_OUT_TIME)
+    tween.parallel().tween_property(menu, "anchor_bottom", 1 - menu.size.y/1080.0, SLIDE_OUT_TIME)
+    tween.tween_callback(menu.hide)
+    return tween    

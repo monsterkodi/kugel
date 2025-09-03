@@ -11,7 +11,7 @@ const GHOST_MATERIAL = preload("res://materials/BuilderGhostMaterial.tres")
 
 func _ready():
     
-    Post.builderGhost.connect(loadGhost)
+    Post.buildingGhost.connect(buildingGhost)
 
 func _input(event: InputEvent):
     
@@ -61,7 +61,7 @@ func loadVehicle(vehicleName:String):
         vehicle = load("res://vehicles/%s.tscn" % vehicleName).instantiate()
         get_parent_node_3d().add_child(vehicle)
         
-func loadGhost(ghostName:String):
+func buildingGhost(ghostName:String):
     
     if ghost: 
         ghost.queue_free()

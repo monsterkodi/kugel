@@ -6,8 +6,7 @@ const CARD_SIZE = Vector2i(100,66)
 
 func _ready():
     
-    Post.levelStart.connect(levelStart)
-    Post.levelEnd.connect(levelEnd)
+    Post.subscribe(self)
 
 func levelStart():
     

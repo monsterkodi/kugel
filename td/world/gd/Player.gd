@@ -17,7 +17,7 @@ func _ready():
     
     loadVehicle.call_deferred("Pill")
     
-    Post.levelStart.connect(levelStart)
+    Post.subscribe(self)
 
 func loadVehicle(vehicle_name:String):
     

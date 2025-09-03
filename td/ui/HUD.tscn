@@ -4,12 +4,16 @@
 [ext_resource type="Theme" uid="uid://g22p2j6a23ol" path="res://ui/theme/HUDTheme.tres" id="2_aaqae"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aaqae"]
+content_margin_left = 25.0
 bg_color = Color(0.10965204, 0.10965204, 0.10965204, 1)
 corner_radius_bottom_right = 30
+expand_margin_right = 25.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jd13s"]
+content_margin_right = 25.0
 bg_color = Color(0.10965204, 0.10965204, 0.10965204, 1)
 corner_radius_bottom_left = 30
+expand_margin_left = 25.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wxbmk"]
 bg_color = Color(0.10965204, 0.10965204, 0.10965204, 1)
@@ -22,6 +26,7 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_bottom = -988.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -42,7 +47,7 @@ layout_mode = 2
 size_flags_horizontal = 6
 theme = ExtResource("2_aaqae")
 theme_override_colors/font_color = Color(1, 1, 0, 1)
-text = "0
+text = "0000
 "
 
 [node name="TopRight" type="PanelContainer" parent="."]
@@ -75,25 +80,6 @@ offset_bottom = 65.0
 grow_horizontal = 2
 theme = ExtResource("2_aaqae")
 theme_override_styles/panel = SubResource("StyleBoxFlat_wxbmk")
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Center"]
-visible = false
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-
-[node name="Base" type="Button" parent="Center/HBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 6
-theme = ExtResource("2_aaqae")
-theme_override_colors/font_color = Color(0.6599067, 0.6644344, 1, 1)
-text = "0"
-
-[node name="Shield" type="Button" parent="Center/HBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_colors/font_color = Color(0.14756489, 0, 1, 1)
 
 [node name="MarginContainer" type="MarginContainer" parent="Center"]
 layout_mode = 2

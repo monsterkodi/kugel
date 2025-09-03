@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CardRes" load_steps=3 format=3 uid="uid://dinipkw6ysept"]
+
+[ext_resource type="PackedScene" uid="uid://dfa3dn75qvqpn" path="res://world/buildings/Laser.tscn" id="1_7owfr"]
+[ext_resource type="Script" uid="uid://dcn508r6heipo" path="res://player/CardRes.gd" id="2_rspix"]
+
+[resource]
+script = ExtResource("2_rspix")
+name = &"Pill Range"
+type = 1
+text = "Pill Laser and Collector reach farther"
+maxNum = 5
+scene = ExtResource("1_7owfr")
+metadata/_custom_type_script = "uid://dcn508r6heipo"
