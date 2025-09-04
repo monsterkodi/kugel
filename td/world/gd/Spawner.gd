@@ -4,12 +4,12 @@ extends Node3D
 
 @export var activation_level:int = 0
 
-@export_range(1.0, 100,  1.0)  var mass_initial       = 1.0
-@export_range(0.0, 100,  0.1)  var velocity_initial   = 2.0
+@export_range(1.0, 10.0,  1.0) var mass_initial       = 1.0
+@export_range(0.0, 100,  0.1)  var velocity_initial   = 10.0
 @export_range(0.0, 60,   0.1)  var seconds_initial    = 10.0
 
 @export var mass_increment     = 0.1
-@export var mass_max           = 1000.0
+@export var mass_max           = 100.0
 @export var velocity_increment = 0.05
 @export var velocity_max       = 10.0
 @export var seconds_decrement  = 0.05
@@ -31,12 +31,13 @@ func _ready():
     mass     = mass_initial
     
     if activation_level == 0:
-        nextSpawnLoop()
+        nextSpawnLoop.call_deferred()
     else:
         Post.statChanged.connect(statChanged)
         %Body.position.y = -1.2
 
 func statChanged(statName, value):
+    
     match statName:
         "numEnemiesSpawned":
             if value >= activation_level:
@@ -54,14 +55,15 @@ func level_reset():
 func nextSpawnLoop():    
     
     tween = create_tween()
-    tween.tween_property(%Body, "position:y", 1.1, seconds/Info.enemySpeed).from(-1.2).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+    tween.tween_property(%Body, "position:y", 1.1, seconds/Info.enemySpeed).from(-1.2*%Body.scale.x).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
     tween.parallel().tween_method(preSpawn, 0.0, 1.0, seconds/Info.enemySpeed)
     tween.tween_callback(ejectSpawnBody)
 
     spawnedBody = spawnee.instantiate()
-    spawnedBody.setMass(mass)
-    %SpawnPoint.add_child(spawnedBody)
     spawnedBody.freeze = true
+    spawnedBody.setMass(mass)
+    get_parent_node_3d().add_child(spawnedBody)
+    preSpawn(0)
     
     mass     += mass_increment
     mass      = minf(mass, mass_max)
@@ -70,19 +72,21 @@ func nextSpawnLoop():
     seconds  -= seconds_decrement
     seconds   = maxf(seconds, seconds_min)
     
+    %Body.scale = spawnedBody.scale
+    %Hole.scale = spawnedBody.scale
+    
 func preSpawn(value):
     
-    spawnedBody.position.x = curve.sample(value)
+    spawnedBody.global_position = %SpawnPoint.global_position
+    spawnedBody.global_position += curve.sample(value) * %SpawnPoint.global_basis.x.normalized()
 
 func ejectSpawnBody():
 
     if not spawnedBody: return
     
-    Utils.setParent(spawnedBody, get_parent_node_3d())
-    spawnedBody.global_transform = %SpawnPoint.global_transform
     spawnedBody.setMass(mass)
     spawnedBody.freeze = false
-    spawnedBody.apply_central_impulse(%SpawnPoint.global_basis.x * velocity*mass)
+    spawnedBody.apply_central_impulse(%SpawnPoint.global_basis.x.normalized() * velocity*mass)
     spawnedBody = null
     
     Post.enemySpawned.emit()

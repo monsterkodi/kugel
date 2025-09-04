@@ -12,7 +12,8 @@ func _ready():
 func setCard(c:Card):
     
     card = c
-    add_child(card)
+    if card.get_parent() == null:
+        add_child(card)
     text = card.res.name
     if card.res.scene:
         %Scene.setScene(card.res.scene)

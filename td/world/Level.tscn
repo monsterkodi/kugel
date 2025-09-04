@@ -14,7 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://cqn35mciqmm8s" path="res://world/Enemy.tscn" id="14_dn5x0"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_dn5x0"]
-size = Vector2(100, 100)
+size = Vector2(1000, 1000)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_dn5x0"]
 size = Vector3(1000, 1, 1000)
@@ -103,6 +103,7 @@ physics_material_override = ExtResource("2_dn5x0")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
 layers = 3
+cast_shadow = 0
 mesh = SubResource("PlaneMesh_dn5x0")
 skeleton = NodePath("../..")
 surface_material_override/0 = ExtResource("2_35mqu")

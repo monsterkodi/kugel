@@ -6,5 +6,5 @@
 render_priority = -5
 shader = ExtResource("1_fc761")
 shader_parameter/Inner = Color(0.08362889, 0.08362889, 0.08362889, 1)
-shader_parameter/Outer = Color(0.09803922, 0.09803922, 0.09803922, 0)
-shader_parameter/Size = 1.0
+shader_parameter/Outer = Color(0, 0, 0, 1)
+shader_parameter/Size = 0.10000000475000001
