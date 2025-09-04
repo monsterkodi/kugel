@@ -1,31 +1,32 @@
 class_name Deck
 extends Node
 
-var cards:Array[Card] = []
-
 func addCard(card:Card):
     
-    #Log.log("addCard", card, card.name)
-    cards.append(card)
+    #Log.log("addCard", card, card.res.name)
+    Utils.setParent(card, self)
     
-func delCard(card:Card):
+func countCards(cardName:String) -> int:
     
-    #Log.log("delCard", card, card.name)
-    assert(card in cards)
-    cards.erase(card)
-        
+    var num = 0
+    for card in get_children():
+        if card.res.name == cardName: num += 1
+    return num
+    
 func toDict() -> Dictionary:
     
     var dict = {"cards": []}
-    for card in cards:
-        dict.cards.append(card.name)
+    for card in get_children():
+        dict.cards.append(card.res.name)
+    Log.log("Deck.toDict", dict)
     return dict
     
 func fromDict(dict:Dictionary):
     
-    cards = []
+    Log.log("Deck.fromDict", dict)
+    Utils.freeChildren(self)
     for cardName in dict.cards:
-        var card = Utils.cardWithName(cardName)
+        var card = Utils.newCardWithName(cardName)
         if card: addCard(card)
         else: Log.log("no card with name", cardName)
     

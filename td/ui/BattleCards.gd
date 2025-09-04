@@ -11,7 +11,7 @@ func _ready():
 func levelStart():
     
     Utils.freeChildren(%Cards)
-    for card in %Player.hand.cards:
+    for card in %Player.hand.get_children():
         var button = CARD_BUTTON.instantiate()
         button.card = card
         %Cards.add_child(button)

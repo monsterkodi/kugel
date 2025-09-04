@@ -117,11 +117,15 @@ metadata/_edit_lock_ = true
 metadata/_edit_lock_ = true
 
 [node name="SlotRing1" type="Node3D" parent="Floor/SlotsRings"]
+unique_name_in_owner = true
+visible = false
 script = ExtResource("3_5sqgi")
 metadata/_custom_type_script = "uid://7c1aiis7pati"
 metadata/_edit_lock_ = true
 
 [node name="SlotRing2" type="Node3D" parent="Floor/SlotsRings"]
+unique_name_in_owner = true
+visible = false
 script = ExtResource("3_5sqgi")
 numSlots = 16.0
 radius = 10.0
@@ -130,6 +134,7 @@ metadata/_edit_lock_ = true
 
 [node name="SlotRing3" type="Node3D" parent="Floor/SlotsRings"]
 unique_name_in_owner = true
+visible = false
 script = ExtResource("3_5sqgi")
 numSlots = 24.0
 radius = 15.0
@@ -138,6 +143,7 @@ metadata/_edit_lock_ = true
 
 [node name="SlotRing4" type="Node3D" parent="Floor/SlotsRings"]
 unique_name_in_owner = true
+visible = false
 script = ExtResource("3_5sqgi")
 numSlots = 32.0
 radius = 20.0
@@ -146,6 +152,7 @@ metadata/_edit_lock_ = true
 
 [node name="SlotRing5" type="Node3D" parent="Floor/SlotsRings"]
 unique_name_in_owner = true
+visible = false
 script = ExtResource("3_5sqgi")
 numSlots = 40.0
 radius = 25.0
@@ -301,3 +308,9 @@ material = SubResource("StandardMaterial3D_d6u53")
 
 [node name="Colors" parent="." instance=ExtResource("12_f0k3j")]
 turretSensor = Color(0.9546016, 0.74509805, 1, 0.7490196)
+
+[connection signal="visibility_changed" from="Floor/SlotsRings/SlotRing1" to="Floor/SlotsRings/SlotRing1" method="_on_visibility_changed"]
+[connection signal="visibility_changed" from="Floor/SlotsRings/SlotRing2" to="Floor/SlotsRings/SlotRing2" method="_on_visibility_changed"]
+[connection signal="visibility_changed" from="Floor/SlotsRings/SlotRing3" to="Floor/SlotsRings/SlotRing3" method="_on_visibility_changed"]
+[connection signal="visibility_changed" from="Floor/SlotsRings/SlotRing4" to="Floor/SlotsRings/SlotRing4" method="_on_visibility_changed"]
+[connection signal="visibility_changed" from="Floor/SlotsRings/SlotRing5" to="Floor/SlotsRings/SlotRing5" method="_on_visibility_changed"]

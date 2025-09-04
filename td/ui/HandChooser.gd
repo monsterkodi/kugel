@@ -18,8 +18,8 @@ func _on_visibility_changed():
         %MenuHandler.slideOut(%Hud)
                 
         Utils.freeChildren(%Hand)
-        %Hand.custom_minimum_size.x = Info.maxHandCards() * 300
-        for card in %Player.hand.cards:
+        %Hand.custom_minimum_size.x = Info.maxHandCards() * 300 + 50
+        for card in %Player.hand.get_children():
             var button = CARD_BUTTON.instantiate()
             button.card = card
             button.pressed.connect(buttonPressed.bind(button))
@@ -27,7 +27,7 @@ func _on_visibility_changed():
             button.setSize(HAND_SIZE)
 
         Utils.freeChildren(%Deck)
-        for card in %Player.deck.cards:
+        for card in %Player.deck.get_children():
             var button = CARD_BUTTON.instantiate()
             button.card = card
             button.pressed.connect(buttonPressed.bind(button))
@@ -52,21 +52,17 @@ func moveHandCardToDeck(index:int):
     
     var button = %Hand.get_child(index)
     %Player.deck.addCard(button.card)
-    %Player.hand.delCard(button.card)
-    %Hand.remove_child(button)
-    %Deck.add_child(button)
+    Utils.setParent(button, %Deck)
     button.setSize(DECK_SIZE)
     
 func moveDeckCardToHand(index:int):
     
     var button = %Deck.get_child(index)
-    if %Player.hand.cards.size() == Info.maxHandCards():
-        moveHandCardToDeck(%Player.hand.cards.size()-1)
+    if %Player.hand.get_child_count() == Info.maxHandCards():
+        moveHandCardToDeck(%Player.hand.get_child_count()-1)
         
     %Player.hand.addCard(button.card)
-    %Player.deck.delCard(button.card)
-    %Deck.remove_child(button)
-    %Hand.add_child(button)
+    Utils.setParent(button, %Hand)
     button.setSize(HAND_SIZE)
 
 func deckButtonPressed(button):

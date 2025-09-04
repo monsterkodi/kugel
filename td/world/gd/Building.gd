@@ -4,9 +4,6 @@ var inert = false
 var type : String
 
 func _ready():
-    pass
-
-func _enter_tree():
     
     type = get_script().get_global_name()
     #Log.log("enter_tree", name, inert, type, get_script().get_base_script())
@@ -24,7 +21,7 @@ func level_reset():
     
 func level_load():
     
-    get_parent_node_3d().remove_child(self)
+    #get_parent_node_3d().remove_child(self)
     queue_free()
     
 func saveBuilding(array:Array):

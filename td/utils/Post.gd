@@ -12,6 +12,7 @@ signal baseDamaged
 signal shieldDamaged
 signal shieldDown
 signal cardChosen
+signal applyCards
 signal handChosen
 signal startLevel
 signal levelStart

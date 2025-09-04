@@ -3,6 +3,7 @@ extends Node
 const LEVEL = preload("uid://wo631fluqa0p")
 
 var currentLevel:Node3D
+var freeCardSelection = false
 
 func _ready():
     
@@ -14,6 +15,14 @@ func _ready():
     
     %Saver.load()
     Post.startLevel.emit()
+    
+func _process(delta: float):
+    
+    var orphan = Node.get_orphan_node_ids()
+    if not orphan.is_empty():
+        Node.print_orphan_nodes()
+        Log.log("orphans")
+        quitGame()
         
 func _unhandled_input(event: InputEvent):
     
@@ -36,8 +45,7 @@ func _unhandled_input(event: InputEvent):
                 
                 var shortcut = event.as_text()
                 #shortcut = shortcut.replace("Option", "Alt")
-                #Log.log("editor key", shortcut, event)
-                Log.log("editor key", shortcut)
+                #Log.log("editor key", shortcut)
                 EngineDebugger.send_message("editor:shortcut", [shortcut])
             #else:
                 #Log.log("unknown key", event.as_text(), Input.is_key_pressed(KEY_CTRL), Input.is_key_pressed(KEY_META), Input.is_key_pressed(KEY_ALT))
@@ -68,19 +76,18 @@ func toggleBuild():
 
 func threeRandomCards():
     
-    var allCards:Array[Card] = Utils.allCards()
+    var allCards:Array[CardRes] = Utils.allCardRes()
     var cards:Array[Card] = []
     while cards.size() < 3:
-        var randomCard = allCards[randi_range(0, allCards.size()-1)]
-        if randomCard.res.maxNum > 0:
-            var cardCount = Info.numberOfCardsOwned(randomCard.name)
-            if cardCount >= randomCard.res.maxNum:
-                allCards.erase(randomCard)
+        var cardRes = allCards[randi_range(0, allCards.size()-1)]
+        if cardRes.maxNum > 0:
+            var cardCount = Info.numberOfCardsOwned(cardRes.name)
+            if cardCount >= cardRes.maxNum:
+                allCards.erase(cardRes)
                 continue
-        cards.append(randomCard)
-        if randomCard.res.maxNum > 0:
-            allCards.erase(randomCard)
-        
+        cards.append(Card.new(cardRes))
+        if cardRes.maxNum > 0:
+            allCards.erase(cardRes)
     return cards
             
 func baseDestroyed():
@@ -88,15 +95,33 @@ func baseDestroyed():
     Post.levelEnd.emit()
     pauseGame()
     %MenuHandler.showCardChooser(threeRandomCards())
+    
+func enemySpawned():
+    
+    if (Stats.numEnemiesSpawned % 50) == 0:
+        freeCardSelection = true
+        pauseGame()
+        %MenuHandler.showCardChooser(threeRandomCards())
        
+func handChosen():
+
+    if freeCardSelection:
+        freeCardSelection = false
+        %MenuHandler.slideIn(%Hud)
+        Post.applyCards.emit()
+        resumeGame()
+    else:
+        Post.startLevel.emit()
+    
 func startLevel():
     
     Log.log("startLevel")
     if currentLevel:
-        remove_child(currentLevel)
+        currentLevel.queue_free()
     currentLevel = LEVEL.instantiate()
     add_child(currentLevel)
     %MenuHandler.slideIn(%Hud)
+    Post.applyCards.emit()
     Post.levelStart.emit()
     resumeGame()
     

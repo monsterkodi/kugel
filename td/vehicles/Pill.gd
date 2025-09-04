@@ -14,13 +14,17 @@ var dashDir    = Vector3.FORWARD
 func _ready():
     
     global_position = Vector3.UP
+    applyCards()
+    Post.subscribe(self)
     
-    Post.levelStart.connect(levelStart)
+func applyCards():
     
-func levelStart():
+    %LaserPointer.laserRange  = 3 + 1 * Info.countPermCards("Pill Range")
+    %LaserPointer.laserDamage = 1 + 1 * Info.countPermCards("Pill Damage")
     
-    %LaserPointer.laserRange  = 5 + 5 * Info.numberOfCardsOwned("Pill Range")
-    %LaserPointer.laserDamage = 1 + 1 * Info.numberOfCardsOwned("Pill Damage")
+    %Collector.setRadius(5 + 3 * Info.countPermCards("Pill Range"))
+    
+    Log.log("pill", %LaserPointer.laserDamage, %LaserPointer.laserRange, %Collector.radius)
 
 func _physics_process(delta:float):
     

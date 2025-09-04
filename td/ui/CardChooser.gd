@@ -4,7 +4,7 @@ extends PanelContainer
 @onready var cardButtons: HBoxContainer = %CardButtons
 
 const CARD_BUTTON = preload("uid://cj3gelhoeb5ps")
-const CARD_SIZE = Vector2i(375,375)
+const CARD_SIZE   = Vector2i(375,375)
 
 func _ready():
     
@@ -14,8 +14,7 @@ func setCards(cards:Array):
     
     assert(cards.size() == 3)
     
-    while cardButtons.get_child_count():
-        cardButtons.remove_child(cardButtons.get_child(0))
+    Utils.freeChildren(cardButtons)
         
     for card in cards:
         assert(card is Card)

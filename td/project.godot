@@ -29,7 +29,6 @@ fps_graph="*res://addons/fps_graph/fps_graph.tscn"
 Info="*res://world/gd/Info.gd"
 Materials="*res://utils/Materials.gd"
 GlobalMultiMesh="*res://world/MultiMesh.tscn"
-Tst="*res://utils/Test.gd"
 
 [debug]
 

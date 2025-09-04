@@ -10,6 +10,13 @@ func nameDict(arr:Array) -> Dictionary:
 func methodDict(node:Node): return nameDict(node.get_method_list())
 func signalDict(node:Node): return nameDict(node.get_signal_list())
 
+func setParent(node:Node, newParent:Node):
+    
+    if node.get_parent():
+        node.get_parent().remove_child(node)
+    newParent.add_child(node)
+    return node
+
 func freeChildren(node:Node):
     
     while node.get_child_count():
@@ -21,28 +28,30 @@ func resourcesInDir(dir:String) -> Array[Resource]:
     var resources:Array[Resource] = []
     for path in ResourceLoader.list_directory(dir):
         if path[-1] == "/":
-            resources.append_array(resourcesInDir(dir + path))
+            resources.append_array(resourcesInDir(dir + "/" + path))
         else:
             var res = load(dir + "/" + path)
             if res: resources.append(res)
     return resources
     
-func allCards() -> Array[Card]:
+func allCardRes() -> Array[CardRes]:
     
-    var cards:Array[Card] = []
-    var cardResources = resourcesInDir("res://cards")
-    for cardRes in cardResources:
-        var card:Card = Card.new()
-        card.setRes(cardRes)
-        cards.append(card)
-    return cards
+    var ary:Array[CardRes] 
+    ary.assign(resourcesInDir("res://cards"))
+    return ary
     
-func cardWithName(cardName:String) -> Card:
+func cardResWithName(cardName:String) -> CardRes:
     
-    var cards = allCards()
+    var cards = allCardRes()
     var index = cards.find_custom(func(c): return c.name == cardName)
     if index >= 0:
         return cards[index]
+    return null
+
+func newCardWithName(cardName:String) -> Card:
+    
+    var cardRes = cardResWithName(cardName)
+    if cardRes: return Card.new(cardRes)
     return null
 
 func resourceNamesInDir(dir:String) -> PackedStringArray:

@@ -1,12 +1,14 @@
 class_name Card
 extends Node
 
-@export var res:CardRes
+var res:CardRes
 
-func setRes(cardRes:CardRes):
+func _init(cardRes:CardRes):
     
     res = cardRes
-    name = res.name
+    
+func _to_string():   return res.name
     
 func isBattleCard(): return res.type == CardRes.CardType.BATTLE
 func isPermanent():  return res.type == CardRes.CardType.PERMANENT
+func isOnce():       return res.type == CardRes.CardType.ONCE

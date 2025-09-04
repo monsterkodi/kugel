@@ -78,8 +78,7 @@ func ejectSpawnBody():
 
     if not spawnedBody: return
     
-    spawnedBody.get_parent().remove_child(spawnedBody)
-    get_parent_node_3d().add_child(spawnedBody)
+    Utils.setParent(spawnedBody, get_parent_node_3d())
     spawnedBody.global_transform = %SpawnPoint.global_transform
     spawnedBody.setMass(mass)
     spawnedBody.freeze = false

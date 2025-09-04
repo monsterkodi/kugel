@@ -2,18 +2,21 @@ class_name Level extends Node3D
 
 func _ready():
     
+    name = "Level"
     add_to_group("game")
     #add_to_group("save")
     
-    Post.levelStart.connect(levelStart)
+    Post.subscribe(self)
     
-func levelStart():
+func applyCards():
     
-    var rings = Info.numberOfCardsOwned("Slot Ring")
+    var rings = Info.countPermCards("Slot Ring")
     Log.log("rings", rings)
-    %SlotRing3.visible = (rings >= 1)
-    %SlotRing4.visible = (rings >= 2)
-    %SlotRing5.visible = (rings >= 3)
+    %SlotRing1.visible = true
+    %SlotRing2.visible = true
+    %SlotRing3.visible = true
+    %SlotRing4.visible = (rings >= 1)
+    %SlotRing5.visible = (rings >= 2)
 
 func gamePaused():
     

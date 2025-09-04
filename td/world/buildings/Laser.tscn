@@ -1,7 +1,7 @@
 [gd_scene load_steps=14 format=3 uid="uid://dfa3dn75qvqpn"]
 
 [ext_resource type="Script" uid="uid://chm30gbe4og0n" path="res://world/buildings/Laser.gd" id="1_6q26n"]
-[ext_resource type="Material" uid="uid://bcomnioqak46l" path="res://materials/PillMaterial.tres" id="2_hjr40"]
+[ext_resource type="Material" uid="uid://lx8t0tfuvrrw" path="res://materials/LackRed.tres" id="2_megj0"]
 [ext_resource type="PhysicsMaterial" uid="uid://cxmvb6atqbyf0" path="res://materials/physics/DefaultPhysics.tres" id="3_mxbe4"]
 [ext_resource type="PackedScene" uid="uid://bv5vo4rgym2a7" path="res://components/LaserPointer.tscn" id="4_hjr40"]
 [ext_resource type="Shader" uid="uid://b7lpd6h1smubj" path="res://materials/visual/CircleMatVis.tres" id="7_4njab"]
@@ -50,7 +50,7 @@ transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 1
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
 mesh = SubResource("CapsuleMesh_w3f5i")
-surface_material_override/0 = ExtResource("2_hjr40")
+surface_material_override/0 = ExtResource("2_megj0")
 
 [node name="AnimatableBody3D" type="AnimatableBody3D" parent="BarrelPivot"]
 collision_layer = 4

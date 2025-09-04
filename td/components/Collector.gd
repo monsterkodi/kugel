@@ -5,13 +5,18 @@ var corpses:Array[Enemy]
 
 func _ready():
     
+    setRadius(radius)
+    Post.subscribe(self)
+    
+func setRadius(r:float):
+    
+    radius = r
     %Light.position.y = radius
     %Light.omni_range = sqrt(radius*radius + radius*radius)
-    %Light.light_energy = radius * 0.06
+    %Light.light_energy = 2.0 #+ radius * 0.06
         
     %Shape.shape.radius = radius
     %Mesh.mesh.size = Vector2(radius*2, radius*2)
-    Post.enemyDied.connect(onEnemyDied)
 
 func _physics_process(delta:float):
     

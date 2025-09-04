@@ -30,12 +30,13 @@ expand_margin_bottom = 50.0
 shadow_color = Color(0, 0, 0, 0.6117647)
 shadow_size = 4
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_778oo"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p1g0i"]
 bg_color = Color(0.1, 0.1, 0.1, 1)
-corner_radius_top_left = 13
-corner_radius_top_right = 13
-corner_radius_bottom_right = 13
-corner_radius_bottom_left = 13
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+expand_margin_bottom = 50.0
 shadow_color = Color(0, 0, 0, 0.6117647)
 shadow_size = 4
 anti_aliasing = false
@@ -60,7 +61,7 @@ Button/colors/font_pressed_color = Color(1, 1, 0, 1)
 Button/styles/focus = SubResource("StyleBoxFlat_h3fqn")
 Button/styles/hover = SubResource("StyleBoxFlat_i132y")
 Button/styles/hover_pressed = SubResource("StyleBoxFlat_nj0oh")
-Button/styles/normal = SubResource("StyleBoxFlat_778oo")
+Button/styles/normal = SubResource("StyleBoxFlat_p1g0i")
 Button/styles/pressed = SubResource("StyleBoxFlat_nj0oh")
 GridContainer/constants/h_separation = 25
 GridContainer/constants/v_separation = 75

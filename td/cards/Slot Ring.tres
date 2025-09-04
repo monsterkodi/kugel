@@ -8,6 +8,6 @@ script = ExtResource("2_qloat")
 name = &"Slot Ring"
 type = 1
 text = "Add another ring of building slots"
-maxNum = 3
+maxNum = 2
 scene = ExtResource("1_i4ph1")
 metadata/_custom_type_script = "uid://dcn508r6heipo"

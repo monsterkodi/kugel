@@ -15,7 +15,7 @@ func _ready():
 func _unhandled_input(event: InputEvent):
     
     if event.is_action_pressed("ui_cancel"):
-        Log.log("InputHandler.ui_cancel")
+        #Log.log("InputHandler.ui_cancel")
         if get_tree().paused:
             get_viewport().set_input_as_handled()
             get_node("/root/World").togglePause.call_deferred()
@@ -23,16 +23,18 @@ func _unhandled_input(event: InputEvent):
                 
 func cardChosen(card:Card):
     
-    if %Player.hand.cards.size() < Info.maxHandCards() and card.isBattleCard():
+    if %Player.hand.get_child_count() < Info.maxHandCards() and card.isBattleCard():
         %Player.hand.addCard(card)
+    elif card.isPermanent():
+        %Player.perm.addCard(card)
+    elif card.isOnce():
+        if card.res.name == "Money":
+            Wallet.addPrice(card.res.data.amount)
     else:
+        assert(card.isBattleCard())
         %Player.deck.addCard(card)
         
     appear(%HandChooser)
-
-func handChosen():
-    
-    Post.startLevel.emit()
     
 func hideAllMenus():
     

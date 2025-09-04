@@ -14,20 +14,27 @@ func _ready():
 
 func maxShieldHitPoints() -> int:
     
-    return 1 + numberOfCardsOwned("Shield +1")
+    return 1 + countPermCards("Shield +1")
 
 func maxHandCards() -> int:
     
-    return 1 + numberOfCardsOwned("Card +1")
+    return 1 + countPermCards("Card +1")
 
+func countPermCards(cardName:String) -> int:
+    
+    return player.perm.countCards(cardName)
+
+func countHandCards(cardName:String) -> int:
+    
+    return player.hand.countCards(cardName)
+
+func countDeckCards(cardName:String) -> int:
+    
+    return player.deck.countCards(cardName)
+    
 func numberOfCardsOwned(cardName:String) -> int:
     
-    var num = 0
-    for c in player.deck.cards:
-        if c.name == cardName: num += 1
-    for c in player.hand.cards:
-        if c.name == cardName: num += 1
-    return num
+    return countDeckCards(cardName) + countHandCards(cardName) + countPermCards(cardName)
 
 func priceForBuilding(buildingName):
     

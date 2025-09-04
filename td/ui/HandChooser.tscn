@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://cj01e8082l0kk"]
+[gd_scene load_steps=14 format=3 uid="uid://cj01e8082l0kk"]
 
 [ext_resource type="Script" uid="uid://xxejpl3fl364" path="res://ui/HandChooser.gd" id="1_3euji"]
 [ext_resource type="Theme" uid="uid://clq475kfnwm5h" path="res://ui/theme/HandChooserTheme.tres" id="1_wk2i3"]
@@ -13,6 +13,17 @@ content_margin_left = 50.0
 content_margin_top = 50.0
 content_margin_right = 50.0
 bg_color = Color(0, 0, 0, 0.64705884)
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l4gnv"]
+content_margin_left = 50.0
+content_margin_top = 25.0
+content_margin_right = 50.0
+content_margin_bottom = 75.0
+bg_color = Color(0.16396135, 0.16396135, 0.16396135, 1)
 corner_radius_top_left = 50
 corner_radius_top_right = 50
 corner_radius_bottom_right = 50
@@ -88,13 +99,14 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_i7d3p")
 layout_mode = 2
 theme_override_constants/separation = 50
 
-[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/VBoxContainer"]
+[node name="HandContainer" type="PanelContainer" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme = ExtResource("1_wk2i3")
+theme_override_styles/panel = SubResource("StyleBoxFlat_l4gnv")
 
-[node name="Hand" type="HBoxContainer" parent="PanelContainer/VBoxContainer/PanelContainer"]
+[node name="Hand" type="HBoxContainer" parent="PanelContainer/VBoxContainer/HandContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(300, 300)
 layout_mode = 2
@@ -102,12 +114,12 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_constants/separation = 50
 
-[node name="PanelContainer2" type="PanelContainer" parent="PanelContainer/VBoxContainer"]
+[node name="DeckContainer" type="PanelContainer" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("1_wk2i3")
 theme_override_styles/panel = SubResource("StyleBoxFlat_tt3oq")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/VBoxContainer/PanelContainer2"]
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/VBoxContainer/DeckContainer"]
 custom_minimum_size = Vector2(0, 550)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -117,7 +129,7 @@ draw_focus_border = true
 horizontal_scroll_mode = 0
 vertical_scroll_mode = 3
 
-[node name="Deck" type="GridContainer" parent="PanelContainer/VBoxContainer/PanelContainer2/ScrollContainer"]
+[node name="Deck" type="GridContainer" parent="PanelContainer/VBoxContainer/DeckContainer/ScrollContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4

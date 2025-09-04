@@ -5,9 +5,9 @@
 [resource]
 script = ExtResource("1_ha4ns")
 name = &"Money"
-text = "Start the battle with some extra money"
-maxNum = 5
+type = 2
+text = "Some extra money"
 data = {
-"amount": 20
+"amount": 50
 }
 metadata/_custom_type_script = "uid://dcn508r6heipo"

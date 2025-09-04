@@ -55,8 +55,7 @@ func editorShortcut(shortcut:String):
             toggleBottomPanelWithName("Output")
         "Option+D":
             toggleBottomPanelWithName("Debugger")
-        _: Log.log("game shortcut", shortcut)
-    #Input.parse_input_event(parseKeyEvent(shortcut))
+        #_: Log.log("game shortcut", shortcut)
 
 func parseKeyEvent(text:String) -> InputEventKey:
     var event = InputEventKey.new()

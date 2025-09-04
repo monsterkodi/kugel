@@ -15,7 +15,7 @@ func _ready():
     %Graph.size.x = HISTORY*LINEW
     
     gradient = Gradient.new()
-    gradient.add_point(0.0,  Color(0,0,0))
+    gradient.add_point(0.0,  Color(0.1,0.1,0.1))
     gradient.add_point(0.49, Color(0.3,0.3,0.3))
     gradient.add_point(0.50, Color(0.7,0.3,0))
     gradient.add_point(0.99, Color(1,1,0))

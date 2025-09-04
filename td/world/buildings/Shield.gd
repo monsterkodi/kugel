@@ -7,7 +7,7 @@ func _ready():
     setHitPoints(Info.maxShieldHitPoints())
     
     super._ready()
-        
+    
 func onHit():
     
     setHitPoints(hitPoints - 1)

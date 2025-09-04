@@ -12,19 +12,22 @@ func _ready():
 func setCard(c:Card):
     
     card = c
-    text = card.name
+    add_child(card)
+    text = card.res.name
     if card.res.scene:
         %Scene.setScene(card.res.scene)
         
-    if card.res.type == CardRes.CardType.PERMANENT:
-        setColor(Color(0.5, 0, 0))
+    #if card.res.type == CardRes.CardType.PERMANENT:
+        #setColor(Color(0.5, 0, 0))
         
-func setColor(color:Color):
+#func setColor(color:Color):
     
     #Log.log("get_constant_type_list", theme.get_constant_type_list())
     #Log.log("get_constant_list", theme.get_constant_list())
-    var sb = get_theme_stylebox("normal", "Button")
-    Log.log("CardButton.setColor", sb)
+    
+    #var sb = get_theme_stylebox("normal", "Button")
+    #Log.log("CardButton.setColor", sb)
+    
     #Log.log("get_color_type_list", theme.get_color_type_list())
     #Log.log("get_stylebox_type_list", theme.get_stylebox_type_list())
     #Log.log("get_type_list()", theme.get_type_list())

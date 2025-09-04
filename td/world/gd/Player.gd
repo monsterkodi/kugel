@@ -6,6 +6,7 @@ var vehicle : Node3D
 
 var deck : Deck
 var hand : Deck
+var perm : Deck
 
 func _ready():
     
@@ -14,6 +15,11 @@ func _ready():
     #Log.log("ready player one", get_parent_node_3d())
     deck = Deck.new()
     hand = Deck.new()
+    perm = Deck.new()
+    
+    add_child(deck)
+    add_child(hand)
+    add_child(perm)
     
     loadVehicle.call_deferred("Pill")
     
@@ -49,6 +55,7 @@ func on_save(data:Dictionary):
     data.Player.vehicle   = vehicleName
     data.Player.hand      = hand.toDict()
     data.Player.deck      = deck.toDict()
+    data.Player.perm      = perm.toDict()
     
 func on_load(data:Dictionary):
     
@@ -59,6 +66,7 @@ func on_load(data:Dictionary):
     
     if data.Player.has("hand"): hand.fromDict(data.Player.hand)
     if data.Player.has("deck"): deck.fromDict(data.Player.deck)
+    if data.Player.has("perm"): perm.fromDict(data.Player.perm)
 
 const SHIELD = preload("uid://busmvxaat6dqv")
     
@@ -71,8 +79,7 @@ func addShield():
 
 func levelStart():
     
-    for card in hand.cards:
-        match card.name:
-            "Money":  Wallet.addPrice(card.res.data.amount)
+    for card in hand.get_children():
+        match card.res.name:
             "Shield": addShield()
-            _: Log.log("card", card.name)
+            _: Log.log("card", card.res.name)

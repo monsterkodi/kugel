@@ -45,7 +45,7 @@ func shoot():
     if bullet:
         
         var instance:Node3D = bullet.instantiate()
-        get_node("/root/World/Level").add_child(instance)
+        get_node("/root/World").currentLevel.add_child(instance)
         instance.mass = mass
         instance.global_transform = global_transform
         instance.linear_velocity = global_transform.basis.z * -velocity
