@@ -1,5 +1,5 @@
-
-class_name Emitter extends Node3D
+class_name Emitter 
+extends Node3D
 
 @export var bullet:Resource
 
@@ -50,3 +50,4 @@ func shoot():
         instance.global_transform = global_transform
         instance.linear_velocity = global_transform.basis.z * -velocity
         shotFired.emit()
+        %fire.play()

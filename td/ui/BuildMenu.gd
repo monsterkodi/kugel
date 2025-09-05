@@ -9,7 +9,7 @@ func _ready():
 func buildingPlaced(building):
     
     showMenu()
-    var button = %Buttons.find_child(building, true, false)
+    var button = %Buttons.find_child(building.name, true, false)
     if button:
         button.get_child(0).grab_focus()
         

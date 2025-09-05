@@ -35,6 +35,6 @@ func _on_center_sphere_body_entered(body: Node):
         if body.alive():
             onHit()
         else:
-            Post.corpseCollected.emit()
+            Post.corpseCollected.emit(self)
         body.queue_free()
         

@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://b6mskrm1n176r"]
+[gd_scene load_steps=22 format=3 uid="uid://b6mskrm1n176r"]
 
 [ext_resource type="Script" uid="uid://b6inujglidn5n" path="res://world/gd/World.gd" id="1_eu7l1"]
 [ext_resource type="PackedScene" uid="uid://baj5gp1mlm380" path="res://world/Player.tscn" id="3_wygdx"]
@@ -19,6 +19,7 @@
 [ext_resource type="AudioStream" uid="uid://bn02oiegqjwkx" path="res://sounds/menu2.wav" id="16_y7dlm"]
 [ext_resource type="AudioStream" uid="uid://b3hx6tnio5c56" path="res://sounds/menu4.wav" id="17_ww6ps"]
 [ext_resource type="AudioStream" uid="uid://dlca75ji3feaq" path="res://sounds/tok.wav" id="19_tx47m"]
+[ext_resource type="Script" uid="uid://dsacaoashnrme" path="res://world/GameSound.gd" id="20_fy8qs"]
 
 [sub_resource type="Environment" id="Environment_ig7tw"]
 background_mode = 1
@@ -119,6 +120,9 @@ volume_db = 12.0
 [node name="slider" type="AudioStreamPlayer2D" parent="MenuSound"]
 unique_name_in_owner = true
 stream = ExtResource("19_tx47m")
+
+[node name="GameSound" type="Node" parent="."]
+script = ExtResource("20_fy8qs")
 
 [connection signal="loadGame" from="MenuHandler/PauseMenu" to="." method="loadGame"]
 [connection signal="quitGame" from="MenuHandler/PauseMenu" to="." method="quitGame"]

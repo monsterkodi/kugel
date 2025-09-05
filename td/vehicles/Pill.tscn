@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://g0r24pl51awh"]
+[gd_scene load_steps=13 format=3 uid="uid://g0r24pl51awh"]
 
 [ext_resource type="PhysicsMaterial" uid="uid://dms3d8q358dik" path="res://materials/physics/PlayerPhysics.tres" id="1_5m86e"]
 [ext_resource type="Script" uid="uid://ch8rdi5m570e7" path="res://vehicles/Pill.gd" id="1_on1es"]
@@ -6,6 +6,9 @@
 [ext_resource type="PackedScene" uid="uid://dehmjc447yvug" path="res://vehicles/Capsule.tscn" id="3_5m86e"]
 [ext_resource type="PackedScene" uid="uid://drhbf00kh3tau" path="res://components/Collector.tscn" id="5_n8mu1"]
 [ext_resource type="PackedScene" uid="uid://bv5vo4rgym2a7" path="res://components/LaserPointer.tscn" id="6_vevl4"]
+[ext_resource type="AudioStream" uid="uid://i3hmn07k1oju" path="res://sounds/klack5.wav" id="7_4xtoo"]
+[ext_resource type="AudioStream" uid="uid://eiva2xina8lj" path="res://sounds/place.wav" id="8_4xtoo"]
+[ext_resource type="AudioStream" uid="uid://bsgev6g2a3bkw" path="res://sounds/stone_move.wav" id="8_f87jo"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dromu"]
 radius = 0.25
@@ -100,3 +103,24 @@ radiusBase = 0.04
 laserRange = 5.0
 passiveMat = SubResource("StandardMaterial3D_vevl4")
 activeMat = SubResource("StandardMaterial3D_vj03p")
+
+[node name="Node" type="Node3D" parent="."]
+
+[node name="hit" type="AudioStreamPlayer3D" parent="Node"]
+unique_name_in_owner = true
+stream = ExtResource("7_4xtoo")
+attenuation_model = 1
+
+[node name="dash" type="AudioStreamPlayer3D" parent="Node"]
+unique_name_in_owner = true
+stream = ExtResource("8_f87jo")
+attenuation_model = 1
+max_db = 0.0
+max_polyphony = 3
+
+[node name="jump" type="AudioStreamPlayer3D" parent="Node"]
+unique_name_in_owner = true
+stream = ExtResource("8_4xtoo")
+attenuation_model = 1
+unit_size = 1.0
+max_polyphony = 3

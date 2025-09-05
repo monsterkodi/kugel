@@ -68,6 +68,7 @@ func _integrate_forces(state: PhysicsDirectBodyState3D):
         state.linear_velocity.z = 0
         %DashBlock.start()
         %DashTimer.start()
+        %dash.play()
     if dash < 0.96 and not %DashBlock.is_stopped():
         %DashBlock.stop()
         

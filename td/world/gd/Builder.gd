@@ -34,7 +34,7 @@ func placeBuilding():
     targetSlot.add_child(building)
     building.global_position = targetPos
     #building.look_at(Vector3.ZERO)
-    Post.buildingPlaced.emit(building.name)
+    Post.buildingPlaced.emit(building)
 
 func _process(delta:float):
     

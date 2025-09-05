@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://cssayoomcrb8o"]
+[gd_scene load_steps=11 format=3 uid="uid://cssayoomcrb8o"]
 
 [ext_resource type="Script" uid="uid://c42hpa6ij4j3j" path="res://world/gd/Spawner.gd" id="1_5q6u0"]
 [ext_resource type="Shader" uid="uid://cj78indyh2su8" path="res://materials/shader/GooMaterial.gdshader" id="2_xgr6b"]
+[ext_resource type="AudioStream" uid="uid://dy8acua65vkpd" path="res://sounds/bouw.wav" id="4_gfquv"]
 [ext_resource type="Shader" uid="uid://buoavpwql810j" path="res://materials/visual/RoundedBorderMatVis.tres" id="5_5i5hu"]
 
 [sub_resource type="Curve" id="Curve_bjyd8"]
@@ -72,3 +73,9 @@ surface_material_override/0 = SubResource("ShaderMaterial_7j3mf")
 [node name="SpawnPoint" type="Node3D" parent="Body/Torus"]
 unique_name_in_owner = true
 transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="enemySpawned" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("4_gfquv")
+attenuation_model = 1
+volume_db = 12.0

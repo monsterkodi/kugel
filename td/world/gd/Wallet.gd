@@ -18,7 +18,7 @@ func levelEnd():
     setRestoks(restoks+balance)
     setBalance(0)
     
-func corpseCollected(): setBalance(balance + 1)
+func corpseCollected(collector:Node3D): setBalance(balance + 1)
     
 func buildingBought(building):
 

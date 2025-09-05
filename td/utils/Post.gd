@@ -1,14 +1,13 @@
 extends Node
 
-signal enemyDied
-signal enemySpawned
-signal corpseCollected
-signal statChanged
-signal baseDestroyed
+signal enemyDied # enemy
+signal enemySpawned # spawner
+signal corpseCollected # collector
 signal buildingBought
-signal buildingPlaced
+signal buildingPlaced # building
 signal buildingGhost
 signal baseDamaged
+signal baseDestroyed
 signal shieldDamaged
 signal shieldDown
 signal cardChosen
@@ -21,6 +20,7 @@ signal menuVanish
 signal menuAppear
 signal menuSound
 signal gameSound
+signal statChanged 
 
 var sigDict:Dictionary
 

@@ -93,9 +93,9 @@ func baseDestroyed():
     
     Post.levelEnd.emit()
     pauseGame()
-    %MenuHandler.showCardChooser(threeRandomCards())
+    %MenuHandler.appear(%HandChooser)
     
-func enemySpawned():
+func enemySpawned(spawner:Spawner):
     
     if (Stats.numEnemiesSpawned % 50) == 0:
         pauseGame()

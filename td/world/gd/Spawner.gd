@@ -1,3 +1,4 @@
+class_name Spawner
 extends Node3D
 
 @export var spawnee:Resource
@@ -89,8 +90,8 @@ func ejectSpawnBody():
     spawnedBody.apply_central_impulse(%SpawnPoint.global_basis.x.normalized() * velocity*mass)
     spawnedBody = null
     
-    Post.enemySpawned.emit()
-    
+    Post.enemySpawned.emit(self)
+    %enemySpawned.play()
     tween = create_tween()
     tween.tween_property(%Body, "position:y", -1, seconds/(6.0*Info.enemySpeed)).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
     tween.tween_callback(nextSpawnLoop)

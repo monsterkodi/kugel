@@ -1,8 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://cqn35mciqmm8s"]
+[gd_scene load_steps=7 format=3 uid="uid://cqn35mciqmm8s"]
 
 [ext_resource type="PhysicsMaterial" uid="uid://c13slrtwts1o5" path="res://materials/physics/EnemyPhysics.tres" id="1_s7bn3"]
 [ext_resource type="Script" uid="uid://cwswpfe6xljgs" path="res://world/gd/Enemy.gd" id="2_2hac7"]
 [ext_resource type="PackedScene" uid="uid://b1t7aquxiadko" path="res://components/Attraction.tscn" id="3_2hac7"]
+[ext_resource type="AudioStream" uid="uid://q5kof0mmgyhy" path="res://sounds/wet1.wav" id="4_av0xo"]
+[ext_resource type="AudioStream" uid="uid://i3hmn07k1oju" path="res://sounds/klack5.wav" id="5_33kyn"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_tt7e2"]
 
@@ -22,3 +24,13 @@ shape = SubResource("SphereShape3D_tt7e2")
 unique_name_in_owner = true
 impulse = 10.0
 velocity_threshold = 0.2
+
+[node name="died" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("4_av0xo")
+attenuation_model = 1
+
+[node name="hit" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("5_33kyn")
+attenuation_model = 1

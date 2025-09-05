@@ -47,6 +47,7 @@ func _physics_process(delta:float):
     if collider and collider.is_inside_tree():
         setLength(global_position.distance_to(collider.global_position))
         if collider is Enemy and collider.health > 0:
+            %laser.play()
             laser.set_surface_override_material(0, activeMat)
             var damage = delta * maxf(0.5, laserDamage * collider.mass)
             #Log.log("damage", damage, collider.health, laserDamage * collider.health)
@@ -54,7 +55,7 @@ func _physics_process(delta:float):
             return
     else:
         setLength(laserRange)
-        
+    %laser.stop()    
     laser.set_surface_override_material(0, passiveMat)
 
 func setDir(dir:Vector3):

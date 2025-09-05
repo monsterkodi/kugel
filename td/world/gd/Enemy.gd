@@ -3,17 +3,14 @@ class_name Enemy extends RigidBody3D
 var health = 1.0
 var damageAccum = 0.0
 
-#func _ready():
-    
-    #$Mesh.set_surface_override_material(0, Materials.enemyMaterial)
-
 func alive(): return health > 0
 func dead():  return health <= 0
 
 func die():
     
+    %died.play()
+    
     health = 0
-    #$Mesh.set_surface_override_material(0, Materials.corpseMaterial)
     %Attraction.disable()
     get_tree().create_timer(0.5).connect("timeout", makeCorpse)
     
@@ -35,7 +32,6 @@ func setMass(m:float):
     health = mass-0.5
     
     var r = pow(mass/4.1888, 1.0/3.0)
-    #Log.log("health", health, mass, r)
     scale = Vector3(r, r, r)
 
 func level_reset():
@@ -43,12 +39,6 @@ func level_reset():
     die()
     makeCorpse()
     
-func _physics_process(_delta: float):
-    pass
-    #if health > 0:
-        #var vl = clampf(linear_velocity.length(), 0.0 , 1.0)
-        #mat.albedo_color = Color(1, 1-vl, 0)
-
 func _integrate_forces(state: PhysicsDirectBodyState3D):
     
     for i in range(get_contact_count()):
@@ -78,5 +68,6 @@ func applyDamage(damage:float, source:PhysicsBody3D):
             die()
             
     if source is Bullet:
+        %hit.play()
         source.queue_free()
             
