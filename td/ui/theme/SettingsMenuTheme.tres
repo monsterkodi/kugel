@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=16 format=3 uid="uid://clh031dvmhoxe"]
+[gd_resource type="Theme" load_steps=12 format=3 uid="uid://clh031dvmhoxe"]
 
 [ext_resource type="FontFile" uid="uid://dfqo0cb4uy7kl" path="res://ui/theme/Rounded.ttf" id="1_p5imd"]
 
@@ -29,47 +29,13 @@ corner_radius_top_right = 80
 corner_radius_bottom_right = 80
 corner_radius_bottom_left = 80
 
-[sub_resource type="Gradient" id="Gradient_lcka2"]
-interpolation_mode = 2
-interpolation_color_space = 2
-offsets = PackedFloat32Array(0, 0.5, 0.501)
-colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0)
+[sub_resource type="Gradient" id="Gradient_p5imd"]
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 0)
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_4l1ig"]
-gradient = SubResource("Gradient_lcka2")
-width = 50
-height = 50
-fill = 1
-fill_from = Vector2(0.5, 0.5)
-fill_to = Vector2(0.5, 0)
-
-[sub_resource type="Gradient" id="Gradient_4l1ig"]
-interpolation_mode = 2
-interpolation_color_space = 2
-offsets = PackedFloat32Array(0, 0.5, 0.501)
-colors = PackedColorArray(1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_lcka2"]
-gradient = SubResource("Gradient_4l1ig")
-width = 54
-height = 54
-fill = 1
-fill_from = Vector2(0.5, 0.5)
-fill_to = Vector2(0.5, 0)
-
-[sub_resource type="Gradient" id="Gradient_8dclq"]
-interpolation_mode = 2
-interpolation_color_space = 2
-offsets = PackedFloat32Array(0, 0.64663464, 0.96033657, 1)
-colors = PackedColorArray(0.31670618, 0.31670618, 0.31670618, 1, 0.29294586, 0.29294586, 0.29294586, 1.0732237, 0.22166497, 0.22166497, 0.22166497, 1, 0.14020103, 0.14020103, 0.14020103, 0)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_5y4im"]
-gradient = SubResource("Gradient_8dclq")
-width = 8
-height = 8
-fill = 1
-fill_from = Vector2(0.5, 0.5)
-fill_to = Vector2(0.5, 0)
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_mcp3o"]
+gradient = SubResource("Gradient_p5imd")
+width = 25
+height = 25
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8dclq"]
 bg_color = Color(0.38, 0.38, 0.38, 1)
@@ -78,7 +44,6 @@ corner_radius_top_right = 13
 corner_radius_bottom_right = 13
 corner_radius_bottom_left = 13
 expand_margin_top = 13.0
-expand_margin_right = 13.0
 expand_margin_bottom = 13.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wyuo3"]
@@ -88,7 +53,6 @@ corner_radius_top_right = 13
 corner_radius_bottom_right = 13
 corner_radius_bottom_left = 13
 expand_margin_top = 13.0
-expand_margin_right = 13.0
 expand_margin_bottom = 13.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k525k"]
@@ -102,6 +66,8 @@ expand_margin_top = 25.0
 expand_margin_bottom = 25.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4l1ig"]
+content_margin_top = 4.0
+content_margin_bottom = 10.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5y4im"]
 bg_color = Color(0, 0, 0, 1)
@@ -116,7 +82,7 @@ expand_margin_bottom = 25.0
 
 [resource]
 default_font = ExtResource("1_p5imd")
-default_font_size = 64
+default_font_size = 48
 Button/colors/font_color = Color(0.21035051, 0.21035051, 0.21035051, 1)
 Button/colors/font_disabled_color = Color(0.875, 0.875, 0.875, 0.5)
 Button/colors/font_focus_color = Color(0.9490196, 0.45490196, 0, 1)
@@ -139,9 +105,10 @@ Button/styles/hover = SubResource("StyleBoxFlat_lcka2")
 Button/styles/hover_pressed = SubResource("StyleBoxFlat_lcka2")
 Button/styles/normal = SubResource("StyleBoxFlat_nopln")
 Button/styles/pressed = SubResource("StyleBoxFlat_nopln")
-HSlider/icons/grabber = SubResource("GradientTexture2D_4l1ig")
-HSlider/icons/grabber_highlight = SubResource("GradientTexture2D_lcka2")
-HSlider/icons/tick = SubResource("GradientTexture2D_5y4im")
+HSlider/icons/grabber = SubResource("GradientTexture2D_mcp3o")
+HSlider/icons/grabber_disabled = SubResource("GradientTexture2D_mcp3o")
+HSlider/icons/grabber_highlight = SubResource("GradientTexture2D_mcp3o")
+HSlider/icons/tick = SubResource("GradientTexture2D_mcp3o")
 HSlider/styles/grabber_area = SubResource("StyleBoxFlat_8dclq")
 HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_wyuo3")
 HSlider/styles/slider = SubResource("StyleBoxFlat_k525k")

@@ -59,6 +59,7 @@ func _integrate_forces(state: PhysicsDirectBodyState3D):
     if Input.is_action_pressed("jump") and %JumpBlock.is_stopped():
         if contactCount > 0:
             %JumpTimer.start()
+            %jump.play()
             
     if not %JumpTimer.is_stopped():
         apply_central_impulse(Vector3.UP * 100 * %JumpTimer.time_left/%JumpTimer.wait_time)
@@ -68,6 +69,10 @@ func _integrate_forces(state: PhysicsDirectBodyState3D):
         state.linear_velocity.z = 0
         %DashBlock.start()
         %DashTimer.start()
+        if global_position.y < 0.1:
+            %dash.set_volume_linear(0.2)
+        else:
+            %dash.set_volume_linear(0.05)
         %dash.play()
     if dash < 0.96 and not %DashBlock.is_stopped():
         %DashBlock.stop()

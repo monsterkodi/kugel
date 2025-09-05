@@ -63,6 +63,7 @@ seconds = 1.0
 
 [node name="Hud" parent="." instance=ExtResource("10_8mymi")]
 unique_name_in_owner = true
+anchors_preset = -1
 
 [node name="BattleCards" parent="." instance=ExtResource("7_x3yhk")]
 unique_name_in_owner = true
@@ -91,6 +92,7 @@ visible = false
 unique_name_in_owner = true
 process_mode = 2
 visible = false
+anchors_preset = -1
 
 [node name="HandChooser" parent="MenuHandler" instance=ExtResource("14_x3yhk")]
 unique_name_in_owner = true
@@ -103,19 +105,16 @@ script = ExtResource("15_ortil")
 [node name="vanish" type="AudioStreamPlayer2D" parent="MenuSound"]
 unique_name_in_owner = true
 stream = ExtResource("15_8u1wm")
-volume_db = 24.0
 pitch_scale = 0.8
 attenuation = 2.6390166
 
 [node name="appear" type="AudioStreamPlayer2D" parent="MenuSound"]
 unique_name_in_owner = true
 stream = ExtResource("16_y7dlm")
-volume_db = 12.0
 
 [node name="focus" type="AudioStreamPlayer2D" parent="MenuSound"]
 unique_name_in_owner = true
 stream = ExtResource("17_ww6ps")
-volume_db = 12.0
 
 [node name="slider" type="AudioStreamPlayer2D" parent="MenuSound"]
 unique_name_in_owner = true

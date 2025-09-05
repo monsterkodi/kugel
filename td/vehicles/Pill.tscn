@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://bv5vo4rgym2a7" path="res://components/LaserPointer.tscn" id="6_vevl4"]
 [ext_resource type="AudioStream" uid="uid://i3hmn07k1oju" path="res://sounds/klack5.wav" id="7_4xtoo"]
 [ext_resource type="AudioStream" uid="uid://eiva2xina8lj" path="res://sounds/place.wav" id="8_4xtoo"]
-[ext_resource type="AudioStream" uid="uid://bsgev6g2a3bkw" path="res://sounds/stone_move.wav" id="8_f87jo"]
+[ext_resource type="AudioStream" uid="uid://c6rnuds12i37r" path="res://sounds/bot_no_energy.wav" id="9_f87jo"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dromu"]
 radius = 0.25
@@ -113,14 +113,15 @@ attenuation_model = 1
 
 [node name="dash" type="AudioStreamPlayer3D" parent="Node"]
 unique_name_in_owner = true
-stream = ExtResource("8_f87jo")
+stream = ExtResource("8_4xtoo")
 attenuation_model = 1
-max_db = 0.0
+volume_db = -20.0
+max_db = -16.0
 max_polyphony = 3
 
 [node name="jump" type="AudioStreamPlayer3D" parent="Node"]
 unique_name_in_owner = true
-stream = ExtResource("8_4xtoo")
+stream = ExtResource("9_f87jo")
 attenuation_model = 1
-unit_size = 1.0
+volume_db = -10.0
 max_polyphony = 3

@@ -29,6 +29,7 @@ velocity_threshold = 0.2
 unique_name_in_owner = true
 stream = ExtResource("4_av0xo")
 attenuation_model = 1
+volume_db = -10.0
 
 [node name="hit" type="AudioStreamPlayer3D" parent="."]
 unique_name_in_owner = true

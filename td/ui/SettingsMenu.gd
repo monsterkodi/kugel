@@ -7,6 +7,7 @@ func _on_visibility_changed():
         %Brightness.value = %Camera.get_node("Light").light_energy
         %Timescale.value  = Engine.time_scale
         %EnemySpeed.value = Info.enemySpeed
+        %Volume.value     = AudioServer.get_bus_volume_linear(AudioServer.get_bus_index("Master"))
         %EnemySpeed.grab_focus()
 
 func onButtonHover(button: Node): 
@@ -28,21 +29,26 @@ func onTimescale(value):
 func onEnemySpeed(value):
     
     Info.enemySpeed = value
-    Post.statChanged.emit("enemySpeed", Info.enemySpeed)
+    Post.statChanged.emit("enemySpeed", value)
 
+func onVolume(value):
+    
+    Post.statChanged.emit("volume", value)
+    AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), linear_to_db(value))
+    
 func on_save(data:Dictionary):
 
     data.Settings = {}
     data.Settings.timeScale  = Engine.time_scale
     data.Settings.enemySpeed = Info.enemySpeed
     data.Settings.brightness = %Camera.get_node("Light").light_energy
+    data.Settings.volume     = AudioServer.get_bus_volume_linear(AudioServer.get_bus_index("Master"))
     
 func on_load(data:Dictionary):
     
     if not data.has("Settings"): return
-    if data.Settings.has("timeScale"):
-        onTimescale(data.Settings.timeScale)
-    if data.Settings.has("enemySpeed"):
-        onEnemySpeed(data.Settings.enemySpeed)
-    if data.Settings.has("brightness"):
-        onBrightness(data.Settings.brightness)
+    
+    if data.Settings.has("timeScale"):  onTimescale(data.Settings.timeScale)
+    if data.Settings.has("enemySpeed"): onEnemySpeed(data.Settings.enemySpeed)
+    if data.Settings.has("brightness"): onBrightness(data.Settings.brightness)
+    if data.Settings.has("volume"):     onVolume(data.Settings.volume)

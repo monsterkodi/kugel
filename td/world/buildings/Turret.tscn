@@ -102,6 +102,7 @@ shape = SubResource("CylinderShape3D_iwplw")
 unique_name_in_owner = true
 stream = ExtResource("8_ail6x")
 attenuation_model = 1
+volume_db = -6.0
 
 [connection signal="body_entered" from="Sensor" to="." method="_on_sensor_body_entered"]
 [connection signal="body_exited" from="Sensor" to="." method="_on_sensor_body_exited"]
