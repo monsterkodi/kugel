@@ -16,6 +16,29 @@ func setParent(node:Node, newParent:Node):
         node.get_parent().remove_child(node)
     newParent.add_child(node)
     return node
+    
+func filterTree(node:Node, predicate:Callable):
+    
+    var filtered = []
+    for child in node.get_children():
+        if predicate.call(child): 
+            filtered.append(child)
+        filtered.append_array(filterTree(child, predicate))
+    
+    return filtered
+    
+func childrenWithClass(node:Node, className:String):
+    
+    return filterTree(node, func(n:Node): 
+        Log.log(n.get_class())
+        return n.get_class() == className or ClassDB.is_parent_class(n.get_class(), className))
+
+func childrenWithClasses(node:Node, classNames:Array[String]):
+    
+    var filtered = []
+    for className in classNames:
+        filtered.append_array(childrenWithClass(node, className))
+    return filtered
 
 func freeChildren(node:Node):
     

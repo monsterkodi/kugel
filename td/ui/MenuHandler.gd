@@ -21,21 +21,6 @@ func _unhandled_input(event: InputEvent):
             get_node("/root/World").togglePause.call_deferred()
             return
                 
-func cardChosen(card:Card):
-    
-    if %Player.hand.get_child_count() < Info.maxHandCards() and card.isBattleCard():
-        %Player.hand.addCard(card)
-    elif card.isPermanent():
-        %Player.perm.addCard(card)
-    elif card.isOnce():
-        if card.res.name == "Money":
-            Wallet.addPrice(card.res.data.amount)
-    else:
-        assert(card.isBattleCard())
-        %Player.deck.addCard(card)
-        
-    appear(%HandChooser)
-    
 func hideAllMenus():
     
     for child in get_children():
@@ -54,7 +39,9 @@ func showCardChooser(cards:Array):
 func appear(menu:Control):
     
     if activeMenu and activeMenu != menu:
-        vanish(activeMenu)
+        vanish(activeMenu, false)
+    
+    Post.menuSound.emit("appear")
         
     activeMenu = menu
     
@@ -62,6 +49,8 @@ func appear(menu:Control):
     
     menu.anchor_top    = 1
     menu.anchor_bottom = 2
+    
+    Post.menuAppear.emit(menu)
         
     var tween = create_tween()
     tween.set_ease(Tween.EASE_OUT)
@@ -70,10 +59,13 @@ func appear(menu:Control):
     tween.parallel().tween_property(menu, "anchor_bottom", 1, APPEAR_TIME)
     return tween
 
-func vanish(menu):
+func vanish(menu, sound=true):
     
     if menu == activeMenu:
         activeMenu = null
+    
+    Post.menuVanish.emit(menu)
+    if sound: Post.menuSound.emit("vanish")
         
     menu.anchor_top    = 0
     menu.anchor_bottom = 1

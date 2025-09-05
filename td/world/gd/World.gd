@@ -3,7 +3,6 @@ extends Node
 const LEVEL = preload("uid://wo631fluqa0p")
 
 var currentLevel:Node3D
-var freeCardSelection = false
 
 func _ready():
     
@@ -99,19 +98,29 @@ func baseDestroyed():
 func enemySpawned():
     
     if (Stats.numEnemiesSpawned % 50) == 0:
-        freeCardSelection = true
         pauseGame()
         %MenuHandler.showCardChooser(threeRandomCards())
+
+func cardChosen(card:Card):
+    
+    if %Player.hand.get_child_count() < Info.maxHandCards() and card.isBattleCard():
+        %Player.hand.addCard(card)
+    elif card.isPermanent():
+        %Player.perm.addCard(card)
+    elif card.isOnce():
+        if card.res.name == "Money":
+            Wallet.addPrice(card.res.data.amount)
+    else:
+        assert(card.isBattleCard())
+        %Player.deck.addCard(card)
+        
+    %MenuHandler.slideIn(%Hud)
+    Post.applyCards.emit()
+    resumeGame()
        
 func handChosen():
 
-    if freeCardSelection:
-        freeCardSelection = false
-        %MenuHandler.slideIn(%Hud)
-        Post.applyCards.emit()
-        resumeGame()
-    else:
-        Post.startLevel.emit()
+    Post.startLevel.emit()
     
 func startLevel():
     

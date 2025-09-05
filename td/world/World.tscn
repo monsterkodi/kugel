@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://b6mskrm1n176r"]
+[gd_scene load_steps=21 format=3 uid="uid://b6mskrm1n176r"]
 
 [ext_resource type="Script" uid="uid://b6inujglidn5n" path="res://world/gd/World.gd" id="1_eu7l1"]
 [ext_resource type="PackedScene" uid="uid://baj5gp1mlm380" path="res://world/Player.tscn" id="3_wygdx"]
@@ -14,6 +14,11 @@
 [ext_resource type="PackedScene" uid="uid://dqn51jaojemgy" path="res://ui/SettingsMenu.tscn" id="11_0n6y5"]
 [ext_resource type="PackedScene" uid="uid://dm1uyl1udh0ph" path="res://ui/CardChooser.tscn" id="12_gqh78"]
 [ext_resource type="PackedScene" uid="uid://cj01e8082l0kk" path="res://ui/HandChooser.tscn" id="14_x3yhk"]
+[ext_resource type="AudioStream" uid="uid://bof0k0dnyl672" path="res://sounds/menu1.wav" id="15_8u1wm"]
+[ext_resource type="Script" uid="uid://srdtmvh7y33a" path="res://world/MenuSound.gd" id="15_ortil"]
+[ext_resource type="AudioStream" uid="uid://bn02oiegqjwkx" path="res://sounds/menu2.wav" id="16_y7dlm"]
+[ext_resource type="AudioStream" uid="uid://b3hx6tnio5c56" path="res://sounds/menu4.wav" id="17_ww6ps"]
+[ext_resource type="AudioStream" uid="uid://dlca75ji3feaq" path="res://sounds/tok.wav" id="19_tx47m"]
 
 [sub_resource type="Environment" id="Environment_ig7tw"]
 background_mode = 1
@@ -73,11 +78,11 @@ script = ExtResource("9_ww6ps")
 unique_name_in_owner = true
 visible = false
 
-[node name="BuildMenu" parent="MenuHandler" instance=ExtResource("9_crsqw")]
+[node name="SettingsMenu" parent="MenuHandler" instance=ExtResource("11_0n6y5")]
 unique_name_in_owner = true
 visible = false
 
-[node name="SettingsMenu" parent="MenuHandler" instance=ExtResource("11_0n6y5")]
+[node name="BuildMenu" parent="MenuHandler" instance=ExtResource("9_crsqw")]
 unique_name_in_owner = true
 visible = false
 
@@ -90,6 +95,30 @@ visible = false
 unique_name_in_owner = true
 process_mode = 2
 visible = false
+
+[node name="MenuSound" type="Node" parent="."]
+script = ExtResource("15_ortil")
+
+[node name="vanish" type="AudioStreamPlayer2D" parent="MenuSound"]
+unique_name_in_owner = true
+stream = ExtResource("15_8u1wm")
+volume_db = 24.0
+pitch_scale = 0.8
+attenuation = 2.6390166
+
+[node name="appear" type="AudioStreamPlayer2D" parent="MenuSound"]
+unique_name_in_owner = true
+stream = ExtResource("16_y7dlm")
+volume_db = 12.0
+
+[node name="focus" type="AudioStreamPlayer2D" parent="MenuSound"]
+unique_name_in_owner = true
+stream = ExtResource("17_ww6ps")
+volume_db = 12.0
+
+[node name="slider" type="AudioStreamPlayer2D" parent="MenuSound"]
+unique_name_in_owner = true
+stream = ExtResource("19_tx47m")
 
 [connection signal="loadGame" from="MenuHandler/PauseMenu" to="." method="loadGame"]
 [connection signal="quitGame" from="MenuHandler/PauseMenu" to="." method="quitGame"]

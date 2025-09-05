@@ -7,12 +7,7 @@ func _ready():
     
     add_to_group("save")
 
-    #Post.startLevel.connect(startLevel)
-    #Post.levelEnd.connect(levelEnd)
     Post.subscribe(self)
-    
-    #Post.statChanged.emit("balance", balance)
-    #Post.statChanged.emit("restoks", restoks)
     
 func startLevel():
     
@@ -23,18 +18,15 @@ func levelEnd():
     setRestoks(restoks+balance)
     setBalance(0)
     
-func corpseCollected():
-    
-    var reward = rewardForCorpseCollected()
-    addPrice(reward)
-    
-func rewardForCorpseCollected():
-    
-    return 1
+func corpseCollected(): setBalance(balance + 1)
     
 func buildingBought(building):
 
-    deductPrice(Info.priceForBuilding(building))
+    var battleCards = get_node("/root/World/BattleCards")
+    if battleCards.countBattleCards(building):
+        battleCards.useBattleCard(building)
+    else:
+        deductPrice(Info.priceForBuilding(building))
     
 func addPrice(price):
     

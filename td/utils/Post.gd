@@ -17,6 +17,10 @@ signal handChosen
 signal startLevel
 signal levelStart
 signal levelEnd
+signal menuVanish
+signal menuAppear
+signal menuSound
+signal gameSound
 
 var sigDict:Dictionary
 

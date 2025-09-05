@@ -30,8 +30,7 @@ func buttonFocused(button):
     
 func showButtons():
     
-    while %Buttons.get_child_count():
-        %Buttons.get_child(0).free()
+    Utils.freeChildren(%Buttons)
     
     var buildings = Info.buildingNamesSortedByPrice()
     
@@ -39,7 +38,8 @@ func showButtons():
         buildings = buildings.filter(func(b): return b != "Shield")
     
     for building in buildings:
-        if Wallet.balance >= Info.priceForBuilding(building):    
+        if Wallet.balance >= Info.priceForBuilding(building) or \
+            %BattleCards.countBattleCards(building):
             addButton(building)
 
 func showMenu():
