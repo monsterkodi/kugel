@@ -6,6 +6,12 @@ func save():
     var savegame = SaveGame.new()
     get_tree().call_group("save", "on_save", savegame.data)
     ResourceSaver.save(savegame, "user://savegame.tres")
+
+func clear():
+    
+    var savegame = SaveGame.new()
+    ResourceSaver.save(savegame, "user://savegame.tres")
+    self.load()
     
 func load():
 

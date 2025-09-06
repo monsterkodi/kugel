@@ -1,8 +1,10 @@
 class_name Player
 extends Node3D
 
-var vehicleName := "Pill"
-var vehicle : Node3D
+var vehicleName = "Pill"
+var vehicle     : Node3D
+var nextCardIn  : int
+var cardLevel   : int
 
 var deck : Deck
 var hand : Deck
@@ -51,22 +53,32 @@ func _unhandled_input(_event: InputEvent):
 func on_save(data:Dictionary):
 
     data.Player = {}
-    data.Player.transform = transform
-    data.Player.vehicle   = vehicleName
-    data.Player.hand      = hand.toDict()
-    data.Player.deck      = deck.toDict()
-    data.Player.perm      = perm.toDict()
+    data.Player.transform  = transform
+    data.Player.vehicle    = vehicleName
+    data.Player.hand       = hand.toDict()
+    data.Player.deck       = deck.toDict()
+    data.Player.perm       = perm.toDict()
+    data.Player.nextCardIn = nextCardIn
+    data.Player.cardLevel  = cardLevel
     
 func on_load(data:Dictionary):
     
-    if not data.has("Player"): return
+    nextCardIn = 5
+    cardLevel  = 0
     
-    transform = data.Player.transform
-    loadVehicle(data.Player.vehicle)
+    if data.has("Player"):
     
-    if data.Player.has("hand"): hand.fromDict(data.Player.hand)
-    if data.Player.has("deck"): deck.fromDict(data.Player.deck)
-    if data.Player.has("perm"): perm.fromDict(data.Player.perm)
+        transform = data.Player.transform
+        loadVehicle(data.Player.vehicle)
+        
+        if data.Player.has("cardLevel"):  cardLevel  = maxi(data.Player.cardLevel, 0)
+        if data.Player.has("nextCardIn"): nextCardIn = clampi(data.Player.nextCardIn, 1, Info.CARD_LEVELS[cardLevel])
+        
+        if data.Player.has("hand"): hand.fromDict(data.Player.hand)
+        if data.Player.has("deck"): deck.fromDict(data.Player.deck)
+        if data.Player.has("perm"): perm.fromDict(data.Player.perm)
+
+    Log.log("Player.load", cardLevel, nextCardIn)
 
 const SHIELD = preload("uid://busmvxaat6dqv")
     

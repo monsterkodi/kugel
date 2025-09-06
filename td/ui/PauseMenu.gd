@@ -4,6 +4,7 @@ signal settings
 signal loadGame
 signal saveGame
 signal quitGame
+signal newGame
 signal resumeGame
 signal restartGame
 
@@ -13,6 +14,7 @@ func _on_settings_pressed(): settings.emit()
 func _on_load_pressed():     loadGame.emit()
 func _on_save_pressed():     saveGame.emit()
 func _on_quit_pressed():     quitGame.emit()
+func _on_new_game_pressed(): newGame.emit()
 
 func _on_visibility_changed():
     

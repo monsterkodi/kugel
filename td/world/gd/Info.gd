@@ -1,5 +1,19 @@
 extends Node
 
+const CARD_LEVELS = [5, 5, 10, 10, 10, 20, 20, 20,  # 100     8
+                     50, 50, 50, 50, 50, 50,        # 400     14
+                     100, 100, 100, 100, 100, 100,  # 1000    20
+                     200, 200, 200, 200, 200,       # 2000
+                     200, 200, 200, 200, 200,       # 3000    30
+                     400, 400, 400, 400, 400,       # 5000
+                     500, 500, 500, 500, 500,       # 7500    40
+                     500, 500, 500, 500, 500,       # 10000 
+                     1000, 1000, 1000, 1000, 1000,  # 15000   50
+                     1000, 1000, 1000, 1000, 1000,  # 20000
+                     1000, 1000, 1000, 1000, 1000,  # 25000   60
+                     1000, 1000, 1000, 1000, 1000   # 30000
+                    ]
+
 var buildingNames:PackedStringArray
 
 var enemySpeed:float
@@ -11,6 +25,37 @@ func _ready():
     buildingNames = Utils.resourceNamesInDir("res://world/buildings")
     #Log.log("Info.buildingNames", buildingNames)
     #Log.log("Info.buildingNamesSortedByPrice", buildingNamesSortedByPrice())
+
+func nextSetOfCards():
+    
+    Log.log("nextSetOfCards", player.cardLevel)
+    
+    var allCards:Array[CardRes] = Utils.allCardRes()
+    var cards:Array[Card] = []
+    
+    if numberOfCardsOwned("Slot Ring") < 2:
+        Log.log("nextSetOfCards add Slot Ring")
+        var cardRes = allCards[allCards.find_custom(func(c): return c.name == "Slot Ring")]
+        allCards.erase(cardRes)
+        cards.append(Card.new(cardRes))
+
+    if numberOfCardsOwned("Turret") < 1:
+        Log.log("nextSetOfCards add Turret")
+        var cardRes = allCards[allCards.find_custom(func(c): return c.name == "Turret")]
+        allCards.erase(cardRes)
+        cards.append(Card.new(cardRes))
+    
+    while cards.size() < 3:
+        var cardRes = allCards[randi_range(0, allCards.size()-1)]
+        if cardRes.maxNum > 0:
+            var cardCount = numberOfCardsOwned(cardRes.name)
+            if cardCount >= cardRes.maxNum:
+                allCards.erase(cardRes)
+                continue
+        cards.append(Card.new(cardRes))
+        if cardRes.maxNum > 0:
+            allCards.erase(cardRes)
+    return cards
 
 func maxShieldHitPoints() -> int:
     

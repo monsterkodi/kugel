@@ -3,7 +3,7 @@ extends Camera3D
 @export var target:Node3D
 
 var MIN_PITCH  := 20.0
-var MAX_PITCH  := 45.0
+var MAX_PITCH  := 80.0
 var MIN_TAIL   := 5.0
 var MAX_TAIL   := 10.0
 var MIN_ALTI   := 2.5

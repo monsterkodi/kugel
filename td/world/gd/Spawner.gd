@@ -12,7 +12,7 @@ extends Node3D
 @export var mass_increment     = 0.1
 @export var mass_max           = 100.0
 @export var velocity_increment = 0.05
-@export var velocity_max       = 10.0
+@export var velocity_max       = 1000.0
 @export var seconds_decrement  = 0.05
 @export var seconds_min        = 4.0
 

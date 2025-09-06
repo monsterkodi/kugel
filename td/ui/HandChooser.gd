@@ -15,8 +15,6 @@ func _on_visibility_changed():
     
     if visible:
 
-        %MenuHandler.slideOut(%Hud)
-                
         Utils.freeChildren(%Hand)
         %Hand.custom_minimum_size.x = Info.maxHandCards() * 300 + 50
         for card in %Player.hand.get_children():
@@ -27,7 +25,7 @@ func _on_visibility_changed():
             button.setSize(HAND_SIZE)
 
         Utils.freeChildren(%Deck)
-        for card in %Player.deck.get_children():
+        for card in %Player.deck.sortedCards():
             var button = CARD_BUTTON.instantiate()
             button.card = card
             button.pressed.connect(buttonPressed.bind(button))
@@ -88,5 +86,7 @@ func _input(event: InputEvent):
 func _on_done_button_pressed():
     
     vanish()
+
+func _on_perm_pressed():
     
-    
+    %MenuHandler.appear(%PermViewer, "right")

@@ -6,7 +6,7 @@ class_name Interpol
 var target := 0.0
 var value  := 0.0
 
-func _physics_process(delta: float) -> void:
+func _physics_process(delta: float):
     
     if secs == 0:
         value = target

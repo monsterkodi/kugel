@@ -12,11 +12,11 @@ func applyCards():
     
     var rings = Info.countPermCards("Slot Ring")
     Log.log("rings", rings)
-    %SlotRing1.visible = true
-    %SlotRing2.visible = true
-    %SlotRing3.visible = true
-    %SlotRing4.visible = (rings >= 1)
-    %SlotRing5.visible = (rings >= 2)
+    %SlotRing1.visible = (rings >= 1)
+    %SlotRing2.visible = (rings >= 2)
+    %SlotRing3.visible = (rings >= 3)
+    %SlotRing4.visible = (rings >= 4)
+    %SlotRing5.visible = (rings >= 5)
 
 func gamePaused():
     

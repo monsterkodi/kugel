@@ -1,0 +1,130 @@
+[gd_scene load_steps=13 format=3 uid="uid://bhawut27oexi"]
+
+[ext_resource type="Theme" uid="uid://clq475kfnwm5h" path="res://ui/theme/HandChooserTheme.tres" id="1_w633r"]
+[ext_resource type="Script" uid="uid://bmyd36haasppj" path="res://ui/PermViewer.gd" id="2_w633r"]
+[ext_resource type="Theme" uid="uid://beiokf4qmynpf" path="res://ui/theme/HandChooserDeckTheme.tres" id="3_8rdg7"]
+[ext_resource type="Script" uid="uid://db85fb86bo305" path="res://ui/FocusOnHover.gd" id="4_ed7wq"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w633r"]
+draw_center = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i7d3p"]
+content_margin_top = 50.0
+bg_color = Color(0, 0, 0, 0.64705884)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tt3oq"]
+bg_color = Color(0.1833334, 0, 1, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wk2i3"]
+content_margin_left = 25.0
+content_margin_right = 25.0
+bg_color = Color(0.1, 0.1, 0.1, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+expand_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e1212"]
+bg_color = Color(0.52156866, 0, 0, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+expand_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7pchu"]
+bg_color = Color(0.068920076, 0.068920076, 0.068920076, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+expand_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uuvfj"]
+bg_color = Color(0.52156866, 0, 0, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+expand_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1kdj8"]
+bg_color = Color(1, 0, 0, 1)
+border_color = Color(0, 0, 0, 0)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+expand_margin_bottom = 10.0
+shadow_size = 4
+
+[node name="PermViewer" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 2
+theme = ExtResource("1_w633r")
+theme_override_styles/panel = SubResource("StyleBoxFlat_w633r")
+script = ExtResource("2_w633r")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(1280, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_i7d3p")
+
+[node name="DeckContainer" type="PanelContainer" parent="PanelContainer"]
+layout_mode = 2
+theme = ExtResource("1_w633r")
+theme_override_styles/panel = SubResource("StyleBoxFlat_tt3oq")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/DeckContainer"]
+custom_minimum_size = Vector2(0, 1030)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+follow_focus = true
+draw_focus_border = true
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 3
+
+[node name="Deck" type="GridContainer" parent="PanelContainer/DeckContainer/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+theme = ExtResource("3_8rdg7")
+columns = 5
+
+[node name="MarginContainer2" type="MarginContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_constants/margin_left = 45
+theme_override_constants/margin_bottom = 10
+
+[node name="Back" type="Button" parent="MarginContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0.31670618, 0.31670618, 0.31670618, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.86081076, 0, 1)
+theme_override_font_sizes/font_size = 84
+theme_override_styles/normal = SubResource("StyleBoxFlat_wk2i3")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_e1212")
+theme_override_styles/hover = SubResource("StyleBoxFlat_7pchu")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_uuvfj")
+theme_override_styles/focus = SubResource("StyleBoxFlat_1kdj8")
+text = "Back"
+icon_alignment = 1
+
+[node name="FocusOnHover" type="Node" parent="MarginContainer2/Back"]
+script = ExtResource("4_ed7wq")
+metadata/_custom_type_script = "uid://db85fb86bo305"
+
+[connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
+[connection signal="pressed" from="MarginContainer2/Back" to="." method="_on_back_pressed"]

@@ -39,8 +39,6 @@ func cardChosen(card):
 func _on_visibility_changed():
     
     set_process_input(visible)
-    if visible:
-        %MenuHandler.slideOut(%Hud)
 
 func _input(event: InputEvent):
     

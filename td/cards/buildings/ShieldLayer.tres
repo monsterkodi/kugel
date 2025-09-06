@@ -6,8 +6,8 @@
 [resource]
 script = ExtResource("1_qqhyn")
 name = &"Shield +1"
-text = "The Shield comes with an additional layer of protection"
-scene = ExtResource("1_v6bvu")
-maxNum = 10
 type = 1
+text = "The Shield comes with an additional layer of protection"
+maxNum = 5
+scene = ExtResource("1_v6bvu")
 metadata/_custom_type_script = "uid://dcn508r6heipo"

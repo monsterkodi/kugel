@@ -160,12 +160,12 @@ func slower():
     
     speed *= 0.99; speed = clampf(speed, MIN_SPEED, MAX_SPEED); Log.log("speed", speed)
 
-func _input(event: InputEvent) -> void:
+func _input(event: InputEvent):
     
     if event is InputEventMouseMotion:
         mouseDelta = event.relative
 
-func _unhandled_input(event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent):
     
     if event is InputEventMouseButton:
         if event.button_index == MOUSE_BUTTON_WHEEL_UP:

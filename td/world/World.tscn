@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://b6mskrm1n176r"]
+[gd_scene load_steps=23 format=3 uid="uid://b6mskrm1n176r"]
 
 [ext_resource type="Script" uid="uid://b6inujglidn5n" path="res://world/gd/World.gd" id="1_eu7l1"]
 [ext_resource type="PackedScene" uid="uid://baj5gp1mlm380" path="res://world/Player.tscn" id="3_wygdx"]
@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://cj01e8082l0kk" path="res://ui/HandChooser.tscn" id="14_x3yhk"]
 [ext_resource type="AudioStream" uid="uid://bof0k0dnyl672" path="res://sounds/menu1.wav" id="15_8u1wm"]
 [ext_resource type="Script" uid="uid://srdtmvh7y33a" path="res://world/MenuSound.gd" id="15_ortil"]
+[ext_resource type="PackedScene" uid="uid://bhawut27oexi" path="res://ui/PermViewer.tscn" id="15_pbtp0"]
 [ext_resource type="AudioStream" uid="uid://bn02oiegqjwkx" path="res://sounds/menu2.wav" id="16_y7dlm"]
 [ext_resource type="AudioStream" uid="uid://b3hx6tnio5c56" path="res://sounds/menu4.wav" id="17_ww6ps"]
 [ext_resource type="AudioStream" uid="uid://dlca75ji3feaq" path="res://sounds/tok.wav" id="19_tx47m"]
@@ -92,9 +93,13 @@ visible = false
 unique_name_in_owner = true
 process_mode = 2
 visible = false
-anchors_preset = -1
 
 [node name="HandChooser" parent="MenuHandler" instance=ExtResource("14_x3yhk")]
+unique_name_in_owner = true
+process_mode = 2
+visible = false
+
+[node name="PermViewer" parent="MenuHandler" instance=ExtResource("15_pbtp0")]
 unique_name_in_owner = true
 process_mode = 2
 visible = false
@@ -124,6 +129,7 @@ stream = ExtResource("19_tx47m")
 script = ExtResource("20_fy8qs")
 
 [connection signal="loadGame" from="MenuHandler/PauseMenu" to="." method="loadGame"]
+[connection signal="newGame" from="MenuHandler/PauseMenu" to="." method="newGame"]
 [connection signal="quitGame" from="MenuHandler/PauseMenu" to="." method="quitGame"]
 [connection signal="restartGame" from="MenuHandler/PauseMenu" to="." method="restartLevel"]
 [connection signal="resumeGame" from="MenuHandler/PauseMenu" to="." method="togglePause"]

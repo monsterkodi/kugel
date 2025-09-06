@@ -48,7 +48,69 @@ func _unhandled_input(event: InputEvent):
                 EngineDebugger.send_message("editor:shortcut", [shortcut])
             #else:
                 #Log.log("unknown key", event.as_text(), Input.is_key_pressed(KEY_CTRL), Input.is_key_pressed(KEY_META), Input.is_key_pressed(KEY_ALT))
+            
+func baseDestroyed():
+    
+    Post.levelEnd.emit()
+    pauseGame()
+    %MenuHandler.appear(%HandChooser)
+    
+func enemySpawned(spawner:Spawner):
+    
+    Log.log("level", %Player.cardLevel, "next in", %Player.nextCardIn)
+    
+    %Player.nextCardIn -= 1
+    if %Player.nextCardIn == 0:
+        pauseGame()
+        %MenuHandler.showCardChooser(Info.nextSetOfCards())
 
+func cardChosen(card:Card):
+    
+    %Player.cardLevel += 1
+    %Player.nextCardIn = Info.CARD_LEVELS[%Player.cardLevel]
+    
+    if %Player.hand.get_child_count() < Info.maxHandCards() and card.isBattleCard():
+        %Player.hand.addCard(card)
+    elif card.isPermanent():
+        %Player.perm.addCard(card)
+    elif card.isOnce():
+        if card.res.name == "Money":
+            Wallet.addPrice(card.res.data.amount)
+    else:
+        assert(card.isBattleCard())
+        %Player.deck.addCard(card)
+        
+    Post.applyCards.emit()
+    
+    resumeGame()
+       
+func handChosen():
+
+    Post.startLevel.emit()
+    
+func startLevel():
+    
+    Log.log("startLevel")
+    if currentLevel:
+        currentLevel.queue_free()
+    currentLevel = LEVEL.instantiate()
+    add_child(currentLevel)
+    
+    Post.applyCards.emit()
+    Post.levelStart.emit()
+    
+    resumeGame()
+    
+func restartLevel():
+    
+    pauseGame()
+    %MenuHandler.appear(%HandChooser)
+
+func newGame():
+    
+    %Saver.clear()
+    restartLevel()
+    
 func buildMode():
     
     if not %BuildMenu.visible:
@@ -71,73 +133,7 @@ func toggleBuild():
         %BuildMenu.hideMenu()
         if %Player.vehicle is RigidBody3D:
             %Player.vehicle.linear_velocity = Vector3.ZERO
-        resumeGame()
-
-func threeRandomCards():
-    
-    var allCards:Array[CardRes] = Utils.allCardRes()
-    var cards:Array[Card] = []
-    while cards.size() < 3:
-        var cardRes = allCards[randi_range(0, allCards.size()-1)]
-        if cardRes.maxNum > 0:
-            var cardCount = Info.numberOfCardsOwned(cardRes.name)
-            if cardCount >= cardRes.maxNum:
-                allCards.erase(cardRes)
-                continue
-        cards.append(Card.new(cardRes))
-        if cardRes.maxNum > 0:
-            allCards.erase(cardRes)
-    return cards
-            
-func baseDestroyed():
-    
-    Post.levelEnd.emit()
-    pauseGame()
-    %MenuHandler.appear(%HandChooser)
-    
-func enemySpawned(spawner:Spawner):
-    
-    if (Stats.numEnemiesSpawned % 50) == 0:
-        pauseGame()
-        %MenuHandler.showCardChooser(threeRandomCards())
-
-func cardChosen(card:Card):
-    
-    if %Player.hand.get_child_count() < Info.maxHandCards() and card.isBattleCard():
-        %Player.hand.addCard(card)
-    elif card.isPermanent():
-        %Player.perm.addCard(card)
-    elif card.isOnce():
-        if card.res.name == "Money":
-            Wallet.addPrice(card.res.data.amount)
-    else:
-        assert(card.isBattleCard())
-        %Player.deck.addCard(card)
-        
-    %MenuHandler.slideIn(%Hud)
-    Post.applyCards.emit()
-    resumeGame()
-       
-func handChosen():
-
-    Post.startLevel.emit()
-    
-func startLevel():
-    
-    Log.log("startLevel")
-    if currentLevel:
-        currentLevel.queue_free()
-    currentLevel = LEVEL.instantiate()
-    add_child(currentLevel)
-    %MenuHandler.slideIn(%Hud)
-    Post.applyCards.emit()
-    Post.levelStart.emit()
-    resumeGame()
-    
-func restartLevel():
-    
-    pauseGame()
-    %MenuHandler.appear(%HandChooser)
+        resumeGame()    
                   
 func togglePause():
     
@@ -153,10 +149,14 @@ func togglePause():
         
 func pauseGame():
     
+    %MenuHandler.slideOut(%Hud)
+    
     get_tree().call_group("game", "gamePaused")
     get_tree().paused = true
            
 func resumeGame():
+    
+    %MenuHandler.slideIn(%Hud)
     
     get_tree().paused = false
     get_tree().call_group("game", "gameResumed")
@@ -165,7 +165,7 @@ func quitGame():
     
     %Saver.save()
     get_tree().quit()
-    
+        
 func saveGame():
     
     %Saver.save()

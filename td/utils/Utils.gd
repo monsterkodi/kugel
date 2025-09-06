@@ -30,7 +30,7 @@ func filterTree(node:Node, predicate:Callable):
 func childrenWithClass(node:Node, className:String):
     
     return filterTree(node, func(n:Node): 
-        Log.log(n.get_class())
+        #Log.log(n.get_class())
         return n.get_class() == className or ClassDB.is_parent_class(n.get_class(), className))
 
 func childrenWithClasses(node:Node, classNames:Array[String]):

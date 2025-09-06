@@ -5,7 +5,7 @@ extends Node
 @export var turretSensor:Color = Color(0.5, 0.5, 1, 0.75)
 const turretSensorMaterial:ShaderMaterial = preload("uid://b1gsuujsn28vt")
 
-func _ready() -> void:
+func _ready():
     #Log.log("HELLO Color", ResourceLoader.has_cached("uid://b1gsuujsn28vt"))
     #var editorInspector = EditorInterface.get_inspector()
     #Log.log("HELLO Inspector", EditorInterface)

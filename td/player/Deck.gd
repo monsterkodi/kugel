@@ -29,6 +29,12 @@ func fromDict(dict:Dictionary):
         var card = Utils.newCardWithName(cardName)
         if card: addCard(card)
         else: Log.log("no card with name", cardName)
+        
+func sortedCards():
+    
+    var cards = get_children()
+    cards.sort_custom(func(a,b): return a.res.name > b.res.name)
+    return cards
     
     
     

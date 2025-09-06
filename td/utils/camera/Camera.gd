@@ -1,6 +1,6 @@
 extends Node3D
 
-func _ready() -> void:
+func _ready():
     
     %Follow.target  = %Player
     %Follow.current = true
@@ -21,6 +21,7 @@ func on_save(data:Dictionary):
     
 func on_load(data:Dictionary):
 
-    transform = data.Camera.transform
-    %FreeFlight.transform = data.Camera.freeflight_transform
-    %Follow.dist = data.Camera.follow_dist
+    if data.has("Camera"):
+        transform = data.Camera.transform
+        %FreeFlight.transform = data.Camera.freeflight_transform
+        %Follow.dist = data.Camera.follow_dist

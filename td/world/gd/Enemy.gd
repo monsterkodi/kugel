@@ -8,11 +8,11 @@ func dead():  return health <= 0
 
 func die():
     
-    %died.play()
+    %died.play(0.09)
     
     health = 0
     %Attraction.disable()
-    get_tree().create_timer(0.5).connect("timeout", makeCorpse)
+    get_tree().create_timer(2.0).connect("timeout", makeCorpse)
     
 func getColor() -> Color:
     

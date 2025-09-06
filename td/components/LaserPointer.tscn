@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bv5vo4rgym2a7"]
 
 [ext_resource type="Script" uid="uid://bj7jcc21dm18n" path="res://components/LaserPointer.gd" id="1_g00a2"]
-[ext_resource type="AudioStream" uid="uid://e1rgbpt3s114" path="res://sounds/laser.wav" id="2_4vta8"]
+[ext_resource type="AudioStream" uid="uid://bg0jpjpu0c130" path="res://sounds/laser3.wav" id="2_4vta8"]
 
 [node name="LaserPointer" type="Node3D"]
 script = ExtResource("1_g00a2")
@@ -20,5 +20,5 @@ collision_mask = 1073741830
 unique_name_in_owner = true
 stream = ExtResource("2_4vta8")
 attenuation_model = 1
-volume_db = -20.0
+volume_db = -15.0
 max_db = 0.0

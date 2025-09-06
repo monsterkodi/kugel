@@ -7,7 +7,7 @@ extends Node3D
 @export_range(3, 32, 1) var rings = 16
 @export var material : Material
 
-func _enter_tree() -> void:
+func _enter_tree():
     
     generate()
     
