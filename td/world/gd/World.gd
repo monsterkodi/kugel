@@ -25,7 +25,7 @@ func _process(delta: float):
         
 func _unhandled_input(event: InputEvent):
     
-    if Input.is_action_just_pressed("pause"): togglePause(); return
+    if Input.is_action_just_pressed("pause"): pauseMenu();   return
     if Input.is_action_just_pressed("build"): buildMode();   return
     if Input.is_action_just_pressed("quit"):  quitGame();    return
     #if Input.is_action_just_pressed("save"): %Saver.save(); return
@@ -135,17 +135,17 @@ func toggleBuild():
             %Player.vehicle.linear_velocity = Vector3.ZERO
         resumeGame()    
                   
-func togglePause():
+func pauseMenu():
     
     if not get_tree().paused:
         pauseGame()
         %MenuHandler.appear(%PauseMenu)
-    else:
-        %MenuHandler.vanishActive()
-        if %BuildMenu.visible:
-            toggleBuild()
-        else:
-            resumeGame()
+    #else:
+        ##%MenuHandler.vanishActive()
+        #if %BuildMenu.visible:
+            #toggleBuild()
+        #else:
+            #resumeGame()
         
 func pauseGame():
     
@@ -156,6 +156,7 @@ func pauseGame():
            
 func resumeGame():
     
+    %MenuHandler.vanishActive()
     %MenuHandler.slideIn(%Hud)
     
     get_tree().paused = false

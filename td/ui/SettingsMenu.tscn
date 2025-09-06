@@ -1,32 +1,25 @@
-[gd_scene load_steps=3 format=3 uid="uid://dqn51jaojemgy"]
+[gd_scene load_steps=4 format=3 uid="uid://dqn51jaojemgy"]
 
 [ext_resource type="Script" uid="uid://mqbiqpms0g07" path="res://ui/SettingsMenu.gd" id="1_7nnky"]
 [ext_resource type="Theme" uid="uid://clh031dvmhoxe" path="res://ui/theme/SettingsMenuTheme.tres" id="1_rd3qm"]
 
-[node name="SettingsMenu" type="Control" groups=["save"]]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7nnky"]
+
+[node name="SettingsMenu" type="PanelContainer" groups=["save"]]
 process_mode = 2
-layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_rd3qm")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_7nnky")
 script = ExtResource("1_7nnky")
+metadata/_custom_type_script = "uid://vl5uuupklejb"
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -196.5
-offset_top = -200.0
-offset_right = 196.5
-offset_bottom = 200.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 theme = ExtResource("1_rd3qm")
 
 [node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]

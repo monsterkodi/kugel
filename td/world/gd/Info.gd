@@ -33,14 +33,14 @@ func nextSetOfCards():
     var allCards:Array[CardRes] = Utils.allCardRes()
     var cards:Array[Card] = []
     
-    if numberOfCardsOwned("Slot Ring") < 2:
-        Log.log("nextSetOfCards add Slot Ring")
+    if numberOfCardsOwned("Slot Ring") < 3:
+        #Log.log("nextSetOfCards add Slot Ring")
         var cardRes = allCards[allCards.find_custom(func(c): return c.name == "Slot Ring")]
         allCards.erase(cardRes)
         cards.append(Card.new(cardRes))
 
     if numberOfCardsOwned("Turret") < 1:
-        Log.log("nextSetOfCards add Turret")
+        #Log.log("nextSetOfCards add Turret")
         var cardRes = allCards[allCards.find_custom(func(c): return c.name == "Turret")]
         allCards.erase(cardRes)
         cards.append(Card.new(cardRes))

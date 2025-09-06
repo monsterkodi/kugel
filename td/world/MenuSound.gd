@@ -8,7 +8,8 @@ func menuAppear(menu:Control):
     
     var items = Utils.childrenWithClasses(menu, ["Button", "HSlider"])
     for item in items:
-        item.focus_entered.connect(menuSound.bind("focus"))
+        if not item.focus_entered.is_connected(menuSound):
+            item.focus_entered.connect(menuSound.bind("focus"))
         
         if item is HSlider:
             item.value_changed.connect(func(value): menuSound("slider"))
@@ -17,7 +18,8 @@ func menuVanish(menu:Control):
     
     var items = Utils.childrenWithClasses(menu, ["Button", "HSlider"])
     for item in items:
-        item.focus_entered.disconnect(menuSound)
+        if item.focus_entered.is_connected(menuSound):
+            item.focus_entered.disconnect(menuSound)
 
 func menuSound(action:String):
     

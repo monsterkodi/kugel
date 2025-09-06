@@ -66,6 +66,10 @@ func on_load(data:Dictionary):
     nextCardIn = 5
     cardLevel  = 0
     
+    Utils.freeChildren(hand)
+    Utils.freeChildren(deck)
+    Utils.freeChildren(perm)
+    
     if data.has("Player"):
     
         transform = data.Player.transform

@@ -1,13 +1,9 @@
 class_name HandChooser
-extends PanelContainer
+extends Menu
 
 const CARD_BUTTON = preload("uid://cj3gelhoeb5ps")
 const HAND_SIZE = Vector2i(300,200)
 const DECK_SIZE = Vector2i(225,160)
-
-func _ready():
-    
-    set_process_input(false)
 
 func _on_visibility_changed():
     
@@ -32,12 +28,15 @@ func _on_visibility_changed():
             if card.res.type == CardRes.CardType.PERMANENT:
                 button.get_node("Circle").visible = true
             %Deck.add_child(button)
-            button.setSize(DECK_SIZE)
-        
-        %Done.grab_focus()            
+            button.setSize(DECK_SIZE)        
     else:            
         Utils.freeChildren(%Hand)
         Utils.freeChildren(%Deck)
+
+func appeared():
+    
+    %Done.grab_focus()            
+    super.appeared()
 
 func buttonPressed(button):
     
@@ -77,11 +76,11 @@ func vanish():
     
     %MenuHandler.vanish(self).tween_callback(func():Post.handChosen.emit())
 
-func _input(event: InputEvent):
-    
-    if event.is_action_pressed("ui_cancel"):
-        accept_event()
-        vanish()
+#func _input(event: InputEvent):
+    #
+    #if event.is_action_pressed("ui_cancel"):
+        #accept_event()
+        #vanish()
         
 func _on_done_button_pressed():
     

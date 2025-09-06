@@ -21,6 +21,11 @@ signal menuAppear
 signal menuSound
 signal gameSound
 signal statChanged 
+signal newGame
+signal resumeGame
+signal restartLevel
+signal settings
+signal quitGame
 
 var sigDict:Dictionary
 

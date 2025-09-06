@@ -128,11 +128,4 @@ stream = ExtResource("19_tx47m")
 [node name="GameSound" type="Node" parent="."]
 script = ExtResource("20_fy8qs")
 
-[connection signal="loadGame" from="MenuHandler/PauseMenu" to="." method="loadGame"]
-[connection signal="newGame" from="MenuHandler/PauseMenu" to="." method="newGame"]
-[connection signal="quitGame" from="MenuHandler/PauseMenu" to="." method="quitGame"]
-[connection signal="restartGame" from="MenuHandler/PauseMenu" to="." method="restartLevel"]
-[connection signal="resumeGame" from="MenuHandler/PauseMenu" to="." method="togglePause"]
-[connection signal="saveGame" from="MenuHandler/PauseMenu" to="." method="saveGame"]
-[connection signal="settings" from="MenuHandler/PauseMenu" to="." method="settings"]
 [connection signal="visibility_changed" from="MenuHandler/CardChooser" to="MenuHandler/CardChooser" method="_on_visibility_changed"]

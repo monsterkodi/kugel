@@ -1,14 +1,10 @@
 class_name CardChooser
-extends PanelContainer
+extends Menu
 
 @onready var cardButtons: HBoxContainer = %CardButtons
 
 const CARD_BUTTON = preload("uid://cj3gelhoeb5ps")
 const CARD_SIZE   = Vector2i(375,375)
-
-func _ready():
-    
-    set_process_input(false)
     
 func setCards(cards:Array):
     
@@ -21,7 +17,11 @@ func setCards(cards:Array):
         addCardButton(card)
             
     assert(cardButtons.get_child_count() == 3)
+    
+func appeared():
+    
     cardButtons.get_child(1).grab_focus()
+    super.appeared()
 
 func addCardButton(card:Card):
     
@@ -34,18 +34,14 @@ func addCardButton(card:Card):
 func cardChosen(card):
     
     Post.cardChosen.emit(card)
-    %MenuHandler.vanish(self)
-
-func _on_visibility_changed():
-    
-    set_process_input(visible)
 
 func _input(event: InputEvent):
     
     if event.is_action_pressed("ui_cancel"):
+        Log.log("CARD CHOOSE CANCEL")
         for button in cardButtons.get_children():
             if button.has_focus():
                 cardChosen(button.card)
                 break
-        accept_event()
-        %MenuHandler.vanish(self)
+                
+    super._input(event)

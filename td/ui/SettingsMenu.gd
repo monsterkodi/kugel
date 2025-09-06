@@ -1,5 +1,5 @@
 class_name SettingsMenu 
-extends Control
+extends Menu
 
 func _on_visibility_changed():
     
@@ -8,9 +8,14 @@ func _on_visibility_changed():
         %Timescale.value  = Engine.time_scale
         %EnemySpeed.value = Info.enemySpeed
         %Volume.value     = AudioServer.get_bus_volume_linear(AudioServer.get_bus_index("Master"))
-        %EnemySpeed.grab_focus()
+        
+func appeared():
+    
+    %EnemySpeed.grab_focus()
+    super.appeared()
 
 func onButtonHover(button: Node): 
+    
     button.grab_focus()
 
 func onBrightness(value):
