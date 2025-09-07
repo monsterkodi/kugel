@@ -46,7 +46,7 @@ func _physics_process(delta:float):
     var distance = laserRange
     if collider and collider.is_inside_tree():
         setLength(global_position.distance_to(collider.global_position))
-        if collider is Enemy and collider.health > 0:
+        if collider is Enemy and collider.health > 0 and collider.spawned:
             if not %laser.playing:
                 %laser.play()
             laser.set_surface_override_material(0, activeMat)

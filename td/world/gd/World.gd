@@ -113,39 +113,15 @@ func newGame():
     
 func buildMode():
     
-    if not %BuildMenu.visible:
-        toggleBuild()
+    pauseGame()
 
-func toggleBuild():
-    
-    if not get_tree().paused:
-        if %Player.vehicle is RigidBody3D:
-            %Player.vehicle.linear_velocity = Vector3.ZERO
-        pauseGame()
-        var trans:Transform3D = %Player.global_transform
-        trans.origin.y = 0
-        %Builder.appear(trans)
-        %BuildMenu.showMenu()
-        %Camera/Follow.target = %Builder.vehicle
-    elif %BuildMenu.visible:
-        %Camera/Follow.target = %Player
-        %Builder.vanish()
-        %BuildMenu.hideMenu()
-        if %Player.vehicle is RigidBody3D:
-            %Player.vehicle.linear_velocity = Vector3.ZERO
-        resumeGame()    
+    %MenuHandler.appear(%BuildMenu, "left")
                   
 func pauseMenu():
     
     if not get_tree().paused:
         pauseGame()
         %MenuHandler.appear(%PauseMenu)
-    #else:
-        ##%MenuHandler.vanishActive()
-        #if %BuildMenu.visible:
-            #toggleBuild()
-        #else:
-            #resumeGame()
         
 func pauseGame():
     

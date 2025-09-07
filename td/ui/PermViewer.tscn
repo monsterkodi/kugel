@@ -127,4 +127,4 @@ script = ExtResource("4_ed7wq")
 metadata/_custom_type_script = "uid://db85fb86bo305"
 
 [connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
-[connection signal="pressed" from="MarginContainer2/Back" to="." method="_on_back_pressed"]
+[connection signal="pressed" from="MarginContainer2/Back" to="." method="back"]

@@ -1,7 +1,7 @@
 class_name SlotRing extends Node3D
 
-@export_range(4, 64, 1) var numSlots  = 8.0
-@export_range(5, 25, 5) var radius = 5.0
+@export_range(4, 64, 1) var numSlots = 8.0
+@export_range(5, 25, 5) var radius   = 5.0
 
 const SLOT = preload("res://world/Slot.tscn")
 var slots:Array[Slot]

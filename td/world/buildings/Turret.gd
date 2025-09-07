@@ -31,12 +31,7 @@ func _ready():
     if not global_position.is_zero_approx():
         look_at(Vector3.ZERO)
     
-    %Emitter.delay    = emitter_delay
-    %Emitter.interval = emitter_interval
-    %Emitter.velocity = emitter_velocity
-    %Emitter.mass     = emitter_mass
-
-    setSensorRadius(radius)
+    applyCards()
     
     if target:
         $BarrelTarget.look_at(target.global_position)
@@ -44,6 +39,14 @@ func _ready():
         lookUp()
         
     super._ready()
+    
+func applyCards():
+    
+    %Emitter.delay    = emitter_delay    * (1.0 - Info.countPermCards("Turret Speed") * 0.1)
+    %Emitter.interval = emitter_interval * (1.0 - Info.countPermCards("Turret Speed") * 0.1)
+    %Emitter.velocity = emitter_velocity * (1.0 + Info.countPermCards("Turret Power") * 1.0)
+    %Emitter.mass     = emitter_mass     * (1.0 + Info.countPermCards("Turret Power") * 1.0) 
+    setSensorRadius(radius * (1.0 + Info.countPermCards("Turret Range") * 0.5))
 
 func _physics_process(_delta:float):
     

@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://dnk1mn0lm0c3d"]
+[gd_scene load_steps=5 format=3 uid="uid://dnk1mn0lm0c3d"]
 
 [ext_resource type="Script" uid="uid://duyv183u3mjyk" path="res://ui/PauseMenu.gd" id="1_8tehv"]
 [ext_resource type="Theme" uid="uid://ckxlwln5s1u4b" path="res://ui/theme/PauseMenuTheme.tres" id="2_8tehv"]
+[ext_resource type="Script" uid="uid://db85fb86bo305" path="res://ui/FocusOnHover.gd" id="3_1q10k"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8tehv"]
 
@@ -46,12 +47,32 @@ mouse_default_cursor_shape = 2
 theme = ExtResource("2_8tehv")
 text = "Resume"
 
+[node name="FocusOnHover" type="Node" parent="PanelContainer/MarginContainer/VBoxContainer/Resume"]
+script = ExtResource("3_1q10k")
+metadata/_custom_type_script = "uid://db85fb86bo305"
+
+[node name="Cards" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../Quit")
+mouse_default_cursor_shape = 2
+theme = ExtResource("2_8tehv")
+text = "Cards
+"
+
+[node name="FocusOnHover" type="Node" parent="PanelContainer/MarginContainer/VBoxContainer/Cards"]
+script = ExtResource("3_1q10k")
+metadata/_custom_type_script = "uid://db85fb86bo305"
+
 [node name="Settings" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme = ExtResource("2_8tehv")
 text = "Settings
 "
+
+[node name="FocusOnHover" type="Node" parent="PanelContainer/MarginContainer/VBoxContainer/Settings"]
+script = ExtResource("3_1q10k")
+metadata/_custom_type_script = "uid://db85fb86bo305"
 
 [node name="Restart" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -60,6 +81,10 @@ theme = ExtResource("2_8tehv")
 text = "Restart
 "
 
+[node name="FocusOnHover" type="Node" parent="PanelContainer/MarginContainer/VBoxContainer/Restart"]
+script = ExtResource("3_1q10k")
+metadata/_custom_type_script = "uid://db85fb86bo305"
+
 [node name="New Game" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 mouse_default_cursor_shape = 2
@@ -67,14 +92,23 @@ theme = ExtResource("2_8tehv")
 text = "New Game
 "
 
+[node name="FocusOnHover" type="Node" parent="PanelContainer/MarginContainer/VBoxContainer/New Game"]
+script = ExtResource("3_1q10k")
+metadata/_custom_type_script = "uid://db85fb86bo305"
+
 [node name="Quit" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme = ExtResource("2_8tehv")
 text = "Quit"
 
+[node name="FocusOnHover" type="Node" parent="PanelContainer/MarginContainer/VBoxContainer/Quit"]
+script = ExtResource("3_1q10k")
+metadata/_custom_type_script = "uid://db85fb86bo305"
+
 [connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/Resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/Cards" to="." method="_on_cards_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/Settings" to="." method="_on_settings_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/Restart" to="." method="_on_restart_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/New Game" to="." method="_on_new_game_pressed"]

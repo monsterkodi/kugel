@@ -86,7 +86,7 @@ func appear(trans:Transform3D):
         loadVehicle("Drone")
         vehicle.global_transform = trans
         vehicle.body.position.y = 32
-    else:
+    elif vanishTween:
         vanishTween.stop()
     appearTween = vehicle.create_tween()
     appearTween.set_ease(Tween.EASE_OUT)
@@ -96,9 +96,9 @@ func appear(trans:Transform3D):
 func vanish():
     
     freeGhost()
-    appearTween.stop()
+    if appearTween: appearTween.stop()
     if vehicle:
-        vanishTween = get_tree().create_tween()
+        vanishTween = vehicle.create_tween()
         vanishTween.set_ease(Tween.EASE_IN)
         vanishTween.set_trans(Tween.TRANS_QUINT)
         vanishTween.tween_property(vehicle.body, "position:y", 32, 0.5)

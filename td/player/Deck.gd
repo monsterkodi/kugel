@@ -33,7 +33,7 @@ func fromDict(dict:Dictionary):
 func sortedCards():
     
     var cards = get_children()
-    cards.sort_custom(func(a,b): return a.res.name > b.res.name)
+    cards.sort_custom(func(a,b): return a.res.name.naturalnocasecmp_to(b.res.name) < 0)
     return cards
     
     

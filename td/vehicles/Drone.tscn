@@ -23,6 +23,7 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.64, 0)
 
 [node name="Torus" type="MeshInstance3D" parent="Body"]
+process_mode = 3
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6010492, 0)
 mesh = SubResource("TorusMesh_0eloc")
 surface_material_override/0 = ExtResource("2_tjqyq")

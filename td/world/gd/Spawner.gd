@@ -88,6 +88,7 @@ func ejectSpawnBody():
     spawnedBody.setMass(mass)
     spawnedBody.freeze = false
     spawnedBody.apply_central_impulse(%SpawnPoint.global_basis.x.normalized() * velocity*mass)
+    spawnedBody.spawned = true
     spawnedBody = null
     
     Post.enemySpawned.emit(self)

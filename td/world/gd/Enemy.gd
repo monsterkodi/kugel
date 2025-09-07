@@ -2,6 +2,7 @@ class_name Enemy extends RigidBody3D
 
 var health = 1.0
 var damageAccum = 0.0
+var spawned = false
 
 func alive(): return health > 0
 func dead():  return health <= 0

@@ -72,19 +72,9 @@ func handButtonPressed(button):
     moveHandCardToDeck(%Hand.get_children().find(button))
     button.grab_focus()
 
-func vanish():
-    
-    %MenuHandler.vanish(self).tween_callback(func():Post.handChosen.emit())
-
-#func _input(event: InputEvent):
-    #
-    #if event.is_action_pressed("ui_cancel"):
-        #accept_event()
-        #vanish()
-        
 func _on_done_button_pressed():
     
-    vanish()
+    %MenuHandler.vanish(self, "top").tween_callback(func():Post.handChosen.emit())
 
 func _on_perm_pressed():
     

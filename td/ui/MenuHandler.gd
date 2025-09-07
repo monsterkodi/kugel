@@ -55,7 +55,7 @@ func appear(menu:Control, from="bottom"):
         
     activeMenu = menu
     
-    menu.show()
+    menu.appear()
         
     Post.menuAppear.emit(menu)
         
@@ -63,10 +63,21 @@ func appear(menu:Control, from="bottom"):
     appearTween.set_ease(MENU_EASE)
     appearTween.set_trans(MENU_TRANS)
 
+    menu.anchor_top    = 0
+    menu.anchor_left   = 0
+    menu.anchor_bottom = 1
+    menu.anchor_right  = 1
+
     match from: 
         "bottom":
             menu.anchor_top    = 1
             menu.anchor_bottom = 2
+            appearTween.tween_property(menu, "anchor_top", 0, APPEAR_TIME)
+            appearTween.parallel().tween_property(menu, "anchor_bottom", 1, APPEAR_TIME)
+
+        "top":
+            menu.anchor_top    = -1
+            menu.anchor_bottom = 0
             appearTween.tween_property(menu, "anchor_top", 0, APPEAR_TIME)
             appearTween.parallel().tween_property(menu, "anchor_bottom", 1, APPEAR_TIME)
 
@@ -93,6 +104,7 @@ func vanish(menu, from="bottom", sound=true):
         activeMenu = null
     
     vanishMenu = menu
+    menu.vanish()
     
     Post.menuVanish.emit(menu)
     if sound: Post.menuSound.emit("vanish")

@@ -1,13 +1,13 @@
-[gd_resource type="Resource" script_class="CardRes" load_steps=3 format=3 uid="uid://b62ebx0x21s75"]
+[gd_resource type="Resource" script_class="CardRes" load_steps=3 format=3 uid="uid://dse3y0qs0s3um"]
 
-[ext_resource type="PackedScene" uid="uid://dfa3dn75qvqpn" path="res://world/buildings/Laser.tscn" id="1_5i543"]
-[ext_resource type="Script" uid="uid://dcn508r6heipo" path="res://player/CardRes.gd" id="2_xykn3"]
+[ext_resource type="PackedScene" uid="uid://kktahfiaqllg" path="res://world/buildings/Turret.tscn" id="1_8jm7j"]
+[ext_resource type="Script" uid="uid://dcn508r6heipo" path="res://player/CardRes.gd" id="2_bdqhw"]
 
 [resource]
-script = ExtResource("2_xykn3")
-name = &"Laser Power"
+script = ExtResource("2_bdqhw")
+name = &"Turret Power"
 type = 1
-text = "Lasers do more damage"
+text = "Turrets do more damage"
 maxNum = 5
-scene = ExtResource("1_5i543")
+scene = ExtResource("1_8jm7j")
 metadata/_custom_type_script = "uid://dcn508r6heipo"

@@ -2,24 +2,10 @@ class_name Laser extends Building
 
 @export var target:Node3D
 
-@export_range(1, 10, 0.1) var radius:float = 4:
-    set(v): radius = v; setSensorRadius(v)
-
-@export_range(0.01, 1, 0.01) var rot_slerp:float = 0.03
+var rot_slerp:float = 0.03
     
 var sensorBodies:Array[Node3D]
 var targetPos:Vector3
-
-func setSensorRadius(r:float):  
-
-    if is_inside_tree():
-        %Sensor.scale = Vector3(r, 1, r)
-        %LaserPointer.laserRange = r 
-    
-func level_reset():
-    
-    %LaserPointer.visible = false
-    super.level_reset()
     
 func _ready():
         
@@ -28,11 +14,29 @@ func _ready():
     else:
         lookUp.call_deferred()
         
-    setSensorRadius(radius)
+    applyCards()
     
     %LaserPointer.rc.add_exception(%Base)
 
     super._ready()
+    
+func applyCards():
+    
+    setSensorRadius(4 * (1.0 + Info.countPermCards("Laser Range") * 0.5))
+    rot_slerp = 0.03 * (1.0 + Info.countPermCards("Laser Speed") * 0.5)
+    %LaserPointer.laserDamage = 1 + (1.0 + Info.countPermCards("Laser Damage") * 1.0)
+
+func setSensorRadius(r:float):  
+
+    if is_inside_tree():
+        Log.log("setSensorRadius", r)
+        %Sensor.scale = Vector3(r, 1, r)
+        %LaserPointer.laserRange = r
+    
+func level_reset():
+    
+    %LaserPointer.visible = false
+    super.level_reset()
         
 func _physics_process(_delta:float):
     
@@ -49,7 +53,7 @@ func calcTargetPos():
     var state = PhysicsServer3D.body_get_direct_state(target.get_rid())
     var velocity = state.linear_velocity
     velocity.y = 0
-    setTargetPos(target.global_position + velocity*0.5)
+    setTargetPos(target.global_position + velocity*0.3)
                 
 func setTargetPos(pos:Vector3):
     

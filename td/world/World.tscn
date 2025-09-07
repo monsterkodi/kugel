@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://b6mskrm1n176r"]
+[gd_scene load_steps=24 format=3 uid="uid://b6mskrm1n176r"]
 
 [ext_resource type="Script" uid="uid://b6inujglidn5n" path="res://world/gd/World.gd" id="1_eu7l1"]
 [ext_resource type="PackedScene" uid="uid://baj5gp1mlm380" path="res://world/Player.tscn" id="3_wygdx"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://mxu6thvv1ycr" path="res://world/MouseHandler.tscn" id="6_p1v5b"]
 [ext_resource type="PackedScene" uid="uid://dnk1mn0lm0c3d" path="res://ui/PauseMenu.tscn" id="7_wygdx"]
 [ext_resource type="PackedScene" uid="uid://dr04x0hyo62i1" path="res://ui/BattleCards.tscn" id="7_x3yhk"]
+[ext_resource type="PackedScene" uid="uid://bawx4mokse2am" path="res://ui/CardProgress.tscn" id="8_3j5ad"]
 [ext_resource type="PackedScene" uid="uid://bwlnpgve3gc86" path="res://ui/BuildMenu.tscn" id="9_crsqw"]
 [ext_resource type="Script" uid="uid://cjj7kxg86ixf" path="res://ui/MenuHandler.gd" id="9_ww6ps"]
 [ext_resource type="PackedScene" uid="uid://dhm8ww2fqxfua" path="res://ui/HUD.tscn" id="10_8mymi"]
@@ -68,6 +69,9 @@ anchors_preset = -1
 
 [node name="BattleCards" parent="." instance=ExtResource("7_x3yhk")]
 unique_name_in_owner = true
+process_mode = 1
+
+[node name="CardProgress" parent="." instance=ExtResource("8_3j5ad")]
 process_mode = 1
 
 [node name="Builder" parent="." instance=ExtResource("5_0n6y5")]

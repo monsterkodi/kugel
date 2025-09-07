@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CardRes" load_steps=3 format=3 uid="uid://brqupcni8e8ql"]
+
+[ext_resource type="PackedScene" uid="uid://kktahfiaqllg" path="res://world/buildings/Turret.tscn" id="1_7kc6a"]
+[ext_resource type="Script" uid="uid://dcn508r6heipo" path="res://player/CardRes.gd" id="2_le667"]
+
+[resource]
+script = ExtResource("2_le667")
+name = &"Turret Range"
+type = 1
+text = "Turrets shoot farther"
+maxNum = 5
+scene = ExtResource("1_7kc6a")
+metadata/_custom_type_script = "uid://dcn508r6heipo"
