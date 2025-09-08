@@ -76,7 +76,7 @@ func on_load(data:Dictionary):
         loadVehicle(data.Player.vehicle)
         
         if data.Player.has("cardLevel"):  cardLevel  = maxi(data.Player.cardLevel, 0)
-        if data.Player.has("nextCardIn"): nextCardIn = clampi(data.Player.nextCardIn, 1, Info.CARD_LEVELS[cardLevel])
+        if data.Player.has("nextCardIn"): nextCardIn = clampi(data.Player.nextCardIn, 1, Info.nextCardAtLevel(cardLevel))
         
         if data.Player.has("hand"): hand.fromDict(data.Player.hand)
         if data.Player.has("deck"): deck.fromDict(data.Player.deck)

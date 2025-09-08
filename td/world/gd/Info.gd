@@ -1,18 +1,29 @@
 extends Node
 
-const CARD_LEVELS = [5, 5, 10, 10, 10, 20, 20, 20,  # 100     8
-                     50, 50, 50, 50, 50, 50,        # 400     14
-                     100, 100, 100, 100, 100, 100,  # 1000    20
+const CARD_LEVELS = [5, 5, 10, 10, 10, 20, 20, 20,
+                     50, 50, 50, 50, 50, 50,        
+                     50, 50, 50, 50, 50, 50,
+                     100, 100, 100, 100, 100,
+                     100, 100, 100, 100, 100,       # 1000    30
                      200, 200, 200, 200, 200,       # 2000
-                     200, 200, 200, 200, 200,       # 3000    30
+                     200, 200, 200, 200, 200,       # 3000    40
                      400, 400, 400, 400, 400,       # 5000
-                     500, 500, 500, 500, 500,       # 7500    40
+                     500, 500, 500, 500, 500,       # 7500    50
                      500, 500, 500, 500, 500,       # 10000 
-                     1000, 1000, 1000, 1000, 1000,  # 15000   50
-                     1000, 1000, 1000, 1000, 1000,  # 20000
-                     1000, 1000, 1000, 1000, 1000,  # 25000   60
-                     1000, 1000, 1000, 1000, 1000   # 30000
+                     500, 500, 500, 500, 500,       # 12500   60
+                     500, 500, 500, 500, 500,       # 15000
+                     800, 800, 800, 800, 800,       # 19000   70
+                     800, 800, 800, 800, 800        # 23000
                     ]
+                    
+const BUILDING_PRICES = {
+                    "Shield":  40,
+                    "Laser":   20,
+                    "Turret":  10,
+                    "Bouncer": 5,
+                    "Pole":    2,
+                    "Sell":    0
+                    }
 
 var buildingNames:PackedStringArray
 
@@ -26,6 +37,12 @@ func _ready():
     #Log.log("Info.buildingNames", buildingNames)
     #Log.log("Info.buildingNamesSortedByPrice", buildingNamesSortedByPrice())
 
+func nextCardAtLevel(cardLevel:int) -> int:
+    
+    if cardLevel >= CARD_LEVELS.size():
+        return 800
+    return CARD_LEVELS[cardLevel]
+    
 func nextSetOfCards():
     
     Log.log("nextSetOfCards", player.cardLevel)
@@ -38,7 +55,11 @@ func nextSetOfCards():
         var cardRes = allCards[allCards.find_custom(func(c): return c.name == "Slot Ring")]
         allCards.erase(cardRes)
         cards.append(Card.new(cardRes))
-
+        if numberOfCardsOwned("Slot Ring") < 1:
+            cards.append(Card.new(cardRes))
+            cards.append(Card.new(cardRes))
+            return cards
+            
     if numberOfCardsOwned("Turret") < 1:
         #Log.log("nextSetOfCards add Turret")
         var cardRes = allCards[allCards.find_custom(func(c): return c.name == "Turret")]
@@ -83,18 +104,12 @@ func numberOfCardsOwned(cardName:String) -> int:
 
 func priceForBuilding(buildingName):
     
-    match buildingName:
-        "Shield":  return 40
-        "Laser":   return 20
-        "Turret":  return 10
-        "Bouncer": return 5
-        "Pole":    return 2
-        _:         return 0
+    return BUILDING_PRICES[buildingName]
 
 func buildingNamesSortedByPrice() -> Array:
     
     var names = Array(buildingNames)
-    names.sort_custom(func(a,b): return priceForBuilding(a) < priceForBuilding(b))
+    names.sort_custom(func(a,b): return priceForBuilding(a) > priceForBuilding(b))
     return names
     
 func allPlacedBuildings():
@@ -111,7 +126,11 @@ func isAnyBuildingPlaced(type):
     
 func slotForPos(pos):
     
-    var slots = get_tree().get_nodes_in_group("slot")
+    var level = get_node("/root/World").currentLevel
+    #var slots = level.get_tree().get_nodes_in_group("slot")
+    #var slots = Utils.childrenWithClass(level, "Slot")
+    var slots = Utils.filterTree(level, func(n:Node): return n is Slot)
+    #Log.log("slotForPos", pos, slots)
     return Utils.closestNode(slots, pos)
 
     

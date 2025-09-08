@@ -31,7 +31,7 @@ func _physics_process(delta:float):
             corpses.erase(corpse)
             Post.corpseCollected.emit(self)
         else:
-            var scl = lerpf(corpse.scale.x, 0.1, clampf(1.0-dst/radius, 0.0, 0.2)*delta)
+            var scl = lerpf(corpse.scale.x, 0.2, clampf(1.0-dst/radius, 0.0, 0.2)*delta)
             corpse.scale = Vector3(scl, scl, scl)
             corpse.apply_central_impulse(dir*delta*0.1)
 

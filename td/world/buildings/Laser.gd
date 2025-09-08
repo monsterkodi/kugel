@@ -22,14 +22,14 @@ func _ready():
     
 func applyCards():
     
-    setSensorRadius(4 * (1.0 + Info.countPermCards("Laser Range") * 0.5))
-    rot_slerp = 0.03 * (1.0 + Info.countPermCards("Laser Speed") * 0.5)
-    %LaserPointer.laserDamage = 1 + (1.0 + Info.countPermCards("Laser Damage") * 1.0)
+    setSensorRadius(5 + Info.countPermCards("Laser Range") * 3.0)
+    rot_slerp = 0.03 + Info.countPermCards("Laser Speed") * 0.01
+    %LaserPointer.laserDamage = 1 + Info.countPermCards("Laser Damage") * 1.0
 
 func setSensorRadius(r:float):  
 
     if is_inside_tree():
-        Log.log("setSensorRadius", r)
+        #Log.log("setSensorRadius", r)
         %Sensor.scale = Vector3(r, 1, r)
         %LaserPointer.laserRange = r
     
@@ -53,7 +53,7 @@ func calcTargetPos():
     var state = PhysicsServer3D.body_get_direct_state(target.get_rid())
     var velocity = state.linear_velocity
     velocity.y = 0
-    setTargetPos(target.global_position + velocity*0.3)
+    setTargetPos(target.global_position + velocity * 0.01 / rot_slerp)
                 
 func setTargetPos(pos:Vector3):
     

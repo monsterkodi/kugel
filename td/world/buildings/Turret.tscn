@@ -32,7 +32,7 @@ render_priority = 2
 shader = ExtResource("6_wsb1a")
 shader_parameter/Color = Color(0.56799984, 0.45999998, 1, 0.078431375)
 shader_parameter/OuterRadius = 0.999999977648
-shader_parameter/InnerRadius = 0.0
+shader_parameter/InnerRadius = 0.9499999787656
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_km8to"]
 
@@ -41,12 +41,6 @@ height = 1.0
 
 [node name="Turret" type="Node3D"]
 script = ExtResource("1_w3f5i")
-radius = null
-rot_slerp = null
-emitter_delay = null
-emitter_interval = null
-emitter_velocity = null
-emitter_mass = null
 
 [node name="BarrelTarget" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
@@ -89,6 +83,7 @@ collision_layer = 0
 collision_mask = 2
 input_ray_pickable = false
 monitorable = false
+linear_damp_space_override = 1
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Sensor"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)

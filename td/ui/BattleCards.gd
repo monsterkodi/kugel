@@ -13,12 +13,22 @@ func levelStart():
     Utils.freeChildren(%Cards)
     for card in %Player.hand.get_children():
         if card.res.name == "Shield": continue
-        var button = CARD_BUTTON.instantiate()
-        button.card = card
-        %Cards.add_child(button)
-        button.setSize(CARD_SIZE)
+        addCardButton(card)
         
     visible = true
+    
+func cardChosen(card):
+    
+    #Log.log("cardChosen", card.res.name)
+    if card.isBattleCard():
+        addCardButton(card)
+
+func addCardButton(card:Card):
+    
+    var button = CARD_BUTTON.instantiate()
+    button.card = card
+    %Cards.add_child(button)
+    button.setSize(CARD_SIZE)
     
 func countBattleCards(cardName:String) -> int:
     

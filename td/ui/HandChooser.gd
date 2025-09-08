@@ -12,7 +12,7 @@ func _on_visibility_changed():
     if visible:
 
         Utils.freeChildren(%Hand)
-        %Hand.custom_minimum_size.x = Info.maxHandCards() * 300 + 50
+        %Hand.custom_minimum_size.x = Info.maxHandCards() * 300 + (Info.maxHandCards() - 1) * 50
         for card in %Player.hand.get_children():
             var button = CARD_BUTTON.instantiate()
             button.card = card

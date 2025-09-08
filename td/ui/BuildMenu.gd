@@ -22,12 +22,8 @@ func addButton(building:String):
     var button:BuildButton = BUILD_BUTTON.instantiate()
     %Buttons.add_child(button)
     button.setBuilding(building)
-    #button.pressed.connect(buttonPressed)
     button.focused.connect(buttonFocused)
 
-#func buttonPressed(button):
-    #pass
-    
 func buttonFocused(button):
 
     Post.buildingGhost.emit(button.name)
@@ -49,11 +45,6 @@ func showButtons():
 func appear():
 
     showButtons()
-        
-    #if %Buttons.get_child_count():
-        #%Buttons.get_child(0).get_child(0).grab_focus()
-    #else:
-        #Post.buildingGhost.emit("")
         
     if %Player.vehicle is RigidBody3D:
         %Player.vehicle.linear_velocity = Vector3.ZERO
@@ -81,7 +72,6 @@ func vanish():
     
     %Camera/Follow.target = %Player
     %Builder.vanish()
-    #%BuildMenu.hideMenu()
     if %Player.vehicle is RigidBody3D:
         %Player.vehicle.linear_velocity = Vector3.ZERO
                 

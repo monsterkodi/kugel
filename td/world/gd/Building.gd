@@ -11,6 +11,7 @@ func _ready():
     if not inert:
         add_to_group("level")
         add_to_group("building")
+        Post.subscribe(self)
 
 func level_reset():
     

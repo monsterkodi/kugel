@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://bl2k84nuh3ghf"]
+
+[ext_resource type="Script" uid="uid://cxj2ki1sj0osh" path="res://world/buildings/Sell.gd" id="1_km3fg"]
+[ext_resource type="Material" uid="uid://b156s1phtlbag" path="res://materials/SellMaterial.tres" id="2_dsdb2"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_orkwi"]
+size = Vector2(2, 0.667)
+center_offset = Vector3(0, 0.05, 0)
+
+[node name="Sell" type="Node3D"]
+script = ExtResource("1_km3fg")
+
+[node name="CrossBar1" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, 0.70710677, 0, 0, 0)
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_orkwi")
+surface_material_override/0 = ExtResource("2_dsdb2")
+
+[node name="CrossBar2" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, -0.70710677, 0, 0, 0)
+mesh = SubResource("PlaneMesh_orkwi")
+surface_material_override/0 = ExtResource("2_dsdb2")

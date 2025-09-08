@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://cwswpfe6xljgs" path="res://world/gd/Enemy.gd" id="2_2hac7"]
 [ext_resource type="PackedScene" uid="uid://b1t7aquxiadko" path="res://components/Attraction.tscn" id="3_2hac7"]
 [ext_resource type="AudioStream" uid="uid://bh5upavxnbrvf" path="res://sounds/friendly_7.wav" id="4_33kyn"]
-[ext_resource type="AudioStream" uid="uid://i3hmn07k1oju" path="res://sounds/klack5.wav" id="5_33kyn"]
+[ext_resource type="AudioStream" uid="uid://cbjnre7ug5cqo" path="res://sounds/friendly_5.wav" id="5_33kyn"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_tt7e2"]
 
@@ -35,3 +35,4 @@ volume_db = -20.0
 unique_name_in_owner = true
 stream = ExtResource("5_33kyn")
 attenuation_model = 1
+volume_db = -20.0

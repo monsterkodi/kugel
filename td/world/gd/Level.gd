@@ -4,7 +4,7 @@ func _ready():
     
     name = "Level"
     add_to_group("game")
-    #add_to_group("save")
+    add_to_group("save")
     
     Post.subscribe(self)
     
@@ -35,7 +35,7 @@ func on_save(data:Dictionary):
     
     get_tree().call_group("building", "saveBuilding", data.Level.buildings)
     
-    #Log.log("on_save", data.Level)
+    Log.log("on_save", data.Level)
 
 func on_load(data:Dictionary):
     
@@ -51,7 +51,8 @@ func on_load(data:Dictionary):
         else:
             add_child(bld)
             bld.global_position = building.position
-        bld.look_at(Vector3.ZERO)
+        if not bld.global_position.is_zero_approx():
+            bld.look_at(Vector3.ZERO)
         
     
     

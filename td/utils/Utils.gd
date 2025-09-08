@@ -24,13 +24,11 @@ func filterTree(node:Node, predicate:Callable):
         if predicate.call(child): 
             filtered.append(child)
         filtered.append_array(filterTree(child, predicate))
-    
     return filtered
     
 func childrenWithClass(node:Node, className:String):
     
     return filterTree(node, func(n:Node): 
-        #Log.log(n.get_class())
         return n.get_class() == className or ClassDB.is_parent_class(n.get_class(), className))
 
 func childrenWithClasses(node:Node, classNames:Array[String]):

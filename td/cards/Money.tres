@@ -8,6 +8,6 @@ name = &"Money"
 type = 2
 text = "Some extra money"
 data = {
-"amount": 50
+"amount": 100
 }
 metadata/_custom_type_script = "uid://dcn508r6heipo"

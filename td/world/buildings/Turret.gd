@@ -2,29 +2,9 @@ class_name Turret extends Building
 
 @export var target : Node3D
 
-@export_range(1, 10, 0.1) var radius:float = 4:
-    set(v): radius = v; setSensorRadius(v)
-
-@export_range(0.1, 1, 0.01) var rot_slerp:float = 0.2
-    
-@export_range(0, 10, 0.1) var emitter_delay:float = 0.3:
-    set(v): emitter_delay = v; %Emitter.delay = v
-
-@export_range(0, 10, 0.1) var emitter_interval:float = 1:
-    set(v): emitter_interval = v; %Emitter.interval = v
-
-@export_range(1, 100, 1) var emitter_velocity:float = 10:
-    set(v): emitter_velocity = v; %Emitter.velocity = v
-
-@export_range(0.1, 100, 0.1) var emitter_mass:float = 1:
-    set(v): emitter_mass = v; %Emitter.mass = v
-
 var sensorBodies:Array[Node3D]
 var targetPos:Vector3
-
-func setSensorRadius(r:float):  
-
-    %Sensor.scale = Vector3(r, 1, r)
+var rot_slerp:float = 0.02
     
 func _ready():
     
@@ -42,11 +22,16 @@ func _ready():
     
 func applyCards():
     
-    %Emitter.delay    = emitter_delay    * (1.0 - Info.countPermCards("Turret Speed") * 0.1)
-    %Emitter.interval = emitter_interval * (1.0 - Info.countPermCards("Turret Speed") * 0.1)
-    %Emitter.velocity = emitter_velocity * (1.0 + Info.countPermCards("Turret Power") * 1.0)
-    %Emitter.mass     = emitter_mass     * (1.0 + Info.countPermCards("Turret Power") * 1.0) 
-    setSensorRadius(radius * (1.0 + Info.countPermCards("Turret Range") * 0.5))
+    %Emitter.delay    = 0.5  - Info.countPermCards("Turret Speed") * 0.05
+    %Emitter.interval = 0.5  - Info.countPermCards("Turret Speed") * 0.05
+    %Emitter.velocity = 5.0  + Info.countPermCards("Turret Power") * 5.0
+    %Emitter.mass     = 1.0  + Info.countPermCards("Turret Power") * 1.0 
+    setSensorRadius(4.0 + Info.countPermCards("Turret Range") * 1.0)
+    rot_slerp = 0.02 + Info.countPermCards("Turret Speed") * 0.01
+
+func setSensorRadius(r:float):  
+
+    %Sensor.scale = Vector3(r, 1, r)
 
 func _physics_process(_delta:float):
     
@@ -108,7 +93,7 @@ func _on_sensor_body_exited(body: Node3D):
             target = null
             if %Emitter:
                 %Emitter.stop()
-            lookUp()
+            #lookUp()
 
 func lookUp():
     

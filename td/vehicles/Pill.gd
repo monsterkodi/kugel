@@ -28,6 +28,8 @@ func applyCards():
 
 func _physics_process(delta:float):
     
+    if not player: return
+    
     var dt = delta * speed
     
     readInput(dt)

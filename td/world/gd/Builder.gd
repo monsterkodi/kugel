@@ -74,6 +74,8 @@ func buildingGhost(ghostName:String):
     ghost.inert = true
     get_parent_node_3d().add_child(ghost)
     ghost.global_position = targetPos
+    if not ghost.global_position.is_zero_approx():
+        ghost.look_at(Vector3.ZERO)
     var meshes = ghost.find_children("*Mesh*")
     for mesh in meshes:
         if mesh is MeshInstance3D:

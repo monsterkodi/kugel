@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://be78v806wl6a5"]
+[gd_scene load_steps=13 format=3 uid="uid://be78v806wl6a5"]
 
 [ext_resource type="Material" uid="uid://h718n8hodgi1" path="res://materials/WireframeMaterial.tres" id="1_ipl3p"]
 [ext_resource type="Script" uid="uid://dv3202qh60p3m" path="res://world/buildings/Bouncer.gd" id="1_jbmrx"]
 [ext_resource type="PhysicsMaterial" uid="uid://dq1r6votcqh1x" path="res://materials/physics/FloorPhysics.tres" id="2_uykn3"]
+[ext_resource type="Shader" uid="uid://b7lpd6h1smubj" path="res://materials/visual/CircleMatVis.tres" id="5_cx8xd"]
 [ext_resource type="Material" uid="uid://baiafbfas607g" path="res://materials/DashedGridMaterial.tres" id="5_rcg8a"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_i7n1g"]
@@ -18,6 +19,18 @@ radius = 1.0
 [sub_resource type="TorusMesh" id="TorusMesh_oi3di"]
 rings = 24
 ring_segments = 12
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_83uwx"]
+radius = 1.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_cx8xd"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_83uwx"]
+render_priority = 2
+shader = ExtResource("5_cx8xd")
+shader_parameter/Color = Color(0.56799984, 0.45999998, 1, 0.078431375)
+shader_parameter/OuterRadius = 0.999999977648
+shader_parameter/InnerRadius = 0.0
 
 [node name="Bouncer" type="Node3D"]
 script = ExtResource("1_jbmrx")
@@ -50,4 +63,24 @@ mesh = SubResource("TorusMesh_oi3di")
 skeleton = NodePath("../../..")
 surface_material_override/0 = ExtResource("1_ipl3p")
 
+[node name="Sensor" type="Area3D" parent="."]
+unique_name_in_owner = true
+process_mode = 1
+collision_layer = 0
+collision_mask = 34
+input_ray_pickable = false
+monitorable = false
+linear_damp_space_override = 1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Sensor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CylinderShape3D_83uwx")
+
+[node name="SensorPlane" type="MeshInstance3D" parent="Sensor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
+mesh = SubResource("PlaneMesh_cx8xd")
+surface_material_override/0 = SubResource("ShaderMaterial_83uwx")
+
 [connection signal="mouse_entered" from="Torus" to="Torus/TorusMesh" method="_on_static_body_3d_mouse_entered"]
+[connection signal="body_entered" from="Sensor" to="." method="_on_sensor_body_entered"]
+[connection signal="body_exited" from="Sensor" to="." method="_on_sensor_body_exited"]

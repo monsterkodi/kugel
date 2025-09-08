@@ -55,11 +55,6 @@ func level_reset():
 
 func nextSpawnLoop():    
     
-    tween = create_tween()
-    tween.tween_property(%Body, "position:y", 1.1, seconds/Info.enemySpeed).from(-1.2*%Body.scale.x).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-    tween.parallel().tween_method(preSpawn, 0.0, 1.0, seconds/Info.enemySpeed)
-    tween.tween_callback(ejectSpawnBody)
-
     spawnedBody = spawnee.instantiate()
     spawnedBody.freeze = true
     spawnedBody.setMass(mass)
@@ -75,6 +70,11 @@ func nextSpawnLoop():
     
     %Body.scale = spawnedBody.scale
     %Hole.scale = spawnedBody.scale
+    
+    tween = create_tween()
+    tween.tween_property(%Body, "position:y", 1.1*%Body.scale.x, seconds/Info.enemySpeed).from(-1.2*%Body.scale.x).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+    tween.parallel().tween_method(preSpawn, 0.0, 1.0, seconds/Info.enemySpeed)
+    tween.tween_callback(ejectSpawnBody)
     
 func preSpawn(value):
     
