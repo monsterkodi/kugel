@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://dhm8ww2fqxfua"]
+[gd_scene load_steps=7 format=3 uid="uid://dhm8ww2fqxfua"]
 
-[ext_resource type="Script" uid="uid://c4d3iwmln8sl4" path="res://ui/Hud.gd" id="1_1x8ju"]
+[ext_resource type="Script" uid="uid://c4d3iwmln8sl4" path="res://ui/hud/Hud.gd" id="1_1x8ju"]
 [ext_resource type="Theme" uid="uid://g22p2j6a23ol" path="res://ui/theme/HUDTheme.tres" id="2_aaqae"]
+[ext_resource type="PackedScene" uid="uid://bawx4mokse2am" path="res://ui/hud/CardProgress.tscn" id="3_4sqfl"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aaqae"]
 content_margin_left = 25.0
@@ -66,7 +67,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 6
 theme = ExtResource("2_aaqae")
-theme_override_colors/font_color = Color(1, 0.3472228, 0, 1)
+theme_override_colors/font_color = Color(1, 0, 0, 1)
 text = "0"
 
 [node name="Center" type="PanelContainer" parent="."]
@@ -86,6 +87,9 @@ layout_mode = 2
 theme_override_constants/margin_top = 10
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Center/MarginContainer"]
+layout_mode = 2
+
+[node name="CardProgress" parent="Center/MarginContainer/VBoxContainer" instance=ExtResource("3_4sqfl")]
 layout_mode = 2
 
 [node name="ShieldPoints" type="HBoxContainer" parent="Center/MarginContainer/VBoxContainer"]

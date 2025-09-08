@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://b6mskrm1n176r"]
+[gd_scene load_steps=23 format=3 uid="uid://b6mskrm1n176r"]
 
 [ext_resource type="Script" uid="uid://b6inujglidn5n" path="res://world/gd/World.gd" id="1_eu7l1"]
 [ext_resource type="PackedScene" uid="uid://baj5gp1mlm380" path="res://world/Player.tscn" id="3_wygdx"]
@@ -6,18 +6,17 @@
 [ext_resource type="PackedScene" uid="uid://bsyn633trcvrm" path="res://world/Builder.tscn" id="5_0n6y5"]
 [ext_resource type="Script" uid="uid://bn7yub4ucp6o4" path="res://utils/Saver.gd" id="5_fv4w7"]
 [ext_resource type="PackedScene" uid="uid://mxu6thvv1ycr" path="res://world/MouseHandler.tscn" id="6_p1v5b"]
-[ext_resource type="PackedScene" uid="uid://dnk1mn0lm0c3d" path="res://ui/PauseMenu.tscn" id="7_wygdx"]
-[ext_resource type="PackedScene" uid="uid://dr04x0hyo62i1" path="res://ui/BattleCards.tscn" id="7_x3yhk"]
-[ext_resource type="PackedScene" uid="uid://bawx4mokse2am" path="res://ui/CardProgress.tscn" id="8_3j5ad"]
-[ext_resource type="PackedScene" uid="uid://bwlnpgve3gc86" path="res://ui/BuildMenu.tscn" id="9_crsqw"]
+[ext_resource type="PackedScene" uid="uid://dnk1mn0lm0c3d" path="res://ui/menu/PauseMenu.tscn" id="7_wygdx"]
+[ext_resource type="PackedScene" uid="uid://dr04x0hyo62i1" path="res://ui/hud/BattleCards.tscn" id="7_x3yhk"]
+[ext_resource type="PackedScene" uid="uid://bwlnpgve3gc86" path="res://ui/build/BuildMenu.tscn" id="9_crsqw"]
 [ext_resource type="Script" uid="uid://cjj7kxg86ixf" path="res://ui/MenuHandler.gd" id="9_ww6ps"]
-[ext_resource type="PackedScene" uid="uid://dhm8ww2fqxfua" path="res://ui/HUD.tscn" id="10_8mymi"]
-[ext_resource type="PackedScene" uid="uid://dqn51jaojemgy" path="res://ui/SettingsMenu.tscn" id="11_0n6y5"]
-[ext_resource type="PackedScene" uid="uid://dm1uyl1udh0ph" path="res://ui/CardChooser.tscn" id="12_gqh78"]
-[ext_resource type="PackedScene" uid="uid://cj01e8082l0kk" path="res://ui/HandChooser.tscn" id="14_x3yhk"]
+[ext_resource type="PackedScene" uid="uid://dhm8ww2fqxfua" path="res://ui/hud/Hud.tscn" id="10_8mymi"]
+[ext_resource type="PackedScene" uid="uid://dqn51jaojemgy" path="res://ui/menu/SettingsMenu.tscn" id="11_0n6y5"]
+[ext_resource type="PackedScene" uid="uid://dm1uyl1udh0ph" path="res://ui/menu/CardChooser.tscn" id="12_gqh78"]
+[ext_resource type="PackedScene" uid="uid://cj01e8082l0kk" path="res://ui/menu/HandChooser.tscn" id="14_x3yhk"]
 [ext_resource type="AudioStream" uid="uid://bof0k0dnyl672" path="res://sounds/menu1.wav" id="15_8u1wm"]
 [ext_resource type="Script" uid="uid://srdtmvh7y33a" path="res://world/MenuSound.gd" id="15_ortil"]
-[ext_resource type="PackedScene" uid="uid://bhawut27oexi" path="res://ui/PermViewer.tscn" id="15_pbtp0"]
+[ext_resource type="PackedScene" uid="uid://bhawut27oexi" path="res://ui/menu/PermViewer.tscn" id="15_pbtp0"]
 [ext_resource type="AudioStream" uid="uid://bn02oiegqjwkx" path="res://sounds/menu2.wav" id="16_y7dlm"]
 [ext_resource type="AudioStream" uid="uid://b3hx6tnio5c56" path="res://sounds/menu4.wav" id="17_ww6ps"]
 [ext_resource type="AudioStream" uid="uid://dlca75ji3feaq" path="res://sounds/tok.wav" id="19_tx47m"]
@@ -69,9 +68,6 @@ anchors_preset = -1
 
 [node name="BattleCards" parent="." instance=ExtResource("7_x3yhk")]
 unique_name_in_owner = true
-process_mode = 1
-
-[node name="CardProgress" parent="." instance=ExtResource("8_3j5ad")]
 process_mode = 1
 
 [node name="Builder" parent="." instance=ExtResource("5_0n6y5")]

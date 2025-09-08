@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://dr04x0hyo62i1"]
 
-[ext_resource type="Script" uid="uid://dvus7um37khkq" path="res://ui/BattleCards.gd" id="1_21nu1"]
+[ext_resource type="Script" uid="uid://dvus7um37khkq" path="res://ui/hud/BattleCards.gd" id="1_21nu1"]
 [ext_resource type="Theme" uid="uid://b51vqxi6d1hrs" path="res://ui/theme/BattleCardsTheme.tres" id="1_71owk"]
 [ext_resource type="PackedScene" uid="uid://cssayoomcrb8o" path="res://world/Spawner.tscn" id="3_tyh3u"]
 [ext_resource type="PackedScene" uid="uid://cqn35mciqmm8s" path="res://world/Enemy.tscn" id="4_5xkpn"]

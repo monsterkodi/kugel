@@ -26,8 +26,8 @@ func appeared():
 func addCardButton(card:Card):
     
     var button = CARD_BUTTON.instantiate()
-    button.card = card
     cardButtons.add_child(button)
+    button.setCard(card)
     button.setSize(CARD_SIZE)
     button.pressed.connect(cardChosen.bind(card))
 

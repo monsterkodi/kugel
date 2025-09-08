@@ -57,14 +57,14 @@ func baseDestroyed():
     
 func enemySpawned(spawner:Spawner):
     
-    Log.log("level", %Player.cardLevel, "next in", %Player.nextCardIn)
+    #Log.log("level", %Player.cardLevel, "next in", %Player.nextCardIn)
     
     %Player.nextCardIn -= 1
     if %Player.nextCardIn <= 0:
         pauseGame()
         %Player.cardLevel += 1
         %Player.nextCardIn = Info.nextCardAtLevel(%Player.cardLevel)
-        Log.log("level", %Player.cardLevel, "next in", %Player.nextCardIn)
+        #Log.log("level", %Player.cardLevel, "next in", %Player.nextCardIn)
         %MenuHandler.showCardChooser(Info.nextSetOfCards())
 
 func cardChosen(card:Card):

@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dm1uyl1udh0ph"]
 
 [ext_resource type="Theme" uid="uid://diyaevcibcg7y" path="res://ui/theme/CardChooserTheme.tres" id="1_d7g8y"]
-[ext_resource type="Script" uid="uid://ngmfo584ofh0" path="res://ui/CardChooser.gd" id="1_dhhyv"]
+[ext_resource type="Script" uid="uid://ngmfo584ofh0" path="res://ui/menu/CardChooser.gd" id="1_dhhyv"]
 
 [node name="CardChooser" type="PanelContainer"]
 anchors_preset = 15

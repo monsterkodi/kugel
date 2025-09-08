@@ -32,7 +32,7 @@ func applyCards():
     
     %Emitter.delay    = 0.8  - speedCards * 0.1
     %Emitter.interval = 0.5  - speedCards * 0.07
-    %Emitter.velocity = 5.0  + powerCards * 3.0
+    %Emitter.velocity = 5.0  + powerCards * 2.0
     %Emitter.mass     = 1.0  + powerCards * 2.0 
     setSensorRadius(4.0 + rangeCards * 1.0)
     rot_slerp = 0.02 + speedCards * 0.01
@@ -111,5 +111,7 @@ func shotFired():
     
     var secs = %Emitter.interval / 3.0
     shotTween = create_tween()
-    shotTween.tween_property(%BarrelMesh, "position:z",  0.2 + 0.15 * powerCards, secs)
+    shotTween.set_ease(Tween.EASE_OUT)
+    shotTween.set_trans(Tween.TRANS_BOUNCE)
+    shotTween.tween_property(%BarrelMesh, "position:z",  0.1 + 0.125 * powerCards, secs)
     shotTween.tween_property(%BarrelMesh, "position:z",  0.0, 2*secs)

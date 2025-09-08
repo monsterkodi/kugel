@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://bwlnpgve3gc86"]
 
-[ext_resource type="Script" uid="uid://0ao1c5ejrwqs" path="res://ui/BuildMenu.gd" id="2_3ce1i"]
+[ext_resource type="Script" uid="uid://0ao1c5ejrwqs" path="res://ui/build/BuildMenu.gd" id="2_3ce1i"]
 [ext_resource type="Theme" uid="uid://rnx540ue12et" path="res://ui/theme/BuildMenuTheme.tres" id="2_c2ij3"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_n5wqu"]

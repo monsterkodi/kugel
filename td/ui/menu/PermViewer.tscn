@@ -1,9 +1,9 @@
 [gd_scene load_steps=13 format=3 uid="uid://bhawut27oexi"]
 
 [ext_resource type="Theme" uid="uid://clq475kfnwm5h" path="res://ui/theme/HandChooserTheme.tres" id="1_w633r"]
-[ext_resource type="Script" uid="uid://bmyd36haasppj" path="res://ui/PermViewer.gd" id="2_w633r"]
+[ext_resource type="Script" uid="uid://bmyd36haasppj" path="res://ui/menu/PermViewer.gd" id="2_w633r"]
 [ext_resource type="Theme" uid="uid://beiokf4qmynpf" path="res://ui/theme/HandChooserDeckTheme.tres" id="3_8rdg7"]
-[ext_resource type="Script" uid="uid://db85fb86bo305" path="res://ui/FocusOnHover.gd" id="4_ed7wq"]
+[ext_resource type="Script" uid="uid://db85fb86bo305" path="res://ui/menu/FocusOnHover.gd" id="4_ed7wq"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w633r"]
 draw_center = false

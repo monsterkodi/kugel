@@ -13,11 +13,9 @@ func _on_visibility_changed():
         Utils.freeChildren(%Deck)
         for card in %Player.perm.sortedCards():
             var button = CARD_BUTTON.instantiate()
-            button.card = card
             button.pressed.connect(buttonPressed.bind(button))
-            if card.res.type == CardRes.CardType.PERMANENT:
-                button.get_node("Circle").visible = true
             %Deck.add_child(button)
+            button.setCard(card)
             button.setSize(DECK_SIZE)
     else:            
         Utils.freeChildren(%Deck)

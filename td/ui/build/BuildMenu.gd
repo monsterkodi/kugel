@@ -1,7 +1,7 @@
 class_name BuildMenu
 extends Menu
 
-const BUILD_BUTTON = preload("res://ui/BuildButton.tscn")
+const BUILD_BUTTON = preload("res://ui/build/BuildButton.tscn")
 
 func _ready():
     

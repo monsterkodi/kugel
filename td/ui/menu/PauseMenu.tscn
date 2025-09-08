@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://dnk1mn0lm0c3d"]
 
-[ext_resource type="Script" uid="uid://duyv183u3mjyk" path="res://ui/PauseMenu.gd" id="1_8tehv"]
+[ext_resource type="Script" uid="uid://duyv183u3mjyk" path="res://ui/menu/PauseMenu.gd" id="1_8tehv"]
 [ext_resource type="Theme" uid="uid://ckxlwln5s1u4b" path="res://ui/theme/PauseMenuTheme.tres" id="2_8tehv"]
-[ext_resource type="Script" uid="uid://db85fb86bo305" path="res://ui/FocusOnHover.gd" id="3_1q10k"]
+[ext_resource type="Script" uid="uid://db85fb86bo305" path="res://ui/menu/FocusOnHover.gd" id="3_1q10k"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8tehv"]
 

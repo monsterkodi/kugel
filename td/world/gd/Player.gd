@@ -98,4 +98,4 @@ func levelStart():
     for card in hand.get_children():
         match card.res.name:
             "Shield": addShield()
-            _: Log.log("card", card.res.name)
+            _: pass #Log.log("card", card.res.name)

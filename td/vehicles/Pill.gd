@@ -25,7 +25,7 @@ func applyCards():
     
     %Collector.setRadius(5 + 3 * Info.countPermCards("Pill Range"))
     
-    Log.log("pill", %LaserPointer.laserDamage, %LaserPointer.laserRange, %Collector.radius)
+    #Log.log("pill", %LaserPointer.laserDamage, %LaserPointer.laserRange, %Collector.radius)
 
 func _physics_process(delta:float):
     

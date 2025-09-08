@@ -8,13 +8,13 @@ var slots:Array[Slot]
 
 func _ready():
 
-    Log.log("Slot Ring", visible, slots.is_empty())
+    #Log.log("Slot Ring", visible, slots.is_empty())
     if visible and slots.is_empty():
         setup()
     
 func setup():
 
-    Log.log("Slot Ring", numSlots, radius)
+    #Log.log("Slot Ring", numSlots, radius)
     for index in range(numSlots):
         var slot:Slot = SLOT.instantiate()
         slots.append(slot)

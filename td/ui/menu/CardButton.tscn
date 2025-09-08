@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://cj3gelhoeb5ps"]
+
+[ext_resource type="Script" uid="uid://nx4bwsc1c850" path="res://ui/menu/CardButton.gd" id="1_swfof"]
+[ext_resource type="PackedScene" uid="uid://bfs4v0hjfo8pg" path="res://ui/build/BuildingViewport.tscn" id="2_4734n"]
+[ext_resource type="Script" uid="uid://db85fb86bo305" path="res://ui/menu/FocusOnHover.gd" id="3_h1554"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_4734n"]
+viewport_path = NodePath("Scene")
+
+[node name="CardButton" type="Button"]
+offset_right = 500.0
+offset_bottom = 500.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+icon = SubResource("ViewportTexture_4734n")
+icon_alignment = 1
+vertical_icon_alignment = 2
+script = ExtResource("1_swfof")
+
+[node name="Scene" parent="." instance=ExtResource("2_4734n")]
+unique_name_in_owner = true
+size = Vector2i(150, 100)
+
+[node name="FocusOnHover" type="Node" parent="."]
+script = ExtResource("3_h1554")
+metadata/_custom_type_script = "uid://db85fb86bo305"
