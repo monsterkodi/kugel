@@ -13,6 +13,7 @@ var dashDir    = Vector3.FORWARD
 
 func _ready():
     
+    name = "Pill"
     global_position = Vector3.UP
     applyCards()
     Post.subscribe(self)

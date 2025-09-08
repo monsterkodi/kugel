@@ -4,7 +4,7 @@ func _ready():
     
     name = "Level"
     add_to_group("game")
-    add_to_group("save")
+    #add_to_group("save")
     
     Post.subscribe(self)
     
@@ -33,7 +33,7 @@ func on_save(data:Dictionary):
     data.Level = {}
     data.Level.buildings = []
     
-    get_tree().call_group("building", "saveBuilding", data.Level.buildings)
+    #get_tree().call_group("building", "saveBuilding", data.Level.buildings)
     
     Log.log("on_save", data.Level)
 
@@ -41,18 +41,16 @@ func on_load(data:Dictionary):
     
     if not data.has("Level"): return
     
-    get_tree().call_group("level", "level_load")
-    
-    for building in data.Level.buildings:
-        var bld = load(building.type).instantiate()
-        var slot = Info.slotForPos(building.position)
-        if slot:
-            slot.add_child(bld)
-        else:
-            add_child(bld)
-            bld.global_position = building.position
-        if not bld.global_position.is_zero_approx():
-            bld.look_at(Vector3.ZERO)
+    #for building in data.Level.buildings:
+        #var bld = load(building.type).instantiate()
+        #var slot = Info.slotForPos(building.position)
+        #if slot:
+            #slot.add_child(bld)
+        #else:
+            #add_child(bld)
+            #bld.global_position = building.position
+        #if not bld.global_position.is_zero_approx():
+            #bld.look_at(Vector3.ZERO)
         
     
     

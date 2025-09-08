@@ -10,11 +10,11 @@ extends Node3D
 @export_range(0.0, 60,   0.1)  var seconds_initial    = 10.0
 
 @export var mass_increment     = 0.1
-@export var mass_max           = 100.0
+@export var mass_max           = 1000.0
 @export var velocity_increment = 0.05
 @export var velocity_max       = 1000.0
 @export var seconds_decrement  = 0.05
-@export var seconds_min        = 4.0
+@export var seconds_min        = 2.0
 
 @export var curve:Curve
             
@@ -58,7 +58,8 @@ func nextSpawnLoop():
     spawnedBody = spawnee.instantiate()
     spawnedBody.freeze = true
     spawnedBody.setMass(mass)
-    get_parent_node_3d().add_child(spawnedBody)
+    #get_parent_node_3d().add_child(spawnedBody)
+    get_node("/root/World").currentLevel.get_node("Enemies").add_child(spawnedBody)
     preSpawn(0)
     
     mass     += mass_increment
@@ -77,6 +78,8 @@ func nextSpawnLoop():
     tween.tween_callback(ejectSpawnBody)
     
 func preSpawn(value):
+    
+    if is_queued_for_deletion(): return
     
     spawnedBody.global_position = %SpawnPoint.global_position
     spawnedBody.global_position += curve.sample(value) * %SpawnPoint.global_basis.x.normalized()

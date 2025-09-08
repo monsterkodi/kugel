@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://c4xefe7c1f8o7"]
+
+[ext_resource type="Shader" uid="uid://6dtg25yvrmc6" path="res://materials/visual/BulletGlowMatVis.res" id="1_c0oho"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_c0oho")

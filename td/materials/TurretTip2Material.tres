@@ -1,8 +1,0 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://cptkgs8uv5dx"]
-
-[ext_resource type="Shader" uid="uid://4852hgrlvpw0" path="res://materials/visual/TurretTip2MatVis.tres" id="1_bowq7"]
-
-[resource]
-render_priority = 0
-shader = ExtResource("1_bowq7")
-shader_parameter/Color = Color(1.013937, 0.937658, 1.824796, 1)

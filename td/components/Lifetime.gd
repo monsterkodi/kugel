@@ -9,3 +9,7 @@ func _process(delta: float):
     age += delta
     if age > maxAge:
         owner.queue_free()
+        
+func ageFactor() -> float:
+    
+    return age/maxAge

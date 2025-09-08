@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://kktahfiaqllg"]
+[gd_scene load_steps=19 format=3 uid="uid://kktahfiaqllg"]
 
 [ext_resource type="Script" uid="uid://tsel3doxtedq" path="res://world/buildings/Turret.gd" id="1_w3f5i"]
 [ext_resource type="Material" uid="uid://vyhfqa37hcxi" path="res://materials/LackBlue.tres" id="2_vc5tq"]
@@ -14,6 +14,12 @@
 radius = 0.25
 height = 1.0
 radial_segments = 24
+
+[sub_resource type="TorusMesh" id="TorusMesh_rlav8"]
+inner_radius = 0.077
+outer_radius = 0.3
+rings = 32
+ring_segments = 16
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_iwplw"]
 radius = 0.25
@@ -55,6 +61,12 @@ transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0
 mesh = SubResource("CapsuleMesh_w3f5i")
 surface_material_override/0 = ExtResource("2_vc5tq")
 
+[node name="TipMesh" type="MeshInstance3D" parent="BarrelPivot/BarrelMesh"]
+transform = Transform3D(1, 0, 0, 0, 2, 0, 0, 0, 1, 0, -0.43499994, 1.9014465e-08)
+mesh = SubResource("TorusMesh_rlav8")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("2_vc5tq")
+
 [node name="AnimatableBody3D" type="AnimatableBody3D" parent="BarrelPivot"]
 collision_layer = 4
 collision_mask = 0
@@ -73,6 +85,7 @@ metadata/_custom_type_script = "uid://v00gxfdr7qyk"
 
 [node name="TurretTip" type="MeshInstance3D" parent="BarrelPivot/Emitter"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.113527775)
+visible = false
 cast_shadow = 0
 mesh = SubResource("QuadMesh_2cj6m")
 surface_material_override/0 = ExtResource("6_rlav8")
@@ -112,8 +125,10 @@ shape = SubResource("CylinderShape3D_iwplw")
 [node name="fire" type="AudioStreamPlayer3D" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("8_ail6x")
-attenuation_model = 1
+attenuation_model = 2
 volume_db = -6.0
+unit_size = 4.0
 
+[connection signal="shotFired" from="BarrelPivot/Emitter" to="." method="shotFired"]
 [connection signal="body_entered" from="Sensor" to="." method="_on_sensor_body_entered"]
 [connection signal="body_exited" from="Sensor" to="." method="_on_sensor_body_exited"]

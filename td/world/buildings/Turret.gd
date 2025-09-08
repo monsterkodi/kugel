@@ -5,12 +5,16 @@ class_name Turret extends Building
 var sensorBodies:Array[Node3D]
 var targetPos:Vector3
 var rot_slerp:float = 0.02
+var shotTween:Tween
+var speedCards:int
+var powerCards:int
+var rangeCards:int
     
 func _ready():
     
     if not global_position.is_zero_approx():
         look_at(Vector3.ZERO)
-    
+        
     applyCards()
     
     if target:
@@ -22,12 +26,16 @@ func _ready():
     
 func applyCards():
     
-    %Emitter.delay    = 0.5  - Info.countPermCards("Turret Speed") * 0.05
-    %Emitter.interval = 0.5  - Info.countPermCards("Turret Speed") * 0.05
-    %Emitter.velocity = 5.0  + Info.countPermCards("Turret Power") * 5.0
-    %Emitter.mass     = 1.0  + Info.countPermCards("Turret Power") * 1.0 
-    setSensorRadius(4.0 + Info.countPermCards("Turret Range") * 1.0)
-    rot_slerp = 0.02 + Info.countPermCards("Turret Speed") * 0.01
+    speedCards = Info.countPermCards("Turret Speed")
+    powerCards = Info.countPermCards("Turret Power")
+    rangeCards = Info.countPermCards("Turret Range")
+    
+    %Emitter.delay    = 0.8  - speedCards * 0.1
+    %Emitter.interval = 0.5  - speedCards * 0.07
+    %Emitter.velocity = 5.0  + powerCards * 3.0
+    %Emitter.mass     = 1.0  + powerCards * 2.0 
+    setSensorRadius(4.0 + rangeCards * 1.0)
+    rot_slerp = 0.02 + speedCards * 0.01
 
 func setSensorRadius(r:float):  
 
@@ -98,3 +106,10 @@ func _on_sensor_body_exited(body: Node3D):
 func lookUp():
     
     $BarrelTarget.look_at(global_position + Vector3.UP*10 + Vector3.RIGHT*0.001)
+
+func shotFired():
+    
+    var secs = %Emitter.interval / 3.0
+    shotTween = create_tween()
+    shotTween.tween_property(%BarrelMesh, "position:z",  0.2 + 0.15 * powerCards, secs)
+    shotTween.tween_property(%BarrelMesh, "position:z",  0.0, 2*secs)

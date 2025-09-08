@@ -28,7 +28,8 @@ func _ready():
     
 func start():
     
-    delayTimer.start(delay)
+    if shootTimer.is_stopped() and delayTimer.is_stopped():
+        delayTimer.start(delay)
     
 func stop():
     
@@ -37,15 +38,15 @@ func stop():
     
 func startShooting():
     
-    shoot()
     shootTimer.start(interval)
+    shoot()
     
 func shoot():
     
     if bullet:
         
         var instance:Node3D = bullet.instantiate()
-        get_node("/root/World").currentLevel.add_child(instance)
+        get_node("/root/World").currentLevel.get_node("Bullets").add_child(instance)
         instance.mass = mass
         instance.global_transform = global_transform
         instance.linear_velocity = global_transform.basis.z * -velocity

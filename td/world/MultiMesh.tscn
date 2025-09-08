@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://c2avn203eitto"]
+[gd_scene load_steps=13 format=3 uid="uid://c2avn203eitto"]
 
 [ext_resource type="Script" uid="uid://bvomy8grf01e8" path="res://world/gd/MultiMesh.gd" id="1_4npgi"]
 [ext_resource type="Material" uid="uid://xkkna7h26yg2" path="res://materials/EnemyGlowMaterial.tres" id="2_ugn5w"]
 [ext_resource type="Shader" uid="uid://b7lpd6h1smubj" path="res://materials/visual/CircleMatVis.tres" id="3_ugn5w"]
+[ext_resource type="Material" uid="uid://c4xefe7c1f8o7" path="res://materials/BulletGlowMaterial.tres" id="4_5pk03"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_av0xo"]
 radial_segments = 32
@@ -34,6 +35,17 @@ size = Vector2(3, 3)
 transform_format = 1
 mesh = SubResource("PlaneMesh_lh0gu")
 
+[sub_resource type="SphereMesh" id="SphereMesh_5pk03"]
+radius = 0.1
+height = 0.2
+radial_segments = 16
+rings = 8
+
+[sub_resource type="MultiMesh" id="MultiMesh_rowl7"]
+transform_format = 1
+use_colors = true
+mesh = SubResource("SphereMesh_5pk03")
+
 [node name="MultiMesh" type="Node3D"]
 script = ExtResource("1_4npgi")
 
@@ -45,3 +57,9 @@ multimesh = SubResource("MultiMesh_5pk03")
 material_override = SubResource("ShaderMaterial_5pk03")
 material_overlay = SubResource("ShaderMaterial_rowl7")
 multimesh = SubResource("MultiMesh_4or7h")
+
+[node name="Bullet" type="MultiMeshInstance3D" parent="."]
+process_mode = 1
+material_override = ExtResource("4_5pk03")
+cast_shadow = 0
+multimesh = SubResource("MultiMesh_rowl7")

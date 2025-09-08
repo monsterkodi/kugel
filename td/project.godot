@@ -87,6 +87,7 @@ enemy=""
 game=""
 slot=""
 level=""
+bullet=""
 
 [gui]
 
