@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://drddddralr2p0"]
+
+[ext_resource type="Script" uid="uid://btsjexop7x3jw" path="res://ui/cards/CardTurretRange.gd" id="1_vw5ro"]
+[ext_resource type="PackedScene" uid="uid://bfy4mqj2hlcl0" path="res://ui/cards/CardSetup.tscn" id="2_kr4v8"]
+[ext_resource type="PackedScene" uid="uid://kktahfiaqllg" path="res://world/buildings/Turret.tscn" id="3_5t3pn"]
+
+[node name="CardTurretRange" type="Node3D"]
+script = ExtResource("1_vw5ro")
+
+[node name="CardSetup" parent="." instance=ExtResource("2_kr4v8")]
+
+[node name="Turret" parent="." instance=ExtResource("3_5t3pn")]
+unique_name_in_owner = true

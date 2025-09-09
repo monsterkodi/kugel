@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://ce5u1h60xdhxn"]
+
+[ext_resource type="Script" uid="uid://bjptg5mt2t25q" path="res://ui/cards/CardLaserPower.gd" id="1_1n3ls"]
+[ext_resource type="PackedScene" uid="uid://dfa3dn75qvqpn" path="res://world/buildings/Laser.tscn" id="2_auhku"]
+[ext_resource type="PackedScene" uid="uid://bfy4mqj2hlcl0" path="res://ui/cards/CardSetup.tscn" id="3_auhku"]
+
+[node name="CardLaserPower" type="Node3D"]
+script = ExtResource("1_1n3ls")
+lookAt = Vector3(-1.72, 0, 5.235)
+metadata/_custom_type_script = "uid://oykyay4qgbv2"
+
+[node name="Laser" parent="." instance=ExtResource("2_auhku")]
+unique_name_in_owner = true
+
+[node name="CardSetup" parent="." instance=ExtResource("3_auhku")]
+cameraOffset = Vector2(0, -0.745)
+cameraFov = 15.386

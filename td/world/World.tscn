@@ -73,37 +73,6 @@ process_mode = 1
 [node name="Builder" parent="." instance=ExtResource("5_0n6y5")]
 unique_name_in_owner = true
 
-[node name="MenuHandler" type="CanvasLayer" parent="."]
-unique_name_in_owner = true
-script = ExtResource("9_ww6ps")
-
-[node name="PauseMenu" parent="MenuHandler" instance=ExtResource("7_wygdx")]
-unique_name_in_owner = true
-visible = false
-
-[node name="SettingsMenu" parent="MenuHandler" instance=ExtResource("11_0n6y5")]
-unique_name_in_owner = true
-visible = false
-
-[node name="BuildMenu" parent="MenuHandler" instance=ExtResource("9_crsqw")]
-unique_name_in_owner = true
-visible = false
-
-[node name="CardChooser" parent="MenuHandler" instance=ExtResource("12_gqh78")]
-unique_name_in_owner = true
-process_mode = 2
-visible = false
-
-[node name="HandChooser" parent="MenuHandler" instance=ExtResource("14_x3yhk")]
-unique_name_in_owner = true
-process_mode = 2
-visible = false
-
-[node name="PermViewer" parent="MenuHandler" instance=ExtResource("15_pbtp0")]
-unique_name_in_owner = true
-process_mode = 2
-visible = false
-
 [node name="MenuSound" type="Node" parent="."]
 script = ExtResource("15_ortil")
 
@@ -127,5 +96,37 @@ stream = ExtResource("19_tx47m")
 
 [node name="GameSound" type="Node" parent="."]
 script = ExtResource("20_fy8qs")
+
+[node name="MenuHandler" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+script = ExtResource("9_ww6ps")
+
+[node name="PauseMenu" parent="MenuHandler" instance=ExtResource("7_wygdx")]
+unique_name_in_owner = true
+visible = false
+
+[node name="SettingsMenu" parent="MenuHandler" instance=ExtResource("11_0n6y5")]
+unique_name_in_owner = true
+visible = false
+
+[node name="BuildMenu" parent="MenuHandler" instance=ExtResource("9_crsqw")]
+unique_name_in_owner = true
+visible = false
+
+[node name="CardChooser" parent="MenuHandler" instance=ExtResource("12_gqh78")]
+unique_name_in_owner = true
+process_mode = 2
+visible = false
+anchors_preset = -1
+
+[node name="HandChooser" parent="MenuHandler" instance=ExtResource("14_x3yhk")]
+unique_name_in_owner = true
+process_mode = 2
+visible = false
+
+[node name="PermViewer" parent="MenuHandler" instance=ExtResource("15_pbtp0")]
+unique_name_in_owner = true
+process_mode = 2
+visible = false
 
 [connection signal="visibility_changed" from="MenuHandler/CardChooser" to="MenuHandler/CardChooser" method="_on_visibility_changed"]

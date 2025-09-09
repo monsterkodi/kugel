@@ -16,7 +16,7 @@ func setCard(c:Card):
         add_child(card)
     text = card.res.name
     if card.res.scene:
-        %Scene.setScene(card.res.scene)
+        %Scene.setScene.call_deferred(card.res.scene)
         
     if card.res.type == CardRes.CardType.PERMANENT:
         setColor(Color(0.3, 0.3, 1.0, 1.0))

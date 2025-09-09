@@ -12,7 +12,7 @@ func _ready():
     if target:
         $Target.look_at(target.global_position)
     else:
-        lookUp.call_deferred()
+        lookUp()
         
     applyCards()
     

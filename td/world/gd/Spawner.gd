@@ -79,7 +79,7 @@ func nextSpawnLoop():
     
 func preSpawn(value):
     
-    if is_queued_for_deletion(): return
+    if not spawnedBody: return
     
     spawnedBody.global_position = %SpawnPoint.global_position
     spawnedBody.global_position += curve.sample(value) * %SpawnPoint.global_basis.x.normalized()

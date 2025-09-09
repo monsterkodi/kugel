@@ -1,5 +1,6 @@
 class_name World
 extends Node
+
 const LEVEL = preload("uid://wo631fluqa0p")
 
 var currentLevel:Node3D
@@ -12,8 +13,9 @@ func _ready():
     
     Info.player = %Player
     
-    loadGame()
-    Post.startLevel.emit()
+    if not Engine.is_editor_hint():
+        loadGame()
+        Post.startLevel.emit()
     
 func _process(delta: float):
     
@@ -92,7 +94,7 @@ func startLevel():
     
     Log.log("startLevel")
     if currentLevel:
-        currentLevel.queue_free()
+        currentLevel.free()
     currentLevel = LEVEL.instantiate()
     add_child(currentLevel)
     

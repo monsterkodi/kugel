@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bhqduu1v5yvum"]
+
+[ext_resource type="Script" uid="uid://dbptj7012hak0" path="res://ui/cards/CardTurretPower.gd" id="1_2dcij"]
+
+[node name="CardTurretPower" type="Node3D"]
+script = ExtResource("1_2dcij")

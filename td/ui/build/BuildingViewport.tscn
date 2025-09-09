@@ -1,41 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://bfs4v0hjfo8pg"]
+[gd_scene load_steps=3 format=3 uid="uid://bfs4v0hjfo8pg"]
 
 [ext_resource type="Script" uid="uid://b4lgvysmwenuo" path="res://ui/build/BuildingViewport.gd" id="1_0gnvr"]
-[ext_resource type="Material" uid="uid://kotd4yt27t51" path="res://materials/FloorMaterial.tres" id="2_0gnvr"]
-
-[sub_resource type="Environment" id="Environment_gc87q"]
-background_mode = 1
-
-[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_1rv78"]
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_yo4bm"]
-size = Vector2(200, 200)
+[ext_resource type="PackedScene" uid="uid://bga4xv0e2y637" path="res://ui/build/CardScene.tscn" id="2_07lq8"]
 
 [node name="BuildingViewport" type="SubViewport"]
 own_world_3d = true
-transparent_bg = true
 handle_input_locally = false
 size = Vector2i(100, 100)
 script = ExtResource("1_0gnvr")
 
-[node name="Scene" type="Node3D" parent="."]
+[node name="Scene" parent="." instance=ExtResource("2_07lq8")]
 unique_name_in_owner = true
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Scene"]
-transform = Transform3D(0.91790015, 0.23296532, -0.32122657, 0, 0.80951935, 0.5870932, 0.3968115, -0.5388929, 0.7430579, -3.3332899, 3.0700886, 0)
-
-[node name="Camera" type="Camera3D" parent="Scene"]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 0.70710677, 0.70710677, 0, -0.70710677, 0.70710677, 0, 3.67, 3)
-current = true
-fov = 56.1
-size = 0.05
-far = 100.0
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="Scene"]
-environment = SubResource("Environment_gc87q")
-camera_attributes = SubResource("CameraAttributesPractical_1rv78")
-
-[node name="Floor" type="MeshInstance3D" parent="Scene"]
-mesh = SubResource("PlaneMesh_yo4bm")
-surface_material_override/0 = ExtResource("2_0gnvr")

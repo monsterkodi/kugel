@@ -1,9 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://dr04x0hyo62i1"]
+[gd_scene load_steps=3 format=3 uid="uid://dr04x0hyo62i1"]
 
 [ext_resource type="Script" uid="uid://dvus7um37khkq" path="res://ui/hud/BattleCards.gd" id="1_21nu1"]
 [ext_resource type="Theme" uid="uid://b51vqxi6d1hrs" path="res://ui/theme/BattleCardsTheme.tres" id="1_71owk"]
-[ext_resource type="PackedScene" uid="uid://cssayoomcrb8o" path="res://world/Spawner.tscn" id="3_tyh3u"]
-[ext_resource type="PackedScene" uid="uid://cqn35mciqmm8s" path="res://world/Enemy.tscn" id="4_5xkpn"]
 
 [node name="BattleCards" type="PanelContainer"]
 anchors_preset = 11
@@ -22,13 +20,5 @@ size_flags_horizontal = 8
 size_flags_vertical = 4
 theme_override_constants/separation = 40
 alignment = 1
-
-[node name="Node3D6" type="Node3D" parent="."]
-transform = Transform3D(-4.3711385e-08, 0, 0.9999999, 0, 1, 0, -0.9999999, 0, -4.3711385e-08, 0, 0, 0)
-
-[node name="Spawner" parent="Node3D6" instance=ExtResource("3_tyh3u")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, -39.558113)
-spawnee = ExtResource("4_5xkpn")
-activation_level = 500
 
 [connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]

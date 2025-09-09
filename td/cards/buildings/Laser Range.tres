@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="CardRes" load_steps=3 format=3 uid="uid://by281lgmrpv5l"]
 
-[ext_resource type="PackedScene" uid="uid://dfa3dn75qvqpn" path="res://world/buildings/Laser.tscn" id="1_8sssd"]
+[ext_resource type="PackedScene" uid="uid://cnrsm751bk0oi" path="res://ui/cards/CardLaserRange.tscn" id="1_8sssd"]
 [ext_resource type="Script" uid="uid://dcn508r6heipo" path="res://player/CardRes.gd" id="2_6aqmv"]
 
 [resource]

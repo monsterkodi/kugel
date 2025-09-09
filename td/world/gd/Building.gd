@@ -1,6 +1,6 @@
 class_name Building extends Node3D
 
-var inert = false
+@export var inert = false
 var type : String
 
 func _ready():

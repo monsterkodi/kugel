@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="CardRes" load_steps=3 format=3 uid="uid://b62ebx0x21s75"]
 
-[ext_resource type="PackedScene" uid="uid://dfa3dn75qvqpn" path="res://world/buildings/Laser.tscn" id="1_5i543"]
+[ext_resource type="PackedScene" uid="uid://ce5u1h60xdhxn" path="res://ui/cards/CardLaserPower.tscn" id="1_2b4u4"]
 [ext_resource type="Script" uid="uid://dcn508r6heipo" path="res://player/CardRes.gd" id="2_xykn3"]
 
 [resource]
@@ -9,5 +9,5 @@ name = &"Laser Power"
 type = 1
 text = "Lasers do more damage"
 maxNum = 5
-scene = ExtResource("1_5i543")
+scene = ExtResource("1_2b4u4")
 metadata/_custom_type_script = "uid://dcn508r6heipo"
