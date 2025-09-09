@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://csv6vavqa3qat"]
+
+[ext_resource type="Script" uid="uid://cqtn18ynrmmk6" path="res://ui/cards/CardSlotRing.gd" id="1_3k186"]
+[ext_resource type="PackedScene" uid="uid://bfy4mqj2hlcl0" path="res://ui/cards/CardSetup.tscn" id="2_qjbgm"]
+[ext_resource type="PackedScene" uid="uid://befrr3c5mskgo" path="res://world/SlotRing.tscn" id="3_hv2nw"]
+[ext_resource type="PackedScene" uid="uid://btc0pbxm0b72t" path="res://ui/cards/CardSlotRingSlot.tscn" id="4_qjbgm"]
+
+[node name="CardSlotRing" type="Node3D"]
+script = ExtResource("1_3k186")
+
+[node name="CardSetup" parent="." instance=ExtResource("2_qjbgm")]
+cameraOffset = Vector2(0, -0.3)
+cameraDistance = 1.531
+cameraFov = 58.233
+cameraTargetY = 0.01
+cameraHeight = 2.1849999999999996
+
+[node name="SlotRing" parent="." instance=ExtResource("3_hv2nw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 3)
+numSlots = 12
+radius = 1.3
+slotRes = ExtResource("4_qjbgm")

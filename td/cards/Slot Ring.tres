@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="CardRes" load_steps=3 format=3 uid="uid://b85n368pbg1n1"]
 
-[ext_resource type="PackedScene" uid="uid://befrr3c5mskgo" path="res://world/SlotRing.tscn" id="1_i4ph1"]
+[ext_resource type="PackedScene" uid="uid://csv6vavqa3qat" path="res://ui/cards/CardSlotRing.tscn" id="1_hpq23"]
 [ext_resource type="Script" uid="uid://dcn508r6heipo" path="res://player/CardRes.gd" id="2_qloat"]
 
 [resource]
@@ -9,5 +9,5 @@ name = &"Slot Ring"
 type = 1
 text = "Add another ring of building slots"
 maxNum = 5
-scene = ExtResource("1_i4ph1")
+scene = ExtResource("1_hpq23")
 metadata/_custom_type_script = "uid://dcn508r6heipo"

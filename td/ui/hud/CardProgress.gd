@@ -31,7 +31,7 @@ func update():
 func initDots(num):
     
     Utils.freeChildren(%Dots)
-    var diameter = 1500.0/num
+    var diameter = minf(1500.0/num, 12.0)
     for i in range(num):
         var dot = CIRCLE.instantiate()
         dot.diameter = diameter

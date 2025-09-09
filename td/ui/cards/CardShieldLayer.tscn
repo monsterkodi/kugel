@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://kahbabtnpxcl"]
+
+[ext_resource type="Script" uid="uid://da8d4nq6tbstc" path="res://ui/cards/CardShieldLayer.gd" id="1_0hghi"]
+[ext_resource type="Material" uid="uid://f1ntunbkapvi" path="res://materials/BaseShieldMaterial.tres" id="2_avjda"]
+[ext_resource type="PackedScene" uid="uid://bfy4mqj2hlcl0" path="res://ui/cards/CardSetup.tscn" id="3_mp8yc"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_mp8yc"]
+radial_segments = 48
+rings = 24
+
+[node name="CardShieldLayer" type="Node3D"]
+script = ExtResource("1_0hghi")
+
+[node name="HaloMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(3.77, 0, 0, 0, 3.77, 0, 0, 0, 3.77, 0, 0.098, 0)
+transparency = 0.66
+mesh = SubResource("SphereMesh_mp8yc")
+skeleton = NodePath("../../../..")
+surface_material_override/0 = ExtResource("2_avjda")
+
+[node name="CardSetup" parent="." instance=ExtResource("3_mp8yc")]
+cameraOffset = Vector2(0, 0.59)
+cameraDistance = 3.723
+cameraFov = 51.905
+cameraTargetY = 0.01
+cameraHeight = 0.46499999999999997

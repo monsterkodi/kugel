@@ -6,12 +6,22 @@
 
 [node name="CardLaserPower" type="Node3D"]
 script = ExtResource("1_1n3ls")
-lookAt = Vector3(-1.72, 0, 5.235)
+lookAt = Vector3(4.13, 0, -3.745)
 metadata/_custom_type_script = "uid://oykyay4qgbv2"
 
 [node name="Laser" parent="." instance=ExtResource("2_auhku")]
 unique_name_in_owner = true
 
 [node name="CardSetup" parent="." instance=ExtResource("3_auhku")]
-cameraOffset = Vector2(0, -0.745)
-cameraFov = 15.386
+cameraOffset = Vector2(0.44, 0.09)
+cameraDistance = 4.007
+cameraFov = 19.058
+cameraTargetY = 1.224
+cameraHeight = 0.01
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.6333809, 0.63543826, 0.4416411, 0, 0.5707136, -0.82114923, -0.7738402, -0.52010024, -0.36147907, 0, 0, 0)
+light_color = Color(1, 0, 0, 1)
+light_energy = 4.745
+light_specular = 16.0
+shadow_enabled = true

@@ -1,13 +1,15 @@
 [gd_scene load_steps=6 format=3 uid="uid://bga4xv0e2y637"]
 
-[ext_resource type="Script" uid="uid://oykyay4qgbv2" path="res://ui/build/CardScene.gd" id="1_sem3t"]
-[ext_resource type="Material" uid="uid://dpx5qvy28judg" path="res://materials/CircleMaterial.tres" id="2_sem3t"]
+[ext_resource type="Script" uid="uid://oykyay4qgbv2" path="res://ui/cards/CardScene.gd" id="1_sem3t"]
+[ext_resource type="Material" uid="uid://xivb3o6h8ggg" path="res://materials/CardScene.tres" id="2_hwxbx"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_a63of"]
 size = Vector2(20, 20)
 
 [sub_resource type="Environment" id="Environment_gc87q"]
 background_mode = 1
+glow_enabled = true
+glow_blend_mode = 1
 fog_enabled = true
 fog_mode = 1
 fog_light_color = Color(0.13, 0.13, 0.13, 1)
@@ -24,7 +26,7 @@ script = ExtResource("1_sem3t")
 [node name="Floor" type="MeshInstance3D" parent="."]
 cast_shadow = 0
 mesh = SubResource("PlaneMesh_a63of")
-surface_material_override/0 = ExtResource("2_sem3t")
+surface_material_override/0 = ExtResource("2_hwxbx")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.66523033, 0.4388629, -0.604043, 0, 0.809017, 0.58778524, 0.7466382, -0.39101258, 0.5381827, -3.3332899, 3.0700886, 0)

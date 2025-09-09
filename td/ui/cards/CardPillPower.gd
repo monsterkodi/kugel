@@ -1,0 +1,2 @@
+class_name CardPillPower
+extends Node3D

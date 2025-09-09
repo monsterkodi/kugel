@@ -1,4 +1,4 @@
-class_name CardTurretRange
+class_name CardTurretSpeed
 extends CardTurret
 
 @export var lookAt:Vector3:
@@ -12,4 +12,7 @@ func _ready():
     super._ready()
     
     lookAt = lookAt
-    %Turret.setSensorRadius(2.5)
+    #%Turret.setSensorRadius(2.5)
+    
+    Utils.setParent(%Bullets, %Turret.get_node("BarrelPivot"))
+    

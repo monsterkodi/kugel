@@ -1,0 +1,2 @@
+class_name CardShieldLayer
+extends Node3D

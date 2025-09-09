@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://c1k1v40xuphlb"]
+
+[ext_resource type="Script" uid="uid://2svtabuxyqne" path="res://ui/cards/CardPillPower.gd" id="1_gn1q7"]
+[ext_resource type="PackedScene" uid="uid://bfy4mqj2hlcl0" path="res://ui/cards/CardSetup.tscn" id="2_x0qa0"]
+[ext_resource type="PackedScene" uid="uid://dehmjc447yvug" path="res://vehicles/Capsule.tscn" id="3_oxb6e"]
+
+[node name="CardPillPower" type="Node3D"]
+script = ExtResource("1_gn1q7")
+
+[node name="CardSetup" parent="." instance=ExtResource("2_x0qa0")]
+cameraOffset = Vector2(0, -0.53)
+cameraDistance = 3.821
+cameraFov = 19.61
+cameraTargetY = 1.034
+cameraHeight = 1.25
+
+[node name="Capsule" parent="." instance=ExtResource("3_oxb6e")]
+unique_name_in_owner = true
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.6870875, -0.44832262, 0.57176703, 0, 0.78693503, 0.61703587, -0.72657466, -0.42395762, 0.5406932, 0, 0, 0)
+light_color = Color(1, 0, 0, 1)
+light_energy = 1.115
+light_specular = 15.142
+shadow_enabled = true

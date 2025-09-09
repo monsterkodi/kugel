@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="CardRes" load_steps=3 format=3 uid="uid://dml257fljbcas"]
 
-[ext_resource type="PackedScene" uid="uid://dehmjc447yvug" path="res://vehicles/Capsule.tscn" id="1_sicoq"]
+[ext_resource type="PackedScene" uid="uid://c1k1v40xuphlb" path="res://ui/cards/CardPillPower.tscn" id="1_sicoq"]
 [ext_resource type="Script" uid="uid://dcn508r6heipo" path="res://player/CardRes.gd" id="2_dagpe"]
 
 [resource]

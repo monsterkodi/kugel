@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://2sqqax82o4j6"]
+
+[ext_resource type="Shader" uid="uid://cfk8w3oaki7cb" path="res://materials/CardShieldLayerMaterial.gdshader" id="1_3npm8"]
+
+[resource]
+render_priority = -10
+shader = ExtResource("1_3npm8")

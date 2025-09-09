@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://bor1c7b4js8xp"]
+
+[ext_resource type="Script" uid="uid://ca5wdnbicw4m3" path="res://ui/cards/CardMoney.gd" id="1_2qw37"]
+[ext_resource type="PackedScene" uid="uid://bfy4mqj2hlcl0" path="res://ui/cards/CardSetup.tscn" id="2_klhla"]
+
+[node name="CardMoney" type="Node3D"]
+script = ExtResource("1_2qw37")
+
+[node name="CardSetup" parent="." instance=ExtResource("2_klhla")]

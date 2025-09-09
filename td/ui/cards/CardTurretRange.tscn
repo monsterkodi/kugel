@@ -6,8 +6,14 @@
 
 [node name="CardTurretRange" type="Node3D"]
 script = ExtResource("1_vw5ro")
+lookAt = Vector3(-53.66, 28.52, 47.2)
 
 [node name="CardSetup" parent="." instance=ExtResource("2_kr4v8")]
+cameraOffset = Vector2(-0.63, -0.18)
+cameraDistance = 1.836
+cameraFov = 45.576
+cameraTargetY = 1.1199999999999999
+cameraHeight = 3.0949999999999998
 
 [node name="Turret" parent="." instance=ExtResource("3_5t3pn")]
 unique_name_in_owner = true

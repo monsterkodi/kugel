@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="CardRes" load_steps=3 format=3 uid="uid://dse3y0qs0s3um"]
 
-[ext_resource type="PackedScene" uid="uid://kktahfiaqllg" path="res://world/buildings/Turret.tscn" id="1_8jm7j"]
+[ext_resource type="PackedScene" uid="uid://bhqduu1v5yvum" path="res://ui/cards/CardTurretPower.tscn" id="1_h427b"]
 [ext_resource type="Script" uid="uid://dcn508r6heipo" path="res://player/CardRes.gd" id="2_bdqhw"]
 
 [resource]
@@ -9,5 +9,5 @@ name = &"Turret Power"
 type = 1
 text = "Turrets do more damage"
 maxNum = 5
-scene = ExtResource("1_8jm7j")
+scene = ExtResource("1_h427b")
 metadata/_custom_type_script = "uid://dcn508r6heipo"

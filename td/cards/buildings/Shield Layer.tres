@@ -1,13 +1,13 @@
 [gd_resource type="Resource" script_class="CardRes" load_steps=3 format=3 uid="uid://b381u7hpfrhrp"]
 
+[ext_resource type="PackedScene" uid="uid://kahbabtnpxcl" path="res://ui/cards/CardShieldLayer.tscn" id="1_7705g"]
 [ext_resource type="Script" uid="uid://dcn508r6heipo" path="res://player/CardRes.gd" id="1_qqhyn"]
-[ext_resource type="PackedScene" uid="uid://busmvxaat6dqv" path="res://world/buildings/Shield.tscn" id="1_v6bvu"]
 
 [resource]
 script = ExtResource("1_qqhyn")
-name = &"Shield +1"
+name = &"Shield Layer"
 type = 1
 text = "The Shield comes with an additional layer of protection"
 maxNum = 5
-scene = ExtResource("1_v6bvu")
+scene = ExtResource("1_7705g")
 metadata/_custom_type_script = "uid://dcn508r6heipo"

@@ -1,11 +1,13 @@
-[gd_resource type="Resource" script_class="CardRes" load_steps=2 format=3 uid="uid://dgp5mgwq274xr"]
+[gd_resource type="Resource" script_class="CardRes" load_steps=3 format=3 uid="uid://dgp5mgwq274xr"]
 
 [ext_resource type="Script" uid="uid://dcn508r6heipo" path="res://player/CardRes.gd" id="1_fl063"]
+[ext_resource type="PackedScene" uid="uid://xau7b2ywa55b" path="res://ui/cards/CardBattleSlot.tscn" id="1_sf4xx"]
 
 [resource]
 script = ExtResource("1_fl063")
-name = &"Card +1"
+name = &"Battle Card"
+type = 1
 text = "Take an additional card into battle"
 maxNum = 4
-type = 1
+scene = ExtResource("1_sf4xx")
 metadata/_custom_type_script = "uid://dcn508r6heipo"

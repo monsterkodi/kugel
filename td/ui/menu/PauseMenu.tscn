@@ -40,7 +40,6 @@ theme_override_constants/separation = 20
 alignment = 1
 
 [node name="Resume" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
-unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_top = NodePath("../Quit")
 mouse_default_cursor_shape = 2
@@ -53,7 +52,6 @@ metadata/_custom_type_script = "uid://db85fb86bo305"
 
 [node name="Cards" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
-focus_neighbor_top = NodePath("../Quit")
 mouse_default_cursor_shape = 2
 theme = ExtResource("2_8tehv")
 text = "Cards
@@ -96,6 +94,17 @@ text = "New Game
 script = ExtResource("3_1q10k")
 metadata/_custom_type_script = "uid://db85fb86bo305"
 
+[node name="Cheat" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("2_8tehv")
+text = "Cheat
+"
+
+[node name="FocusOnHover" type="Node" parent="PanelContainer/MarginContainer/VBoxContainer/Cheat"]
+script = ExtResource("3_1q10k")
+metadata/_custom_type_script = "uid://db85fb86bo305"
+
 [node name="Quit" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 mouse_default_cursor_shape = 2
@@ -112,4 +121,5 @@ metadata/_custom_type_script = "uid://db85fb86bo305"
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/Settings" to="." method="_on_settings_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/Restart" to="." method="_on_restart_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/New Game" to="." method="_on_new_game_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/Cheat" to="." method="_on_cheat_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]

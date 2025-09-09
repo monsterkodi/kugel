@@ -1,0 +1,18 @@
+[gd_scene load_steps=5 format=3 uid="uid://xau7b2ywa55b"]
+
+[ext_resource type="Script" uid="uid://dw7q8j6rra2sa" path="res://ui/cards/CardBattleSlot.gd" id="1_oyofm"]
+[ext_resource type="PackedScene" uid="uid://bfy4mqj2hlcl0" path="res://ui/cards/CardSetup.tscn" id="2_rbvvw"]
+[ext_resource type="PackedScene" uid="uid://cj3gelhoeb5ps" path="res://ui/menu/CardButton.tscn" id="3_e7s27"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_qpix3"]
+viewport_path = NodePath("Scene")
+
+[node name="CardBattleSlot" type="Node3D"]
+script = ExtResource("1_oyofm")
+
+[node name="CardSetup" parent="." instance=ExtResource("2_rbvvw")]
+
+[node name="Card1" parent="." instance=ExtResource("3_e7s27")]
+unique_name_in_owner = true
+anchors_preset = 0
+icon = SubResource("ViewportTexture_qpix3")

@@ -32,6 +32,7 @@ func buttonPressed(button):
 func back():
     
     if resumeOnBack:
+        %MenuHandler.vanish(self, "left")
         Post.resumeGame.emit()
         resumeOnBack = false
     else:

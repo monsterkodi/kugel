@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://btc0pbxm0b72t"]
+
+[ext_resource type="Script" uid="uid://m8n3mgttgyki" path="res://ui/cards/CardSlotRingSlot.gd" id="1_a4wmq"]
+[ext_resource type="Shader" uid="uid://b7lpd6h1smubj" path="res://materials/visual/CircleMatVis.tres" id="1_fhkdt"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_a4wmq"]
+size = Vector2(0.1, 0.1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_a4wmq"]
+render_priority = 0
+shader = ExtResource("1_fhkdt")
+shader_parameter/Color = Color(0.48844817, 0.48844817, 1.8247963, 1)
+shader_parameter/OuterRadius = 1.0
+shader_parameter/InnerRadius = 0.0
+
+[node name="CardSlotRingSlot" type="Node3D"]
+script = ExtResource("1_a4wmq")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_a4wmq")
+surface_material_override/0 = SubResource("ShaderMaterial_a4wmq")

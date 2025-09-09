@@ -1,0 +1,2 @@
+class_name CardSlotRing
+extends Node3D
