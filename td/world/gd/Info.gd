@@ -17,11 +17,11 @@ const CARD_LEVELS = [5, 5, 10, 10, 10, 20, 20, 20,
                     ]
                     
 const BUILDING_PRICES = {
-                    "Shield":  40,
-                    "Laser":   20,
-                    "Turret":  10,
-                    "Bouncer": 5,
-                    "Pole":    2,
+                    "Shield":  100,
+                    "Laser":   40,
+                    "Turret":  20,
+                    "Bouncer": 10,
+                    "Pole":    5,
                     "Sell":    0
                     }
 

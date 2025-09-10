@@ -9,6 +9,8 @@ var shotTween:Tween
 var speedCards:int
 var powerCards:int
 var rangeCards:int
+
+@onready var emitter: Emitter = %Emitter
     
 func _ready():
     
@@ -30,10 +32,10 @@ func applyCards():
     powerCards = Info.countPermCards(Card.TurretPower)
     rangeCards = Info.countPermCards(Card.TurretRange)
     
-    %Emitter.delay    = 0.8  - speedCards * 0.1
-    %Emitter.interval = 0.5  - speedCards * 0.07
-    %Emitter.velocity = 5.0  + powerCards * 2.0
-    %Emitter.mass     = 1.0  + powerCards * 2.0 
+    emitter.delay    = 0.8  - speedCards * 0.1
+    emitter.interval = 0.5  - speedCards * 0.07
+    emitter.velocity = 5.0  + powerCards * 2.0
+    emitter.mass     = 1.0  + powerCards * 2.0 
     setSensorRadius(4.0 + rangeCards * 1.0)
     rot_slerp = 0.02 + speedCards * 0.01
 
@@ -58,8 +60,8 @@ func calcTargetPos():
     var velocity = state.linear_velocity
     velocity.y = 0
     
-    var D = target.global_position - %Emitter.global_position
-    var V_b = %Emitter.velocity
+    var D = target.global_position - emitter.global_position
+    var V_b = emitter.velocity
     var V_t = velocity
     var a = V_b * V_b - V_t.dot(V_t)
     var b = -2 * D.dot(V_t)
@@ -88,9 +90,13 @@ func _on_sensor_body_entered(body: Node3D):
         sensorBodies.append(body)
         if not target:
             target = sensorBodies.front()
-            %Emitter.start()
+            emitter.start()
 
 func _on_sensor_body_exited(body: Node3D):
+    
+    if not is_inside_tree() or is_queued_for_deletion(): 
+        Log.log("???")
+        return
     
     sensorBodies.erase(body)
     
@@ -99,9 +105,7 @@ func _on_sensor_body_exited(body: Node3D):
             target = sensorBodies.front()
         else:
             target = null
-            if %Emitter:
-                %Emitter.stop()
-            #lookUp()
+            emitter.stop()
 
 func lookUp():
     
@@ -109,7 +113,7 @@ func lookUp():
 
 func shotFired():
     
-    var secs = %Emitter.interval / 3.0
+    var secs = emitter.interval / 3.0
     shotTween = create_tween()
     shotTween.set_ease(Tween.EASE_OUT)
     shotTween.set_trans(Tween.TRANS_BOUNCE)
