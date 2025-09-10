@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://ce71hab7lsis" path="res://world/buildings/Pole.gd" id="1_j6u8t"]
 [ext_resource type="PhysicsMaterial" uid="uid://dq1r6votcqh1x" path="res://materials/physics/FloorPhysics.tres" id="2_wyfb2"]
-[ext_resource type="Material" uid="uid://baiafbfas607g" path="res://materials/DashedGridMaterial.tres" id="3_62n4q"]
+[ext_resource type="Material" uid="uid://clbhgl840k7kt" path="res://materials/PoleMaterial.tres" id="3_bf1ir"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_i7n1g"]
 
@@ -25,4 +25,4 @@ shape = SubResource("CapsuleShape3D_i7n1g")
 [node name="CapsuleMesh" type="MeshInstance3D" parent="Capsule"]
 mesh = SubResource("CapsuleMesh_oi3di")
 skeleton = NodePath("../../..")
-surface_material_override/0 = ExtResource("3_62n4q")
+surface_material_override/0 = ExtResource("3_bf1ir")

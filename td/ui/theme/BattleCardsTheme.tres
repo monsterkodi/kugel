@@ -31,12 +31,13 @@ shadow_color = Color(0, 0, 0, 0.6117647)
 shadow_size = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v0ur7"]
+content_margin_top = 12.0
+content_margin_bottom = 12.0
 bg_color = Color(0.1, 0.1, 0.1, 1)
 corner_radius_top_left = 15
 corner_radius_top_right = 15
 corner_radius_bottom_right = 15
 corner_radius_bottom_left = 15
-expand_margin_bottom = 25.0
 shadow_color = Color(0, 0, 0, 0.6117647)
 shadow_size = 4
 anti_aliasing = false
@@ -53,7 +54,7 @@ corner_radius_bottom_left = 50
 
 [resource]
 default_font = ExtResource("1_v0ur7")
-default_font_size = 18
+default_font_size = 0
 Button/colors/font_color = Color(0.3438608, 0.3438608, 0.3438608, 1)
 Button/colors/font_hover_pressed_color = Color(1, 1, 0, 1)
 Button/colors/font_pressed_color = Color(1, 1, 0, 1)

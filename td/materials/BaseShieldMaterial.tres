@@ -3,7 +3,7 @@
 [ext_resource type="Shader" uid="uid://c4jr5ae57ic2v" path="res://materials/shader/ShieldMaterial.gdshader" id="1_uejl4"]
 
 [resource]
-render_priority = -6
+render_priority = 0
 shader = ExtResource("1_uejl4")
 shader_parameter/color1 = Color(0.4117647, 0.41568628, 1, 0.101960786)
 shader_parameter/color2 = Color(0.32999998, 0.32999998, 1, 0.4392157)

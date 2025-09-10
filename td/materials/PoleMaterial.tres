@@ -1,0 +1,27 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://clbhgl840k7kt"]
+
+[ext_resource type="Shader" uid="uid://bynv4b8vpwfwa" path="res://materials/shader/DashedGridMaterial.gdshader" id="1_v2hr6"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_v2hr6")
+shader_parameter/subdivisions = 16.0
+shader_parameter/grid_width = 0.0999999977648
+shader_parameter/background_color = Color(0.11304635, 0.11304635, 0.11304635, 1)
+shader_parameter/background_color_two = Color(0.14, 0.14, 0.14, 1)
+shader_parameter/grid_color = Color(0, 0, 0, 1)
+shader_parameter/dashed_scale_x = 0.02
+shader_parameter/dashed_scale_y = 0.02
+shader_parameter/dashed_count_x = 1.0
+shader_parameter/dashed_count_y = 1.0
+shader_parameter/point_width = 0.021
+shader_parameter/point_color = Color(0, 0, 0, 1)
+shader_parameter/point_scale_x = 0.05
+shader_parameter/point_scale_y = 0.05
+shader_parameter/inside_width = 0.01
+shader_parameter/inside_subdivisions = 6.0
+shader_parameter/inside_color = Color(0.4, 0.4, 0.4, 1)
+shader_parameter/in_dashed_scale_x = 0.3
+shader_parameter/in_dashed_scale_y = 0.3
+shader_parameter/in_dashed_count_x = 6.0
+shader_parameter/in_dashed_count_y = 6.0

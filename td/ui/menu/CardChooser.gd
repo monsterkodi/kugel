@@ -4,7 +4,7 @@ extends Menu
 @onready var cardButtons: HBoxContainer = %CardButtons
 
 const CARD_BUTTON = preload("uid://cj3gelhoeb5ps")
-const CARD_SIZE   = Vector2i(375,375)
+const CARD_SIZE   = Vector2i(375,325)
     
 func setCards(cards:Array):
     

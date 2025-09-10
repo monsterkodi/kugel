@@ -2,7 +2,7 @@ class_name BattleCards
 extends PanelContainer
 
 const CARD_BUTTON = preload("uid://cj3gelhoeb5ps")
-const CARD_SIZE = Vector2i(100,66)
+const CARD_SIZE   = Vector2i(100,76)
 
 func _ready():
     
@@ -28,6 +28,7 @@ func addCardButton(card:Card):
     var button = CARD_BUTTON.instantiate()
     button.card = card
     %Cards.add_child(button)
+    button.text = ""
     button.setSize(CARD_SIZE)
     
 func countBattleCards(cardName:String) -> int:

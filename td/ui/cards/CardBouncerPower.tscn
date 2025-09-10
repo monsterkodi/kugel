@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://n8xbpgv5oaaa"]
+
+[ext_resource type="Script" uid="uid://bdd3drp8lt6ka" path="res://ui/cards/CardBouncer.gd" id="1_6t2qb"]
+[ext_resource type="PackedScene" uid="uid://be78v806wl6a5" path="res://world/buildings/Bouncer.tscn" id="2_by3ib"]
+[ext_resource type="PackedScene" uid="uid://bfy4mqj2hlcl0" path="res://ui/cards/CardSetup.tscn" id="3_ptwie"]
+
+[node name="CardBouncerPower" type="Node3D"]
+script = ExtResource("1_6t2qb")
+
+[node name="Bouncer" parent="." instance=ExtResource("2_by3ib")]
+unique_name_in_owner = true
+
+[node name="CardSetup" parent="." instance=ExtResource("3_ptwie")]
+cameraOffset = Vector2(0, 0.28)
+cameraDistance = 2.846
+cameraFov = 30.736
+cameraTargetY = 0.974
+cameraHeight = 0.01
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.10279248, -0.55190533, -0.82754713, 0, 0.8319541, -0.55484444, 0.9947028, 0.057033837, 0.08551863, 0, 0, 0)
+light_color = Color(1, 0, 0, 1)
+light_energy = 2.28
+light_specular = 16.0
+shadow_enabled = true

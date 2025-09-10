@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://cmnk2wwphhd6t"]
+
+[ext_resource type="Script" uid="uid://bdd3drp8lt6ka" path="res://ui/cards/CardBouncer.gd" id="1_a1pdd"]
+[ext_resource type="PackedScene" uid="uid://bfy4mqj2hlcl0" path="res://ui/cards/CardSetup.tscn" id="2_a1pdd"]
+[ext_resource type="PackedScene" uid="uid://be78v806wl6a5" path="res://world/buildings/Bouncer.tscn" id="2_lokca"]
+
+[node name="CardBouncer" type="Node3D"]
+script = ExtResource("1_a1pdd")
+
+[node name="Bouncer" parent="." instance=ExtResource("2_lokca")]
+unique_name_in_owner = true
+
+[node name="CardSetup" parent="." instance=ExtResource("2_a1pdd")]
+cameraOffset = Vector2(0, 0.29)
+cameraFov = 33.629999999999995
+cameraHeight = 0.96
