@@ -10,11 +10,11 @@ extends Node3D
 @export_range(0.0, 60,   0.1)  var seconds_initial    = 10.0
 
 @export var mass_increment     = 0.1
-@export var mass_max           = 1000.0
+@export var mass_max           = 10000.0
 @export var velocity_increment = 0.05
 @export var velocity_max       = 1000.0
 @export var seconds_decrement  = 0.05
-@export var seconds_min        = 2.0
+@export var seconds_min        = 1.0
 
 @export var curve:Curve
             

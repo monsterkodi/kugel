@@ -10,7 +10,7 @@ func _ready():
     
 func applyCards():
     
-    var rings = Info.countPermCards("Slot Ring")
+    var rings = Info.countPermCards(Card.SlotRing)
     Log.log("rings", rings)
     %SlotRing1.visible = (rings >= 1)
     %SlotRing2.visible = (rings >= 2)

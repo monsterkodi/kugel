@@ -174,5 +174,5 @@ nodes/fragment/connections = PackedInt32Array(2, 0, 0, 0, 3, 0, 6, 0, 6, 0, 4, 0
 render_priority = -5
 shader = SubResource("VisualShader_44pv5")
 shader_parameter/Color = Color(0.17, 0.17, 0.17, 1)
-shader_parameter/OuterRadius = 0.9999999776480001
+shader_parameter/OuterRadius = 0.999999977648
 shader_parameter/InnerRadius = 0.0

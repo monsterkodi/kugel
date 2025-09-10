@@ -22,14 +22,13 @@ func _ready():
     
 func applyCards():
     
-    setSensorRadius(5 + Info.countPermCards("Laser Range") * 2.0)
-    rot_slerp = 0.03 + Info.countPermCards("Laser Speed") * 0.01
-    %LaserPointer.laserDamage = 2 + Info.countPermCards("Laser Damage") * 2.0
+    setSensorRadius(5 + Info.countPermCards(Card.LaserRange) * 1.5)
+    rot_slerp = 0.03 + Info.countPermCards(Card.LaserSpeed) * 0.01
+    %LaserPointer.laserDamage = 2 + Info.countPermCards(Card.LaserPower) * 2.0
 
 func setSensorRadius(r:float):  
 
     if is_inside_tree():
-        #Log.log("setSensorRadius", r)
         %Sensor.scale = Vector3(r, 1, r)
         %LaserPointer.laserRange = r
     

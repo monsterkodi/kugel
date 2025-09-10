@@ -5,11 +5,12 @@ func setBuilding(buildingName:String):
     var building = load("res://world/buildings/%s.tscn" % buildingName).instantiate()
     
     var mesh = building.find_child("*Mesh*")
+    var camera = %Scene.get_node("Camera")
     if mesh:
         var bb:AABB = mesh.get_aabb()
-        %Camera.look_at(bb.get_center(), Vector3.UP)
+        camera.look_at(bb.get_center(), Vector3.UP)
     else:
-        %Camera.look_at(Vector3.ZERO, Vector3.UP)
+        camera.look_at(Vector3.ZERO, Vector3.UP)
     
     building.inert = true
         

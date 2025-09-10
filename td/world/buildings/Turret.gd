@@ -26,9 +26,9 @@ func _ready():
     
 func applyCards():
     
-    speedCards = Info.countPermCards("Turret Speed")
-    powerCards = Info.countPermCards("Turret Power")
-    rangeCards = Info.countPermCards("Turret Range")
+    speedCards = Info.countPermCards(Card.TurretSpeed)
+    powerCards = Info.countPermCards(Card.TurretPower)
+    rangeCards = Info.countPermCards(Card.TurretRange)
     
     %Emitter.delay    = 0.8  - speedCards * 0.1
     %Emitter.interval = 0.5  - speedCards * 0.07

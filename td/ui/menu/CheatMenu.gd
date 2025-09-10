@@ -12,6 +12,7 @@ func allPermCards():
             var owned = Info.numberOfCardsOwned(cardRes.name)
             if owned < cardRes.maxNum:
                 %Player.perm.addCard(Card.new(cardRes))
+                %Player.cardLevel += 1
     
     Post.applyCards.emit()
 
@@ -24,6 +25,7 @@ func allBattleCards():
             var owned = Info.numberOfCardsOwned(cardRes.name)
             if owned < cardRes.maxNum:
                 %Player.deck.addCard(Card.new(cardRes))
+                %Player.cardLevel += 1
     
 func appeared():
     

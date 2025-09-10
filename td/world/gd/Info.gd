@@ -50,19 +50,19 @@ func nextSetOfCards():
     var allCards:Array[CardRes] = Utils.allCardRes()
     var cards:Array[Card] = []
     
-    if numberOfCardsOwned("Slot Ring") < 3:
+    if numberOfCardsOwned(Card.SlotRing) < 3:
         #Log.log("nextSetOfCards add Slot Ring")
-        var cardRes = allCards[allCards.find_custom(func(c): return c.name == "Slot Ring")]
+        var cardRes = allCards[allCards.find_custom(func(c): return c.name == Card.SlotRing)]
         allCards.erase(cardRes)
         cards.append(Card.new(cardRes))
-        if numberOfCardsOwned("Slot Ring") < 1:
+        if numberOfCardsOwned(Card.SlotRing) < 1:
             cards.append(Card.new(cardRes))
             cards.append(Card.new(cardRes))
             return cards
             
-    if numberOfCardsOwned("Turret") < 1:
+    if numberOfCardsOwned(Card.Turret) < 1:
         #Log.log("nextSetOfCards add Turret")
-        var cardRes = allCards[allCards.find_custom(func(c): return c.name == "Turret")]
+        var cardRes = allCards[allCards.find_custom(func(c): return c.name == Card.Turret)]
         allCards.erase(cardRes)
         cards.append(Card.new(cardRes))
     
@@ -80,11 +80,11 @@ func nextSetOfCards():
 
 func maxShieldHitPoints() -> int:
     
-    return 1 + countPermCards("Shield +1")
+    return 1 + countPermCards(Card.ShieldLayer)
 
 func maxHandCards() -> int:
     
-    return 1 + countPermCards("Card +1")
+    return 1 + countPermCards(Card.BattleCard)
 
 func countPermCards(cardName:String) -> int:
     
@@ -127,11 +127,5 @@ func isAnyBuildingPlaced(type):
 func slotForPos(pos):
     
     var level = get_node("/root/World").currentLevel
-    #var slots = level.get_tree().get_nodes_in_group("slot")
-    #var slots = Utils.childrenWithClass(level, "Slot")
     var slots = Utils.filterTree(level, func(n:Node): return n is Slot)
-    #Log.log("slotForPos", pos, slots)
     return Utils.closestNode(slots, pos)
-
-    
-    

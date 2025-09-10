@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://dhm8ww2fqxfua"]
+[gd_scene load_steps=8 format=3 uid="uid://dhm8ww2fqxfua"]
 
 [ext_resource type="Script" uid="uid://c4d3iwmln8sl4" path="res://ui/hud/Hud.gd" id="1_1x8ju"]
 [ext_resource type="Theme" uid="uid://g22p2j6a23ol" path="res://ui/theme/HUDTheme.tres" id="2_aaqae"]
@@ -21,6 +21,10 @@ bg_color = Color(0.10965204, 0.10965204, 0.10965204, 1)
 draw_center = false
 corner_radius_bottom_right = 30
 corner_radius_bottom_left = 30
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4sqfl"]
+content_margin_top = 4.0
+content_margin_bottom = 10.0
 
 [node name="Hud" type="Control"]
 layout_mode = 3
@@ -91,6 +95,7 @@ layout_mode = 2
 
 [node name="CardProgress" parent="Center/MarginContainer/VBoxContainer" instance=ExtResource("3_4sqfl")]
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_4sqfl")
 
 [node name="ShieldPoints" type="HBoxContainer" parent="Center/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true

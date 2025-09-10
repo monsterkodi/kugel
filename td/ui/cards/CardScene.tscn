@@ -41,6 +41,7 @@ transform = Transform3D(1, 0, 0, 0, 0.9510565, 0.30901697, 0, -0.30901697, 0.951
 current = true
 fov = 45.0
 size = 2.85
+far = 100.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_gc87q")
