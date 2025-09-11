@@ -23,7 +23,7 @@ func _process(delta: float):
     if not orphan.is_empty():
         Node.print_orphan_nodes()
         Log.log("orphans")
-        quitGame()
+        #quitGame()
         
 func _unhandled_input(event: InputEvent):
     

@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://bfs4v0hjfo8pg"]
+
+[ext_resource type="Script" uid="uid://b4lgvysmwenuo" path="res://ui/scenecard/SceneViewport.gd" id="1_g7yl8"]
+[ext_resource type="PackedScene" uid="uid://bga4xv0e2y637" path="res://ui/cards/CardScene.tscn" id="2_mumqt"]
+
+[node name="SceneViewport" type="SubViewport"]
+own_world_3d = true
+handle_input_locally = false
+size = Vector2i(100, 100)
+script = ExtResource("1_g7yl8")
+
+[node name="Scene" parent="." instance=ExtResource("2_mumqt")]
+unique_name_in_owner = true

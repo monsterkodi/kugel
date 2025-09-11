@@ -12,7 +12,8 @@ lookAt = Vector3(0, 68.32, 78.66)
 unique_name_in_owner = true
 
 [node name="CardSetup" parent="." instance=ExtResource("3_kt7py")]
-cameraOffset = Vector2(0, 0.18)
-cameraDistance = 1.9809999999999999
+cameraOffset = Vector2(0, 0.19)
+cameraDistance = 1.981
 cameraFov = 19.348
-cameraTargetY = 1.135
+cameraTargetY = 1.083
+cameraHeight = 2.997

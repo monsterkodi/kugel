@@ -4,6 +4,8 @@ var hitPoints:int
 
 func _ready():
 
+    name = "Shield"
+    
     setHitPoints(Info.maxShieldHitPoints())
     
     super._ready()

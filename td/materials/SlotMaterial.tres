@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://iin00aein05e"]
+
+[ext_resource type="Shader" uid="uid://c3nohhksxeqm0" path="res://materials/visual/SlotMatVis.tres" id="1_thgwa"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_thgwa")
+shader_parameter/ColorDot = Color(0.527113, 0.527113, 1.353256, 1)
+shader_parameter/ColorCircle = Color(0.18, 0.18, 0.18, 1)
+shader_parameter/OuterRadius = 0.999999977648
+shader_parameter/InnerRadius = 0.06999999843536

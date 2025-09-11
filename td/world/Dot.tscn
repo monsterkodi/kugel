@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://rrmwg2lfk7xs"]
+
+[ext_resource type="Script" uid="uid://dr0lck7mkgbso" path="res://world/Dot.gd" id="1_5472e"]
+
+[node name="Dot" type="Node3D" groups=["dot"]]
+script = ExtResource("1_5472e")

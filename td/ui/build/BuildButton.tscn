@@ -4,10 +4,10 @@
 [ext_resource type="ButtonGroup" uid="uid://dmsauvumaa32t" path="res://ui/build/BuildMenuButtonGroup.tres" id="2_01aab"]
 [ext_resource type="Script" uid="uid://cpjqnu0u8dxtx" path="res://ui/build/BuildButton.gd" id="3_01aab"]
 [ext_resource type="Script" uid="uid://db85fb86bo305" path="res://ui/menu/FocusOnHover.gd" id="4_713dh"]
-[ext_resource type="PackedScene" uid="uid://bfs4v0hjfo8pg" path="res://ui/build/BuildingViewport.tscn" id="5_01aab"]
+[ext_resource type="PackedScene" uid="uid://bfs4v0hjfo8pg" path="res://ui/scenecard/SceneViewport.tscn" id="5_01aab"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_x6k1r"]
-viewport_path = NodePath("Button/Viewport")
+viewport_path = NodePath("Button/Scene")
 
 [node name="BuildButton" type="Control"]
 custom_minimum_size = Vector2(200, 150)
@@ -33,7 +33,7 @@ metadata/_edit_use_anchors_ = true
 [node name="FocusOnHover" type="Node" parent="Button"]
 script = ExtResource("4_713dh")
 
-[node name="Viewport" parent="Button" instance=ExtResource("5_01aab")]
+[node name="Scene" parent="Button" instance=ExtResource("5_01aab")]
 unique_name_in_owner = true
 
 [connection signal="focus_entered" from="Button" to="." method="buttonFocused"]

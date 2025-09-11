@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://du4vmk7nmw83o"]
+
+[ext_resource type="Script" uid="uid://dkvdubmqup12g" path="res://world/DotRing.gd" id="1_hs2n7"]
+
+[node name="DotRing" type="Node3D"]
+script = ExtResource("1_hs2n7")

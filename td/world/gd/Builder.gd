@@ -24,13 +24,19 @@ func _input(event: InputEvent):
 func placeBuilding():
     
     var building = load(ghost.scene_file_path).instantiate()
+    Log.log("BUILDIND", building.name, building.type)
     Post.buildingBought.emit(building.name)
     building.inert = false
     if targetSlot != get_parent_node_3d():
-        while targetSlot.get_child_count():
+        if targetSlot.get_child_count():
             var old = targetSlot.get_child(0)
-            Wallet.addPrice(Info.priceForBuilding(old.type))
-            old.free()
+            if old:
+                var type = old.type
+                Wallet.addPrice(Info.priceForBuilding(type))
+                old.free()
+                if building.name == "Sell" and type == "Sell":
+                    building.free()
+                    return
     targetSlot.add_child(building)
     building.global_position = targetPos
     #building.look_at(Vector3.ZERO)

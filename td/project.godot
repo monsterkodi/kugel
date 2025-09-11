@@ -86,6 +86,7 @@ game=""
 slot=""
 level=""
 bullet=""
+dot=""
 
 [gui]
 

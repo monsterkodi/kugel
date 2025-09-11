@@ -1,10 +1,17 @@
-[gd_scene load_steps=5 format=3 uid="uid://xau7b2ywa55b"]
+[gd_scene load_steps=8 format=3 uid="uid://xau7b2ywa55b"]
 
 [ext_resource type="Script" uid="uid://dw7q8j6rra2sa" path="res://ui/cards/CardBattleSlot.gd" id="1_oyofm"]
 [ext_resource type="PackedScene" uid="uid://bfy4mqj2hlcl0" path="res://ui/cards/CardSetup.tscn" id="2_rbvvw"]
-[ext_resource type="PackedScene" uid="uid://cj3gelhoeb5ps" path="res://ui/menu/CardButton.tscn" id="3_e7s27"]
+[ext_resource type="PackedScene" uid="uid://cj3gelhoeb5ps" path="res://ui/scenecard/CardButton.tscn" id="3_e7s27"]
+[ext_resource type="Theme" uid="uid://d0fm4vq6ms0dc" path="res://ui/theme/CardBattleSlotTheme.tres" id="4_qpix3"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_qpix3"]
+viewport_path = NodePath("Scene")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_cc6kd"]
+viewport_path = NodePath("Scene")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_r3y3y"]
 viewport_path = NodePath("Scene")
 
 [node name="CardBattleSlot" type="Node3D"]
@@ -14,5 +21,47 @@ script = ExtResource("1_oyofm")
 
 [node name="Card1" parent="." instance=ExtResource("3_e7s27")]
 unique_name_in_owner = true
-anchors_preset = 0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -62.0
+offset_right = 0.0
+offset_bottom = 62.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("4_qpix3")
 icon = SubResource("ViewportTexture_qpix3")
+
+[node name="Card2" parent="." instance=ExtResource("3_e7s27")]
+unique_name_in_owner = true
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -62.0
+offset_right = 50.0
+offset_bottom = 62.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("4_qpix3")
+icon = SubResource("ViewportTexture_cc6kd")
+
+[node name="Card3" parent="." instance=ExtResource("3_e7s27")]
+unique_name_in_owner = true
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = -62.0
+offset_right = 100.0
+offset_bottom = 62.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("4_qpix3")
+icon = SubResource("ViewportTexture_r3y3y")

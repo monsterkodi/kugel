@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://chwvnhtoya035"]
+
+[ext_resource type="Script" uid="uid://c3yv6ktc63s4i" path="res://ui/cards/CardSell.gd" id="1_fjh7i"]
+[ext_resource type="PackedScene" uid="uid://bfy4mqj2hlcl0" path="res://ui/cards/CardSetup.tscn" id="2_8b2bn"]
+[ext_resource type="PackedScene" uid="uid://bl2k84nuh3ghf" path="res://world/buildings/Sell.tscn" id="3_fjh7i"]
+
+[node name="CardSell" type="Node3D"]
+script = ExtResource("1_fjh7i")
+
+[node name="CardSetup" parent="." instance=ExtResource("2_8b2bn")]
+cameraOffset = Vector2(0, -0.11)
+cameraDistance = 4.183
+cameraFov = 24.121
+cameraTargetY = 0.01
+cameraHeight = 3.6449999999999996
+
+[node name="Sell" parent="." instance=ExtResource("3_fjh7i")]
+unique_name_in_owner = true

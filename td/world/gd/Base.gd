@@ -4,12 +4,23 @@ var hitPoints:int
 
 func _ready():
     
+    Post.subscribe(self)
     setHitPoints(3)
+    
+func _process(delta:float):
+    
+    %DotRing.rotate(Vector3.UP, -delta*0.2)
 
 func onHit(): 
     
     setHitPoints(hitPoints - 1)
     Post.baseDamaged.emit(self)
+        
+func statChanged(statName, value):
+
+    match statName:
+        "shieldHitPoints":
+            updateDots()        
         
 func ringParam(param:String, value:Variant):
     
@@ -24,6 +35,16 @@ func setHitPoints(hp):
         onDeath.call_deferred()
     else:
         ringParam("num_rings", hitPoints)
+        updateDots()
+        
+func updateDots():
+    
+    var world = get_node("/root/World")
+    var dots = hitPoints
+    if world.has_node("Shield"):
+        var shield = world.get_node("Shield")
+        dots += shield.hitPoints
+    %DotRing.numDots = dots
         
 func onDeath():
     

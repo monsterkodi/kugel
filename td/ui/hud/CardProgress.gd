@@ -26,7 +26,7 @@ func update():
         if i > numCards-player.nextCardIn: %Dots.get_child(i).color = Color("343434ff")
         else:                               %Dots.get_child(i).color = Color("ff0000ff")
 
-    Log.log("progress", numCards-player.nextCardIn, player.nextCardIn, numCards)
+    #Log.log("progress", numCards-player.nextCardIn, player.nextCardIn, numCards)
 
 func initDots(num):
     

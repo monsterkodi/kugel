@@ -21,7 +21,7 @@ const BUILDING_PRICES = {
                     "Laser":   40,
                     "Turret":  20,
                     "Bouncer": 10,
-                    "Pole":    5,
+                    "Pole":    2,
                     "Sell":    0
                     }
 

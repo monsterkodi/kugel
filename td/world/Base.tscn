@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://b0ky2r6dv835o"]
+[gd_scene load_steps=10 format=3 uid="uid://b0ky2r6dv835o"]
 
 [ext_resource type="Script" uid="uid://cpee8s6q4uj4u" path="res://world/gd/Base.gd" id="1_swcnr"]
+[ext_resource type="PackedScene" uid="uid://du4vmk7nmw83o" path="res://world/DotRing.tscn" id="3_8t0lk"]
 [ext_resource type="PhysicsMaterial" uid="uid://bibgiktcbn65s" path="res://materials/physics/ShieldPhysics.tres" id="3_xybkm"]
 [ext_resource type="Material" uid="uid://1nbr7m78c0uq" path="res://materials/BaseHoloMaterial.tres" id="4_8t0lk"]
 [ext_resource type="PackedScene" uid="uid://b1t7aquxiadko" path="res://components/Attraction.tscn" id="5_22hco"]
@@ -26,6 +27,14 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.017252505, 0)
 mesh = SubResource("PlaneMesh_lf5p6")
 surface_material_override/0 = ExtResource("6_4p605")
+
+[node name="DotRing" parent="." instance=ExtResource("3_8t0lk")]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
+radius = 1.2
+numDots = 12
+dotRadius = 0.06999999999999999
+dotColor = Color(0.18527615, 0.16459775, 1, 1)
 
 [node name="CenterSphereBody" type="RigidBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5879226, 0)

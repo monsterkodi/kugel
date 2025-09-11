@@ -6,4 +6,4 @@ func _ready():
     %Bouncer.inert = true
     %Bouncer.set_process(false)
     %Bouncer.set_physics_process(false)
-    %Bouncer.setSensorRadius(0)
+    %Bouncer.setSensorRadius(0.1)

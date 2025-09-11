@@ -42,6 +42,7 @@ func bodyEntered(body:Node3D):
         corpse.mass            = 0.01
         corpse.gravity_scale   = 0
         corpse.collision_mask  = Layer.LayerFloor
+        corpse.collision_layer = 0
         corpse.linear_velocity = Vector3.ZERO
         corpses.append(corpse)
 
