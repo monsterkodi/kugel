@@ -27,11 +27,13 @@ const BUILDING_PRICES = {
 
 var buildingNames:PackedStringArray
 
-var enemySpeed:float
-var player:Player
+var enemySpeed  : float
+var player      : Player
+var world       : World
 
 func _ready():
     
+    world = get_node("/root/World")
     enemySpeed = 1
     buildingNames = Utils.resourceNamesInDir("res://world/buildings")
     #Log.log("Info.buildingNames", buildingNames)
@@ -45,7 +47,7 @@ func nextCardAtLevel(cardLevel:int) -> int:
     
 func nextSetOfCards():
     
-    Log.log("nextSetOfCards", player.cardLevel)
+    #Log.log("nextSetOfCards", player.cardLevel)
     
     var allCards:Array[CardRes] = Utils.allCardRes()
     var cards:Array[Card] = []
@@ -126,6 +128,6 @@ func isAnyBuildingPlaced(type):
     
 func slotForPos(pos):
     
-    var level = get_node("/root/World").currentLevel
+    var level = world.currentLevel
     var slots = Utils.filterTree(level, func(n:Node): return n is Slot)
     return Utils.closestNode(slots, pos)

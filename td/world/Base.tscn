@@ -34,7 +34,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
 radius = 1.2
 numDots = 12
 dotRadius = 0.06999999999999999
-dotColor = Color(0.18527615, 0.16459775, 1, 1)
+dotColor = Color(0.27619392, 0.25766784, 1.353256, 1)
 
 [node name="CenterSphereBody" type="RigidBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5879226, 0)

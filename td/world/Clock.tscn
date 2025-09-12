@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://b8phu2uow5j4d"]
+
+[ext_resource type="Script" uid="uid://yggyfpgraywx" path="res://world/Clock.gd" id="1_jrwln"]
+[ext_resource type="PackedScene" uid="uid://du4vmk7nmw83o" path="res://world/DotRing.tscn" id="2_j00or"]
+
+[node name="Clock" type="Node3D"]
+script = ExtResource("1_jrwln")
+
+[node name="DotRing" parent="." instance=ExtResource("2_j00or")]
+unique_name_in_owner = true
+radius = 40.0
+dotRadius = 1.0
+dotColor = Color(0.26239687, 0, 0, 1)
+
+[node name="DotRing2" parent="." instance=ExtResource("2_j00or")]
+unique_name_in_owner = true
+radius = 40.0
+numDots = 800
+dotColor = Color(0.02, 0.02, 0.02, 1)
+
+[node name="DotRing3" parent="." instance=ExtResource("2_j00or")]
+unique_name_in_owner = true
+radius = 40.0
+dotRadius = 0.3
+dotColor = Color(0.2, 0, 0, 1)

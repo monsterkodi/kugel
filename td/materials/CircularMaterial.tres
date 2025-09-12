@@ -5,10 +5,10 @@
 [resource]
 render_priority = 0
 shader = ExtResource("1_8ages")
-shader_parameter/color = Color(0.060000017, 0.060000017, 0.6, 1)
+shader_parameter/color = Color(0.15, 0.15, 0.3, 1)
 shader_parameter/density = 0.999999977648
 shader_parameter/num_rings = 1.0
 shader_parameter/num_slices = 1.0
 shader_parameter/line_space = 0.7999999821184001
 shader_parameter/revolutions = 0.0
-shader_parameter/emission = 9.99999977648
+shader_parameter/emission = 8.999999798832

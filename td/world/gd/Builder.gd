@@ -24,7 +24,6 @@ func _input(event: InputEvent):
 func placeBuilding():
     
     var building = load(ghost.scene_file_path).instantiate()
-    Log.log("BUILDIND", building.name, building.type)
     Post.buildingBought.emit(building.name)
     building.inert = false
     if targetSlot != get_parent_node_3d():

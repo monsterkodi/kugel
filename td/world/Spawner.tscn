@@ -1,9 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://cssayoomcrb8o"]
+[gd_scene load_steps=10 format=3 uid="uid://cssayoomcrb8o"]
 
 [ext_resource type="Script" uid="uid://c42hpa6ij4j3j" path="res://world/gd/Spawner.gd" id="1_5q6u0"]
+[ext_resource type="Material" uid="uid://chltotc0ohct" path="res://materials/SpawnerHoleActiveMaterial.tres" id="2_gfquv"]
 [ext_resource type="Shader" uid="uid://cj78indyh2su8" path="res://materials/shader/GooMaterial.gdshader" id="2_xgr6b"]
 [ext_resource type="AudioStream" uid="uid://dy8acua65vkpd" path="res://sounds/bouw.wav" id="4_gfquv"]
-[ext_resource type="Shader" uid="uid://buoavpwql810j" path="res://materials/visual/RoundedBorderMatVis.tres" id="5_5i5hu"]
 
 [sub_resource type="Curve" id="Curve_bjyd8"]
 _limits = [-1.0, 1.0, 0.0, 1.0]
@@ -12,15 +12,6 @@ point_count = 2
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_aubng"]
 size = Vector2(1.25, 2.5)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_h7sjn"]
-render_priority = 0
-shader = ExtResource("5_5i5hu")
-shader_parameter/AspectRatio = 0.50000002049012
-shader_parameter/CornerRadius = 0.499999988824
-shader_parameter/BorderSize = 0.0499999988824
-shader_parameter/BorderColor = Color(1.6124506, 0, 0, 1)
-shader_parameter/Color = Color(0.8112086, 0, 0, 1)
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_bjyd8"]
 height = 0.6
@@ -51,13 +42,12 @@ curve = SubResource("Curve_bjyd8")
 
 [node name="Hole" type="MeshInstance3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.001, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 0)
 mesh = SubResource("PlaneMesh_aubng")
-surface_material_override/0 = SubResource("ShaderMaterial_h7sjn")
+surface_material_override/0 = ExtResource("2_gfquv")
 
 [node name="Body" type="AnimatableBody3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0)
 collision_layer = 1073741824
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Body"]

@@ -1,9 +1,11 @@
 class_name Base extends Node3D
 
-var hitPoints:int
+var hitPoints : int
+var world     : World
 
 func _ready():
     
+    world = get_node("/root/World")
     Post.subscribe(self)
     setHitPoints(3)
     
@@ -39,7 +41,6 @@ func setHitPoints(hp):
         
 func updateDots():
     
-    var world = get_node("/root/World")
     var dots = hitPoints
     if world.has_node("Shield"):
         var shield = world.get_node("Shield")

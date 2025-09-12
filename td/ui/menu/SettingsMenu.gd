@@ -29,12 +29,14 @@ func onTimescale(value):
         Engine.physics_ticks_per_second = 120
     else:
         Engine.physics_ticks_per_second = 60
-    #Log.log(Engine.physics_ticks_per_second, Engine.time_scale)
+        
+    Log.log("ticks per second", Engine.physics_ticks_per_second, "timescale", Engine.time_scale)
 
 func onEnemySpeed(value):
     
     Info.enemySpeed = value
     Post.statChanged.emit("enemySpeed", value)
+    Log.log("enemySpeed", value)
 
 func onVolume(value):
     

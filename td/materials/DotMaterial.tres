@@ -3,6 +3,6 @@
 [ext_resource type="Shader" uid="uid://bg4bilnw3de0i" path="res://materials/visual/DotMatVis.tres" id="1_cwhdo"]
 
 [resource]
-render_priority = 0
+render_priority = 5
 shader = ExtResource("1_cwhdo")
 shader_parameter/OuterRadius = 0.999999977648

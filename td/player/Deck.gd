@@ -18,12 +18,12 @@ func toDict() -> Dictionary:
     var dict = {"cards": []}
     for card in get_children():
         dict.cards.append(card.res.name)
-    Log.log("Deck.toDict", dict)
+    #Log.log("Deck.toDict", dict)
     return dict
     
 func fromDict(dict:Dictionary):
     
-    Log.log("Deck.fromDict", dict)
+    #Log.log("Deck.fromDict", dict)
     Utils.freeChildren(self)
     for cardName in dict.cards:
         var card = Utils.newCardWithName(cardName)

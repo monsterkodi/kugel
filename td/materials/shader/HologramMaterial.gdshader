@@ -8,17 +8,17 @@ uniform float albedo_alpha : hint_range(0.0, 1.0) = 1.0;
 group_uniforms tint_edge;
 uniform vec4 tint_color : source_color = vec4(1.0, 0.5, 0.0, 0.5); // #FF8000
 uniform vec4 edge_color : source_color = vec4(1.0, 0.0, 0.0, 1.0); // #FF0000
-uniform float edge_power : hint_range(0.0, 1.0) = 0.5;
-uniform float edge_size : hint_range(0.1, 5.0) = 1.0;
-uniform float edge_intensity : hint_range(0.0, 2.0) = 0.8;
+uniform float edge_power : hint_range(0.0, 4.0) = 0.5;
+uniform float edge_size : hint_range(0.1, 10.0) = 1.0;
+uniform float edge_intensity : hint_range(0.0, 10.0) = 1.0;
 
 group_uniforms scanlines;
 uniform sampler2D scanline_texture;
 uniform vec4 scanline_tint : source_color = vec4(1.0, 0.5, 0.0, 1.0); // #FF8000
-uniform float scanline_intensity : hint_range(0.0, 2.0) = 1.0;
+uniform float scanline_intensity : hint_range(0.0, 10.0) = 1.0;
 uniform float scanline_density : hint_range(0.0, 10.0) = 5.0;
-uniform float scanline_thickness : hint_range(0.1, 3.0) = 1.0;
-uniform float scanline_spacing : hint_range(0.5, 4.0) = 1.0;
+uniform float scanline_thickness : hint_range(0.1, 10.0) = 1.0;
+uniform float scanline_spacing : hint_range(0.1, 10.0) = 1.0;
 uniform float scanline_angle : hint_range(0.0, 6.283) = 0.0;
 uniform float scanline_speed = 0.2;
 

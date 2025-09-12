@@ -26,6 +26,8 @@ signal resumeGame
 signal restartLevel
 signal settings
 signal quitGame
+signal clockFactor
+signal clockTick
 
 var sigDict:Dictionary
 

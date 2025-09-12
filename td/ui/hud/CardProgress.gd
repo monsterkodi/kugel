@@ -10,21 +10,20 @@ func _ready():
     assert(player)
     Post.subscribe(self)
     
-func levelStart(): update()
-
-func enemySpawned(spawner:Spawner): update()
-    
-func applyCards(): update()
+func levelStart():    update()
+func applyCards():    update()
+func enemySpawned(s): update()
 
 func update():
     
     var numCards = Info.nextCardAtLevel(player.cardLevel)
     
-    if numCards != %Dots.get_child_count(): initDots(numCards)
+    if numCards != %Dots.get_child_count(): 
+        initDots(numCards)
     
     for i in range(numCards):
         if i > numCards-player.nextCardIn: %Dots.get_child(i).color = Color("343434ff")
-        else:                               %Dots.get_child(i).color = Color("ff0000ff")
+        else:                              %Dots.get_child(i).color = Color("ff0000ff")
 
     #Log.log("progress", numCards-player.nextCardIn, player.nextCardIn, numCards)
 
@@ -36,4 +35,3 @@ func initDots(num):
         var dot = CIRCLE.instantiate()
         dot.diameter = diameter
         %Dots.add_child(dot)
-    

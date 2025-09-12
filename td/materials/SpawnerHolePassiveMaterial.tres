@@ -1,0 +1,12 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://djrtyqmjy623u"]
+
+[ext_resource type="Shader" uid="uid://buoavpwql810j" path="res://materials/visual/RoundedBorderMatVis.tres" id="1_imxib"]
+
+[resource]
+render_priority = 1
+shader = ExtResource("1_imxib")
+shader_parameter/AspectRatio = 0.50000002049012
+shader_parameter/CornerRadius = 0.499999988824
+shader_parameter/BorderSize = 0.0499999988824
+shader_parameter/BorderColor = Color(0.42871904, 0, 0, 1)
+shader_parameter/Color = Color(0.3744098, 0, 0, 1)

@@ -3,18 +3,18 @@
 [ext_resource type="Shader" uid="uid://c4m2ofmj7gfhv" path="res://materials/shader/HologramMaterial.gdshader" id="1_hd4cu"]
 
 [resource]
-render_priority = 0
+render_priority = 9
 shader = ExtResource("1_hd4cu")
 shader_parameter/albedo_alpha = 0.0
 shader_parameter/tint_color = Color(0, 0, 1, 0.5019608)
-shader_parameter/edge_color = Color(0, 0, 1, 1)
-shader_parameter/edge_power = 1.0
-shader_parameter/edge_size = 0.10000000149012
-shader_parameter/edge_intensity = 2.0
+shader_parameter/edge_color = Color(0, 0.010590315, 1, 1)
+shader_parameter/edge_power = 1.1250000534375
+shader_parameter/edge_size = 10.0
+shader_parameter/edge_intensity = 1.22000005795
 shader_parameter/scanline_tint = Color(0.302903, 0.032502312, 0.99991614, 1)
-shader_parameter/scanline_intensity = 2.0
-shader_parameter/scanline_density = 5.0
-shader_parameter/scanline_thickness = 3.0
-shader_parameter/scanline_spacing = 0.5
+shader_parameter/scanline_intensity = 6.006000285285
+shader_parameter/scanline_density = 4.6230002195925
+shader_parameter/scanline_thickness = 3.96000018484012
+shader_parameter/scanline_spacing = 0.36600001412512
 shader_parameter/scanline_angle = 1.5650000743375
-shader_parameter/scanline_speed = -4.0
+shader_parameter/scanline_speed = -2.0

@@ -3,7 +3,7 @@ class_name SlotRing extends Node3D
 @export_range(4, 64, 1) var numSlots = 8: 
     set(v): numSlots = v; update()
     
-@export_range(0.01, 25) var radius   = 5.0: 
+@export_range(0.01, 100) var radius  = 5.0: 
     set(v) : radius = v; update()
 
 @export var slotRes:PackedScene = preload("res://world/Slot.tscn")
