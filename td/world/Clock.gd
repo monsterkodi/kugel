@@ -8,7 +8,9 @@ var seconds       : float = 10.0
 var pointerSecs   : float = 0.0
 var pointerFactor : float = 0.0
 var pointerIndex  : int   = 0
+var numSpawnerActive = 0
 var dotsActivated : int
+var dirSign       = 1
 
 func _ready():
     
@@ -22,6 +24,13 @@ func levelStart():
     pointerIndex  = 0
     dotsActivated = 0
     
+    %DotRing.setColor(0, Color(0.26,0,0))
+    for i in range(1,8):
+        %DotRing.setColor(i, Color(0.02,0.02,0.02))
+    
+    for child in %DotRing2.get_children():
+        child.color = Color(0.02,0.02,0.02)
+    
 func _process(delta: float):
     
     pointerSecs  += delta * Info.enemySpeed
@@ -32,12 +41,18 @@ func _process(delta: float):
         nextRound()
     
     %DotRing3.transform = Transform3D.IDENTITY
-    %DotRing3.rotate_y(pointerFactor * -PI/4.0)
+    %DotRing3.rotate_y(pointerFactor * dirSign * PI/4.0)
         
     Post.clockFactor.emit(pointerFactor)
     
+func spawnerActivated():
+    
+    numSpawnerActive += 1
+    %DotRing.setColor(numSpawnerActive, Color(0.26,0,0))
+    
 func nextRound():
     
+    dirSign      *= -1
     pointerSecs   = 0.0
     pointerFactor = 0.0
     pointerIndex  = 0

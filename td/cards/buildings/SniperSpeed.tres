@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CardRes" load_steps=3 format=3 uid="uid://cn5w0cdvqbhoo"]
+
+[ext_resource type="PackedScene" uid="uid://8acfdrhptma2" path="res://ui/cards/CardSniperSpeed.tscn" id="1_b0gbh"]
+[ext_resource type="Script" uid="uid://dcn508r6heipo" path="res://player/CardRes.gd" id="2_cdjek"]
+
+[resource]
+script = ExtResource("2_cdjek")
+name = &"Sniper"
+type = 1
+text = "Snipers turn and reload faster"
+maxNum = 5
+scene = ExtResource("1_b0gbh")
+metadata/_custom_type_script = "uid://dcn508r6heipo"

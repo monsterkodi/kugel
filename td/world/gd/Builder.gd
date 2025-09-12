@@ -55,6 +55,14 @@ func findTargetPos():
     
     var slot = Info.slotForPos(vehicle.global_position)    
     if slot:
+        
+        if targetSlot != slot:
+            if slot.get_child_count() == 0:
+                if Input.is_action_pressed("place_building"):
+                    targetSlot = slot
+                    targetPos  = slot.global_position
+                    placeBuilding()
+        
         targetPos  = slot.global_position
         targetSlot = slot
         

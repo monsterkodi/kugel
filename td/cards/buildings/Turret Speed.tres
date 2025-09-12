@@ -7,7 +7,7 @@
 script = ExtResource("2_tpapl")
 name = &"Turret Speed"
 type = 1
-text = "Turrets turn faster"
+text = "Turrets turn and reload faster"
 maxNum = 5
 scene = ExtResource("1_8il23")
 metadata/_custom_type_script = "uid://dcn508r6heipo"

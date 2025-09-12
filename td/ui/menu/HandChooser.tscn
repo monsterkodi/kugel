@@ -171,7 +171,7 @@ size_flags_vertical = 4
 theme_override_constants/margin_top = 250
 theme_override_constants/margin_right = 50
 
-[node name="Perm" type="Button" parent="MarginContainer2"]
+[node name="Cards" type="Button" parent="MarginContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
@@ -184,13 +184,13 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_e1212")
 theme_override_styles/hover = SubResource("StyleBoxFlat_7pchu")
 theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_uuvfj")
 theme_override_styles/focus = SubResource("StyleBoxFlat_1kdj8")
-text = "Perm"
+text = "Cards"
 icon_alignment = 1
 
-[node name="FocusOnHover" type="Node" parent="MarginContainer2/Perm"]
+[node name="FocusOnHover" type="Node" parent="MarginContainer2/Cards"]
 script = ExtResource("3_e1212")
 metadata/_custom_type_script = "uid://db85fb86bo305"
 
 [connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
-[connection signal="pressed" from="MarginContainer/Done" to="." method="_on_done_button_pressed"]
-[connection signal="pressed" from="MarginContainer2/Perm" to="." method="_on_perm_pressed"]
+[connection signal="pressed" from="MarginContainer/Done" to="." method="_on_done_pressed"]
+[connection signal="pressed" from="MarginContainer2/Cards" to="." method="_on_cards_pressed"]

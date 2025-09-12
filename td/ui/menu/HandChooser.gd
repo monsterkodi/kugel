@@ -12,7 +12,7 @@ func _on_visibility_changed():
     if visible:
 
         Utils.freeChildren(%Hand)
-        %Hand.custom_minimum_size.x = Info.maxHandCards() * 300 + (Info.maxHandCards() - 1) * 50
+        %Hand.custom_minimum_size.x = Info.battleCardSlots() * 300 + (Info.battleCardSlots() - 1) * 50
         for card in %Player.hand.get_children():
             var button = CARD_BUTTON.instantiate()
             button.card = card
@@ -53,7 +53,7 @@ func moveHandCardToDeck(index:int):
 func moveDeckCardToHand(index:int):
     
     var button = %Deck.get_child(index)
-    if %Player.hand.get_child_count() == Info.maxHandCards():
+    if %Player.hand.get_child_count() == Info.battleCardSlots():
         moveHandCardToDeck(%Player.hand.get_child_count()-1)
         
     %Player.hand.addCard(button.card)
@@ -70,10 +70,10 @@ func handButtonPressed(button):
     moveHandCardToDeck(%Hand.get_children().find(button))
     button.grab_focus()
 
-func _on_done_button_pressed():
+func _on_done_pressed():
     
     %MenuHandler.vanish(self, "top").tween_callback(func():Post.handChosen.emit())
 
-func _on_perm_pressed():
+func _on_cards_pressed():
     
     %MenuHandler.appear(%PermViewer, "right")

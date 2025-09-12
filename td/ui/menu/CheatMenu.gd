@@ -5,7 +5,7 @@ func moreMoney(): Wallet.addPrice(1000)
 
 func allPermCards():
     
-    var allCards:Array[CardRes] = Utils.allCardRes()
+    var allCards:Array[CardRes] = Card.allRes()
 
     for cardRes in allCards:    
         if cardRes.type == CardRes.CardType.PERMANENT and cardRes.maxNum > 0:
@@ -18,7 +18,7 @@ func allPermCards():
 
 func allBattleCards():
     
-    var allCards:Array[CardRes] = Utils.allCardRes()
+    var allCards:Array[CardRes] = Card.allRes()
 
     for cardRes in allCards:    
         if cardRes.type == CardRes.CardType.BATTLE and cardRes.maxNum > 0:

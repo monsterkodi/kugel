@@ -55,25 +55,25 @@ func resourcesInDir(dir:String) -> Array[Resource]:
             if res: resources.append(res)
     return resources
     
-func allCardRes() -> Array[CardRes]:
-    
-    var ary:Array[CardRes] 
-    ary.assign(resourcesInDir("res://cards"))
-    return ary
-    
-func cardResWithName(cardName:String) -> CardRes:
-    
-    var cards = allCardRes()
-    var index = cards.find_custom(func(c): return c.name == cardName)
-    if index >= 0:
-        return cards[index]
-    return null
-
-func newCardWithName(cardName:String) -> Card:
-    
-    var cardRes = cardResWithName(cardName)
-    if cardRes: return Card.new(cardRes)
-    return null
+#func allCardRes() -> Array[CardRes]:
+    #
+    #var ary:Array[CardRes] 
+    #ary.assign(resourcesInDir("res://cards"))
+    #return ary
+    #
+#func cardResWithName(cardName:String) -> CardRes:
+    #
+    #var cards = allCardRes()
+    #var index = cards.find_custom(func(c): return c.name == cardName)
+    #if index >= 0:
+        #return cards[index]
+    #return null
+#
+#func newCardWithName(cardName:String) -> Card:
+    #
+    #var cardRes = cardResWithName(cardName)
+    #if cardRes: return Card.new(cardRes)
+    #return null
 
 func resourceNamesInDir(dir:String) -> PackedStringArray:
 

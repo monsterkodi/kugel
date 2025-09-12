@@ -1,4 +1,4 @@
-class_name Turret extends Building
+class_name Sniper extends Building
 
 @export var target : Node3D
 
@@ -7,7 +7,6 @@ var targetPos:Vector3
 var rot_slerp:float = 0.02
 var shotTween:Tween
 var speedCards:int
-var powerCards:int
 var rangeCards:int
 
 @onready var emitter: Emitter = %Emitter
@@ -29,13 +28,10 @@ func _ready():
 func applyCards():
     
     speedCards = Info.countPermCards(Card.TurretSpeed)
-    powerCards = Info.countPermCards(Card.TurretPower)
     rangeCards = Info.countPermCards(Card.TurretRange)
     
     emitter.delay    = 1.2  - speedCards * 0.2
     emitter.interval = 0.5  - speedCards * 0.07
-    emitter.velocity = 5.0  + powerCards * 2.0
-    emitter.mass     = 5.0  + powerCards * 10.0 
     setSensorRadius(4.0 + rangeCards * 1.0)
     rot_slerp = 0.02 + speedCards * 0.01
 
@@ -117,5 +113,4 @@ func shotFired():
     shotTween = create_tween()
     shotTween.set_ease(Tween.EASE_OUT)
     shotTween.set_trans(Tween.TRANS_BOUNCE)
-    shotTween.tween_property(%BarrelMesh, "position:z",  0.1 + 0.125 * powerCards, secs)
     shotTween.tween_property(%BarrelMesh, "position:z",  0.0, 2*secs)

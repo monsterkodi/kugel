@@ -71,7 +71,7 @@ func enemySpawned(spawner:Spawner):
 
 func cardChosen(card:Card):
         
-    if %Player.hand.get_child_count() < Info.maxHandCards() and card.isBattleCard():
+    if %Player.hand.get_child_count() < Info.battleCardSlots() and card.isBattleCard():
         %Player.hand.addCard(card)
     elif card.isPermanent():
         %Player.perm.addCard(card)
@@ -111,6 +111,7 @@ func restartLevel():
 func newGame():
     
     %Saver.clear()
+    %Player.perm.addCard(Card.withName(Card.BattleCard))
     restartLevel()
     
 func buildMode():

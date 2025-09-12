@@ -17,7 +17,8 @@ const CARD_LEVELS = [5, 5, 10, 10, 10, 20, 20, 20,
                     ]
                     
 const BUILDING_PRICES = {
-                    "Shield":  100,
+                    "Shield":  500,
+                    "Sniper":  100,
                     "Laser":   40,
                     "Turret":  20,
                     "Bouncer": 10,
@@ -49,22 +50,34 @@ func nextSetOfCards():
     
     #Log.log("nextSetOfCards", player.cardLevel)
     
-    var allCards:Array[CardRes] = Utils.allCardRes()
+    var allCards:Array[CardRes] = Card.allRes()
     var cards:Array[Card] = []
-    
+    #for c in allCards: Log.log(c.name)
     if numberOfCardsOwned(Card.SlotRing) < 3:
         #Log.log("nextSetOfCards add Slot Ring")
         var cardRes = allCards[allCards.find_custom(func(c): return c.name == Card.SlotRing)]
         allCards.erase(cardRes)
         cards.append(Card.new(cardRes))
-        if numberOfCardsOwned(Card.SlotRing) < 1:
-            cards.append(Card.new(cardRes))
-            cards.append(Card.new(cardRes))
-            return cards
+        #if numberOfCardsOwned(Card.SlotRing) < 1:
+            #cards.append(Card.new(cardRes))
+            #cards.append(Card.new(cardRes))
+            #return cards
             
     if numberOfCardsOwned(Card.Turret) < 1:
         #Log.log("nextSetOfCards add Turret")
         var cardRes = allCards[allCards.find_custom(func(c): return c.name == Card.Turret)]
+        allCards.erase(cardRes)
+        cards.append(Card.new(cardRes))
+
+    if numberOfCardsOwned(Card.Laser) < 1 and (player.cardLevel % 10) == 0:
+        #Log.log("nextSetOfCards add Turret")
+        var cardRes = allCards[allCards.find_custom(func(c): return c.name == Card.Laser)]
+        allCards.erase(cardRes)
+        cards.append(Card.new(cardRes))
+
+    if numberOfCardsOwned(Card.Sniper) < 1 and (player.cardLevel % 20) == 0:
+        #Log.log("nextSetOfCards add Turret")
+        var cardRes = allCards[allCards.find_custom(func(c): return c.name == Card.Laser)]
         allCards.erase(cardRes)
         cards.append(Card.new(cardRes))
     
@@ -84,9 +97,9 @@ func maxShieldHitPoints() -> int:
     
     return 1 + countPermCards(Card.ShieldLayer)
 
-func maxHandCards() -> int:
+func battleCardSlots() -> int:
     
-    return 1 + countPermCards(Card.BattleCard)
+    return countPermCards(Card.BattleCard)
 
 func countPermCards(cardName:String) -> int:
     

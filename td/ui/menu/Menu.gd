@@ -14,8 +14,9 @@ func vanished(): set_process_input(false)
 
 func _input(event: InputEvent):
     
-    if event.is_action_pressed("ui_cancel"):
-        #Log.log("Menu.cancel", self)
-        get_viewport().set_input_as_handled()
-        accept_event()
-        back()
+    if visible:
+        if event.is_action_pressed("ui_cancel"):
+            #Log.log("Menu.cancel", self)
+            get_viewport().set_input_as_handled()
+            accept_event()
+            back()

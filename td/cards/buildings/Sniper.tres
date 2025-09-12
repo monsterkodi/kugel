@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="CardRes" load_steps=3 format=3 uid="uid://b65vtcc3hh8n5"]
+
+[ext_resource type="PackedScene" uid="uid://dddhynxycfdhh" path="res://ui/cards/CardSniper.tscn" id="1_ost4g"]
+[ext_resource type="Script" uid="uid://dcn508r6heipo" path="res://player/CardRes.gd" id="2_h2tip"]
+
+[resource]
+script = ExtResource("2_h2tip")
+name = &"Sniper"
+text = "A Sniper that doesn't cost anything"
+maxNum = 5
+scene = ExtResource("1_ost4g")
+metadata/_custom_type_script = "uid://dcn508r6heipo"

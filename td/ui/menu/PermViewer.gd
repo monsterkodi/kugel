@@ -4,7 +4,7 @@ extends Menu
 const CARD_BUTTON = preload("uid://cj3gelhoeb5ps")
 const DECK_SIZE = Vector2i(225,160)
 
-var resumeOnBack = false
+var pauseOnBack = false
 
 func _on_visibility_changed():
     
@@ -31,9 +31,8 @@ func buttonPressed(button):
     
 func back():
     
-    if resumeOnBack:
-        %MenuHandler.vanish(self, "left")
-        Post.resumeGame.emit()
-        resumeOnBack = false
+    if pauseOnBack:
+        %MenuHandler.appear(%PauseMenu, "left")
+        pauseOnBack = false
     else:
         %MenuHandler.appear(%HandChooser, "left")

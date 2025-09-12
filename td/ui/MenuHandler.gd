@@ -136,6 +136,7 @@ func vanish(menu, from="bottom", sound=true):
             vanishTween.tween_property(menu, "anchor_left", 1, VANISH_TIME)
             vanishTween.parallel().tween_property(menu, "anchor_right", 2, VANISH_TIME)            
 
+    #Log.log("vanish", vanishMenu)
     vanishTween.tween_callback(menuVanished)
     return vanishTween
 

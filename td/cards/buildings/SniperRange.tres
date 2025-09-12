@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CardRes" load_steps=3 format=3 uid="uid://bv7r3syabkmpj"]
+
+[ext_resource type="PackedScene" uid="uid://btuecjcuqvv3o" path="res://ui/cards/CardSniperRange.tscn" id="1_ayf61"]
+[ext_resource type="Script" uid="uid://dcn508r6heipo" path="res://player/CardRes.gd" id="2_kh17j"]
+
+[resource]
+script = ExtResource("2_kh17j")
+name = &"Sniper Range"
+type = 1
+text = "A Snipers see farther"
+maxNum = 5
+scene = ExtResource("1_ayf61")
+metadata/_custom_type_script = "uid://dcn508r6heipo"

@@ -41,10 +41,15 @@ func _ready():
     %Body.position.y = -sf*1.4
     
     if activation_level == 0:
-        active = true
+        activate()
         %Hole.set_surface_override_material(0, spawnerHoleActiveMaterial)
     else:
         %Hole.set_surface_override_material(0, spawnerHolePassiveMaterial)
+
+func activate():
+    
+    active = true
+    Post.spawnerActivated.emit()
 
 func statChanged(statName, value):
     
@@ -52,7 +57,7 @@ func statChanged(statName, value):
         "numEnemiesSpawned":
             if value >= activation_level:
                 %Hole.set_surface_override_material(0, spawnerHoleActiveMaterial)
-                active = true
+                activate()
                 nextSpawnLoop()
                 Post.statChanged.disconnect(statChanged)
     
@@ -78,7 +83,7 @@ func nextSpawnLoop():
     velocity += velocity_increment
     velocity  = minf(velocity, velocity_max)
     
-    Log.log("mass", mass, "vel", velocity, "scale", spawnedBody.scale.x)
+    #Log.log("mass", mass, "vel", velocity, "scale", spawnedBody.scale.x)
     
     %Body.scale = spawnedBody.scale
     %Hole.scale = spawnedBody.scale

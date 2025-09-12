@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://btuecjcuqvv3o"]
+
+[ext_resource type="Script" uid="uid://c4yjjfy2pygi1" path="res://ui/cards/CardSniperRange.gd" id="1_sa5lc"]
+[ext_resource type="PackedScene" uid="uid://bfy4mqj2hlcl0" path="res://ui/cards/CardSetup.tscn" id="2_16wy1"]
+[ext_resource type="PackedScene" uid="uid://wjb8cyv4jvd8" path="res://world/buildings/Sniper.tscn" id="3_cphq1"]
+
+[node name="CardSniperRange" type="Node3D"]
+script = ExtResource("1_sa5lc")
+
+[node name="CardSetup" parent="." instance=ExtResource("2_16wy1")]
+cameraOffset = Vector2(0.09, 0.4)
+cameraFov = 22.674
+cameraHeight = 1.348
+
+[node name="Sniper" parent="." instance=ExtResource("3_cphq1")]
+unique_name_in_owner = true

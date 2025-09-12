@@ -1,0 +1,127 @@
+[gd_scene load_steps=17 format=3 uid="uid://wjb8cyv4jvd8"]
+
+[ext_resource type="Material" uid="uid://bxlvq722jmuid" path="res://materials/SniperMaterial.tres" id="1_e1wde"]
+[ext_resource type="Script" uid="uid://wbgce1e4vyn7" path="res://world/buildings/Sniper.gd" id="1_u6s15"]
+[ext_resource type="PhysicsMaterial" uid="uid://cxmvb6atqbyf0" path="res://materials/physics/DefaultPhysics.tres" id="3_qxwcm"]
+[ext_resource type="Script" uid="uid://v00gxfdr7qyk" path="res://components/Emitter.gd" id="4_l4bud"]
+[ext_resource type="PackedScene" uid="uid://b4x04vstro86m" path="res://world/Bullet.tscn" id="5_c5o07"]
+[ext_resource type="Shader" uid="uid://b7lpd6h1smubj" path="res://materials/visual/CircleMatVis.tres" id="7_v1t5n"]
+[ext_resource type="Material" uid="uid://du8bjg8b10yx2" path="res://materials/TurretBaseMaterial.tres" id="8_cbqk3"]
+[ext_resource type="AudioStream" uid="uid://cssur2kuvk3p" path="res://sounds/tick.wav" id="9_hricq"]
+
+[sub_resource type="TorusMesh" id="TorusMesh_u6s15"]
+inner_radius = 0.163
+outer_radius = 0.299
+rings = 32
+ring_segments = 16
+
+[sub_resource type="TorusMesh" id="TorusMesh_p61hx"]
+inner_radius = 0.247
+outer_radius = 0.401
+rings = 32
+ring_segments = 16
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_iwplw"]
+radius = 0.25
+height = 1.0
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_vc5tq"]
+radius = 1.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ail6x"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rlav8"]
+render_priority = 2
+shader = ExtResource("7_v1t5n")
+shader_parameter/Color = Color(0.56799984, 0.45999998, 1, 0.078431375)
+shader_parameter/OuterRadius = 0.999999977648
+shader_parameter/InnerRadius = 0.9499999787656
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_km8to"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_iwplw"]
+height = 1.0
+
+[node name="Sniper" type="Node3D"]
+script = ExtResource("1_u6s15")
+
+[node name="BarrelTarget" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="BarrelPivot" type="Node3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 1.5, 0)
+
+[node name="TousMesh1" type="MeshInstance3D" parent="BarrelPivot"]
+transform = Transform3D(1, 0, 0, 0, -8.742278e-08, -1, 0, 2, -4.371139e-08, 0, -4.257614e-09, -0.3375976)
+mesh = SubResource("TorusMesh_u6s15")
+surface_material_override/0 = ExtResource("1_e1wde")
+
+[node name="TousMesh2" type="MeshInstance3D" parent="BarrelPivot"]
+transform = Transform3D(1, 0, 0, 0, -8.742278e-08, -1, 0, 2, -4.371139e-08, 0, -1.90307e-08, 0.00037121773)
+mesh = SubResource("TorusMesh_p61hx")
+surface_material_override/0 = ExtResource("1_e1wde")
+
+[node name="TousMesh3" type="MeshInstance3D" parent="BarrelPivot"]
+transform = Transform3D(1, 0, 0, 0, -8.742278e-08, -1, 0, 2, -4.371139e-08, 0, -3.397359e-08, 0.34222466)
+mesh = SubResource("TorusMesh_u6s15")
+surface_material_override/0 = ExtResource("1_e1wde")
+
+[node name="AnimatableBody3D" type="AnimatableBody3D" parent="BarrelPivot"]
+collision_layer = 4
+collision_mask = 0
+physics_material_override = ExtResource("3_qxwcm")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BarrelPivot/AnimatableBody3D"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_iwplw")
+
+[node name="Emitter" type="Node3D" parent="BarrelPivot"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.51348495)
+script = ExtResource("4_l4bud")
+bullet = ExtResource("5_c5o07")
+metadata/_custom_type_script = "uid://v00gxfdr7qyk"
+
+[node name="Sensor" type="Area3D" parent="."]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 2
+input_ray_pickable = false
+monitorable = false
+linear_damp_space_override = 1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Sensor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CylinderShape3D_vc5tq")
+
+[node name="SensorPlane" type="MeshInstance3D" parent="Sensor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
+mesh = SubResource("PlaneMesh_ail6x")
+surface_material_override/0 = SubResource("ShaderMaterial_rlav8")
+
+[node name="Base" type="StaticBody3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+collision_layer = 4
+collision_mask = 0
+physics_material_override = ExtResource("3_qxwcm")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Base"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+mesh = SubResource("CapsuleMesh_km8to")
+surface_material_override/0 = ExtResource("8_cbqk3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Base"]
+shape = SubResource("CylinderShape3D_iwplw")
+
+[node name="fire" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("9_hricq")
+attenuation_model = 2
+volume_db = -6.0
+unit_size = 4.0
+
+[connection signal="shotFired" from="BarrelPivot/Emitter" to="." method="shotFired"]
+[connection signal="body_entered" from="Sensor" to="." method="_on_sensor_body_entered"]
+[connection signal="body_exited" from="Sensor" to="." method="_on_sensor_body_exited"]

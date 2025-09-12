@@ -26,7 +26,7 @@ func fromDict(dict:Dictionary):
     #Log.log("Deck.fromDict", dict)
     Utils.freeChildren(self)
     for cardName in dict.cards:
-        var card = Utils.newCardWithName(cardName)
+        var card = Card.withName(cardName)
         if card: addCard(card)
         else: Log.log("no card with name", cardName)
         

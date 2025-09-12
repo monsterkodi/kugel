@@ -10,8 +10,8 @@ var mass      = 1.0
 
 signal shotFired
 
-var delayTimer:Timer
-var shootTimer:Timer
+var delayTimer : Timer
+var shootTimer : Timer
 
 var world : World
 
@@ -53,6 +53,7 @@ func shoot():
         world.currentLevel.get_node("Bullets").add_child(instance)
         instance.mass = mass
         instance.global_transform = global_transform
-        instance.linear_velocity = global_transform.basis.z * -velocity
-        shotFired.emit()
+        instance.linear_velocity = global_transform.basis.z * -velocity * mass
         %fire.play()
+        
+    shotFired.emit()

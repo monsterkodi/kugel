@@ -28,6 +28,7 @@ signal settings
 signal quitGame
 signal clockFactor
 signal clockTick
+signal spawnerActivated
 
 var sigDict:Dictionary
 
