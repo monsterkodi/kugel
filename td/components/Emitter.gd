@@ -32,8 +32,11 @@ func _ready():
     
 func start():
     
-    if shootTimer.is_stopped() and delayTimer.is_stopped():
-        delayTimer.start(delay)
+    if delay == 0.0:
+        startShooting()
+    else:
+        if shootTimer.is_stopped() and delayTimer.is_stopped():
+            delayTimer.start(delay)
     
 func stop():
     

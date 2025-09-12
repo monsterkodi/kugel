@@ -97,7 +97,7 @@ script = ExtResource("1_f0k3j")
 
 [node name="Floor" type="StaticBody3D" parent="."]
 collision_layer = 2147483648
-collision_mask = 43
+collision_mask = 59
 physics_material_override = ExtResource("2_dn5x0")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]

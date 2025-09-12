@@ -5,7 +5,7 @@
 
 [resource]
 script = ExtResource("2_cdjek")
-name = &"Sniper"
+name = &"Sniper Speed"
 type = 1
 text = "Snipers turn and reload faster"
 maxNum = 5

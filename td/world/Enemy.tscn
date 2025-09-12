@@ -10,7 +10,7 @@
 
 [node name="Enemy" type="RigidBody3D" groups=["enemy", "level"]]
 collision_layer = 2
-collision_mask = 2147483951
+collision_mask = 2147483967
 physics_material_override = ExtResource("1_s7bn3")
 contact_monitor = true
 max_contacts_reported = 2

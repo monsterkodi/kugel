@@ -10,7 +10,7 @@ func dead():  return health <= 0
 func die():
     
     %died.play(0.09)
-    
+    collision_layer = Layer.LayerDying
     health = 0
     %Attraction.disable()
     get_tree().create_timer(2.0).connect("timeout", makeCorpse)

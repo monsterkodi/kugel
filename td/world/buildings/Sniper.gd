@@ -1,16 +1,18 @@
 class_name Sniper extends Building
 
-@export var target : Node3D
+@export var target  : Node3D
 
-var sensorBodies:Array[Node3D]
-var targetPos:Vector3
-var rot_slerp:float = 0.02
-var shotTween:Tween
-var speedCards:int
-var rangeCards:int
+var sensorBodies    : Array[Node3D]
+var targetPos       : Vector3
+var rot_slerp       : float = 0.02
+var interval        : float
+var shotTween       : Tween
+var speedCards      : int
+var rangeCards      : int
 
-@onready var emitter: Emitter = %Emitter
-    
+@onready var ray: RayCast3D = %Ray
+@onready var reloadTimer: Timer = %reloadTimer
+
 func _ready():
     
     if not global_position.is_zero_approx():
@@ -27,13 +29,13 @@ func _ready():
     
 func applyCards():
     
-    speedCards = Info.countPermCards(Card.TurretSpeed)
-    rangeCards = Info.countPermCards(Card.TurretRange)
+    speedCards = Info.countPermCards(Card.SniperSpeed)
+    rangeCards = Info.countPermCards(Card.SniperRange)
     
-    emitter.delay    = 1.2  - speedCards * 0.2
-    emitter.interval = 0.5  - speedCards * 0.07
-    setSensorRadius(4.0 + rangeCards * 1.0)
-    rot_slerp = 0.02 + speedCards * 0.01
+    setSensorRadius(8.0 + rangeCards * 2.0)
+    
+    interval  = 2.5  - speedCards * 0.3
+    rot_slerp = 0.03 + speedCards * 0.01
 
 func setSensorRadius(r:float):  
 
@@ -42,39 +44,30 @@ func setSensorRadius(r:float):
 func _physics_process(_delta:float):
     
     if target and target is Enemy:
+        
         if target.health <= 0:
             _on_sensor_body_exited(target)
-            return
+            if not target:
+                return
                     
         calcTargetPos()
-        
-    $BarrelPivot.transform.basis = $BarrelPivot.transform.basis.slerp($BarrelTarget.transform.basis, rot_slerp)
+        $BarrelPivot.transform.basis = $BarrelPivot.transform.basis.slerp($BarrelTarget.transform.basis, rot_slerp)
+        calcTargetAngle()
+    else:
+        $BarrelPivot.transform.basis = $BarrelPivot.transform.basis.slerp($BarrelTarget.transform.basis, rot_slerp)
+    
+func calcTargetAngle():
+    
+    if reloadTimer.is_stopped():
+    
+        var angle = $BarrelPivot.global_basis.z.angle_to($BarrelTarget.global_basis.z)
+        if rad_to_deg(angle) < 2:
+            shoot()
     
 func calcTargetPos():
     
-    var state:PhysicsDirectBodyState3D = PhysicsServer3D.body_get_direct_state(target.get_rid())
-    var velocity = state.linear_velocity
-    velocity.y = 0
-    
-    var D = target.global_position - emitter.global_position
-    var V_b = emitter.velocity
-    var V_t = velocity
-    var a = V_b * V_b - V_t.dot(V_t)
-    var b = -2 * D.dot(V_t)
-    var c = -D.dot(D)
-    var discriminant = b*b - 4*a*c
-    if discriminant >= 0:
-        var ds = sqrt(discriminant)
-        var t1 = (-b - ds) / (2*a)
-        var t2 = (-b + ds) / (2*a)
-        var t = null
-        if t1 >= 0 and t2 >= 0:
-            t = min(t1, t2)
-        elif t1 >= 0: t = t1
-        elif t2 >= 0: t = t2
-        if t != null:
-            setTargetPos(target.global_position + V_t * t)
-            
+    setTargetPos(target.global_position)
+                
 func setTargetPos(pos:Vector3):
     
     targetPos = pos
@@ -84,9 +77,11 @@ func _on_sensor_body_entered(body: Node3D):
     
     if body.health > 0:
         sensorBodies.append(body)
+        Log.log("targets++", sensorBodies)
         if not target:
             target = sensorBodies.front()
-            emitter.start()
+    else:
+        Log.log("targets??", body)
 
 func _on_sensor_body_exited(body: Node3D):
     
@@ -95,22 +90,27 @@ func _on_sensor_body_exited(body: Node3D):
         return
     
     sensorBodies.erase(body)
-    
-    if body == target:
-        if sensorBodies.size():
-            target = sensorBodies.front()
-        else:
-            target = null
-            emitter.stop()
+    Log.log("targets--", sensorBodies)
+    if sensorBodies.size():
+        Log.log("next target")
+        target = sensorBodies.front()
+    else:
+        Log.log("no target")
+        target = null
 
 func lookUp():
     
     $BarrelTarget.look_at(global_position + Vector3.UP*10 + Vector3.RIGHT*0.001)
 
-func shotFired():
+func shoot():
     
-    var secs = emitter.interval / 3.0
-    shotTween = create_tween()
-    shotTween.set_ease(Tween.EASE_OUT)
-    shotTween.set_trans(Tween.TRANS_BOUNCE)
-    shotTween.tween_property(%BarrelMesh, "position:z",  0.0, 2*secs)
+    %SniperRay.shoot()
+    reloadTimer.start(interval)
+    
+    ray.target_position = targetPos
+    ray.force_raycast_update()
+    var collider = ray.get_collider()
+    if collider:
+        collider.die()
+        _on_sensor_body_exited(collider)
+        shoot()

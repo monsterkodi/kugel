@@ -73,6 +73,7 @@ func levelStart():
 func nextSpawnLoop():    
     
     spawnedBody = spawnee.instantiate()
+    spawnedBody.collision_layer = 0
     spawnedBody.freeze = true
     spawnedBody.setMass(mass)
 
@@ -111,6 +112,7 @@ func clockTick():
     if not spawnedBody: return
     
     spawnedBody.setMass(mass)
+    spawnedBody.collision_layer = Layer.LayerEnemy
     spawnedBody.freeze = false
     spawnedBody.apply_central_impulse(%SpawnPoint.global_basis.x.normalized() * velocity*mass)
     spawnedBody.spawned = true

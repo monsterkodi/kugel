@@ -6,11 +6,12 @@
 
 [node name="CardSniper" type="Node3D"]
 script = ExtResource("1_56iq2")
+lookAt = Vector3(11.96, -2.52, 6.04)
 
 [node name="CardSetup" parent="." instance=ExtResource("3_aqebu")]
-cameraOffset = Vector2(0.09, 0.4)
-cameraFov = 22.674
-cameraHeight = 1.348
+cameraOffset = Vector2(0, 0.39)
+cameraFov = 22.238
+cameraHeight = 1.0
 
 [node name="Sniper" parent="." instance=ExtResource("3_56iq2")]
 unique_name_in_owner = true
