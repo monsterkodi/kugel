@@ -18,12 +18,12 @@ func _ready():
         Post.startLevel.emit()
     
 func _process(delta: float):
-    
-    var orphan = Node.get_orphan_node_ids()
-    if not orphan.is_empty():
-        Node.print_orphan_nodes()
-        Log.log("orphans")
-        #quitGame()
+    pass
+    #var orphan = Node.get_orphan_node_ids()
+    #if not orphan.is_empty():
+        #Node.print_orphan_nodes()
+        #Log.log("orphans")
+        ##quitGame()
         
 func _unhandled_input(event: InputEvent):
     
@@ -95,6 +95,7 @@ func startLevel():
     Log.log("startLevel")
     if currentLevel:
         currentLevel.free()
+        
     currentLevel = LEVEL.instantiate()
     add_child(currentLevel)
     
@@ -106,6 +107,8 @@ func startLevel():
 func restartLevel():
     
     pauseGame()
+    if Info.numberOfCardsOwned(Card.BattleCard) < 1:
+        %Player.perm.addCard(Card.withName(Card.BattleCard))
     %MenuHandler.appear(%HandChooser)
 
 func newGame():
@@ -128,7 +131,8 @@ func pauseMenu():
         
 func pauseGame():
     
-    %MenuHandler.slideOut(%Hud)
+    %MenuHandler.slideOutTop(%Hud)
+    %MenuHandler.slideOutRight(%BattleCards)
     
     get_tree().call_group("game", "gamePaused")
     get_tree().paused = true
@@ -136,7 +140,9 @@ func pauseGame():
 func resumeGame():
     
     %MenuHandler.vanishActive()
-    %MenuHandler.slideIn(%Hud)
+    
+    %MenuHandler.slideInTop(%Hud)
+    %MenuHandler.slideInRight(%BattleCards)
     
     get_tree().paused = false
     get_tree().call_group("game", "gameResumed")

@@ -10,8 +10,10 @@ func _ready():
 func onHover():
     
     get_parent().grab_focus()
-    get_parent().button_pressed = true
+    if get_parent() is Button:
+        get_parent().button_pressed = true
 
 func onLeave():
 
-    get_parent().button_pressed = false
+    if get_parent() is Button:
+        get_parent().button_pressed = false

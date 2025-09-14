@@ -12,7 +12,7 @@ func levelStart():
     
     Utils.freeChildren(%Cards)
     for card in %Player.hand.get_children():
-        if card.res.name == Card.Shield: continue
+        #if card.res.name == Card.Shield: continue
         addCardButton(card)
         
     visible = true

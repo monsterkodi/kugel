@@ -93,9 +93,9 @@ func addShield():
     get_parent_node_3d().add_child(shield)
     shield.global_position = Vector3.ZERO
 
-func levelStart():
-    
-    for card in hand.get_children():
-        match card.res.name:
-            Card.Shield: addShield()
-            _: pass #Log.log("card", card.res.name)
+#func levelStart():
+    #
+    #for card in hand.get_children():
+        #match card.res.name:
+            #Card.Shield: addShield()
+            #_: pass #Log.log("card", card.res.name)

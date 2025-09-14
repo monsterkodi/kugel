@@ -33,7 +33,7 @@ func _ready():
         
 func setLength(length):
     
-    if laser:
+    if laser and laser.mesh.height != length:
         laser.mesh.height = length
         laser.position.z = -0.5 * length
         rc.target_position.z = -length

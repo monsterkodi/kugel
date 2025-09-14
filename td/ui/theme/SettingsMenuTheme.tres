@@ -61,7 +61,7 @@ corner_radius_top_left = 25
 corner_radius_top_right = 25
 corner_radius_bottom_right = 25
 corner_radius_bottom_left = 25
-expand_margin_left = 13.0
+expand_margin_left = 15.0
 expand_margin_top = 25.0
 expand_margin_bottom = 25.0
 
@@ -105,6 +105,7 @@ Button/styles/hover = SubResource("StyleBoxFlat_lcka2")
 Button/styles/hover_pressed = SubResource("StyleBoxFlat_lcka2")
 Button/styles/normal = SubResource("StyleBoxFlat_nopln")
 Button/styles/pressed = SubResource("StyleBoxFlat_nopln")
+HBoxContainer/constants/separation = 20
 HSlider/icons/grabber = SubResource("GradientTexture2D_mcp3o")
 HSlider/icons/grabber_disabled = SubResource("GradientTexture2D_mcp3o")
 HSlider/icons/grabber_highlight = SubResource("GradientTexture2D_mcp3o")

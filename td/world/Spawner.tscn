@@ -49,6 +49,7 @@ surface_material_override/0 = ExtResource("2_gfquv")
 [node name="Body" type="AnimatableBody3D" parent="."]
 unique_name_in_owner = true
 collision_layer = 1073741824
+sync_to_physics = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Body"]
 transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
@@ -60,9 +61,8 @@ transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 0
 mesh = SubResource("TorusMesh_8b0r0")
 surface_material_override/0 = SubResource("ShaderMaterial_7j3mf")
 
-[node name="SpawnPoint" type="Node3D" parent="Body/Torus"]
+[node name="SpawnPoint" type="Node3D" parent="Body"]
 unique_name_in_owner = true
-transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="enemySpawned" type="AudioStreamPlayer3D" parent="."]
 unique_name_in_owner = true

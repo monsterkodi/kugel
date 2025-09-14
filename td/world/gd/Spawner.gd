@@ -78,6 +78,7 @@ func nextSpawnLoop():
     spawnedBody.setMass(mass)
 
     world.currentLevel.get_node("Enemies").add_child(spawnedBody)
+    spawnedBody.global_position = %SpawnPoint.global_position
     
     mass     += mass_increment
     mass      = minf(mass, mass_max)
@@ -95,16 +96,14 @@ func clockFactor(factor):
         
     if factor < 1/6.0:
         %Body.global_position.y = lerpf(1.2*%Body.scale.x, -1.2*%Body.scale.x, factor/(1.0/6.0))
-        #%Body.scale = spawnedBody.scale
     else:
         if not spawnedBody:
             nextSpawnLoop()
 
         var spawnFactor = (factor-1.0/6.0)/(5.0/6.0)
-        %Body.scale = spawnedBody.scale
         %Body.global_position.y = lerpf(-1.2*%Body.scale.x, 1.2*%Body.scale.x, spawnFactor)
         spawnedBody.global_position = %SpawnPoint.global_position
-        spawnedBody.global_position += curve.sample(spawnFactor) * %SpawnPoint.global_basis.x.normalized()
+        spawnedBody.global_position += curve.sample(spawnFactor) * %SpawnPoint.global_basis.x.normalized() * %Body.scale.x
 
 func clockTick():
     

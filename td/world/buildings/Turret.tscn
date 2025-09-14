@@ -1,11 +1,9 @@
-[gd_scene load_steps=19 format=3 uid="uid://kktahfiaqllg"]
+[gd_scene load_steps=16 format=3 uid="uid://kktahfiaqllg"]
 
 [ext_resource type="Script" uid="uid://tsel3doxtedq" path="res://world/buildings/Turret.gd" id="1_w3f5i"]
 [ext_resource type="Material" uid="uid://vyhfqa37hcxi" path="res://materials/LackBlue.tres" id="2_vc5tq"]
 [ext_resource type="PhysicsMaterial" uid="uid://cxmvb6atqbyf0" path="res://materials/physics/DefaultPhysics.tres" id="3_vc5tq"]
-[ext_resource type="Script" uid="uid://v00gxfdr7qyk" path="res://components/Emitter.gd" id="4_d3wxe"]
 [ext_resource type="PackedScene" uid="uid://b4x04vstro86m" path="res://world/Bullet.tscn" id="5_lugvd"]
-[ext_resource type="Material" uid="uid://3v18iaooapfs" path="res://materials/TurretTipMaterial.tres" id="6_rlav8"]
 [ext_resource type="Shader" uid="uid://b7lpd6h1smubj" path="res://materials/visual/CircleMatVis.tres" id="6_wsb1a"]
 [ext_resource type="AudioStream" uid="uid://cssur2kuvk3p" path="res://sounds/tick.wav" id="8_ail6x"]
 [ext_resource type="Material" uid="uid://du8bjg8b10yx2" path="res://materials/TurretBaseMaterial.tres" id="8_kyse0"]
@@ -24,9 +22,6 @@ ring_segments = 16
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_iwplw"]
 radius = 0.25
 height = 1.0
-
-[sub_resource type="QuadMesh" id="QuadMesh_2cj6m"]
-size = Vector2(0.4, 0.4)
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_vc5tq"]
 radius = 1.0
@@ -47,6 +42,7 @@ height = 1.0
 
 [node name="Turret" type="Node3D"]
 script = ExtResource("1_w3f5i")
+bulletRes = ExtResource("5_lugvd")
 
 [node name="BarrelTarget" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
@@ -79,16 +75,6 @@ shape = SubResource("CapsuleShape3D_iwplw")
 [node name="Emitter" type="Node3D" parent="BarrelPivot"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.51348495)
-script = ExtResource("4_d3wxe")
-bullet = ExtResource("5_lugvd")
-metadata/_custom_type_script = "uid://v00gxfdr7qyk"
-
-[node name="TurretTip" type="MeshInstance3D" parent="BarrelPivot/Emitter"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.113527775)
-visible = false
-cast_shadow = 0
-mesh = SubResource("QuadMesh_2cj6m")
-surface_material_override/0 = ExtResource("6_rlav8")
 
 [node name="Sensor" type="Area3D" parent="."]
 unique_name_in_owner = true
@@ -129,6 +115,9 @@ attenuation_model = 2
 volume_db = -6.0
 unit_size = 4.0
 
-[connection signal="shotFired" from="BarrelPivot/Emitter" to="." method="shotFired"]
+[node name="reloadTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+one_shot = true
+
 [connection signal="body_entered" from="Sensor" to="." method="_on_sensor_body_entered"]
 [connection signal="body_exited" from="Sensor" to="." method="_on_sensor_body_exited"]

@@ -1,10 +1,13 @@
 class_name MenuHandler
 extends CanvasLayer
 
-const APPEAR_TIME     = 1.0
-const VANISH_TIME     = 1.0
-const SLIDE_IN_TIME   = 0.5
-const SLIDE_OUT_TIME  = 1.0
+static var TIMESCALE       = 0.4
+static var APPEAR_TIME     = 1     * TIMESCALE
+static var VANISH_TIME     = 1     * TIMESCALE
+static var SLIDE_IN_TIME   = 0.5   * TIMESCALE
+static var SLIDE_OUT_TIME  = 1     * TIMESCALE
+
+const SLIDE_RIGHT     = 1.0/8.0
 
 const MENU_EASE  = Tween.EASE_IN_OUT
 const MENU_TRANS = Tween.TRANS_SINE
@@ -23,9 +26,6 @@ func _unhandled_input(event: InputEvent):
     if event.is_action_pressed("ui_cancel"):
         if get_tree().paused:
             Log.log("MENU HANDLER CANCEL!")
-            #get_viewport().set_input_as_handled()
-            #Post.resumeGame.emit()
-            #return
                 
 func hideAllMenus():
     
@@ -136,7 +136,6 @@ func vanish(menu, from="bottom", sound=true):
             vanishTween.tween_property(menu, "anchor_left", 1, VANISH_TIME)
             vanishTween.parallel().tween_property(menu, "anchor_right", 2, VANISH_TIME)            
 
-    #Log.log("vanish", vanishMenu)
     vanishTween.tween_callback(menuVanished)
     return vanishTween
 
@@ -158,7 +157,7 @@ func menuVanished():
     else:
         Log.log("NO VANISH MENU?")
 
-func slideIn(menu:Control):
+func slideInTop(menu:Control):
 
     menu.show()
     
@@ -172,7 +171,7 @@ func slideIn(menu:Control):
     tween.parallel().tween_property(menu, "anchor_bottom", 1, SLIDE_IN_TIME)
     return tween
     
-func slideOut(menu:Control):
+func slideOutTop(menu:Control):
 
     menu.anchor_top    = 0
     menu.anchor_bottom = 1
@@ -180,5 +179,30 @@ func slideOut(menu:Control):
     var tween = create_tween()
     tween.tween_property(menu, "anchor_top", 0 - menu.size.y/1080.0, SLIDE_OUT_TIME)
     tween.parallel().tween_property(menu, "anchor_bottom", 1 - menu.size.y/1080.0, SLIDE_OUT_TIME)
+    tween.tween_callback(menu.hide)
+    return tween    
+
+func slideInRight(menu:Control):
+
+    menu.show()
+    
+    menu.anchor_left  = 0 + SLIDE_RIGHT
+    menu.anchor_right = 1 + SLIDE_RIGHT
+        
+    var tween = create_tween()
+    tween.set_ease(Tween.EASE_OUT)
+    tween.set_trans(Tween.TRANS_QUINT)
+    tween.tween_property(menu, "anchor_left", 0, SLIDE_IN_TIME)
+    tween.parallel().tween_property(menu, "anchor_right", 1, SLIDE_IN_TIME)
+    return tween
+    
+func slideOutRight(menu:Control):
+
+    menu.anchor_left  = 0
+    menu.anchor_right = 1
+    
+    var tween = create_tween()
+    tween.tween_property(menu, "anchor_left", 0 + SLIDE_RIGHT, SLIDE_OUT_TIME)
+    tween.parallel().tween_property(menu, "anchor_right", 1 + SLIDE_RIGHT, SLIDE_OUT_TIME)
     tween.tween_callback(menu.hide)
     return tween    

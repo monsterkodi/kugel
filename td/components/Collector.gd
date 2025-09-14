@@ -24,26 +24,27 @@ func _physics_process(delta:float):
     
     for corpse in corpses:
         if corpse == null or corpse.is_queued_for_deletion() or not corpse.is_inside_tree(): continue 
-        var dir = global_position - corpse.global_position
+        var dir = global_position + Vector3.UP * 0.5 - corpse.global_position
         var dst = dir.length()
-        if dst < 0.5:
+        if dst < 0.25:
             corpse.queue_free()
             corpses.erase(corpse)
             Post.corpseCollected.emit(self)
         else:
-            var scl = lerpf(corpse.scale.x, 0.2, clampf(1.0-dst/radius, 0.0, 0.2)*delta)
+            var scl = lerpf(corpse.scale.x, 0.4, 2*delta)
             corpse.scale = Vector3(scl, scl, scl)
-            corpse.apply_central_impulse(dir*delta*0.1)
+            corpse.global_position += 10 * delta * dir.normalized()
 
 func bodyEntered(body:Node3D):
 
     if body.is_in_group("enemy") and body.health <= 0:
         var corpse:RigidBody3D = body
-        corpse.mass            = 0.01
-        corpse.gravity_scale   = 0
-        corpse.collision_mask  = Layer.LayerFloor
+        #corpse.mass            = 0 # 0.01
+        #corpse.gravity_scale   = 0
+        corpse.collision_mask  = 0 # Layer.LayerFloor
         corpse.collision_layer = 0
-        corpse.linear_velocity = Vector3.ZERO
+        #corpse.linear_velocity = Vector3.ZERO
+        corpse.freeze          = true
         corpses.append(corpse)
 
 func onEnemyDied(enemy:Enemy):

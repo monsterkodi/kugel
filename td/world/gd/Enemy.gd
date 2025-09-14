@@ -1,8 +1,8 @@
 class_name Enemy extends RigidBody3D
 
-var health = 1.0
+var health      = 1.0
 var damageAccum = 0.0
-var spawned = false
+var spawned     = false
 
 func alive(): return health > 0
 func dead():  return health <= 0
@@ -29,7 +29,7 @@ func makeCorpse():
     
 func setMass(m:float):
     
-    mass = maxf(m, 0.5)
+    mass   = maxf(m, 0.5)
     health = mass-0.5
     
     var r = pow(mass/4.1888, 1.0/3.0)
@@ -42,17 +42,18 @@ func level_reset():
     
 func _integrate_forces(state: PhysicsDirectBodyState3D):
     
-    for i in range(get_contact_count()):
-        var collider:PhysicsBody3D = state.get_contact_collider_object(i)
-        if collider and collider.collision_layer != Layer.LayerFloor:
-            var damage = minf(state.get_contact_impulse(i).length()*0.1, 1.5)
-            applyDamage(damage, collider)
+    if alive():
+        for i in range(get_contact_count()):
+            var collider:PhysicsBody3D = state.get_contact_collider_object(i)
+            if collider and collider.collision_layer != Layer.LayerFloor:
+                var damage = minf(state.get_contact_impulse(i).length()*0.1, 1.5)
+                applyDamage(damage, collider)
+                
+        if damageAccum:
+            applyDamage(damageAccum, null)
+            damageAccum = 0
             
-    if damageAccum:
-        applyDamage(damageAccum, null)
-        damageAccum = 0
-            
-    if health <= 0:
+    if dead():
         if global_position.length_squared() > 2500:
             linear_velocity = linear_velocity.bounce(-global_position.normalized())
 
@@ -64,9 +65,7 @@ func applyDamage(damage:float, source:PhysicsBody3D):
     
     if alive():
         setMass(mass-damage)
-        
-        if health <= 0:
-            die()
+        if health <= 0: die()
             
     if source is Bullet:
         %hit.play()

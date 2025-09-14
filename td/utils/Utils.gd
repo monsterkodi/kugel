@@ -10,6 +10,15 @@ func nameDict(arr:Array) -> Dictionary:
 func methodDict(node:Node): return nameDict(node.get_method_list())
 func signalDict(node:Node): return nameDict(node.get_signal_list())
 
+func trimFloat(f:float, decimals=1):
+    
+    var fmt = "%.{0}f".format([decimals])
+    var str = fmt % f
+    if str == "0.0": str = "0"
+    if str.find(".") > 0:
+        str = str.rstrip(".0")
+    return str
+
 func setParent(node:Node, newParent:Node):
     
     if node.get_parent():

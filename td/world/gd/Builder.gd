@@ -33,7 +33,7 @@ func placeBuilding():
                 var type = old.type
                 Wallet.addPrice(Info.priceForBuilding(type))
                 old.free()
-                if building.name == "Sell" and type == "Sell":
+                if building.name == "Sell": #and type == "Sell":
                     building.free()
                     return
     targetSlot.add_child(building)
@@ -106,7 +106,7 @@ func appear(trans:Transform3D):
     appearTween = vehicle.create_tween()
     appearTween.set_ease(Tween.EASE_OUT)
     appearTween.set_trans(Tween.TRANS_QUINT)
-    appearTween.tween_property(vehicle.body, "position:y", 3, 1.0)
+    appearTween.tween_property(vehicle.body, "position:y", 3, MenuHandler.APPEAR_TIME)
 
 func vanish():
     
@@ -116,7 +116,7 @@ func vanish():
         vanishTween = vehicle.create_tween()
         vanishTween.set_ease(Tween.EASE_IN)
         vanishTween.set_trans(Tween.TRANS_QUINT)
-        vanishTween.tween_property(vehicle.body, "position:y", 32, 0.5)
+        vanishTween.tween_property(vehicle.body, "position:y", 32, MenuHandler.VANISH_TIME)
         vanishTween.finished.connect(freeVehicle)
     
 func freeGhost():

@@ -8,6 +8,11 @@ func _on_visibility_changed():
         %Timescale.value  = Engine.time_scale
         %EnemySpeed.value = Info.enemySpeed
         %Volume.value     = AudioServer.get_bus_volume_linear(AudioServer.get_bus_index("Master"))
+             
+        onBrightness(%Brightness.value)
+        onTimescale(%Timescale.value)       
+        onEnemySpeed(%EnemySpeed.value)
+        onVolume(%Volume.value)
         
 func appeared():
     
@@ -21,6 +26,8 @@ func onButtonHover(button: Node):
 func onBrightness(value):
     
     %Camera.get_node("Light").light_energy = value
+    
+    %BrightnessValue.text = Utils.trimFloat(%Brightness.value, 1)
 
 func onTimescale(value):
     
@@ -32,16 +39,22 @@ func onTimescale(value):
         
     Log.log("ticks per second", Engine.physics_ticks_per_second, "timescale", Engine.time_scale)
 
+    %TimescaleValue.text = Utils.trimFloat(%Timescale.value, 2)
+    
 func onEnemySpeed(value):
     
     Info.enemySpeed = value
     Post.statChanged.emit("enemySpeed", value)
     Log.log("enemySpeed", value)
+    
+    %EnemySpeedValue.text = Utils.trimFloat(%EnemySpeed.value, 1)
 
 func onVolume(value):
     
     Post.statChanged.emit("volume", value)
     AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), linear_to_db(value))
+    
+    %VolumeValue.text = str(int(%Volume.value))
     
 func on_save(data:Dictionary):
 
