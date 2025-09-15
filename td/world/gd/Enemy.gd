@@ -13,7 +13,11 @@ func die():
     collision_layer = Layer.LayerDying
     health = 0
     %Attraction.disable()
-    get_tree().create_timer(2.0).connect("timeout", makeCorpse)
+    var tween = create_tween()
+    tween.set_process_mode(Tween.TWEEN_PROCESS_PHYSICS)
+    tween.tween_method(setMass, mass, 0.5, 1.0)
+    tween.tween_callback(makeCorpse)
+    #get_tree().create_timer(2.0).connect("timeout", makeCorpse)
     
 func getColor() -> Color:
     
@@ -30,7 +34,6 @@ func makeCorpse():
 func setMass(m:float):
     
     mass   = maxf(m, 0.5)
-    health = mass-0.5
     
     var r = pow(mass/4.1888, 1.0/3.0)
     scale = Vector3(r, r, r)
@@ -54,8 +57,14 @@ func _integrate_forces(state: PhysicsDirectBodyState3D):
             damageAccum = 0
             
     if dead():
-        if global_position.length_squared() > 2500:
-            linear_velocity = linear_velocity.bounce(-global_position.normalized())
+        var lsq = global_position.length_squared()
+        if lsq > 2500:
+            if collision_layer == Layer.LayerCorpse:
+                linear_velocity = -global_position.normalized()*clampf((lsq-2500)*0.1, 0, 10)
+                linear_velocity.y = 0
+            else:
+                linear_velocity = linear_velocity.bounce(-global_position.normalized())
+                linear_velocity *= 0.9
 
 func addDamage(damage:float):
     
@@ -64,7 +73,9 @@ func addDamage(damage:float):
 func applyDamage(damage:float, source:PhysicsBody3D):
     
     if alive():
+        
         setMass(mass-damage)
+        health = mass-0.5
         if health <= 0: die()
             
     if source is Bullet:

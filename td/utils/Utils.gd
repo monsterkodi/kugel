@@ -1,5 +1,26 @@
 extends Node
 
+func rotateTowards(node:Node3D, targetDir:Vector3, rotAngle:float) -> float:
+    
+    #assert(targetDir.is_normalized())
+    #assert(node.basis.z.is_normalized())
+    var normal = node.basis.z.cross(targetDir)
+    if normal.is_zero_approx(): return 0.0
+    normal = normal.normalized()
+    var dir   = -node.basis.z
+    var angle = dir.signed_angle_to(targetDir, normal)
+    dir = dir.rotated(normal, clampf(angle, -rotAngle, rotAngle))
+    node.basis.z = -dir
+    node.basis.x = dir.cross(Vector3.UP).normalized()
+    node.basis.y = node.basis.z.cross(node.basis.x).normalized()
+    return angle
+
+func timeStr(s:float) -> String:
+    
+    var hour = int(s/(3600.0))
+    var min  = int(s/60.0) % 60
+    return "%d:%02d:%02d" % [hour, min, int(s)%60]
+
 func nameDict(arr:Array) -> Dictionary:
     
     var dict = {}

@@ -4,7 +4,7 @@ class_name Turret extends Building
 
 var sensorBodies : Array[Node3D]
 var targetPos    : Vector3
-var rot_slerp    : float = 0.02
+var rotSpeed     : float
 var shotTween    : Tween
 var world        : World
 var powerCards   : int
@@ -40,27 +40,29 @@ func applyCards():
     powerCards = Info.countPermCards(Card.TurretPower)
     
     interval = 0.5  - speedCards * 0.07
-    velocity = 2.0  + powerCards * 3.0
+    velocity = 5.0  + powerCards * 5.0
     mass     = 5.0  + powerCards * 10.0 
-    setSensorRadius(4.0 + rangeCards * 1.0)
-    rot_slerp = 0.02 + speedCards * 0.01
+    setSensorRadius(5.0 + rangeCards * 1.0)
+    rotSpeed = PI * 0.2 + speedCards * PI * 0.2
 
 func setSensorRadius(r:float):  
 
     %Sensor.scale = Vector3(r, 1, r)
 
-func _physics_process(_delta:float):
+func _physics_process(delta:float):
     
     if target and target is Enemy:
+        
         if target.health <= 0:
             _on_sensor_body_exited(target)
             return
                     
         calcTargetPos()
-        $BarrelPivot.transform.basis = $BarrelPivot.transform.basis.slerp($BarrelTarget.transform.basis, rot_slerp)
-        calcTargetAngle()
-    else:        
-        $BarrelPivot.transform.basis = $BarrelPivot.transform.basis.slerp($BarrelTarget.transform.basis, rot_slerp)
+        var angle = Utils.rotateTowards($BarrelPivot, -$BarrelTarget.basis.z.normalized(), delta*rotSpeed)
+        if absf(angle) < 0.01 and reloadTimer.is_stopped():
+            shoot() 
+    else:
+        Utils.rotateTowards($BarrelPivot, -$BarrelTarget.basis.z.normalized(), delta*rotSpeed)
 
 func shoot():
     
@@ -80,15 +82,6 @@ func shoot():
     shotTween.tween_property(%BarrelMesh, "position:z",  0.1 + 0.1 * powerCards, secs)
     shotTween.tween_property(%BarrelMesh, "position:z",  0.0, 2*secs)
         
-func calcTargetAngle():
-    
-    if reloadTimer.is_stopped():
-    
-        var angle = $BarrelPivot.global_basis.z.angle_to($BarrelTarget.global_basis.z)
-        Log.log(rad_to_deg(angle))
-        if rad_to_deg(angle) < 3:
-            shoot() 
-    
 func calcTargetPos():
     
     var state:PhysicsDirectBodyState3D = PhysicsServer3D.body_get_direct_state(target.get_rid())

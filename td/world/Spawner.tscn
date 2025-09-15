@@ -56,7 +56,6 @@ transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 0
 shape = SubResource("CylinderShape3D_bjyd8")
 
 [node name="Torus" type="MeshInstance3D" parent="Body"]
-unique_name_in_owner = true
 transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
 mesh = SubResource("TorusMesh_8b0r0")
 surface_material_override/0 = SubResource("ShaderMaterial_7j3mf")

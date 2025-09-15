@@ -28,6 +28,8 @@ const BUILDING_PRICES = {
 
 var buildingNames:PackedStringArray
 
+var wallTime    : float
+var gameTime    : float
 var enemySpeed  : float
 var player      : Player
 var world       : World
@@ -37,8 +39,30 @@ func _ready():
     world = get_node("/root/World")
     enemySpeed = 1
     buildingNames = Utils.resourceNamesInDir("res://world/buildings")
+    
+    process_mode = PROCESS_MODE_PAUSABLE
+    
+    Post.subscribe(self)
     #Log.log("Info.buildingNames", buildingNames)
     #Log.log("Info.buildingNamesSortedByPrice", buildingNamesSortedByPrice())
+    
+func _process(delta: float):
+    
+    wallTime += delta / Engine.time_scale
+    gameTime += delta
+        
+func levelStart():
+    
+    wallTime = 0.0
+    gameTime = 0.0
+    
+func setEnemySpeed(speed:float):
+
+    enemySpeed = clampf(speed, 1.0, 5.0)
+    Post.enemySpeed.emit(enemySpeed)
+    
+func fasterEnemySpeed(): setEnemySpeed(enemySpeed + 0.5)
+func slowerEnemySpeed(): setEnemySpeed(enemySpeed - 0.5)
 
 func nextCardAtLevel(cardLevel:int) -> int:
     

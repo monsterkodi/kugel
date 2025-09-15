@@ -1,8 +1,7 @@
 extends Node3D
 
 @export var seconds_initial   = 10.0
-@export var seconds_decrement = 0.008
-@export var seconds_min       = 0.5
+@export var seconds_min       = 0.8
 
 var seconds       : float = 10.0
 var pointerSecs   : float = 0.0
@@ -61,7 +60,10 @@ func nextRound():
     pointerSecs   = 0.0
     pointerFactor = 0.0
     pointerIndex  = 0
-    seconds      -= seconds_decrement
+    if seconds > 1.0:
+        seconds *= 0.996
+    else:
+        seconds *= 0.999
     seconds       = maxf(seconds, seconds_min)
     
     Post.clockTick.emit()

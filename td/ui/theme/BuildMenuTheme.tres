@@ -1,4 +1,6 @@
-[gd_resource type="Theme" load_steps=6 format=3 uid="uid://rnx540ue12et"]
+[gd_resource type="Theme" load_steps=7 format=3 uid="uid://rnx540ue12et"]
+
+[ext_resource type="FontFile" uid="uid://dfqo0cb4uy7kl" path="res://ui/theme/Rounded.ttf" id="1_i132y"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h3fqn"]
 bg_color = Color(0, 0, 0, 0)
@@ -42,6 +44,8 @@ corner_radius_top_right = 50
 corner_radius_bottom_right = 50
 
 [resource]
+default_font = ExtResource("1_i132y")
+default_font_size = 48
 Button/styles/focus = SubResource("StyleBoxFlat_h3fqn")
 Button/styles/hover = SubResource("StyleBoxFlat_i132y")
 Button/styles/hover_pressed = SubResource("StyleBoxFlat_nj0oh")

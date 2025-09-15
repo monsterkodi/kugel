@@ -9,6 +9,16 @@ func _ready():
     
     Post.subscribe(self)
     
+    process_mode = Node.PROCESS_MODE_PAUSABLE
+    
+func _process(delta: float):
+    
+    %Time.text = Utils.timeStr(Info.gameTime)
+    
+func enemySpeed(speed):
+    
+    %EnemySpeed.value = speed
+    
 func statChanged(statName, value):
 
     match statName:

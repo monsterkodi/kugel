@@ -5,7 +5,9 @@ signal enemySpawned # spawner
 signal corpseCollected # collector
 signal buildingBought
 signal buildingPlaced # building
+signal buildingSold 
 signal buildingGhost
+signal buildingSlotChanged # slot
 signal baseDamaged
 signal baseDestroyed
 signal shieldDamaged
@@ -21,6 +23,7 @@ signal menuAppear
 signal menuSound
 signal gameSound
 signal statChanged 
+signal enemySpeed # speed
 signal newGame
 signal resumeGame
 signal restartLevel

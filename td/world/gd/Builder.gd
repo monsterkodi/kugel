@@ -11,19 +11,21 @@ const GHOST_MATERIAL = preload("res://materials/BuilderGhostMaterial.tres")
 
 func _ready():
     
-    Post.buildingGhost.connect(buildingGhost)
+    Post.subscribe(self)
 
 func _input(event: InputEvent):
     
     if visible and ghost:
     
-        if Input.is_action_just_pressed("place_building"):
+        if event.is_action_pressed("place_building"):
             get_viewport().set_input_as_handled()
+            Log.log("place_building")
             placeBuilding()
             
 func placeBuilding():
     
     var building = load(ghost.scene_file_path).instantiate()
+    Log.log("placeBuilding", building.name)
     Post.buildingBought.emit(building.name)
     building.inert = false
     if targetSlot != get_parent_node_3d():
@@ -35,6 +37,7 @@ func placeBuilding():
                 old.free()
                 if building.name == "Sell": #and type == "Sell":
                     building.free()
+                    Post.buildingSold.emit()
                     return
     targetSlot.add_child(building)
     building.global_position = targetPos
@@ -57,14 +60,12 @@ func findTargetPos():
     if slot:
         
         if targetSlot != slot:
+            targetPos  = slot.global_position
+            targetSlot = slot
+            Post.buildingSlotChanged.emit(targetSlot)
             if slot.get_child_count() == 0:
-                if Input.is_action_pressed("place_building"):
-                    targetSlot = slot
-                    targetPos  = slot.global_position
+                if Input.is_action_pressed("place_building") and not Input.is_action_just_pressed("place_building"):
                     placeBuilding()
-        
-        targetPos  = slot.global_position
-        targetSlot = slot
         
 func loadVehicle(vehicleName:String):
     
@@ -77,14 +78,14 @@ func loadVehicle(vehicleName:String):
 func buildingGhost(ghostName:String):
     
     if ghost: 
-        ghost.queue_free()
+        ghost.free()
         ghost = null
         
     if ghostName.is_empty(): return
         
     ghost = load("res://world/buildings/%s.tscn" % ghostName).instantiate()
     ghost.name = ghostName
-    ghost.inert = true
+
     get_parent_node_3d().add_child(ghost)
     ghost.global_position = targetPos
     if not ghost.global_position.is_zero_approx():

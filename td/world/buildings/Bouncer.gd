@@ -11,7 +11,7 @@ func _ready():
 func applyCards():
     
     setSensorRadius(4.5 + Info.countPermCards(Card.BouncerRange) * 1.0)
-    %Sensor.linear_damp = 0.4 + Info.countPermCards(Card.BouncerPower) * 0.1
+    %Sensor.linear_damp = 0.2 + Info.countPermCards(Card.BouncerPower) * 0.05
 
 func setSensorRadius(r:float):
 

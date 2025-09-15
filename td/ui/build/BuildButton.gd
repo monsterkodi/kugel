@@ -1,6 +1,6 @@
 class_name BuildButton extends Control
 
-const SCENE_SIZE = Vector2i(150,125) #100,76
+const SCENE_SIZE = Vector2i(int(150*0.8),int(125*0.8)) 
 
 signal pressed
 signal focused

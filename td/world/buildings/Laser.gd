@@ -2,10 +2,10 @@ class_name Laser extends Building
 
 @export var target:Node3D
 
-var rot_slerp:float = 0.03
+var rotSpeed : float
     
-var sensorBodies:Array[Node3D]
-var targetPos:Vector3
+var sensorBodies : Array[Node3D]
+var targetPos : Vector3
     
 func _ready():
         
@@ -22,9 +22,9 @@ func _ready():
     
 func applyCards():
     
-    setSensorRadius(5 + Info.countPermCards(Card.LaserRange) * 1.5)
-    rot_slerp = 0.03 + Info.countPermCards(Card.LaserSpeed) * 0.01
-    %LaserPointer.laserDamage = 2 + Info.countPermCards(Card.LaserPower) * 2.0
+    setSensorRadius(5.0 + Info.countPermCards(Card.LaserRange) * 1.5)
+    rotSpeed = PI * 0.25 + Info.countPermCards(Card.LaserSpeed) * PI * 0.25
+    %LaserPointer.laserDamage = 2.0 + Info.countPermCards(Card.LaserPower) * 2.0
 
 func setSensorRadius(r:float):  
 
@@ -37,22 +37,26 @@ func level_reset():
     %LaserPointer.visible = false
     super.level_reset()
         
-func _physics_process(_delta:float):
+func _physics_process(delta:float):
     
     if target and target is Enemy:
+        
         if target.health <= 0:
             _on_sensor_body_exited(target)
             return
-        calcTargetPos()
-        
-    $BarrelPivot.transform.basis = $BarrelPivot.transform.basis.slerp($Target.transform.basis, rot_slerp)
-
-func calcTargetPos():
+            
+        setTargetPos(target.global_position)
+        #calcTargetPos()
     
-    var state = PhysicsServer3D.body_get_direct_state(target.get_rid())
-    var velocity = state.linear_velocity
-    velocity.y = 0
-    setTargetPos(target.global_position + velocity * 0.01 / rot_slerp)
+    Utils.rotateTowards($BarrelPivot, -$Target.basis.z.normalized(), delta*rotSpeed)    
+    #$BarrelPivot.transform.basis = $BarrelPivot.transform.basis.slerp($Target.transform.basis, rot_slerp)
+
+#func calcTargetPos():
+    #
+    #var state = PhysicsServer3D.body_get_direct_state(target.get_rid())
+    #var velocity = state.linear_velocity
+    #velocity.y = 0
+    #setTargetPos(target.global_position + velocity * 0.01 / rot_slerp)
                 
 func setTargetPos(pos:Vector3):
     

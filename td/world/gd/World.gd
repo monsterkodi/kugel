@@ -33,6 +33,9 @@ func _unhandled_input(event: InputEvent):
     #if Input.is_action_just_pressed("save"): %Saver.save(); return
     #if Input.is_action_just_pressed("load"): %Saver.load(); return
     
+    if Input.is_action_just_pressed("faster"): Info.fasterEnemySpeed()
+    if Input.is_action_just_pressed("slower"): Info.slowerEnemySpeed()
+    
     if event is InputEventKey and event.pressed  and event.keycode and not event.is_echo():
         
         if event.as_text() in ["Ctrl+Shift+D", "Alt+Z"]:

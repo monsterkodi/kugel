@@ -1,6 +1,11 @@
 class_name SettingsMenu 
 extends Menu
 
+func _ready():
+    
+    Post.subscribe(self)
+    super._ready()
+
 func _on_visibility_changed():
     
     if is_visible_in_tree() and %Brightness.is_inside_tree():
@@ -43,10 +48,10 @@ func onTimescale(value):
     
 func onEnemySpeed(value):
     
-    Info.enemySpeed = value
-    Post.statChanged.emit("enemySpeed", value)
-    Log.log("enemySpeed", value)
-    
+    Info.setEnemySpeed(value)
+
+func enemySpeed(value):
+        
     %EnemySpeedValue.text = Utils.trimFloat(%EnemySpeed.value, 1)
 
 func onVolume(value):

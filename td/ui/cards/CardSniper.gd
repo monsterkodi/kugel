@@ -9,7 +9,6 @@ extends Node3D
 
 func _ready(): 
 
-    %Sniper.inert = true
     %Sniper.set_process(false)
     %Sniper.set_physics_process(false)
     lookAt = lookAt

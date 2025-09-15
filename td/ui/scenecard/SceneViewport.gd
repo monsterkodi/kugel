@@ -9,8 +9,4 @@ func setBuilding(buildingName:String):
 func setScene(scene:PackedScene):
     
     var node = scene.instantiate()
-
-    if node is Building:
-        node.inert = true
-
     %Scene.add_child(node)

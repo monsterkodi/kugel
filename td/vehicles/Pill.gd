@@ -31,7 +31,7 @@ func _physics_process(delta:float):
     
     if not player: return
     
-    var dt = delta * speed
+    var dt = delta * speed / Engine.time_scale
     
     readInput(dt)
 
@@ -152,29 +152,29 @@ func readInput(delta:float):
     if Input.is_action_pressed("right"):        %strafe.add( dt)
     if Input.is_action_pressed("left"):         %strafe.add(-dt)
 
-    if Input.is_action_pressed("faster"): faster()
-    if Input.is_action_pressed("slower"): slower()
+    #if Input.is_action_pressed("faster"): faster()
+    #if Input.is_action_pressed("slower"): slower()
 
-func faster():
+#func faster():
+    #
+    #speed *= 1.01; speed = clampf(speed, MIN_SPEED, MAX_SPEED); Log.log("speed", speed)
     
-    speed *= 1.01; speed = clampf(speed, MIN_SPEED, MAX_SPEED); Log.log("speed", speed)
-    
-func slower():
-    
-    speed *= 0.99; speed = clampf(speed, MIN_SPEED, MAX_SPEED); Log.log("speed", speed)
+#func slower():
+    #
+    #speed *= 0.99; speed = clampf(speed, MIN_SPEED, MAX_SPEED); Log.log("speed", speed)
 
 func _input(event: InputEvent):
     
     if event is InputEventMouseMotion:
         mouseDelta = event.relative
 
-func _unhandled_input(event: InputEvent):
-    
-    if event is InputEventMouseButton:
-        if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-            get_viewport().set_input_as_handled()
-            faster()
-        elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-            get_viewport().set_input_as_handled()
-            slower()
+#func _unhandled_input(event: InputEvent):
+    #
+    #if event is InputEventMouseButton:
+        #if event.button_index == MOUSE_BUTTON_WHEEL_UP:
+            #get_viewport().set_input_as_handled()
+            #faster()
+        #elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+            #get_viewport().set_input_as_handled()
+            #slower()
             

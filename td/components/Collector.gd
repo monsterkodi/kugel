@@ -27,8 +27,8 @@ func _physics_process(delta:float):
         var dir = global_position + Vector3.UP * 0.5 - corpse.global_position
         var dst = dir.length()
         if dst < 0.25:
-            corpse.queue_free()
             corpses.erase(corpse)
+            corpse.free()
             Post.corpseCollected.emit(self)
         else:
             var scl = lerpf(corpse.scale.x, 0.4, 2*delta)
@@ -39,12 +39,9 @@ func bodyEntered(body:Node3D):
 
     if body.is_in_group("enemy") and body.health <= 0:
         var corpse:RigidBody3D = body
-        #corpse.mass            = 0 # 0.01
-        #corpse.gravity_scale   = 0
-        corpse.collision_mask  = 0 # Layer.LayerFloor
+        corpse.collision_mask  = Layer.LayerFloor
         corpse.collision_layer = 0
-        #corpse.linear_velocity = Vector3.ZERO
-        corpse.freeze          = true
+        #corpse.freeze          = true
         corpses.append(corpse)
 
 func onEnemyDied(enemy:Enemy):

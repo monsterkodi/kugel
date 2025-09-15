@@ -3,10 +3,29 @@ extends Menu
 
 const BUILD_BUTTON = preload("res://ui/build/BuildButton.tscn")
 
+@onready var balance: Label = %Balance
+@onready var minus:   Label = %Minus
+@onready var cost:    Label = %Cost
+@onready var plus:    Label = %Plus
+@onready var gain:    Label = %Gain
+
 func _ready():
     
     Post.subscribe(self)
     
+func statChanged(statName, value):
+
+    match statName:
+        
+        "balance":            
+            
+            balance.text = str(value)
+    
+func buildingSold():
+    
+    showButtons()
+    %Buttons.get_child(-1).get_child(0).grab_focus()
+        
 func buildingPlaced(building):
     
     showButtons()
@@ -26,7 +45,49 @@ func addButton(building:String):
 
 func buttonFocused(button):
 
+    Log.log("Post.buildingGhost", button.name)
     Post.buildingGhost.emit(button.name)
+    
+    updateBalance()
+    
+func focusedButton():
+    
+    for button in %Buttons.get_children():
+        if button.has_focus(): return button 
+        if button.get_child(0).has_focus(): return button
+    return null
+    
+func buildingSlotChanged(slot):
+    
+    updateBalance()
+    
+func updateBalance():
+    
+    var button = focusedButton()
+    var builder = %Builder
+    if builder.targetSlot and builder.targetSlot is Slot and builder.targetSlot.get_child_count():
+        var building = %Builder.targetSlot.get_child(0)
+        if building.name == button.name:
+            gain.text  = ""
+            plus.text  = ""
+            cost.text  = ""
+            minus.text = ""
+            return
+        gain.text  = str(Info.priceForBuilding(building.name))
+        plus.text  = "+"
+    else:
+        gain.text  = ""
+        plus.text  = ""
+    
+    if button.name == "Sell":
+        cost.text  = ""
+        minus.text = ""
+    else:
+        minus.text = "-"
+        if %BattleCards.countBattleCards(button.name):
+            cost.text = "card"
+        else:
+            cost.text = str(Info.priceForBuilding(button.name))
     
 func showButtons():
     
