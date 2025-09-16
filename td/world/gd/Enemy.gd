@@ -15,9 +15,10 @@ func die():
     %Attraction.disable()
     var tween = create_tween()
     tween.set_process_mode(Tween.TWEEN_PROCESS_PHYSICS)
+    tween.set_ease(Tween.EASE_IN_OUT)
+    tween.set_trans(Tween.TRANS_QUINT)
     tween.tween_method(setMass, mass, 0.5, 1.0)
     tween.tween_callback(makeCorpse)
-    #get_tree().create_timer(2.0).connect("timeout", makeCorpse)
     
 func getColor() -> Color:
     

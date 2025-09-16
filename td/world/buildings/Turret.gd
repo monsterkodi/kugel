@@ -59,7 +59,7 @@ func _physics_process(delta:float):
                     
         calcTargetPos()
         var angle = Utils.rotateTowards($BarrelPivot, -$BarrelTarget.basis.z.normalized(), delta*rotSpeed)
-        if absf(angle) < 0.01 and reloadTimer.is_stopped():
+        if absf(angle) < 0.1 and reloadTimer.is_stopped():
             shoot() 
     else:
         Utils.rotateTowards($BarrelPivot, -$BarrelTarget.basis.z.normalized(), delta*rotSpeed)

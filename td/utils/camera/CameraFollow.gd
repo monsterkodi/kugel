@@ -48,7 +48,7 @@ func readInput():
     
     zoom = 0
     
-    zoom = Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y)
-    #if not get_tree().paused:
-    if Input.is_action_pressed("ascend"):  zoom -= 1
-    if Input.is_action_pressed("descend"): zoom += 1
+    if not get_tree().paused:
+        zoom = Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y)
+        if Input.is_action_pressed("ascend"):  zoom -= 1
+        if Input.is_action_pressed("descend"): zoom += 1

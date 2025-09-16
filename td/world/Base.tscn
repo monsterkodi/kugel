@@ -30,7 +30,7 @@ surface_material_override/0 = ExtResource("6_4p605")
 
 [node name="DotRing" parent="." instance=ExtResource("3_8t0lk")]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.03, 0)
 radius = 1.2
 numDots = 12
 dotRadius = 0.06999999999999999
@@ -38,8 +38,8 @@ dotColor = Color(0.27619392, 0.25766784, 1.353256, 1)
 
 [node name="CenterSphereBody" type="RigidBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5879226, 0)
-collision_layer = 0
-collision_mask = 2147483651
+collision_layer = 512
+collision_mask = 2147483699
 physics_material_override = ExtResource("3_xybkm")
 gravity_scale = 0.0
 contact_monitor = true

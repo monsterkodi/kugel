@@ -67,6 +67,13 @@ func childrenWithClasses(node:Node, classNames:Array[String]):
     for className in classNames:
         filtered.append_array(childrenWithClass(node, className))
     return filtered
+    
+func focusedChild(node:Node):
+    
+    var focused = filterTree(node, func(n:Node): return n is Control and n.has_focus())
+    if focused.size(): 
+        return focused[0]
+    return null
 
 func freeChildren(node:Node):
     

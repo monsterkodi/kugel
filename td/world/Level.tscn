@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://wo631fluqa0p"]
+[gd_scene load_steps=27 format=3 uid="uid://wo631fluqa0p"]
 
 [ext_resource type="Script" uid="uid://dm5k4y4py5jhc" path="res://world/gd/Level.gd" id="1_f0k3j"]
 [ext_resource type="Shader" uid="uid://colhoamqrtuej" path="res://materials/shader/DotCirclesMaterial.gdshader" id="2_5sqgi"]
@@ -9,6 +9,7 @@
 [ext_resource type="Material" uid="uid://deqkf3j301h5d" path="res://materials/DotCirclesMaterial.tres" id="4_5sqgi"]
 [ext_resource type="PackedScene" uid="uid://cssayoomcrb8o" path="res://world/Spawner.tscn" id="11_sypgb"]
 [ext_resource type="PackedScene" uid="uid://dt4vauql4gx0y" path="res://components/HalfCapsule.tscn" id="12_d6u53"]
+[ext_resource type="PackedScene" uid="uid://b8phu2uow5j4d" path="res://world/Clock.tscn" id="12_f0k3j"]
 [ext_resource type="PackedScene" uid="uid://b0ky2r6dv835o" path="res://world/Base.tscn" id="13_sypgb"]
 [ext_resource type="PackedScene" uid="uid://cqn35mciqmm8s" path="res://world/Enemy.tscn" id="14_dn5x0"]
 
@@ -312,6 +313,10 @@ radius = 0.1
 segments = 12
 rings = 8
 material = SubResource("StandardMaterial3D_d6u53")
+
+[node name="Clock" parent="." instance=ExtResource("12_f0k3j")]
+process_mode = 1
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
 
 [connection signal="visibility_changed" from="Floor/SlotsRings/SlotRing1" to="Floor/SlotsRings/SlotRing1" method="_on_visibility_changed"]
 [connection signal="visibility_changed" from="Floor/SlotsRings/SlotRing2" to="Floor/SlotsRings/SlotRing2" method="_on_visibility_changed"]

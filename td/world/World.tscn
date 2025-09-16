@@ -1,9 +1,8 @@
-[gd_scene load_steps=25 format=3 uid="uid://b6mskrm1n176r"]
+[gd_scene load_steps=24 format=3 uid="uid://b6mskrm1n176r"]
 
 [ext_resource type="Script" uid="uid://b6inujglidn5n" path="res://world/gd/World.gd" id="1_eu7l1"]
 [ext_resource type="PackedScene" uid="uid://baj5gp1mlm380" path="res://world/Player.tscn" id="3_wygdx"]
 [ext_resource type="PackedScene" uid="uid://b7w2vlfbvmfq7" path="res://utils/camera/Camera.tscn" id="4_bah7m"]
-[ext_resource type="PackedScene" uid="uid://b8phu2uow5j4d" path="res://world/Clock.tscn" id="4_vqsdb"]
 [ext_resource type="PackedScene" uid="uid://bsyn633trcvrm" path="res://world/Builder.tscn" id="5_0n6y5"]
 [ext_resource type="Script" uid="uid://bn7yub4ucp6o4" path="res://utils/Saver.gd" id="5_fv4w7"]
 [ext_resource type="PackedScene" uid="uid://mxu6thvv1ycr" path="res://world/MouseHandler.tscn" id="6_p1v5b"]
@@ -53,10 +52,6 @@ process_mode = 1
 [node name="Camera" parent="." instance=ExtResource("4_bah7m")]
 unique_name_in_owner = true
 process_mode = 3
-
-[node name="Clock" parent="." instance=ExtResource("4_vqsdb")]
-process_mode = 1
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
 
 [node name="Saver" type="Node" parent="."]
 unique_name_in_owner = true

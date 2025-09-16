@@ -13,6 +13,7 @@ signal baseDestroyed
 signal shieldDamaged
 signal shieldDown
 signal cardChosen
+signal cardSold
 signal applyCards
 signal handChosen
 signal startLevel

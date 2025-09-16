@@ -2,6 +2,7 @@ class_name World
 extends Node
 
 const LEVEL = preload("uid://wo631fluqa0p")
+const LEVEL_B = preload("uid://btl7cihfnbl6u")
 
 var currentLevel:Node3D
 
@@ -72,6 +73,13 @@ func enemySpawned(spawner:Spawner):
         #Log.log("level", %Player.cardLevel, "next in", %Player.nextCardIn)
         %MenuHandler.showCardChooser(Info.nextSetOfCards())
 
+func cardSold(card:Card):
+    
+    if card.isPermanent():
+        %Player.perm.delCard(card)
+        %Player.cardLevel -= 1
+        %Player.nextCardIn = clamp(%Player.nextCardIn, 0, Info.nextCardAtLevel(%Player.cardLevel))
+
 func cardChosen(card:Card):
         
     if %Player.hand.get_child_count() < Info.battleCardSlots() and card.isBattleCard():
@@ -99,7 +107,8 @@ func startLevel():
     if currentLevel:
         currentLevel.free()
         
-    currentLevel = LEVEL.instantiate()
+    #currentLevel = LEVEL.instantiate()
+    currentLevel = LEVEL_B.instantiate()
     add_child(currentLevel)
     
     Post.applyCards.emit()

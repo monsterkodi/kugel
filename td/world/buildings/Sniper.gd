@@ -4,7 +4,7 @@ class_name Sniper extends Building
 
 var sensorBodies    : Array[Node3D]
 var targetPos       : Vector3
-var rot_slerp       : float = 0.02
+var rotSpeed        : float
 var interval        : float
 var shotTween       : Tween
 
@@ -32,14 +32,14 @@ func applyCards():
     
     setSensorRadius(5.0 + rangeCards * 1.0)
     
-    interval  = 2.5  - speedCards * 0.3
-    rot_slerp = 0.03 + speedCards * 0.01
+    interval = 2.5  - speedCards * 0.3
+    rotSpeed = PI * 0.2 + speedCards * PI * 0.2
 
 func setSensorRadius(r:float):  
 
     %Sensor.scale = Vector3(r, 1, r)
 
-func _physics_process(_delta:float):
+func _physics_process(delta:float):
     
     if %SniperRay.visible: return
     
@@ -51,22 +51,23 @@ func _physics_process(_delta:float):
                 return
                     
         setTargetPos(target.global_position)
-        calcTargetAngle()
         
-    %BarrelPivot.transform.basis = %BarrelPivot.transform.basis.slerp(%BarrelTarget.transform.basis, rot_slerp)
-    
-func calcTargetAngle():
-    
-    if reloadTimer.is_stopped():
-    
-        var angle = %BarrelPivot.global_basis.z.angle_to(%BarrelTarget.global_basis.z)
-        if rad_to_deg(angle) < 2:
-            shoot()
-    
+        var angle = Utils.rotateTowards($BarrelPivot, -$BarrelTarget.basis.z.normalized(), delta*rotSpeed)
+        if absf(angle) < 0.1 and reloadTimer.is_stopped():
+            shoot() 
+    else:
+        Utils.rotateTowards($BarrelPivot, -$BarrelTarget.basis.z.normalized(), delta*rotSpeed)    
+
 func setTargetPos(pos:Vector3):
     
     targetPos = pos
     %BarrelTarget.look_at(targetPos)
+    
+    #var dir = Vector3(-0.01,0,0)
+    #if not global_position.is_zero_approx():
+        #dir = global_position.normalized()*-0.01
+    #var up = (Vector3.UP + dir).normalized()
+    #$Target.look_at(targetPos, up)
     
 func _on_sensor_body_entered(body: Node3D):
     

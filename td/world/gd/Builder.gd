@@ -24,6 +24,11 @@ func _input(event: InputEvent):
             
 func placeBuilding():
     
+    if not targetSlot:
+        Log.log("no target slot!")
+        return
+    assert(targetSlot)
+    
     var building = load(ghost.scene_file_path).instantiate()
     Log.log("placeBuilding", building.name)
     Post.buildingBought.emit(building.name)

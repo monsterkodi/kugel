@@ -29,7 +29,7 @@ linked_parent_graph_frame = 18
 port_type = 3
 
 [sub_resource type="VisualShaderNodeFrame" id="VisualShaderNodeFrame_cgvtx"]
-size = Vector2(2789, 850)
+size = Vector2(2876, 885.99994)
 title = "polar"
 attached_nodes = PackedInt32Array(6, 16, 15, 17, 12, 11, 14, 8, 4, 5)
 
@@ -286,7 +286,7 @@ function = 18
 
 [resource]
 code = "shader_type spatial;
-render_mode blend_mix, depth_draw_opaque, depth_test_default, cull_back, diffuse_lambert, specular_schlick_ggx, depth_prepass_alpha;
+render_mode blend_mix, depth_draw_opaque, depth_test_default, cull_back, diffuse_lambert, specular_disabled, depth_prepass_alpha;
 
 uniform vec4 Inner : source_color = vec4(0.196773, 0.196773, 0.196773, 1.000000);
 uniform vec4 Outer : source_color = vec4(0.000000, 0.000000, 0.000000, 1.000000);
@@ -352,6 +352,7 @@ void fragment() {
 
 }
 "
+modes/specular = 2
 flags/depth_prepass_alpha = true
 nodes/vertex/0/position = Vector2(1160, 100)
 nodes/vertex/2/node = SubResource("VisualShaderNodeUVFunc_ggkc8")

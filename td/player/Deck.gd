@@ -3,8 +3,13 @@ extends Node
 
 func addCard(card:Card):
     
-    #Log.log("addCard", card, card.res.name)
     Utils.setParent(card, self)
+    
+func delCard(card:Card):
+    
+    if card.get_parent() == self:
+        remove_child(card)
+        card.free()
     
 func countCards(cardName:String) -> int:
     
