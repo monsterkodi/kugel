@@ -1,18 +1,26 @@
-class_name Level extends Node3D
+class_name Level 
+extends Node3D
+
+var inert = true
 
 func _ready():
     
     name = "Level"
-    add_to_group("game")
-    #add_to_group("save")
+    set_process(false)
     
+func start():
+    
+    add_to_group("game")
+    set_process(true)
+    #add_to_group("save")
+    %Clock.start()
     Post.subscribe(self)
     
 func applyCards():
     
     var rings = Info.countPermCards(Card.SlotRing)
     #Log.log("rings", rings)
-    %SlotRing1.visible = true
+    #%SlotRing1.visible = true
     %SlotRing2.visible = (rings >= 1)
     %SlotRing3.visible = (rings >= 2)
     %SlotRing4.visible = (rings >= 3)

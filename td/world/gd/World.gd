@@ -13,10 +13,13 @@ func _ready():
     Post.subscribe(self)
     
     Info.player = %Player
+
+    mainMenu()
     
-    if not Engine.is_editor_hint():
-        loadGame()
-        Post.startLevel.emit()
+func mainMenu():
+    
+    get_tree().paused = true
+    %MenuHandler.appear(%MainMenu)
     
 func _process(delta: float):
     pass
@@ -100,22 +103,7 @@ func cardChosen(card:Card):
 func handChosen():
 
     Post.startLevel.emit()
-    
-func startLevel():
-    
-    Log.log("startLevel")
-    if currentLevel:
-        currentLevel.free()
         
-    #currentLevel = LEVEL.instantiate()
-    currentLevel = LEVEL_B.instantiate()
-    add_child(currentLevel)
-    
-    Post.applyCards.emit()
-    Post.levelStart.emit()
-    
-    resumeGame()
-    
 func restartLevel():
     
     pauseGame()
@@ -175,3 +163,21 @@ func loadGame():
 func settings():
     
     %MenuHandler.appear(%SettingsMenu)
+
+func loadLevel(level):
+    
+    loadGame()
+
+    Log.log("loadLevel", level)
+    if currentLevel:
+        currentLevel.free()
+        
+    currentLevel = level.instantiate()
+    currentLevel.inert = false
+    add_child(currentLevel)
+    currentLevel.start()
+    Post.startLevel.emit()
+    Post.applyCards.emit()
+    Post.levelStart.emit()
+    
+    resumeGame()

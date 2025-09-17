@@ -1,4 +1,5 @@
-class_name LevelB extends Node3D
+class_name LevelB 
+extends Level
 
 @export var seconds_initial   = 5.0
 @export var seconds_min       = 0.5
@@ -10,20 +11,16 @@ var pointerFactor : float = 0.0
 func _ready():
     
     name = "LevelB"
-    add_to_group("game")
-    
-    Post.subscribe(self)
-    
-func gamePaused():
-    
-    set_physics_process(false)
     set_process(false)
     
-func gameResumed():
+func start():
     
-    set_physics_process(true)
+    add_to_group("game")
     set_process(true)
-
+    Post.subscribe(self)
+    
+func applyCards(): pass
+    
 func _process(delta: float):
     
     pointerSecs  += delta * Info.enemySpeed
@@ -46,6 +43,3 @@ func nextRound():
     
     Post.clockTick.emit()
         
-func boundsExit(body: Node3D):
-    
-    pass

@@ -19,15 +19,16 @@ var mass        : float
 var velocity    : float
 
 var spawnedBody : RigidBody3D
-var world       : World
 var active      = false
+var level       : Level
 
 const spawnerHolePassiveMaterial = preload("uid://djrtyqmjy623u")
 const spawnerHoleActiveMaterial  = preload("uid://chltotc0ohct")
                                                 
 func _ready():
 
-    world = get_node("/root/World")
+    level = Utils.firstParentWithClass(self, "Level")
+    if level.inert: return
     
     velocity = velocity_initial
     mass     = mass_initial
@@ -76,8 +77,9 @@ func nextSpawnLoop():
     spawnedBody.collision_layer = 0
     spawnedBody.freeze = true
     spawnedBody.setMass(mass)
-
-    world.currentLevel.get_node("Enemies").add_child(spawnedBody)
+    
+    level.get_node("Enemies").add_child(spawnedBody)
+    
     spawnedBody.global_position = %SpawnPoint.global_position
     
     mass     += mass_increment

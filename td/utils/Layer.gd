@@ -6,6 +6,7 @@ const LayerStatic  = 1 << ( 3 - 1)
 const LayerBullets = 1 << ( 4 - 1)
 const LayerDying   = 1 << ( 5 - 1)
 const LayerCorpse  = 1 << ( 6 - 1)
+const LayerBounds  = 1 << (30 - 1)
 const LayerSpawner = 1 << (31 - 1)
 const LayerFloor   = 1 << (32 - 1)
 
@@ -19,6 +20,7 @@ static func names(mask:int):
     if mask & LayerBullets: s += "Bullets "
     if mask & LayerDying:   s += "Dying "
     if mask & LayerCorpse:  s += "Corpse "
+    if mask & LayerBounds:  s += "Bounds "
     if mask & LayerSpawner: s += "Spawner "
     if mask & LayerFloor:   s += "Floor "
     

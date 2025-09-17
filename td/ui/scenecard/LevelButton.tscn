@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://thwlxijax7nj"]
+
+[ext_resource type="Script" uid="uid://be876xjw6imgn" path="res://ui/scenecard/LevelButton.gd" id="1_dvp31"]
+[ext_resource type="PackedScene" uid="uid://bfs4v0hjfo8pg" path="res://ui/scenecard/SceneViewport.tscn" id="2_5m2ug"]
+[ext_resource type="Script" uid="uid://db85fb86bo305" path="res://ui/menu/FocusOnHover.gd" id="3_030fg"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_4734n"]
+viewport_path = NodePath("Viewport")
+
+[node name="LevelButton" type="Button"]
+offset_right = 500.0
+offset_bottom = 500.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+icon = SubResource("ViewportTexture_4734n")
+icon_alignment = 1
+vertical_icon_alignment = 2
+script = ExtResource("1_dvp31")
+
+[node name="Viewport" parent="." instance=ExtResource("2_5m2ug")]
+unique_name_in_owner = true
+
+[node name="FocusOnHover" type="Node" parent="."]
+script = ExtResource("3_030fg")
+metadata/_custom_type_script = "uid://db85fb86bo305"

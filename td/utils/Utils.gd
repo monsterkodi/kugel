@@ -2,8 +2,6 @@ extends Node
 
 func rotateTowards(node:Node3D, targetDir:Vector3, rotAngle:float) -> float:
     
-    #assert(targetDir.is_normalized())
-    #assert(node.basis.z.is_normalized())
     var normal = node.basis.z.cross(targetDir)
     if normal.is_zero_approx(): return 0.0
     normal = normal.normalized()
@@ -56,10 +54,47 @@ func filterTree(node:Node, predicate:Callable):
         filtered.append_array(filterTree(child, predicate))
     return filtered
     
+func filterParents(node:Node, predicate:Callable):
+    
+    var filtered = []
+    if node.get_parent():
+        if predicate.call(node.get_parent()): 
+            filtered.append(node.get_parent())
+        filtered.append_array(filterParents(node.get_parent(), predicate))
+    return filtered    
+    
+func parentsWithClass(node:Node, className:String):
+    
+    return filterParents(node, func(n:Node): return isClass(n, className))
+
+func isScriptClass(script:Script, className:String):
+    
+    if script:
+        if script.get_global_name() == className:
+            return true
+        return isScriptClass(script.get_base_script(), className)   
+    return false
+    
+func isClass(node:Node, className:String):
+    
+    return node.get_class() == className or \
+        ClassDB.is_parent_class(node.get_class(), className) or \
+        isScriptClass(node.get_script(), className)
+
+func firstParentWithClass(node:Node, className:String):
+    
+    var parent = node.get_parent()
+    while parent:
+        if isClass(parent, className):
+            return parent
+        parent = parent.get_parent()
+    return null
+    
+func level(node:Node): return firstParentWithClass(node, "Level")
+    
 func childrenWithClass(node:Node, className:String):
     
-    return filterTree(node, func(n:Node): 
-        return n.get_class() == className or ClassDB.is_parent_class(n.get_class(), className))
+    return filterTree(node, func(n:Node): return isClass(n, className))
 
 func childrenWithClasses(node:Node, classNames:Array[String]):
     
@@ -91,26 +126,6 @@ func resourcesInDir(dir:String) -> Array[Resource]:
             var res = load(dir + "/" + path)
             if res: resources.append(res)
     return resources
-    
-#func allCardRes() -> Array[CardRes]:
-    #
-    #var ary:Array[CardRes] 
-    #ary.assign(resourcesInDir("res://cards"))
-    #return ary
-    #
-#func cardResWithName(cardName:String) -> CardRes:
-    #
-    #var cards = allCardRes()
-    #var index = cards.find_custom(func(c): return c.name == cardName)
-    #if index >= 0:
-        #return cards[index]
-    #return null
-#
-#func newCardWithName(cardName:String) -> Card:
-    #
-    #var cardRes = cardResWithName(cardName)
-    #if cardRes: return Card.new(cardRes)
-    #return null
 
 func resourceNamesInDir(dir:String) -> PackedStringArray:
 

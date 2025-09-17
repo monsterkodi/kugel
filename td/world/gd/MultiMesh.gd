@@ -1,11 +1,25 @@
 extends Node3D
 
+var dict = {"dot": [], "slot": []}
+
+func add(typ:String, node:Node3D):
+
+    dict[typ].append(node)
+    
+func del(typ:String, node:Node3D):
+    
+    dict[typ].erase(node)
+
 func _process(delta:float):
+    
+    if get_parent().inert: return
     
     var mmi:MultiMeshInstance3D
     var num:int
+    
+    Log.log(get_tree(), get_parent(), get_parent().inert)
 
-    var dots = get_tree().get_nodes_in_group("dot")
+    var dots = dict.dot
     num = dots.size()  
     mmi = $Dot 
     mmi.multimesh.instance_count = num 
@@ -16,7 +30,7 @@ func _process(delta:float):
         mmi.multimesh.set_instance_transform(i, trans)
         mmi.multimesh.set_instance_color(i, dots[i].getColor())
     
-    var slots = get_tree().get_nodes_in_group("slot")
+    var slots = dict.slot
     num = slots.size()  
     mmi = $Slot 
     mmi.multimesh.instance_count = num 

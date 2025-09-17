@@ -1,12 +1,13 @@
 class_name SceneViewport extends SubViewport
 
+@onready var scene: CardScene = %Scene
+
 func setBuilding(buildingName:String):
 
     var sceneRes = load("res://ui/cards/Card%s.tscn" % buildingName)
     if sceneRes:
         setScene(sceneRes)
 
-func setScene(scene:PackedScene):
+func setScene(sceneRes:PackedScene):
     
-    var node = scene.instantiate()
-    %Scene.add_child(node)
+    %Scene.add_child(sceneRes.instantiate())

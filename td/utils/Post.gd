@@ -25,6 +25,7 @@ signal menuSound
 signal gameSound
 signal statChanged 
 signal enemySpeed # speed
+signal mainMenu
 signal newGame
 signal resumeGame
 signal restartLevel
@@ -34,7 +35,7 @@ signal clockFactor
 signal clockTick
 signal spawnerActivated
 
-var sigDict:Dictionary
+var sigDict : Dictionary = {}
 
 func _ready():
     

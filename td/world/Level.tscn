@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://wo631fluqa0p"]
+[gd_scene load_steps=30 format=3 uid="uid://wo631fluqa0p"]
 
 [ext_resource type="Script" uid="uid://dm5k4y4py5jhc" path="res://world/gd/Level.gd" id="1_f0k3j"]
 [ext_resource type="Shader" uid="uid://colhoamqrtuej" path="res://materials/shader/DotCirclesMaterial.gdshader" id="2_5sqgi"]
@@ -11,6 +11,8 @@
 [ext_resource type="PackedScene" uid="uid://dt4vauql4gx0y" path="res://components/HalfCapsule.tscn" id="12_d6u53"]
 [ext_resource type="PackedScene" uid="uid://b8phu2uow5j4d" path="res://world/Clock.tscn" id="12_f0k3j"]
 [ext_resource type="PackedScene" uid="uid://b0ky2r6dv835o" path="res://world/Base.tscn" id="13_sypgb"]
+[ext_resource type="Script" uid="uid://c5hsf15hvj6m" path="res://world/Bounds.gd" id="13_vkdmv"]
+[ext_resource type="PackedScene" uid="uid://c2avn203eitto" path="res://world/MultiMesh.tscn" id="14_052yy"]
 [ext_resource type="PackedScene" uid="uid://cqn35mciqmm8s" path="res://world/Enemy.tscn" id="14_dn5x0"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_dn5x0"]
@@ -92,6 +94,9 @@ albedo_color = Color(0, 1, 0, 1)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d6u53"]
 albedo_color = Color(0, 0, 1, 1)
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_052yy"]
+radius = 49.0
+
 [node name="Level" type="Node3D"]
 process_mode = 1
 script = ExtResource("1_f0k3j")
@@ -119,7 +124,6 @@ metadata/_edit_lock_ = true
 
 [node name="SlotRing1" type="Node3D" parent="Floor/SlotsRings"]
 unique_name_in_owner = true
-visible = false
 script = ExtResource("3_5sqgi")
 radius = 5.5
 metadata/_custom_type_script = "uid://7c1aiis7pati"
@@ -315,8 +319,20 @@ rings = 8
 material = SubResource("StandardMaterial3D_d6u53")
 
 [node name="Clock" parent="." instance=ExtResource("12_f0k3j")]
+unique_name_in_owner = true
 process_mode = 1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+
+[node name="Bounds" type="Area3D" parent="."]
+collision_layer = 536870912
+collision_mask = 48
+monitorable = false
+script = ExtResource("13_vkdmv")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Bounds"]
+shape = SubResource("SphereShape3D_052yy")
+
+[node name="MultiMesh" parent="." instance=ExtResource("14_052yy")]
 
 [connection signal="visibility_changed" from="Floor/SlotsRings/SlotRing1" to="Floor/SlotsRings/SlotRing1" method="_on_visibility_changed"]
 [connection signal="visibility_changed" from="Floor/SlotsRings/SlotRing2" to="Floor/SlotsRings/SlotRing2" method="_on_visibility_changed"]
@@ -324,3 +340,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
 [connection signal="visibility_changed" from="Floor/SlotsRings/SlotRing4" to="Floor/SlotsRings/SlotRing4" method="_on_visibility_changed"]
 [connection signal="visibility_changed" from="Floor/SlotsRings/SlotRing5" to="Floor/SlotsRings/SlotRing5" method="_on_visibility_changed"]
 [connection signal="visibility_changed" from="Floor/SlotsRings/SlotRing6" to="Floor/SlotsRings/SlotRing6" method="_on_visibility_changed"]
+[connection signal="body_exited" from="Bounds" to="Bounds" method="bodyExit"]

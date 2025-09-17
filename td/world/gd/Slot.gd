@@ -1,6 +1,6 @@
 class_name Slot extends Node3D
 
-func _enter_tree():
+func _ready():
     
-    add_to_group("slot")
+    Utils.level(self).get_node("MultiMesh").add("slot", self)
     

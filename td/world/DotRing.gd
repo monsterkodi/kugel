@@ -3,7 +3,7 @@ class_name DotRing extends Node3D
 @export_range(0.01, 50.0) var radius = 1.0: 
     set(v) : radius = v; update()
 
-@export_range(4, 1000, 1) var numDots = 8: 
+@export_range(4, 1000, 1) var numDots = 0: 
     set(v): numDots = v; update()
 
 @export_range(0.01, 10.0) var dotRadius = 0.1: 
@@ -29,6 +29,8 @@ func update():
 func setup():
 
     if is_inside_tree():
+        
+        Utils.freeChildren(self)
         
         for index in range(numDots):
             var dot:Dot = dotRes.instantiate()

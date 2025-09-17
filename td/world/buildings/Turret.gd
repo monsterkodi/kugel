@@ -6,8 +6,9 @@ var sensorBodies : Array[Node3D]
 var targetPos    : Vector3
 var rotSpeed     : float
 var shotTween    : Tween
-var world        : World
 var powerCards   : int
+var level        : Level
+var bullets      : Node3D
 
 var interval  = 1.0
 var velocity  = 2.0
@@ -19,7 +20,9 @@ var mass      = 1.0
 
 func _ready():
     
-    world = get_node("/root/World")
+    level = Utils.firstParentWithClass(self, "Level")
+    if level:
+        bullets = level.get_node("Bullets")
     
     if not global_position.is_zero_approx():
         look_at(Vector3.ZERO)
@@ -69,7 +72,7 @@ func shoot():
     reloadTimer.start(interval)
     
     var bullet:Node3D = bulletRes.instantiate()
-    world.currentLevel.get_node("Bullets").add_child(bullet)
+    bullets.add_child(bullet)
     bullet.mass = mass
     bullet.global_transform = emitter.global_transform
     bullet.linear_velocity  = emitter.global_basis.z * -velocity

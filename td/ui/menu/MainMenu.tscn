@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://crdyanslu6b0r"]
+
+[ext_resource type="Script" uid="uid://bxjssm0y45511" path="res://ui/menu/MainMenu.gd" id="1_jlylj"]
+
+[node name="MainMenu" type="PanelContainer"]
+script = ExtResource("1_jlylj")
+metadata/_custom_type_script = "uid://vl5uuupklejb"
+
+[node name="LevelButtons" type="HBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 50
+alignment = 1

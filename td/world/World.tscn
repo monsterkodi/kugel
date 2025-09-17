@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://b6mskrm1n176r"]
+[gd_scene load_steps=25 format=3 uid="uid://b6mskrm1n176r"]
 
 [ext_resource type="Script" uid="uid://b6inujglidn5n" path="res://world/gd/World.gd" id="1_eu7l1"]
 [ext_resource type="PackedScene" uid="uid://baj5gp1mlm380" path="res://world/Player.tscn" id="3_wygdx"]
@@ -22,6 +22,7 @@
 [ext_resource type="PackedScene" uid="uid://d3bgtynatvwu2" path="res://ui/menu/CheatMenu.tscn" id="18_3j5ad"]
 [ext_resource type="AudioStream" uid="uid://dlca75ji3feaq" path="res://sounds/tok.wav" id="19_tx47m"]
 [ext_resource type="Script" uid="uid://dsacaoashnrme" path="res://world/GameSound.gd" id="20_fy8qs"]
+[ext_resource type="PackedScene" uid="uid://crdyanslu6b0r" path="res://ui/menu/MainMenu.tscn" id="23_vqsdb"]
 
 [sub_resource type="Environment" id="Environment_ig7tw"]
 background_mode = 1
@@ -65,11 +66,13 @@ seconds = 1.0
 
 [node name="Hud" parent="." instance=ExtResource("10_8mymi")]
 unique_name_in_owner = true
+visible = false
 anchors_preset = -1
 
 [node name="BattleCards" parent="." instance=ExtResource("7_x3yhk")]
 unique_name_in_owner = true
 process_mode = 1
+visible = false
 
 [node name="Builder" parent="." instance=ExtResource("5_0n6y5")]
 unique_name_in_owner = true
@@ -133,4 +136,10 @@ unique_name_in_owner = true
 process_mode = 2
 visible = false
 
+[node name="MainMenu" parent="MenuHandler" instance=ExtResource("23_vqsdb")]
+unique_name_in_owner = true
+process_mode = 2
+visible = false
+
 [connection signal="visibility_changed" from="MenuHandler/CardChooser" to="MenuHandler/CardChooser" method="_on_visibility_changed"]
+[connection signal="loadLevel" from="MenuHandler/MainMenu" to="." method="loadLevel"]

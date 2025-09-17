@@ -57,15 +57,15 @@ func _integrate_forces(state: PhysicsDirectBodyState3D):
             applyDamage(damageAccum, null)
             damageAccum = 0
             
-    if dead():
-        var lsq = global_position.length_squared()
-        if lsq > 2500:
-            if collision_layer == Layer.LayerCorpse:
-                linear_velocity = -global_position.normalized()*clampf((lsq-2500)*0.1, 0, 10)
-                linear_velocity.y = 0
-            else:
-                linear_velocity = linear_velocity.bounce(-global_position.normalized())
-                linear_velocity *= 0.9
+    #if dead():
+        #var lsq = global_position.length_squared()
+        #if lsq > 2500:
+            #if collision_layer == Layer.LayerCorpse:
+                #linear_velocity = -global_position.normalized()*clampf((lsq-2500)*0.1, 0, 10)
+                #linear_velocity.y = 0
+            #else:
+                #linear_velocity = linear_velocity.bounce(-global_position.normalized())
+                #linear_velocity *= 0.9
 
 func addDamage(damage:float):
     

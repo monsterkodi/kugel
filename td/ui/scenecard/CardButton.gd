@@ -1,13 +1,17 @@
 class_name CardButton
 extends Button
 
-@onready var scene: SceneViewport = %Scene
+@onready var sceneViewport: SceneViewport = %Scene
 
 @export var card:Card
 
 func _ready():
 
     if card: setCard(card)
+    
+func setScene(scene):
+    
+    sceneViewport.setScene(scene)
     
 func setCard(c:Card):
     
@@ -16,7 +20,7 @@ func setCard(c:Card):
         add_child(card)
     text = card.res.name
     if card.res.scene:
-        %Scene.setScene.call_deferred(card.res.scene)
+        setScene(card.res.scene)
         
     if card.res.type == CardRes.CardType.PERMANENT:
         setColor(Color(0.3, 0.3, 1.0, 1.0))
@@ -30,4 +34,4 @@ func setColor(color:Color):
     
 func setSize(sceneSize:Vector2i):
     
-    scene.size = sceneSize
+    sceneViewport.size = sceneSize

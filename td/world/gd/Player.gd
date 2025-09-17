@@ -23,9 +23,16 @@ func _ready():
     add_child(hand)
     add_child(perm)
     
-    loadVehicle.call_deferred("Pill")
-    
     Post.subscribe(self)
+    
+func levelStart():
+    
+    loadVehicle("Pill")
+    global_position = Vector3.ZERO
+    for card in hand.get_children():
+        match card.res.name:
+            Card.Shield: addShield()
+            _: pass #Log.log("card", card.res.name)
 
 func loadVehicle(vehicle_name:String):
     
@@ -53,8 +60,8 @@ func _unhandled_input(_event: InputEvent):
 func on_save(data:Dictionary):
 
     data.Player = {}
-    data.Player.transform  = transform
-    data.Player.vehicle    = vehicleName
+    #data.Player.transform  = transform
+    #data.Player.vehicle    = vehicleName
     data.Player.hand       = hand.toDict()
     data.Player.deck       = deck.toDict()
     data.Player.perm       = perm.toDict()
@@ -72,8 +79,8 @@ func on_load(data:Dictionary):
     
     if data.has("Player"):
     
-        transform = data.Player.transform
-        loadVehicle(data.Player.vehicle)
+        #transform = data.Player.transform
+        #loadVehicle(data.Player.vehicle)
         
         if data.Player.has("cardLevel"):  cardLevel  = maxi(data.Player.cardLevel, 0)
         if data.Player.has("nextCardIn"): nextCardIn = clampi(data.Player.nextCardIn, 1, Info.nextCardAtLevel(cardLevel))
@@ -92,10 +99,3 @@ func addShield():
     shield.inert = false
     get_parent_node_3d().add_child(shield)
     shield.global_position = Vector3.ZERO
-
-#func levelStart():
-    #
-    #for card in hand.get_children():
-        #match card.res.name:
-            #Card.Shield: addShield()
-            #_: pass #Log.log("card", card.res.name)

@@ -15,7 +15,7 @@ var dirSign               = 1
 var activeDotColor  = Color(1,0,0)
 var passiveDotColor = Color(0.02,0.02,0.02)
 
-func _ready():
+func start():
     
     Post.subscribe(self)
     

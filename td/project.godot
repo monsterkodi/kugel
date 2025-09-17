@@ -26,7 +26,6 @@ Wallet="*res://world/gd/Wallet.gd"
 Utils="*res://utils/Utils.gd"
 fps_graph="*res://addons/fps_graph/fps_graph.tscn"
 Info="*res://world/gd/Info.gd"
-GlobalMultiMesh="*res://world/MultiMesh.tscn"
 
 [debug]
 
@@ -81,12 +80,8 @@ folder_colors={
 [global_group]
 
 save=""
-enemy=""
 game=""
-slot=""
 level=""
-bullet=""
-dot=""
 
 [gui]
 
@@ -269,6 +264,7 @@ place_building={
 3d_physics/layer_6="Corpse"
 3d_physics/layer_9="Shield"
 3d_physics/layer_10="Base"
+3d_physics/layer_30="Bounds"
 3d_physics/layer_31="Spawner"
 3d_physics/layer_32="Floor"
 
