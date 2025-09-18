@@ -1,0 +1,112 @@
+[gd_scene load_steps=8 format=3 uid="uid://c23bh5moajx3o"]
+
+[ext_resource type="Script" uid="uid://cp26u33wv57kh" path="res://ui/menu/ResultMenu.gd" id="1_gb6tf"]
+[ext_resource type="Script" uid="uid://db85fb86bo305" path="res://ui/menu/FocusOnHover.gd" id="2_gb6tf"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b8hm6"]
+content_margin_left = 25.0
+content_margin_right = 25.0
+bg_color = Color(0.1, 0.1, 0.1, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+expand_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6j3nk"]
+bg_color = Color(0.52156866, 0, 0, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+expand_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_riwhs"]
+bg_color = Color(0.068920076, 0.068920076, 0.068920076, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+expand_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s1m8r"]
+bg_color = Color(0.52156866, 0, 0, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+expand_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gy74k"]
+bg_color = Color(1, 0, 0, 1)
+border_color = Color(0, 0, 0, 0)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+expand_margin_bottom = 10.0
+shadow_size = 4
+
+[node name="ResultMenu" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_gb6tf")
+metadata/_custom_type_script = "uid://vl5uuupklejb"
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_constants/margin_bottom = 60
+
+[node name="Buttons" type="VBoxContainer" parent="MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="Retry" type="Button" parent="MarginContainer/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0.31670618, 0.31670618, 0.31670618, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.86081076, 0, 1)
+theme_override_font_sizes/font_size = 84
+theme_override_styles/normal = SubResource("StyleBoxFlat_b8hm6")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_6j3nk")
+theme_override_styles/hover = SubResource("StyleBoxFlat_riwhs")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_s1m8r")
+theme_override_styles/focus = SubResource("StyleBoxFlat_gy74k")
+text = "Retry"
+icon_alignment = 1
+
+[node name="FocusOnHover" type="Node" parent="MarginContainer/Buttons/Retry"]
+script = ExtResource("2_gb6tf")
+metadata/_custom_type_script = "uid://db85fb86bo305"
+
+[node name="Main Menu" type="Button" parent="MarginContainer/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0.31670618, 0.31670618, 0.31670618, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.86081076, 0, 1)
+theme_override_font_sizes/font_size = 84
+theme_override_styles/normal = SubResource("StyleBoxFlat_b8hm6")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_6j3nk")
+theme_override_styles/hover = SubResource("StyleBoxFlat_riwhs")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_s1m8r")
+theme_override_styles/focus = SubResource("StyleBoxFlat_gy74k")
+text = "Main Menu"
+icon_alignment = 1
+
+[node name="FocusOnHover" type="Node" parent="MarginContainer/Buttons/Main Menu"]
+script = ExtResource("2_gb6tf")
+metadata/_custom_type_script = "uid://db85fb86bo305"
+
+[connection signal="pressed" from="MarginContainer/Buttons/Retry" to="." method="onRetry"]
+[connection signal="pressed" from="MarginContainer/Buttons/Main Menu" to="." method="onMainMenu"]

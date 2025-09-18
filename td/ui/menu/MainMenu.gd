@@ -1,21 +1,35 @@
 class_name MainMenu
 extends Menu
 
-signal loadLevel
+signal playLevel
 
 @onready var levelButtons: HBoxContainer = %LevelButtons
+
+func onQuit():      Post.quitGame.emit()
+func onSettings():  Post.settings.emit(self)
 
 const LEVEL_BUTTON = preload("uid://thwlxijax7nj")
 const LEVEL_SIZE   = Vector2i(500,450)
 
-func _ready(): pass
+func back(): 
+    
+    if %Quit.has_focus():
+        Post.quitGame.emit()
+    else:
+        %Quit.grab_focus()
     
 func appear():
 
     Utils.freeChildren(levelButtons)
     
-    addLevelButton(load("uid://btl7cihfnbl6u"))
-    addLevelButton(load("uid://wo631fluqa0p"))
+    var button1 : Button = addLevelButton(load("uid://btl7cihfnbl6u"))
+    var button2 : Button = addLevelButton(load("uid://wo631fluqa0p"))
+
+    button1.focus_neighbor_right = button2.get_path()
+    button2.focus_neighbor_left  = button1.get_path()
+
+    button1.focus_neighbor_top = %Buttons.get_child(-1).get_path()
+    button2.focus_neighbor_top = %Buttons.get_child(-1).get_path()
     
     super.appear()
 
@@ -41,7 +55,9 @@ func addLevelButton(scene):
     
     var environment : Environment = button.viewport.scene.environment.environment
     environment.fog_density = 0
+    
+    return button
 
 func levelChosen(level):
     
-    loadLevel.emit(level)
+    playLevel.emit(level)

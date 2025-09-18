@@ -16,6 +16,7 @@ var activeMenu  : Control
 var vanishMenu  : Control
 var appearTween : Tween
 var vanishTween : Tween
+var slideOutRightTween : Tween
 
 func _ready():
     
@@ -201,8 +202,9 @@ func slideOutRight(menu:Control):
     menu.anchor_left  = 0
     menu.anchor_right = 1
     
-    var tween = create_tween()
-    tween.tween_property(menu, "anchor_left", 0 + SLIDE_RIGHT, SLIDE_OUT_TIME)
-    tween.parallel().tween_property(menu, "anchor_right", 1 + SLIDE_RIGHT, SLIDE_OUT_TIME)
-    tween.tween_callback(menu.hide)
-    return tween    
+    slideOutRightTween = create_tween()
+    slideOutRightTween.tween_property(menu, "anchor_left", 0 + SLIDE_RIGHT, SLIDE_OUT_TIME)
+    slideOutRightTween.parallel().tween_property(menu, "anchor_right", 1 + SLIDE_RIGHT, SLIDE_OUT_TIME)
+    slideOutRightTween.tween_callback(menu.hide)
+    
+    return slideOutRightTween    

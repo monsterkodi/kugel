@@ -1,10 +1,11 @@
 class_name World
 extends Node
 
-const LEVEL = preload("uid://wo631fluqa0p")
+const LEVEL   = preload("uid://wo631fluqa0p")
 const LEVEL_B = preload("uid://btl7cihfnbl6u")
 
 var currentLevel:Node3D
+var currentLevelRes:PackedScene
 
 func _ready():
     
@@ -14,6 +15,7 @@ func _ready():
     
     Info.player = %Player
 
+    loadGame()
     mainMenu()
     
 func mainMenu():
@@ -62,7 +64,7 @@ func baseDestroyed():
     
     Post.levelEnd.emit()
     pauseGame()
-    %MenuHandler.appear(%HandChooser)
+    %MenuHandler.appear(%ResultMenu)
     
 func enemySpawned(spawner:Spawner):
     
@@ -99,17 +101,6 @@ func cardChosen(card:Card):
     Post.applyCards.emit()
     
     resumeGame()
-       
-func handChosen():
-
-    Post.startLevel.emit()
-        
-func restartLevel():
-    
-    pauseGame()
-    if Info.numberOfCardsOwned(Card.BattleCard) < 1:
-        %Player.perm.addCard(Card.withName(Card.BattleCard))
-    %MenuHandler.appear(%HandChooser)
 
 func newGame():
     
@@ -117,10 +108,19 @@ func newGame():
     %Player.perm.addCard(Card.withName(Card.BattleCard))
     restartLevel()
     
+func restartLevel():
+    
+    pauseGame()
+    %MenuHandler.appear(%HandChooser)
+
+func handChosen():
+
+    loadLevel(currentLevelRes)
+        
 func buildMode():
     
     pauseGame()
-
+    %MenuHandler.slideOutRightTween.stop()
     %MenuHandler.appear(%BuildMenu, "left")
                   
 func pauseMenu():
@@ -159,20 +159,34 @@ func saveGame():
 func loadGame():
     
     %Saver.load()
+    ensureOneBattleCard()
     
-func settings():
+func settings(backMenu:Menu):
     
+    %SettingsMenu.backMenu = backMenu
     %MenuHandler.appear(%SettingsMenu)
 
-func loadLevel(level):
+func ensureOneBattleCard():
     
-    loadGame()
+    if Info.numberOfCardsOwned(Card.BattleCard) < 1:
+        %Player.perm.addCard(Card.withName(Card.BattleCard))
 
-    Log.log("loadLevel", level)
+func playLevel(levelRes):
+    
+    currentLevelRes = levelRes
+    if %Player.deck.get_child_count():
+        %MenuHandler.appear(%HandChooser)
+    else:
+        loadLevel(levelRes)
+
+func loadLevel(levelRes):
+    
+    Log.log("loadLevel", levelRes)
     if currentLevel:
         currentLevel.free()
-        
-    currentLevel = level.instantiate()
+    
+    currentLevelRes = levelRes   
+    currentLevel = levelRes.instantiate()
     currentLevel.inert = false
     add_child(currentLevel)
     currentLevel.start()

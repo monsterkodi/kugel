@@ -1,12 +1,22 @@
 class_name Menu
 extends PanelContainer
 
+var backMenu:Menu
+var backFrom = "bottom"
+
 func _ready():
     
     #Log.log("new Menu", self)
     set_process_input(false)
     
-func back():     %MenuHandler.vanish(self)
+func back():
+      
+    if backMenu:
+        %MenuHandler.appear(backMenu, backFrom)
+        backMenu = null
+    else:
+        %MenuHandler.vanish(self)
+        
 func vanish():   pass
 func appear():   show()
 func appeared(): set_process_input(true)

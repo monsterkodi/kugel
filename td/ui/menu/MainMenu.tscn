@@ -1,13 +1,55 @@
-[gd_scene load_steps=2 format=3 uid="uid://crdyanslu6b0r"]
+[gd_scene load_steps=4 format=3 uid="uid://crdyanslu6b0r"]
 
 [ext_resource type="Script" uid="uid://bxjssm0y45511" path="res://ui/menu/MainMenu.gd" id="1_jlylj"]
+[ext_resource type="Theme" uid="uid://ckxlwln5s1u4b" path="res://ui/theme/PauseMenuTheme.tres" id="2_guig7"]
+[ext_resource type="Script" uid="uid://db85fb86bo305" path="res://ui/menu/FocusOnHover.gd" id="3_7ml3v"]
 
 [node name="MainMenu" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_jlylj")
 metadata/_custom_type_script = "uid://vl5uuupklejb"
 
-[node name="LevelButtons" type="HBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 40
+
+[node name="LevelButtons" type="HBoxContainer" parent="VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 50
 alignment = 1
+
+[node name="Buttons" type="VBoxContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Settings" type="Button" parent="VBoxContainer/Buttons"]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("2_guig7")
+text = "Settings
+"
+
+[node name="FocusOnHover" type="Node" parent="VBoxContainer/Buttons/Settings"]
+script = ExtResource("3_7ml3v")
+metadata/_custom_type_script = "uid://db85fb86bo305"
+
+[node name="Quit" type="Button" parent="VBoxContainer/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("2_guig7")
+text = "Quit"
+
+[node name="FocusOnHover" type="Node" parent="VBoxContainer/Buttons/Quit"]
+script = ExtResource("3_7ml3v")
+metadata/_custom_type_script = "uid://db85fb86bo305"
+
+[connection signal="pressed" from="VBoxContainer/Buttons/Settings" to="." method="onSettings"]
+[connection signal="pressed" from="VBoxContainer/Buttons/Quit" to="." method="onQuit"]

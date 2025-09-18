@@ -3,6 +3,7 @@ extends Menu
 
 func _ready():
     
+    backFrom = "top"
     Post.subscribe(self)
     super._ready()
 

@@ -32,94 +32,83 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
+[node name="Buttons" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 theme = ExtResource("2_8tehv")
 theme_override_constants/separation = 20
 alignment = 1
 
-[node name="Resume" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
+[node name="Resume" type="Button" parent="PanelContainer/MarginContainer/Buttons"]
 layout_mode = 2
-focus_neighbor_top = NodePath("../Quit")
 mouse_default_cursor_shape = 2
 theme = ExtResource("2_8tehv")
 text = "Resume"
 
-[node name="FocusOnHover" type="Node" parent="PanelContainer/MarginContainer/VBoxContainer/Resume"]
+[node name="FocusOnHover" type="Node" parent="PanelContainer/MarginContainer/Buttons/Resume"]
 script = ExtResource("3_1q10k")
 metadata/_custom_type_script = "uid://db85fb86bo305"
 
-[node name="Cards" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
-mouse_default_cursor_shape = 2
-theme = ExtResource("2_8tehv")
-text = "Cards
-"
-
-[node name="FocusOnHover" type="Node" parent="PanelContainer/MarginContainer/VBoxContainer/Cards"]
-script = ExtResource("3_1q10k")
-metadata/_custom_type_script = "uid://db85fb86bo305"
-
-[node name="Settings" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
-mouse_default_cursor_shape = 2
-theme = ExtResource("2_8tehv")
-text = "Settings
-"
-
-[node name="FocusOnHover" type="Node" parent="PanelContainer/MarginContainer/VBoxContainer/Settings"]
-script = ExtResource("3_1q10k")
-metadata/_custom_type_script = "uid://db85fb86bo305"
-
-[node name="Restart" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
+[node name="Restart" type="Button" parent="PanelContainer/MarginContainer/Buttons"]
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme = ExtResource("2_8tehv")
 text = "Restart
 "
 
-[node name="FocusOnHover" type="Node" parent="PanelContainer/MarginContainer/VBoxContainer/Restart"]
+[node name="FocusOnHover" type="Node" parent="PanelContainer/MarginContainer/Buttons/Restart"]
 script = ExtResource("3_1q10k")
 metadata/_custom_type_script = "uid://db85fb86bo305"
 
-[node name="Main Menu" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
+[node name="Cards" type="Button" parent="PanelContainer/MarginContainer/Buttons"]
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme = ExtResource("2_8tehv")
-text = "Main Menu
+text = "Cards
 "
 
-[node name="FocusOnHover" type="Node" parent="PanelContainer/MarginContainer/VBoxContainer/Main Menu"]
+[node name="FocusOnHover" type="Node" parent="PanelContainer/MarginContainer/Buttons/Cards"]
 script = ExtResource("3_1q10k")
 metadata/_custom_type_script = "uid://db85fb86bo305"
 
-[node name="Cheat" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
+[node name="Cheat" type="Button" parent="PanelContainer/MarginContainer/Buttons"]
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme = ExtResource("2_8tehv")
 text = "Cheat
 "
 
-[node name="FocusOnHover" type="Node" parent="PanelContainer/MarginContainer/VBoxContainer/Cheat"]
+[node name="FocusOnHover" type="Node" parent="PanelContainer/MarginContainer/Buttons/Cheat"]
 script = ExtResource("3_1q10k")
 metadata/_custom_type_script = "uid://db85fb86bo305"
 
-[node name="Quit" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
+[node name="Settings" type="Button" parent="PanelContainer/MarginContainer/Buttons"]
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme = ExtResource("2_8tehv")
-text = "Quit"
+text = "Settings
+"
 
-[node name="FocusOnHover" type="Node" parent="PanelContainer/MarginContainer/VBoxContainer/Quit"]
+[node name="FocusOnHover" type="Node" parent="PanelContainer/MarginContainer/Buttons/Settings"]
+script = ExtResource("3_1q10k")
+metadata/_custom_type_script = "uid://db85fb86bo305"
+
+[node name="Main Menu" type="Button" parent="PanelContainer/MarginContainer/Buttons"]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("2_8tehv")
+text = "Main Menu
+"
+
+[node name="FocusOnHover" type="Node" parent="PanelContainer/MarginContainer/Buttons/Main Menu"]
 script = ExtResource("3_1q10k")
 metadata/_custom_type_script = "uid://db85fb86bo305"
 
 [connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
-[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/Resume" to="." method="_on_resume_pressed"]
-[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/Cards" to="." method="_on_cards_pressed"]
-[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/Settings" to="." method="_on_settings_pressed"]
-[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/Restart" to="." method="_on_restart_pressed"]
-[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/Main Menu" to="." method="_on_main_menu_pressed"]
-[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/Cheat" to="." method="_on_cheat_pressed"]
-[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/Buttons/Resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/Buttons/Restart" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/Buttons/Cards" to="." method="_on_cards_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/Buttons/Cheat" to="." method="_on_cheat_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/Buttons/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/Buttons/Main Menu" to="." method="_on_main_menu_pressed"]
