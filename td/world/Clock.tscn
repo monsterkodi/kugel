@@ -12,13 +12,17 @@ script = ExtResource("1_jrwln")
 
 [node name="DotRing" parent="." instance=ExtResource("2_j00or")]
 unique_name_in_owner = true
+visible = false
 radius = 40.0
+numDots = 8
 dotRadius = 1.0
 dotColor = Color(0.03, 0.03, 0.03, 1)
 
 [node name="TickRing" parent="." instance=ExtResource("2_j00or")]
 unique_name_in_owner = true
+visible = false
 radius = 40.0
+numDots = 8
 dotRadius = 0.3
 dotColor = Color(0.05, 0.05, 0.05, 1)
 
@@ -26,3 +30,5 @@ dotColor = Color(0.05, 0.05, 0.05, 1)
 unique_name_in_owner = true
 mesh = SubResource("PlaneMesh_j00or")
 surface_material_override/0 = ExtResource("3_todfx")
+
+[connection signal="visibility_changed" from="DotRing" to="DotRing" method="_on_visibility_changed"]

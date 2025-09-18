@@ -35,6 +35,7 @@ func buttonPressed(button):
 func back():
     
     if pauseOnBack:
+        Post.applyCards.emit()
         %MenuHandler.appear(%PauseMenu, "left")
         pauseOnBack = false
     else:

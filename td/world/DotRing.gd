@@ -14,19 +14,7 @@ class_name DotRing extends Node3D
 
 @export var dotRes:PackedScene = preload("res://world/Dot.tscn")
 
-var slots:Array[Slot]
-
-func _ready():
-
-    if visible and get_child_count() == 0:
-        setup()
-    
 func update():
-    
-    Utils.freeChildren(self)
-    setup()
-    
-func setup():
 
     if is_inside_tree():
         
@@ -46,5 +34,7 @@ func setColor(index, color):
         
 func _on_visibility_changed():
     
-    if visible and get_child_count() == 0:
-        setup()
+    if visible:
+        update()
+    else:
+        Utils.freeChildren(self)

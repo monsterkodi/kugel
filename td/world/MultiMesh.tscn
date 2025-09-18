@@ -44,10 +44,12 @@ script = ExtResource("1_4npgi")
 
 [node name="Dot" type="MultiMeshInstance3D" parent="."]
 material_override = ExtResource("4_rowl7")
+cast_shadow = 0
 multimesh = SubResource("MultiMesh_lh0gu")
 
 [node name="Slot" type="MultiMeshInstance3D" parent="."]
 material_override = ExtResource("3_5pk03")
+cast_shadow = 0
 multimesh = SubResource("MultiMesh_4or7h")
 
 [node name="Enemy" type="MultiMeshInstance3D" parent="."]

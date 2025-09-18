@@ -8,17 +8,6 @@ var seconds       : float = 10.0
 var pointerSecs   : float = 0.0
 var pointerFactor : float = 0.0
 
-func _ready():
-    
-    name = "LevelB"
-    set_process(false)
-    
-func start():
-    
-    add_to_group("game")
-    set_process(true)
-    Post.subscribe(self)
-    
 func applyCards(): pass
     
 func _process(delta: float):
@@ -42,4 +31,3 @@ func nextRound():
     seconds       = maxf(seconds, seconds_min)
     
     Post.clockTick.emit()
-        

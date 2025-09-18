@@ -5,16 +5,19 @@ signal loadLevel
 
 @onready var levelButtons: HBoxContainer = %LevelButtons
 
-const LEVEL   = preload("uid://wo631fluqa0p")
-const LEVEL_B = preload("uid://btl7cihfnbl6u")
-
 const LEVEL_BUTTON = preload("uid://thwlxijax7nj")
 const LEVEL_SIZE   = Vector2i(500,450)
 
-func _ready():
+func _ready(): pass
+    
+func appear():
 
-    addLevelButton(LEVEL_B)
-    addLevelButton(LEVEL)
+    Utils.freeChildren(levelButtons)
+    
+    addLevelButton(load("uid://btl7cihfnbl6u"))
+    addLevelButton(load("uid://wo631fluqa0p"))
+    
+    super.appear()
 
 func appeared():
         

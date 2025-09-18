@@ -4,10 +4,12 @@ var dict = {"dot": [], "slot": []}
 
 func add(typ:String, node:Node3D):
 
+    #Log.log("add", get_parent().get_script().get_global_name(), typ)
     dict[typ].append(node)
     
 func del(typ:String, node:Node3D):
     
+    #Log.log("del", get_parent().get_script().get_global_name(), typ)
     dict[typ].erase(node)
 
 func _process(delta:float):
@@ -17,8 +19,6 @@ func _process(delta:float):
     var mmi:MultiMeshInstance3D
     var num:int
     
-    Log.log(get_tree(), get_parent(), get_parent().inert)
-
     var dots = dict.dot
     num = dots.size()  
     mmi = $Dot 

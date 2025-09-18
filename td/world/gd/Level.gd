@@ -5,15 +5,15 @@ var inert = true
 
 func _ready():
     
-    name = "Level"
     set_process(false)
+    if inert:
+        get_node("MultiMesh").visible = false
     
 func start():
     
     add_to_group("game")
     set_process(true)
     #add_to_group("save")
-    %Clock.start()
     Post.subscribe(self)
     
 func applyCards():

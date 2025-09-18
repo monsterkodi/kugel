@@ -15,9 +15,16 @@ var dirSign               = 1
 var activeDotColor  = Color(1,0,0)
 var passiveDotColor = Color(0.02,0.02,0.02)
 
+func _ready():
+    
+    set_process(false)
+
 func start():
     
+    set_process(true)
     Post.subscribe(self)
+    %TickRing.visible = true
+    %DotRing.visible  = true
     
 func levelStart():
     
