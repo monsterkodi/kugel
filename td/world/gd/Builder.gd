@@ -19,7 +19,7 @@ func _input(event: InputEvent):
     
         if event.is_action_pressed("place_building"):
             get_viewport().set_input_as_handled()
-            Log.log("place_building")
+            #Log.log("place_building")
             placeBuilding()
             
 func placeBuilding():
@@ -30,7 +30,7 @@ func placeBuilding():
     assert(targetSlot)
     
     var building = load(ghost.scene_file_path).instantiate()
-    Log.log("placeBuilding", building.name)
+    #Log.log("placeBuilding", building.name)
     Post.buildingBought.emit(building.name)
     building.inert = false
     if targetSlot != get_parent_node_3d():

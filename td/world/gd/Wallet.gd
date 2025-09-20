@@ -23,8 +23,8 @@ func corpseCollected(collector:Node3D): setBalance(balance + 1)
 func buildingBought(building):
 
     var battleCards = get_node("/root/World/BattleCards")
-    if battleCards.countBattleCards(building):
-        battleCards.useBattleCard(building)
+    if battleCards.countCards(building):
+        battleCards.useCard(building)
     else:
         deductPrice(Info.priceForBuilding(building))
     

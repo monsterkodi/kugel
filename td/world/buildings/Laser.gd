@@ -29,7 +29,7 @@ func applyCards():
 func setSensorRadius(r:float):  
 
     if is_inside_tree():
-        %Sensor.scale = Vector3(r, 1, r)
+        %Sensor.scale = Vector3(r, r/2.0, r)
         %LaserPointer.laserRange = r
     
 func level_reset():

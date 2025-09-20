@@ -17,11 +17,11 @@ const CARD_LEVELS = [5, 5, 10, 10, 10, 20, 20, 20,
                     ]
                     
 const BUILDING_PRICES = {
-                    "Shield":  500,
+                    "Shield":  1000,
                     "Sniper":  100,
                     "Laser":   40,
-                    "Turret":  20,
-                    "Bouncer": 10,
+                    "Bouncer": 20,
+                    "Turret":  10,
                     "Pole":    2,
                     "Sell":    0
                     }
@@ -70,37 +70,33 @@ func nextCardAtLevel(cardLevel:int) -> int:
         return 800
     return CARD_LEVELS[cardLevel]
     
+func highscoreForCurrentLevel():
+    
+    return world.currentLevel.highscore
+    
 func nextSetOfCards():
     
-    #Log.log("nextSetOfCards", player.cardLevel)
-    
+    var hs = highscoreForCurrentLevel()
     var allCards:Array[CardRes] = Card.allRes()
     var cards:Array[Card] = []
-    #for c in allCards: Log.log(c.name)
-    if numberOfCardsOwned(Card.SlotRing) < 3:
+    
+    if numberOfCardsOwned(Card.SlotRing) < 3 and hs >= Card.Unlock[Card.SlotRing]:
         #Log.log("nextSetOfCards add Slot Ring")
         var cardRes = allCards[allCards.find_custom(func(c): return c.name == Card.SlotRing)]
         allCards.erase(cardRes)
         cards.append(Card.new(cardRes))
-        #if numberOfCardsOwned(Card.SlotRing) < 1:
-            #cards.append(Card.new(cardRes))
-            #cards.append(Card.new(cardRes))
-            #return cards
             
     if numberOfCardsOwned(Card.Turret) < 1:
-        #Log.log("nextSetOfCards add Turret")
         var cardRes = allCards[allCards.find_custom(func(c): return c.name == Card.Turret)]
         allCards.erase(cardRes)
         cards.append(Card.new(cardRes))
 
     if numberOfCardsOwned(Card.Laser) < 1 and (player.cardLevel % 10) == 0:
-        #Log.log("nextSetOfCards add Turret")
         var cardRes = allCards[allCards.find_custom(func(c): return c.name == Card.Laser)]
         allCards.erase(cardRes)
         cards.append(Card.new(cardRes))
 
     if numberOfCardsOwned(Card.Sniper) < 1 and (player.cardLevel % 20) == 0:
-        #Log.log("nextSetOfCards add Turret")
         var cardRes = allCards[allCards.find_custom(func(c): return c.name == Card.Laser)]
         allCards.erase(cardRes)
         cards.append(Card.new(cardRes))
@@ -112,6 +108,9 @@ func nextSetOfCards():
             if cardCount >= cardRes.maxNum:
                 allCards.erase(cardRes)
                 continue
+        if Card.Unlock.has(cardRes.name) and hs < Card.Unlock[cardRes.name]:
+            allCards.erase(cardRes)
+            continue
         cards.append(Card.new(cardRes))
         if cardRes.maxNum > 0:
             allCards.erase(cardRes)

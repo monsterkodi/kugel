@@ -23,28 +23,25 @@ func statChanged(statName, value):
 
     match statName:
         
-        "balance":            
-            
-            balance.text = str(value)
-            
-        "baseHitPoints":      
-            
-            Utils.freeChildren(%BasePoints)
-            for i in range(value):
-                var circle = CIRCLE.instantiate()
-                %BasePoints.add_child(circle)
-                circle.diameter = 24
-                circle.color = Color("9293ffff")
-                
-        "shieldHitPoints":    
-            
-            Utils.freeChildren(%ShieldPoints)
-            for i in range(value):
-                var circle = CIRCLE.instantiate()
-                %ShieldPoints.add_child(circle)
-                circle.diameter = 16
-                circle.color = Color("8a75ffff")
-            
-        "numEnemiesSpawned":  
-            
-            spawned.text = str(value)
+        "balance":           balance.text = str(value)
+        "numEnemiesSpawned": spawned.text = str(value)
+        "baseHitPoints":     setBasePoints(value)     
+        "shieldHitPoints":   setShieldPoints(value)
+
+func setBasePoints(value):
+    
+    Utils.freeChildren(%BasePoints)
+    for i in range(value):
+        var circle = CIRCLE.instantiate()
+        %BasePoints.add_child(circle)
+        circle.diameter = 24
+        circle.color = Color("9293ffff")
+
+func setShieldPoints(value):
+    
+    Utils.freeChildren(%ShieldPoints)
+    for i in range(value):
+        var circle = CIRCLE.instantiate()
+        %ShieldPoints.add_child(circle)
+        circle.diameter = 16
+        circle.color = Color("8a75ffff")

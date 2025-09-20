@@ -5,7 +5,7 @@ class_name Turret extends Building
 var sensorBodies : Array[Node3D]
 var targetPos    : Vector3
 var rotSpeed     : float
-var shotTween    : Tween
+var shootTween   : Tween
 var powerCards   : int
 var level        : Level
 var bullets      : Node3D
@@ -50,9 +50,11 @@ func applyCards():
 
 func setSensorRadius(r:float):  
 
-    %Sensor.scale = Vector3(r, 1, r)
+    %Sensor.scale = Vector3(r, r/2.0, r)
 
 func _physics_process(delta:float):
+    
+    if shootTween and shootTween.is_running(): return
     
     if target and target is Enemy:
         
@@ -62,7 +64,7 @@ func _physics_process(delta:float):
                     
         calcTargetPos()
         var angle = Utils.rotateTowards($BarrelPivot, -$BarrelTarget.basis.z.normalized(), delta*rotSpeed)
-        if absf(angle) < 0.1 and reloadTimer.is_stopped():
+        if absf(angle) < 1.0 and reloadTimer.is_stopped():
             shoot() 
     else:
         Utils.rotateTowards($BarrelPivot, -$BarrelTarget.basis.z.normalized(), delta*rotSpeed)
@@ -79,16 +81,16 @@ func shoot():
     %fire.play()
     
     var secs = interval / 3.0
-    shotTween = create_tween()
-    shotTween.set_ease(Tween.EASE_OUT)
-    shotTween.set_trans(Tween.TRANS_BOUNCE)
-    shotTween.tween_property(%BarrelMesh, "position:z",  0.1 + 0.1 * powerCards, secs)
-    shotTween.tween_property(%BarrelMesh, "position:z",  0.0, 2*secs)
+    shootTween = create_tween()
+    shootTween.set_ease(Tween.EASE_OUT)
+    shootTween.set_trans(Tween.TRANS_BOUNCE)
+    shootTween.tween_property(%BarrelMesh, "position:z",  0.1 + 0.1 * powerCards, secs)
+    shootTween.tween_property(%BarrelMesh, "position:z",  0.0, 2*secs)
         
 func calcTargetPos():
     
     var state:PhysicsDirectBodyState3D = PhysicsServer3D.body_get_direct_state(target.get_rid())
-    var V_t = state.linear_velocity
+    var V_t = state.linear_velocity * 0.9 # assume the enemy gets slower
     V_t.y = 0
     
     var D = target.global_position - emitter.global_position
@@ -109,7 +111,7 @@ func calcTargetPos():
             setTargetPos(target.global_position + V_t * t)
             return
     #Log.log("fallback")
-    setTargetPos(target.global_position)
+    #setTargetPos(target.global_position)
             
 func setTargetPos(pos:Vector3):
     
@@ -125,10 +127,6 @@ func _on_sensor_body_entered(body: Node3D):
 
 func _on_sensor_body_exited(body: Node3D):
     
-    if not is_inside_tree() or is_queued_for_deletion(): 
-        Log.log("???")
-        return
-    
     sensorBodies.erase(body)
     
     if body == target:
@@ -140,5 +138,3 @@ func _on_sensor_body_exited(body: Node3D):
 func lookUp():
     
     $BarrelTarget.look_at(global_position + Vector3.UP*10 + Vector3.RIGHT*0.001)
-
-    

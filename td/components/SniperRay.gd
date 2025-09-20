@@ -5,7 +5,8 @@ class_name SniperRay extends Node3D
 @export var range  = 100.0:
     set(v): range = v; update()
 
-@export var material:Material = preload("uid://4lqcupd84lbp")
+@export var material:ShaderMaterial
+@export var glowCurve:Curve
 
 var cylinder : MeshInstance3D
 
@@ -23,12 +24,23 @@ func shoot():
     
     visible = true
     
-    var secs = 0.5
     var tween = create_tween()
+
     tween.set_ease(Tween.EASE_OUT)
-    tween.set_trans(Tween.TRANS_QUINT)
-    tween.tween_interval(secs)
+    tween.set_trans(Tween.TRANS_LINEAR)
+    tween.tween_method(onRayTween, 0.0, 1.0, 1.0)
     tween.tween_callback(hide)
+    
+func onRayTween(value):
+    
+    var av = 1-value
+    var albedo : Color = Color(av, av, av, av)
+    var ev = maxf(av, glowCurve.sample(value)*3.0)
+    var emission : Color = Color(av, av, ev, av)
+    material.set_shader_parameter("albedo", albedo)
+    material.set_shader_parameter("emission", emission)
+    
+    setRadius(radius*(0.2+0.8*av))
     
 func update(): 
     

@@ -6,7 +6,7 @@ var spawned     = false
 
 func alive(): return health > 0
 func dead():  return health <= 0
-
+var deadColor : Color = Color(0,0,0)
 func die():
     
     %died.play(0.09)
@@ -15,14 +15,15 @@ func die():
     %Attraction.disable()
     var tween = create_tween()
     tween.set_process_mode(Tween.TWEEN_PROCESS_PHYSICS)
-    tween.set_ease(Tween.EASE_IN_OUT)
+    tween.set_ease(Tween.EASE_OUT)
     tween.set_trans(Tween.TRANS_QUINT)
     tween.tween_method(setMass, mass, 0.5, 1.0)
+    tween.parallel().tween_method(func(v): deadColor = Color(v,0,0), 1.0, 0.0, 0.3)
     tween.tween_callback(makeCorpse)
     
 func getColor() -> Color:
     
-    if dead(): return Color(0,0,0)
+    if dead(): return deadColor
     var vl = clampf(linear_velocity.length(), 0.0 , 1.0)
     return Color(1.3, 1.5-vl*1.5, 0)
     

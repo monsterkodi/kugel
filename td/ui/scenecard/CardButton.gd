@@ -13,6 +13,10 @@ func setScene(scene):
     
     sceneViewport.setScene(scene)
     
+func setCardWithName(n:String):
+    
+    setCard(Card.withName(n))
+        
 func setCard(c:Card):
     
     card = c

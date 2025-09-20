@@ -1,51 +1,26 @@
-[gd_scene load_steps=8 format=3 uid="uid://c23bh5moajx3o"]
+[gd_scene load_steps=12 format=3 uid="uid://c23bh5moajx3o"]
 
+[ext_resource type="Theme" uid="uid://cam2nr2jejqb2" path="res://ui/theme/ResultMenuTheme.tres" id="1_b8hm6"]
 [ext_resource type="Script" uid="uid://cp26u33wv57kh" path="res://ui/menu/ResultMenu.gd" id="1_gb6tf"]
 [ext_resource type="Script" uid="uid://db85fb86bo305" path="res://ui/menu/FocusOnHover.gd" id="2_gb6tf"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b8hm6"]
-content_margin_left = 25.0
-content_margin_right = 25.0
-bg_color = Color(0.1, 0.1, 0.1, 1)
-corner_radius_top_left = 25
-corner_radius_top_right = 25
-corner_radius_bottom_right = 25
-corner_radius_bottom_left = 25
-expand_margin_bottom = 10.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6j3nk"]
-bg_color = Color(0.52156866, 0, 0, 1)
-corner_radius_top_left = 25
-corner_radius_top_right = 25
-corner_radius_bottom_right = 25
-corner_radius_bottom_left = 25
-expand_margin_bottom = 10.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_riwhs"]
-bg_color = Color(0.068920076, 0.068920076, 0.068920076, 1)
-corner_radius_top_left = 25
-corner_radius_top_right = 25
-corner_radius_bottom_right = 25
-corner_radius_bottom_left = 25
-expand_margin_bottom = 10.0
+[ext_resource type="PackedScene" uid="uid://cj3gelhoeb5ps" path="res://ui/scenecard/CardButton.tscn" id="3_6j3nk"]
+[ext_resource type="Theme" uid="uid://n3fld744wequ" path="res://ui/theme/ResultMenuCardsTheme.tres" id="3_s1m8r"]
+[ext_resource type="Theme" uid="uid://ckxlwln5s1u4b" path="res://ui/theme/PauseMenuTheme.tres" id="4_riwhs"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s1m8r"]
-bg_color = Color(0.52156866, 0, 0, 1)
-corner_radius_top_left = 25
-corner_radius_top_right = 25
-corner_radius_bottom_right = 25
-corner_radius_bottom_left = 25
-expand_margin_bottom = 10.0
+bg_color = Color(0.048554122, 0.048554122, 0.048554122, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gy74k"]
-bg_color = Color(1, 0, 0, 1)
-border_color = Color(0, 0, 0, 0)
-corner_radius_top_left = 25
-corner_radius_top_right = 25
-corner_radius_bottom_right = 25
-corner_radius_bottom_left = 25
-expand_margin_bottom = 10.0
-shadow_size = 4
+[sub_resource type="ViewportTexture" id="ViewportTexture_riwhs"]
+viewport_path = NodePath("Scene")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_s1m8r"]
+viewport_path = NodePath("Scene")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_gy74k"]
+viewport_path = NodePath("Scene")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_nmpo1"]
+viewport_path = NodePath("Scene")
 
 [node name="ResultMenu" type="PanelContainer"]
 anchors_preset = 15
@@ -53,60 +28,187 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_s1m8r")
 script = ExtResource("1_gb6tf")
 metadata/_custom_type_script = "uid://vl5uuupklejb"
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("1_b8hm6")
+theme_override_constants/separation = 20
+
+[node name="Results" type="PanelContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Results"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Results/VBoxContainer"]
+layout_mode = 2
+
+[node name="ScoreLabel" type="Label" parent="VBoxContainer/Results/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "Score"
+
+[node name="ScoreValue" type="Label" parent="VBoxContainer/Results/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_font_sizes/font_size = 128
+text = "1000"
+horizontal_alignment = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/Results/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="TimeLabel" type="Label" parent="VBoxContainer/Results/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "Time"
+
+[node name="TimeValue" type="Label" parent="VBoxContainer/Results/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.38459277, 0.38459277, 0.38459277, 1)
+theme_override_font_sizes/font_size = 48
+text = "0:19:59"
+horizontal_alignment = 2
+
+[node name="Unlocks" type="PanelContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("3_s1m8r")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Unlocks"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Unlocks/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Unlocks/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="CardButton1" parent="VBoxContainer/Unlocks/VBoxContainer/HBoxContainer/VBoxContainer" instance=ExtResource("3_6j3nk")]
+unique_name_in_owner = true
+layout_mode = 2
+icon = SubResource("ViewportTexture_riwhs")
+
+[node name="LockValue1" type="Label" parent="VBoxContainer/Unlocks/VBoxContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 1)
+theme_override_font_sizes/font_size = 48
+text = "100"
+horizontal_alignment = 1
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/Unlocks/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="CardButton2" parent="VBoxContainer/Unlocks/VBoxContainer/HBoxContainer/VBoxContainer2" instance=ExtResource("3_6j3nk")]
+unique_name_in_owner = true
+layout_mode = 2
+icon = SubResource("ViewportTexture_s1m8r")
+
+[node name="LockValue2" type="Label" parent="VBoxContainer/Unlocks/VBoxContainer/HBoxContainer/VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 1)
+theme_override_font_sizes/font_size = 48
+text = "200"
+horizontal_alignment = 1
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="VBoxContainer/Unlocks/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="CardButton3" parent="VBoxContainer/Unlocks/VBoxContainer/HBoxContainer/VBoxContainer3" instance=ExtResource("3_6j3nk")]
+unique_name_in_owner = true
+layout_mode = 2
+icon = SubResource("ViewportTexture_gy74k")
+
+[node name="LockValue3" type="Label" parent="VBoxContainer/Unlocks/VBoxContainer/HBoxContainer/VBoxContainer3"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 1)
+theme_override_font_sizes/font_size = 48
+text = "400"
+horizontal_alignment = 1
+
+[node name="VBoxContainer4" type="VBoxContainer" parent="VBoxContainer/Unlocks/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="CardButton4" parent="VBoxContainer/Unlocks/VBoxContainer/HBoxContainer/VBoxContainer4" instance=ExtResource("3_6j3nk")]
+unique_name_in_owner = true
+layout_mode = 2
+icon = SubResource("ViewportTexture_nmpo1")
+
+[node name="LockValue4" type="Label" parent="VBoxContainer/Unlocks/VBoxContainer/HBoxContainer/VBoxContainer4"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 1)
+theme_override_font_sizes/font_size = 48
+text = "800"
+horizontal_alignment = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="VBoxContainer/Unlocks/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+size_flags_vertical = 4
+max_value = 800.0
+step = 1.0
+value = 800.0
+rounded = true
+show_percentage = false
+
+[node name="Menu" type="PanelContainer" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
-theme_override_constants/margin_bottom = 60
+theme = ExtResource("4_riwhs")
 
-[node name="Buttons" type="VBoxContainer" parent="MarginContainer"]
+[node name="Buttons" type="VBoxContainer" parent="VBoxContainer/Menu"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/separation = 40
+theme_override_constants/separation = 23
 alignment = 1
 
-[node name="Retry" type="Button" parent="MarginContainer/Buttons"]
+[node name="Retry" type="Button" parent="VBoxContainer/Menu/Buttons"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/font_color = Color(0.31670618, 0.31670618, 0.31670618, 1)
-theme_override_colors/font_pressed_color = Color(1, 0.86081076, 0, 1)
-theme_override_font_sizes/font_size = 84
-theme_override_styles/normal = SubResource("StyleBoxFlat_b8hm6")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_6j3nk")
-theme_override_styles/hover = SubResource("StyleBoxFlat_riwhs")
-theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_s1m8r")
-theme_override_styles/focus = SubResource("StyleBoxFlat_gy74k")
 text = "Retry"
 icon_alignment = 1
 
-[node name="FocusOnHover" type="Node" parent="MarginContainer/Buttons/Retry"]
+[node name="FocusOnHover" type="Node" parent="VBoxContainer/Menu/Buttons/Retry"]
 script = ExtResource("2_gb6tf")
 metadata/_custom_type_script = "uid://db85fb86bo305"
 
-[node name="Main Menu" type="Button" parent="MarginContainer/Buttons"]
+[node name="Main Menu" type="Button" parent="VBoxContainer/Menu/Buttons"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/font_color = Color(0.31670618, 0.31670618, 0.31670618, 1)
-theme_override_colors/font_pressed_color = Color(1, 0.86081076, 0, 1)
-theme_override_font_sizes/font_size = 84
-theme_override_styles/normal = SubResource("StyleBoxFlat_b8hm6")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_6j3nk")
-theme_override_styles/hover = SubResource("StyleBoxFlat_riwhs")
-theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_s1m8r")
-theme_override_styles/focus = SubResource("StyleBoxFlat_gy74k")
 text = "Main Menu"
 icon_alignment = 1
 
-[node name="FocusOnHover" type="Node" parent="MarginContainer/Buttons/Main Menu"]
+[node name="FocusOnHover" type="Node" parent="VBoxContainer/Menu/Buttons/Main Menu"]
 script = ExtResource("2_gb6tf")
 metadata/_custom_type_script = "uid://db85fb86bo305"
 
-[connection signal="pressed" from="MarginContainer/Buttons/Retry" to="." method="onRetry"]
-[connection signal="pressed" from="MarginContainer/Buttons/Main Menu" to="." method="onMainMenu"]
+[connection signal="pressed" from="VBoxContainer/Menu/Buttons/Retry" to="." method="onRetry"]
+[connection signal="pressed" from="VBoxContainer/Menu/Buttons/Main Menu" to="." method="onMainMenu"]

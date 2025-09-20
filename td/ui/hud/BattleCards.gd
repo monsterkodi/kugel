@@ -8,7 +8,7 @@ func _ready():
     
     Post.subscribe(self)
 
-func levelStart():
+func startLevel():
     
     Utils.freeChildren(%Cards)
     for card in %Player.hand.get_children():
@@ -31,7 +31,7 @@ func addCardButton(card:Card):
     button.text = ""
     button.setSize(CARD_SIZE)
     
-func countBattleCards(cardName:String) -> int:
+func countCards(cardName:String) -> int:
     
     var num = 0
     for button in %Cards.get_children():
@@ -39,7 +39,7 @@ func countBattleCards(cardName:String) -> int:
             num += 1
     return num
     
-func useBattleCard(cardName:String):
+func useCard(cardName:String):
     
     for button in %Cards.get_children():
         if button.card.res.name == cardName:

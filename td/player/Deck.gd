@@ -18,6 +18,12 @@ func countCards(cardName:String) -> int:
         if card.res.name == cardName: num += 1
     return num
     
+func getCard(cardName:String) -> Card:
+    
+    for card in get_children():
+        if card.res.name == cardName: return card
+    return null
+    
 func toDict() -> Dictionary:
     
     var dict = {"cards": []}

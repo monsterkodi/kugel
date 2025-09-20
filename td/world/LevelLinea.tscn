@@ -42,7 +42,7 @@ albedo_color = Color(0, 0, 1, 1)
 radius = 14.0
 height = 69.0
 
-[node name="LevelB" type="Node3D"]
+[node name="LevelLinea" type="Node3D"]
 process_mode = 1
 script = ExtResource("1_ucptv")
 
@@ -78,51 +78,72 @@ surface_material_override/0 = SubResource("StandardMaterial3D_x17i5")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
 shape = SubResource("WorldBoundaryShape3D_ucptv")
 
-[node name="SlotLane" type="Node3D" parent="Floor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -5)
+[node name="SlotRing1" type="Node3D" parent="Floor"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8)
 
-[node name="Slot" parent="Floor/SlotLane" instance=ExtResource("5_2c7m3")]
+[node name="Slot1" parent="Floor/SlotRing1" instance=ExtResource("5_2c7m3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0)
 
-[node name="Slot2" parent="Floor/SlotLane" instance=ExtResource("5_2c7m3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5)
+[node name="Slot2" parent="Floor/SlotRing1" instance=ExtResource("5_2c7m3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
 
-[node name="Slot3" parent="Floor/SlotLane" instance=ExtResource("5_2c7m3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
+[node name="Slot3" parent="Floor/SlotRing1" instance=ExtResource("5_2c7m3")]
 
-[node name="Slot4" parent="Floor/SlotLane" instance=ExtResource("5_2c7m3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -15)
+[node name="SlotRing2" type="Node3D" parent="Floor"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -13)
+visible = false
 
-[node name="Slot5" parent="Floor/SlotLane" instance=ExtResource("5_2c7m3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -20)
+[node name="Slot1" parent="Floor/SlotRing2" instance=ExtResource("5_2c7m3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0)
 
-[node name="Slot6" parent="Floor/SlotLane" instance=ExtResource("5_2c7m3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -25)
+[node name="Slot2" parent="Floor/SlotRing2" instance=ExtResource("5_2c7m3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
 
-[node name="Slot7" parent="Floor/SlotLane" instance=ExtResource("5_2c7m3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -30)
+[node name="SlotRing3" type="Node3D" parent="Floor"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -18)
+visible = false
 
-[node name="SlotLane2" type="Node3D" parent="Floor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -5)
+[node name="Slot1" parent="Floor/SlotRing3" instance=ExtResource("5_2c7m3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0)
 
-[node name="Slot" parent="Floor/SlotLane2" instance=ExtResource("5_2c7m3")]
+[node name="Slot2" parent="Floor/SlotRing3" instance=ExtResource("5_2c7m3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
 
-[node name="Slot2" parent="Floor/SlotLane2" instance=ExtResource("5_2c7m3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5)
+[node name="SlotRing4" type="Node3D" parent="Floor"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -23)
+visible = false
 
-[node name="Slot3" parent="Floor/SlotLane2" instance=ExtResource("5_2c7m3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
+[node name="Slot1" parent="Floor/SlotRing4" instance=ExtResource("5_2c7m3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0)
 
-[node name="Slot4" parent="Floor/SlotLane2" instance=ExtResource("5_2c7m3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -15)
+[node name="Slot2" parent="Floor/SlotRing4" instance=ExtResource("5_2c7m3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
 
-[node name="Slot5" parent="Floor/SlotLane2" instance=ExtResource("5_2c7m3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -20)
+[node name="SlotRing5" type="Node3D" parent="Floor"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -28)
+visible = false
 
-[node name="Slot6" parent="Floor/SlotLane2" instance=ExtResource("5_2c7m3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -25)
+[node name="Slot1" parent="Floor/SlotRing5" instance=ExtResource("5_2c7m3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0)
 
-[node name="Slot7" parent="Floor/SlotLane2" instance=ExtResource("5_2c7m3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -30)
+[node name="Slot2" parent="Floor/SlotRing5" instance=ExtResource("5_2c7m3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
+
+[node name="SlotRing6" type="Node3D" parent="Floor"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -33)
+visible = false
+
+[node name="Slot1" parent="Floor/SlotRing6" instance=ExtResource("5_2c7m3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0)
+
+[node name="Slot2" parent="Floor/SlotRing6" instance=ExtResource("5_2c7m3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
 
 [node name="Spawners" type="Node3D" parent="."]
 

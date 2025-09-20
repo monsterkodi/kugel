@@ -43,8 +43,7 @@ func updateDots():
     
     var dots = hitPoints
     if world.has_node("Shield"):
-        var shield = world.get_node("Shield")
-        dots += shield.hitPoints
+        dots += world.get_node("Shield").hitPoints
     %DotRing.numDots = dots
         
 func onDeath():
@@ -55,8 +54,5 @@ func _on_center_sphere_body_entered(body: Node):
 
     if body is Enemy:
         if body.alive():
+            body.die()
             onHit()
-        else:
-            Post.corpseCollected.emit(self)
-        body.queue_free()
-        

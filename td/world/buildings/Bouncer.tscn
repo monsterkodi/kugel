@@ -21,6 +21,7 @@ rings = 24
 ring_segments = 12
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_83uwx"]
+height = 10.0
 radius = 1.0
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_cx8xd"]
@@ -73,7 +74,7 @@ monitorable = false
 linear_damp_space_override = 1
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Sensor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
 shape = SubResource("CylinderShape3D_83uwx")
 
 [node name="SensorPlane" type="MeshInstance3D" parent="Sensor"]

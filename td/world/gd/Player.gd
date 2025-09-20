@@ -29,10 +29,13 @@ func levelStart():
     
     loadVehicle("Pill")
     global_position = Vector3.ZERO
-    for card in hand.get_children():
-        match card.res.name:
-            Card.Shield: addShield()
-            _: pass #Log.log("card", card.res.name)
+    
+    if %BattleCards.countCards(Card.Shield):
+        %BattleCards.useCard(Card.Shield)
+        addShield()
+    elif Info.isAnyBuildingPlaced("Shield"):
+        Post.statChanged.emit("shieldHitPoints", 0)
+        get_node("/root/World/Shield").free()
 
 func loadVehicle(vehicle_name:String):
     

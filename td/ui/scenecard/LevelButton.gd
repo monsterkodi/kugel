@@ -5,7 +5,7 @@ extends Button
 
 func setScene(scene:PackedScene):
     
-    text = scene.resource_path.get_file().get_basename()
+    text = scene.resource_path.get_file().get_basename().replace("Level", "")
     viewport.setScene(scene)
     
 func setColor(color:Color):

@@ -6,7 +6,7 @@ var sensorBodies    : Array[Node3D]
 var targetPos       : Vector3
 var rotSpeed        : float
 var interval        : float
-var shotTween       : Tween
+var glowTween       : Tween
 
 @onready var ray: RayCast3D = %Ray
 @onready var reloadTimer: Timer = %reloadTimer
@@ -23,7 +23,18 @@ func _ready():
     else:
         lookUp()
         
+    reloadTimer.timeout.connect(onReload)
+        
     super._ready()
+    
+func onReload():
+    
+    %SniperGlow.visible = true
+    %SniperGlow.scale   = Vector3.ZERO
+    glowTween = create_tween()
+    glowTween.set_ease(Tween.EASE_IN)
+    glowTween.set_trans(Tween.TRANS_CIRC)
+    glowTween.tween_property(%SniperGlow, "scale", Vector3.ONE, 0.6)
     
 func applyCards():
     
@@ -37,10 +48,11 @@ func applyCards():
 
 func setSensorRadius(r:float):  
 
-    %Sensor.scale = Vector3(r, 1, r)
+    %Sensor.scale = Vector3(r, r/2.0, r)
 
 func _physics_process(delta:float):
     
+    if not reloadTimer.is_stopped(): return
     if %SniperRay.visible: return
     
     if target and target is Enemy:
@@ -53,7 +65,7 @@ func _physics_process(delta:float):
         setTargetPos(target.global_position)
         
         var angle = Utils.rotateTowards($BarrelPivot, -$BarrelTarget.basis.z.normalized(), delta*rotSpeed)
-        if absf(angle) < 0.1 and reloadTimer.is_stopped():
+        if absf(angle) < 1.0:
             shoot() 
     else:
         Utils.rotateTowards($BarrelPivot, -$BarrelTarget.basis.z.normalized(), delta*rotSpeed)    
@@ -91,6 +103,7 @@ func lookUp():
 
 func shoot():
     
+    %SniperGlow.visible = false
     %SniperRay.shoot()
     reloadTimer.start(interval)
     ray.target_position = Vector3.FORWARD * 100

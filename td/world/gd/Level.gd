@@ -2,8 +2,12 @@ class_name Level
 extends Node3D
 
 var inert = true
+var highscore = 0
 
 func _ready():
+    
+    if Saver.savegame:
+        on_load(Saver.savegame.data)
     
     set_process(false)
     if inert:
@@ -13,7 +17,7 @@ func start():
     
     add_to_group("game")
     set_process(true)
-    #add_to_group("save")
+    add_to_group("save")
     Post.subscribe(self)
     
 func applyCards():
@@ -26,6 +30,17 @@ func applyCards():
     %SlotRing4.visible = (rings >= 3)
     %SlotRing5.visible = (rings >= 4)
     %SlotRing6.visible = (rings >= 5)
+    
+func statChanged(statName, value):
+    
+    match statName:
+        "numEnemiesSpawned":
+            highscore = maxi(value, highscore)
+    
+func levelEnd():
+    
+    highscore = maxi(Stats.numEnemiesSpawned, highscore)
+    Log.log("levelEnd", Stats.numEnemiesSpawned, highscore)
 
 func gamePaused():
     
@@ -39,16 +54,25 @@ func gameResumed():
 
 func on_save(data:Dictionary):
     
-    data.Level = {}
-    data.Level.buildings = []
+    if not data.has("Level"): data.Level = {}
     
+    data.Level[name] = {}
+    data.Level[name].highscore = highscore
+    
+    #data.Level.buildings = []
     #get_tree().call_group("building", "saveBuilding", data.Level.buildings)
     
     Log.log("on_save", data.Level)
 
 func on_load(data:Dictionary):
     
+    #Log.log("on_load", data)
+    
     if not data.has("Level"): return
+    if not data.Level.has(name): return
+    
+    if data.Level[name].has("highscore"):
+        highscore = data.Level[name].highscore
     
     #for building in data.Level.buildings:
         #var bld = load(building.type).instantiate()

@@ -8,7 +8,7 @@ func captureMouse():  Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 func showMouse():     Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE); $HideTimer.stop()
 func hideMouse():     Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 
-func _ready():     captureMouse()
+func _ready():     pass
 func _exit_tree(): showMouse()
     
 func _input(event: InputEvent):

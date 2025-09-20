@@ -1,10 +1,9 @@
-[gd_scene load_steps=26 format=3 uid="uid://b6mskrm1n176r"]
+[gd_scene load_steps=25 format=3 uid="uid://b6mskrm1n176r"]
 
 [ext_resource type="Script" uid="uid://b6inujglidn5n" path="res://world/gd/World.gd" id="1_eu7l1"]
 [ext_resource type="PackedScene" uid="uid://baj5gp1mlm380" path="res://world/Player.tscn" id="3_wygdx"]
 [ext_resource type="PackedScene" uid="uid://b7w2vlfbvmfq7" path="res://utils/camera/Camera.tscn" id="4_bah7m"]
 [ext_resource type="PackedScene" uid="uid://bsyn633trcvrm" path="res://world/Builder.tscn" id="5_0n6y5"]
-[ext_resource type="Script" uid="uid://bn7yub4ucp6o4" path="res://utils/Saver.gd" id="5_fv4w7"]
 [ext_resource type="PackedScene" uid="uid://mxu6thvv1ycr" path="res://world/MouseHandler.tscn" id="6_p1v5b"]
 [ext_resource type="PackedScene" uid="uid://dnk1mn0lm0c3d" path="res://ui/menu/PauseMenu.tscn" id="7_wygdx"]
 [ext_resource type="PackedScene" uid="uid://dr04x0hyo62i1" path="res://ui/hud/BattleCards.tscn" id="7_x3yhk"]
@@ -54,10 +53,6 @@ process_mode = 1
 [node name="Camera" parent="." instance=ExtResource("4_bah7m")]
 unique_name_in_owner = true
 process_mode = 3
-
-[node name="Saver" type="Node" parent="."]
-unique_name_in_owner = true
-script = ExtResource("5_fv4w7")
 
 [node name="Environment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_ig7tw")

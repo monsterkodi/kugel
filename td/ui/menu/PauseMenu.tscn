@@ -23,16 +23,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 theme = ExtResource("2_8tehv")
 
-[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 20
-
-[node name="Buttons" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
+[node name="Buttons" type="VBoxContainer" parent="PanelContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -40,75 +31,75 @@ theme = ExtResource("2_8tehv")
 theme_override_constants/separation = 20
 alignment = 1
 
-[node name="Resume" type="Button" parent="PanelContainer/MarginContainer/Buttons"]
+[node name="Resume" type="Button" parent="PanelContainer/Buttons"]
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme = ExtResource("2_8tehv")
 text = "Resume"
 
-[node name="FocusOnHover" type="Node" parent="PanelContainer/MarginContainer/Buttons/Resume"]
+[node name="FocusOnHover" type="Node" parent="PanelContainer/Buttons/Resume"]
 script = ExtResource("3_1q10k")
 metadata/_custom_type_script = "uid://db85fb86bo305"
 
-[node name="Restart" type="Button" parent="PanelContainer/MarginContainer/Buttons"]
+[node name="Restart" type="Button" parent="PanelContainer/Buttons"]
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme = ExtResource("2_8tehv")
 text = "Restart
 "
 
-[node name="FocusOnHover" type="Node" parent="PanelContainer/MarginContainer/Buttons/Restart"]
+[node name="FocusOnHover" type="Node" parent="PanelContainer/Buttons/Restart"]
 script = ExtResource("3_1q10k")
 metadata/_custom_type_script = "uid://db85fb86bo305"
 
-[node name="Cards" type="Button" parent="PanelContainer/MarginContainer/Buttons"]
+[node name="Cards" type="Button" parent="PanelContainer/Buttons"]
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme = ExtResource("2_8tehv")
 text = "Cards
 "
 
-[node name="FocusOnHover" type="Node" parent="PanelContainer/MarginContainer/Buttons/Cards"]
+[node name="FocusOnHover" type="Node" parent="PanelContainer/Buttons/Cards"]
 script = ExtResource("3_1q10k")
 metadata/_custom_type_script = "uid://db85fb86bo305"
 
-[node name="Cheat" type="Button" parent="PanelContainer/MarginContainer/Buttons"]
+[node name="Cheat" type="Button" parent="PanelContainer/Buttons"]
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme = ExtResource("2_8tehv")
 text = "Cheat
 "
 
-[node name="FocusOnHover" type="Node" parent="PanelContainer/MarginContainer/Buttons/Cheat"]
+[node name="FocusOnHover" type="Node" parent="PanelContainer/Buttons/Cheat"]
 script = ExtResource("3_1q10k")
 metadata/_custom_type_script = "uid://db85fb86bo305"
 
-[node name="Settings" type="Button" parent="PanelContainer/MarginContainer/Buttons"]
+[node name="Settings" type="Button" parent="PanelContainer/Buttons"]
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme = ExtResource("2_8tehv")
 text = "Settings
 "
 
-[node name="FocusOnHover" type="Node" parent="PanelContainer/MarginContainer/Buttons/Settings"]
+[node name="FocusOnHover" type="Node" parent="PanelContainer/Buttons/Settings"]
 script = ExtResource("3_1q10k")
 metadata/_custom_type_script = "uid://db85fb86bo305"
 
-[node name="Main Menu" type="Button" parent="PanelContainer/MarginContainer/Buttons"]
+[node name="Main Menu" type="Button" parent="PanelContainer/Buttons"]
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme = ExtResource("2_8tehv")
 text = "Main Menu
 "
 
-[node name="FocusOnHover" type="Node" parent="PanelContainer/MarginContainer/Buttons/Main Menu"]
+[node name="FocusOnHover" type="Node" parent="PanelContainer/Buttons/Main Menu"]
 script = ExtResource("3_1q10k")
 metadata/_custom_type_script = "uid://db85fb86bo305"
 
 [connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
-[connection signal="pressed" from="PanelContainer/MarginContainer/Buttons/Resume" to="." method="_on_resume_pressed"]
-[connection signal="pressed" from="PanelContainer/MarginContainer/Buttons/Restart" to="." method="_on_restart_pressed"]
-[connection signal="pressed" from="PanelContainer/MarginContainer/Buttons/Cards" to="." method="_on_cards_pressed"]
-[connection signal="pressed" from="PanelContainer/MarginContainer/Buttons/Cheat" to="." method="_on_cheat_pressed"]
-[connection signal="pressed" from="PanelContainer/MarginContainer/Buttons/Settings" to="." method="_on_settings_pressed"]
-[connection signal="pressed" from="PanelContainer/MarginContainer/Buttons/Main Menu" to="." method="_on_main_menu_pressed"]
+[connection signal="pressed" from="PanelContainer/Buttons/Resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="PanelContainer/Buttons/Restart" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="PanelContainer/Buttons/Cards" to="." method="_on_cards_pressed"]
+[connection signal="pressed" from="PanelContainer/Buttons/Cheat" to="." method="_on_cheat_pressed"]
+[connection signal="pressed" from="PanelContainer/Buttons/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="PanelContainer/Buttons/Main Menu" to="." method="_on_main_menu_pressed"]

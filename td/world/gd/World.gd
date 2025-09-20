@@ -36,8 +36,8 @@ func _unhandled_input(event: InputEvent):
     if Input.is_action_just_pressed("pause"): pauseMenu();   return
     if Input.is_action_just_pressed("build"): buildMode();   return
     if Input.is_action_just_pressed("quit"):  quitGame();    return
-    #if Input.is_action_just_pressed("save"): %Saver.save(); return
-    #if Input.is_action_just_pressed("load"): %Saver.load(); return
+    #if Input.is_action_just_pressed("save"): Saver.save();  return
+    #if Input.is_action_just_pressed("load"): Saver.load();  return
     
     if Input.is_action_just_pressed("faster"): Info.fasterEnemySpeed()
     if Input.is_action_just_pressed("slower"): Info.slowerEnemySpeed()
@@ -104,9 +104,9 @@ func cardChosen(card:Card):
 
 func newGame():
     
-    %Saver.clear()
+    Saver.clear()
     %Player.perm.addCard(Card.withName(Card.BattleCard))
-    restartLevel()
+    #restartLevel()
     
 func restartLevel():
     
@@ -149,16 +149,16 @@ func resumeGame():
         
 func quitGame():
     
-    %Saver.save()
+    Saver.save()
     get_tree().quit()
         
 func saveGame():
     
-    %Saver.save()
+    Saver.save()
     
 func loadGame():
     
-    %Saver.load()
+    Saver.load()
     ensureOneBattleCard()
     
 func settings(backMenu:Menu):
@@ -183,8 +183,8 @@ func loadLevel(levelRes):
     
     Log.log("loadLevel", levelRes)
     if currentLevel:
+        saveGame()
         currentLevel.free()
-    
     currentLevelRes = levelRes   
     currentLevel = levelRes.instantiate()
     currentLevel.inert = false

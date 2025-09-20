@@ -97,7 +97,7 @@ albedo_color = Color(0, 0, 1, 1)
 [sub_resource type="SphereShape3D" id="SphereShape3D_052yy"]
 radius = 49.0
 
-[node name="LevelA" type="Node3D"]
+[node name="LevelCirculus" type="Node3D"]
 process_mode = 1
 script = ExtResource("1_xcgu7")
 

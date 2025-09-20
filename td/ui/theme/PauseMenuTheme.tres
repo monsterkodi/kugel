@@ -1,33 +1,24 @@
-[gd_resource type="Theme" load_steps=16 format=3 uid="uid://ckxlwln5s1u4b"]
+[gd_resource type="Theme" load_steps=15 format=3 uid="uid://ckxlwln5s1u4b"]
 
 [ext_resource type="FontFile" uid="uid://dfqo0cb4uy7kl" path="res://ui/theme/Rounded.ttf" id="1_4l1ig"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4l1ig"]
-content_margin_left = 65.0
-content_margin_right = 65.0
+content_margin_left = 25.0
+content_margin_right = 25.0
 bg_color = Color(0.46666667, 0, 0, 1)
-corner_radius_top_left = 80
-corner_radius_top_right = 80
-corner_radius_bottom_right = 80
-corner_radius_bottom_left = 80
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lcka2"]
-content_margin_left = 65.0
-content_margin_right = 65.0
+content_margin_left = 25.0
+content_margin_right = 25.0
 bg_color = Color(0.078431375, 0.078431375, 0.078431375, 1)
-corner_radius_top_left = 80
-corner_radius_top_right = 80
-corner_radius_bottom_right = 80
-corner_radius_bottom_left = 80
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nopln"]
-content_margin_left = 65.0
-content_margin_right = 65.0
-bg_color = Color(0.07910311, 0.07910311, 0.07910311, 1)
-corner_radius_top_left = 80
-corner_radius_top_right = 80
-corner_radius_bottom_right = 80
-corner_radius_bottom_left = 80
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
 
 [sub_resource type="Gradient" id="Gradient_lcka2"]
 interpolation_mode = 2
@@ -104,7 +95,11 @@ expand_margin_bottom = 25.0
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4l1ig"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5y4im"]
-bg_color = Color(0, 0, 0, 1)
+content_margin_left = 25.0
+content_margin_top = 25.0
+content_margin_right = 25.0
+content_margin_bottom = 25.0
+bg_color = Color(0.05, 0.05, 0.05, 1)
 corner_radius_top_left = 50
 corner_radius_top_right = 50
 corner_radius_bottom_right = 50
@@ -133,8 +128,8 @@ Button/styles/disabled = null
 Button/styles/focus = SubResource("StyleBoxFlat_4l1ig")
 Button/styles/hover = SubResource("StyleBoxFlat_lcka2")
 Button/styles/hover_pressed = SubResource("StyleBoxFlat_lcka2")
-Button/styles/normal = SubResource("StyleBoxFlat_nopln")
-Button/styles/pressed = SubResource("StyleBoxFlat_nopln")
+Button/styles/normal = SubResource("StyleBoxFlat_lcka2")
+Button/styles/pressed = SubResource("StyleBoxFlat_lcka2")
 HSlider/icons/grabber = SubResource("GradientTexture2D_4l1ig")
 HSlider/icons/grabber_highlight = SubResource("GradientTexture2D_lcka2")
 HSlider/icons/tick = SubResource("GradientTexture2D_5y4im")

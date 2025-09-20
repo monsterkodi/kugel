@@ -12,7 +12,7 @@ radius = 0.1
 
 [node name="Bullet" type="RigidBody3D" groups=["bullet", "level_reset"]]
 collision_layer = 8
-collision_mask = 2147483654
+collision_mask = 2147483662
 physics_material_override = SubResource("PhysicsMaterial_x3e43")
 gravity_scale = 0.0
 contact_monitor = true

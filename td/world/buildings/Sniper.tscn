@@ -1,10 +1,9 @@
-[gd_scene load_steps=17 format=3 uid="uid://wjb8cyv4jvd8"]
+[gd_scene load_steps=19 format=3 uid="uid://wjb8cyv4jvd8"]
 
 [ext_resource type="Material" uid="uid://bxlvq722jmuid" path="res://materials/SniperMaterial.tres" id="1_e1wde"]
 [ext_resource type="Script" uid="uid://wbgce1e4vyn7" path="res://world/buildings/Sniper.gd" id="1_u6s15"]
 [ext_resource type="PhysicsMaterial" uid="uid://cxmvb6atqbyf0" path="res://materials/physics/DefaultPhysics.tres" id="3_qxwcm"]
 [ext_resource type="PackedScene" uid="uid://cog25x4x6herp" path="res://components/SniperRay.tscn" id="4_ayxhp"]
-[ext_resource type="Material" uid="uid://bwflknsbn8pdc" path="res://materials/SniperRayMaterial.tres" id="5_e1wde"]
 [ext_resource type="Shader" uid="uid://b7lpd6h1smubj" path="res://materials/visual/CircleMatVis.tres" id="7_v1t5n"]
 [ext_resource type="Material" uid="uid://du8bjg8b10yx2" path="res://materials/TurretBaseMaterial.tres" id="8_cbqk3"]
 [ext_resource type="AudioStream" uid="uid://cssur2kuvk3p" path="res://sounds/tick.wav" id="9_hricq"]
@@ -24,6 +23,27 @@ ring_segments = 16
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_iwplw"]
 radius = 0.25
 height = 1.0
+
+[sub_resource type="Curve" id="Curve_ayxhp"]
+_data = [Vector2(0, 1), 0.0, 0.008091867, 0, 0, Vector2(0.50065184, 1), 0.0, 0.0, 0, 0, Vector2(0.9986962, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e1wde"]
+specular_mode = 2
+disable_ambient_light = true
+disable_fog = true
+disable_specular_occlusion = true
+emission_enabled = true
+emission = Color(0.33999997, 0.33999997, 1, 1)
+emission_energy_multiplier = 4.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_u6s15"]
+material = SubResource("StandardMaterial3D_e1wde")
+top_radius = 0.2
+bottom_radius = 0.2
+height = 0.7
+radial_segments = 16
+rings = 2
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_vc5tq"]
 radius = 1.0
@@ -86,9 +106,15 @@ debug_shape_thickness = 5
 
 [node name="SniperRay" parent="BarrelPivot" instance=ExtResource("4_ayxhp")]
 unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.34089905)
 visible = false
 radius = 0.1
-material = ExtResource("5_e1wde")
+glowCurve = SubResource("Curve_ayxhp")
+
+[node name="SniperGlow" type="MeshInstance3D" parent="BarrelPivot"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+mesh = SubResource("CylinderMesh_u6s15")
 
 [node name="Sensor" type="Area3D" parent="."]
 unique_name_in_owner = true

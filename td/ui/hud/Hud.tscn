@@ -1,8 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://dhm8ww2fqxfua"]
+[gd_scene load_steps=12 format=3 uid="uid://dhm8ww2fqxfua"]
 
 [ext_resource type="Script" uid="uid://c4d3iwmln8sl4" path="res://ui/hud/Hud.gd" id="1_1x8ju"]
 [ext_resource type="Theme" uid="uid://g22p2j6a23ol" path="res://ui/theme/HUDTheme.tres" id="2_aaqae"]
 [ext_resource type="PackedScene" uid="uid://bawx4mokse2am" path="res://ui/hud/CardProgress.tscn" id="3_4sqfl"]
+[ext_resource type="PackedScene" uid="uid://ck8f443nev0dm" path="res://world/Slot.tscn" id="4_by07e"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aaqae"]
 content_margin_left = 25.0
@@ -165,3 +166,6 @@ value = 1.0
 fill_mode = 4
 texture_progress = SubResource("GradientTexture2D_epdrl")
 tint_progress = Color(1, 0, 0, 1)
+
+[node name="Slot7" parent="." instance=ExtResource("4_by07e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -30)

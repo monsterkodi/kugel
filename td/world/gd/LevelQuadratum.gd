@@ -1,10 +1,10 @@
-class_name LevelCirculus
+class_name LevelQuadratum
 extends Level
 
 func _ready():
     
     super._ready()
-    name = "Circulus"
+    name = "Quadratum"
 
 func start():
     
@@ -14,6 +14,7 @@ func start():
 func applyCards():
     
     var rings = Info.countPermCards(Card.SlotRing)
+    Log.log("rings", rings)
     %SlotRing1.visible = true
     %SlotRing2.visible = (rings >= 1)
     %SlotRing3.visible = (rings >= 2)

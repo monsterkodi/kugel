@@ -24,6 +24,23 @@ static var BouncerRange = "Bouncer Range"
 static var BouncerSpeed = "Bouncer Speed"
 static var BouncerPower = "Bouncer Power"
 
+static var Unlock = {
+    
+    Card.SlotRing    : 50,
+        
+    Card.Laser       : 100,
+    Card.LaserRange  : 100,
+    Card.LaserSpeed  : 100,
+    Card.LaserPower  : 100,
+    
+    Card.Shield      : 200,
+    Card.ShieldLayer : 200,
+
+    Card.Sniper      : 400,
+    Card.SniperRange : 400,
+    Card.SniperSpeed : 400,
+}
+
 static func allRes() -> Array[CardRes]:
     
     var ary:Array[CardRes] 

@@ -45,7 +45,7 @@ func addButton(building:String):
 
 func buttonFocused(button):
 
-    Log.log("Post.buildingGhost", button.name)
+    #Log.log("Post.buildingGhost", button.name)
     Post.buildingGhost.emit(button.name)
     
     updateBalance()
@@ -84,7 +84,7 @@ func updateBalance():
         minus.text = ""
     else:
         minus.text = "-"
-        if %BattleCards.countBattleCards(button.name):
+        if %BattleCards.countCards(button.name):
             cost.text = "card"
         else:
             cost.text = str(Info.priceForBuilding(button.name))
@@ -100,7 +100,7 @@ func showButtons():
     
     for building in buildings:
         if Wallet.balance >= Info.priceForBuilding(building) or \
-            %BattleCards.countBattleCards(building):
+            %BattleCards.countCards(building):
             addButton(building)
 
 func appear():

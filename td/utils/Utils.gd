@@ -3,7 +3,7 @@ extends Node
 func rotateTowards(node:Node3D, targetDir:Vector3, rotAngle:float) -> float:
     
     var normal = node.basis.z.cross(targetDir)
-    if normal.is_zero_approx(): return 0.0
+    if normal.is_zero_approx(): return -666
     normal = normal.normalized()
     var dir   = -node.basis.z
     var angle = dir.signed_angle_to(targetDir, normal)
@@ -11,7 +11,7 @@ func rotateTowards(node:Node3D, targetDir:Vector3, rotAngle:float) -> float:
     node.basis.z = -dir
     node.basis.x = dir.cross(Vector3.UP).normalized()
     node.basis.y = node.basis.z.cross(node.basis.x).normalized()
-    return angle
+    return rad_to_deg(angle)
 
 func timeStr(s:float) -> String:
     
