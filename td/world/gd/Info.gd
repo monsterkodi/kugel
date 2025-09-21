@@ -64,6 +64,20 @@ func setEnemySpeed(speed:float):
 func fasterEnemySpeed(): setEnemySpeed(enemySpeed + 0.5)
 func slowerEnemySpeed(): setEnemySpeed(enemySpeed - 0.5)
 
+func isUnlockedBuilding(building:String) -> bool:
+    
+    if Card.Unlock.has(building):
+        return highscoreForCurrentLevel() >= Card.Unlock[building]
+    else:
+        return true
+
+func isUnlockedCard(cardName:String) -> bool:
+
+    if Card.Unlock.has(cardName):
+        return highscoreForCurrentLevel() >= Card.Unlock[cardName]
+    else:
+        return true
+
 func nextCardAtLevel(cardLevel:int) -> int:
     
     if cardLevel >= CARD_LEVELS.size():
@@ -76,11 +90,10 @@ func highscoreForCurrentLevel():
     
 func nextSetOfCards():
     
-    var hs = highscoreForCurrentLevel()
     var allCards:Array[CardRes] = Card.allRes()
     var cards:Array[Card] = []
     
-    if numberOfCardsOwned(Card.SlotRing) < 3 and hs >= Card.Unlock[Card.SlotRing]:
+    if numberOfCardsOwned(Card.SlotRing) < 3 and isUnlockedCard(Card.SlotRing):
         #Log.log("nextSetOfCards add Slot Ring")
         var cardRes = allCards[allCards.find_custom(func(c): return c.name == Card.SlotRing)]
         allCards.erase(cardRes)
@@ -108,7 +121,7 @@ func nextSetOfCards():
             if cardCount >= cardRes.maxNum:
                 allCards.erase(cardRes)
                 continue
-        if Card.Unlock.has(cardRes.name) and hs < Card.Unlock[cardRes.name]:
+        if isUnlockedCard(cardRes.name):
             allCards.erase(cardRes)
             continue
         cards.append(Card.new(cardRes))

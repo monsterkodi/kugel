@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://dan1xogmknu6d"]
+
+[ext_resource type="Shader" uid="uid://bdcfm4xlsh43g" path="res://materials/visual/BouncerGlowMatVis.tres" id="1_kw7ro"]
+
+[resource]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("1_kw7ro")
+shader_parameter/Alpha = 1.0
+shader_parameter/Emission = Color(0.606, 0.621, 1.825, 1)

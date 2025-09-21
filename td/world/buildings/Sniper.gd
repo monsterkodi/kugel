@@ -74,13 +74,7 @@ func setTargetPos(pos:Vector3):
     
     targetPos = pos
     %BarrelTarget.look_at(targetPos)
-    
-    #var dir = Vector3(-0.01,0,0)
-    #if not global_position.is_zero_approx():
-        #dir = global_position.normalized()*-0.01
-    #var up = (Vector3.UP + dir).normalized()
-    #$Target.look_at(targetPos, up)
-    
+        
 func _on_sensor_body_entered(body: Node3D):
     
     if body.health > 0:

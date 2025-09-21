@@ -1,0 +1,52 @@
+[gd_resource type="VisualShader" load_steps=4 format=3 uid="uid://bdcfm4xlsh43g"]
+
+[sub_resource type="VisualShaderNodeColorParameter" id="VisualShaderNodeColorParameter_pvocp"]
+parameter_name = "Emission"
+default_value_enabled = true
+default_value = Color(0.6058647, 0.6211612, 1.825, 1)
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_pvocp"]
+parameter_name = "Alpha"
+default_value_enabled = true
+default_value = 0.5
+
+[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_pvocp"]
+constant = Color(0, 0, 0, 1)
+
+[resource]
+code = "shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, depth_test_default, cull_back, diffuse_lambert, specular_schlick_ggx;
+
+uniform float Alpha = 0.5;
+uniform vec4 Emission : source_color = vec4(0.605865, 0.621161, 1.825000, 1.000000);
+
+
+
+void fragment() {
+// ColorConstant:4
+	vec4 n_out4p0 = vec4(0.000000, 0.000000, 0.000000, 1.000000);
+
+
+// FloatParameter:3
+	float n_out3p0 = Alpha;
+
+
+// ColorParameter:2
+	vec4 n_out2p0 = Emission;
+
+
+// Output:0
+	ALBEDO = vec3(n_out4p0.xyz);
+	ALPHA = n_out3p0;
+	EMISSION = vec3(n_out2p0.xyz);
+
+
+}
+"
+nodes/fragment/2/node = SubResource("VisualShaderNodeColorParameter_pvocp")
+nodes/fragment/2/position = Vector2(-860, 540)
+nodes/fragment/3/node = SubResource("VisualShaderNodeFloatParameter_pvocp")
+nodes/fragment/3/position = Vector2(-860, 40)
+nodes/fragment/4/node = SubResource("VisualShaderNodeColorConstant_pvocp")
+nodes/fragment/4/position = Vector2(-70.45514, -280.33517)
+nodes/fragment/connections = PackedInt32Array(2, 0, 0, 5, 3, 0, 0, 1, 4, 0, 0, 0)

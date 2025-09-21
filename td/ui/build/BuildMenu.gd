@@ -97,11 +97,12 @@ func showButtons():
     
     if Info.isAnyBuildingPlaced("Shield"):
         buildings = buildings.filter(func(b): return b != "Shield")
-    
+        
     for building in buildings:
         if Wallet.balance >= Info.priceForBuilding(building) or \
             %BattleCards.countCards(building):
-            addButton(building)
+            if Info.isUnlockedBuilding(building):
+                addButton(building)
 
 func appear():
 
