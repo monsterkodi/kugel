@@ -1,21 +1,5 @@
 extends Node
 
-const CARD_LEVELS = [5, 5, 10, 10, 10, 20, 20, 20,
-                     50, 50, 50, 50, 50, 50,        
-                     50, 50, 50, 50, 50, 50,
-                     100, 100, 100, 100, 100,
-                     100, 100, 100, 100, 100,       # 1000    30
-                     200, 200, 200, 200, 200,       # 2000
-                     200, 200, 200, 200, 200,       # 3000    40
-                     400, 400, 400, 400, 400,       # 5000
-                     500, 500, 500, 500, 500,       # 7500    50
-                     500, 500, 500, 500, 500,       # 10000 
-                     500, 500, 500, 500, 500,       # 12500   60
-                     500, 500, 500, 500, 500,       # 15000
-                     800, 800, 800, 800, 800,       # 19000   70
-                     800, 800, 800, 800, 800        # 23000
-                    ]
-                    
 const BUILDING_PRICES = {
                     "Shield":  1000,
                     "Sniper":  100,
@@ -78,11 +62,17 @@ func isUnlockedCard(cardName:String) -> bool:
     else:
         return true
 
+func isLockedCard(cardName:String) -> bool:
+
+    if Card.Unlock.has(cardName):
+        return highscoreForCurrentLevel() < Card.Unlock[cardName]
+    else:
+        return false
+
 func nextCardAtLevel(cardLevel:int) -> int:
-    
-    if cardLevel >= CARD_LEVELS.size():
-        return 800
-    return CARD_LEVELS[cardLevel]
+
+    Log.log("cardLevel", cardLevel, (cardLevel+1) * 5)
+    return (cardLevel+1) * 5 
     
 func highscoreForCurrentLevel():
     
@@ -110,18 +100,24 @@ func nextSetOfCards():
         cards.append(Card.new(cardRes))
 
     if numberOfCardsOwned(Card.Sniper) < 1 and (player.cardLevel % 20) == 0:
-        var cardRes = allCards[allCards.find_custom(func(c): return c.name == Card.Laser)]
+        var cardRes = allCards[allCards.find_custom(func(c): return c.name == Card.Sniper)]
         allCards.erase(cardRes)
         cards.append(Card.new(cardRes))
     
     while cards.size() < 3:
+        
+        if allCards.is_empty():
+            cards.append(Card.withName(Card.Money))
+            continue
+        
+        assert(not allCards.is_empty())
         var cardRes = allCards[randi_range(0, allCards.size()-1)]
         if cardRes.maxNum > 0:
             var cardCount = numberOfCardsOwned(cardRes.name)
             if cardCount >= cardRes.maxNum:
                 allCards.erase(cardRes)
                 continue
-        if isUnlockedCard(cardRes.name):
+        if cardRes.type == CardRes.CardType.TROPHY or isLockedCard(cardRes.name):
             allCards.erase(cardRes)
             continue
         cards.append(Card.new(cardRes))

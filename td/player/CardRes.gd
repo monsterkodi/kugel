@@ -4,6 +4,7 @@ extends Resource
 enum CardType {
     BATTLE,
     PERMANENT,
+    TROPHY,
     ONCE
 }
 

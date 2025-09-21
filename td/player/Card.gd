@@ -23,22 +23,33 @@ static var TurretPower  = "Turret Power"
 static var BouncerRange = "Bouncer Range"
 static var BouncerSpeed = "Bouncer Speed"
 static var BouncerPower = "Bouncer Power"
+static var TrophyBronce = "Bronce"
+static var TrophySilver = "Silver"
+static var TrophyGold   = "Gold"
+static var Money        = "Money"
 
 static var Unlock = {
-    
-    Card.SlotRing    : 50,
-        
-    Card.Laser       : 100,
-    Card.LaserRange  : 100,
-    Card.LaserSpeed  : 100,
-    Card.LaserPower  : 100,
-    
-    Card.Shield      : 200,
-    Card.ShieldLayer : 200,
 
-    Card.Sniper      : 400,
-    Card.SniperRange : 400,
-    Card.SniperSpeed : 400,
+    Card.Bouncer      : 20,
+    Card.BouncerRange : 30,
+    Card.BouncerSpeed : 30,
+    Card.BouncerPower : 30,
+    
+    Card.Laser        : 40,
+    Card.LaserRange   : 50,
+    Card.LaserSpeed   : 50,
+    Card.LaserPower   : 50,
+    
+    Card.Sniper       : 100,
+    Card.SniperRange  : 110,
+    Card.SniperSpeed  : 120,
+    
+    Card.Shield       : 100,
+    Card.ShieldLayer  : 150,
+    
+    Card.TrophyBronce : 500,
+    Card.TrophySilver : 1000,
+    Card.TrophyGold   : 2000,
 }
 
 static func allRes() -> Array[CardRes]:
@@ -71,4 +82,5 @@ func _to_string():   return res.name
     
 func isBattleCard(): return res.type == CardRes.CardType.BATTLE
 func isPermanent():  return res.type == CardRes.CardType.PERMANENT
+func isTrophy():     return res.type == CardRes.CardType.TROPHY
 func isOnce():       return res.type == CardRes.CardType.ONCE

@@ -7,6 +7,7 @@ var spawned     = false
 func alive(): return health > 0
 func dead():  return health <= 0
 var deadColor : Color = Color(0,0,0)
+
 func die():
     
     %died.play(0.09)
@@ -21,6 +22,8 @@ func die():
     tween.parallel().tween_method(func(v): deadColor = Color(v,0,0), 1.0, 0.0, 0.3)
     tween.tween_callback(makeCorpse)
     
+    Post.enemyDied.emit(self)
+    
 func getColor() -> Color:
     
     if dead(): return deadColor
@@ -31,11 +34,11 @@ func makeCorpse():
 
     if collision_layer != Layer.LayerCorpse:
         collision_layer = Layer.LayerCorpse
-        Post.enemyDied.emit(self)
+        Post.enemyCorpsed.emit(self)
     
 func setMass(m:float):
     
-    mass   = maxf(m, 0.5)
+    mass  = maxf(m, 0.5)
     
     var r = pow(mass/4.1888, 1.0/3.0)
     scale = Vector3(r, r, r)
@@ -58,16 +61,6 @@ func _integrate_forces(state: PhysicsDirectBodyState3D):
             applyDamage(damageAccum, null)
             damageAccum = 0
             
-    #if dead():
-        #var lsq = global_position.length_squared()
-        #if lsq > 2500:
-            #if collision_layer == Layer.LayerCorpse:
-                #linear_velocity = -global_position.normalized()*clampf((lsq-2500)*0.1, 0, 10)
-                #linear_velocity.y = 0
-            #else:
-                #linear_velocity = linear_velocity.bounce(-global_position.normalized())
-                #linear_velocity *= 0.9
-
 func addDamage(damage:float):
     
     damageAccum += damage

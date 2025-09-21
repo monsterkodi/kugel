@@ -26,16 +26,7 @@ func _ready():
     reloadTimer.timeout.connect(onReload)
         
     super._ready()
-    
-func onReload():
-    
-    %SniperGlow.visible = true
-    %SniperGlow.scale   = Vector3.ZERO
-    glowTween = create_tween()
-    glowTween.set_ease(Tween.EASE_IN)
-    glowTween.set_trans(Tween.TRANS_CIRC)
-    glowTween.tween_property(%SniperGlow, "scale", Vector3.ONE, 0.6)
-    
+        
 func applyCards():
     
     var speedCards = Info.countPermCards(Card.SniperSpeed)
@@ -43,7 +34,7 @@ func applyCards():
     
     setSensorRadius(5.0 + rangeCards * 1.0)
     
-    interval = 2.5  - speedCards * 0.3
+    interval = 3.0  - speedCards * 0.2
     rotSpeed = PI * 0.2 + speedCards * PI * 0.2
 
 func setSensorRadius(r:float):  
@@ -112,3 +103,13 @@ func shoot():
     if sensorBodies.size():
         #Log.log("shoot next target")
         target = sensorBodies.front()
+        
+func onReload():
+    
+    %SniperGlow.visible = true
+    %SniperGlow.scale   = Vector3.ZERO
+    glowTween = create_tween()
+    glowTween.set_ease(Tween.EASE_IN)
+    glowTween.set_trans(Tween.TRANS_CIRC)
+    glowTween.tween_property(%SniperGlow, "scale", Vector3.ONE, 0.6)
+        

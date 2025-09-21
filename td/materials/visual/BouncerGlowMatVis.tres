@@ -15,7 +15,7 @@ constant = Color(0, 0, 0, 1)
 
 [resource]
 code = "shader_type spatial;
-render_mode blend_mix, depth_draw_opaque, depth_test_default, cull_back, diffuse_lambert, specular_schlick_ggx;
+render_mode blend_mix, depth_draw_opaque, depth_test_default, cull_back, diffuse_lambert, specular_schlick_ggx, depth_prepass_alpha;
 
 uniform float Alpha = 0.5;
 uniform vec4 Emission : source_color = vec4(0.605865, 0.621161, 1.825000, 1.000000);
@@ -43,6 +43,7 @@ void fragment() {
 
 }
 "
+flags/depth_prepass_alpha = true
 nodes/fragment/2/node = SubResource("VisualShaderNodeColorParameter_pvocp")
 nodes/fragment/2/position = Vector2(-860, 540)
 nodes/fragment/3/node = SubResource("VisualShaderNodeFloatParameter_pvocp")

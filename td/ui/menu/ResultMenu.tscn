@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://c23bh5moajx3o"]
+[gd_scene load_steps=11 format=3 uid="uid://c23bh5moajx3o"]
 
 [ext_resource type="Theme" uid="uid://cam2nr2jejqb2" path="res://ui/theme/ResultMenuTheme.tres" id="1_b8hm6"]
 [ext_resource type="Script" uid="uid://cp26u33wv57kh" path="res://ui/menu/ResultMenu.gd" id="1_gb6tf"]
@@ -17,9 +17,6 @@ viewport_path = NodePath("Scene")
 viewport_path = NodePath("Scene")
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_gy74k"]
-viewport_path = NodePath("Scene")
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_nmpo1"]
 viewport_path = NodePath("Scene")
 
 [node name="ResultMenu" type="PanelContainer"]
@@ -146,23 +143,6 @@ size_flags_horizontal = 4
 theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 1)
 theme_override_font_sizes/font_size = 48
 text = "400"
-horizontal_alignment = 1
-
-[node name="VBoxContainer4" type="VBoxContainer" parent="VBoxContainer/Unlocks/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-
-[node name="CardButton4" parent="VBoxContainer/Unlocks/VBoxContainer/HBoxContainer/VBoxContainer4" instance=ExtResource("3_6j3nk")]
-unique_name_in_owner = true
-layout_mode = 2
-icon = SubResource("ViewportTexture_nmpo1")
-
-[node name="LockValue4" type="Label" parent="VBoxContainer/Unlocks/VBoxContainer/HBoxContainer/VBoxContainer4"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 4
-theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 1)
-theme_override_font_sizes/font_size = 48
-text = "800"
 horizontal_alignment = 1
 
 [node name="ProgressBar" type="ProgressBar" parent="VBoxContainer/Unlocks/VBoxContainer"]

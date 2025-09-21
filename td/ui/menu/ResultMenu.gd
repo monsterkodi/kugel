@@ -11,27 +11,23 @@ func appear():
     %TimeValue.text        = Utils.timeStr(Info.gameTime)
     
     %ProgressBar.value     = Info.highscoreForCurrentLevel()
-    %ProgressBar.max_value = Card.Unlock[Card.Sniper]
+    %ProgressBar.max_value = Card.Unlock[Card.TrophyGold]
     
-    %CardButton1.setCardWithName(Card.SlotRing)
-    %CardButton2.setCardWithName(Card.Laser)
-    %CardButton3.setCardWithName(Card.Shield)
-    %CardButton4.setCardWithName(Card.Sniper)
+    %CardButton1.setCardWithName(Card.TrophyBronce)
+    %CardButton2.setCardWithName(Card.TrophySilver)
+    %CardButton3.setCardWithName(Card.TrophyGold)
     
-    %LockValue1.text = str(Card.Unlock[Card.SlotRing])
-    %LockValue2.text = str(Card.Unlock[Card.Laser])
-    %LockValue3.text = str(Card.Unlock[Card.Shield])
-    %LockValue4.text = str(Card.Unlock[Card.Sniper])
+    %LockValue1.text = str(Card.Unlock[Card.TrophyBronce])
+    %LockValue2.text = str(Card.Unlock[Card.TrophySilver])
+    %LockValue3.text = str(Card.Unlock[Card.TrophyGold])
     
-    if Info.isUnlockedCard(Card.SlotRing): %LockValue1.add_theme_color_override("font_color", Color(1,0,0))
-    if Info.isUnlockedCard(Card.Laser):    %LockValue2.add_theme_color_override("font_color", Color(1,0,0))
-    if Info.isUnlockedCard(Card.Shield):   %LockValue3.add_theme_color_override("font_color", Color(1,0,0))
-    if Info.isUnlockedCard(Card.Sniper):   %LockValue4.add_theme_color_override("font_color", Color(1,0,0))
+    if Info.isUnlockedCard(Card.TrophyBronce): %LockValue1.add_theme_color_override("font_color", Color(1,0,0))
+    if Info.isUnlockedCard(Card.TrophySilver): %LockValue2.add_theme_color_override("font_color", Color(1,0,0))
+    if Info.isUnlockedCard(Card.TrophyGold):   %LockValue3.add_theme_color_override("font_color", Color(1,0,0))
     
     %CardButton1.setSize(CARD_SIZE)
     %CardButton2.setSize(CARD_SIZE)
     %CardButton3.setSize(CARD_SIZE)
-    %CardButton4.setSize(CARD_SIZE)
     
     super.appear()
     

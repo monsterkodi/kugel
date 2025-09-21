@@ -44,7 +44,7 @@ func bodyEntered(body:Node3D):
         #corpse.freeze          = true
         corpses.append(corpse)
 
-func onEnemyDied(enemy:Enemy):
+func onEnemyCorpsed(enemy:Enemy):
     
     var dst = global_position.distance_to(enemy.global_position)
     if dst < radius:

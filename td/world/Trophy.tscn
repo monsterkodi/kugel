@@ -1,0 +1,65 @@
+[gd_scene load_steps=8 format=3 uid="uid://dsb46g46jd5bh"]
+
+[ext_resource type="Material" uid="uid://oqqf1d861hhq" path="res://materials/TrophyGoldMaterial.tres" id="1_d7ii2"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_hwg2t"]
+height = 0.75
+is_hemisphere = true
+
+[sub_resource type="TorusMesh" id="TorusMesh_d7ii2"]
+inner_radius = 0.3
+outer_radius = 0.51
+
+[sub_resource type="TorusMesh" id="TorusMesh_eejxr"]
+inner_radius = 0.1
+outer_radius = 0.25
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_n0d7m"]
+top_radius = 0.3
+bottom_radius = 0.1
+height = 0.5
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_rcmjx"]
+top_radius = 0.3
+bottom_radius = 0.3
+height = 0.2
+
+[sub_resource type="TorusMesh" id="TorusMesh_pgjjm"]
+inner_radius = 0.2
+outer_radius = 0.3
+
+[node name="Trophy" type="Node3D"]
+
+[node name="Bowl" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, 0, 1.4773679, 0)
+mesh = SubResource("SphereMesh_hwg2t")
+surface_material_override/0 = ExtResource("1_d7ii2")
+
+[node name="Rim" type="MeshInstance3D" parent="Bowl"]
+mesh = SubResource("TorusMesh_d7ii2")
+surface_material_override/0 = ExtResource("1_d7ii2")
+
+[node name="Grip" type="MeshInstance3D" parent="Bowl"]
+transform = Transform3D(1, 0, 0, 0, -4.371138e-08, -1, 0, 1, -4.371138e-08, 0.47, 0.347, 0)
+mesh = SubResource("TorusMesh_eejxr")
+surface_material_override/0 = ExtResource("1_d7ii2")
+
+[node name="Grip2" type="MeshInstance3D" parent="Bowl"]
+transform = Transform3D(1, 0, 0, 0, -4.371138e-08, -1, 0, 1, -4.371138e-08, -0.47, 0.349, 0)
+mesh = SubResource("TorusMesh_eejxr")
+surface_material_override/0 = ExtResource("1_d7ii2")
+
+[node name="Stem" type="MeshInstance3D" parent="Bowl"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9700131, -8.4801265e-08)
+mesh = SubResource("CylinderMesh_n0d7m")
+surface_material_override/0 = ExtResource("1_d7ii2")
+
+[node name="Base" type="MeshInstance3D" parent="Bowl"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3201255, -1.1540906e-07)
+mesh = SubResource("CylinderMesh_rcmjx")
+surface_material_override/0 = ExtResource("1_d7ii2")
+
+[node name="Rim2" type="MeshInstance3D" parent="Bowl/Base"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.10133153, -8.858684e-09)
+mesh = SubResource("TorusMesh_pgjjm")
+surface_material_override/0 = ExtResource("1_d7ii2")

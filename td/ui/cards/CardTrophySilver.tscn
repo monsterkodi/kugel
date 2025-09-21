@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://dhquhwxunlrkx"]
+
+[ext_resource type="Script" uid="uid://fjkyv7dnd82x" path="res://ui/cards/CardTrophySilver.gd" id="1_dftyt"]
+[ext_resource type="PackedScene" uid="uid://bfy4mqj2hlcl0" path="res://ui/cards/CardSetup.tscn" id="1_h6l02"]
+[ext_resource type="PackedScene" uid="uid://dsb46g46jd5bh" path="res://world/Trophy.tscn" id="3_kwfgt"]
+
+[node name="CardTrophySilver" type="Node3D"]
+script = ExtResource("1_dftyt")
+
+[node name="CardSetup" parent="." instance=ExtResource("1_h6l02")]
+cameraDistance = 4.5
+cameraFov = 25.0
+cameraTargetY = 0.8
+cameraHeight = 0.4
+
+[node name="Trophy" parent="." instance=ExtResource("3_kwfgt")]

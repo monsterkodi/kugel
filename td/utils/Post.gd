@@ -1,6 +1,7 @@
 extends Node
 
 signal enemyDied # enemy
+signal enemyCorpsed # enemy
 signal enemySpawned # spawner
 signal corpseCollected # collector
 signal buildingBought

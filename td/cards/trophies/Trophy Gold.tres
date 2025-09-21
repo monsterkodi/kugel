@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CardRes" load_steps=3 format=3 uid="uid://7a8il78a5hdj"]
+
+[ext_resource type="PackedScene" uid="uid://drvslkrgibatq" path="res://ui/cards/CardTrophyGold.tscn" id="1_8v30u"]
+[ext_resource type="Script" uid="uid://dcn508r6heipo" path="res://player/CardRes.gd" id="2_qpojc"]
+
+[resource]
+script = ExtResource("2_qpojc")
+name = &"Gold"
+type = 2
+text = "Earned for reaching highscore"
+maxNum = 3
+scene = ExtResource("1_8v30u")
+metadata/_custom_type_script = "uid://dcn508r6heipo"
