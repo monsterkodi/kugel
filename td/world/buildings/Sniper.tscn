@@ -73,17 +73,20 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 1.5, 0)
 
-[node name="TousMesh1" type="MeshInstance3D" parent="BarrelPivot"]
+[node name="TorusMesh1" type="MeshInstance3D" parent="BarrelPivot"]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, -8.742278e-08, -1, 0, 2, -4.371139e-08, 0, -4.257614e-09, -0.3375976)
 mesh = SubResource("TorusMesh_u6s15")
 surface_material_override/0 = ExtResource("1_e1wde")
 
-[node name="TousMesh2" type="MeshInstance3D" parent="BarrelPivot"]
+[node name="TorusMesh2" type="MeshInstance3D" parent="BarrelPivot"]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, -8.742278e-08, -1, 0, 2, -4.371139e-08, 0, -1.90307e-08, 0.00037121773)
 mesh = SubResource("TorusMesh_p61hx")
 surface_material_override/0 = ExtResource("1_e1wde")
 
-[node name="TousMesh3" type="MeshInstance3D" parent="BarrelPivot"]
+[node name="TorusMesh3" type="MeshInstance3D" parent="BarrelPivot"]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, -8.742278e-08, -1, 0, 2, -4.371139e-08, 0, -3.397359e-08, 0.34222466)
 mesh = SubResource("TorusMesh_u6s15")
 surface_material_override/0 = ExtResource("1_e1wde")

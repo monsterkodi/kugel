@@ -10,6 +10,7 @@ func appear():
     %ScoreValue.text       = str(Stats.numEnemiesSpawned)
     %TimeValue.text        = Utils.timeStr(Info.gameTime)
     
+    Log.log(Info.highscoreForCurrentLevel(), Card.Unlock[Card.TrophyGold])
     %ProgressBar.value     = Info.highscoreForCurrentLevel()
     %ProgressBar.max_value = Card.Unlock[Card.TrophyGold]
     

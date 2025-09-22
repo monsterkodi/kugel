@@ -1,0 +1,12 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bubrgtitpe1og"]
+
+[ext_resource type="Shader" uid="uid://be882mu4l243p" path="res://materials/visual/ClockSquareMatVis.tres" id="1_6sr5w"]
+
+[resource]
+render_priority = -5
+shader = ExtResource("1_6sr5w")
+shader_parameter/SegmentColor = Color(1, 0, 0, 1)
+shader_parameter/BackgroundColor = Color(0.19607843, 0.19607843, 0.19607843, 1)
+shader_parameter/Revolution = 0.0
+shader_parameter/OuterRadius = 0.999999977648
+shader_parameter/InnerRadius = 0.9870000468825

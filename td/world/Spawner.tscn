@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://cssayoomcrb8o"]
+[gd_scene load_steps=11 format=3 uid="uid://cssayoomcrb8o"]
 
 [ext_resource type="Script" uid="uid://c42hpa6ij4j3j" path="res://world/gd/Spawner.gd" id="1_5q6u0"]
 [ext_resource type="Material" uid="uid://chltotc0ohct" path="res://materials/SpawnerHoleActiveMaterial.tres" id="2_gfquv"]
 [ext_resource type="Shader" uid="uid://cj78indyh2su8" path="res://materials/shader/GooMaterial.gdshader" id="2_xgr6b"]
+[ext_resource type="PackedScene" uid="uid://rrmwg2lfk7xs" path="res://world/Dot.tscn" id="3_xgr6b"]
 [ext_resource type="AudioStream" uid="uid://dy8acua65vkpd" path="res://sounds/bouw.wav" id="4_gfquv"]
 
 [sub_resource type="Curve" id="Curve_bjyd8"]
@@ -45,6 +46,11 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, 0)
 mesh = SubResource("PlaneMesh_aubng")
 surface_material_override/0 = ExtResource("2_gfquv")
+
+[node name="Dot" parent="." instance=ExtResource("3_xgr6b")]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
+color = Color(0.02, 0.02, 0.02, 1)
 
 [node name="Body" type="AnimatableBody3D" parent="."]
 unique_name_in_owner = true

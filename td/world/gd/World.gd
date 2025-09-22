@@ -47,7 +47,7 @@ func _unhandled_input(event: InputEvent):
         if event.as_text() in ["Ctrl+Shift+D", "Alt+Z"]:
             #Log.log("fake zen key", event.as_text())
             EngineDebugger.send_message("editor:shortcut", ["Ctrl+Shift+F11"])
-        if event.keycode not in [KEY_CTRL, KEY_META, KEY_ALT, KEY_SHIFT]:        
+        if event.keycode not in [KEY_CTRL, KEY_META, KEY_ALT, KEY_SHIFT]:
             if  Input.is_key_pressed(KEY_CTRL) or \
                 Input.is_key_pressed(KEY_META) or \
                 Input.is_key_pressed(KEY_ALT)  or \
@@ -72,11 +72,17 @@ func enemySpawned(spawner:Spawner):
     
     %Player.nextCardIn -= 1
     if %Player.nextCardIn <= 0:
-        pauseGame()
         %Player.cardLevel += 1
         %Player.nextCardIn = Info.nextCardAtLevel(%Player.cardLevel)
-        #Log.log("level", %Player.cardLevel, "next in", %Player.nextCardIn)
-        %MenuHandler.showCardChooser(Info.nextSetOfCards())
+        Log.log("cardLevel", %Player.cardLevel, %Player.nextCardIn)
+        if %Player.cardLevel <= Info.maxCardLevel:
+            pauseGame()
+            #Log.log("level", %Player.cardLevel, "next in", %Player.nextCardIn)
+            %MenuHandler.showCardChooser(Info.nextSetOfCards())
+        else:
+            var cardRes = Card.resWithName(Card.Money)
+            Log.log("money level reached!", %Player.cardLevel, Info.maxCardLevel)
+            Wallet.addPrice(cardRes.data.amount)
 
 func cardSold(card:Card):
     
@@ -185,7 +191,7 @@ func loadLevel(levelRes):
     if currentLevel:
         saveGame()
         currentLevel.free()
-    currentLevelRes = levelRes   
+    currentLevelRes = levelRes
     currentLevel = levelRes.instantiate()
     currentLevel.inert = false
     add_child(currentLevel)

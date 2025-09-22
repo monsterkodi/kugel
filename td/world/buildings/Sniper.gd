@@ -34,7 +34,7 @@ func applyCards():
     
     setSensorRadius(5.0 + rangeCards * 1.0)
     
-    interval = 3.0  - speedCards * 0.2
+    interval = 4.0  - speedCards * 0.2
     rotSpeed = PI * 0.2 + speedCards * PI * 0.2
 
 func setSensorRadius(r:float):  
@@ -43,8 +43,9 @@ func setSensorRadius(r:float):
 
 func _physics_process(delta:float):
     
-    if not reloadTimer.is_stopped(): return
-    if %SniperRay.visible: return
+    if not reloadTimer.is_stopped():          return
+    if %SniperRay.visible:                    return
+    if glowTween and glowTween.is_running():  return
     
     if target and target is Enemy:
         
@@ -101,8 +102,20 @@ func shoot():
         collider = ray.get_collider()
         
     if sensorBodies.size():
-        #Log.log("shoot next target")
         target = sensorBodies.front()
+    
+    const svec = Vector3(0.5,2,0.5)
+    const tvec = Vector3(1,2,1)
+    
+    var delinc = 0.15
+    var delay  = 2*delinc
+    for torus in [%TorusMesh1, %TorusMesh2, %TorusMesh3]:
+        var tween : Tween = torus.create_tween()
+        tween.set_ease(Tween.EASE_OUT)
+        tween.set_trans(Tween.TRANS_ELASTIC)
+        tween.tween_property(torus, "scale", svec, interval/4).set_delay(delay)
+        tween.tween_property(torus, "scale", tvec, 3*interval/4)
+        delay -= delinc
         
 func onReload():
     
@@ -112,4 +125,3 @@ func onReload():
     glowTween.set_ease(Tween.EASE_IN)
     glowTween.set_trans(Tween.TRANS_CIRC)
     glowTween.tween_property(%SniperGlow, "scale", Vector3.ONE, 0.6)
-        

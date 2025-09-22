@@ -52,6 +52,14 @@ static var Unlock = {
     Card.TrophyGold   : 2000,
 }
 
+static func calcMaxCardLevel():
+    
+    var maxLevel = 0
+    for aRes in allRes():
+        if aRes.isBattleCard() or aRes.isPermanent():
+            maxLevel += aRes.maxNum
+    return maxLevel       
+
 static func allRes() -> Array[CardRes]:
     
     var ary:Array[CardRes] 
@@ -80,7 +88,7 @@ func _init(cardRes:CardRes):
     
 func _to_string():   return res.name
     
-func isBattleCard(): return res.type == CardRes.CardType.BATTLE
-func isPermanent():  return res.type == CardRes.CardType.PERMANENT
-func isTrophy():     return res.type == CardRes.CardType.TROPHY
-func isOnce():       return res.type == CardRes.CardType.ONCE
+func isBattleCard(): return res.isBattleCard() 
+func isPermanent():  return res.isPermanent()  
+func isTrophy():     return res.isTrophy()   
+func isOnce():       return res.isOnce()      

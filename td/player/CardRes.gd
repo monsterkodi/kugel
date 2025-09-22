@@ -14,3 +14,9 @@ enum CardType {
 @export var maxNum:int
 @export var scene:PackedScene
 @export var data:Dictionary
+
+func _to_string():   return name
+func isBattleCard(): return type == CardRes.CardType.BATTLE
+func isPermanent():  return type == CardRes.CardType.PERMANENT
+func isTrophy():     return type == CardRes.CardType.TROPHY
+func isOnce():       return type == CardRes.CardType.ONCE

@@ -12,11 +12,12 @@ const BUILDING_PRICES = {
 
 var buildingNames:PackedStringArray
 
-var wallTime    : float
-var gameTime    : float
-var enemySpeed  : float
-var player      : Player
-var world       : World
+var wallTime     : float
+var gameTime     : float
+var enemySpeed   : float
+var player       : Player
+var world        : World
+var maxCardLevel : int
 
 func _ready():
     
@@ -27,6 +28,9 @@ func _ready():
     process_mode = PROCESS_MODE_PAUSABLE
     
     Post.subscribe(self)
+    
+    maxCardLevel = Card.calcMaxCardLevel()
+    Log.log("maxCardLevel", maxCardLevel)
     #Log.log("Info.buildingNames", buildingNames)
     #Log.log("Info.buildingNamesSortedByPrice", buildingNamesSortedByPrice())
     
@@ -71,7 +75,7 @@ func isLockedCard(cardName:String) -> bool:
 
 func nextCardAtLevel(cardLevel:int) -> int:
 
-    Log.log("cardLevel", cardLevel, (cardLevel+1) * 5)
+    #Log.log("cardLevel", cardLevel, (cardLevel+1) * 5)
     return (cardLevel+1) * 5 
     
 func highscoreForCurrentLevel():

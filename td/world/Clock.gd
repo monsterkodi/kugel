@@ -1,7 +1,8 @@
+class_name Clock
 extends Node3D
 
 @export var seconds_initial   = 10.0
-@export var seconds_min       = 0.8
+@export var seconds_min       = 0.2
 
 var seconds       : float = 10.0
 var pointerSecs   : float = 0.0
@@ -23,8 +24,8 @@ func start():
     
     set_process(true)
     Post.subscribe(self)
-    %TickRing.visible = true
-    %DotRing.visible  = true
+    #%TickRing.visible = true
+    #%DotRing.visible  = true
     
 func levelStart():
     
@@ -35,10 +36,10 @@ func levelStart():
     dotsActivated    = 0
     numSpawnerActive = 0
     
-    %DotRing.setColor(0, activeDotColor)
+    #%DotRing.setColor(0, activeDotColor)
     
-    for i in range(1,8):
-        %DotRing.setColor(i, passiveDotColor)
+    #for i in range(1,8):
+        #%DotRing.setColor(i, passiveDotColor)
     
     %ClockRing.get_surface_override_material(0).set_shader_parameter("Revolution", 0.0)
     
@@ -51,15 +52,16 @@ func _process(delta: float):
     if pointerFactor >= 1.0:
         nextRound()
     
-    %TickRing.transform = Transform3D.IDENTITY
-    %TickRing.rotate_y(pointerFactor * dirSign * PI/4.0)
+    #%TickRing.transform = Transform3D.IDENTITY
+    #%TickRing.rotate_y(pointerFactor * dirSign * PI/4.0)
         
     Post.clockFactor.emit(pointerFactor)
     
 func spawnerActivated():
     
     numSpawnerActive += 1
-    %DotRing.setColor(numSpawnerActive, activeDotColor)
+    
+    #%DotRing.setColor(numSpawnerActive, activeDotColor)
     
 func nextRound():
     

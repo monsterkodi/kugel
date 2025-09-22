@@ -9,11 +9,14 @@ extends Node3D
 @export_range(0.0, 100,  0.1)  var velocity_initial   = 10.0
 
 @export var mass_increment     = 0.2
-@export var mass_max           = 500.0
+@export var mass_max           = 1500.0
 @export var velocity_increment = 0.025
-@export var velocity_max       = 75.0
+@export var velocity_max       = 175.0
 
 @export var curve:Curve
+
+var activeDotColor  = Color(1,0,0)
+var passiveDotColor = Color(0.02,0.02,0.02)
             
 var mass        : float
 var velocity    : float
@@ -50,6 +53,7 @@ func _ready():
 func activate():
     
     active = true
+    %Dot.color = activeDotColor
     Post.spawnerActivated.emit()
 
 func statChanged(statName, value):

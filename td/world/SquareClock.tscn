@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://c35k6vc7wnp8e"]
+
+[ext_resource type="Script" uid="uid://bfdj8uoesvtqf" path="res://world/SquareClock.gd" id="1_g2chl"]
+[ext_resource type="Material" uid="uid://bubrgtitpe1og" path="res://materials/ClockSquareMaterial.tres" id="2_skcmd"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_g2chl"]
+size = Vector2(80.5, 80.5)
+
+[node name="SquareClock" type="Node3D"]
+script = ExtResource("1_g2chl")
+
+[node name="ClockRing" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+mesh = SubResource("PlaneMesh_g2chl")
+surface_material_override/0 = ExtResource("2_skcmd")

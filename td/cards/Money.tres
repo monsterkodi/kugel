@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_ha4ns")
 name = &"Money"
-type = 2
+type = 3
 text = "Some extra money"
 data = {
 "amount": 100

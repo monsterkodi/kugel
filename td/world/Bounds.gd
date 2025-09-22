@@ -6,21 +6,23 @@ var outsideCorpses : Array[Enemy] = []
 func _ready():
     
     Post.subscribe(self)
+    process_mode = Node.PROCESS_MODE_PAUSABLE
     
 func _physics_process(delta: float):
     
     if outsideCorpses.size():
         for corpse in outsideCorpses:
+            if not corpse: continue
             corpse.apply_central_impulse(corpse.global_position.normalized() * -10)
             if isOutside(corpse):
-                Log.log("-outsideCorpse")
+                Log.log("-outsideCorpse", outsideCorpses.size())
                 outsideCorpses.erase(corpse)
     
 func enemyCorpsed(corpse:Enemy):
     
     if isOutside(corpse):
-        Log.log("+outsideCorpse")
         outsideCorpses.append(corpse)
+        Log.log("+outsideCorpse", outsideCorpses.size())
         
 func isOutside(corpse:Enemy):
     
@@ -47,14 +49,14 @@ func bodyExit(body: Node3D):
     if body is Enemy and body.dead():
 
         var state = spaceState()
-        assert(state)
-        var query = PhysicsRayQueryParameters3D.new()
-        query.collide_with_areas  = true
-        query.collide_with_bodies = false
-        query.collision_mask = Layer.LayerBounds
-        query.from = body.global_position
-        query.to = body.global_position - body.linear_velocity * 10.0
-        var intersection = state.intersect_ray(query)
-        if intersection.has("normal"):
-            body.linear_velocity = body.linear_velocity.bounce(intersection.normal)
-            body.linear_velocity = body.linear_velocity.limit_length(25)
+        if state:
+            var query = PhysicsRayQueryParameters3D.new()
+            query.collide_with_areas  = true
+            query.collide_with_bodies = false
+            query.collision_mask = Layer.LayerBounds
+            query.from = body.global_position
+            query.to = body.global_position - body.linear_velocity * 10.0
+            var intersection = state.intersect_ray(query)
+            if intersection.has("normal"):
+                body.linear_velocity = body.linear_velocity.bounce(intersection.normal)
+                body.linear_velocity = body.linear_velocity.limit_length(25)
