@@ -6,11 +6,13 @@ var type : String
 func _ready():
     
     type = get_script().get_global_name()
-    #Log.log("enter_tree", name, inert, type, get_script().get_base_script())
+    #Log.log("Building.ready inert", inert, "type", type)
     
     if not inert:
         add_to_group("building")
         Post.subscribe(self)
+
+func _to_string() -> String: return type
 
 func level_reset():
     
@@ -23,6 +25,7 @@ func saveBuilding(array:Array):
     
     var dict = {}
     
-    dict.type     = scene_file_path
+    dict.type     = type
+    dict.res      = scene_file_path
     dict.position = global_position
     array.append(dict)

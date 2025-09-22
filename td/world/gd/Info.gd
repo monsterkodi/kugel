@@ -30,7 +30,7 @@ func _ready():
     Post.subscribe(self)
     
     maxCardLevel = Card.calcMaxCardLevel()
-    Log.log("maxCardLevel", maxCardLevel)
+    #Log.log("maxCardLevel", maxCardLevel)
     #Log.log("Info.buildingNames", buildingNames)
     #Log.log("Info.buildingNamesSortedByPrice", buildingNamesSortedByPrice())
     
@@ -175,8 +175,3 @@ func isAnyBuildingPlaced(type):
     
     return allPlacedBuildingsOfType(type).size() > 0
     
-func slotForPos(pos):
-    
-    var level = world.currentLevel
-    var slots = Utils.filterTree(level, func(n:Node): return n is Slot)
-    return Utils.closestNode(slots, pos)

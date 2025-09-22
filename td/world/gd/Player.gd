@@ -27,16 +27,17 @@ func _ready():
     
 func levelStart():
     
-    loadVehicle("Pill")
-    global_position = Vector3.ZERO
+    if not vehicle:
+        loadVehicle("Pill")
+        global_position = Vector3.ZERO + Vector3.BACK
     
     if %BattleCards.countCards(Card.Shield):
         %BattleCards.useCard(Card.Shield)
-        addShield()
-    elif Info.isAnyBuildingPlaced("Shield"):
-        Post.statChanged.emit("shieldHitPoints", 0)
-        get_node("/root/World/Shield").free()
-
+        if not Info.isAnyBuildingPlaced("Shield"):
+            addShield()
+    #else: 
+        #delShield()
+        
 func loadVehicle(vehicle_name:String):
     
     if vehicle: vehicle.queue_free()
@@ -59,6 +60,21 @@ func _unhandled_input(_event: InputEvent):
             "Pill": loadVehicle("Car")
             "Car":  loadVehicle("Heli")
             "Heli": loadVehicle("Pill")
+        
+func save() -> Dictionary:
+    
+    var dict = {}
+    dict.transform         = global_transform
+    dict.vehicle_transform = vehicle.transform
+    dict.vehicle_velocity  = vehicle.linear_velocity
+    return dict
+    
+func load(dict:Dictionary):
+    
+    loadVehicle("Pill")
+    global_transform         = dict.transform
+    vehicle.transform        = dict.vehicle_transform
+    vehicle.linear_velocity  = dict.vehicle_velocity
         
 func on_save(data:Dictionary):
 
@@ -102,3 +118,9 @@ func addShield():
     shield.inert = false
     get_parent_node_3d().add_child(shield)
     shield.global_position = Vector3.ZERO
+
+func delShield():
+    
+    if Info.isAnyBuildingPlaced("Shield"):
+        Post.statChanged.emit("shieldHitPoints", 0)
+        get_node("/root/World/Shield").free()

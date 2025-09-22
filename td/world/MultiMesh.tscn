@@ -10,11 +10,13 @@
 size = Vector2(3, 3)
 
 [sub_resource type="MultiMesh" id="MultiMesh_lh0gu"]
+resource_local_to_scene = true
 transform_format = 1
 use_colors = true
 mesh = SubResource("PlaneMesh_lh0gu")
 
 [sub_resource type="MultiMesh" id="MultiMesh_4or7h"]
+resource_local_to_scene = true
 transform_format = 1
 use_colors = true
 mesh = SubResource("PlaneMesh_lh0gu")
@@ -24,6 +26,7 @@ radial_segments = 32
 rings = 16
 
 [sub_resource type="MultiMesh" id="MultiMesh_5pk03"]
+resource_local_to_scene = true
 transform_format = 1
 use_colors = true
 mesh = SubResource("SphereMesh_av0xo")
@@ -35,6 +38,7 @@ radial_segments = 16
 rings = 8
 
 [sub_resource type="MultiMesh" id="MultiMesh_rowl7"]
+resource_local_to_scene = true
 transform_format = 1
 use_colors = true
 mesh = SubResource("SphereMesh_5pk03")
@@ -57,7 +61,6 @@ material_override = ExtResource("2_ugn5w")
 multimesh = SubResource("MultiMesh_5pk03")
 
 [node name="Bullet" type="MultiMeshInstance3D" parent="."]
-process_mode = 1
 material_override = ExtResource("4_5pk03")
 cast_shadow = 0
 multimesh = SubResource("MultiMesh_rowl7")

@@ -11,8 +11,8 @@ func appear():
     %TimeValue.text        = Utils.timeStr(Info.gameTime)
     
     Log.log(Info.highscoreForCurrentLevel(), Card.Unlock[Card.TrophyGold])
-    %ProgressBar.value     = Info.highscoreForCurrentLevel()
     %ProgressBar.max_value = Card.Unlock[Card.TrophyGold]
+    %ProgressBar.value     = clampi(Info.highscoreForCurrentLevel(), 0, %ProgressBar.max_value)
     
     %CardButton1.setCardWithName(Card.TrophyBronce)
     %CardButton2.setCardWithName(Card.TrophySilver)

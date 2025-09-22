@@ -21,6 +21,8 @@ func _ready():
 func mainMenu():
     
     get_tree().paused = true
+    if currentLevel and Saver.savegame:
+        currentLevel.saveLevel(Saver.savegame.data)
     %MenuHandler.appear(%MainMenu)
     
 func _process(delta: float):
@@ -112,7 +114,6 @@ func newGame():
     
     Saver.clear()
     %Player.perm.addCard(Card.withName(Card.BattleCard))
-    #restartLevel()
     
 func restartLevel():
     
@@ -192,12 +193,23 @@ func loadLevel(levelRes):
         saveGame()
         currentLevel.free()
     currentLevelRes = levelRes
+    Log.log("level instantiate")
     currentLevel = levelRes.instantiate()
     currentLevel.inert = false
+    Log.log("level add")
     add_child(currentLevel)
+    Log.log("level start")
     currentLevel.start()
+    Log.log("emit startLevel")
     Post.startLevel.emit()
+    Log.log("emit applyCards")
     Post.applyCards.emit()
+    Log.log("emit levelStart")
     Post.levelStart.emit()
+    
+    if Saver.savegame and Saver.savegame.data.has("Level") and Saver.savegame.data.Level.has(currentLevel.name):
+        if Saver.savegame.data.Level[currentLevel.name]:
+            Log.log("late load level")
+            currentLevel.loadLevel(Saver.savegame.data)
     
     resumeGame()

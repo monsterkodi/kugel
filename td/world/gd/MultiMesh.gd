@@ -1,6 +1,6 @@
 extends Node3D
 
-var dict = {"dot": [], "slot": []}
+var dict = {"dot": [], "slot": [], "enemy": [], "bullet": []}
 
 func add(typ:String, node:Node3D):
 
@@ -14,8 +14,9 @@ func del(typ:String, node:Node3D):
 
 func _process(delta:float):
     
-    if get_parent().inert: return
-    
+    if get_parent().inert:
+        Log.log("mm", get_parent().name, get_parent().inert)
+        
     var mmi:MultiMeshInstance3D
     var num:int
     
@@ -39,7 +40,7 @@ func _process(delta:float):
         trans = trans.translated(Vector3(0,0.01,0))
         mmi.multimesh.set_instance_transform(i, trans)
  
-    var enemies = get_tree().get_nodes_in_group("enemy")
+    var enemies = dict.enemy
     num = enemies.size()
     mmi = $Enemy
     mmi.multimesh.instance_count = num
@@ -47,7 +48,8 @@ func _process(delta:float):
         mmi.multimesh.set_instance_transform(i, enemies[i].global_transform)
         mmi.multimesh.set_instance_color(i, enemies[i].getColor())
 
-    var bullets = get_tree().get_nodes_in_group("bullet")
+    #var bullets = get_tree().get_nodes_in_group("bullet")
+    var bullets = dict.bullet
     num = bullets.size()  
     mmi = $Bullet 
     mmi.multimesh.instance_count = num 

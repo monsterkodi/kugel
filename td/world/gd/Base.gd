@@ -7,7 +7,9 @@ func _ready():
     
     world = get_node("/root/World")
     Post.subscribe(self)
-    setHitPoints(3)
+    if not hitPoints:
+        setHitPoints(3)
+    #Log.log("base ready", hitPoints)
     
 func _process(delta:float):
     
@@ -47,7 +49,7 @@ func updateDots():
     %DotRing.numDots = dots
         
 func onDeath():
-    
+    Log.log("onDeath")
     Post.baseDestroyed.emit()
 
 func _on_center_sphere_body_entered(body: Node):

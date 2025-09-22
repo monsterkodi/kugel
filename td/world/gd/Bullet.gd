@@ -1,6 +1,14 @@
 class_name Bullet extends RigidBody3D
 
-func level_reset(): queue_free()
+func _ready():
+    
+    Utils.level(self).get_node("MultiMesh").add("bullet", self)
+
+func _exit_tree():
+    
+    Utils.level(self).get_node("MultiMesh").del("bullet", self)
+
+func level_reset(): free()
 
 func getColor() -> Color:
     

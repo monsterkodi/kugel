@@ -1,6 +1,6 @@
 [gd_scene load_steps=21 format=3 uid="uid://btl7cihfnbl6u"]
 
-[ext_resource type="Script" uid="uid://bkoetr2wxx1wf" path="res://world/gd/LevelB.gd" id="1_ucptv"]
+[ext_resource type="Script" uid="uid://bkoetr2wxx1wf" path="res://world/gd/LevelLinea.gd" id="1_ucptv"]
 [ext_resource type="PhysicsMaterial" uid="uid://dq1r6votcqh1x" path="res://materials/physics/FloorPhysics.tres" id="2_ietfk"]
 [ext_resource type="Material" uid="uid://kotd4yt27t51" path="res://materials/FloorMaterial.tres" id="3_88e6q"]
 [ext_resource type="Material" uid="uid://dpx5qvy28judg" path="res://materials/CircleMaterial.tres" id="4_71jv4"]
@@ -199,5 +199,6 @@ shape = SubResource("CapsuleShape3D_71jv4")
 debug_fill = false
 
 [node name="MultiMesh" parent="." instance=ExtResource("11_ietfk")]
+unique_name_in_owner = true
 
 [connection signal="body_exited" from="Bounds" to="Bounds" method="bodyExit"]

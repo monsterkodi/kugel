@@ -16,3 +16,8 @@ func enemySpawned(spawner:Spawner):
     #Log.log("enemySpawned", numEnemiesSpawned)
     Post.statChanged.emit("numEnemiesSpawned", numEnemiesSpawned)
     
+func setNumEnemiesSpawned(num:int):
+    
+    numEnemiesSpawned = num
+    Post.statChanged.emit("numEnemiesSpawned", numEnemiesSpawned)
+    

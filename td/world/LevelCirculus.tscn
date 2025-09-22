@@ -1,6 +1,6 @@
 [gd_scene load_steps=30 format=3 uid="uid://wo631fluqa0p"]
 
-[ext_resource type="Script" uid="uid://c7pjmf60m2ova" path="res://world/gd/LevelA.gd" id="1_xcgu7"]
+[ext_resource type="Script" uid="uid://c7pjmf60m2ova" path="res://world/gd/LevelCirculus.gd" id="1_xcgu7"]
 [ext_resource type="PhysicsMaterial" uid="uid://dq1r6votcqh1x" path="res://materials/physics/FloorPhysics.tres" id="2_mqshf"]
 [ext_resource type="Material" uid="uid://kotd4yt27t51" path="res://materials/FloorMaterial.tres" id="3_8kvw6"]
 [ext_resource type="Script" uid="uid://7c1aiis7pati" path="res://world/gd/SlotRing.gd" id="4_gb8u2"]

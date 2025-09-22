@@ -15,8 +15,8 @@ func _physics_process(delta: float):
             if not corpse: continue
             corpse.apply_central_impulse(corpse.global_position.normalized() * -10)
             if isOutside(corpse):
-                Log.log("-outsideCorpse", outsideCorpses.size())
                 outsideCorpses.erase(corpse)
+                Log.log("-outsideCorpse", outsideCorpses.size())
     
 func enemyCorpsed(corpse:Enemy):
     

@@ -19,6 +19,10 @@ func back():
     else:
         %Quit.grab_focus()
     
+func vanished():
+    
+    Utils.freeChildren(levelButtons)    
+    
 func appear():
 
     Utils.freeChildren(levelButtons)
@@ -56,8 +60,8 @@ func addLevelButton(scene):
     button.viewport.scene.floor.visible = false
     
     var camera = button.viewport.scene.camera
-    camera.global_position = Vector3(0, 50, 50)
-    camera.look_at(Vector3.ZERO)
+    camera.global_position = Vector3(0, 120, 0)
+    camera.look_at(Vector3.FORWARD)
     camera.far = 1000
     
     var environment : Environment = button.viewport.scene.environment.environment

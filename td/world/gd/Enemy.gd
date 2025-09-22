@@ -8,6 +8,38 @@ func alive(): return health > 0
 func dead():  return health <= 0
 var deadColor : Color = Color(0,0,0)
 
+func _ready():
+    
+    Utils.level(self).get_node("MultiMesh").add("enemy", self)
+
+func _exit_tree():
+    
+    Utils.level(self).get_node("MultiMesh").del("enemy", self)
+
+func save() -> Dictionary:
+    
+    var dict = {}
+    dict.health = health
+    dict.mass   = mass
+    dict.position = global_position
+    dict.velocity = linear_velocity
+    dict.angular  = angular_velocity
+    return dict
+
+func load(dict:Dictionary):
+    
+    spawned = true
+    setMass(dict.mass)
+    health = dict.health
+    if health <= 0:
+        collision_layer = Layer.LayerCorpse
+        %Attraction.disable()
+    else:
+        collision_layer = Layer.LayerEnemy
+    global_position  = dict.position
+    linear_velocity  = dict.velocity
+    angular_velocity = dict.angular 
+    
 func die():
     
     %died.play(0.09)
@@ -76,4 +108,3 @@ func applyDamage(damage:float, source:PhysicsBody3D):
     if source is Bullet:
         %hit.play()
         source.queue_free()
-            
