@@ -11,9 +11,9 @@
 [ext_resource type="PackedScene" uid="uid://cqn35mciqmm8s" path="res://world/Enemy.tscn" id="9_jq0qu"]
 [ext_resource type="PackedScene" uid="uid://b0ky2r6dv835o" path="res://world/Base.tscn" id="10_rvwlb"]
 [ext_resource type="PackedScene" uid="uid://dt4vauql4gx0y" path="res://components/HalfCapsule.tscn" id="11_36jqx"]
-[ext_resource type="PackedScene" uid="uid://b8phu2uow5j4d" path="res://world/Clock.tscn" id="12_7djrp"]
 [ext_resource type="Script" uid="uid://c5hsf15hvj6m" path="res://world/Bounds.gd" id="13_1kcnp"]
 [ext_resource type="PackedScene" uid="uid://c2avn203eitto" path="res://world/MultiMesh.tscn" id="14_3vxsb"]
+[ext_resource type="PackedScene" uid="uid://cq3x2vgl4xff0" path="res://world/clocks/RingClock.tscn" id="14_qno3l"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_dn5x0"]
 size = Vector2(1000, 1000)
@@ -222,6 +222,7 @@ surface_material_override/0 = SubResource("ShaderMaterial_jnau8")
 metadata/_edit_lock_ = true
 
 [node name="Spawners" type="Node3D" parent="."]
+unique_name_in_owner = true
 
 [node name="Node3D1" type="Node3D" parent="Spawners"]
 transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, 0, 0, 0)
@@ -318,11 +319,6 @@ segments = 12
 rings = 8
 material = SubResource("StandardMaterial3D_d6u53")
 
-[node name="Clock" parent="." instance=ExtResource("12_7djrp")]
-unique_name_in_owner = true
-process_mode = 1
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
-
 [node name="Bounds" type="Area3D" parent="."]
 collision_layer = 536870912
 collision_mask = 48
@@ -333,6 +329,10 @@ script = ExtResource("13_1kcnp")
 shape = SubResource("SphereShape3D_052yy")
 
 [node name="MultiMesh" parent="." instance=ExtResource("14_3vxsb")]
+
+[node name="Clock" parent="." instance=ExtResource("14_qno3l")]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
 
 [connection signal="visibility_changed" from="Floor/SlotsRings/SlotRing1" to="Floor/SlotsRings/SlotRing1" method="_on_visibility_changed"]
 [connection signal="visibility_changed" from="Floor/SlotsRings/SlotRing2" to="Floor/SlotsRings/SlotRing2" method="_on_visibility_changed"]

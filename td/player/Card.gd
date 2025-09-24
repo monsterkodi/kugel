@@ -30,21 +30,17 @@ static var Money        = "Money"
 
 static var Unlock = {
 
-    Card.Bouncer      : 20,
     Card.BouncerRange : 30,
     Card.BouncerSpeed : 30,
     Card.BouncerPower : 30,
     
-    Card.Laser        : 40,
     Card.LaserRange   : 50,
     Card.LaserSpeed   : 50,
     Card.LaserPower   : 50,
     
-    Card.Sniper       : 100,
     Card.SniperRange  : 110,
     Card.SniperSpeed  : 120,
     
-    Card.Shield       : 100,
     Card.ShieldLayer  : 150,
     
     Card.TrophyBronce : 500,
@@ -57,12 +53,12 @@ static func calcMaxCardLevel():
     var maxLevel = 0
     for aRes in allRes():
         if aRes.isBattleCard() or aRes.isPermanent():
-            maxLevel += aRes.maxNum
+            maxLevel += aRes.maxLvl
     return maxLevel       
 
 static func allRes() -> Array[CardRes]:
     
-    var ary:Array[CardRes] 
+    var ary:Array[CardRes]
     ary.assign(Utils.resourcesInDir("res://cards"))
     return ary
     
@@ -80,13 +76,15 @@ static func withName(cardName:String) -> Card:
     if cardRes: return Card.new(cardRes)
     return null
 
-var res:CardRes
+var res : CardRes
+var lvl : int
 
-func _init(cardRes:CardRes):
+func _init(cardRes:CardRes, l:int = 1):
     
     res = cardRes
+    lvl = l
     
-func _to_string():   return res.name
+func _to_string():   return "[%s %d]" % [res.name, lvl]
     
 func isBattleCard(): return res.isBattleCard() 
 func isPermanent():  return res.isPermanent()  

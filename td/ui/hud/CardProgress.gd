@@ -10,9 +10,9 @@ func _ready():
     assert(player)
     Post.subscribe(self)
     
-func levelStart():    update()
-func applyCards():    update()
-func enemySpawned(s): update()
+func levelStart():   update()
+func applyCards():   update()
+func enemySpawned(): update()
 
 func update():
     

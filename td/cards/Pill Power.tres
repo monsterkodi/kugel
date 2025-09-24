@@ -8,6 +8,6 @@ script = ExtResource("2_dagpe")
 name = &"Pill Power"
 type = 1
 text = "More power to the player laser and punch"
-maxNum = 5
+maxLvl = 5
 scene = ExtResource("1_sicoq")
 metadata/_custom_type_script = "uid://dcn508r6heipo"

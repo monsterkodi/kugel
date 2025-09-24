@@ -8,6 +8,6 @@ script = ExtResource("1_fl063")
 name = &"Battle Card"
 type = 1
 text = "Take an additional card into battle"
-maxNum = 5
+maxLvl = 5
 scene = ExtResource("1_sf4xx")
 metadata/_custom_type_script = "uid://dcn508r6heipo"

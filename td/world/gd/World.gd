@@ -38,8 +38,6 @@ func _unhandled_input(event: InputEvent):
     if Input.is_action_just_pressed("pause"): pauseMenu();   return
     if Input.is_action_just_pressed("build"): buildMode();   return
     if Input.is_action_just_pressed("quit"):  quitGame();    return
-    #if Input.is_action_just_pressed("save"): Saver.save();  return
-    #if Input.is_action_just_pressed("load"): Saver.load();  return
     
     if Input.is_action_just_pressed("faster"): Info.fasterEnemySpeed()
     if Input.is_action_just_pressed("slower"): Info.slowerEnemySpeed()
@@ -68,7 +66,7 @@ func baseDestroyed():
     pauseGame()
     %MenuHandler.appear(%ResultMenu)
     
-func enemySpawned(spawner:Spawner):
+func enemySpawned():
     
     #Log.log("level", %Player.cardLevel, "next in", %Player.nextCardIn)
     
@@ -175,7 +173,7 @@ func settings(backMenu:Menu):
 
 func ensureOneBattleCard():
     
-    if Info.numberOfCardsOwned(Card.BattleCard) < 1:
+    if Info.cardLvl(Card.BattleCard) < 1:
         %Player.perm.addCard(Card.withName(Card.BattleCard))
 
 func playLevel(levelRes):

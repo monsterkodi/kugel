@@ -8,6 +8,6 @@ script = ExtResource("2_kh17j")
 name = &"Sniper Range"
 type = 1
 text = "A Snipers see farther"
-maxNum = 5
+maxLvl = 5
 scene = ExtResource("1_ayf61")
 metadata/_custom_type_script = "uid://dcn508r6heipo"

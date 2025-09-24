@@ -64,6 +64,8 @@ func buildingSlotChanged(slot):
 func updateBalance():
     
     var button = focusedButton()
+    if not button: return
+    
     var builder = %Builder
     if builder.targetSlot and builder.targetSlot is Slot and builder.targetSlot.get_child_count():
         var building = %Builder.targetSlot.get_child(0)

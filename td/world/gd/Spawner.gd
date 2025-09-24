@@ -20,9 +20,9 @@ var passiveDotColor = Color(0.02,0.02,0.02)
             
 var mass        : float
 var velocity    : float
+var active      = false
 
 var spawnedBody : RigidBody3D
-var active      = false
 var level       : Level
 
 const spawnerHolePassiveMaterial = preload("uid://djrtyqmjy623u")
@@ -31,7 +31,7 @@ const spawnerHoleActiveMaterial  = preload("uid://chltotc0ohct")
 func _ready():
 
     level = Utils.firstParentWithClass(self, "Level")
-    if level.inert: return
+    #if level.inert: return
     
     velocity = velocity_initial
     mass     = mass_initial
@@ -46,15 +46,38 @@ func _ready():
     
     if activation_level == 0:
         activate()
-        %Hole.set_surface_override_material(0, spawnerHoleActiveMaterial)
     else:
-        %Hole.set_surface_override_material(0, spawnerHolePassiveMaterial)
+        deactivate()
 
+func save() -> Dictionary:
+    
+    var dict = {}
+    
+    dict.active    = active
+    dict.velocity  = velocity
+    dict.mass      = mass
+    
+    return dict
+    
+func load(dict:Dictionary):
+    
+    if dict.active: activate()
+    else:           deactivate()
+    
+    velocity = dict.velocity
+    mass     = dict.mass
+        
 func activate():
     
     active = true
     %Dot.color = activeDotColor
-    Post.spawnerActivated.emit()
+    %Hole.set_surface_override_material(0, spawnerHoleActiveMaterial)
+
+func deactivate():
+    
+    active = false
+    %Dot.color = passiveDotColor
+    %Hole.set_surface_override_material(0, spawnerHolePassiveMaterial)
 
 func statChanged(statName, value):
     
@@ -123,5 +146,5 @@ func clockTick():
     spawnedBody.spawned = true
     spawnedBody = null
     
-    Post.enemySpawned.emit(self)
+    Post.enemySpawned.emit()
     %enemySpawned.play()

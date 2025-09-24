@@ -12,8 +12,6 @@ var perm : Deck
 
 func _ready():
     
-    add_to_group("save")
-    
     #Log.log("ready player one", get_parent_node_3d())
     deck = Deck.new()
     hand = Deck.new()
@@ -26,6 +24,9 @@ func _ready():
     Post.subscribe(self)
     
 func levelStart():
+    
+    cardLevel  = 0
+    nextCardIn = 5
     
     if not vehicle:
         loadVehicle("Pill")
@@ -50,66 +51,38 @@ func loadVehicle(vehicle_name:String):
         vehicle.player = self
     else:
         add_child(vehicle)
-    
-func _unhandled_input(_event: InputEvent):
-    
-    if Input.is_action_just_pressed("alt_up", true):
-        get_viewport().set_input_as_handled()
-        position.y = 0
-        match vehicleName:
-            "Pill": loadVehicle("Car")
-            "Car":  loadVehicle("Heli")
-            "Heli": loadVehicle("Pill")
-        
+            
 func save() -> Dictionary:
     
     var dict = {}
+    
     dict.transform         = global_transform
+    dict.vehicle           = vehicleName
     dict.vehicle_transform = vehicle.transform
     dict.vehicle_velocity  = vehicle.linear_velocity
+    
+    dict.hand              = hand.toDict()
+    dict.deck              = deck.toDict()
+    dict.perm              = perm.toDict()
+    dict.nextCardIn        = nextCardIn
+    dict.cardLevel         = cardLevel
+    
     return dict
     
 func load(dict:Dictionary):
     
-    loadVehicle("Pill")
+    loadVehicle(dict.vehicle)
     global_transform         = dict.transform
     vehicle.transform        = dict.vehicle_transform
     vehicle.linear_velocity  = dict.vehicle_velocity
         
-func on_save(data:Dictionary):
-
-    data.Player = {}
-    #data.Player.transform  = transform
-    #data.Player.vehicle    = vehicleName
-    data.Player.hand       = hand.toDict()
-    data.Player.deck       = deck.toDict()
-    data.Player.perm       = perm.toDict()
-    data.Player.nextCardIn = nextCardIn
-    data.Player.cardLevel  = cardLevel
+    cardLevel  = maxi(dict.cardLevel, 0)
+    nextCardIn = clampi(dict.nextCardIn, 1, Info.nextCardAtLevel(cardLevel))
     
-func on_load(data:Dictionary):
-    
-    nextCardIn = 5
-    cardLevel  = 0
-    
-    Utils.freeChildren(hand)
-    Utils.freeChildren(deck)
-    Utils.freeChildren(perm)
-    
-    if data.has("Player"):
-    
-        #transform = data.Player.transform
-        #loadVehicle(data.Player.vehicle)
+    hand.fromDict(dict.hand)
+    deck.fromDict(dict.deck)
+    perm.fromDict(dict.perm)
         
-        if data.Player.has("cardLevel"):  cardLevel  = maxi(data.Player.cardLevel, 0)
-        if data.Player.has("nextCardIn"): nextCardIn = clampi(data.Player.nextCardIn, 1, Info.nextCardAtLevel(cardLevel))
-        
-        if data.Player.has("hand"): hand.fromDict(data.Player.hand)
-        if data.Player.has("deck"): deck.fromDict(data.Player.deck)
-        if data.Player.has("perm"): perm.fromDict(data.Player.perm)
-
-    Log.log("Player.load", cardLevel, nextCardIn)
-
 const SHIELD = preload("uid://busmvxaat6dqv")
     
 func addShield():
@@ -124,3 +97,13 @@ func delShield():
     if Info.isAnyBuildingPlaced("Shield"):
         Post.statChanged.emit("shieldHitPoints", 0)
         get_node("/root/World/Shield").free()
+
+func _unhandled_input(_event: InputEvent):
+    
+    if Input.is_action_just_pressed("alt_up", true):
+        get_viewport().set_input_as_handled()
+        position.y = 0
+        match vehicleName:
+            "Pill": loadVehicle("Car")
+            "Car":  loadVehicle("Heli")
+            "Heli": loadVehicle("Pill")

@@ -1,7 +1,7 @@
 class_name Level 
 extends Node3D
 
-var inert = true
+var inert     = true
 var highscore = 0
 
 const ENEMY = preload("uid://cqn35mciqmm8s")
@@ -22,12 +22,12 @@ func start():
     Log.log("Level.start")
     add_to_group("game")
     set_process(true)
-    
     Post.subscribe(self)
+    %Clock.start()
     
 func applyCards():
     
-    var rings = Info.countPermCards(Card.SlotRing)
+    var rings = Info.cardLvl(Card.SlotRing)
 
     %SlotRing1.visible = true
     %SlotRing2.visible = (rings >= 1)
@@ -46,7 +46,8 @@ func levelEnd():
     
     highscore = maxi(Stats.numEnemiesSpawned, highscore)
     Log.log("levelEnd", Stats.numEnemiesSpawned, highscore)
-    clearLevel(Saver.savegame.data)
+    if Saver.savegame:
+        clearLevel(Saver.savegame.data)
 
 func gamePaused():
     
@@ -73,9 +74,10 @@ func saveLevel(data:Dictionary):
     data.Level[name].highscore = highscore
     data.Level[name].enemiesSpawned = Stats.numEnemiesSpawned
     data.Level[name].walletBalance  = Wallet.balance
+    data.Level[name].clock          = %Clock.save()
     data.Level[name].gameTime       = Info.gameTime
     data.Level[name].baseHitPoints  = %Base.hitPoints
-    
+
     data.Level[name].player = get_node("/root/World/Player").save()
 
     data.Level[name].buildings = []
@@ -86,6 +88,10 @@ func saveLevel(data:Dictionary):
         if enemy.spawned:
             data.Level[name].enemies.append(enemy.save())
     
+    data.Level[name].spawners = []
+    for spawner in Utils.childrenWithClass(%Spawners, "Spawner"):
+        data.Level[name].spawners.append(spawner.save())
+
     Log.log("saveLevel", name, data.Level[name])
 
 func loadLevel(data:Dictionary):
@@ -109,6 +115,9 @@ func loadLevel(data:Dictionary):
         
     if data.Level[name].has("baseHitPoints"):
         %Base.setHitPoints(data.Level[name].baseHitPoints)
+
+    if data.Level[name].has("clock"):
+        %Clock.load(data.Level[name].clock)
         
     if data.Level[name].has("gameTime"):
         Info.gameTime = data.Level[name].gameTime
@@ -140,6 +149,12 @@ func loadLevel(data:Dictionary):
             enemy.load(dict)
             
         get_node("MultiMesh")._process(0)
+        
+    if data.Level[name].has("spawners"):
+        var spawners = Utils.childrenWithClass(%Spawners, "Spawner")
+        for index in range(spawners.size()):
+            var spawner = spawners[index]
+            spawner.load(data.Level[name].spawners[index])
 
 func slotForPos(pos):
     

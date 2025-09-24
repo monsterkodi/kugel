@@ -7,7 +7,7 @@ var impulsePower : float
 var bounceTween  : Tween
 var chargeTween  : Tween
 
-const glowColor   = Color(0.6, 0.6, 1.0)
+const glowColor   = Color(0.609, 0.609, 1.0, 1.0)
 const chargeColor = Color(2, 0, 0)
 const bounceColor = Color(2, 2, 0)
 
@@ -19,9 +19,9 @@ func _ready():
     
 func applyCards():
     
-    var powerCards = Info.countPermCards(Card.BouncerPower)
-    var speedCards = Info.countPermCards(Card.BouncerSpeed)
-    var rangeCards = Info.countPermCards(Card.BouncerRange)
+    var powerCards = Info.permLvl(Card.BouncerPower)
+    var speedCards = Info.permLvl(Card.BouncerSpeed)
+    var rangeCards = Info.permLvl(Card.BouncerRange)
     
     impulsePower   = (1.0 + powerCards) * 10.0
     %Sensor.linear_damp = 0.2 + powerCards * 0.05

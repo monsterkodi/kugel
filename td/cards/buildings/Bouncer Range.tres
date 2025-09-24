@@ -8,6 +8,6 @@ script = ExtResource("2_lo50w")
 name = &"Bouncer Range"
 type = 1
 text = "Bouncers reach farther"
-maxNum = 5
+maxLvl = 5
 scene = ExtResource("1_jp035")
 metadata/_custom_type_script = "uid://dcn508r6heipo"

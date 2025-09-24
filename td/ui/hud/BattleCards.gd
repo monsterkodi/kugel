@@ -35,16 +35,18 @@ func countCards(cardName:String) -> int:
     
     var num = 0
     for button in %Cards.get_children():
-        if button.card.res.name == cardName:
-            num += 1
+        if button.card:
+            if button.card.res.name == cardName:
+                num += 1
     return num
     
 func useCard(cardName:String):
     
     for button in %Cards.get_children():
-        if button.card.res.name == cardName:
-            button.free()
-            return
+        if button.card:
+            if button.card.res.name == cardName:
+                button.free()
+                return
     
 func levelEnd():
     

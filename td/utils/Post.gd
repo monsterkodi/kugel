@@ -2,7 +2,7 @@ extends Node
 
 signal enemyDied # enemy
 signal enemyCorpsed # enemy
-signal enemySpawned # spawner
+signal enemySpawned
 signal corpseCollected # collector
 signal buildingBought
 signal buildingPlaced # building
@@ -34,7 +34,6 @@ signal settings
 signal quitGame
 signal clockFactor
 signal clockTick
-signal spawnerActivated
 
 var sigDict : Dictionary = {}
 

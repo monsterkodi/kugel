@@ -7,6 +7,6 @@
 script = ExtResource("2_37tx3")
 name = &"Pole"
 text = "A Pole that doesn't cost anything"
-maxNum = 5
+maxLvl = 5
 scene = ExtResource("1_r6k8r")
 metadata/_custom_type_script = "uid://dcn508r6heipo"

@@ -29,8 +29,8 @@ func _ready():
         
 func applyCards():
     
-    var speedCards = Info.countPermCards(Card.SniperSpeed)
-    var rangeCards = Info.countPermCards(Card.SniperRange)
+    var speedCards = Info.permLvl(Card.SniperSpeed)
+    var rangeCards = Info.permLvl(Card.SniperRange)
     
     setSensorRadius(5.0 + rangeCards * 1.0)
     

@@ -20,10 +20,10 @@ func _ready():
     
 func applyCards():
     
-    %LaserPointer.laserRange  = 3 + 2 * Info.countPermCards(Card.PillRange)
-    %LaserPointer.laserDamage = 1 + pow(Info.countPermCards(Card.PillPower), 2)
+    %LaserPointer.laserRange  = 3 + 2 * Info.permLvl(Card.PillRange)
+    %LaserPointer.laserDamage = 1 + pow(Info.permLvl(Card.PillPower), 2)
     
-    %Collector.setRadius(7 + 7 * Info.countPermCards(Card.PillRange))
+    %Collector.setRadius(7 + 7 * Info.permLvl(Card.PillRange))
     
     #Log.log("pill", %LaserPointer.laserDamage, %LaserPointer.laserRange, %Collector.radius)
 

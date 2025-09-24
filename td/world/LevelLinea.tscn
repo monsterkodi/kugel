@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://btl7cihfnbl6u"]
+[gd_scene load_steps=22 format=3 uid="uid://btl7cihfnbl6u"]
 
 [ext_resource type="Script" uid="uid://bkoetr2wxx1wf" path="res://world/gd/LevelLinea.gd" id="1_ucptv"]
 [ext_resource type="PhysicsMaterial" uid="uid://dq1r6votcqh1x" path="res://materials/physics/FloorPhysics.tres" id="2_ietfk"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://c2avn203eitto" path="res://world/MultiMesh.tscn" id="11_ietfk"]
 [ext_resource type="PackedScene" uid="uid://dt4vauql4gx0y" path="res://components/HalfCapsule.tscn" id="11_ocqm5"]
 [ext_resource type="Script" uid="uid://c5hsf15hvj6m" path="res://world/Bounds.gd" id="11_x17i5"]
+[ext_resource type="PackedScene" uid="uid://b8phu2uow5j4d" path="res://world/clocks/Clock.tscn" id="12_tue7t"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_dn5x0"]
 size = Vector2(300, 300)
@@ -146,6 +147,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
 
 [node name="Spawners" type="Node3D" parent="."]
+unique_name_in_owner = true
 
 [node name="Node3D1" type="Node3D" parent="Spawners"]
 transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, 0, 0, 0)
@@ -200,5 +202,9 @@ debug_fill = false
 
 [node name="MultiMesh" parent="." instance=ExtResource("11_ietfk")]
 unique_name_in_owner = true
+
+[node name="Clock" parent="." instance=ExtResource("12_tue7t")]
+unique_name_in_owner = true
+seconds_min = 0.4
 
 [connection signal="body_exited" from="Bounds" to="Bounds" method="bodyExit"]

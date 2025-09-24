@@ -1,21 +1,32 @@
 class_name Clock
 extends Node3D
 
-@export var seconds_initial   = 10.0
-@export var seconds_min       = 0.2
+@export var seconds_initial = 10.0
+@export var seconds_min     = 0.2
 
 var seconds       : float = 10.0
 var pointerSecs   : float = 0.0
+
 var pointerFactor : float = 0.0
 var pointerIndex  : int   = 0
-var dotsActivated : int
-
-var activeDotColor  = Color(1,0,0)
-var passiveDotColor = Color(0.02,0.02,0.02)
-
+    
 func _ready():
     
+    process_mode = PROCESS_MODE_PAUSABLE
     set_process(false)
+
+func save() -> Dictionary:
+    
+    var dict = {}
+    
+    dict.seconds     = seconds
+    dict.pointerSecs = pointerSecs
+    
+    return dict
+    
+func load(dict:Dictionary):
+    
+    seconds = dict.seconds
 
 func start():
     
@@ -24,13 +35,10 @@ func start():
     
 func levelStart():
     
-    seconds          = seconds_initial
-    pointerSecs      = 0.0
-    pointerFactor    = 0
-    pointerIndex     = 0
-    dotsActivated    = 0
-    
-    %ClockRing.get_surface_override_material(0).set_shader_parameter("Revolution", 0.0)
+    seconds       = seconds_initial
+    pointerSecs   = 0.0
+    pointerFactor = 0
+    pointerIndex  = 0
     
 func _process(delta: float):
     
@@ -55,9 +63,3 @@ func nextRound():
     seconds       = maxf(seconds, seconds_min)
     
     Post.clockTick.emit()
-    
-func enemySpawned(s:Spawner):
-    
-    %ClockRing.get_surface_override_material(0).set_shader_parameter("Revolution", minf(dotsActivated/800.0, 0.999))
-    
-    dotsActivated += 1

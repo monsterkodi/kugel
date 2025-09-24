@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://cssayoomcrb8o" path="res://world/Spawner.tscn" id="8_hvlwr"]
 [ext_resource type="PackedScene" uid="uid://cqn35mciqmm8s" path="res://world/Enemy.tscn" id="9_mgyxq"]
 [ext_resource type="PackedScene" uid="uid://b0ky2r6dv835o" path="res://world/Base.tscn" id="10_ngi57"]
-[ext_resource type="PackedScene" uid="uid://c35k6vc7wnp8e" path="res://world/SquareClock.tscn" id="11_6afwj"]
+[ext_resource type="PackedScene" uid="uid://c35k6vc7wnp8e" path="res://world/clocks/SquareClock.tscn" id="11_6afwj"]
 [ext_resource type="PackedScene" uid="uid://dt4vauql4gx0y" path="res://components/HalfCapsule.tscn" id="11_afprb"]
 [ext_resource type="Script" uid="uid://c5hsf15hvj6m" path="res://world/Bounds.gd" id="13_4786w"]
 [ext_resource type="PackedScene" uid="uid://c2avn203eitto" path="res://world/MultiMesh.tscn" id="14_s44l8"]
@@ -110,6 +110,7 @@ metadata/_custom_type_script = "uid://bw5xh3lmty08b"
 metadata/_edit_lock_ = true
 
 [node name="Spawners" type="Node3D" parent="."]
+unique_name_in_owner = true
 
 [node name="Node3D1" type="Node3D" parent="Spawners"]
 transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, 0, 0, 0)

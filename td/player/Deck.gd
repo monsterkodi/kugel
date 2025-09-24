@@ -3,20 +3,20 @@ extends Node
 
 func addCard(card:Card):
     
+    delCard(getCard(card.res.name))
     Utils.setParent(card, self)
     
 func delCard(card:Card):
     
-    if card.get_parent() == self:
+    if card and card.get_parent() == self:
         remove_child(card)
         card.free()
     
-func countCards(cardName:String) -> int:
+func cardLvl(cardName:String) -> int:
     
-    var num = 0
     for card in get_children():
-        if card.res.name == cardName: num += 1
-    return num
+        if card.res.name == cardName: return card.lvl
+    return 0
     
 func getCard(cardName:String) -> Card:
     
@@ -46,6 +46,4 @@ func sortedCards():
     var cards = get_children()
     cards.sort_custom(func(a,b): return a.res.name.naturalnocasecmp_to(b.res.name) < 0)
     return cards
-    
-    
     

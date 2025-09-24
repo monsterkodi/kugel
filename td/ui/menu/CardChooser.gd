@@ -32,16 +32,20 @@ func addCardButton(card:Card):
     button.pressed.connect(cardChosen.bind(card))
 
 func cardChosen(card):
-    
+    Log.log("cardChosen", card)
     Post.cardChosen.emit(card)
 
 func _input(event: InputEvent):
     
     if event.is_action_pressed("ui_cancel"):
-        Log.log("CARD CHOOSE CANCEL")
-        for button in cardButtons.get_children():
-            if button.has_focus():
-                cardChosen(button.card)
-                break
-                
+        accept_event()
+        return
+    
+    #if event.is_action_pressed("ui_cancel"):
+        ##Log.log("CARD CHOOSE CANCEL")
+        #for button in cardButtons.get_children():
+            #if button.has_focus():
+                #cardChosen(button.card)
+                #break
+                #
     super._input(event)

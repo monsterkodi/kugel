@@ -8,9 +8,8 @@ func allPermCards():
     var allCards:Array[CardRes] = Card.allRes()
 
     for cardRes in allCards:    
-        if cardRes.type == CardRes.CardType.PERMANENT and cardRes.maxNum > 0:
-            var owned = Info.numberOfCardsOwned(cardRes.name)
-            if owned < cardRes.maxNum:
+        if cardRes.type == CardRes.CardType.PERMANENT and cardRes.maxLvl > 0:
+            if Info.cardLvl(cardRes.name) < cardRes.maxLvl:
                 %Player.perm.addCard(Card.new(cardRes))
                 %Player.cardLevel += 1
     
@@ -21,9 +20,8 @@ func allBattleCards():
     var allCards:Array[CardRes] = Card.allRes()
 
     for cardRes in allCards:    
-        if cardRes.type == CardRes.CardType.BATTLE and cardRes.maxNum > 0:
-            var owned = Info.numberOfCardsOwned(cardRes.name)
-            if owned < cardRes.maxNum:
+        if cardRes.type == CardRes.CardType.BATTLE and cardRes.maxLvl > 0:
+            if Info.cardLvl(cardRes.name) < cardRes.maxLvl:
                 %Player.deck.addCard(Card.new(cardRes))
                 %Player.cardLevel += 1
     

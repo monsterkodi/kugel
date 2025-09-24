@@ -87,26 +87,26 @@ func nextSetOfCards():
     var allCards:Array[CardRes] = Card.allRes()
     var cards:Array[Card] = []
     
-    if numberOfCardsOwned(Card.SlotRing) < 3 and isUnlockedCard(Card.SlotRing):
+    if cardLvl(Card.SlotRing) < 3 and isUnlockedCard(Card.SlotRing):
         #Log.log("nextSetOfCards add Slot Ring")
         var cardRes = allCards[allCards.find_custom(func(c): return c.name == Card.SlotRing)]
         allCards.erase(cardRes)
-        cards.append(Card.new(cardRes))
+        cards.append(Card.new(cardRes, cardLvl(Card.SlotRing)+1))
             
-    if numberOfCardsOwned(Card.Turret) < 1:
+    if cardLvl(Card.Turret) < 1:
         var cardRes = allCards[allCards.find_custom(func(c): return c.name == Card.Turret)]
         allCards.erase(cardRes)
-        cards.append(Card.new(cardRes))
+        cards.append(Card.new(cardRes, cardLvl(Card.Turret)+1))
 
-    if numberOfCardsOwned(Card.Laser) < 1 and (player.cardLevel % 10) == 0:
+    if cardLvl(Card.Laser) < 1 and (player.cardLevel % 10) == 0:
         var cardRes = allCards[allCards.find_custom(func(c): return c.name == Card.Laser)]
         allCards.erase(cardRes)
-        cards.append(Card.new(cardRes))
+        cards.append(Card.new(cardRes, cardLvl(Card.Laser)+1))
 
-    if numberOfCardsOwned(Card.Sniper) < 1 and (player.cardLevel % 20) == 0:
+    if cardLvl(Card.Sniper) < 1 and (player.cardLevel % 20) == 0:
         var cardRes = allCards[allCards.find_custom(func(c): return c.name == Card.Sniper)]
         allCards.erase(cardRes)
-        cards.append(Card.new(cardRes))
+        cards.append(Card.new(cardRes, cardLvl(Card.Sniper)+1))
     
     while cards.size() < 3:
         
@@ -116,42 +116,38 @@ func nextSetOfCards():
         
         assert(not allCards.is_empty())
         var cardRes = allCards[randi_range(0, allCards.size()-1)]
-        if cardRes.maxNum > 0:
-            var cardCount = numberOfCardsOwned(cardRes.name)
-            if cardCount >= cardRes.maxNum:
+        if cardRes.maxLvl > 0:
+            var lvl = cardLvl(cardRes.name)
+            if lvl >= cardRes.maxLvl:
                 allCards.erase(cardRes)
                 continue
         if cardRes.type == CardRes.CardType.TROPHY or isLockedCard(cardRes.name):
             allCards.erase(cardRes)
             continue
-        cards.append(Card.new(cardRes))
-        if cardRes.maxNum > 0:
+        cards.append(Card.new(cardRes, cardLvl(cardRes.name)+1))
+        if cardRes.maxLvl > 0:
             allCards.erase(cardRes)
     return cards
 
 func maxShieldHitPoints() -> int:
     
-    return 1 + countPermCards(Card.ShieldLayer)
+    return 1 + permLvl(Card.ShieldLayer)
 
 func battleCardSlots() -> int:
     
-    return countPermCards(Card.BattleCard)
+    return permLvl(Card.BattleCard)
 
-func countPermCards(cardName:String) -> int:
+func permLvl(cardName:String) -> int:
     
-    return player.perm.countCards(cardName)
+    return player.perm.cardLvl(cardName)
 
-func countHandCards(cardName:String) -> int:
+func deckLvl(cardName:String) -> int:
     
-    return player.hand.countCards(cardName)
-
-func countDeckCards(cardName:String) -> int:
+    return player.deck.cardLvl(cardName)
     
-    return player.deck.countCards(cardName)
+func cardLvl(cardName:String) -> int:
     
-func numberOfCardsOwned(cardName:String) -> int:
-    
-    return countDeckCards(cardName) + countHandCards(cardName) + countPermCards(cardName)
+    return deckLvl(cardName) + permLvl(cardName)
 
 func priceForBuilding(buildingName):
     

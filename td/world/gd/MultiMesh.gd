@@ -14,8 +14,8 @@ func del(typ:String, node:Node3D):
 
 func _process(delta:float):
     
-    if get_parent().inert:
-        Log.log("mm", get_parent().name, get_parent().inert)
+    #if get_parent().inert:
+        #Log.log("mm", get_parent().name, get_parent().inert)
         
     var mmi:MultiMeshInstance3D
     var num:int

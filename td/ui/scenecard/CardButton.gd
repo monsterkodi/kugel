@@ -5,6 +5,8 @@ extends Button
 
 @export var card:Card
 
+const CIRCLE = preload("uid://c2q8strea6bfu")
+
 func _ready():
 
     if card: setCard(card)
@@ -28,6 +30,14 @@ func setCard(c:Card):
         
     if card.res.type == CardRes.CardType.PERMANENT:
         setColor(Color(0.3, 0.3, 1.0, 1.0))
+        
+    if c.lvl > 1:
+        Log.log("c.lvl", c.lvl)
+        for i in range(c.lvl):
+            var dot = CIRCLE.instantiate()
+            dot.diameter = 25
+            dot.color = Color.WHITE
+            %Dots.add_child(dot)
         
 func setColor(color:Color):
     

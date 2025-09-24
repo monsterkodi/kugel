@@ -5,7 +5,7 @@ var savegame : SaveGame
 func save():
 
     var levelData 
-    if savegame and savegame.data:
+    if savegame and savegame.data.has("Level"):
         levelData = savegame.data.Level
     savegame = SaveGame.new()
     get_tree().call_group("save", "on_save", savegame.data)

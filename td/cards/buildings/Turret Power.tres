@@ -8,6 +8,6 @@ script = ExtResource("2_bdqhw")
 name = &"Turret Power"
 type = 1
 text = "Turrets do more damage"
-maxNum = 5
+maxLvl = 5
 scene = ExtResource("1_h427b")
 metadata/_custom_type_script = "uid://dcn508r6heipo"

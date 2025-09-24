@@ -11,7 +11,7 @@ func levelStart():
     numEnemiesSpawned  = 0
     Post.statChanged.emit("numEnemiesSpawned",  numEnemiesSpawned)
     
-func enemySpawned(spawner:Spawner):
+func enemySpawned():
     numEnemiesSpawned += 1
     #Log.log("enemySpawned", numEnemiesSpawned)
     Post.statChanged.emit("numEnemiesSpawned", numEnemiesSpawned)

@@ -28,7 +28,7 @@ func shoot():
 
     tween.set_ease(Tween.EASE_OUT)
     tween.set_trans(Tween.TRANS_LINEAR)
-    tween.tween_method(onRayTween, 0.0, 1.0, 1.0)
+    tween.tween_method(onRayTween, 0.0, 1.0, 0.5)
     tween.tween_callback(hide)
     
 func onRayTween(value):
