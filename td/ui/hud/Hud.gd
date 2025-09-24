@@ -1,7 +1,10 @@
-class_name HUD extends Control
+class_name HUD 
+extends Control
 
 @onready var balance: Button = %Balance
 @onready var spawned: Button = %Spawned
+
+static var showClock = 1.0
 
 const CIRCLE = preload("uid://c2q8strea6bfu")
 
@@ -13,7 +16,8 @@ func _ready():
     
 func _process(delta: float):
     
-    %Time.text = Utils.timeStr(Info.gameTime)
+    %Clock.text = Utils.timeStr(Info.gameTime)
+    %ClockPanel.visible = HUD.showClock
     
 func enemySpeed(speed):
     

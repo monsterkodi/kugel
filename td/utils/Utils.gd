@@ -148,3 +148,8 @@ func closestNode(nodes:Array, to:Vector3) -> Node3D:
             minDist = dist
             
     return minNode
+
+func wrapFocusVertical(node):
+    
+    node.get_child(0).focus_neighbor_top     = node.get_child(-1).get_path()
+    node.get_child(-1).focus_neighbor_bottom = node.get_child(0).get_path()

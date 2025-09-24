@@ -1,11 +1,8 @@
 class_name World
 extends Node
 
-const LEVEL   = preload("uid://wo631fluqa0p")
-const LEVEL_B = preload("uid://btl7cihfnbl6u")
-
-var currentLevel:Node3D
-var currentLevelRes:PackedScene
+var currentLevel    : Level
+var currentLevelRes : PackedScene
 
 func _ready():
     
@@ -116,6 +113,7 @@ func newGame():
 func restartLevel():
     
     pauseGame()
+    currentLevel.clearLevel(Saver.savegame.data)
     %MenuHandler.appear(%HandChooser)
 
 func handChosen():
@@ -209,5 +207,6 @@ func loadLevel(levelRes):
         if Saver.savegame.data.Level[currentLevel.name]:
             Log.log("late load level")
             currentLevel.loadLevel(Saver.savegame.data)
+            Post.levelLoaded.emit()
     
     resumeGame()

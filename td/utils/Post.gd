@@ -20,6 +20,7 @@ signal handChosen
 signal startLevel
 signal levelStart
 signal levelEnd
+signal levelLoaded
 signal menuVanish
 signal menuAppear
 signal menuSound

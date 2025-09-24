@@ -30,13 +30,17 @@ func setCard(c:Card):
         
     if card.res.type == CardRes.CardType.PERMANENT:
         setColor(Color(0.3, 0.3, 1.0, 1.0))
+    
+    setDots(c.lvl)
         
-    if c.lvl > 1:
-        Log.log("c.lvl", c.lvl)
-        for i in range(c.lvl):
+func setDots(numDots):
+    
+    if numDots > 1:
+        Log.log("numDots", numDots)
+        for i in range(numDots):
             var dot = CIRCLE.instantiate()
-            dot.diameter = 25
-            dot.color = Color.WHITE
+            dot.diameter = sceneViewport.size.y/20
+            dot.color = Color(0.3, 0.3, 1.0, 1.0)
             %Dots.add_child(dot)
         
 func setColor(color:Color):

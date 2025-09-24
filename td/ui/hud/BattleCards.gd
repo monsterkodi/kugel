@@ -8,7 +8,10 @@ func _ready():
     
     Post.subscribe(self)
 
-func startLevel():
+func startLevel():  updateButtons()
+func levelLoaded(): updateButtons()
+    
+func updateButtons():
     
     Utils.freeChildren(%Cards)
     for card in %Player.hand.get_children():
@@ -25,6 +28,7 @@ func cardChosen(card):
 
 func addCardButton(card:Card):
     
+    assert(card)
     var button = CARD_BUTTON.instantiate()
     button.card = card
     %Cards.add_child(button)
@@ -35,18 +39,17 @@ func countCards(cardName:String) -> int:
     
     var num = 0
     for button in %Cards.get_children():
-        if button.card:
-            if button.card.res.name == cardName:
-                num += 1
+        if button.card.res.name == cardName:
+            num += 1
     return num
     
 func useCard(cardName:String):
     
     for button in %Cards.get_children():
-        if button.card:
-            if button.card.res.name == cardName:
-                button.free()
-                return
+        if button.card.res.name == cardName:
+            %Cards.remove_child(button)
+            button.free()
+            return
     
 func levelEnd():
     

@@ -68,12 +68,14 @@ static func resWithName(cardName:String) -> CardRes:
     var index = cards.find_custom(func(c): return c.name == cardName)
     if index >= 0:
         return cards[index]
+    assert(false)
     return null
 
 static func withName(cardName:String) -> Card:
     
     var cardRes = resWithName(cardName)
     if cardRes: return Card.new(cardRes)
+    assert(false)
     return null
 
 var res : CardRes

@@ -10,8 +10,7 @@ func _on_cheat_pressed():     %MenuHandler.appear(%CheatMenu)
 
 func _ready():
     
-    %Buttons.get_child(0).focus_neighbor_top     = %Buttons.get_child(-1).get_path()
-    %Buttons.get_child(-1).focus_neighbor_bottom = %Buttons.get_child(0).get_path()
+    Utils.wrapFocusVertical(%Buttons)
 
 func appeared():
     

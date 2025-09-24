@@ -48,6 +48,12 @@ func placeBuilding():
     building.global_position = targetPos
     #building.look_at(Vector3.ZERO)
     Post.buildingPlaced.emit(building)
+    
+    building.global_position.y = get_node("/root/World/Camera/Follow").global_position.y
+    var tween = create_tween()
+    tween.set_ease(Tween.EASE_OUT)
+    tween.set_trans(Tween.TRANS_BOUNCE)
+    tween.tween_property(building, "global_position:y", 0, 0.5)
 
 func _process(delta:float):
     

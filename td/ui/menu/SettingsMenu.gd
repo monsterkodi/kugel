@@ -14,6 +14,7 @@ func _on_visibility_changed():
         %Timescale.value  = Engine.time_scale
         %EnemySpeed.value = Info.enemySpeed
         %Volume.value     = AudioServer.get_bus_volume_linear(AudioServer.get_bus_index("Master"))
+        %Clock.value      = HUD.showClock
              
         onBrightness(%Brightness.value)
         onTimescale(%Timescale.value)       
@@ -62,6 +63,10 @@ func onVolume(value):
     
     %VolumeValue.text = str(int(%Volume.value))
     
+func onClock(value):
+    
+    HUD.showClock = %Clock.value    
+    
 func on_save(data:Dictionary):
 
     data.Settings = {}
@@ -69,6 +74,7 @@ func on_save(data:Dictionary):
     data.Settings.enemySpeed = Info.enemySpeed
     data.Settings.brightness = %Camera.get_node("Light").light_energy
     data.Settings.volume     = AudioServer.get_bus_volume_linear(AudioServer.get_bus_index("Master"))
+    data.Settings.clock      = HUD.showClock
     
 func on_load(data:Dictionary):
     
@@ -78,3 +84,4 @@ func on_load(data:Dictionary):
     if data.Settings.has("enemySpeed"): onEnemySpeed(data.Settings.enemySpeed)
     if data.Settings.has("brightness"): onBrightness(data.Settings.brightness)
     if data.Settings.has("volume"):     onVolume(data.Settings.volume)
+    if data.Settings.has("clock"):      onClock(data.Settings.clock)

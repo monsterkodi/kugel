@@ -24,7 +24,7 @@ func statChanged(statName, value):
 func buildingSold():
     
     showButtons()
-    %Buttons.get_child(-1).get_child(0).grab_focus()
+    %Buttons.get_child(-1).grab_focus()
         
 func buildingPlaced(building):
     
@@ -32,7 +32,7 @@ func buildingPlaced(building):
     
     var button = %Buttons.find_child(building.name, true, false)
     if button:
-        button.get_child(0).grab_focus()
+        button.grab_focus()
     else:
         focusFirstButton()
         
@@ -41,7 +41,7 @@ func addButton(building:String):
     var button:BuildButton = BUILD_BUTTON.instantiate()
     %Buttons.add_child(button)
     button.setBuilding(building)
-    button.focused.connect(buttonFocused)
+    button.focus_entered.connect(buttonFocused.bind(button))
 
 func buttonFocused(button):
 
@@ -53,8 +53,7 @@ func buttonFocused(button):
 func focusedButton():
     
     for button in %Buttons.get_children():
-        if button.has_focus(): return button 
-        if button.get_child(0).has_focus(): return button
+        if button.has_focus(): return button
     return null
     
 func buildingSlotChanged(slot):
@@ -103,8 +102,10 @@ func showButtons():
     for building in buildings:
         if Wallet.balance >= Info.priceForBuilding(building) and \
             Info.isUnlockedBuilding(building) or \
-            %BattleCards.countCards(building):addButton(building)
-                
+            %BattleCards.countCards(building):
+                addButton(building)
+    
+    Utils.wrapFocusVertical(%Buttons)            
 
 func appear():
 
@@ -128,7 +129,7 @@ func appeared():
 func focusFirstButton():
     
     if %Buttons.get_child_count():
-        %Buttons.get_child(0).get_child(0).grab_focus()
+        %Buttons.get_child(0).grab_focus()
 
 func back(): %MenuHandler.vanish(self, "right")
 
