@@ -113,7 +113,9 @@ func focusedChild(node:Node):
 func freeChildren(node:Node):
     
     while node.get_child_count():
-        node.get_child(0).free()
+        var child = node.get_child(-1)
+        node.remove_child(child)
+        child.free()
     assert(node.get_child_count() == 0)
 
 func resourcesInDir(dir:String) -> Array[Resource]:

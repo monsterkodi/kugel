@@ -158,7 +158,7 @@ func loadLevel(data:Dictionary):
 
 func slotForPos(pos):
     
-    var slots = Utils.filterTree(self, func(n:Node): return n is Slot)
+    var slots = Utils.filterTree(self, func(n:Node): return n is Slot and n.visible and n.get_parent().visible)
     return Utils.closestNode(slots, pos)
     
     

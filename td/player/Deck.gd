@@ -28,7 +28,7 @@ func toDict() -> Dictionary:
     
     var dict = {"cards": []}
     for card in get_children():
-        dict.cards.append(card.res.name)
+        dict.cards.append({"card":card.res.name, "lvl":card.lvl})
     #Log.log("Deck.toDict", dict)
     return dict
     
@@ -36,10 +36,11 @@ func fromDict(dict:Dictionary):
     
     #Log.log("Deck.fromDict", dict)
     Utils.freeChildren(self)
-    for cardName in dict.cards:
-        var card = Card.withName(cardName)
+    for cardDict in dict.cards:
+        var card = Card.withName(cardDict.card)
+        card.lvl = cardDict.lvl
         if card: addCard(card)
-        else: Log.log("no card with name", cardName)
+        else: Log.log("no card with name", cardDict.card)
         
 func sortedCards():
     

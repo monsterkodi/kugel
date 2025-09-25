@@ -2,6 +2,7 @@ class_name CardButton
 extends Button
 
 @onready var sceneViewport: SceneViewport = %Scene
+@onready var dots: HBoxContainer = %Dots
 
 @export var card:Card
 
@@ -39,7 +40,7 @@ func setDots(numDots):
         Log.log("numDots", numDots)
         for i in range(numDots):
             var dot = CIRCLE.instantiate()
-            dot.diameter = sceneViewport.size.y/20
+            dot.diameter = sceneViewport.size.y/6.0
             dot.color = Color(0.3, 0.3, 1.0, 1.0)
             %Dots.add_child(dot)
         
@@ -53,3 +54,5 @@ func setColor(color:Color):
 func setSize(sceneSize:Vector2i):
     
     sceneViewport.size = sceneSize
+    if dots:
+        dots.offset_bottom = sceneViewport.size.y/18.0

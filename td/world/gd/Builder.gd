@@ -8,9 +8,12 @@ var targetSlot  : Node3D
 var targetPos   = Vector3(5, 0, 0)
 
 const GHOST_MATERIAL = preload("res://materials/BuilderGhostMaterial.tres")
+@onready var beamPivot: Node3D = %BeamPivot
+@onready var beamScale: Node3D = %BeamScale
 
 func _ready():
     
+    visible = false
     Post.subscribe(self)
 
 func _input(event: InputEvent):
@@ -65,6 +68,11 @@ func _process(delta:float):
             findTargetPos()
         ghost.global_position = ghost.global_position.lerp(targetPos, 0.1)
         
+        beamPivot.global_position = vehicle.body.global_position
+        var s = (ghost.global_position - beamPivot.global_position).length()
+        beamScale.scale = Vector3(1,1,s)
+        beamPivot.look_at(ghost.global_position)
+        
 func findTargetPos():
     
     var level = get_node("/root/World").currentLevel
@@ -100,6 +108,7 @@ func buildingGhost(ghostName:String):
 
     get_parent_node_3d().add_child(ghost)
     ghost.global_position = targetPos
+    ghost.scale = Vector3(1.1, 1, 1.1)
     if not ghost.global_position.is_zero_approx():
         ghost.look_at(Vector3.ZERO)
     var meshes = ghost.find_children("*Mesh*")
@@ -114,12 +123,22 @@ func appear(trans:Transform3D):
         loadVehicle("Drone")
         vehicle.global_transform = trans
         vehicle.body.position.y = 32
+        findTargetPos()
     elif vanishTween:
         vanishTween.stop()
     appearTween = vehicle.create_tween()
     appearTween.set_ease(Tween.EASE_OUT)
     appearTween.set_trans(Tween.TRANS_QUINT)
-    appearTween.tween_property(vehicle.body, "position:y", 3, MenuHandler.APPEAR_TIME)
+    appearTween.tween_method(onAppear, 0.0, 1.0, MenuHandler.APPEAR_TIME)
+    #appearTween.tween_property(vehicle.body, "position:y", 3, MenuHandler.APPEAR_TIME)
+    
+func onAppear(value):
+    
+    vehicle.body.position.y = lerp(32, 3, value)
+    
+    beamPivot.global_position = vehicle.body.global_position
+    beamScale.scale = Vector3(1,1,value)
+    beamPivot.look_at(vehicle.global_position)
 
 func vanish():
     
@@ -129,8 +148,17 @@ func vanish():
         vanishTween = vehicle.create_tween()
         vanishTween.set_ease(Tween.EASE_IN)
         vanishTween.set_trans(Tween.TRANS_QUINT)
-        vanishTween.tween_property(vehicle.body, "position:y", 32, MenuHandler.VANISH_TIME)
+        #vanishTween.tween_property(vehicle.body, "position:y", 32, MenuHandler.VANISH_TIME)
+        vanishTween.tween_method(onVanish, 0.0, 1.0, MenuHandler.VANISH_TIME)
         vanishTween.finished.connect(freeVehicle)
+
+func onVanish(value):
+    
+    vehicle.body.position.y = lerp(3, 32, value)
+    
+    beamPivot.global_position = vehicle.body.global_position
+    beamScale.scale = Vector3(1,1,1-value)
+    beamPivot.look_at(vehicle.global_position)    
     
 func freeGhost():
     
@@ -140,6 +168,7 @@ func freeGhost():
         
 func freeVehicle():
     
+    visible = false
     if vehicle:
         vehicle.queue_free()
         vehicle = null

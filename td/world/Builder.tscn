@@ -1,7 +1,43 @@
-[gd_scene load_steps=2 format=3 uid="uid://bsyn633trcvrm"]
+[gd_scene load_steps=6 format=3 uid="uid://bsyn633trcvrm"]
 
 [ext_resource type="Script" uid="uid://r6v0jx4rvh70" path="res://world/gd/Builder.gd" id="1_0gt1h"]
+[ext_resource type="Material" uid="uid://bqhwhtt3kc30s" path="res://materials/BuilderGhostMaterial.tres" id="2_3mury"]
+[ext_resource type="Material" uid="uid://vyhfqa37hcxi" path="res://materials/LackBlue.tres" id="3_i3ey7"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_0gt1h"]
+top_radius = 0.2
+height = 1.0
+radial_segments = 16
+rings = 2
+cap_top = false
+cap_bottom = false
+
+[sub_resource type="SphereMesh" id="SphereMesh_3mury"]
+radius = 0.2
+height = 0.2
+radial_segments = 16
+rings = 8
+is_hemisphere = true
 
 [node name="Builder" type="Node3D"]
 process_mode = 2
 script = ExtResource("1_0gt1h")
+
+[node name="BeamPivot" type="Node3D" parent="."]
+unique_name_in_owner = true
+
+[node name="BeamScale" type="Node3D" parent="BeamPivot"]
+unique_name_in_owner = true
+
+[node name="LightBeam" type="MeshInstance3D" parent="BeamPivot/BeamScale"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, -0.5008906)
+mesh = SubResource("CylinderMesh_0gt1h")
+skeleton = NodePath("../../..")
+surface_material_override/0 = ExtResource("2_3mury")
+
+[node name="LightBulb" type="MeshInstance3D" parent="BeamPivot"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0.0057513416)
+mesh = SubResource("SphereMesh_3mury")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("3_i3ey7")

@@ -124,7 +124,7 @@ static func color_wrap(s: Variant, opts: Dictionary = {}) -> String:
 
     if color is Array:
         if opts.get("typeof", "") in ["dict_key"]:
-            color = color[opts.get("delimiter_index", 0) - 1 % len(color)]
+            color = color[(opts.get("delimiter_index", 0) - 1) % len(color)]
         else:
             color = color[opts.get("delimiter_index", 0) % len(color)]
 

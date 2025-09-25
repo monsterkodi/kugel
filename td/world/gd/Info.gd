@@ -150,8 +150,10 @@ func cardLvl(cardName:String) -> int:
     return deckLvl(cardName) + permLvl(cardName)
 
 func priceForBuilding(buildingName):
-    
-    return BUILDING_PRICES[buildingName]
+    if BUILDING_PRICES.has(buildingName):
+        return BUILDING_PRICES[buildingName]
+    Log.log("PRICE FOR BUILDING?", buildingName)
+    return 0
 
 func buildingNamesSortedByPrice() -> Array:
     
