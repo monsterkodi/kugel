@@ -62,24 +62,29 @@ func baseDestroyed():
     Post.levelEnd.emit()
     pauseGame()
     %MenuHandler.appear(%ResultMenu)
+
+func chooseCard():
+    
+    assert(%Player.nextCardIn <= 0)
+    
+    %Player.cardLevel += 1
+    %Player.nextCardIn = Info.nextCardAtLevel(%Player.cardLevel)
+    
+    if %Player.cardLevel <= Info.maxCardLevel:
+        pauseGame()
+        #Log.log("level", %Player.cardLevel, "next in", %Player.nextCardIn)
+        %MenuHandler.showCardChooser(Info.nextSetOfCards())
+    else:
+        var cardRes = Card.resWithName(Card.Money)
+        Log.log("money level reached!", %Player.cardLevel, Info.maxCardLevel)
+        Wallet.addPrice(cardRes.data.amount)
     
 func enemySpawned():
     
     #Log.log("level", %Player.cardLevel, "next in", %Player.nextCardIn)
     
     %Player.nextCardIn -= 1
-    if %Player.nextCardIn <= 0:
-        %Player.cardLevel += 1
-        %Player.nextCardIn = Info.nextCardAtLevel(%Player.cardLevel)
-        Log.log("cardLevel", %Player.cardLevel, %Player.nextCardIn)
-        if %Player.cardLevel <= Info.maxCardLevel:
-            pauseGame()
-            #Log.log("level", %Player.cardLevel, "next in", %Player.nextCardIn)
-            %MenuHandler.showCardChooser(Info.nextSetOfCards())
-        else:
-            var cardRes = Card.resWithName(Card.Money)
-            Log.log("money level reached!", %Player.cardLevel, Info.maxCardLevel)
-            Wallet.addPrice(cardRes.data.amount)
+    Log.log("cardLevel", %Player.cardLevel, %Player.nextCardIn)
 
 func cardSold(card:Card):
     

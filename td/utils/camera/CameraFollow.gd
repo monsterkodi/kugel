@@ -49,6 +49,5 @@ func readInput():
     zoom = 0
     
     if not get_tree().paused or get_node("/root/World/Builder").visible:
-        zoom = Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y)
-        if Input.is_action_pressed("ascend"):  zoom -= 1
-        if Input.is_action_pressed("descend"): zoom += 1
+    
+        zoom = Input.get_vector("descend", "ascend", "descend", "ascend").y

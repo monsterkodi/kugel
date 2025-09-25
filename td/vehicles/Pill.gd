@@ -96,26 +96,35 @@ func calcDashDir(delta:float):
         mouseRot = clampf(mouseRot,-PI, PI)
     mouseRot = lerpf(mouseRot, 0.0, dt)
 
-    var xinp = Input.get_joy_axis(0, JOY_AXIS_LEFT_X) #+ Input.get_joy_axis(0, JOY_AXIS_RIGHT_X)
-    var yinp = Input.get_joy_axis(0, JOY_AXIS_LEFT_Y) #+ Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y)
+    var move = Input.get_vector("left", "right", "forward", "backward")
     
-    const deadzone = 0.25
-    if absf(xinp) < deadzone: xinp = 0
-    if absf(yinp) < deadzone: yinp = 0
-
-    if Input.is_key_pressed(KEY_UP):    yinp -= dt*60 
-    if Input.is_key_pressed(KEY_DOWN):  yinp += dt*60 
-    if Input.is_key_pressed(KEY_A):     xinp -= dt*60 
-    if Input.is_key_pressed(KEY_D):     xinp += dt*60 
-    if Input.is_key_pressed(KEY_W):     yinp -= dt*60 
-    if Input.is_key_pressed(KEY_S):     yinp += dt*60 
-    
-    if xinp or yinp:
-        if absf(xinp) > 0: dir += xinp  * global_transform.basis.x
-        if absf(yinp) > 0: dir += yinp  * global_transform.basis.z
+    if move.x or move.y:
+        dir += move.x * global_transform.basis.x
+        dir += move.y * global_transform.basis.z
         dir = dir.normalized()
     else:
         dir = -global_basis.z
+    
+    #var xinp = Input.get_joy_axis(0, JOY_AXIS_LEFT_X) 
+    #var yinp = Input.get_joy_axis(0, JOY_AXIS_LEFT_Y) 
+    
+    #const deadzone = 0.25
+    #if absf(xinp) < deadzone: xinp = 0
+    #if absf(yinp) < deadzone: yinp = 0
+#
+    #if Input.is_key_pressed(KEY_UP):    yinp -= dt*60 
+    #if Input.is_key_pressed(KEY_DOWN):  yinp += dt*60 
+    #if Input.is_key_pressed(KEY_A):     xinp -= dt*60 
+    #if Input.is_key_pressed(KEY_D):     xinp += dt*60 
+    #if Input.is_key_pressed(KEY_W):     yinp -= dt*60 
+    #if Input.is_key_pressed(KEY_S):     yinp += dt*60 
+    #
+    #if xinp or yinp:
+        #if absf(xinp) > 0: dir += xinp  * global_transform.basis.x
+        #if absf(yinp) > 0: dir += yinp  * global_transform.basis.z
+        #dir = dir.normalized()
+    #else:
+        #dir = -global_basis.z
     
     if Input.is_key_pressed(KEY_LEFT):   mouseRot -= dt
     if Input.is_key_pressed(KEY_RIGHT):  mouseRot += dt

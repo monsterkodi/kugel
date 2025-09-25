@@ -12,7 +12,14 @@ func _ready():
     
 func levelStart():   update()
 func applyCards():   update()
-func enemySpawned(): update()
+func enemySpawned(): 
+    
+    update()
+    if player.nextCardIn <= 0:
+        preChooseAnimation()
+        
+func preChooseAnimation():
+    pass
 
 func update():
     
