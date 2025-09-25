@@ -3,6 +3,7 @@ extends PanelContainer
 
 const CIRCLE = preload("uid://c2q8strea6bfu")
 var player
+var tween : Tween
 
 func _ready():
     
@@ -11,17 +12,30 @@ func _ready():
     Post.subscribe(self)
     
 func levelStart():   update()
+func levelLoaded():  update()
 func applyCards():   update()
-func enemySpawned(): 
+func enemySpawned(): update()
     
-    update()
-    if player.nextCardIn <= 0:
-        preChooseAnimation()
-        
-func preChooseAnimation():
-    pass
+func preChooseAnim():
+    
+    tween = create_tween()
+    tween.tween_method(onPreChoose, 0, %Dots.get_child_count()-1, 2.0)
+    tween.tween_callback(preChooseAnimDone)
+    
+func onPreChoose(value):
+    
+    var dot : Circle = %Dots.get_child(value)
+    dot.color = Color(1,1,0)
+    if value > 0:
+        %Dots.get_child(value-1).color = Color(0,0,0)
+    
+func preChooseAnimDone():
+    
+    Post.chooseCard.emit()
 
 func update():
+    
+    if tween and tween.is_running(): return
     
     var numCards = Info.nextCardAtLevel(player.cardLevel)
     

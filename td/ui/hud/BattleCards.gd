@@ -15,7 +15,7 @@ func updateButtons():
     
     Utils.freeChildren(%Cards)
     for card in %Player.hand.get_children():
-        #if card.res.name == Card.Shield: continue
+        if card.res.name == Card.Shield: continue
         addCardButton(card)
         
     visible = true
@@ -39,7 +39,7 @@ func countCards(cardName:String) -> int:
     
     var num = 0
     for button in %Cards.get_children():
-        if button.card.res.name == cardName:
+        if button.card and button.card.res.name == cardName:
             num += 1
     return num
     

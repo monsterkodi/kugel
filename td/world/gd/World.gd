@@ -65,11 +65,8 @@ func baseDestroyed():
 
 func chooseCard():
     
-    assert(%Player.nextCardIn <= 0)
-    
-    %Player.cardLevel += 1
-    %Player.nextCardIn = Info.nextCardAtLevel(%Player.cardLevel)
-    
+    #assert(%Player.nextCardIn <= 0)
+        
     if %Player.cardLevel <= Info.maxCardLevel:
         pauseGame()
         #Log.log("level", %Player.cardLevel, "next in", %Player.nextCardIn)
@@ -84,6 +81,12 @@ func enemySpawned():
     #Log.log("level", %Player.cardLevel, "next in", %Player.nextCardIn)
     
     %Player.nextCardIn -= 1
+    
+    if %Player.nextCardIn <= 0:
+        Post.preChooseAnim.emit()
+        %Player.cardLevel += 1
+        %Player.nextCardIn = Info.nextCardAtLevel(%Player.cardLevel)
+
     Log.log("cardLevel", %Player.cardLevel, %Player.nextCardIn)
 
 func cardSold(card:Card):
@@ -96,7 +99,7 @@ func cardSold(card:Card):
 func cardChosen(card:Card):
         
     if %Player.hand.get_child_count() < Info.battleCardSlots() and card.isBattleCard():
-        %Player.hand.addCard(card)
+        %Player.hand.addCard(card, false)
     elif card.isPermanent():
         %Player.perm.addCard(card)
     elif card.isOnce():

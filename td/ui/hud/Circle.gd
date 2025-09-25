@@ -1,3 +1,4 @@
+class_name Circle
 extends Panel
 
 @export var diameter:float = 16.0:

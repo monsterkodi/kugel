@@ -1,9 +1,10 @@
 class_name Deck
 extends Node
 
-func addCard(card:Card):
+func addCard(card:Card, unique=true):
     
-    delCard(getCard(card.res.name))
+    if unique:
+        delCard(getCard(card.res.name))
     Utils.setParent(card, self)
     
 func delCard(card:Card):

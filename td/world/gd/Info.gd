@@ -144,10 +144,14 @@ func permLvl(cardName:String) -> int:
 func deckLvl(cardName:String) -> int:
     
     return player.deck.cardLvl(cardName)
+
+func handLvl(cardName:String) -> int:
+    
+    return player.hand.cardLvl(cardName)
     
 func cardLvl(cardName:String) -> int:
     
-    return deckLvl(cardName) + permLvl(cardName)
+    return deckLvl(cardName) + permLvl(cardName) + handLvl(cardName)
 
 func priceForBuilding(buildingName):
     if BUILDING_PRICES.has(buildingName):

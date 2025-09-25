@@ -36,8 +36,10 @@ func setCard(c:Card):
         
 func setDots(numDots):
     
+    Utils.freeChildren(%Dots)
+    
     if numDots > 1:
-        Log.log("numDots", numDots)
+        #Log.log("numDots", numDots)
         for i in range(numDots):
             var dot = CIRCLE.instantiate()
             dot.diameter = sceneViewport.size.y/6.0
