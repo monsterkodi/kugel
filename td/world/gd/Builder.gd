@@ -108,7 +108,7 @@ func buildingGhost(ghostName:String):
 
     get_parent_node_3d().add_child(ghost)
     ghost.global_position = targetPos
-    ghost.scale = Vector3(1.1, 1, 1.1)
+    #ghost.scale = Vector3(1.1, 1.1, 1.1)
     if not ghost.global_position.is_zero_approx():
         ghost.look_at(Vector3.ZERO)
     var meshes = ghost.find_children("*Mesh*")
@@ -138,7 +138,7 @@ func onAppear(value):
     
     beamPivot.global_position = vehicle.body.global_position
     beamScale.scale = Vector3(1,1,value)
-    beamPivot.look_at(vehicle.global_position)
+    beamPivot.look_at(vehicle.global_position + Vector3.FORWARD*0.01)
 
 func vanish():
     
@@ -158,7 +158,7 @@ func onVanish(value):
     
     beamPivot.global_position = vehicle.body.global_position
     beamScale.scale = Vector3(1,1,1-value)
-    beamPivot.look_at(vehicle.global_position)    
+    beamPivot.look_at(vehicle.global_position + Vector3.FORWARD*0.01)    
     
 func freeGhost():
     

@@ -3,6 +3,7 @@
 [ext_resource type="Shader" uid="uid://bynv4b8vpwfwa" path="res://materials/shader/DashedGridMaterial.gdshader" id="1_p3t2h"]
 
 [resource]
+resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("1_p3t2h")
 shader_parameter/subdivisions = 32.0

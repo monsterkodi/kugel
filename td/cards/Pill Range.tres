@@ -8,6 +8,6 @@ script = ExtResource("2_rspix")
 name = &"Pill Range"
 type = 1
 text = "Pill Laser and Collector reach farther"
-maxNum = 5
+maxLvl = 10
 scene = ExtResource("1_0dba1")
 metadata/_custom_type_script = "uid://dcn508r6heipo"

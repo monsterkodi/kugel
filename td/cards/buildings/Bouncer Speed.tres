@@ -5,9 +5,9 @@
 
 [resource]
 script = ExtResource("2_yehin")
-name = &"Bouncer Speed"
+name = &"Sentinel Speed"
 type = 1
-text = "Bouncer trigger faster"
+text = "Sentinels trigger faster"
 maxLvl = 5
 scene = ExtResource("1_cwidn")
 metadata/_custom_type_script = "uid://dcn508r6heipo"

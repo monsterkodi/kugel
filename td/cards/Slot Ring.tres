@@ -5,9 +5,9 @@
 
 [resource]
 script = ExtResource("2_qloat")
-name = &"Slot Ring"
+name = &"Build Sites"
 type = 1
-text = "Add another ring of building slots"
+text = "Add more build sites"
 maxLvl = 5
 scene = ExtResource("1_hpq23")
 metadata/_custom_type_script = "uid://dcn508r6heipo"

@@ -2,7 +2,7 @@ class_name CardButton
 extends Button
 
 @onready var sceneViewport: SceneViewport = %Scene
-@onready var dots: HBoxContainer = %Dots
+@onready var dots : HBoxContainer
 
 @export var card:Card
 
@@ -10,6 +10,8 @@ const CIRCLE = preload("uid://c2q8strea6bfu")
 
 func _ready():
 
+    if has_node("Dots"):
+        dots = %Dots
     if card: setCard(card)
     
 func setScene(scene):

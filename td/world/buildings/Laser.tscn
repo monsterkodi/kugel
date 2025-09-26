@@ -1,11 +1,13 @@
-[gd_scene load_steps=14 format=3 uid="uid://dfa3dn75qvqpn"]
+[gd_scene load_steps=16 format=3 uid="uid://dfa3dn75qvqpn"]
 
 [ext_resource type="Script" uid="uid://chm30gbe4og0n" path="res://world/buildings/Laser.gd" id="1_6q26n"]
 [ext_resource type="Material" uid="uid://dhghfth6r7t5c" path="res://materials/LaserBarrelMaterial.tres" id="2_megj0"]
 [ext_resource type="PhysicsMaterial" uid="uid://cxmvb6atqbyf0" path="res://materials/physics/DefaultPhysics.tres" id="3_mxbe4"]
 [ext_resource type="PackedScene" uid="uid://bv5vo4rgym2a7" path="res://components/LaserPointer.tscn" id="4_hjr40"]
 [ext_resource type="Shader" uid="uid://b7lpd6h1smubj" path="res://materials/visual/CircleMatVis.tres" id="7_4njab"]
+[ext_resource type="PackedScene" uid="uid://bmyq0wms5x6rm" path="res://components/HalfCapsuleRounded.tscn" id="7_6q26n"]
 [ext_resource type="Material" uid="uid://du8bjg8b10yx2" path="res://materials/TurretBaseMaterial.tres" id="8_2ild4"]
+[ext_resource type="Material" uid="uid://cl1am5df8gk6t" path="res://materials/PoleBaseMaterial.tres" id="8_ky77y"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_w3f5i"]
 radius = 0.25
@@ -86,6 +88,7 @@ physics_material_override = ExtResource("3_mxbe4")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Base"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+visible = false
 mesh = SubResource("CapsuleMesh_km8to")
 surface_material_override/0 = ExtResource("8_2ild4")
 
@@ -97,6 +100,10 @@ unique_name_in_owner = true
 cast_shadow = 0
 mesh = SubResource("PlaneMesh_kyse0")
 surface_material_override/0 = SubResource("ShaderMaterial_6q26n")
+
+[node name="HalfCapsuleRounded" parent="." instance=ExtResource("7_6q26n")]
+roundRings = 3
+material = ExtResource("8_ky77y")
 
 [connection signal="body_entered" from="Sensor" to="." method="_on_sensor_body_entered"]
 [connection signal="body_exited" from="Sensor" to="." method="_on_sensor_body_exited"]

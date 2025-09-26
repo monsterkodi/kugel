@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://kktahfiaqllg"]
+[gd_scene load_steps=18 format=3 uid="uid://kktahfiaqllg"]
 
 [ext_resource type="Script" uid="uid://tsel3doxtedq" path="res://world/buildings/Turret.gd" id="1_w3f5i"]
 [ext_resource type="Material" uid="uid://vyhfqa37hcxi" path="res://materials/LackBlue.tres" id="2_vc5tq"]
@@ -7,6 +7,8 @@
 [ext_resource type="Shader" uid="uid://b7lpd6h1smubj" path="res://materials/visual/CircleMatVis.tres" id="6_wsb1a"]
 [ext_resource type="AudioStream" uid="uid://cssur2kuvk3p" path="res://sounds/tick.wav" id="8_ail6x"]
 [ext_resource type="Material" uid="uid://du8bjg8b10yx2" path="res://materials/TurretBaseMaterial.tres" id="8_kyse0"]
+[ext_resource type="PackedScene" uid="uid://bmyq0wms5x6rm" path="res://components/HalfCapsuleRounded.tscn" id="8_rlav8"]
+[ext_resource type="Material" uid="uid://cl1am5df8gk6t" path="res://materials/PoleBaseMaterial.tres" id="9_2cj6m"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_w3f5i"]
 radius = 0.25
@@ -102,6 +104,7 @@ physics_material_override = ExtResource("3_vc5tq")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Base"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+visible = false
 mesh = SubResource("CapsuleMesh_km8to")
 surface_material_override/0 = ExtResource("8_kyse0")
 
@@ -118,6 +121,10 @@ unit_size = 4.0
 [node name="reloadTimer" type="Timer" parent="."]
 unique_name_in_owner = true
 one_shot = true
+
+[node name="HalfCapsuleRounded" parent="." instance=ExtResource("8_rlav8")]
+roundRings = 3
+material = ExtResource("9_2cj6m")
 
 [connection signal="body_entered" from="Sensor" to="." method="_on_sensor_body_entered"]
 [connection signal="body_exited" from="Sensor" to="." method="_on_sensor_body_exited"]

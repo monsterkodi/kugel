@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bmyq0wms5x6rm"]
+
+[ext_resource type="Script" uid="uid://byuhsxp5362tc" path="res://components/HalfCapsuleRounded.gd" id="1_ncvvr"]
+
+[node name="HalfCapsuleRounded" type="Node3D"]
+script = ExtResource("1_ncvvr")

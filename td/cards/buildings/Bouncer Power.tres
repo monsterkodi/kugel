@@ -5,9 +5,9 @@
 
 [resource]
 script = ExtResource("2_26lwa")
-name = &"Bouncer Power"
+name = &"Sentinel Power"
 type = 1
-text = "Bouncers do more damage"
+text = "Sentinels dampen stronger"
 maxLvl = 5
 scene = ExtResource("1_0vq0r")
 metadata/_custom_type_script = "uid://dcn508r6heipo"

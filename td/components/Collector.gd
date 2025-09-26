@@ -39,7 +39,7 @@ func bodyEntered(body:Node3D):
 
     if body.is_in_group("enemy") and body.health <= 0:
         var corpse:RigidBody3D = body
-        corpse.collision_mask  = Layer.LayerFloor
+        corpse.collision_mask  = Layer.LayerFloor | Layer.LayerStatic
         corpse.collision_layer = 0
         #corpse.freeze          = true
         corpses.append(corpse)

@@ -1,10 +1,12 @@
-class_name HalfCapsule
+class_name HalfCapsuleRounded
 extends Node3D
 
-@export_range(0.0, 10.0, 0.1) var height = 1.0
-@export_range(0.0, 10.0, 0.1) var radius = 0.5
+@export_range(0.0, 10.0, 0.1) var height  = 1.0
+@export_range(0.0, 10.0, 0.1) var radius  = 0.5
 @export_range(3, 36, 1) var segments = 32
 @export_range(3, 32, 1) var rings = 16
+@export_range(0.0, 5.0, 0.01) var roundRadius = 0.1
+@export_range(3, 16, 1) var roundRings = 4
 @export var material : Material
 
 func _ready():
@@ -17,7 +19,8 @@ func generate():
     
     st.begin(Mesh.PRIMITIVE_TRIANGLES)
     
-    var cylh = (height-radius)*Vector3.UP
+    var cylb = roundRadius * Vector3.UP
+    var cylt = (height-radius)*Vector3.UP
     var tip  = height*Vector3.UP
     
     for seg in segments:
@@ -25,9 +28,31 @@ func generate():
         var s2 = deg_to_rad(((seg+1)%segments)*360.0/segments)
         var v = Vector3.RIGHT * radius
         var v1 = v.rotated(Vector3.UP, s1)
-        var v2 = v1 + cylh
+        var v2 = v1 + cylt
         var v3 = v.rotated(Vector3.UP, s2)
-        var v4 = v3 + cylh
+        var v4 = v3 + cylt
+        
+        for ring in range(roundRings):
+            var a1 = -deg_to_rad(ring*90.0/(roundRings))
+            var a2 = -deg_to_rad((ring+1)*90.0/(roundRings))
+        
+            var w1 = v + Vector3.RIGHT * roundRadius - (Vector3.RIGHT.rotated(Vector3.FORWARD, a1)) * roundRadius + cylb
+            var w2 = v + Vector3.RIGHT * roundRadius - (Vector3.RIGHT.rotated(Vector3.FORWARD, a2)) * roundRadius + cylb
+            var v5 = w1.rotated(Vector3.UP, s1)
+            var v6 = w2.rotated(Vector3.UP, s1)
+            var v7 = w1.rotated(Vector3.UP, s2)
+            var v8 = w2.rotated(Vector3.UP, s2)
+            
+            st.add_vertex(v7)
+            st.add_vertex(v6)
+            st.add_vertex(v5)
+
+            st.add_vertex(v6)
+            st.add_vertex(v7)
+            st.add_vertex(v8)
+        
+        v1 += cylb
+        v3 += cylb
         st.add_vertex(v1)
         st.add_vertex(v2)
         st.add_vertex(v3)
@@ -36,12 +61,12 @@ func generate():
         st.add_vertex(v3)
         st.add_vertex(v2)
         
-        for ring in rings:
+        for ring in range(rings):
             var a1 = -deg_to_rad(ring*90.0/(rings))
             var a2 = -deg_to_rad((ring+1)*90.0/(rings))
             
-            var w1 = Vector3.RIGHT.rotated(Vector3.FORWARD, a1) * radius + cylh
-            var w2 = Vector3.RIGHT.rotated(Vector3.FORWARD, a2) * radius + cylh
+            var w1 = Vector3.RIGHT.rotated(Vector3.FORWARD, a1) * radius + cylt
+            var w2 = Vector3.RIGHT.rotated(Vector3.FORWARD, a2) * radius + cylt
             var v5 = w1.rotated(Vector3.UP, s1)
             var v6 = w2.rotated(Vector3.UP, s1)
             var v7 = w1.rotated(Vector3.UP, s2)
@@ -64,6 +89,7 @@ func generate():
     
     var mi = MeshInstance3D.new()
     mi.mesh = st.commit()
-    mi.material_override = material
+    #mi.material_override = material
+    mi.set_surface_override_material(0, material)
     mi.transform = Transform3D.IDENTITY
     self.add_child(mi)

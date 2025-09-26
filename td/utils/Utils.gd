@@ -115,7 +115,7 @@ func freeChildren(node:Node):
     while node.get_child_count():
         var child = node.get_child(-1)
         node.remove_child(child)
-        child.free()
+        child.queue_free()
     assert(node.get_child_count() == 0)
 
 func resourcesInDir(dir:String) -> Array[Resource]:
