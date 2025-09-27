@@ -12,6 +12,8 @@ metadata/_custom_type_script = "uid://2rf0ec2mieyd"
 unique_name_in_owner = true
 
 [node name="CardSetup" parent="." instance=ExtResource("3_1q70k")]
-cameraOffset = Vector2(0, 0.4)
-cameraFov = 22.468
-cameraHeight = 1.348
+cameraOffset = Vector2(-0.01, 0.27)
+cameraDistance = 4.6739999999999995
+cameraFov = 15.030999999999999
+cameraTargetY = 1.3739999999999999
+cameraHeight = 3.682

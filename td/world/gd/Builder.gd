@@ -113,8 +113,13 @@ func buildingGhost(ghostName:String):
         ghost.look_at(Vector3.ZERO)
     var meshes = ghost.find_children("*Mesh*")
     for mesh in meshes:
-        if mesh is MeshInstance3D:
+        #if mesh is MeshInstance3D:
+        if Utils.isClass(mesh, "HalfCapsuleTurret"):
+            mesh.material = GHOST_MATERIAL
+        elif Utils.isClass(mesh, "MeshInstance3D") or mesh.has_method("set_surface_override_material"):
             mesh.set_surface_override_material(0, GHOST_MATERIAL)
+        else:
+            Log.log("mesh not a MeshInstance3D", mesh.name, mesh)
     
 func appear(trans:Transform3D):
     

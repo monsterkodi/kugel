@@ -23,12 +23,12 @@ func mainMenu():
     %MenuHandler.appear(%MainMenu)
     
 func _process(delta: float):
-    pass
-    #var orphan = Node.get_orphan_node_ids()
-    #if not orphan.is_empty():
-        #Node.print_orphan_nodes()
-        #Log.log("orphans")
-        ##quitGame()
+    
+    var orphan = Node.get_orphan_node_ids()
+    if not orphan.is_empty():
+        Node.print_orphan_nodes()
+        Log.log("orphans")
+        #quitGame()
         
 func _unhandled_input(event: InputEvent):
     

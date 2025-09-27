@@ -10,7 +10,7 @@ var mouseLock : bool = true :
         if not mouseLock:
             showMouse()
             
-var mouseHide : bool = true :
+var mouseHide : bool = false :
     set(v):
         mouseHide = v
         Log.log("mouseHide", v)

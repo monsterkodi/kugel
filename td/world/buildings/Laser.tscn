@@ -10,13 +10,13 @@
 [ext_resource type="Material" uid="uid://cl1am5df8gk6t" path="res://materials/PoleBaseMaterial.tres" id="8_ky77y"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_w3f5i"]
-radius = 0.25
-height = 1.0
+radius = 0.3
+height = 1.2
 radial_segments = 24
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_iwplw"]
-radius = 0.25
-height = 1.0
+radius = 0.3
+height = 1.2
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_vc5tq"]
 radius = 1.0
@@ -45,11 +45,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 
 [node name="BarrelPivot" type="Node3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 1.5, 0)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 1.75, 0)
 
 [node name="BarrelMesh" type="MeshInstance3D" parent="BarrelPivot"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0.15)
 mesh = SubResource("CapsuleMesh_w3f5i")
 surface_material_override/0 = ExtResource("2_megj0")
 
@@ -59,7 +59,7 @@ collision_mask = 0
 physics_material_override = ExtResource("3_mxbe4")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="BarrelPivot/AnimatableBody3D"]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0.15)
 shape = SubResource("CapsuleShape3D_iwplw")
 
 [node name="LaserPointer" parent="BarrelPivot" instance=ExtResource("4_hjr40")]

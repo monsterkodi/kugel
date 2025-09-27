@@ -105,5 +105,6 @@ func generate():
     mi.set_surface_override_material(0, material)
     mi.transform = Transform3D.IDENTITY
     if get_child_count():
+        get_child(0).queue_free()
         remove_child(get_child(0))
     self.add_child(mi)

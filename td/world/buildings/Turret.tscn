@@ -43,10 +43,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 1.5, 0)
 
-[node name="BarrelMesh" type="Node3D" parent="BarrelPivot"]
+[node name="BarrelOffset" type="Node3D" parent="BarrelPivot"]
 unique_name_in_owner = true
 
-[node name="HalfCapsuleTurret" parent="BarrelPivot/BarrelMesh" instance=ExtResource("10_2cj6m")]
+[node name="HalfCapsuleTurretMesh" parent="BarrelPivot/BarrelOffset" instance=ExtResource("10_2cj6m")]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0.5)
 height = 0.9
 roundRadius = 0.05

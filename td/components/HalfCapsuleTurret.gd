@@ -11,14 +11,14 @@ extends Node3D
 @export_range(3, 32, 1) var rings = 8 :
     set(v): rings = v; generate()
 @export_range(0.0, 5.0, 0.01) var roundRadius = 0.05 :
-    set(v): roundRadius = v; Log.log("roundRadius", roundRadius); generate()
+    set(v): roundRadius = v; generate()
 @export_range(2, 16, 1) var roundRings = 4 :
     set(v): roundRings = v; generate()
     
 @export_range(0.1, 10.0, 0.01) var headHeight = 0.3 : 
-    set(v): headHeight = v; Log.log("headHeight", headHeight); generate()
+    set(v): headHeight = v; generate()
 @export_range(0.1, 5.0, 0.01) var holeRadius = 0.1 :
-    set(v): holeRadius = v; Log.log("holeRadius", holeRadius); generate()
+    set(v): holeRadius = v; generate()
     
 @export var material : Material : 
     set(v): material = v; generate()
@@ -98,5 +98,6 @@ func generate():
     mi.set_surface_override_material(0, material)
     mi.transform = Transform3D.IDENTITY
     if get_child_count():
+        get_child(0).queue_free()
         remove_child(get_child(0))
     self.add_child(mi)

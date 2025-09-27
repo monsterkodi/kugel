@@ -1,8 +1,14 @@
 class_name CardTurret
 extends Node3D
 
+@export var lookAt:Vector3:
+    set(v): 
+        lookAt = v
+        if is_inside_tree():
+            %Turret.get_node("BarrelPivot").look_at(v)
+            
 func _ready(): 
 
     %Turret.set_process(false)
     %Turret.set_physics_process(false)
-    %Turret.get_node("BarrelPivot").look_at(Vector3(3, 0, 0))
+    lookAt = lookAt
