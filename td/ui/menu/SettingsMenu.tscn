@@ -191,9 +191,65 @@ custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 vertical_alignment = 1
 
+[node name="HBoxContainer6" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="MouseLockLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer6"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Mouse Lock"
+vertical_alignment = 1
+
+[node name="MouseLock" type="HSlider" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer6"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("1_rd3qm")
+max_value = 1.0
+ticks_position = 3
+
+[node name="FocusOnHover" type="Node" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer6/MouseLock"]
+script = ExtResource("3_q13fc")
+metadata/_custom_type_script = "uid://db85fb86bo305"
+
+[node name="MouseLockValue" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer6"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+vertical_alignment = 1
+
+[node name="HBoxContainer7" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="MouseHideLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer7"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Mouse Hide"
+vertical_alignment = 1
+
+[node name="MouseHide" type="HSlider" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer7"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("1_rd3qm")
+max_value = 1.0
+ticks_position = 3
+
+[node name="FocusOnHover" type="Node" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer7/MouseHide"]
+script = ExtResource("3_q13fc")
+metadata/_custom_type_script = "uid://db85fb86bo305"
+
+[node name="MouseHideValue" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer7"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+vertical_alignment = 1
+
 [connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
 [connection signal="value_changed" from="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/EnemySpeed" to="." method="onEnemySpeed"]
 [connection signal="value_changed" from="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/Timescale" to="." method="onTimescale"]
 [connection signal="value_changed" from="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer3/Brightness" to="." method="onBrightness"]
 [connection signal="value_changed" from="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer4/Volume" to="." method="onVolume"]
 [connection signal="value_changed" from="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer5/Clock" to="." method="onClock"]
+[connection signal="value_changed" from="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer6/MouseLock" to="." method="onMouseLock"]
+[connection signal="value_changed" from="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer7/MouseHide" to="." method="onMouseHide"]

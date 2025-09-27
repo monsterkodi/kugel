@@ -3,7 +3,7 @@ extends Node
 
 var currentLevel    : Level
 var currentLevelRes : PackedScene
-
+     
 func _ready():
     
     %MenuHandler.hideAllMenus()

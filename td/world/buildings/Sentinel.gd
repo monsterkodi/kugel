@@ -1,4 +1,4 @@
-class_name Bouncer extends Building
+class_name Sentinel extends Building
 
 var sensorBodies : Array[Node3D]
 var reloadTime   : float  
@@ -19,9 +19,9 @@ func _ready():
     
 func applyCards():
     
-    var powerCards = Info.permLvl(Card.BouncerPower)
-    var speedCards = Info.permLvl(Card.BouncerSpeed)
-    var rangeCards = Info.permLvl(Card.BouncerRange)
+    var powerCards = Info.permLvl(Card.SentinelPower)
+    var speedCards = Info.permLvl(Card.SentinelSpeed)
+    var rangeCards = Info.permLvl(Card.SentinelRange)
     
     impulsePower   = (1.0 + powerCards) * 10.0
     %Sensor.linear_damp = 0.2 + powerCards * 0.05

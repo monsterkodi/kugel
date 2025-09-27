@@ -1,10 +1,10 @@
 [gd_scene load_steps=4 format=3 uid="uid://cduws3tqvveai"]
 
-[ext_resource type="Script" uid="uid://brytk27oy0xxo" path="res://ui/cards/CardBouncerRange.gd" id="1_afr0h"]
-[ext_resource type="PackedScene" uid="uid://be78v806wl6a5" path="res://world/buildings/Bouncer.tscn" id="2_ncakv"]
+[ext_resource type="Script" uid="uid://brytk27oy0xxo" path="res://ui/cards/CardSentinelRange.gd" id="1_afr0h"]
+[ext_resource type="PackedScene" uid="uid://be78v806wl6a5" path="res://world/buildings/Sentinel.tscn" id="2_ncakv"]
 [ext_resource type="PackedScene" uid="uid://bfy4mqj2hlcl0" path="res://ui/cards/CardSetup.tscn" id="3_dt4uu"]
 
-[node name="CardBouncerRange" type="Node3D"]
+[node name="CardSentinelRange" type="Node3D"]
 script = ExtResource("1_afr0h")
 
 [node name="Bouncer" parent="." instance=ExtResource("2_ncakv")]

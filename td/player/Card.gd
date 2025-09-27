@@ -1,38 +1,38 @@
 class_name Card
 extends Node
 
-static var ShieldLayer  = "Shield Layer"
-static var BattleCard   = "Battle Card"
-static var SlotRing     = "Build Sites"
-static var Shield       = "Shield"
-static var Bouncer      = "Sentinel"
-static var Turret       = "Turret"
-static var Laser        = "Laser"
-static var Pole         = "Pole"
-static var Sniper       = "Sniper"
-static var SniperRange  = "Sniper Range"
-static var SniperSpeed  = "Sniper Speed"
-static var PillRange    = "Pill Range"
-static var PillPower    = "Pill Power"
-static var LaserRange   = "Laser Range"
-static var LaserSpeed   = "Laser Speed"
-static var LaserPower   = "Laser Power"
-static var TurretRange  = "Turret Range"
-static var TurretSpeed  = "Turret Speed"
-static var TurretPower  = "Turret Power"
-static var BouncerRange = "Sentinel Range"
-static var BouncerSpeed = "Sentinel Speed"
-static var BouncerPower = "Sentinel Power"
-static var TrophyBronce = "Bronce"
-static var TrophySilver = "Silver"
-static var TrophyGold   = "Gold"
-static var Money        = "Money"
+static var ShieldLayer   = "Shield Layer"
+static var BattleCard    = "Battle Card"
+static var SlotRing      = "Build Sites"
+static var Shield        = "Shield"
+static var Sentinel      = "Sentinel"
+static var Turret        = "Turret"
+static var Laser         = "Laser"
+static var Pole          = "Pole"
+static var Sniper        = "Sniper"
+static var SniperRange   = "Sniper Range"
+static var SniperSpeed   = "Sniper Speed"
+static var PillRange     = "Pill Range"
+static var PillPower     = "Pill Power"
+static var LaserRange    = "Laser Range"
+static var LaserSpeed    = "Laser Speed"
+static var LaserPower    = "Laser Power"
+static var TurretRange   = "Turret Range"
+static var TurretSpeed   = "Turret Speed"
+static var TurretPower   = "Turret Power"
+static var SentinelRange = "Sentinel Range"
+static var SentinelSpeed = "Sentinel Speed"
+static var SentinelPower = "Sentinel Power"
+static var TrophyBronce  = "Bronce"
+static var TrophySilver  = "Silver"
+static var TrophyGold    = "Gold"
+static var Money         = "Money"
 
 static var Unlock = {
 
-    Card.BouncerRange : 30,
-    Card.BouncerSpeed : 30,
-    Card.BouncerPower : 30,
+    Card.SentinelRange : 30,
+    Card.SentinelSpeed : 30,
+    Card.SentinelPower : 30,
     
     Card.LaserRange   : 50,
     Card.LaserSpeed   : 50,

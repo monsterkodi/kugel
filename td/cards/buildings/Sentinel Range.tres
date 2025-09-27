@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="CardRes" load_steps=3 format=3 uid="uid://dxh7rwkvwyxod"]
 
-[ext_resource type="PackedScene" uid="uid://cduws3tqvveai" path="res://ui/cards/CardBouncerRange.tscn" id="1_jp035"]
+[ext_resource type="PackedScene" uid="uid://cduws3tqvveai" path="res://ui/cards/CardSentinelRange.tscn" id="1_jp035"]
 [ext_resource type="Script" uid="uid://dcn508r6heipo" path="res://player/CardRes.gd" id="2_lo50w"]
 
 [resource]

@@ -67,6 +67,14 @@ func onClock(value):
     
     HUD.showClock = %Clock.value    
     
+func onMouseLock(value):
+    
+    get_node("/root/World/MouseHandler").mouseLock = value
+
+func onMouseHide(value):
+    
+    get_node("/root/World/MouseHandler").mouseHide = value
+    
 func on_save(data:Dictionary):
 
     data.Settings = {}
@@ -75,6 +83,8 @@ func on_save(data:Dictionary):
     data.Settings.brightness = %Camera.get_node("Light").light_energy
     data.Settings.volume     = AudioServer.get_bus_volume_linear(AudioServer.get_bus_index("Master"))
     data.Settings.clock      = HUD.showClock
+    data.Settings.mouseLock  = get_node("/root/World/MouseHandler").mouseLock
+    data.Settings.mouseHide  = get_node("/root/World/MouseHandler").mouseHide
     
 func on_load(data:Dictionary):
     
@@ -85,3 +95,5 @@ func on_load(data:Dictionary):
     if data.Settings.has("brightness"): onBrightness(data.Settings.brightness)
     if data.Settings.has("volume"):     onVolume(data.Settings.volume)
     if data.Settings.has("clock"):      onClock(data.Settings.clock)
+    if data.Settings.has("mouseLock"):  onMouseLock(data.Settings.mouseLock)
+    if data.Settings.has("mouseHide"):  onMouseHide(data.Settings.mouseHide)

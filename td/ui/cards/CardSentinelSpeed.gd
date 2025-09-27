@@ -1,4 +1,4 @@
-class_name CardBouncerSpeed
+class_name CardSentinelSpeed
 extends Node3D
 
 func _ready(): 

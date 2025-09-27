@@ -1,10 +1,10 @@
 [gd_scene load_steps=4 format=3 uid="uid://wonkw0p5iwg8"]
 
-[ext_resource type="Script" uid="uid://c5yqka6b65kye" path="res://ui/cards/CardBouncerSpeed.gd" id="1_7yv34"]
-[ext_resource type="PackedScene" uid="uid://be78v806wl6a5" path="res://world/buildings/Bouncer.tscn" id="2_sv5i8"]
+[ext_resource type="Script" uid="uid://c5yqka6b65kye" path="res://ui/cards/CardSentinelSpeed.gd" id="1_7yv34"]
+[ext_resource type="PackedScene" uid="uid://be78v806wl6a5" path="res://world/buildings/Sentinel.tscn" id="2_sv5i8"]
 [ext_resource type="PackedScene" uid="uid://bfy4mqj2hlcl0" path="res://ui/cards/CardSetup.tscn" id="3_h17am"]
 
-[node name="CardBouncerSpeed" type="Node3D"]
+[node name="CardSentinelSpeed" type="Node3D"]
 script = ExtResource("1_7yv34")
 
 [node name="Bouncer1" parent="." instance=ExtResource("2_sv5i8")]
@@ -22,5 +22,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 2)
 cameraOffset = Vector2(0, -3.17)
 cameraDistance = 6.444999999999999
 cameraFov = 30.737
-cameraTargetY = 3.8099999999999996
+cameraTargetY = 3.81
 cameraHeight = 4.6259999999999994

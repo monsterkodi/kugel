@@ -1,13 +1,13 @@
 extends Node
 
 const BUILDING_PRICES = {
-                    "Shield":  1000,
-                    "Sniper":  100,
-                    "Laser":   40,
-                    "Bouncer": 20,
-                    "Turret":  10,
-                    "Pole":    2,
-                    "Sell":    0
+                    "Shield":   1000,
+                    "Sniper":   100,
+                    "Laser":    40,
+                    "Sentinel": 20,
+                    "Turret":   10,
+                    "Pole":     2,
+                    "Sell":     0
                     }
 
 var buildingNames:PackedStringArray

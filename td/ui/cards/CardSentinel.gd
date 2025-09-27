@@ -1,4 +1,4 @@
-class_name CardBouncer
+class_name CardSentinel
 extends Node3D
 
 func _ready(): 

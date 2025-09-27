@@ -1,4 +1,4 @@
-class_name CardBouncerRange
+class_name CardSentinelRange
 extends Node3D
 
 func _ready(): 

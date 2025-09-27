@@ -9,7 +9,7 @@ func _ready():
     %Card1.text = ""
     %Card1.setSize(CARD_SIZE)        
 
-    %Card2.setCard(Card.withName(Card.Bouncer))
+    %Card2.setCard(Card.withName(Card.Sentinel))
     %Card2.text = ""
     %Card2.setSize(CARD_SIZE)        
 

@@ -57,9 +57,6 @@ process_mode = 3
 [node name="Environment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_ig7tw")
 
-[node name="MouseHandler" parent="." groups=["game"] instance=ExtResource("6_p1v5b")]
-seconds = 1.0
-
 [node name="Hud" parent="." instance=ExtResource("10_8mymi")]
 unique_name_in_owner = true
 visible = false
@@ -141,6 +138,9 @@ visible = false
 unique_name_in_owner = true
 process_mode = 2
 visible = false
+
+[node name="MouseHandler" parent="." groups=["game"] instance=ExtResource("6_p1v5b")]
+seconds = 1.0
 
 [connection signal="visibility_changed" from="MenuHandler/CardChooser" to="MenuHandler/CardChooser" method="_on_visibility_changed"]
 [connection signal="playLevel" from="MenuHandler/MainMenu" to="." method="playLevel"]
