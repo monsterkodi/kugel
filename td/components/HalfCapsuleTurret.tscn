@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://d11bah7dws1c6"]
+
+[ext_resource type="Script" uid="uid://cl7gj2tonc1wv" path="res://components/HalfCapsuleTurret.gd" id="1_b4ka0"]
+
+[node name="HalfCapsuleTurret" type="Node3D"]
+script = ExtResource("1_b4ka0")
+height = 1.0
+roundRadius = 0.1
+headHeight = null
+holeRadius = null

@@ -31,6 +31,8 @@ func applyCards():
 
 func _physics_process(delta: float):
     
+    %Torus.rotate_y(delta)
+    
     if chargeTween and chargeTween.is_running(): return
     if bounceTween and bounceTween.is_running(): return
     

@@ -40,7 +40,7 @@ func applyCards():
     
     var speedCards = Info.permLvl(Card.TurretSpeed)
     var rangeCards = Info.permLvl(Card.TurretRange)
-    powerCards = Info.permLvl(Card.TurretPower)
+    powerCards     = Info.permLvl(Card.TurretPower)
     
     interval = 0.5  - speedCards * 0.07
     velocity = 5.0  + powerCards * 5.0

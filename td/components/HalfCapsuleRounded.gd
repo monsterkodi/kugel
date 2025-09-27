@@ -1,13 +1,21 @@
+@tool
 class_name HalfCapsuleRounded
 extends Node3D
 
-@export_range(0.0, 10.0, 0.1) var height  = 1.0
-@export_range(0.0, 10.0, 0.1) var radius  = 0.5
-@export_range(3, 36, 1) var segments = 32
-@export_range(3, 32, 1) var rings = 16
-@export_range(0.0, 5.0, 0.01) var roundRadius = 0.1
-@export_range(3, 16, 1) var roundRings = 4
-@export var material : Material
+@export_range(0.0, 10.0, 0.1) var height = 1.0 : 
+    set(v): height = v; generate()
+@export_range(0.0, 10.0, 0.1) var radius = 0.5 : 
+    set(v): radius = v; generate()
+@export_range(3, 36, 1) var segments = 32 :
+    set(v): segments = v; generate()
+@export_range(3, 32, 1) var rings = 8 :
+    set(v): rings = v; generate()
+@export_range(0.0, 5.0, 0.01) var roundRadius = 0.1 :
+    set(v): roundRadius = v; generate()
+@export_range(2, 16, 1) var roundRings = 4 :
+    set(v): roundRings = v; generate()
+@export var material : Material : 
+    set(v): material = v; generate()
 
 func _ready():
     
@@ -33,11 +41,15 @@ func generate():
         var v4 = v3 + cylt
         
         for ring in range(roundRings):
-            var a1 = -deg_to_rad(ring*90.0/(roundRings))
-            var a2 = -deg_to_rad((ring+1)*90.0/(roundRings))
+            var a1 = -deg_to_rad(ring*90.0/(roundRings-1))
+            var a2 = -deg_to_rad((ring+1)*90.0/(roundRings-1))
         
             var w1 = v + Vector3.RIGHT * roundRadius - (Vector3.RIGHT.rotated(Vector3.FORWARD, a1)) * roundRadius + cylb
             var w2 = v + Vector3.RIGHT * roundRadius - (Vector3.RIGHT.rotated(Vector3.FORWARD, a2)) * roundRadius + cylb
+            
+            if ring == roundRings-1:
+                w2.y = w1.y
+                
             var v5 = w1.rotated(Vector3.UP, s1)
             var v6 = w2.rotated(Vector3.UP, s1)
             var v7 = w1.rotated(Vector3.UP, s2)
@@ -92,4 +104,6 @@ func generate():
     #mi.material_override = material
     mi.set_surface_override_material(0, material)
     mi.transform = Transform3D.IDENTITY
+    if get_child_count():
+        remove_child(get_child(0))
     self.add_child(mi)

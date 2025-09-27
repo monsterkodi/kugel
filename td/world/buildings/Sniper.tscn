@@ -166,7 +166,6 @@ unique_name_in_owner = true
 one_shot = true
 
 [node name="HalfCapsuleRounded" parent="." instance=ExtResource("8_u6s15")]
-roundRings = 3
 material = ExtResource("9_p61hx")
 
 [connection signal="body_entered" from="Sensor" to="." method="_on_sensor_body_entered"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://kktahfiaqllg"]
+[gd_scene load_steps=17 format=3 uid="uid://kktahfiaqllg"]
 
 [ext_resource type="Script" uid="uid://tsel3doxtedq" path="res://world/buildings/Turret.gd" id="1_w3f5i"]
 [ext_resource type="Material" uid="uid://vyhfqa37hcxi" path="res://materials/LackBlue.tres" id="2_vc5tq"]
@@ -9,17 +9,7 @@
 [ext_resource type="Material" uid="uid://du8bjg8b10yx2" path="res://materials/TurretBaseMaterial.tres" id="8_kyse0"]
 [ext_resource type="PackedScene" uid="uid://bmyq0wms5x6rm" path="res://components/HalfCapsuleRounded.tscn" id="8_rlav8"]
 [ext_resource type="Material" uid="uid://cl1am5df8gk6t" path="res://materials/PoleBaseMaterial.tres" id="9_2cj6m"]
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_w3f5i"]
-radius = 0.25
-height = 1.0
-radial_segments = 24
-
-[sub_resource type="TorusMesh" id="TorusMesh_rlav8"]
-inner_radius = 0.077
-outer_radius = 0.3
-rings = 32
-ring_segments = 16
+[ext_resource type="PackedScene" uid="uid://d11bah7dws1c6" path="res://components/HalfCapsuleTurret.tscn" id="10_2cj6m"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_iwplw"]
 radius = 0.25
@@ -53,17 +43,16 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 1.5, 0)
 
-[node name="BarrelMesh" type="MeshInstance3D" parent="BarrelPivot"]
+[node name="BarrelMesh" type="Node3D" parent="BarrelPivot"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
-mesh = SubResource("CapsuleMesh_w3f5i")
-surface_material_override/0 = ExtResource("2_vc5tq")
 
-[node name="TipMesh" type="MeshInstance3D" parent="BarrelPivot/BarrelMesh"]
-transform = Transform3D(1, 0, 0, 0, 2, 0, 0, 0, 1, 0, -0.43499994, 1.9014465e-08)
-mesh = SubResource("TorusMesh_rlav8")
-skeleton = NodePath("../..")
-surface_material_override/0 = ExtResource("2_vc5tq")
+[node name="HalfCapsuleTurret" parent="BarrelPivot/BarrelMesh" instance=ExtResource("10_2cj6m")]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0.5)
+height = 0.9
+roundRadius = 0.05
+headHeight = 0.30000000000000004
+holeRadius = 0.1
+material = ExtResource("2_vc5tq")
 
 [node name="AnimatableBody3D" type="AnimatableBody3D" parent="BarrelPivot"]
 collision_layer = 4
@@ -123,7 +112,6 @@ unique_name_in_owner = true
 one_shot = true
 
 [node name="HalfCapsuleRounded" parent="." instance=ExtResource("8_rlav8")]
-roundRings = 3
 material = ExtResource("9_2cj6m")
 
 [connection signal="body_entered" from="Sensor" to="." method="_on_sensor_body_entered"]

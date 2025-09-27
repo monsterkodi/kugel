@@ -19,8 +19,7 @@ var mouseHide : bool = true :
 
 func mouseCaptured(): return Input.mouse_mode == Input.MOUSE_MODE_CAPTURED
 func captureMouse():  if mouseLock: Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-#func showMouse():     Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE); $HideTimer.stop()
-func showMouse():     
+func showMouse():
     Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
     startTimer()
         
@@ -32,7 +31,7 @@ func hideMouse():
 
 func _exit_tree(): showMouse()
     
-func _gui_input(event: InputEvent):
+func _input(event: InputEvent):
     
     if event is InputEventMouseMotion:
         if not mouseCaptured():
@@ -42,20 +41,11 @@ func _gui_input(event: InputEvent):
 func stopTimer(): $HideTimer.stop()     
 func startTimer():
     stopTimer()
-    if mouseHide:
+    if mouseHide and is_inside_tree():
         $HideTimer.start(seconds)
 
 func _on_hide_timer_timeout():
     if not mouseCaptured(): hideMouse()
     
-func _on_mouse_exited():  
-    Log.log("MouseExit")
-    stopTimer() 
-    Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-    
-func _on_mouse_entered(): 
-    Log.log("MouseEnter")
-    startTimer()
-
-func gamePaused():        hideMouse()
-func gameResumed():       captureMouse()
+func gamePaused():  hideMouse()
+func gameResumed(): captureMouse()

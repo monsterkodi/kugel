@@ -61,7 +61,7 @@ cozy_cube/gizmo_presets={}
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/anthonyec.camera_preview/plugin.cfg", "res://addons/area_lights/plugin.cfg", "res://addons/bottom_panel_shortcuts/plugin.cfg", "res://addons/csgtomesh/plugin.cfg", "res://addons/editor_commands/plugin.cfg", "res://addons/editor_relays/plugin.cfg", "res://addons/exec_script/plugin.cfg", "res://addons/extra_snaps/plugin.cfg", "res://addons/fps_graph/plugin.cfg", "res://addons/gizmo_presets/plugin.cfg", "res://addons/lines_and_trails_3d/plugin.cfg", "res://addons/log/plugin.cfg", "res://addons/more_viewport_options/plugin.cfg", "res://addons/nine_patch_mesh/plugin.cfg", "res://addons/script-name-on-top/plugin.cfg", "res://addons/script-tabs/plugin.cfg", "res://addons/seven_segment_display/plugin.cfg", "res://addons/tile_path_3d/plugin.cfg")
+enabled=PackedStringArray("res://addons/anthonyec.camera_preview/plugin.cfg", "res://addons/area_lights/plugin.cfg", "res://addons/editor_commands/plugin.cfg", "res://addons/fps_graph/plugin.cfg", "res://addons/lines_and_trails_3d/plugin.cfg", "res://addons/log/plugin.cfg", "res://addons/script-name-on-top/plugin.cfg", "res://addons/script-tabs/plugin.cfg", "res://addons/tile_path_3d/plugin.cfg")
 
 [exec]
 
@@ -72,7 +72,6 @@ script/shortcut=""
 folder_colors={
 "res://addons/": "gray",
 "res://addons/editor_commands/": "yellow",
-"res://addons/exec_script/": "yellow",
 "res://addons/fps_graph/": "yellow",
 "res://addons/log/": "orange",
 "res://components/": "orange",
@@ -281,12 +280,6 @@ place_building={
 [physics]
 
 3d/physics_engine="Jolt Physics"
-
-[plugins]
-
-bottom_panel_shortcuts/toggle_bottom_panel=Object(Shortcut,"resource_local_to_scene":false,"resource_name":"","events":[Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":true,"ctrl_pressed":true,"meta_pressed":false,"pressed":false,"keycode":89,"physical_keycode":0,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
-],"script":null)
-
 
 [rendering]
 
