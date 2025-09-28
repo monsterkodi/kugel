@@ -4,6 +4,7 @@ extends PanelContainer
 const CIRCLE = preload("uid://c2q8strea6bfu")
 var player
 var tween : Tween
+var preNum : int
 
 func _ready():
     
@@ -17,16 +18,19 @@ func enemySpawned(): update()
     
 func preChooseAnim():
     
+    preNum = 0
     tween = create_tween()
     tween.tween_method(onPreChoose, 0, %Dots.get_child_count()-1, 2.0)
     tween.tween_callback(preChooseAnimDone)
     
 func onPreChoose(value):
     
-    var dot : Circle = %Dots.get_child(value)
-    dot.color = Color(1,1,0)
-    if value > 0:
-        %Dots.get_child(value-1).color = Color(0,0,0)
+    for i in range(preNum, value+1):
+        var dot : Circle = %Dots.get_child(i)
+        dot.color = Color(1,1,0)
+        if i > 0:
+            %Dots.get_child(i-1).color = Color(0,0,0)
+    preNum = value
     
 func preChooseAnimDone():
     

@@ -173,4 +173,10 @@ func allPlacedBuildingsOfType(type):
 func isAnyBuildingPlaced(type):
     
     return allPlacedBuildingsOfType(type).size() > 0
+
+func firstPlacedBuildingOfType(type):  
     
+    var buildings = allPlacedBuildingsOfType(type)
+    if buildings.size():
+        return buildings[0]
+    return null

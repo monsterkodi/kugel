@@ -24,6 +24,7 @@ var active      = false
 
 var spawnedBody : RigidBody3D
 var level       : Level
+var enemies     : Node3D
 
 const spawnerHolePassiveMaterial = preload("uid://djrtyqmjy623u")
 const spawnerHoleActiveMaterial  = preload("uid://chltotc0ohct")
@@ -31,6 +32,7 @@ const spawnerHoleActiveMaterial  = preload("uid://chltotc0ohct")
 func _ready():
 
     level = Utils.firstParentWithClass(self, "Level")
+    enemies = level.get_node("Enemies")
     #if level.inert: return
     
     velocity = velocity_initial
@@ -105,7 +107,10 @@ func nextSpawnLoop():
     spawnedBody.freeze = true
     spawnedBody.setMass(mass)
     
-    level.get_node("Enemies").add_child(spawnedBody)
+    if enemies.get_child_count() > 2000:
+        Log.log("too many enemies!", enemies.get_child_count())
+        enemies.get_child(0).queue_free()
+    enemies.add_child(spawnedBody)
     
     spawnedBody.global_position = %SpawnPoint.global_position
     
@@ -140,6 +145,7 @@ func clockTick():
     if not spawnedBody: return
     
     spawnedBody.setMass(mass)
+    spawnedBody.global_position.y = 1.2*%Body.scale.x
     spawnedBody.collision_layer = Layer.LayerEnemy
     spawnedBody.freeze = false
     spawnedBody.apply_central_impulse(%SpawnPoint.global_basis.x.normalized() * velocity*mass)

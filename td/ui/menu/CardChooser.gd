@@ -32,7 +32,6 @@ func addCardButton(card:Card):
     button.pressed.connect(cardChosen.bind(card))
 
 func cardChosen(card):
-    Log.log("cardChosen", card)
     Post.cardChosen.emit(card)
 
 func _input(event: InputEvent):

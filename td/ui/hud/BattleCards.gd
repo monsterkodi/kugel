@@ -14,7 +14,7 @@ func updateButtons():
     
     Utils.freeChildren(%Cards)
     for card in %Player.battle.get_children():
-        if card.res.name == Card.Shield: continue
+        #if card.res.name == Card.Shield: continue
         addCardButton(card)
         
     visible = true
@@ -45,11 +45,11 @@ func countCards(cardName:String) -> int:
 func useCard(cardName:String):
     
     for button in %Cards.get_children():
-        if button.card.res.name == cardName:
-            %Player.battle.delCard(%Player.battle.getCard(button.card.res.name))
+        if button.card and button.card.res.name == cardName:
             %Cards.remove_child(button)
             button.free()
-            return
+            break
+    %Player.battle.delCard(%Player.battle.getCard(cardName))
     
 func levelEnd():
     

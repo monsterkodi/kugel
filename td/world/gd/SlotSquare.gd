@@ -12,8 +12,7 @@ var slots:Array[Slot]
 
 func _ready():
 
-    if visible:
-        update()
+    update()
     
 func update():
     
@@ -31,7 +30,3 @@ func update():
             p = p.rotated(Vector3.UP, side * deg_to_rad(90))
             slot.global_position = p
         
-func _on_visibility_changed():
-    
-    if visible:
-        update()

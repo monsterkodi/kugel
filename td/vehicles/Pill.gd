@@ -21,7 +21,7 @@ func _ready():
 func applyCards():
     
     %LaserPointer.laserRange  = 3 + 2 * Info.permLvl(Card.PillRange)
-    %LaserPointer.laserDamage = 1 + pow(Info.permLvl(Card.PillPower), 2)
+    %LaserPointer.laserDamage = pow(Info.permLvl(Card.PillPower)+1, 3)
     
     %Collector.setRadius(7 + 7 * Info.permLvl(Card.PillRange))
     

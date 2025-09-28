@@ -82,6 +82,10 @@ func level_reset():
     
 func _integrate_forces(state: PhysicsDirectBodyState3D):
     
+    if global_position.y < -1.0:
+        Log.log("enemy below ground")
+        queue_free()
+        return
     if alive():
         for i in range(get_contact_count()):
             var collider:PhysicsBody3D = state.get_contact_collider_object(i)

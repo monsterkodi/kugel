@@ -17,6 +17,7 @@ script = ExtResource("1_5dv8q")
 metadata/_custom_type_script = "uid://bisy5vkf6ejho"
 
 [node name="ShieldBody" type="RigidBody3D" parent="."]
+unique_name_in_owner = true
 collision_layer = 256
 collision_mask = 2
 mass = 20.0

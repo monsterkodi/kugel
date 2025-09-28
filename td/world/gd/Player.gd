@@ -104,6 +104,7 @@ func load(dict:Dictionary):
             
 func addShield():
     
+    Log.log("addShield")
     var shield = SHIELD.instantiate()
     shield.inert = false
     get_parent_node_3d().add_child(shield)
@@ -111,6 +112,7 @@ func addShield():
 
 func delShield():
     
+    Log.log("delShield")
     if Info.isAnyBuildingPlaced("Shield"):
         Post.statChanged.emit("shieldHitPoints", 0)
         get_node("/root/World/Shield").free()

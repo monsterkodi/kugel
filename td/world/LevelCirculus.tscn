@@ -334,10 +334,4 @@ shape = SubResource("SphereShape3D_052yy")
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
 
-[connection signal="visibility_changed" from="Floor/SlotsRings/SlotRing1" to="Floor/SlotsRings/SlotRing1" method="_on_visibility_changed"]
-[connection signal="visibility_changed" from="Floor/SlotsRings/SlotRing2" to="Floor/SlotsRings/SlotRing2" method="_on_visibility_changed"]
-[connection signal="visibility_changed" from="Floor/SlotsRings/SlotRing3" to="Floor/SlotsRings/SlotRing3" method="_on_visibility_changed"]
-[connection signal="visibility_changed" from="Floor/SlotsRings/SlotRing4" to="Floor/SlotsRings/SlotRing4" method="_on_visibility_changed"]
-[connection signal="visibility_changed" from="Floor/SlotsRings/SlotRing5" to="Floor/SlotsRings/SlotRing5" method="_on_visibility_changed"]
-[connection signal="visibility_changed" from="Floor/SlotsRings/SlotRing6" to="Floor/SlotsRings/SlotRing6" method="_on_visibility_changed"]
 [connection signal="body_exited" from="Bounds" to="Bounds" method="bodyExit"]

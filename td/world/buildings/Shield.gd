@@ -7,22 +7,33 @@ func _ready():
     name = "Shield"
     
     setHitPoints(Info.maxShieldHitPoints())
-    
+    Log.log("Shield._ready")
+    %ShieldBody.position = Vector3.ZERO
+    global_position = Vector3.ZERO
     super._ready()
+    
+func _exit_tree():
+    
+    Log.log("Shield._exit_tree")
     
 func onHit():
     
     setHitPoints(hitPoints - 1)
     Post.shieldDamaged.emit(self)
     
+func addLayer():
+    
+    setHitPoints(hitPoints+1)
+    
 func setHitPoints(hp):
     
     hitPoints = maxi(0, hp)
-    if hitPoints == 0:
-        onShieldDown()
     
     if not inert:
         Post.statChanged.emit("shieldHitPoints", hitPoints)
+        
+    if hitPoints == 0:
+        onShieldDown()
     
     while %Halos.get_child_count() < hitPoints:
         var clone = %Halos.get_child(0).duplicate()
@@ -33,6 +44,8 @@ func setHitPoints(hp):
         %Halos.get_child(-1).free()
 
 func onShieldDown():
+    
+    Log.log("onShieldDown")
     queue_free()
 
 func _on_body_entered(body: Node3D):

@@ -14,6 +14,9 @@ func _ready():
 func _process(delta:float):
     
     %DotRing.rotate(Vector3.UP, -delta*0.2)
+    if %SphereBody.global_position.y < 0.25:
+        Log.log("asjust center sphere", %SphereBody.global_position.y)
+        %SphereBody.global_position.y = 0.25
 
 func onHit(): 
     

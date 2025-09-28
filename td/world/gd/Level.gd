@@ -46,6 +46,7 @@ func levelEnd():
     highscore = maxi(Stats.numEnemiesSpawned, highscore)
     Log.log("levelEnd", Stats.numEnemiesSpawned, highscore)
     resetLevel(Saver.savegame.data)
+    Saver.save()
 
 func gamePaused():
     
@@ -59,7 +60,7 @@ func gameResumed():
     
 func resetLevel(data:Dictionary):
 
-    Log.log("resetLevel", data)
+    #Log.log("resetLevel", data)
     if data.has("Level") and data.Level.has(name): 
         data.Level[name].highscore = highscore
         data.Level[name].enemiesSpawned = 0
@@ -70,6 +71,7 @@ func resetLevel(data:Dictionary):
         data.Level[name].erase("buildings")
         data.Level[name].erase("enemies")
         data.Level[name].erase("spawners")
+        data.Level[name].player = get_node("/root/World/Player").save()
         Log.log("resetLevel", name, data.Level[name])
 
 func clearLevel(data:Dictionary):

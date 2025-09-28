@@ -12,8 +12,7 @@ var slots:Array[Slot]
 
 func _ready():
 
-    if visible:
-        update()
+    update()
     
 func update():
     
@@ -26,7 +25,3 @@ func update():
         add_child(slot)
         slot.global_position = Vector3(0,0,-radius).rotated(Vector3.UP, deg_to_rad(index * 360.0 / numSlots))
         
-func _on_visibility_changed():
-    
-    if visible:
-        update()
