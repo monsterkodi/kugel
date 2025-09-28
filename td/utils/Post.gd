@@ -38,18 +38,15 @@ signal quitGame
 signal clockFactor
 signal clockTick
 
-var sigDict : Dictionary = {}
+var sigDict : Dictionary
 
 func _ready():
     
-    #Log.log("the postman arrived")
     sigDict = Utils.signalDict(self)
         
 func subscribe(node:Node):
     
-    #Log.log(str(node.name))
     var methDict = Utils.methodDict(node)
     for sigName in sigDict:
         if methDict.has(sigName):
-            #Log.log("    ", sigName)
             self.connect(sigName, node[sigName])

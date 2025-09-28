@@ -10,8 +10,8 @@ lookAt = Vector3(60.15, -10.1, -28.75)
 
 [node name="CardSetup" parent="." instance=ExtResource("2_t0sbq")]
 cameraOffset = Vector2(0, 0.68)
-cameraFov = 15.805
-cameraTargetY = 0.815
+cameraFov = 11.511
+cameraTargetY = 0.674
 cameraHeight = 0.01
 
 [node name="Sniper" parent="." instance=ExtResource("3_x83mi")]

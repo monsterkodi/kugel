@@ -114,7 +114,7 @@ func controlWithName(name:String) -> Control:
 func _enter_tree() -> void:
     add_debugger_plugin(debugger)
     debugger.plugin = self
-    Log.log("EditorCommands", EditorInterface.has_method("get_inspector"))
+    #Log.log("EditorCommands", EditorInterface.has_method("get_inspector"))
     #controlWithName("EditorBottomPanel").get_child(0).get_child(-1).print_tree_pretty()
     #for button in allBottomPanelButtons():
         #Log.log(button, button.text, button.shortcut)

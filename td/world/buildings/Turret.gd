@@ -84,8 +84,8 @@ func shoot():
     shootTween = create_tween()
     shootTween.set_ease(Tween.EASE_OUT)
     shootTween.set_trans(Tween.TRANS_BOUNCE)
-    shootTween.tween_property(%BarrelMesh, "position:z",  0.1 + 0.1 * powerCards, secs)
-    shootTween.tween_property(%BarrelMesh, "position:z",  0.0, 2*secs)
+    shootTween.tween_property(%BarrelOffset, "position:z",  0.1 + 0.1 * powerCards, secs)
+    shootTween.tween_property(%BarrelOffset, "position:z",  0.0, 2*secs)
         
 func calcTargetPos():
     

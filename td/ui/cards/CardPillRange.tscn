@@ -8,10 +8,11 @@
 script = ExtResource("1_dxkk0")
 
 [node name="CardSetup" parent="." instance=ExtResource("2_5k0xy")]
-cameraOffset = Vector2(-0.64, -0.22)
-cameraFov = 37.852000000000004
-cameraTargetY = 0.628
-cameraHeight = 1.352
+cameraOffset = Vector2(-0.57, -0.4)
+cameraDistance = 10.0
+cameraFov = 10.0
+cameraTargetY = 0.966
+cameraHeight = 1.691
 
 [node name="Capsule" parent="." instance=ExtResource("3_s5wx7")]
 unique_name_in_owner = true

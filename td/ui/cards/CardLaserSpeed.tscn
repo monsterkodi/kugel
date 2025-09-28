@@ -6,14 +6,19 @@
 
 [node name="CardLaserSpeed" type="Node3D"]
 script = ExtResource("1_goiss")
-lookAt = Vector3(0, 68.32, 78.66)
+lookAt = Vector3(106.25, -19.54, 90.47)
 
 [node name="Laser" parent="." instance=ExtResource("2_eotqp")]
 unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
+
+[node name="Laser2" parent="." instance=ExtResource("2_eotqp")]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
 
 [node name="CardSetup" parent="." instance=ExtResource("3_kt7py")]
-cameraOffset = Vector2(0, 0.19)
-cameraDistance = 1.981
-cameraFov = 19.348
-cameraTargetY = 1.083
-cameraHeight = 2.997
+cameraOffset = Vector2(0, -0.53)
+cameraDistance = 2.517
+cameraFov = 42.173
+cameraTargetY = 1.7329999999999999
+cameraHeight = 3.506
