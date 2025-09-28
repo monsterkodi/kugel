@@ -20,7 +20,9 @@ signal cardSold
 signal applyCards
 signal handChosen
 signal startLevel
+signal retryLevel
 signal levelStart
+signal levelReset
 signal levelEnd
 signal levelLoaded
 signal menuVanish

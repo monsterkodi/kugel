@@ -18,8 +18,7 @@ func _ready():
 func mainMenu():
     
     get_tree().paused = true
-    if currentLevel and Saver.savegame:
-        currentLevel.saveLevel(Saver.savegame.data)
+    saveLevel()
     %MenuHandler.appear(%MainMenu)
     
 func _process(delta: float):
@@ -62,6 +61,7 @@ func baseDestroyed():
     Post.levelEnd.emit()
     pauseGame()
     %MenuHandler.appear(%ResultMenu)
+    resetLevel()
 
 func chooseCard():
     
@@ -87,7 +87,7 @@ func enemySpawned():
         %Player.cardLevel += 1
         %Player.nextCardIn = Info.nextCardAtLevel(%Player.cardLevel)
 
-    Log.log("cardLevel", %Player.cardLevel, %Player.nextCardIn)
+    #Log.log("cardLevel", %Player.cardLevel, %Player.nextCardIn)
 
 func cardSold(card:Card):
     
@@ -98,16 +98,18 @@ func cardSold(card:Card):
 
 func cardChosen(card:Card):
         
-    if %Player.hand.get_child_count() < Info.battleCardSlots() and card.isBattleCard():
-        %Player.hand.addCard(card, false)
-    elif card.isPermanent():
+    if card.isPermanent():
         %Player.perm.addCard(card)
     elif card.isOnce():
         if card.res.name == "Money":
             Wallet.addPrice(card.res.data.amount)
+        else:
+            Log.log("???", card.res.name)
     else:
         assert(card.isBattleCard())
         %Player.deck.addCard(card)
+        Log.log("add battle card", card.res.name)
+        %Player.battle.addCard(Card.withName(card.res.name))
         
     Post.applyCards.emit()
     
@@ -116,17 +118,6 @@ func cardChosen(card:Card):
 func newGame():
     
     Saver.clear()
-    %Player.perm.addCard(Card.withName(Card.BattleCard))
-    
-func restartLevel():
-    
-    pauseGame()
-    currentLevel.clearLevel(Saver.savegame.data)
-    %MenuHandler.appear(%HandChooser)
-
-func handChosen():
-
-    loadLevel(currentLevelRes)
         
 func buildMode():
     
@@ -170,32 +161,51 @@ func saveGame():
 func loadGame():
     
     Saver.load()
-    ensureOneBattleCard()
     
 func settings(backMenu:Menu):
     
     %SettingsMenu.backMenu = backMenu
     %MenuHandler.appear(%SettingsMenu)
 
-func ensureOneBattleCard():
+func restartLevel():
     
-    if Info.cardLvl(Card.BattleCard) < 1:
-        %Player.perm.addCard(Card.withName(Card.BattleCard))
+    Log.log("restartLevel")
+    clearLevel()
+    saveGame()
+    loadLevel(currentLevelRes)
+    
+func clearLevel():
+    Log.log("clearLevel", currentLevel)
+    if currentLevel:
+        currentLevel.clearLevel(Saver.savegame.data)
+        currentLevel.free()
 
+func resetLevel():
+    Log.log("resetLevel", currentLevel)
+    if currentLevel:
+        Post.levelReset.emit()
+        currentLevel.free()
+
+func retryLevel():
+    
+    loadLevel(currentLevelRes)
+    
 func playLevel(levelRes):
     
-    currentLevelRes = levelRes
-    if %Player.deck.get_child_count():
-        %MenuHandler.appear(%HandChooser)
-    else:
-        loadLevel(levelRes)
+    loadLevel(levelRes)
+        
+func handChosen():
+
+    for card in %Player.hand.get_children():
+        %Player.battle.addCard(Card.withName(card.res.name))
+        
+    Post.levelStart.emit()
+    resumeGame()
 
 func loadLevel(levelRes):
     
     Log.log("loadLevel", levelRes)
-    if currentLevel:
-        saveGame()
-        currentLevel.free()
+
     currentLevelRes = levelRes
     Log.log("level instantiate")
     currentLevel = levelRes.instantiate()
@@ -206,15 +216,31 @@ func loadLevel(levelRes):
     currentLevel.start()
     Log.log("emit startLevel")
     Post.startLevel.emit()
-    Log.log("emit applyCards")
-    Post.applyCards.emit()
-    Log.log("emit levelStart")
-    Post.levelStart.emit()
     
-    if Saver.savegame and Saver.savegame.data.has("Level") and Saver.savegame.data.Level.has(currentLevel.name):
+    var isFresh = true
+    if Saver.savegame.data.has("Level") and Saver.savegame.data.Level.has(currentLevel.name):
         if Saver.savegame.data.Level[currentLevel.name]:
             Log.log("late load level")
             currentLevel.loadLevel(Saver.savegame.data)
+            isFresh = not Saver.savegame.data.Level[currentLevel.name].has("gameTime")
             Post.levelLoaded.emit()
+
+    Log.log("emit applyCards")
+    Post.applyCards.emit()
+    Log.log("emit levelStart")
     
-    resumeGame()
+    if isFresh and %Player.deck.get_child_count():
+        %MenuHandler.appear(%HandChooser)
+    else:
+        Post.levelStart.emit()
+        resumeGame()
+
+func saveLevel():
+    
+    if currentLevel:
+        Log.log("save and free current level", currentLevel)
+        
+        currentLevel.saveLevel(Saver.savegame.data)
+        saveGame()
+            
+        currentLevel.free()

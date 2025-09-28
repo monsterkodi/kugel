@@ -13,9 +13,8 @@ func _ready():
     set_process(false)
     
     if inert:
-        if Saver.savegame:
-            Log.log("Level._ready", name, "inert:", inert, "load inert?")
-            loadLevel(Saver.savegame.data)
+        Log.log("Level._ready", name, "inert:", inert, "load inert?")
+        loadLevel(Saver.savegame.data)
     
 func start():
     
@@ -28,7 +27,7 @@ func start():
 func applyCards():
     
     var rings = Info.cardLvl(Card.SlotRing)
-
+    Log.log("rings", rings)
     %SlotRing1.visible = true
     %SlotRing2.visible = (rings >= 1)
     %SlotRing3.visible = (rings >= 2)
@@ -46,8 +45,7 @@ func levelEnd():
     
     highscore = maxi(Stats.numEnemiesSpawned, highscore)
     Log.log("levelEnd", Stats.numEnemiesSpawned, highscore)
-    if Saver.savegame:
-        clearLevel(Saver.savegame.data)
+    resetLevel(Saver.savegame.data)
 
 func gamePaused():
     
@@ -58,9 +56,25 @@ func gameResumed():
     
     set_physics_process(true)
     set_process(true)
+    
+func resetLevel(data:Dictionary):
+
+    Log.log("resetLevel", data)
+    if data.has("Level") and data.Level.has(name): 
+        data.Level[name].highscore = highscore
+        data.Level[name].enemiesSpawned = 0
+        data.Level[name].walletBalance  = 0
+        data.Level[name].baseHitPoints  = 3
+        data.Level[name].erase("gameTime")
+        data.Level[name].erase("clock")
+        data.Level[name].erase("buildings")
+        data.Level[name].erase("enemies")
+        data.Level[name].erase("spawners")
+        Log.log("resetLevel", name, data.Level[name])
 
 func clearLevel(data:Dictionary):
     
+    Log.log("clearLevel", data)
     if data.has("Level"): 
         data.Level[name] = {}
         data.Level[name].highscore = highscore
@@ -158,7 +172,11 @@ func loadLevel(data:Dictionary):
 
 func slotForPos(pos):
     
+    var slots = Utils.filterTree(self, func(n:Node): return n is Slot)
+    return Utils.closestNode(slots, pos)
+
+func visibleSlotForPos(pos):
+    
     var slots = Utils.filterTree(self, func(n:Node): return n is Slot and n.visible and n.get_parent().visible)
     return Utils.closestNode(slots, pos)
-    
     

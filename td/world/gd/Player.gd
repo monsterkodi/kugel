@@ -1,41 +1,58 @@
 class_name Player
 extends Node3D
 
+const SHIELD = preload("uid://busmvxaat6dqv")
+
 var vehicleName = "Pill"
 var vehicle     : Node3D
 var nextCardIn  : int
 var cardLevel   : int
 
-var deck : Deck
-var hand : Deck
-var perm : Deck
+var deck   : Deck
+var hand   : Deck
+var perm   : Deck
+var battle : Deck
 
 func _ready():
     
     #Log.log("ready player one", get_parent_node_3d())
-    deck = Deck.new()
-    hand = Deck.new()
-    perm = Deck.new()
+    deck   = Deck.new()
+    hand   = Deck.new()
+    perm   = Deck.new()
+    battle = Deck.new()
     
     add_child(deck)
     add_child(hand)
     add_child(perm)
+    add_child(battle)
     
     Post.subscribe(self)
     
-func levelStart():
+func levelReset():
+    
+    Log.log("Player.levelReset")
+    battle.clear()
+    
+func startLevel():
     
     cardLevel  = 0
     nextCardIn = 5
+
+    deck  .clear()
+    hand  .clear()
+    perm  .clear()
+    battle.clear()
+    
+    perm.addCard(Card.withName(Card.BattleCard))
     
     if not vehicle:
         loadVehicle("Pill")
         global_position = Vector3.ZERO + Vector3.BACK
     
-    if %BattleCards.countCards(Card.Shield):
-        %BattleCards.useCard(Card.Shield)
-        if not Info.isAnyBuildingPlaced("Shield"):
-            addShield()
+    #if %BattleCards.countCards(Card.Shield):
+        #%BattleCards.useCard(Card.Shield)
+        #if not Info.isAnyBuildingPlaced("Shield"):
+            #addShield()
     #else: 
         #delShield()
         
@@ -64,6 +81,7 @@ func save() -> Dictionary:
     dict.hand              = hand.toDict()
     dict.deck              = deck.toDict()
     dict.perm              = perm.toDict()
+    dict.battle            = battle.toDict()
     dict.nextCardIn        = nextCardIn
     dict.cardLevel         = cardLevel
     
@@ -82,9 +100,8 @@ func load(dict:Dictionary):
     hand.fromDict(dict.hand)
     deck.fromDict(dict.deck)
     perm.fromDict(dict.perm)
-        
-const SHIELD = preload("uid://busmvxaat6dqv")
-    
+    battle.fromDict(dict.battle)
+            
 func addShield():
     
     var shield = SHIELD.instantiate()

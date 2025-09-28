@@ -6,7 +6,7 @@ func _ready():
     
     Post.subscribe(self)
     
-func levelStart():
+func startLevel():
     #Log.log("enemySpawned RESET")
     numEnemiesSpawned  = 0
     Post.statChanged.emit("numEnemiesSpawned",  numEnemiesSpawned)

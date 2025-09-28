@@ -1,6 +1,10 @@
 class_name Deck
 extends Node
 
+func clear():
+    
+    Utils.freeChildren(self)
+
 func addCard(card:Card, unique=true):
     
     if unique:

@@ -12,7 +12,6 @@ const BUILDING_PRICES = {
 
 var buildingNames:PackedStringArray
 
-var wallTime     : float
 var gameTime     : float
 var enemySpeed   : float
 var player       : Player
@@ -36,12 +35,10 @@ func _ready():
     
 func _process(delta: float):
     
-    wallTime += delta / Engine.time_scale
     gameTime += delta
         
-func levelStart():
+func startLevel():
     
-    wallTime = 0.0
     gameTime = 0.0
     
 func setEnemySpeed(speed:float):
@@ -93,20 +90,20 @@ func nextSetOfCards():
         allCards.erase(cardRes)
         cards.append(Card.new(cardRes, cardLvl(Card.SlotRing)+1))
             
-    if cardLvl(Card.Turret) < 1:
-        var cardRes = allCards[allCards.find_custom(func(c): return c.name == Card.Turret)]
-        allCards.erase(cardRes)
-        cards.append(Card.new(cardRes, cardLvl(Card.Turret)+1))
+    #if cardLvl(Card.Turret) < 1:
+        #var cardRes = allCards[allCards.find_custom(func(c): return c.name == Card.Turret)]
+        #allCards.erase(cardRes)
+        #cards.append(Card.new(cardRes, cardLvl(Card.Turret)+1))
 
-    if cardLvl(Card.Laser) < 1 and (player.cardLevel % 10) == 0:
-        var cardRes = allCards[allCards.find_custom(func(c): return c.name == Card.Laser)]
-        allCards.erase(cardRes)
-        cards.append(Card.new(cardRes, cardLvl(Card.Laser)+1))
+    #if cardLvl(Card.Laser) < 1 and player.cardLevel and (player.cardLevel % 10) == 0:
+        #var cardRes = allCards[allCards.find_custom(func(c): return c.name == Card.Laser)]
+        #allCards.erase(cardRes)
+        #cards.append(Card.new(cardRes, cardLvl(Card.Laser)+1))
 
-    if cardLvl(Card.Sniper) < 1 and (player.cardLevel % 20) == 0:
-        var cardRes = allCards[allCards.find_custom(func(c): return c.name == Card.Sniper)]
-        allCards.erase(cardRes)
-        cards.append(Card.new(cardRes, cardLvl(Card.Sniper)+1))
+    #if cards.size() < 3 and cardLvl(Card.Sniper) < 1 and (player.cardLevel % 20) == 0:
+        #var cardRes = allCards[allCards.find_custom(func(c): return c.name == Card.Sniper)]
+        #allCards.erase(cardRes)
+        #cards.append(Card.new(cardRes, cardLvl(Card.Sniper)+1))
     
     while cards.size() < 3:
         

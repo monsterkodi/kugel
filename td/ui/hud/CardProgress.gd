@@ -12,7 +12,6 @@ func _ready():
     Post.subscribe(self)
     
 func levelStart():   update()
-func levelLoaded():  update()
 func applyCards():   update()
 func enemySpawned(): update()
     

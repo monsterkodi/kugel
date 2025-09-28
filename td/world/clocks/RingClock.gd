@@ -1,9 +1,9 @@
 class_name RingClock
 extends Clock
 
-func levelStart():
+func startLevel():
     
-    super.levelStart()
+    super.startLevel()
     
     %ClockRing.get_surface_override_material(0).set_shader_parameter("Revolution", 0.0)
         

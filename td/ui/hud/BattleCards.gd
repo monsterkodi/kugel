@@ -8,13 +8,12 @@ func _ready():
     
     Post.subscribe(self)
 
-func startLevel():  updateButtons()
-func levelLoaded(): updateButtons()
+func levelStart():  updateButtons()
     
 func updateButtons():
     
     Utils.freeChildren(%Cards)
-    for card in %Player.hand.get_children():
+    for card in %Player.battle.get_children():
         if card.res.name == Card.Shield: continue
         addCardButton(card)
         
@@ -22,7 +21,7 @@ func updateButtons():
     
 func cardChosen(card):
     
-    #Log.log("cardChosen", card.res.name)
+    Log.log("cardChosen", card.res.name)
     if card.isBattleCard():
         addCardButton(card)
 
@@ -47,6 +46,7 @@ func useCard(cardName:String):
     
     for button in %Cards.get_children():
         if button.card.res.name == cardName:
+            %Player.battle.delCard(%Player.battle.getCard(button.card.res.name))
             %Cards.remove_child(button)
             button.free()
             return

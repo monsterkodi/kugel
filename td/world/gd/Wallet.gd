@@ -9,7 +9,7 @@ func _ready():
 
     Post.subscribe(self)
     
-func levelStart():
+func startLevel():
     
     setBalance(0)
 

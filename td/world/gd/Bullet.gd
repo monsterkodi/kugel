@@ -10,6 +10,11 @@ func _exit_tree():
 
 func level_reset(): free()
 
+func _physics_process(delta: float):
+    
+    var af = 1.0-smoothstep(0.9, 1.0, %Lifetime.ageFactor())
+    scale = Vector3(af, af, af)
+
 func getColor() -> Color:
     
     var af = (1.0 - %Lifetime.ageFactor())

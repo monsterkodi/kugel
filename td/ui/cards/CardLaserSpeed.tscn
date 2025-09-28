@@ -6,7 +6,8 @@
 
 [node name="CardLaserSpeed" type="Node3D"]
 script = ExtResource("1_goiss")
-lookAt = Vector3(106.25, -19.54, 90.47)
+lookAt = Vector3(110, -19, 90)
+lookAt2 = Vector3(-110, -19, 90)
 
 [node name="Laser" parent="." instance=ExtResource("2_eotqp")]
 unique_name_in_owner = true

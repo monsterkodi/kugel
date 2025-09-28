@@ -34,7 +34,7 @@ func appear():
     
 func onRetry():
     
-    %MenuHandler.appear(%HandChooser)
+    Post.retryLevel.emit()
 
 func onMainMenu():
     

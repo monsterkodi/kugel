@@ -89,7 +89,7 @@ func statChanged(statName, value):
                 nextSpawnLoop()
                 Post.statChanged.disconnect(statChanged)
     
-func levelStart():
+func startLevel():
 
     velocity = velocity_initial
     mass     = mass_initial

@@ -76,7 +76,7 @@ func _process(delta:float):
 func findTargetPos():
     
     var level = get_node("/root/World").currentLevel
-    var slot = level.slotForPos(vehicle.global_position)    
+    var slot = level.visibleSlotForPos(vehicle.global_position)    
     if slot:
         
         if targetSlot != slot:

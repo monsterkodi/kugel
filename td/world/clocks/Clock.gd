@@ -33,7 +33,7 @@ func start():
     set_process(true)
     Post.subscribe(self)
     
-func levelStart():
+func startLevel():
     
     seconds       = seconds_initial
     pointerSecs   = 0.0
