@@ -23,6 +23,8 @@ func onHit():
     
 func addLayer():
     
+    while %Halos.get_child_count() > 1:
+        %Halos.get_child(-1).free()
     setHitPoints(hitPoints+1)
     
 func setHitPoints(hp):

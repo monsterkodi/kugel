@@ -11,6 +11,8 @@ func _ready():
         setHitPoints(3)
     #Log.log("base ready", hitPoints)
     
+func levelStart(): updateDots()
+    
 func _process(delta:float):
     
     %DotRing.rotate(Vector3.UP, -delta*0.2)
@@ -47,8 +49,9 @@ func setHitPoints(hp):
 func updateDots():
     
     var dots = hitPoints
-    if world.has_node("Shield"):
-        dots += world.get_node("Shield").hitPoints
+    var shield = Info.firstPlacedBuildingOfType("Shield")
+    if shield:
+        dots += shield.hitPoints
     %DotRing.numDots = dots
         
 func onDeath():

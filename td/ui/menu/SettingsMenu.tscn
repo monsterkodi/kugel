@@ -134,6 +134,35 @@ custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 vertical_alignment = 1
 
+[node name="HiresBox" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HiresLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/HiresBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "High DPI"
+vertical_alignment = 1
+
+[node name="Hires" type="HSlider" parent="PanelContainer/MarginContainer/VBoxContainer/HiresBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("1_rd3qm")
+max_value = 1.0
+ticks_position = 3
+
+[node name="FocusOnHover" type="Node" parent="PanelContainer/MarginContainer/VBoxContainer/HiresBox/Hires"]
+script = ExtResource("3_q13fc")
+metadata/_custom_type_script = "uid://db85fb86bo305"
+
+[node name="HiresValue" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/HiresBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+vertical_alignment = 1
+
 [node name="HBoxContainer4" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
@@ -249,6 +278,7 @@ vertical_alignment = 1
 [connection signal="value_changed" from="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/EnemySpeed" to="." method="onEnemySpeed"]
 [connection signal="value_changed" from="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/Timescale" to="." method="onTimescale"]
 [connection signal="value_changed" from="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer3/Brightness" to="." method="onBrightness"]
+[connection signal="value_changed" from="PanelContainer/MarginContainer/VBoxContainer/HiresBox/Hires" to="." method="onHires"]
 [connection signal="value_changed" from="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer4/Volume" to="." method="onVolume"]
 [connection signal="value_changed" from="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer5/Clock" to="." method="onClock"]
 [connection signal="value_changed" from="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer6/MouseLock" to="." method="onMouseLock"]
