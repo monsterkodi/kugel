@@ -19,6 +19,8 @@ signal cardChosen
 signal cardSold
 signal applyCards
 signal handChosen
+signal gamePaused
+signal gameResume
 signal startLevel
 signal retryLevel
 signal levelStart

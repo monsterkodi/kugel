@@ -24,7 +24,7 @@ func applyCards():
     
     setSensorRadius(5.0 + Info.permLvl(Card.LaserRange) * 1.5)
     rotSpeed = PI * 0.25 + Info.permLvl(Card.LaserSpeed) * PI * 0.25
-    %LaserPointer.laserDamage = 2.0 + Info.permLvl(Card.LaserPower) * 2.0
+    %LaserPointer.laserDamage = pow(Info.permLvl(Card.LaserPower)+1, 1.5)
 
 func setSensorRadius(r:float):  
 

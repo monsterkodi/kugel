@@ -141,6 +141,7 @@ func pauseGame():
     
     get_tree().call_group("game", "gamePaused")
     get_tree().paused = true
+    Post.gamePaused.emit()
            
 func resumeGame():
     
@@ -151,6 +152,7 @@ func resumeGame():
     
     get_tree().paused = false
     get_tree().call_group("game", "gameResumed")
+    Post.gameResume.emit()
         
 func quitGame():
     

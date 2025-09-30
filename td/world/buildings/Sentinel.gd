@@ -4,12 +4,21 @@ var sensorBodies : Array[Node3D]
 var reloadTime   : float  
 var chargeTime   : float
 var impulsePower : float
-var bounceTween  : Tween
-var chargeTween  : Tween
+var impulseDamage : float
+var tween  : Tween
+
+@onready var torus: StaticBody3D = %Torus
 
 const glowColor   = Color(0.609, 0.609, 1.0, 1.0)
 const chargeColor = Color(2, 0, 0)
 const bounceColor = Color(2, 2, 0)
+
+var powerCards : int
+var speedCards : int
+var rangeCards : int
+
+var colorVal = 0.0
+var colorSrc = 0.0
 
 func _ready():
     
@@ -19,73 +28,90 @@ func _ready():
     
 func applyCards():
     
-    var powerCards = Info.permLvl(Card.SentinelPower)
-    var speedCards = Info.permLvl(Card.SentinelSpeed)
-    var rangeCards = Info.permLvl(Card.SentinelRange)
+    powerCards = Info.permLvl(Card.SentinelPower)
+    speedCards = Info.permLvl(Card.SentinelSpeed)
+    rangeCards = Info.permLvl(Card.SentinelRange)
     
-    impulsePower   = (1.0 + powerCards) * 10.0
-    %Sensor.linear_damp = 0.2 + powerCards * 0.05
+    impulseDamage  = pow(powerCards+1, 2.0) 
+    impulsePower   = pow(powerCards+1, 2.0) 
+    %Sensor.linear_damp = 0.1 + powerCards * 0.05
     reloadTime     = 1.5  - speedCards * 0.2 
     chargeTime     = 2.0  - speedCards * 0.3
     setSensorRadius(4.5 + rangeCards * 1.0)
 
 func _physics_process(delta: float):
     
-    %Torus.rotate_y(delta)
+    torus.rotate_y(delta)
     
-    if chargeTween and chargeTween.is_running(): return
-    if bounceTween and bounceTween.is_running(): return
+    if tween and tween.is_running(): return
     
     if sensorBodies.size():
         charge()
 
 func charge():
     
-    chargeTween = create_tween()
-    chargeTween.tween_method(onChargeTween, 0.0, 1.0, chargeTime)
-    chargeTween.tween_callback(bounce)
+    tween = create_tween()
+    colorSrc = 0.0
+    tween.tween_method(onChargeTween, 0.0, 1.0, chargeTime)
+    tween.tween_callback(bounce)
+
+func decharge():
+    
+    if torus:
+        torus.scale = Vector3.ONE
+        colorSrc = minf(colorVal, 1.0)
+        tween = create_tween()
+        tween.tween_method(onChargeReset, 0.0, 1.0, 0.1)
 
 func bounce():
     
     if sensorBodies.is_empty():
-        bounceTween = create_tween()
-        bounceTween.tween_method(onChargeReset, 1.0, 0.0, 0.2)
+        decharge()
         return
     
     for body in sensorBodies:
         var impulse = body.global_position - %Torus.global_position
         impulse.y = 0.0
-        body.apply_central_impulse(impulse.normalized() * impulsePower)
+        var damage = 0.01 * impulseDamage * pow(body.mass, 0.5)
+        #Log.log(damage, body.mass)
+        body.addDamage(damage)
+        body.apply_central_impulse(impulse.normalized() * impulsePower * pow(body.mass, 0.75))
         
-    bounceTween = create_tween()
-    bounceTween.set_trans(Tween.TRANS_LINEAR)
-    bounceTween.tween_method(onBounceOut,   0.0, 1.0, 0.2)
-    bounceTween.tween_method(onBounceReset, 1.0, 0.0, 0.2)
+    tween = create_tween()
+    tween.set_trans(Tween.TRANS_LINEAR)
+    colorSrc = 0.0
+    tween.tween_method(onBounceOut,   0.0, 1.0, 0.2)
+    tween.tween_method(onBounceReset, 0.0, 1.0, 0.2)
 
 func onChargeTween(value):
     
-    var emission = glowColor.lerp(chargeColor, value)
+    colorVal = lerpf(colorSrc, 1.0, value)
+    var emission = glowColor.lerp(chargeColor, colorVal)
     %Glow.get_surface_override_material(0).set_shader_parameter("Emission", emission)
     
 func onBounceOut(value):
     
-    var s = 1.0 + value
-    %Torus.scale = Vector3(s,1,s)
+    colorVal = lerpf(colorSrc, 1.0, value)
+    var s = 1.0 + colorVal*(powerCards+1)/6.0
+    torus.scale = Vector3(s,1,s)
     
-    var emission = chargeColor.lerp(bounceColor, value)
+    var emission = chargeColor.lerp(bounceColor, colorVal)
     %Glow.get_surface_override_material(0).set_shader_parameter("Emission", emission)
 
 func onBounceReset(value):
     
-    var s = 1.0 + value
-    %Torus.scale = Vector3(s,1,s)
+    colorSrc = 1.0
+    colorVal = lerpf(colorSrc, 0.0, value)
+    var s = 1.0 + colorVal*(powerCards+1)/6.0
+    torus.scale = Vector3(s,1,s)
     
-    var emission = glowColor.lerp(bounceColor, value)
+    var emission = glowColor.lerp(bounceColor, colorVal)
     %Glow.get_surface_override_material(0).set_shader_parameter("Emission", emission)
 
 func onChargeReset(value):
     
-    var emission = glowColor.lerp(chargeColor, value)
+    colorVal = lerpf(colorSrc, 0.0, value)
+    var emission = glowColor.lerp(chargeColor, colorVal)
     %Glow.get_surface_override_material(0).set_shader_parameter("Emission", emission)
 
 func setSensorRadius(r:float):
@@ -100,4 +126,9 @@ func _on_sensor_body_entered(body: Node3D):
 func _on_sensor_body_exited(body: Node3D):
     
     sensorBodies.erase(body)
+    
+    if sensorBodies.is_empty():
+        if tween and tween.is_running(): 
+            tween.stop()
+            decharge()
     

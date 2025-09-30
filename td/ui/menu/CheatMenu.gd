@@ -1,7 +1,7 @@
 class_name CheatMenu 
 extends Menu
 
-func moreMoney(): Wallet.addPrice(1000)
+func moreMoney(): Wallet.addPrice(2000)
 
 func allPermCards():
     
@@ -10,7 +10,11 @@ func allPermCards():
     for cardRes in allCards:    
         if cardRes.type == CardRes.CardType.PERMANENT and cardRes.maxLvl > 0:
             if Info.cardLvl(cardRes.name) < cardRes.maxLvl:
-                %Player.perm.addCard(Card.new(cardRes))
+                var card = %Player.perm.getCard(cardRes.name)
+                if card: 
+                    card.lvl = clampi(card.lvl+1, 1, cardRes.maxLvl) 
+                else:
+                    %Player.perm.addCard(Card.new(cardRes))
                 %Player.cardLevel += 1
     
     Post.applyCards.emit()
@@ -22,7 +26,11 @@ func allBattleCards():
     for cardRes in allCards:    
         if cardRes.type == CardRes.CardType.BATTLE and cardRes.maxLvl > 0:
             if Info.cardLvl(cardRes.name) < cardRes.maxLvl:
-                %Player.deck.addCard(Card.new(cardRes))
+                var card = %Player.deck.getCard(cardRes.name)
+                if card: 
+                    card.lvl = clampi(card.lvl+1, 1, cardRes.maxLvl) 
+                else:
+                    %Player.deck.addCard(Card.new(cardRes))
                 %Player.cardLevel += 1
     
 func appeared():

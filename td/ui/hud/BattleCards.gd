@@ -21,7 +21,7 @@ func updateButtons():
     
 func cardChosen(card):
     
-    Log.log("cardChosen", card.res.name)
+    #Log.log("cardChosen", card.res.name)
     if card.isBattleCard():
         addCardButton(card)
 

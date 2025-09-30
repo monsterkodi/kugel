@@ -10,11 +10,19 @@ func _ready():
     Log.log("Shield._ready")
     %ShieldBody.position = Vector3.ZERO
     global_position = Vector3.ZERO
+    set_physics_process(false)
+    %ShieldBody.freeze = true
     super._ready()
     
-func _exit_tree():
+func gameResume():
     
-    Log.log("Shield._exit_tree")
+    if not inert:
+        %ShieldBody.freeze = false
+        set_physics_process(true)
+    
+#func _exit_tree():
+    #
+    #Log.log("Shield._exit_tree")
     
 func onHit():
     

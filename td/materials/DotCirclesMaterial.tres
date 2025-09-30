@@ -3,12 +3,13 @@
 [ext_resource type="Shader" uid="uid://colhoamqrtuej" path="res://materials/shader/DotCirclesMaterial.gdshader" id="1_jh1op"]
 
 [resource]
+resource_local_to_scene = true
 render_priority = -1
 shader = ExtResource("1_jh1op")
-shader_parameter/dot_color = Color(0.06, 0.06, 0.06, 1)
-shader_parameter/circleCount = 16.0
-shader_parameter/ringRadius = 0.6750000320625
-shader_parameter/circleRadius = 0.102000004845
+shader_parameter/dot_color = Color(1, 0, 0, 1)
+shader_parameter/circleCount = 1.0
+shader_parameter/ringRadius = 0.666000031635
+shader_parameter/circleRadius = 0.2000000095
 shader_parameter/depth_bias = 4.0
-shader_parameter/phase_degrees = 90.0
-shader_parameter/wave_degrees = 180.0
+shader_parameter/phase_degrees = 0.0
+shader_parameter/wave_degrees = 0.0

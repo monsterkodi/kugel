@@ -83,7 +83,7 @@ func level_reset():
 func _integrate_forces(state: PhysicsDirectBodyState3D):
     
     if global_position.y < -1.0:
-        Log.log("enemy below ground")
+        #Log.log("enemy below ground")
         queue_free()
         return
     if alive():

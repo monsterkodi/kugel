@@ -11,7 +11,7 @@ func _ready():
         setHitPoints(3)
     #Log.log("base ready", hitPoints)
     
-func levelStart(): updateDots()
+func gameResume(): updateDots()
     
 func _process(delta:float):
     

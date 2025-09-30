@@ -123,6 +123,6 @@ func _unhandled_input(_event: InputEvent):
         get_viewport().set_input_as_handled()
         position.y = 0
         match vehicleName:
-            "Pill": loadVehicle("Car")
-            "Car":  loadVehicle("Heli")
+            "Pill": loadVehicle("Heli")
             "Heli": loadVehicle("Pill")
+            #"Car":  loadVehicle("Heli")

@@ -1,7 +1,7 @@
 shader_type spatial;
 render_mode depth_draw_never;
 
-uniform vec4  dot_color : source_color = vec4(1.0, 1.0, 1.0, 1.0);
+uniform vec4  dotColor       : source_color = vec4(1.0, 1.0, 1.0, 1.0);
 uniform float circleCount    : hint_range(1, 36, 1) = 8;
 uniform float ringRadius     : hint_range(0.0, 1.0) = 0.333;
 uniform float circleRadius   : hint_range(0.0, 1.0) = 0.166;
@@ -30,6 +30,6 @@ void fragment() {
     
     float circle = 1.0-step(circleRadius, length(circleUV));
     
-    ALBEDO = dot_color.rgb * circle;
-    ALPHA  = dot_color.a * circle;
+    ALBEDO = dotColor.rgb * circle;
+    ALPHA  = dotColor.a * circle;
 }

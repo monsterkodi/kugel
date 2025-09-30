@@ -50,7 +50,7 @@ func _physics_process(delta:float):
             if not %laser.playing:
                 %laser.play()
             laser.set_surface_override_material(0, activeMat)
-            var damage = delta * maxf(0.5, laserDamage * pow(collider.mass, 1.0/4.0))
+            var damage = delta * maxf(0.5, laserDamage * pow(collider.mass, 1.0/2.0))
             #Log.log("damage", damage, collider.health, laserDamage * collider.health)
             collider.addDamage(damage)
             return

@@ -27,7 +27,7 @@ func start():
 func applyCards():
     
     var rings = Info.cardLvl(Card.SlotRing)
-    Log.log("rings", rings)
+    #Log.log("rings", rings)
     %SlotRing1.visible = true
     %SlotRing2.visible = (rings >= 1)
     %SlotRing3.visible = (rings >= 2)

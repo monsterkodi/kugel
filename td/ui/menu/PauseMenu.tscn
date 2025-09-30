@@ -42,6 +42,7 @@ script = ExtResource("3_1q10k")
 metadata/_custom_type_script = "uid://db85fb86bo305"
 
 [node name="Restart" type="Button" parent="PanelContainer/Buttons"]
+visible = false
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme = ExtResource("2_8tehv")
@@ -64,6 +65,7 @@ script = ExtResource("3_1q10k")
 metadata/_custom_type_script = "uid://db85fb86bo305"
 
 [node name="Cheat" type="Button" parent="PanelContainer/Buttons"]
+visible = false
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme = ExtResource("2_8tehv")
@@ -89,7 +91,7 @@ metadata/_custom_type_script = "uid://db85fb86bo305"
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme = ExtResource("2_8tehv")
-text = "Main Menu
+text = "Menu
 "
 
 [node name="FocusOnHover" type="Node" parent="PanelContainer/Buttons/Main Menu"]

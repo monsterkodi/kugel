@@ -46,7 +46,7 @@ func appear():
 
 func appeared():
         
-    levelButtons.get_child(0).grab_focus()
+    levelButtons.get_child(1).grab_focus()
     super.appeared()
 
 func addLevelButton(scene):

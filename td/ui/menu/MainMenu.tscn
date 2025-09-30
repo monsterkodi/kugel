@@ -57,6 +57,7 @@ script = ExtResource("3_7ml3v")
 metadata/_custom_type_script = "uid://db85fb86bo305"
 
 [node name="New Game" type="Button" parent="VBoxContainer/Menu/Buttons"]
+visible = false
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme = ExtResource("2_guig7")

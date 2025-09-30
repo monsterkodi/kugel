@@ -7,8 +7,8 @@ var MIN_SPEED    = 10.0
 var MAX_SPEED    = 20.0
 
 var STEER_SPEED  = 1.5
-var ASCEND_SPEED = 2.0
-var MAX_ALTI     = 3.0
+var ASCEND_SPEED = 3.0
+var MAX_ALTI     = 40.0
 
 func _physics_process(delta:float):
     

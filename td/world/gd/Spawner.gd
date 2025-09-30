@@ -9,10 +9,10 @@ extends Node3D
 @export_range(0.0, 100,  0.1)  var velocity_initial   = 10.0
 
 @export var mass_increment     = 0.2
-@export var mass_max           = 1500.0
-@export var velocity_increment = 0.025
-@export var velocity_max       = 175.0
-
+@export var mass_max           = 2000.0
+@export var velocity_increment = 0.05
+@export var velocity_max       = 1750.0
+@export var ident              = 0 
 @export var curve:Curve
 
 var activeDotColor  = Color(1,0,0)
@@ -46,6 +46,9 @@ func _ready():
     %Hole.scale = sc
     %Body.position.y = -sf*1.4
     
+    if not level.inert and ident:
+        %IdentRing.get_surface_override_material(0).set_shader_parameter("circleCount", float(ident))
+    
     if activation_level == 0:
         activate()
     else:
@@ -74,12 +77,14 @@ func activate():
     active = true
     %Dot.color = activeDotColor
     %Hole.set_surface_override_material(0, spawnerHoleActiveMaterial)
+    %IdentRing.get_surface_override_material(0).set_shader_parameter("dotColor", Color(2,0,0))
 
 func deactivate():
     
     active = false
     %Dot.color = passiveDotColor
     %Hole.set_surface_override_material(0, spawnerHolePassiveMaterial)
+    %IdentRing.get_surface_override_material(0).set_shader_parameter("dotColor", Color(0.16,0.16,0.16))
 
 func statChanged(statName, value):
     
@@ -109,7 +114,10 @@ func nextSpawnLoop():
     
     if enemies.get_child_count() > 2000:
         Log.log("too many enemies!", enemies.get_child_count())
-        enemies.get_child(0).queue_free()
+        for i in range(5):
+            if enemies.get_child_count() > 2000:
+                enemies.get_child(0).queue_free()
+        Log.log("too many enemies?", enemies.get_child_count())
     enemies.add_child(spawnedBody)
     
     spawnedBody.global_position = %SpawnPoint.global_position
@@ -123,6 +131,7 @@ func nextSpawnLoop():
     
     %Body.scale = spawnedBody.scale
     %Hole.scale = spawnedBody.scale
+    %Ident.scale = spawnedBody.scale
     
 func clockFactor(factor):
     
