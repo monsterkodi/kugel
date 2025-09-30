@@ -57,6 +57,6 @@ func setColor(color:Color):
     
 func setSize(sceneSize:Vector2i):
     
-    sceneViewport.size = sceneSize
+    sceneViewport.size = sceneSize / get_window().content_scale_factor
     if dots:
         dots.offset_bottom = sceneViewport.size.y/18.0

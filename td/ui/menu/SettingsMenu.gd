@@ -11,8 +11,7 @@ func _on_visibility_changed():
     
     if is_visible_in_tree() and %Brightness.is_inside_tree():
         %Brightness.value = %Camera.get_node("Light").light_energy
-        #%Hires.value      = get_window().size.y > 1080
-        %Hires.value      = get_window().content_scale_factor < 1
+        %Hires.value      = get_window().content_scale_mode == Window.CONTENT_SCALE_MODE_CANVAS_ITEMS
         %Timescale.value  = Engine.time_scale
         %EnemySpeed.value = Info.enemySpeed
         %Volume.value     = AudioServer.get_bus_volume_linear(AudioServer.get_bus_index("Master"))
@@ -41,11 +40,11 @@ func onBrightness(value):
 func onHires(value):
     
     if value:
-        get_window().content_scale_factor = 0.5
+        get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_CANVAS_ITEMS
+        %HiresValue.text = "%dx%d" % [get_window().size.x, get_window().size.y]
     else:
-        get_window().content_scale_factor = 1
-        
-    #%HiresValue.text = "%dx%d" % [get_window().size.x, get_window().size.y]
+        get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_VIEWPORT
+        %HiresValue.text = "%dx%d" % [get_window().content_scale_size.x, get_window().content_scale_size.y]
 
 func onTimescale(value):
     
@@ -92,7 +91,7 @@ func on_save(data:Dictionary):
     data.Settings.timeScale  = Engine.time_scale
     data.Settings.enemySpeed = Info.enemySpeed
     data.Settings.brightness = %Camera.get_node("Light").light_energy
-    data.Settings.hires      = get_window().content_scale_factor < 1
+    data.Settings.hires      = get_window().content_scale_mode == Window.CONTENT_SCALE_MODE_CANVAS_ITEMS
     data.Settings.volume     = AudioServer.get_bus_volume_linear(AudioServer.get_bus_index("Master"))
     data.Settings.clock      = HUD.showClock
     data.Settings.mouseLock  = get_node("/root/World/MouseHandler").mouseLock

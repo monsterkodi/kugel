@@ -33,7 +33,6 @@ func _ready():
 
     level = Utils.firstParentWithClass(self, "Level")
     enemies = level.get_node("Enemies")
-    #if level.inert: return
     
     velocity = velocity_initial
     mass     = mass_initial
@@ -129,9 +128,10 @@ func nextSpawnLoop():
     
     #Log.log("mass", mass, "vel", velocity, "scale", spawnedBody.scale.x)
     
-    %Body.scale = spawnedBody.scale
-    %Hole.scale = spawnedBody.scale
-    %Ident.scale = spawnedBody.scale
+    %Body.scale  = spawnedBody.scale
+    %Hole.scale  = spawnedBody.scale
+    #%Ident.scale = spawnedBody.scale
+    %IdentRing.position.x = 2.5 * spawnedBody.scale.x
     
 func clockFactor(factor):
     

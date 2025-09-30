@@ -345,6 +345,7 @@ func _refresh_material() -> void:
             shader_path += MaterialType.keys()[material_type].to_lower() + ".gdshader"
             mat = ShaderMaterial.new()
             mat.shader = load(shader_path)
+            mat.render_priority = 100
             mat_dict[material_type] = mat
 
     if am.get_surface_count() > 0:

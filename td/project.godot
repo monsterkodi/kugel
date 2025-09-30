@@ -10,12 +10,11 @@ config_version=5
 
 [application]
 
-config/name="camera"
+config/name="koogl"
 run/main_scene="uid://b6mskrm1n176r"
 config/features=PackedStringArray("4.5", "Forward Plus")
 boot_splash/fullsize=false
 boot_splash/use_filter=false
-config/icon="res://icon.svg"
 
 [autoload]
 
@@ -43,7 +42,7 @@ gdscript/warnings/integer_division=0
 window/size/viewport_width=1920
 window/size/viewport_height=1080
 window/size/borderless=true
-window/stretch/mode="viewport"
+window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
 [editor]
