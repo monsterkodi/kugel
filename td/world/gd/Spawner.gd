@@ -76,7 +76,7 @@ func activate():
     active = true
     %Dot.color = activeDotColor
     %Hole.set_surface_override_material(0, spawnerHoleActiveMaterial)
-    %IdentRing.get_surface_override_material(0).set_shader_parameter("dotColor", Color(2,0,0))
+    %IdentRing.get_surface_override_material(0).set_shader_parameter("dotColor", Color(1.5,0,0))
 
 func deactivate():
     

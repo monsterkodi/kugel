@@ -1,8 +1,10 @@
 class_name Level 
 extends Node3D
 
-var inert     = true
-var highscore = 0
+var inert       = true
+var highscore   = 0
+var trophyLimit = [2000, 4000, 10000]
+var trophyCount = [0, 0, 0]
 
 const ENEMY = preload("uid://cqn35mciqmm8s")
 
@@ -24,6 +26,15 @@ func start():
     Post.subscribe(self)
     %Clock.start()
     
+func showBuildSlots():
+
+    %SlotRing1.visible = true
+    %SlotRing2.visible = true
+    %SlotRing3.visible = true
+    %SlotRing4.visible = true
+    %SlotRing5.visible = true
+    %SlotRing6.visible = true
+    
 func applyCards():
     
     var rings = Info.cardLvl(Card.SlotRing)
@@ -43,8 +54,17 @@ func statChanged(statName, value):
     
 func levelEnd():
     
-    highscore = maxi(Stats.numEnemiesSpawned, highscore)
-    Log.log("levelEnd", Stats.numEnemiesSpawned, highscore)
+    var es = Stats.numEnemiesSpawned
+    highscore = maxi(es, highscore)
+    Log.log("levelEnd", name, es, highscore)
+    
+    if es >= trophyLimit[2]: 
+        trophyCount[2] += 1
+    elif es >= trophyLimit[1]:
+        trophyCount[1] += 1
+    elif es >= trophyLimit[0]:
+        trophyCount[0] += 1
+    
     resetLevel(Saver.savegame.data)
     Saver.save()
 
@@ -60,19 +80,25 @@ func gameResumed():
     
 func resetLevel(data:Dictionary):
 
-    #Log.log("resetLevel", data)
-    if data.has("Level") and data.Level.has(name): 
-        data.Level[name].highscore = highscore
-        data.Level[name].enemiesSpawned = 0
-        data.Level[name].walletBalance  = 0
-        data.Level[name].baseHitPoints  = 3
-        data.Level[name].erase("gameTime")
-        data.Level[name].erase("clock")
-        data.Level[name].erase("buildings")
-        data.Level[name].erase("enemies")
-        data.Level[name].erase("spawners")
-        data.Level[name].player = get_node("/root/World/Player").save()
-        Log.log("resetLevel", name, data.Level[name])
+    assert(data)
+    if not data.has("Level"): data.Level = {}
+        
+    if not data.Level.has(name):
+        saveLevel(data)
+        
+    var ld = data.Level[name]
+    ld.highscore      = highscore
+    ld.trophyCount    = trophyCount
+    ld.enemiesSpawned = 0
+    ld.walletBalance  = 0
+    ld.baseHitPoints  = 3
+    ld.erase("gameTime")
+    ld.erase("clock")
+    ld.erase("buildings")
+    ld.erase("enemies")
+    ld.erase("spawners")
+    ld.player = get_node("/root/World/Player").save()
+    Log.log("resetLevel", name, data.Level[name])
 
 func clearLevel(data:Dictionary):
     
@@ -86,28 +112,31 @@ func saveLevel(data:Dictionary):
     
     if not data.has("Level"): data.Level = {}
     
-    data.Level[name] = {}
-    data.Level[name].highscore = highscore
-    data.Level[name].enemiesSpawned = Stats.numEnemiesSpawned
-    data.Level[name].walletBalance  = Wallet.balance
-    data.Level[name].clock          = %Clock.save()
-    data.Level[name].gameTime       = Info.gameTime
-    data.Level[name].baseHitPoints  = %Base.hitPoints
-
-    data.Level[name].player = get_node("/root/World/Player").save()
-
-    data.Level[name].buildings = []
-    get_tree().call_group("building", "saveBuilding", data.Level[name].buildings)
+    var ld = {}
     
-    data.Level[name].enemies = []
+    ld.highscore      = highscore
+    ld.enemiesSpawned = Stats.numEnemiesSpawned
+    ld.walletBalance  = Wallet.balance
+    ld.clock          = %Clock.save()
+    ld.gameTime       = Info.gameTime
+    ld.baseHitPoints  = %Base.hitPoints
+    ld.trophyCount    = trophyCount
+
+    ld.player = get_node("/root/World/Player").save()
+
+    ld.buildings = []
+    get_tree().call_group("building", "saveBuilding", ld.buildings)
+    
+    ld.enemies = []
     for enemy in %Enemies.get_children():
         if enemy.spawned:
-            data.Level[name].enemies.append(enemy.save())
+            ld.enemies.append(enemy.save())
     
-    data.Level[name].spawners = []
+    ld.spawners = []
     for spawner in Utils.childrenWithClass(%Spawners, "Spawner"):
-        data.Level[name].spawners.append(spawner.save())
+        ld.spawners.append(spawner.save())
 
+    data.Level[name] = ld
     Log.log("saveLevel", name, data.Level[name])
 
 func loadLevel(data:Dictionary):
@@ -115,32 +144,36 @@ func loadLevel(data:Dictionary):
     if not data.has("Level"): return
     if not data.Level.has(name): return
     
-    Log.log("loadLevel", name, "inert", inert, data.Level[name])
+    var ld = data.Level[name]
+    Log.log("loadLevel", name, "inert", inert, ld)
     
-    if data.Level[name].has("highscore"):
-        highscore = data.Level[name].highscore
+    if ld.has("highscore"):
+        highscore = ld.highscore
         
-    if data.Level[name].has("enemiesSpawned"):
-        Stats.setNumEnemiesSpawned(data.Level[name].enemiesSpawned)
+    if ld.has("enemiesSpawned"):
+        Stats.setNumEnemiesSpawned(ld.enemiesSpawned)
         
-    if data.Level[name].has("player"): 
-        get_node("/root/World/Player").load(data.Level[name].player)   
+    if ld.has("player"): 
+        get_node("/root/World/Player").load(ld.player)   
     
-    if data.Level[name].has("walletBalance"):
-        Wallet.setBalance(data.Level[name].walletBalance) 
+    if ld.has("walletBalance"):
+        Wallet.setBalance(ld.walletBalance) 
         
-    if data.Level[name].has("baseHitPoints"):
-        %Base.setHitPoints(data.Level[name].baseHitPoints)
+    if ld.has("baseHitPoints"):
+        %Base.setHitPoints(ld.baseHitPoints)
 
-    if data.Level[name].has("clock"):
-        %Clock.load(data.Level[name].clock)
+    if ld.has("clock"):
+        %Clock.load(ld.clock)
         
-    if data.Level[name].has("gameTime"):
-        Info.gameTime = data.Level[name].gameTime
+    if ld.has("gameTime"):
+        Info.gameTime = ld.gameTime
+        
+    if ld.has("trophyCount"):
+        trophyCount = ld.trophyCount
     
-    if data.Level[name].has("buildings"):
+    if ld.has("buildings"):
                 
-        for building in data.Level[name].buildings:
+        for building in ld.buildings:
             var bld = load(building.res).instantiate()
             bld.inert = inert
             #Log.log("load building", building.type)
@@ -155,22 +188,22 @@ func loadLevel(data:Dictionary):
                 if not bld.global_position.is_zero_approx():
                     bld.look_at(Vector3.ZERO)
                     
-    if data.Level[name].has("enemies"):
+    if ld.has("enemies"):
         
         Utils.freeChildren(%Enemies)
         
-        for dict in data.Level[name].enemies:
+        for dict in ld.enemies:
             var enemy = ENEMY.instantiate()
             %Enemies.add_child(enemy)
             enemy.load(dict)
             
         get_node("MultiMesh")._process(0)
         
-    if data.Level[name].has("spawners"):
+    if ld.has("spawners"):
         var spawners = Utils.childrenWithClass(%Spawners, "Spawner")
         for index in range(spawners.size()):
             var spawner = spawners[index]
-            spawner.load(data.Level[name].spawners[index])
+            spawner.load(ld.spawners[index])
 
 func slotForPos(pos):
     

@@ -7,7 +7,7 @@ func _ready():
     name = "Shield"
     
     setHitPoints(Info.maxShieldHitPoints())
-    Log.log("Shield._ready")
+    Log.log("Shield._ready", inert)
     %ShieldBody.position = Vector3.ZERO
     global_position = Vector3.ZERO
     set_physics_process(false)
@@ -20,9 +20,9 @@ func gameResume():
         %ShieldBody.freeze = false
         set_physics_process(true)
     
-#func _exit_tree():
-    #
-    #Log.log("Shield._exit_tree")
+func _exit_tree():
+    
+    Log.log("Shield._exit_tree")
     
 func onHit():
     
@@ -56,11 +56,13 @@ func setHitPoints(hp):
 func onShieldDown():
     
     Log.log("onShieldDown")
+    set_physics_process(false)
+    get_parent_node_3d().remove_child.call_deferred(self)
     queue_free()
 
 func _on_body_entered(body: Node3D):
 
-    if body.is_in_group("enemy"):
+    if body.is_in_group("enemy") and hitPoints:
         if body.alive():
             onHit()
             body.die()

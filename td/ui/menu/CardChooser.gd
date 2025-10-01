@@ -35,16 +35,17 @@ func cardChosen(card):
     Post.cardChosen.emit(card)
 
 func _input(event: InputEvent):
+
+    if Input.is_action_pressed("pause"):
+        accept_event()
+        return
     
+    if Input.is_action_pressed("build"):
+        accept_event()
+        return
+        
     if event.is_action_pressed("ui_cancel"):
         accept_event()
         return
     
-    #if event.is_action_pressed("ui_cancel"):
-        ##Log.log("CARD CHOOSE CANCEL")
-        #for button in cardButtons.get_children():
-            #if button.has_focus():
-                #cardChosen(button.card)
-                #break
-                #
     super._input(event)

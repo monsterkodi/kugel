@@ -20,7 +20,7 @@ var mass      = 1.0
 
 func _ready():
     
-    level = Utils.firstParentWithClass(self, "Level")
+    level = Utils.level(self)
     if level:
         bullets = level.get_node("Bullets")
     

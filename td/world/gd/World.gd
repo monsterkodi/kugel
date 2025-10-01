@@ -111,8 +111,9 @@ func cardChosen(card:Card):
     else:
         assert(card.isBattleCard())
         %Player.deck.addCard(card)
-        Log.log("add battle card", card.res.name)
-        %Player.battle.addCard(Card.withName(card.res.name))
+        var battleCard = Card.withName(card.res.name)
+        Log.log("add battle card", battleCard.res.name, battleCard.lvl)
+        %Player.battle.addCard(battleCard)
         
     Post.applyCards.emit()
     

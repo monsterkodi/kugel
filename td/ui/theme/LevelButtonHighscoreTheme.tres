@@ -1,0 +1,12 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://cd7siqyqj6v1v"]
+
+[ext_resource type="FontFile" uid="uid://dfqo0cb4uy7kl" path="res://ui/theme/Rounded.ttf" id="1_edar4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qj6n0"]
+content_margin_top = 5.0
+
+[resource]
+default_font = ExtResource("1_edar4")
+default_font_size = 32
+Label/colors/font_color = Color(1, 0.5724895, 0, 1)
+PanelContainer/styles/panel = SubResource("StyleBoxEmpty_qj6n0")

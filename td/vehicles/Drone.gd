@@ -38,6 +38,8 @@ func readInput():
     if Input.is_action_pressed("left"):         %strafe.add(-1)
     
     steer = Input.get_joy_axis(0, JOY_AXIS_RIGHT_X)
+    if Input.is_action_pressed("steer_right"):  steer += 1
+    if Input.is_action_pressed("steer_left"):   steer -= 1
 
     if Input.is_action_pressed("faster"):   faster()
     if Input.is_action_pressed("slower"):   slower()

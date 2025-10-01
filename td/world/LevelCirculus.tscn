@@ -61,7 +61,7 @@ size = Vector2(3, 3)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_awxuj"]
 render_priority = -1
 shader = ExtResource("7_bm8vg")
-shader_parameter/dot_color = Color(0.06, 0.06, 0.06, 0.9882353)
+shader_parameter/dotColor = Color(1, 1, 1, 1)
 shader_parameter/circleCount = 32.0
 shader_parameter/ringRadius = 0.9010000427975
 shader_parameter/circleRadius = 0.0670000031825

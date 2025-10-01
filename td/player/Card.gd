@@ -42,10 +42,6 @@ static var Unlock = {
     Card.SniperSpeed  : 120,
     
     Card.ShieldLayer  : 150,
-    
-    Card.TrophyBronce : 500,
-    Card.TrophySilver : 1000,
-    Card.TrophyGold   : 2000,
 }
 
 static func calcMaxCardLevel():

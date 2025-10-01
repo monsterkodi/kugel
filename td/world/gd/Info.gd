@@ -90,21 +90,6 @@ func nextSetOfCards():
         allCards.erase(cardRes)
         cards.append(Card.new(cardRes, cardLvl(Card.SlotRing)+1))
             
-    #if cardLvl(Card.Turret) < 1:
-        #var cardRes = allCards[allCards.find_custom(func(c): return c.name == Card.Turret)]
-        #allCards.erase(cardRes)
-        #cards.append(Card.new(cardRes, cardLvl(Card.Turret)+1))
-
-    #if cardLvl(Card.Laser) < 1 and player.cardLevel and (player.cardLevel % 10) == 0:
-        #var cardRes = allCards[allCards.find_custom(func(c): return c.name == Card.Laser)]
-        #allCards.erase(cardRes)
-        #cards.append(Card.new(cardRes, cardLvl(Card.Laser)+1))
-
-    #if cards.size() < 3 and cardLvl(Card.Sniper) < 1 and (player.cardLevel % 20) == 0:
-        #var cardRes = allCards[allCards.find_custom(func(c): return c.name == Card.Sniper)]
-        #allCards.erase(cardRes)
-        #cards.append(Card.new(cardRes, cardLvl(Card.Sniper)+1))
-    
     while cards.size() < 3:
         
         if allCards.is_empty():
@@ -151,6 +136,7 @@ func cardLvl(cardName:String) -> int:
     return deckLvl(cardName) + permLvl(cardName) + handLvl(cardName)
 
 func priceForBuilding(buildingName):
+    
     if BUILDING_PRICES.has(buildingName):
         return BUILDING_PRICES[buildingName]
     Log.log("PRICE FOR BUILDING?", buildingName)
@@ -164,7 +150,9 @@ func buildingNamesSortedByPrice() -> Array:
     
 func allPlacedBuildings():
     
-    return get_tree().get_nodes_in_group("building")
+    if world.currentLevel:
+        return Utils.childrenWithClass(world.currentLevel, "Building")
+    return []
     
 func allPlacedBuildingsOfType(type):
     
