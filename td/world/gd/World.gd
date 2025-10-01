@@ -113,7 +113,7 @@ func cardChosen(card:Card):
         %Player.deck.addCard(card)
         var battleCard = Card.withName(card.res.name)
         Log.log("add battle card", battleCard.res.name, battleCard.lvl)
-        %Player.battle.addCard(battleCard)
+        %Player.battle.addCard(battleCard, false)
         
     Post.applyCards.emit()
     
@@ -203,7 +203,7 @@ func playLevel(levelRes):
 func handChosen():
 
     for card in %Player.hand.get_children():
-        %Player.battle.addCard(Card.withName(card.res.name))
+        %Player.battle.addCard(Card.withName(card.res.name), false)
         
     Post.levelStart.emit()
     resumeGame()

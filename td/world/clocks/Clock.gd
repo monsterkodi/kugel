@@ -26,7 +26,8 @@ func save() -> Dictionary:
     
 func load(dict:Dictionary):
     
-    seconds = dict.seconds
+    seconds     = dict.seconds
+    pointerSecs = dict.pointerSecs
 
 func start():
     
