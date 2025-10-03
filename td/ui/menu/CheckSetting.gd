@@ -6,7 +6,7 @@ const passiveColor = Color(0.4, 0.4, 0.4)
 
 var value : bool = false :
     set(v): button_pressed = v
-    get(): return button_pressed
+    get():  return button_pressed
 
 func _ready():
     
@@ -16,6 +16,13 @@ func _ready():
     connect("mouse_entered", onHover)
     connect("focus_entered", onHover)
     connect("focus_exited",  onLeave)
+    connect("toggled",       onToggle)
+    
+func onToggle(v):
+    if v:
+        Post.menuSound.emit("check")
+    else:
+        Post.menuSound.emit("uncheck")
     
 func onHover():
     

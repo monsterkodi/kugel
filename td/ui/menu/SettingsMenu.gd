@@ -7,20 +7,23 @@ func _ready():
     Post.subscribe(self)
     super._ready()
 
-func _on_visibility_changed():
+func appear():
     
-    if is_visible_in_tree() and %Brightness.is_inside_tree():
-        %Brightness.value   = %Camera.get_node("Light").light_energy
-        %Hires.value        = get_window().content_scale_mode == Window.CONTENT_SCALE_MODE_CANVAS_ITEMS
-        %TimeScale.value    = Engine.time_scale
-        %EnemySpeed.value   = Info.enemySpeed
-        %MasterVolume.value = AudioServer.get_bus_volume_linear(AudioServer.get_bus_index("Master"))
-        %Clock.value        = HUD.showClock
-             
-        onBrightness(%Brightness.value)
-        onTimescale(%TimeScale.value)       
-        onEnemySpeed(%EnemySpeed.value)
-        onMasterVolume(%MasterVolume.value)
+    %Brightness.value   = %Camera.get_node("Light").light_energy
+    %Hires.value        = get_window().content_scale_mode == Window.CONTENT_SCALE_MODE_CANVAS_ITEMS
+    %TimeScale.value    = Engine.time_scale
+    %EnemySpeed.value   = Info.enemySpeed
+    %MasterVolume.value = AudioServer.get_bus_volume_linear(AudioServer.get_bus_index("Master"))
+    %MusicVolume.value  = AudioServer.get_bus_volume_linear(AudioServer.get_bus_index("Music"))
+    %GameVolume.value   = AudioServer.get_bus_volume_linear(AudioServer.get_bus_index("Game"))
+    %MenuVolume.value   = AudioServer.get_bus_volume_linear(AudioServer.get_bus_index("Menu"))
+    %Clock.value        = HUD.showClock
+            
+    onBrightness(%Brightness.value)
+    onTimescale(%TimeScale.value)       
+    onEnemySpeed(%EnemySpeed.value)
+    #onMasterVolume(%MasterVolume.value)
+    super.appear()
         
 func appeared():
     
@@ -60,18 +63,31 @@ func onEnemySpeed(value):
 
 func onMasterVolume(value):
     
-    Post.statChanged.emit("volume", value)
+    Post.statChanged.emit("masterVolume", value)
+    Log.log("master", value, linear_to_db(value))
     AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), linear_to_db(value))
 
 func onMusicVolume(value):
     
     Post.statChanged.emit("musicVolume", value)
+    Log.log("music", value, linear_to_db(value))
+    if value:
+        %MusicPlayer.play()
+    else:
+        %MusicPlayer.stop()
     AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), linear_to_db(value))
 
 func onGameVolume(value):
     
     Post.statChanged.emit("gameVolume", value)
+    Log.log("game", value, linear_to_db(value))
     AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Game"), linear_to_db(value))
+
+func onMenuVolume(value):
+    
+    Post.statChanged.emit("menuVolume", value)
+    Log.log("menu", value, linear_to_db(value))
+    AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Menu"), linear_to_db(value))
     
 func onClock(value):
     
@@ -88,24 +104,34 @@ func onMouseHide(value):
 func on_save(data:Dictionary):
 
     data.Settings = {}
-    data.Settings.timeScale  = Engine.time_scale
-    data.Settings.enemySpeed = Info.enemySpeed
-    data.Settings.brightness = %Camera.get_node("Light").light_energy
-    data.Settings.hires      = get_window().content_scale_mode == Window.CONTENT_SCALE_MODE_CANVAS_ITEMS
+    data.Settings.timeScale    = Engine.time_scale
+    data.Settings.enemySpeed   = Info.enemySpeed
+    data.Settings.brightness   = %Camera.get_node("Light").light_energy
+    data.Settings.hires        = get_window().content_scale_mode == Window.CONTENT_SCALE_MODE_CANVAS_ITEMS
     data.Settings.volumeMaster = AudioServer.get_bus_volume_linear(AudioServer.get_bus_index("Master"))
-    data.Settings.clock      = HUD.showClock
-    data.Settings.mouseLock  = get_node("/root/World/MouseHandler").mouseLock
-    data.Settings.mouseHide  = get_node("/root/World/MouseHandler").mouseHide
+    data.Settings.volumeMusic  = AudioServer.get_bus_volume_linear(AudioServer.get_bus_index("Music"))
+    data.Settings.volumeGame   = AudioServer.get_bus_volume_linear(AudioServer.get_bus_index("Game"))
+    data.Settings.volumeMenu   = AudioServer.get_bus_volume_linear(AudioServer.get_bus_index("Menu"))
+    data.Settings.clock        = HUD.showClock
+    data.Settings.mouseLock    = get_node("/root/World/MouseHandler").mouseLock
+    data.Settings.mouseHide    = get_node("/root/World/MouseHandler").mouseHide
     
 func on_load(data:Dictionary):
     
+    Log.log("settings")
+    
     if not data.has("Settings"): return
+    
+    Log.log("settings", data.Settings)
     
     if data.Settings.has("timeScale"):    onTimescale(data.Settings.timeScale)
     if data.Settings.has("enemySpeed"):   onEnemySpeed(data.Settings.enemySpeed)
     if data.Settings.has("brightness"):   onBrightness(data.Settings.brightness)
     if data.Settings.has("hires"):        onHires(data.Settings.hires)
     if data.Settings.has("volumeMaster"): onMasterVolume(data.Settings.volumeMaster)
+    if data.Settings.has("volumeMusic"):  onMusicVolume(data.Settings.volumeMusic)
+    if data.Settings.has("volumeGame"):   onGameVolume(data.Settings.volumeGame)
+    if data.Settings.has("volumeMenu"):   onMenuVolume(data.Settings.volumeMenu)
     if data.Settings.has("clock"):        onClock(data.Settings.clock)
     if data.Settings.has("mouseLock"):    onMouseLock(data.Settings.mouseLock)
     if data.Settings.has("mouseHide"):    onMouseHide(data.Settings.mouseHide)

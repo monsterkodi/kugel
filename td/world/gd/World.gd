@@ -14,7 +14,7 @@ func _ready():
 
     loadGame()
     mainMenu()
-    
+        
 func mainMenu():
     
     get_tree().paused = true

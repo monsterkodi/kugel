@@ -31,6 +31,7 @@ stream = ExtResource("4_5c8hw")
 attenuation_model = 2
 volume_db = -20.0
 unit_size = 6.0
+bus = &"Game"
 
 [node name="hit" type="AudioStreamPlayer3D" parent="."]
 unique_name_in_owner = true
@@ -38,3 +39,4 @@ stream = ExtResource("4_33kyn")
 attenuation_model = 2
 volume_db = -20.0
 unit_size = 6.0
+bus = &"Game"

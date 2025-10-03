@@ -15,7 +15,14 @@ signal valueChanged
 
 @export var value: float = 0.0 :
     set(v): 
+
+        if v > value:
+            Post.menuSound.emit("slider")
+        elif v < value:
+            Post.menuSound.emit("slider_down")
+            
         value = v
+        if slider: slider.value = v
         if valueLabel: 
             if valueStep != 1.0:
                 valueLabel.text = Utils.trimFloat(v, 1)
