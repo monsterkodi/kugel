@@ -8,6 +8,7 @@ const SCENE_VIEWPORT = preload("uid://bfs4v0hjfo8pg")
 
 func onQuit():      Post.quitGame.emit()
 func onSettings():  Post.settings.emit(self)
+func onCredits():   %MenuHandler.appear(%CreditsMenu)
 func onNewGame():   Post.newGame.emit()
 
 const LEVEL_BUTTON = preload("uid://thwlxijax7nj")

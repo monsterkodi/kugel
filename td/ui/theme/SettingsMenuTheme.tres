@@ -1,33 +1,24 @@
-[gd_resource type="Theme" load_steps=12 format=3 uid="uid://clh031dvmhoxe"]
+[gd_resource type="Theme" load_steps=15 format=3 uid="uid://clh031dvmhoxe"]
 
+[ext_resource type="Texture2D" uid="uid://b0t70vyg7itco" path="res://svg/checkbox_on.svg" id="1_0tsx3"]
 [ext_resource type="FontFile" uid="uid://dfqo0cb4uy7kl" path="res://ui/theme/Rounded.ttf" id="1_p5imd"]
+[ext_resource type="Texture2D" uid="uid://onyhcfyoymqg" path="res://svg/checkbox_off.svg" id="2_3xnxa"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4l1ig"]
-content_margin_left = 65.0
-content_margin_right = 65.0
-bg_color = Color(0.46666667, 0, 0, 1)
-corner_radius_top_left = 80
-corner_radius_top_right = 80
-corner_radius_bottom_right = 80
-corner_radius_bottom_left = 80
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3xnxa"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lcka2"]
-content_margin_left = 65.0
-content_margin_right = 65.0
-bg_color = Color(0.078431375, 0.078431375, 0.078431375, 1)
-corner_radius_top_left = 80
-corner_radius_top_right = 80
-corner_radius_bottom_right = 80
-corner_radius_bottom_left = 80
+[sub_resource type="Gradient" id="Gradient_mcp3o"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.6866812, 0.70305675, 1)
+colors = PackedColorArray(0.22505927, 0.22505927, 0.22505927, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nopln"]
-content_margin_left = 65.0
-content_margin_right = 65.0
-bg_color = Color(0.07910311, 0.07910311, 0.07910311, 1)
-corner_radius_top_left = 80
-corner_radius_top_right = 80
-corner_radius_bottom_right = 80
-corner_radius_bottom_left = 80
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_0tsx3"]
+gradient = SubResource("Gradient_mcp3o")
+width = 48
+height = 48
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0tsx3"]
 
 [sub_resource type="Gradient" id="Gradient_p5imd"]
 colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 0)
@@ -84,12 +75,10 @@ expand_margin_bottom = 25.0
 default_font = ExtResource("1_p5imd")
 default_font_size = 48
 Button/colors/font_color = Color(0.21035051, 0.21035051, 0.21035051, 1)
-Button/colors/font_disabled_color = Color(0.875, 0.875, 0.875, 0.5)
 Button/colors/font_focus_color = Color(0.9490196, 0.45490196, 0, 1)
-Button/colors/font_hover_color = Color(1, 0, 0, 1)
-Button/colors/font_hover_pressed_color = Color(1, 1, 0, 1)
-Button/colors/font_outline_color = Color(0, 0, 0, 1)
-Button/colors/font_pressed_color = Color(1, 1, 0, 1)
+Button/colors/font_hover_color = Color(0.27450982, 0.27450982, 0.27450982, 1)
+Button/colors/font_hover_pressed_color = Color(0.27450982, 0.27450982, 0.27450982, 1)
+Button/colors/font_pressed_color = Color(0.27450982, 0.27450982, 0.27450982, 1)
 Button/colors/icon_disabled_color = Color(1, 1, 1, 0.4)
 Button/colors/icon_focus_color = Color(1, 1, 1, 1)
 Button/colors/icon_hover_color = Color(1, 1, 1, 1)
@@ -99,12 +88,16 @@ Button/colors/icon_pressed_color = Color(1, 1, 1, 1)
 Button/constants/align_to_largest_stylebox = 0
 Button/constants/h_separation = 4
 Button/constants/icon_max_width = 0
-Button/styles/disabled = null
-Button/styles/focus = SubResource("StyleBoxFlat_4l1ig")
-Button/styles/hover = SubResource("StyleBoxFlat_lcka2")
-Button/styles/hover_pressed = SubResource("StyleBoxFlat_lcka2")
-Button/styles/normal = SubResource("StyleBoxFlat_nopln")
-Button/styles/pressed = SubResource("StyleBoxFlat_nopln")
+Button/styles/hover = SubResource("StyleBoxEmpty_3xnxa")
+Button/styles/hover_pressed = SubResource("StyleBoxEmpty_3xnxa")
+Button/styles/normal = SubResource("StyleBoxEmpty_3xnxa")
+Button/styles/pressed = SubResource("StyleBoxEmpty_3xnxa")
+CheckBox/icons/checked = SubResource("GradientTexture2D_0tsx3")
+CheckBox/icons/checked_disabled = SubResource("GradientTexture2D_0tsx3")
+CheckButton/constants/h_separation = 42
+CheckButton/icons/checked = ExtResource("1_0tsx3")
+CheckButton/icons/unchecked = ExtResource("2_3xnxa")
+CheckButton/styles/focus = SubResource("StyleBoxEmpty_0tsx3")
 HBoxContainer/constants/separation = 20
 HSlider/icons/grabber = SubResource("GradientTexture2D_mcp3o")
 HSlider/icons/grabber_disabled = SubResource("GradientTexture2D_mcp3o")

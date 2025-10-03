@@ -4,7 +4,7 @@ extends Control
 @onready var balance: Button = %Balance
 @onready var spawned: Button = %Spawned
 
-static var showClock = 1.0
+static var showClock : bool = true
 
 const CIRCLE = preload("uid://c2q8strea6bfu")
 

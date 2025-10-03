@@ -1,3 +1,7 @@
+// https://godotshaders.com/shader/goo/
+// dairycultist 
+// https://godotshaders.com/author/dairycultist/
+
 shader_type spatial;
 //render_mode cull_disabled, depth_draw_always;
 render_mode unshaded, cull_disabled, depth_prepass_alpha, depth_test_default, depth_draw_opaque;

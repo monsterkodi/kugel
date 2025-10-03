@@ -1,0 +1,74 @@
+[gd_scene load_steps=3 format=3 uid="uid://dlje6krlhyfml"]
+
+[ext_resource type="Script" uid="uid://dw3n8xx600poa" path="res://ui/menu/CreditsMenu.gd" id="1_otcbb"]
+[ext_resource type="Theme" uid="uid://ciw4u7b7yfp0t" path="res://ui/theme/CreditsMenuTheme.tres" id="2_a2aex"]
+
+[node name="CreditsMenu" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_otcbb")
+metadata/_custom_type_script = "uid://vl5uuupklejb"
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("2_a2aex")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/separation = 60
+
+[node name="CodeContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/CodeContainer"]
+layout_mode = 2
+text = "Code"
+horizontal_alignment = 1
+
+[node name="monsterkodi" type="Label" parent="PanelContainer/VBoxContainer/CodeContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_font_sizes/font_size = 84
+text = "monsterkodi"
+horizontal_alignment = 1
+
+[node name="MusicContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/MusicContainer"]
+layout_mode = 2
+text = "Music"
+horizontal_alignment = 1
+
+[node name="dynaheart" type="Label" parent="PanelContainer/VBoxContainer/MusicContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_font_sizes/font_size = 84
+text = "dynaheart"
+horizontal_alignment = 1
+
+[node name="Shaders" type="VBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/Shaders"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.23, 0.23, 0.23, 1)
+text = "Shaders"
+horizontal_alignment = 1
+
+[node name="shader1" type="Label" parent="PanelContainer/VBoxContainer/Shaders"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.47843137, 0, 0, 1)
+text = "annie isthar"
+horizontal_alignment = 1
+
+[node name="shader2" type="Label" parent="PanelContainer/VBoxContainer/Shaders"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.47843137, 0, 0, 1)
+text = "dairycultist"
+horizontal_alignment = 1

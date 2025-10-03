@@ -1,3 +1,8 @@
+// https://godotshaders.com/shader/vaho-ghost-distortion-shader/
+// Annastasya Isthar
+// https://www.youtube.com/@AnnIsthar
+// annie-isthar.itch.io
+
 shader_type spatial;
 render_mode blend_mix, depth_draw_always, cull_back, unshaded;
 
