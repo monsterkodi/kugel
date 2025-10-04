@@ -53,6 +53,7 @@ surface_material_override/0 = ExtResource("2_gfquv")
 [node name="Dot" parent="." instance=ExtResource("3_xgr6b")]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
+radius = 0.6
 color = Color(0.02, 0.02, 0.02, 1)
 
 [node name="Body" type="AnimatableBody3D" parent="."]
@@ -76,6 +77,7 @@ unique_name_in_owner = true
 unique_name_in_owner = true
 stream = ExtResource("4_gfquv")
 attenuation_model = 1
+volume_db = -10.0
 bus = &"Game"
 
 [node name="Ident" type="Node3D" parent="."]
@@ -83,7 +85,7 @@ unique_name_in_owner = true
 
 [node name="IdentRing" type="MeshInstance3D" parent="Ident"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
 mesh = SubResource("PlaneMesh_h7sjn")
 skeleton = NodePath("../..")
 surface_material_override/0 = ExtResource("6_7j3mf")

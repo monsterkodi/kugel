@@ -183,6 +183,31 @@ func slideOutTop(menu:Control):
     tween.tween_callback(menu.hide)
     return tween    
 
+func slideInBottom(menu:Control):
+
+    menu.show()
+    
+    menu.anchor_top    = 0 + menu.size.y/1080.0
+    menu.anchor_bottom = 1 + menu.size.y/1080.0
+        
+    var tween = create_tween()
+    tween.set_ease(Tween.EASE_OUT)
+    tween.set_trans(Tween.TRANS_QUINT)
+    tween.tween_property(menu, "anchor_top", 0, SLIDE_IN_TIME)
+    tween.parallel().tween_property(menu, "anchor_bottom", 1, SLIDE_IN_TIME)
+    return tween
+    
+func slideOutBottom(menu:Control):
+
+    menu.anchor_top    = 0
+    menu.anchor_bottom = 1
+
+    var tween = create_tween()
+    tween.tween_property(menu, "anchor_top", 0 + menu.size.y/1080.0, SLIDE_OUT_TIME)
+    tween.parallel().tween_property(menu, "anchor_bottom", 1 + menu.size.y/1080.0, SLIDE_OUT_TIME)
+    tween.tween_callback(menu.hide)
+    return tween    
+
 func slideInRight(menu:Control):
 
     menu.show()

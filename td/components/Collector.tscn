@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://drhbf00kh3tau"]
+[gd_scene load_steps=6 format=3 uid="uid://drhbf00kh3tau"]
 
 [ext_resource type="Script" uid="uid://lnq274uit4ey" path="res://components/Collector.gd" id="1_up0ya"]
 [ext_resource type="Material" uid="uid://dpx5qvy28judg" path="res://materials/CircleMaterial.tres" id="2_xmopa"]
+[ext_resource type="AudioStream" uid="uid://b4v3ixqrfwvoc" path="res://sounds/high_bellz_9.wav" id="3_bm2vk"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_up0ya"]
 radius = 5.0
@@ -36,5 +37,13 @@ shadow_enabled = true
 shadow_opacity = 0.5
 omni_attenuation = 0.0
 omni_shadow_mode = 0
+
+[node name="collect" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("3_bm2vk")
+attenuation_model = 1
+max_distance = 30.0
+max_polyphony = 4
+bus = &"Game"
 
 [connection signal="body_entered" from="Area3D" to="." method="bodyEntered"]

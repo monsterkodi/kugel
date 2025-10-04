@@ -42,7 +42,6 @@ func load(dict:Dictionary):
     
 func die():
     
-    %died.play(0.09)
     collision_layer = Layer.LayerDying
     health = 0
     %Attraction.disable()
@@ -104,10 +103,13 @@ func addDamage(damage:float):
 func applyDamage(damage:float, source:PhysicsBody3D):
     
     if alive():
-        
+        #%died.pitch_scale = 1.0 + (4.0 - minf(100.0, mass-0.5) / 25.0)
         setMass(mass-damage)
         health = mass-0.5
-        if health <= 0: die()
+        if health <= 0:
+            %died.pitch_scale = randf_range(0.5, 2.0)
+            %died.play()
+            die()
             
     if source is Bullet:
         %hit.play()

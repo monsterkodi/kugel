@@ -11,7 +11,9 @@ var value : bool = false :
 func _ready():
     
     custom_minimum_size.x = 360.0
-    size_flags_horizontal = SIZE_SHRINK_BEGIN
+    custom_minimum_size.y = 70.0
+    size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+    size_flags_vertical   = Control.SIZE_SHRINK_CENTER
     passiveColors()
     connect("mouse_entered", onHover)
     connect("focus_entered", onHover)

@@ -2,6 +2,7 @@ extends Node3D
 
 @export_range(2.0, 20.0, 0.1) var radius = 10
 var corpses:Array[Enemy]
+var pitch = 1.0
 
 func _ready():
     
@@ -30,6 +31,12 @@ func _physics_process(delta:float):
             corpses.erase(corpse)
             corpse.free()
             Post.corpseCollected.emit(self)
+            if not %collect.playing or %collect.get_playback_position() > 0.075:
+                %collect.pitch_scale = pitch
+                pitch += 0.25
+                if pitch >= 2.0: pitch = 1.0
+                
+                %collect.play()
         else:
             var scl = lerpf(corpse.scale.x, 0.4, 2*delta)
             corpse.scale = Vector3(scl, scl, scl)

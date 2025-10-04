@@ -24,9 +24,11 @@ surface_material_override/0 = ExtResource("2_tjqyq")
 [node name="forward" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("6_ks2wa")
+secs = 0.1
 metadata/_custom_type_script = "uid://bvt1w1upmd45v"
 
 [node name="strafe" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("6_ks2wa")
+secs = 0.1
 metadata/_custom_type_script = "uid://bvt1w1upmd45v"

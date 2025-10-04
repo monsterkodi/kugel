@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://g0r24pl51awh"]
+[gd_scene load_steps=16 format=3 uid="uid://g0r24pl51awh"]
 
 [ext_resource type="PhysicsMaterial" uid="uid://dms3d8q358dik" path="res://materials/physics/PlayerPhysics.tres" id="1_5m86e"]
 [ext_resource type="Script" uid="uid://ch8rdi5m570e7" path="res://vehicles/Pill.gd" id="1_on1es"]
@@ -9,6 +9,7 @@
 [ext_resource type="AudioStream" uid="uid://i3hmn07k1oju" path="res://sounds/klack5.wav" id="7_4xtoo"]
 [ext_resource type="AudioStream" uid="uid://eiva2xina8lj" path="res://sounds/place.wav" id="8_4xtoo"]
 [ext_resource type="AudioStream" uid="uid://c6rnuds12i37r" path="res://sounds/bot_no_energy.wav" id="9_f87jo"]
+[ext_resource type="AudioStream" uid="uid://q5kof0mmgyhy" path="res://sounds/wet1.wav" id="10_s4ewv"]
 [ext_resource type="Script" uid="uid://bqflf4vw8mem1" path="res://addons/lines_and_trails_3d/trail_3d.gd" id="10_weduw"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dromu"]
@@ -23,7 +24,7 @@ shading_mode = 0
 disable_ambient_light = true
 disable_fog = true
 disable_specular_occlusion = true
-albedo_color = Color(0, 0, 0, 0.8352941)
+albedo_color = Color(0, 0, 0, 0.7058824)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vj03p"]
 transparency = 1
@@ -116,14 +117,15 @@ activeMat = SubResource("StandardMaterial3D_vj03p")
 unique_name_in_owner = true
 stream = ExtResource("7_4xtoo")
 attenuation_model = 1
+max_db = 0.0
+max_distance = 30.0
+max_polyphony = 5
 bus = &"Game"
 
 [node name="dash" type="AudioStreamPlayer3D" parent="Node"]
 unique_name_in_owner = true
 stream = ExtResource("8_4xtoo")
 attenuation_model = 1
-volume_db = -20.0
-max_db = -16.0
 max_polyphony = 3
 bus = &"Game"
 
@@ -131,8 +133,13 @@ bus = &"Game"
 unique_name_in_owner = true
 stream = ExtResource("9_f87jo")
 attenuation_model = 1
-volume_db = -10.0
 max_polyphony = 3
+bus = &"Game"
+
+[node name="land" type="AudioStreamPlayer3D" parent="Node"]
+unique_name_in_owner = true
+stream = ExtResource("10_s4ewv")
+attenuation_model = 1
 bus = &"Game"
 
 [node name="trail" type="MeshInstance3D" parent="."]

@@ -1,9 +1,10 @@
-[gd_scene load_steps=31 format=3 uid="uid://b6mskrm1n176r"]
+[gd_scene load_steps=34 format=3 uid="uid://b6mskrm1n176r"]
 
 [ext_resource type="Script" uid="uid://b6inujglidn5n" path="res://world/gd/World.gd" id="1_eu7l1"]
 [ext_resource type="PackedScene" uid="uid://baj5gp1mlm380" path="res://world/Player.tscn" id="3_wygdx"]
 [ext_resource type="PackedScene" uid="uid://b7w2vlfbvmfq7" path="res://utils/camera/Camera.tscn" id="4_bah7m"]
 [ext_resource type="PackedScene" uid="uid://bsyn633trcvrm" path="res://world/Builder.tscn" id="5_0n6y5"]
+[ext_resource type="PackedScene" uid="uid://dq1om4o5tkcbg" path="res://ui/hud/HudClock.tscn" id="5_6ogeo"]
 [ext_resource type="PackedScene" uid="uid://mxu6thvv1ycr" path="res://world/MouseHandler.tscn" id="6_p1v5b"]
 [ext_resource type="PackedScene" uid="uid://dnk1mn0lm0c3d" path="res://ui/menu/PauseMenu.tscn" id="7_wygdx"]
 [ext_resource type="PackedScene" uid="uid://dr04x0hyo62i1" path="res://ui/hud/BattleCards.tscn" id="7_x3yhk"]
@@ -29,6 +30,8 @@
 [ext_resource type="PackedScene" uid="uid://c23bh5moajx3o" path="res://ui/menu/ResultMenu.tscn" id="24_rteg8"]
 [ext_resource type="AudioStream" uid="uid://cmdkmjrf1kffn" path="res://music/sketch_reverb.mp3" id="25_lcdy5"]
 [ext_resource type="Script" uid="uid://cqpsx8o7xldu6" path="res://world/MusicPlayer.gd" id="25_ph6wr"]
+[ext_resource type="Script" uid="uid://x1xttp2nj2hm" path="res://world/MusicHandler.gd" id="29_e08lr"]
+[ext_resource type="AudioStream" uid="uid://cjym82y8f1cfb" path="res://music/maintheme_looped_once.mp3" id="33_ppjuv"]
 
 [sub_resource type="Environment" id="Environment_ig7tw"]
 background_mode = 1
@@ -67,6 +70,11 @@ environment = SubResource("Environment_ig7tw")
 unique_name_in_owner = true
 visible = false
 anchors_preset = -1
+
+[node name="HudClock" parent="." instance=ExtResource("5_6ogeo")]
+unique_name_in_owner = true
+visible = false
+offset_right = -0.00024414063
 
 [node name="BattleCards" parent="." instance=ExtResource("7_x3yhk")]
 unique_name_in_owner = true
@@ -176,11 +184,20 @@ visible = false
 [node name="CreditsMenu" parent="MenuHandler" instance=ExtResource("24_ph6wr")]
 unique_name_in_owner = true
 
-[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
+[node name="MusicHandler" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("29_e08lr")
+
+[node name="SketchReverb" type="AudioStreamPlayer" parent="MusicHandler"]
 unique_name_in_owner = true
 stream = ExtResource("25_lcdy5")
 bus = &"Music"
-parameters/looping = false
+script = ExtResource("25_ph6wr")
+
+[node name="Sketch" type="AudioStreamPlayer" parent="MusicHandler"]
+unique_name_in_owner = true
+stream = ExtResource("33_ppjuv")
+bus = &"Music"
 script = ExtResource("25_ph6wr")
 
 [connection signal="visibility_changed" from="MenuHandler/CardChooser" to="MenuHandler/CardChooser" method="_on_visibility_changed"]

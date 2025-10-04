@@ -4,8 +4,6 @@ extends Control
 @onready var balance: Button = %Balance
 @onready var spawned: Button = %Spawned
 
-static var showClock : bool = true
-
 const CIRCLE = preload("uid://c2q8strea6bfu")
 
 func _ready():
@@ -13,12 +11,7 @@ func _ready():
     Post.subscribe(self)
     
     process_mode = Node.PROCESS_MODE_PAUSABLE
-    
-func _process(delta: float):
-    
-    %Clock.text = Utils.timeStr(Info.gameTime)
-    %ClockPanel.visible = HUD.showClock
-    
+        
 func enemySpeed(speed):
     
     %EnemySpeed.value = speed

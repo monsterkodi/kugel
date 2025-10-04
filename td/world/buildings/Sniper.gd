@@ -89,6 +89,7 @@ func lookUp():
 
 func shoot():
     
+    %fire.play()
     %SniperGlow.visible = false
     %SniperRay.shoot()
     reloadTimer.start(interval)

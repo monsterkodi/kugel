@@ -7,9 +7,10 @@ var dash  = 0
 var MIN_SPEED = 3
 var MAX_SPEED = 6
 
-var mouseRot   = 0.0
-var mouseDelta = Vector2.ZERO
-var dashDir    = Vector3.FORWARD
+var mouseRot     = 0.0
+var mouseDelta   = Vector2.ZERO
+var dashDir      = Vector3.FORWARD
+var contactCount = 0
 
 func _ready():
     
@@ -20,10 +21,14 @@ func _ready():
     
 func applyCards():
     
-    %LaserPointer.laserRange  = 3 + 2 * Info.permLvl(Card.PillRange)
-    %LaserPointer.laserDamage = pow(Info.permLvl(Card.PillPower)+1, 3)
+    var rangeCards = Info.permLvl(Card.PillRange)
+    var powerCards = Info.permLvl(Card.PillPower)
     
-    %Collector.setRadius(7 + 7 * Info.permLvl(Card.PillRange))
+    %LaserPointer.laserRange  = 3 + 2 * rangeCards
+    %LaserPointer.laserDamage = pow(powerCards+1, 3)
+    %LaserPointer.radiusBase = 0.04 + powerCards * 0.04
+    
+    %Collector.setRadius(7 + 7 * rangeCards)
     
     #Log.log("pill", %LaserPointer.laserDamage, %LaserPointer.laserRange, %Collector.radius)
 
@@ -55,7 +60,21 @@ func _physics_process(delta:float):
     
 func _integrate_forces(state: PhysicsDirectBodyState3D):
    
-    var contactCount = get_contact_count() 
+    var newContactCount = get_contact_count() 
+    
+    if contactCount == 0 and newContactCount == 1:
+        var impulse = state.get_contact_impulse(0).length()
+        %land.max_db = linear_to_db(clampf(impulse/100.0, 0.0, 1.0))
+        %land.play()
+    
+    contactCount = newContactCount
+    
+    if contactCount > 1:
+        if not %hit.playing:
+            var impulse = state.get_contact_impulse(1).length()
+            %hit.max_db = linear_to_db(clampf(impulse/100.0, 0.0, 1.0))
+            %hit.pitch_scale = 2.0 - clampf(impulse/100.0, 0.0, 1.0)
+            %hit.play()
     
     state.linear_velocity = state.linear_velocity.limit_length(speed)
     

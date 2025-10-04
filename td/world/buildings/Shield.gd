@@ -7,7 +7,7 @@ func _ready():
     name = "Shield"
     
     setHitPoints(Info.maxShieldHitPoints())
-    Log.log("Shield._ready", inert)
+    #Log.log("Shield._ready", inert)
     %ShieldBody.position = Vector3.ZERO
     global_position = Vector3.ZERO
     set_physics_process(false)
@@ -19,11 +19,7 @@ func gameResume():
     if not inert:
         %ShieldBody.freeze = false
         set_physics_process(true)
-    
-func _exit_tree():
-    
-    Log.log("Shield._exit_tree")
-    
+        
 func onHit():
     
     setHitPoints(hitPoints - 1)

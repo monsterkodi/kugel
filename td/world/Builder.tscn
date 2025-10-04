@@ -1,8 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://bsyn633trcvrm"]
+[gd_scene load_steps=8 format=3 uid="uid://bsyn633trcvrm"]
 
 [ext_resource type="Script" uid="uid://r6v0jx4rvh70" path="res://world/gd/Builder.gd" id="1_0gt1h"]
 [ext_resource type="Material" uid="uid://bqhwhtt3kc30s" path="res://materials/BuilderGhostMaterial.tres" id="2_3mury"]
 [ext_resource type="Material" uid="uid://vyhfqa37hcxi" path="res://materials/LackBlue.tres" id="3_i3ey7"]
+[ext_resource type="AudioStream" uid="uid://cve0ko7ui3veu" path="res://sounds/tas_ambillent_1.wav" id="4_7bowc"]
+[ext_resource type="AudioStream" uid="uid://ycx3756fctdk" path="res://sounds/tas_ambillent_4.wav" id="5_y05mf"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_0gt1h"]
 top_radius = 0.2
@@ -41,3 +43,15 @@ transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0
 mesh = SubResource("SphereMesh_3mury")
 skeleton = NodePath("../..")
 surface_material_override/0 = ExtResource("3_i3ey7")
+
+[node name="build" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+top_level = true
+stream = ExtResource("4_7bowc")
+bus = &"Game"
+
+[node name="sell" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+top_level = true
+stream = ExtResource("5_y05mf")
+bus = &"Game"

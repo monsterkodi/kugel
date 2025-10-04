@@ -1,7 +1,8 @@
 class_name LaserPointer extends Node3D
 
 @export_range(0, 0.1) var radiusTip   = 0.0
-@export_range(0, 0.1) var radiusBase  = 0.02
+@export_range(0, 0.1) var radiusBase  = 0.02 :
+    set(v): radiusBase = v; setRadiusBase(v)
 @export_range(1, 10)  var laserDamage = 1.0
 @export_range(1, 100) var laserRange  = 1.0:
     set(v): laserRange = v; setLength(v)
@@ -30,6 +31,11 @@ func _ready():
     
     base.position.z = -baseOffset
     base.add_child(laser)
+    
+func setRadiusBase(r):
+    
+    if laser and laser.mesh.bottom_radius != r:
+        laser.mesh.bottom_radius = r
         
 func setLength(length):
     
@@ -52,6 +58,9 @@ func _physics_process(delta:float):
             laser.set_surface_override_material(0, activeMat)
             var damage = delta * maxf(0.5, laserDamage * pow(collider.mass, 1.0/2.0))
             #Log.log("damage", damage, collider.health, laserDamage * collider.health)
+            if get_parent() is Pill:
+                %damage.pitch_scale = clampf(1.0 / minf(damage, delta * collider.mass), 0.01, 4.0)
+                %damage.play()
             collider.addDamage(damage)
             return
     else:

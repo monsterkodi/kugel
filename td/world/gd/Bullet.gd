@@ -12,7 +12,7 @@ func level_reset(): free()
 
 func _physics_process(delta: float):
     
-    var af = 1.0-smoothstep(0.9, 1.0, %Lifetime.ageFactor())
+    var af = maxf(0.01, 1.0-smoothstep(0.9, 1.0, %Lifetime.ageFactor()))
     scale = Vector3(af, af, af)
 
 func getColor() -> Color:

@@ -6,6 +6,8 @@ var label : Label
 var slider : HSlider
 var valueLabel : Label
 
+const activeColor = Color(1, 0, 0)
+
 signal valueChanged
 
 @export var text:String = "Slider" :
@@ -47,17 +49,23 @@ signal valueChanged
 func _ready():
     
     custom_minimum_size.x = 460
-    custom_minimum_size.y = 60
+    custom_minimum_size.y = 20
+    size_flags_vertical = Control.SIZE_SHRINK_CENTER
+    
+    mouse_entered.connect(setFocus)
     
     label = Label.new()
     label.custom_minimum_size.x = 300
     label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+    #label.mouse_entered.connect(setFocus)
     add_child(label)
 
     slider = HSlider.new()
     slider.custom_minimum_size.x = 300
     slider.size_flags_vertical = Control.SIZE_SHRINK_CENTER
     slider.value_changed.connect(onValueChanged)
+    slider.focus_exited.connect(unsetFocus)
+    slider.focus_entered.connect(setFocus)
     
     add_child(slider)
 
@@ -71,6 +79,15 @@ func _ready():
     valueMax  = valueMax
     valueStep = valueStep
     value     = value
+    
+func setFocus():
+    
+    label.add_theme_color_override("font_color", activeColor)
+    slider.grab_focus()
+    
+func unsetFocus():
+
+    label.remove_theme_color_override("font_color")
     
 func onValueChanged(v):
     

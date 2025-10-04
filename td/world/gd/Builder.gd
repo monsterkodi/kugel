@@ -25,6 +25,23 @@ func _input(event: InputEvent):
             #Log.log("place_building")
             placeBuilding()
             
+        if event.is_action_pressed("alt_up"):
+            get_viewport().set_input_as_handled()
+            delBuilding()
+            
+func delBuilding():
+    
+    if targetSlot != get_parent_node_3d():
+        if targetSlot.get_child_count():
+            var old = targetSlot.get_child(0)
+            if old:
+                var type = old.type
+                Wallet.addPrice(Info.priceForBuilding(type))
+                old.free()
+                %sell.global_position = targetPos
+                %sell.play()
+                Post.buildingSold.emit()
+            
 func placeBuilding():
     
     if not targetSlot:
@@ -43,10 +60,14 @@ func placeBuilding():
                 var type = old.type
                 Wallet.addPrice(Info.priceForBuilding(type))
                 old.free()
-                if building.name == "Sell": #and type == "Sell":
+                if building.name == "Sell":
+                    %sell.global_position = targetPos
+                    %sell.play()
                     building.free()
                     Post.buildingSold.emit()
                     return
+    %build.global_position = targetPos
+    %build.play()
     targetSlot.add_child(building)
     building.global_position = targetPos
     #building.look_at(Vector3.ZERO)

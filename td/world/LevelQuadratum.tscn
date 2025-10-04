@@ -116,7 +116,7 @@ unique_name_in_owner = true
 transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, 0, 0, 0)
 
 [node name="Spawner" parent="Spawners/Node3D1" instance=ExtResource("8_hvlwr")]
-transform = Transform3D(1.2665987e-07, 0, -1, 0, 1, 0, 1, 0, 1.2665987e-07, 0, 0, -40)
+transform = Transform3D(1.2665987e-07, 0, -1, 0, 1, 0, 1, 0, 1.2665987e-07, 0, 0, -45)
 spawnee = ExtResource("9_mgyxq")
 ident = 1
 
@@ -124,7 +124,7 @@ ident = 1
 transform = Transform3D(0.7071067, 0, 0.7071067, 0, 1, 0, -0.7071067, 0, 0.7071067, 0, 0, 0)
 
 [node name="Spawner" parent="Spawners/Node3D2" instance=ExtResource("8_hvlwr")]
-transform = Transform3D(1.3113416e-07, 0, -1, 0, 1, 0, 1, 0, 1.3113416e-07, 0, 0, -56.57)
+transform = Transform3D(1.3113416e-07, 0, -1, 0, 1, 0, 1, 0, 1.3113416e-07, 0, 0, -63.64)
 spawnee = ExtResource("9_mgyxq")
 activation_level = 700
 ident = 8
@@ -133,7 +133,7 @@ ident = 8
 transform = Transform3D(0.7071067, 0, -0.7071067, 0, 1, 0, 0.7071067, 0, 0.7071067, 0, 0, 0)
 
 [node name="Spawner" parent="Spawners/Node3D3" instance=ExtResource("8_hvlwr")]
-transform = Transform3D(1.3113416e-07, 0, -1, 0, 1, 0, 1, 0, 1.3113416e-07, 0, 0, -56.57)
+transform = Transform3D(1.3113416e-07, 0, -1, 0, 1, 0, 1, 0, 1.3113416e-07, 0, 0, -63.64)
 spawnee = ExtResource("9_mgyxq")
 activation_level = 100
 ident = 2
@@ -142,7 +142,7 @@ ident = 2
 transform = Transform3D(-4.3711385e-08, 0, -0.9999999, 0, 1, 0, 0.9999999, 0, -4.3711385e-08, 0, 0, 0)
 
 [node name="Spawner" parent="Spawners/Node3D4" instance=ExtResource("8_hvlwr")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, -40)
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, -45)
 spawnee = ExtResource("9_mgyxq")
 activation_level = 200
 ident = 3
@@ -151,7 +151,7 @@ ident = 3
 transform = Transform3D(-4.3711385e-08, 0, 0.9999999, 0, 1, 0, -0.9999999, 0, -4.3711385e-08, 0, 0, 0)
 
 [node name="Spawner" parent="Spawners/Node3D5" instance=ExtResource("8_hvlwr")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, -40)
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, -45)
 spawnee = ExtResource("9_mgyxq")
 activation_level = 600
 ident = 7
@@ -160,7 +160,7 @@ ident = 7
 transform = Transform3D(-0.7071067, 0, 0.7071067, 0, 1, 0, -0.7071067, 0, -0.7071067, 0, 0, 0)
 
 [node name="Spawner" parent="Spawners/Node3D6" instance=ExtResource("8_hvlwr")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, -56.57)
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, -63.64)
 spawnee = ExtResource("9_mgyxq")
 activation_level = 500
 ident = 6
@@ -169,7 +169,7 @@ ident = 6
 transform = Transform3D(-0.7071067, 0, -0.7071067, 0, 1, 0, 0.7071067, 0, -0.7071067, 0, 0, 0)
 
 [node name="Spawner" parent="Spawners/Node3D7" instance=ExtResource("8_hvlwr")]
-transform = Transform3D(-8.940697e-08, 0, -1, 0, 1, 0, 1, 0, -8.940697e-08, 0, 0, -56.57)
+transform = Transform3D(-8.940697e-08, 0, -1, 0, 1, 0, 1, 0, -8.940697e-08, 0, 0, -63.64)
 spawnee = ExtResource("9_mgyxq")
 activation_level = 300
 ident = 4
@@ -178,7 +178,7 @@ ident = 4
 transform = Transform3D(-0.9999999, 0, -8.742277e-08, 0, 1, 0, 8.742277e-08, 0, -0.9999999, 0, 0, 0)
 
 [node name="Spawner" parent="Spawners/Node3D8" instance=ExtResource("8_hvlwr")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, -40)
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, -45)
 spawnee = ExtResource("9_mgyxq")
 activation_level = 400
 ident = 5

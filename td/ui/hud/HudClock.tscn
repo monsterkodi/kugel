@@ -1,0 +1,48 @@
+[gd_scene load_steps=4 format=3 uid="uid://dq1om4o5tkcbg"]
+
+[ext_resource type="Script" uid="uid://dn6tmxlwjushd" path="res://ui/hud/HudClock.gd" id="1_d8vcd"]
+[ext_resource type="Theme" uid="uid://g22p2j6a23ol" path="res://ui/theme/HUDTheme.tres" id="1_ysmrn"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d8vcd"]
+content_margin_top = 5.0
+content_margin_bottom = 5.0
+bg_color = Color(0.10965204, 0.10965204, 0.10965204, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+expand_margin_left = 25.0
+expand_margin_right = 25.0
+
+[node name="HudClock" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_d8vcd")
+
+[node name="ClockPanel" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -19.5
+offset_top = -39.0
+offset_right = 19.5
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("1_ysmrn")
+theme_override_styles/panel = SubResource("StyleBoxFlat_d8vcd")
+
+[node name="Clock" type="Label" parent="ClockPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("1_ysmrn")
+theme_override_colors/font_color = Color(0.26239687, 0.26239687, 0.26239687, 1)
+theme_override_font_sizes/font_size = 24
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1

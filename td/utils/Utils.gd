@@ -17,7 +17,10 @@ func timeStr(s:float) -> String:
     
     var hour = int(s/(3600.0))
     var min  = int(s/60.0) % 60
-    return "%d:%02d:%02d" % [hour, min, int(s)%60]
+    if hour:
+        return "%d:%02d:%02d" % [hour, min, int(s)%60]
+    else:
+        return "%02d:%02d" % [min, int(s)%60]
 
 func nameDict(arr:Array) -> Dictionary:
     

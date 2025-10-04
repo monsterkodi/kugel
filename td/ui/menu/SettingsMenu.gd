@@ -17,7 +17,8 @@ func appear():
     %MusicVolume.value  = AudioServer.get_bus_volume_linear(AudioServer.get_bus_index("Music"))
     %GameVolume.value   = AudioServer.get_bus_volume_linear(AudioServer.get_bus_index("Game"))
     %MenuVolume.value   = AudioServer.get_bus_volume_linear(AudioServer.get_bus_index("Menu"))
-    %Clock.value        = HUD.showClock
+    %Clock.value        = HudClock.showClock
+    %Fullscreen.value   = DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN
             
     onBrightness(%Brightness.value)
     onTimescale(%TimeScale.value)       
@@ -42,11 +43,22 @@ func onHires(value):
     
     if value:
         get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_CANVAS_ITEMS
-        %HiresValue.text = "%dx%d" % [get_window().size.x, get_window().size.y]
     else:
         get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_VIEWPORT
+        
+    updateHiresValue()
+    
+func updateHiresValue():
+    
+    if get_window().content_scale_mode == Window.CONTENT_SCALE_MODE_CANVAS_ITEMS:
+        %HiresValue.text = "%dx%d" % [get_window().size.x, get_window().size.y]
+    else:
         %HiresValue.text = "%dx%d" % [get_window().content_scale_size.x, get_window().content_scale_size.y]
 
+func onResize():
+
+    updateHiresValue()
+        
 func onTimescale(value):
 
     Engine.time_scale = value
@@ -71,10 +83,11 @@ func onMusicVolume(value):
     
     Post.statChanged.emit("musicVolume", value)
     Log.log("music", value, linear_to_db(value))
-    if value:
-        %MusicPlayer.play()
-    else:
-        %MusicPlayer.stop()
+    #if value:
+        #if not %MusicPlayer.playing:
+            #%MusicPlayer.play()
+    #else:
+        #%MusicPlayer.stop()
     AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), linear_to_db(value))
 
 func onGameVolume(value):
@@ -91,8 +104,17 @@ func onMenuVolume(value):
     
 func onClock(value):
     
-    HUD.showClock = %Clock.value
+    HudClock.showClock = value
+
+func onFullscreen(value):
     
+    if value:
+        DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+    else:
+        DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+        DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_BORDERLESS, false)
+        DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_RESIZE_DISABLED, false)
+        
 func onMouseLock(value):
     
     get_node("/root/World/MouseHandler").mouseLock = value
@@ -112,7 +134,8 @@ func on_save(data:Dictionary):
     data.Settings.volumeMusic  = AudioServer.get_bus_volume_linear(AudioServer.get_bus_index("Music"))
     data.Settings.volumeGame   = AudioServer.get_bus_volume_linear(AudioServer.get_bus_index("Game"))
     data.Settings.volumeMenu   = AudioServer.get_bus_volume_linear(AudioServer.get_bus_index("Menu"))
-    data.Settings.clock        = HUD.showClock
+    data.Settings.clock        = HudClock.showClock
+    data.Settings.fullscreen   = DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN
     data.Settings.mouseLock    = get_node("/root/World/MouseHandler").mouseLock
     data.Settings.mouseHide    = get_node("/root/World/MouseHandler").mouseHide
     
@@ -133,5 +156,6 @@ func on_load(data:Dictionary):
     if data.Settings.has("volumeGame"):   onGameVolume(data.Settings.volumeGame)
     if data.Settings.has("volumeMenu"):   onMenuVolume(data.Settings.volumeMenu)
     if data.Settings.has("clock"):        onClock(data.Settings.clock)
+    if data.Settings.has("fullscreen"):   onFullscreen(data.Settings.fullscreen)
     if data.Settings.has("mouseLock"):    onMouseLock(data.Settings.mouseLock)
     if data.Settings.has("mouseHide"):    onMouseHide(data.Settings.mouseHide)

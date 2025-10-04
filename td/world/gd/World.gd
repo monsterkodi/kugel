@@ -32,7 +32,7 @@ func _process(delta: float):
 func _unhandled_input(event: InputEvent):
     
     if Input.is_action_just_pressed("pause"): pauseMenu();   return
-    if Input.is_action_just_pressed("build"): buildMode();   return
+    if Input.is_action_just_pressed("build") and not get_tree().paused: buildMode();   return
     if Input.is_action_just_pressed("quit"):  quitGame();    return
     
     if Input.is_action_just_pressed("faster"): Info.fasterEnemySpeed()
@@ -138,6 +138,7 @@ func pauseMenu():
 func pauseGame():
     
     %MenuHandler.slideOutTop(%Hud)
+    %MenuHandler.slideOutBottom(%HudClock)
     %MenuHandler.slideOutRight(%BattleCards)
     
     get_tree().call_group("game", "gamePaused")
@@ -149,6 +150,7 @@ func resumeGame():
     %MenuHandler.vanishActive()
     
     %MenuHandler.slideInTop(%Hud)
+    %MenuHandler.slideInBottom(%HudClock)
     %MenuHandler.slideInRight(%BattleCards)
     
     get_tree().paused = false

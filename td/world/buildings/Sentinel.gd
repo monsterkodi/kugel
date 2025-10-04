@@ -77,6 +77,8 @@ func bounce():
         body.addDamage(damage)
         body.apply_central_impulse(impulse.normalized() * impulsePower * pow(body.mass, 0.75))
         
+    %fire.play()
+    
     tween = create_tween()
     tween.set_trans(Tween.TRANS_LINEAR)
     colorSrc = 0.0

@@ -74,13 +74,15 @@ func load(dict:Dictionary):
 func activate():
     
     active = true
-    %Dot.color = activeDotColor
+    #%Dot.color = activeDotColor
+    %Dot.visible = false
     %Hole.set_surface_override_material(0, spawnerHoleActiveMaterial)
     %IdentRing.get_surface_override_material(0).set_shader_parameter("dotColor", Color(1.5,0,0))
 
 func deactivate():
     
     active = false
+    %Dot.visible = true
     %Dot.color = passiveDotColor
     %Hole.set_surface_override_material(0, spawnerHolePassiveMaterial)
     %IdentRing.get_surface_override_material(0).set_shader_parameter("dotColor", Color(0.16,0.16,0.16))
@@ -130,8 +132,7 @@ func nextSpawnLoop():
     
     %Body.scale  = spawnedBody.scale
     %Hole.scale  = spawnedBody.scale
-    #%Ident.scale = spawnedBody.scale
-    %IdentRing.position.x = 2.5 * spawnedBody.scale.x
+    %IdentRing.position.x = 1.2 * spawnedBody.scale.x
     
 func clockFactor(factor):
     

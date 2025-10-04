@@ -4,7 +4,7 @@
 [ext_resource type="Material" uid="uid://bubrgtitpe1og" path="res://materials/ClockSquareMaterial.tres" id="2_skcmd"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_g2chl"]
-size = Vector2(80.5, 80.5)
+size = Vector2(90.5, 90.5)
 
 [node name="SquareClock" type="Node3D"]
 script = ExtResource("1_g2chl")

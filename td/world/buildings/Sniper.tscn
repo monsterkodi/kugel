@@ -4,9 +4,9 @@
 [ext_resource type="Script" uid="uid://wbgce1e4vyn7" path="res://world/buildings/Sniper.gd" id="1_u6s15"]
 [ext_resource type="PhysicsMaterial" uid="uid://cxmvb6atqbyf0" path="res://materials/physics/DefaultPhysics.tres" id="3_qxwcm"]
 [ext_resource type="PackedScene" uid="uid://cog25x4x6herp" path="res://components/SniperRay.tscn" id="4_ayxhp"]
+[ext_resource type="AudioStream" uid="uid://ced782tiywpgv" path="res://sounds/tas_ambillent_5.wav" id="6_e1wde"]
 [ext_resource type="Shader" uid="uid://b7lpd6h1smubj" path="res://materials/visual/CircleMatVis.tres" id="7_v1t5n"]
 [ext_resource type="PackedScene" uid="uid://bmyq0wms5x6rm" path="res://components/HalfCapsuleRounded.tscn" id="8_u6s15"]
-[ext_resource type="AudioStream" uid="uid://cssur2kuvk3p" path="res://sounds/tick.wav" id="9_hricq"]
 [ext_resource type="Material" uid="uid://cl1am5df8gk6t" path="res://materials/PoleBaseMaterial.tres" id="9_p61hx"]
 
 [sub_resource type="TorusMesh" id="TorusMesh_u6s15"]
@@ -147,10 +147,11 @@ shape = SubResource("CylinderShape3D_iwplw")
 
 [node name="fire" type="AudioStreamPlayer3D" parent="."]
 unique_name_in_owner = true
-stream = ExtResource("9_hricq")
-attenuation_model = 2
-volume_db = -6.0
-unit_size = 4.0
+stream = ExtResource("6_e1wde")
+attenuation_model = 1
+unit_size = 6.0
+max_db = 0.0
+bus = &"Game"
 
 [node name="reloadTimer" type="Timer" parent="."]
 unique_name_in_owner = true
