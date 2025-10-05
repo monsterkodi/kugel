@@ -20,17 +20,20 @@ func preChooseAnim():
     
     preNum = 0
     tween = create_tween()
-    tween.tween_method(onPreChoose, 0, %Dots.get_child_count()-1, 2.0)
+    tween.tween_method(onPreChoose, 0.0, %Dots.get_child_count()-1.0, 2.0)
     tween.tween_callback(preChooseAnimDone)
     
 func onPreChoose(value):
     
-    for i in range(preNum, value+1):
-        var dot : Circle = %Dots.get_child(i)
-        dot.color = Color(1,1,0)
-        if i > 0:
-            %Dots.get_child(i-1).color = Color(0,0,0)
-    preNum = value
+    var intVal = int(value)
+    if intVal != preNum:
+        for i in range(preNum, intVal+1):
+            var dot : Circle = %Dots.get_child(i)
+            dot.color = Color(1,1,0)
+            if i > 0:
+                %Dots.get_child(i-1).color = Color(0,0,0)
+            Post.gameSound.emit(get_node("/root/World/Camera").followCam, "countdown", value/(%Dots.get_child_count()-1))
+        preNum = value
     
 func preChooseAnimDone():
     

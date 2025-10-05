@@ -1,31 +1,34 @@
 extends Node3D
 
+@onready var followCam:  Camera3D = %FollowCam
+@onready var freeFlight: Camera3D = %FreeFlight
+
 func _ready():
     
-    %Follow.target  = %Player
-    %Follow.current = true
+    followCam.target  = %Player
+    followCam.current = true
     
 func followCameraPosition():
     
-    return %Follow.global_position
+    return followCam.global_position
     
 func toggleFreeFlight():
     
-    if %Follow.current:
-        %FreeFlight.current = true
+    if followCam.current:
+        freeFlight.current = true
     else:
-        %Follow.current = true
+        followCam.current = true
 
 func on_save(data:Dictionary):
 
     data.Camera = {}
-    data.Camera.freeflight_transform = %FreeFlight.transform
+    data.Camera.freeflight_transform = freeFlight.transform
     data.Camera.transform   = transform
-    data.Camera.follow_dist = %Follow.dist
+    data.Camera.follow_dist = followCam.dist
     
 func on_load(data:Dictionary):
 
     if data.has("Camera"):
         transform = data.Camera.transform
-        %FreeFlight.transform = data.Camera.freeflight_transform
-        %Follow.dist = data.Camera.follow_dist
+        freeFlight.transform = data.Camera.freeflight_transform
+        followCam.dist = data.Camera.follow_dist

@@ -76,7 +76,7 @@ func placeBuilding():
     #building.look_at(Vector3.ZERO)
     Post.buildingPlaced.emit(building)
     
-    building.global_position.y = get_node("/root/World/Camera/Follow").global_position.y
+    building.global_position.y = get_node("/root/World/Camera").followCameraPosition().y
     var tween = create_tween()
     tween.set_ease(Tween.EASE_OUT)
     tween.set_trans(Tween.TRANS_BOUNCE)

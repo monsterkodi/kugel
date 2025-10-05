@@ -32,7 +32,7 @@ func applyCards():
     var speedCards = Info.permLvl(Card.SniperSpeed)
     var rangeCards = Info.permLvl(Card.SniperRange)
     
-    setSensorRadius(5.0 + rangeCards * 1.0)
+    setSensorRadius(4.0 + rangeCards * 1.0)
     
     interval = 4.0  - speedCards * 0.2
     rotSpeed = PI * 0.2 + speedCards * PI * 0.2

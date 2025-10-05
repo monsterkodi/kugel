@@ -49,6 +49,7 @@ rings = 2
 radius = 1.0
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_ail6x"]
+size = Vector2(2.051, 2.051)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_rlav8"]
 render_priority = 2

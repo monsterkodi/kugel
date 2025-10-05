@@ -13,11 +13,11 @@ transform = Transform3D(0.821488, 2.49254e-08, -0.570226, 0.408926, 0.69694, 0.5
 shadow_enabled = true
 sky_mode = 1
 
-[node name="Follow" type="Camera3D" parent="."]
+[node name="FollowCam" type="Camera3D" parent="."]
 unique_name_in_owner = true
 script = ExtResource("2_himew")
 
-[node name="AudioListener3D" type="AudioListener3D" parent="Follow"]
+[node name="AudioListener3D" type="AudioListener3D" parent="FollowCam"]
 
 [node name="FreeFlight" type="Camera3D" parent="."]
 unique_name_in_owner = true

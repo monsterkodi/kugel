@@ -1,5 +1,5 @@
 class_name SaveGame
 extends Resource
 
-var data : Dictionary = {}
+@export var data : Dictionary = {}
  

@@ -117,7 +117,7 @@ func appear():
     var trans:Transform3D = %Player.global_transform
     trans.origin.y = 0
     %Builder.appear(trans)
-    %Camera/Follow.target = %Builder.vehicle
+    %Camera/FollowCam.target = %Builder.vehicle
         
     super.appear()
     
@@ -135,7 +135,7 @@ func back(): %MenuHandler.vanish(self, "right")
 
 func vanish():
     
-    %Camera/Follow.target = %Player
+    %Camera/FollowCam.target = %Player
     %Builder.vanish()
     if %Player.vehicle is RigidBody3D:
         %Player.vehicle.linear_velocity = Vector3.ZERO

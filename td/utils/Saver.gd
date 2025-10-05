@@ -18,7 +18,7 @@ func save():
     get_tree().call_group("save", "on_save", savegame.data)
     if levelData:
         savegame.data.Level = levelData
-    Log.log("savegame.data", savegame.data)
+    Log.log("save", savegame.data)
     ResourceSaver.save(savegame, "user://savegame.tres")
 
 func clear():
@@ -32,6 +32,6 @@ func load():
     if ResourceLoader.exists("user://savegame.tres"):
         savegame = load("user://savegame.tres")
         if savegame:
-            #Log.log("load settings")
+            Log.log("load", savegame.data)
             Settings.load(savegame.data)
             get_tree().call_group("save", "on_load", savegame.data)
