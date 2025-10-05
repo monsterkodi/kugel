@@ -24,7 +24,7 @@ func setCardWithName(n:String):
         
 func setCard(c:Card):
     
-    Log.log("setCard", c.res.name, c.lvl)
+    #Log.log("setCard", c.res.name, c.lvl)
     
     card = c
     if card.get_parent() == null:

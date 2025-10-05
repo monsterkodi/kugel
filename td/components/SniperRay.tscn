@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bybe85vovlq8r" path="res://components/SniperRay.gd" id="1_vwbjh"]
 [ext_resource type="Material" uid="uid://bwflknsbn8pdc" path="res://materials/SniperRayMaterial.tres" id="2_hxfj1"]
-[ext_resource type="AudioStream" uid="uid://bg0jpjpu0c130" path="res://sounds/laser3.wav" id="2_v6xjo"]
+[ext_resource type="AudioStream" uid="uid://bg0jpjpu0c130" path="res://sounds/laser.wav" id="2_v6xjo"]
 
 [node name="SniperRay" type="Node3D"]
 script = ExtResource("1_vwbjh")

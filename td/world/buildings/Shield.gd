@@ -24,7 +24,7 @@ func onHit():
     
     setHitPoints(hitPoints - 1)
     Post.shieldDamaged.emit(self)
-    Post.gameSound.emit(self, "shieldHit")
+    Post.gameSound.emit(self, "shieldHit", hitPoints)
     
 func addLayer():
     

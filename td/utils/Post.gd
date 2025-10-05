@@ -30,6 +30,7 @@ signal levelLoaded
 signal mainMenu
 signal menuVanish
 signal menuAppear
+signal menuDidAppear
 signal menuSound
 signal gameSound
 signal statChanged 

@@ -4,7 +4,7 @@ func _ready():
     
     Post.subscribe(self)
 
-func menuAppear(menu:Control):
+func menuDidAppear(menu:Control):
     
     var items = Utils.childrenWithClasses(menu, ["Button", "HSlider"])
     for item in items:

@@ -38,8 +38,9 @@ func delBuilding():
                 var type = old.type
                 Wallet.addPrice(Info.priceForBuilding(type))
                 old.free()
-                %sell.global_position = targetPos
-                %sell.play()
+                Post.gameSound.emit(targetSlot, "sell")
+                #%sell.global_position = targetPos
+                #%sell.play()
                 Post.buildingSold.emit()
             
 func placeBuilding():
@@ -61,13 +62,15 @@ func placeBuilding():
                 Wallet.addPrice(Info.priceForBuilding(type))
                 old.free()
                 if building.name == "Sell":
-                    %sell.global_position = targetPos
-                    %sell.play()
+                    Post.gameSound.emit(targetSlot, "sell")
+                    #%sell.global_position = targetPos
+                    #%sell.play()
                     building.free()
                     Post.buildingSold.emit()
                     return
-    %build.global_position = targetPos
-    %build.play()
+    Post.gameSound.emit(targetSlot, "build")
+    #%build.global_position = targetPos
+    #%build.play()
     targetSlot.add_child(building)
     building.global_position = targetPos
     #building.look_at(Vector3.ZERO)

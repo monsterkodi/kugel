@@ -144,6 +144,7 @@ func menuAppeared():
     
     if activeMenu:
         activeMenu.appeared()
+        Post.menuDidAppear.emit(activeMenu)
     else:
         Log.log("NO ACTIVE MENU?")
     

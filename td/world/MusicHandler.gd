@@ -14,7 +14,7 @@ func stop():
         child.stop()
         
 func mainMenu():   playMenuMusic()
-func gamePaused(): playMenuMusic()
+#func gamePaused(): playMenuMusic()
 
 func menuAppear(menu:Control):
     
@@ -25,12 +25,12 @@ func menuAppear(menu:Control):
 func menuVanish(menu:Control):
     
     if menu.name == "CreditsMenu":
-        stop()
+        playMenuMusic()
 
 func playMenuMusic():
     
     stop()
-    #%MenuMusic.play()
+    %MenuMusic.play()
     
 func levelStart():
     

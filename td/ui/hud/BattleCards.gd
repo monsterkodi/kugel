@@ -15,7 +15,7 @@ func updateButtons():
     Utils.freeChildren(%Cards)
     for card in %Player.battle.get_children():
         #if card.res.name == Card.Shield: continue
-        Log.log(card.res.name, card.lvl)
+        #Log.log(card.res.name, card.lvl)
         addCardButton(card)
         
     visible = true

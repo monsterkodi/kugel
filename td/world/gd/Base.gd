@@ -23,7 +23,7 @@ func onHit():
     
     setHitPoints(hitPoints - 1)
     Post.baseDamaged.emit(self)
-    Post.gameSound.emit(self, "baseHit")
+    Post.gameSound.emit(self, "baseHit", hitPoints)
         
 func statChanged(statName, value):
 
@@ -56,8 +56,8 @@ func updateDots():
         
 func onDeath():
 
-    Post.baseDestroyed.emit()
     Post.gameSound.emit(self, "baseDied")
+    Post.baseDestroyed.emit()
 
 func _on_center_sphere_body_entered(body: Node):
 
