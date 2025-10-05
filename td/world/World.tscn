@@ -41,7 +41,7 @@
 [ext_resource type="AudioStream" uid="uid://ckw17i1yxquct" path="res://sounds/turret.wav" id="27_iftwb"]
 [ext_resource type="AudioStream" uid="uid://bxo7wghaeklw7" path="res://sounds/shieldDown.ogg" id="29_am0rx"]
 [ext_resource type="Script" uid="uid://x1xttp2nj2hm" path="res://world/MusicHandler.gd" id="29_e08lr"]
-[ext_resource type="AudioStream" uid="uid://u4jxc180lni3" path="res://sounds/fev_clocks_e.wav" id="29_pp1rp"]
+[ext_resource type="AudioStream" uid="uid://bg7m6gjpx8o2b" path="res://sounds/baseHit.ogg" id="29_pp1rp"]
 [ext_resource type="AudioStream" uid="uid://bg0jpjpu0c130" path="res://sounds/laser.wav" id="31_pp1rp"]
 [ext_resource type="AudioStream" uid="uid://ycx3756fctdk" path="res://sounds/sell.wav" id="32_gny34"]
 [ext_resource type="AudioStream" uid="uid://bl44vpoxfxnie" path="res://sounds/laserDamage.wav" id="32_pp1rp"]

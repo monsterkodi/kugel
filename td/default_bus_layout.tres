@@ -1,49 +1,23 @@
-[gd_resource type="AudioBusLayout" load_steps=6 format=3 uid="uid://d2wkvpo6gnur0"]
-
-[sub_resource type="AudioEffectAmplify" id="AudioEffectAmplify_j3pel"]
-resource_name = "Amplify"
-volume_db = 6.0
-
-[sub_resource type="AudioEffectReverb" id="AudioEffectReverb_g28q7"]
-resource_name = "Reverb"
-predelay_feedback = 0.5
-room_size = 0.6
-damping = 0.0
-spread = 0.4
-hipass = 0.12
-wet = 0.6
-
-[sub_resource type="AudioEffectPitchShift" id="AudioEffectPitchShift_j3pel"]
-resource_name = "PitchShift"
-pitch_scale = 0.8
-
-[sub_resource type="AudioEffectEQ6" id="AudioEffectEQ6_j3pel"]
-resource_name = "EQ6"
-band_db/32_hz = -16.3
-band_db/100_hz = -12.0
-band_db/320_hz = -10.2
+[gd_resource type="AudioBusLayout" load_steps=3 format=3 uid="uid://d2wkvpo6gnur0"]
 
 [sub_resource type="AudioEffectReverb" id="AudioEffectReverb_j3pel"]
 resource_name = "Reverb"
-room_size = 0.4
-spread = 0.69
-hipass = 0.33
+predelay_msec = 100.0
+room_size = 0.6
+hipass = 0.25
+wet = 0.3
+
+[sub_resource type="AudioEffectAmplify" id="AudioEffectAmplify_g28q7"]
+resource_name = "Amplify"
+volume_db = 6.0
 
 [resource]
-bus/0/effect/0/effect = SubResource("AudioEffectAmplify_j3pel")
-bus/0/effect/0/enabled = true
 bus/1/name = &"Music"
 bus/1/solo = false
 bus/1/mute = false
 bus/1/bypass_fx = false
 bus/1/volume_db = -0.030508041
 bus/1/send = &"Master"
-bus/1/effect/0/effect = SubResource("AudioEffectReverb_g28q7")
-bus/1/effect/0/enabled = false
-bus/1/effect/1/effect = SubResource("AudioEffectPitchShift_j3pel")
-bus/1/effect/1/enabled = false
-bus/1/effect/2/effect = SubResource("AudioEffectEQ6_j3pel")
-bus/1/effect/2/enabled = false
 bus/2/name = &"Game"
 bus/2/solo = false
 bus/2/mute = false
@@ -56,8 +30,10 @@ bus/3/name = &"Menu"
 bus/3/solo = false
 bus/3/mute = false
 bus/3/bypass_fx = false
-bus/3/volume_db = -0.030508041
+bus/3/volume_db = 0.0
 bus/3/send = &"Master"
+bus/3/effect/0/effect = SubResource("AudioEffectAmplify_g28q7")
+bus/3/effect/0/enabled = true
 bus/4/name = &"Menu Music"
 bus/4/solo = false
 bus/4/mute = false

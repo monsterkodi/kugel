@@ -117,7 +117,7 @@ func gameSound(source:Node3D, action:String, factor:float = 0.0):
                 sound.max_db = linear_to_db(clampf(factor/100.0, 0.0, 1.0))
                 sound.pitch_scale = 2.0 - clampf(factor/100.0, 0.0, 1.0)
             "shieldHit":
-                sound.pitch_scale = 1.0 + factor*0.125
+                sound.pitch_scale = 1.0 + factor*0.1
             "baseHit":
                 sound.pitch_scale = 0.5 + factor*0.25
                 #Log.log("baseHit", factor, sound.pitch_scale)
