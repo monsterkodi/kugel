@@ -8,9 +8,34 @@ func _ready():
     world = get_node("/root/World")
     Post.subscribe(self)
     
+func stop():
+    
+    for child in get_children():
+        child.stop()
+        
+func mainMenu():   playMenuMusic()
+func gamePaused(): playMenuMusic()
+
+func menuAppear(menu:Control):
+    
+    if menu.name == "CreditsMenu":
+        stop()
+        %MenuMusicCredits.play()
+        
+func menuVanish(menu:Control):
+    
+    if menu.name == "CreditsMenu":
+        stop()
+
+func playMenuMusic():
+    
+    stop()
+    #%MenuMusic.play()
+    
 func levelStart():
     
-    match world.currentLevel.name:
-        "Linea":     %SketchReverb.play()
-        "Circulus":  %SketchReverb.play()
-        "Quadratum": %Sketch.play()
+    stop()
+    #match world.currentLevel.name:
+        #"Linea":     %SketchReverb.play()
+        #"Circulus":  %SketchReverb.play()
+        #"Quadratum": %SketchReverb.play()

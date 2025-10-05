@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://mqbiqpms0g07" path="res://ui/menu/SettingsMenu.gd" id="1_7nnky"]
 [ext_resource type="Theme" uid="uid://clh031dvmhoxe" path="res://ui/theme/SettingsMenuTheme.tres" id="1_rd3qm"]
 [ext_resource type="Script" uid="uid://dxpjww7lq0w6w" path="res://ui/menu/SettingsSlider.gd" id="3_emk4v"]
-[ext_resource type="Script" uid="uid://bauyopqilftye" path="res://ui/menu/CheckSetting.gd" id="4_008yk"]
+[ext_resource type="Script" uid="uid://bauyopqilftye" path="res://ui/menu/SettingsCheck.gd" id="4_008yk"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7nnky"]
 
@@ -53,46 +53,50 @@ theme = ExtResource("1_rd3qm")
 theme_override_constants/separation = -10
 alignment = 1
 
-[node name="MasterVolume" type="HBoxContainer" parent="PanelContainer/MarginContainer/Grid/AudioSettings"]
+[node name="volumeMaster" type="HBoxContainer" parent="PanelContainer/MarginContainer/Grid/AudioSettings"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(460, 20)
 layout_mode = 2
 size_flags_vertical = 4
 script = ExtResource("3_emk4v")
 text = "Master"
+value = 1.0
 valueMax = 1.0
 valueStep = 0.1
 metadata/_custom_type_script = "uid://dxpjww7lq0w6w"
 
-[node name="MusicVolume" type="HBoxContainer" parent="PanelContainer/MarginContainer/Grid/AudioSettings"]
+[node name="volumeMusic" type="HBoxContainer" parent="PanelContainer/MarginContainer/Grid/AudioSettings"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(460, 20)
 layout_mode = 2
 size_flags_vertical = 4
 script = ExtResource("3_emk4v")
 text = "Music"
+value = 1.0
 valueMax = 1.0
 valueStep = 0.1
 metadata/_custom_type_script = "uid://dxpjww7lq0w6w"
 
-[node name="MenuVolume" type="HBoxContainer" parent="PanelContainer/MarginContainer/Grid/AudioSettings"]
+[node name="volumeMenu" type="HBoxContainer" parent="PanelContainer/MarginContainer/Grid/AudioSettings"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(460, 20)
 layout_mode = 2
 size_flags_vertical = 4
 script = ExtResource("3_emk4v")
 text = "Menu"
+value = 1.0
 valueMax = 1.0
 valueStep = 0.1
 metadata/_custom_type_script = "uid://dxpjww7lq0w6w"
 
-[node name="GameVolume" type="HBoxContainer" parent="PanelContainer/MarginContainer/Grid/AudioSettings"]
+[node name="volumeGame" type="HBoxContainer" parent="PanelContainer/MarginContainer/Grid/AudioSettings"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(460, 20)
 layout_mode = 2
 size_flags_vertical = 4
 script = ExtResource("3_emk4v")
 text = "SFX"
+value = 1.0
 valueMax = 1.0
 valueStep = 0.1
 metadata/_custom_type_script = "uid://dxpjww7lq0w6w"
@@ -113,21 +117,22 @@ theme = ExtResource("1_rd3qm")
 theme_override_constants/separation = -10
 alignment = 1
 
-[node name="Brightness" type="HBoxContainer" parent="PanelContainer/MarginContainer/Grid/DisplaySettings"]
+[node name="brightness" type="HBoxContainer" parent="PanelContainer/MarginContainer/Grid/DisplaySettings"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(460, 20)
 layout_mode = 2
 size_flags_vertical = 4
 script = ExtResource("3_emk4v")
 text = "Brightness"
+value = 1.0
 valueMax = 2.0
 valueStep = 0.1
 metadata/_custom_type_script = "uid://dxpjww7lq0w6w"
 
-[node name="HiresContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/Grid/DisplaySettings"]
+[node name="hiresContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/Grid/DisplaySettings"]
 layout_mode = 2
 
-[node name="Hires" type="CheckButton" parent="PanelContainer/MarginContainer/Grid/DisplaySettings/HiresContainer"]
+[node name="hires" type="CheckButton" parent="PanelContainer/MarginContainer/Grid/DisplaySettings/hiresContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(360, 0)
 layout_mode = 2
@@ -138,11 +143,11 @@ text = "High DPI"
 script = ExtResource("4_008yk")
 metadata/_custom_type_script = "uid://bauyopqilftye"
 
-[node name="HiresValue" type="Label" parent="PanelContainer/MarginContainer/Grid/DisplaySettings/HiresContainer"]
+[node name="hiresValue" type="Label" parent="PanelContainer/MarginContainer/Grid/DisplaySettings/hiresContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Fullscreen" type="CheckButton" parent="PanelContainer/MarginContainer/Grid/DisplaySettings"]
+[node name="fullscreen" type="CheckButton" parent="PanelContainer/MarginContainer/Grid/DisplaySettings"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
@@ -151,7 +156,7 @@ text = "Fullscreen"
 script = ExtResource("4_008yk")
 metadata/_custom_type_script = "uid://bauyopqilftye"
 
-[node name="Clock" type="CheckButton" parent="PanelContainer/MarginContainer/Grid/DisplaySettings"]
+[node name="clock" type="CheckButton" parent="PanelContainer/MarginContainer/Grid/DisplaySettings"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
@@ -175,7 +180,7 @@ size_flags_horizontal = 4
 theme = ExtResource("1_rd3qm")
 theme_override_constants/separation = -10
 
-[node name="MouseLock" type="CheckButton" parent="PanelContainer/MarginContainer/Grid/GameSettings"]
+[node name="mouseLock" type="CheckButton" parent="PanelContainer/MarginContainer/Grid/GameSettings"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(360, 0)
 layout_mode = 2
@@ -185,7 +190,7 @@ theme = ExtResource("1_rd3qm")
 text = "Mouse Lock"
 script = ExtResource("4_008yk")
 
-[node name="MouseHide" type="CheckButton" parent="PanelContainer/MarginContainer/Grid/GameSettings"]
+[node name="mouseHide" type="CheckButton" parent="PanelContainer/MarginContainer/Grid/GameSettings"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(360, 0)
 layout_mode = 2
@@ -195,7 +200,7 @@ theme = ExtResource("1_rd3qm")
 text = "Mouse Hide"
 script = ExtResource("4_008yk")
 
-[node name="EnemySpeed" type="HBoxContainer" parent="PanelContainer/MarginContainer/Grid/GameSettings"]
+[node name="enemySpeed" type="HBoxContainer" parent="PanelContainer/MarginContainer/Grid/GameSettings"]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(460, 20)
@@ -203,33 +208,35 @@ layout_mode = 2
 size_flags_vertical = 4
 script = ExtResource("3_emk4v")
 text = "Spawn Speed"
+value = 1.0
 valueMin = 1.0
 valueMax = 5.0
 valueStep = 0.5
 metadata/_custom_type_script = "uid://dxpjww7lq0w6w"
 
-[node name="TimeScale" type="HBoxContainer" parent="PanelContainer/MarginContainer/Grid/GameSettings"]
+[node name="timeScale" type="HBoxContainer" parent="PanelContainer/MarginContainer/Grid/GameSettings"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(460, 20)
 layout_mode = 2
 size_flags_vertical = 4
 script = ExtResource("3_emk4v")
 text = "Time Scale"
+value = 1.5
 valueMin = 0.5
 valueMax = 4.0
 valueStep = 0.1
 metadata/_custom_type_script = "uid://dxpjww7lq0w6w"
 
 [connection signal="resized" from="." to="." method="onResize"]
-[connection signal="valueChanged" from="PanelContainer/MarginContainer/Grid/AudioSettings/MasterVolume" to="." method="onMasterVolume"]
-[connection signal="valueChanged" from="PanelContainer/MarginContainer/Grid/AudioSettings/MusicVolume" to="." method="onMusicVolume"]
-[connection signal="valueChanged" from="PanelContainer/MarginContainer/Grid/AudioSettings/MenuVolume" to="." method="onMenuVolume"]
-[connection signal="valueChanged" from="PanelContainer/MarginContainer/Grid/AudioSettings/GameVolume" to="." method="onGameVolume"]
-[connection signal="valueChanged" from="PanelContainer/MarginContainer/Grid/DisplaySettings/Brightness" to="." method="onBrightness"]
-[connection signal="toggled" from="PanelContainer/MarginContainer/Grid/DisplaySettings/HiresContainer/Hires" to="." method="onHires"]
-[connection signal="toggled" from="PanelContainer/MarginContainer/Grid/DisplaySettings/Fullscreen" to="." method="onFullscreen"]
-[connection signal="toggled" from="PanelContainer/MarginContainer/Grid/DisplaySettings/Clock" to="." method="onClock"]
-[connection signal="toggled" from="PanelContainer/MarginContainer/Grid/GameSettings/MouseLock" to="." method="onMouseLock"]
-[connection signal="toggled" from="PanelContainer/MarginContainer/Grid/GameSettings/MouseHide" to="." method="onMouseHide"]
-[connection signal="valueChanged" from="PanelContainer/MarginContainer/Grid/GameSettings/EnemySpeed" to="." method="onEnemySpeed"]
-[connection signal="valueChanged" from="PanelContainer/MarginContainer/Grid/GameSettings/TimeScale" to="." method="onTimescale"]
+[connection signal="valueChanged" from="PanelContainer/MarginContainer/Grid/AudioSettings/volumeMaster" to="." method="onMasterVolume"]
+[connection signal="valueChanged" from="PanelContainer/MarginContainer/Grid/AudioSettings/volumeMusic" to="." method="onMusicVolume"]
+[connection signal="valueChanged" from="PanelContainer/MarginContainer/Grid/AudioSettings/volumeMenu" to="." method="onMenuVolume"]
+[connection signal="valueChanged" from="PanelContainer/MarginContainer/Grid/AudioSettings/volumeGame" to="." method="onGameVolume"]
+[connection signal="valueChanged" from="PanelContainer/MarginContainer/Grid/DisplaySettings/brightness" to="." method="onBrightness"]
+[connection signal="toggled" from="PanelContainer/MarginContainer/Grid/DisplaySettings/hiresContainer/hires" to="." method="onHires"]
+[connection signal="toggled" from="PanelContainer/MarginContainer/Grid/DisplaySettings/fullscreen" to="." method="onFullscreen"]
+[connection signal="toggled" from="PanelContainer/MarginContainer/Grid/DisplaySettings/clock" to="." method="onClock"]
+[connection signal="toggled" from="PanelContainer/MarginContainer/Grid/GameSettings/mouseLock" to="." method="onMouseLock"]
+[connection signal="toggled" from="PanelContainer/MarginContainer/Grid/GameSettings/mouseHide" to="." method="onMouseHide"]
+[connection signal="valueChanged" from="PanelContainer/MarginContainer/Grid/GameSettings/enemySpeed" to="." method="onEnemySpeed"]
+[connection signal="valueChanged" from="PanelContainer/MarginContainer/Grid/GameSettings/timeScale" to="." method="onTimescale"]

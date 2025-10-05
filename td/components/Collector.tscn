@@ -42,8 +42,5 @@ omni_shadow_mode = 0
 unique_name_in_owner = true
 stream = ExtResource("3_bm2vk")
 attenuation_model = 1
-max_distance = 30.0
-max_polyphony = 4
-bus = &"Game"
 
 [connection signal="body_entered" from="Area3D" to="." method="bodyEntered"]

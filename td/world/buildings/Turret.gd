@@ -78,7 +78,7 @@ func shoot():
     bullet.mass = mass
     bullet.global_transform = emitter.global_transform
     bullet.linear_velocity  = emitter.global_basis.z * -velocity
-    %fire.play()
+    Post.gameSound.emit(self, "turret")
     
     var secs = interval / 3.0
     shootTween = create_tween()

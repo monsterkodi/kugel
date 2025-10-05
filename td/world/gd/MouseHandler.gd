@@ -6,14 +6,14 @@ extends Control
 var mouseLock : bool = true :
     set(v):
         mouseLock = v
-        Log.log("mouseLock", v)
+        #Log.log("mouseLock", v)
         if not mouseLock:
             showMouse()
             
 var mouseHide : bool = false :
     set(v):
         mouseHide = v
-        Log.log("mouseHide", v)
+        #Log.log("mouseHide", v)
         if mouseHide:       hideMouse()
         elif not mouseLock: showMouse()    
 

@@ -12,15 +12,19 @@ func _ready():
     
     Info.player = %Player
 
+    #Log.log("apply defaults")
+    Settings.apply(Settings.defaults)
+
     loadGame()
-    mainMenu()
+    
+    Post.mainMenu.emit()
         
 func mainMenu():
     
     get_tree().paused = true
     saveLevel()
     %MenuHandler.appear(%MainMenu)
-    
+
 func _process(delta: float):
     
     var orphan = Node.get_orphan_node_ids()
@@ -215,14 +219,14 @@ func loadLevel(levelRes):
     Log.log("loadLevel", levelRes)
 
     currentLevelRes = levelRes
-    Log.log("level instantiate")
+    #Log.log("level instantiate")
     currentLevel = levelRes.instantiate()
     currentLevel.inert = false
-    Log.log("level add")
+    #Log.log("level add")
     add_child(currentLevel)
-    Log.log("level start")
+    #Log.log("level start")
     currentLevel.start()
-    Log.log("emit startLevel")
+    #Log.log("emit startLevel")
     Post.startLevel.emit()
     
     var isFresh = true
@@ -233,9 +237,9 @@ func loadLevel(levelRes):
             isFresh = not Saver.savegame.data.Level[currentLevel.name].has("gameTime")
             Post.levelLoaded.emit()
 
-    Log.log("emit applyCards")
+    #Log.log("emit applyCards")
     Post.applyCards.emit()
-    Log.log("emit levelStart")
+    #Log.log("emit levelStart")
     
     if isFresh and %Player.deck.get_child_count():
         %MenuHandler.appear(%HandChooser)

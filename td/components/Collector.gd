@@ -14,7 +14,7 @@ func setRadius(r:float):
     radius = r
     %Light.position.y = radius
     %Light.omni_range = sqrt(radius*radius + radius*radius)
-    %Light.light_energy = 1.5 #+ radius * 0.06
+    %Light.light_energy = 1.5
         
     %Shape.shape.radius = radius
     %Mesh.mesh.size = Vector2(radius*2, radius*2)
@@ -31,12 +31,7 @@ func _physics_process(delta:float):
             corpses.erase(corpse)
             corpse.free()
             Post.corpseCollected.emit(self)
-            if not %collect.playing or %collect.get_playback_position() > 0.075:
-                %collect.pitch_scale = pitch
-                pitch += 0.25
-                if pitch >= 2.0: pitch = 1.0
-                
-                %collect.play()
+            Post.gameSound.emit(self, "collect")
         else:
             var scl = lerpf(corpse.scale.x, 0.4, 2*delta)
             corpse.scale = Vector3(scl, scl, scl)
@@ -48,7 +43,6 @@ func bodyEntered(body:Node3D):
         var corpse:RigidBody3D = body
         corpse.collision_mask  = Layer.LayerFloor | Layer.LayerStatic
         corpse.collision_layer = 0
-        #corpse.freeze          = true
         corpses.append(corpse)
 
 func onEnemyCorpsed(enemy:Enemy):

@@ -1,10 +1,9 @@
-[gd_scene load_steps=19 format=3 uid="uid://wjb8cyv4jvd8"]
+[gd_scene load_steps=18 format=3 uid="uid://wjb8cyv4jvd8"]
 
 [ext_resource type="Material" uid="uid://bxlvq722jmuid" path="res://materials/SniperMaterial.tres" id="1_e1wde"]
 [ext_resource type="Script" uid="uid://wbgce1e4vyn7" path="res://world/buildings/Sniper.gd" id="1_u6s15"]
 [ext_resource type="PhysicsMaterial" uid="uid://cxmvb6atqbyf0" path="res://materials/physics/DefaultPhysics.tres" id="3_qxwcm"]
 [ext_resource type="PackedScene" uid="uid://cog25x4x6herp" path="res://components/SniperRay.tscn" id="4_ayxhp"]
-[ext_resource type="AudioStream" uid="uid://ced782tiywpgv" path="res://sounds/tas_ambillent_5.wav" id="6_e1wde"]
 [ext_resource type="Shader" uid="uid://b7lpd6h1smubj" path="res://materials/visual/CircleMatVis.tres" id="7_v1t5n"]
 [ext_resource type="PackedScene" uid="uid://bmyq0wms5x6rm" path="res://components/HalfCapsuleRounded.tscn" id="8_u6s15"]
 [ext_resource type="Material" uid="uid://cl1am5df8gk6t" path="res://materials/PoleBaseMaterial.tres" id="9_p61hx"]
@@ -144,14 +143,6 @@ physics_material_override = ExtResource("3_qxwcm")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Base"]
 shape = SubResource("CylinderShape3D_iwplw")
-
-[node name="fire" type="AudioStreamPlayer3D" parent="."]
-unique_name_in_owner = true
-stream = ExtResource("6_e1wde")
-attenuation_model = 1
-unit_size = 6.0
-max_db = 0.0
-bus = &"Game"
 
 [node name="reloadTimer" type="Timer" parent="."]
 unique_name_in_owner = true

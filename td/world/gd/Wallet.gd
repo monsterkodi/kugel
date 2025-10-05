@@ -1,7 +1,7 @@
 extends Node
 
-var balance:int = 0
-var restoks:int = 0
+var balance : int = 0
+var restoks : int = 0
 
 func _ready():
     

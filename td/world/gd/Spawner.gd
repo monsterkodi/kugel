@@ -163,4 +163,4 @@ func clockTick():
     spawnedBody = null
     
     Post.enemySpawned.emit()
-    %enemySpawned.play()
+    Post.gameSound.emit(self, "enemySpawned", float(ident))

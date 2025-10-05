@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://b6mskrm1n176r"]
+[gd_scene load_steps=45 format=3 uid="uid://b6mskrm1n176r"]
 
 [ext_resource type="Script" uid="uid://b6inujglidn5n" path="res://world/gd/World.gd" id="1_eu7l1"]
 [ext_resource type="PackedScene" uid="uid://baj5gp1mlm380" path="res://world/Player.tscn" id="3_wygdx"]
@@ -22,16 +22,27 @@
 [ext_resource type="AudioStream" uid="uid://bof0k0dnyl672" path="res://sounds/menu1.wav" id="15_8u1wm"]
 [ext_resource type="Script" uid="uid://srdtmvh7y33a" path="res://world/MenuSound.gd" id="15_ortil"]
 [ext_resource type="PackedScene" uid="uid://bhawut27oexi" path="res://ui/menu/PermViewer.tscn" id="15_pbtp0"]
+[ext_resource type="Script" uid="uid://dbjdt42valv4b" path="res://world/GameSound.gd" id="16_ppjuv"]
 [ext_resource type="AudioStream" uid="uid://bn02oiegqjwkx" path="res://sounds/menu2.wav" id="16_y7dlm"]
+[ext_resource type="AudioStream" uid="uid://b4v3ixqrfwvoc" path="res://sounds/high_bellz_9.wav" id="17_dh4u6"]
 [ext_resource type="PackedScene" uid="uid://d3bgtynatvwu2" path="res://ui/menu/CheatMenu.tscn" id="18_3j5ad"]
-[ext_resource type="Script" uid="uid://dsacaoashnrme" path="res://world/GameSound.gd" id="20_fy8qs"]
+[ext_resource type="AudioStream" uid="uid://i3hmn07k1oju" path="res://sounds/klack5.wav" id="19_rnc6a"]
+[ext_resource type="AudioStream" uid="uid://eiva2xina8lj" path="res://sounds/place.wav" id="20_1b1jl"]
+[ext_resource type="AudioStream" uid="uid://3l177144a67i" path="res://sounds/wet2.wav" id="20_ne8ba"]
+[ext_resource type="AudioStream" uid="uid://q5kof0mmgyhy" path="res://sounds/wet1.wav" id="22_spsmc"]
+[ext_resource type="AudioStream" uid="uid://dy8acua65vkpd" path="res://sounds/bouw.wav" id="23_1b1jl"]
 [ext_resource type="PackedScene" uid="uid://crdyanslu6b0r" path="res://ui/menu/MainMenu.tscn" id="23_vqsdb"]
 [ext_resource type="PackedScene" uid="uid://dlje6krlhyfml" path="res://ui/menu/CreditsMenu.tscn" id="24_ph6wr"]
 [ext_resource type="PackedScene" uid="uid://c23bh5moajx3o" path="res://ui/menu/ResultMenu.tscn" id="24_rteg8"]
-[ext_resource type="AudioStream" uid="uid://cmdkmjrf1kffn" path="res://music/sketch_reverb.mp3" id="25_lcdy5"]
+[ext_resource type="AudioStream" uid="uid://co4s3l0xfgsga" path="res://sounds/klook.wav" id="24_slova"]
+[ext_resource type="AudioStream" uid="uid://3o6rhpp3qbvy" path="res://sounds/dry2.wav" id="25_lgic5"]
+[ext_resource type="AudioStream" uid="uid://dg4wvv3hpfust" path="res://sounds/friendly_4.wav" id="25_ne8ba"]
 [ext_resource type="Script" uid="uid://cqpsx8o7xldu6" path="res://world/MusicPlayer.gd" id="25_ph6wr"]
+[ext_resource type="AudioStream" uid="uid://ckw17i1yxquct" path="res://sounds/klack2.wav" id="27_iftwb"]
+[ext_resource type="AudioStream" uid="uid://ced782tiywpgv" path="res://sounds/tas_ambillent_5.wav" id="27_lgic5"]
 [ext_resource type="Script" uid="uid://x1xttp2nj2hm" path="res://world/MusicHandler.gd" id="29_e08lr"]
-[ext_resource type="AudioStream" uid="uid://cjym82y8f1cfb" path="res://music/maintheme_looped_once.mp3" id="33_ppjuv"]
+[ext_resource type="AudioStream" uid="uid://cjym82y8f1cfb" path="res://music/MenuMusicCredits.mp3" id="33_ppjuv"]
+[ext_resource type="Script" uid="uid://be584uc1qm16n" path="res://world/Settings.gd" id="41_spsmc"]
 
 [sub_resource type="Environment" id="Environment_ig7tw"]
 background_mode = 1
@@ -131,7 +142,50 @@ stream = ExtResource("13_tqxmq")
 bus = &"Menu"
 
 [node name="GameSound" type="Node" parent="."]
-script = ExtResource("20_fy8qs")
+unique_name_in_owner = true
+script = ExtResource("16_ppjuv")
+
+[node name="collect" type="AudioStreamPlayer3D" parent="GameSound"]
+stream = ExtResource("25_lgic5")
+
+[node name="hit" type="AudioStreamPlayer3D" parent="GameSound"]
+stream = ExtResource("19_rnc6a")
+
+[node name="dash" type="AudioStreamPlayer3D" parent="GameSound"]
+stream = ExtResource("20_1b1jl")
+
+[node name="dashAir" type="AudioStreamPlayer3D" parent="GameSound"]
+stream = ExtResource("20_1b1jl")
+
+[node name="jump" type="AudioStreamPlayer3D" parent="GameSound"]
+stream = ExtResource("20_ne8ba")
+attenuation_model = 1
+
+[node name="land" type="AudioStreamPlayer3D" parent="GameSound"]
+stream = ExtResource("22_spsmc")
+attenuation_model = 1
+
+[node name="sentinel" type="AudioStreamPlayer3D" parent="GameSound"]
+stream = ExtResource("24_slova")
+attenuation_model = 1
+volume_db = -6.0
+unit_size = 6.0
+bus = &"Game"
+
+[node name="enemySpawned" type="AudioStreamPlayer3D" parent="GameSound"]
+stream = ExtResource("23_1b1jl")
+
+[node name="enemyDied" type="AudioStreamPlayer3D" parent="GameSound"]
+stream = ExtResource("17_dh4u6")
+
+[node name="enemyHit" type="AudioStreamPlayer3D" parent="GameSound"]
+stream = ExtResource("25_ne8ba")
+
+[node name="sniper" type="AudioStreamPlayer3D" parent="GameSound"]
+stream = ExtResource("27_lgic5")
+
+[node name="turret" type="AudioStreamPlayer3D" parent="GameSound"]
+stream = ExtResource("27_iftwb")
 
 [node name="MouseHandler" parent="." groups=["game"] instance=ExtResource("6_p1v5b")]
 seconds = 1.0
@@ -183,22 +237,21 @@ visible = false
 
 [node name="CreditsMenu" parent="MenuHandler" instance=ExtResource("24_ph6wr")]
 unique_name_in_owner = true
+process_mode = 2
+visible = false
 
 [node name="MusicHandler" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("29_e08lr")
 
-[node name="SketchReverb" type="AudioStreamPlayer" parent="MusicHandler"]
-unique_name_in_owner = true
-stream = ExtResource("25_lcdy5")
-bus = &"Music"
-script = ExtResource("25_ph6wr")
-
-[node name="Sketch" type="AudioStreamPlayer" parent="MusicHandler"]
+[node name="MenuMusicCredits" type="AudioStreamPlayer" parent="MusicHandler"]
 unique_name_in_owner = true
 stream = ExtResource("33_ppjuv")
-bus = &"Music"
+bus = &"Menu Music"
 script = ExtResource("25_ph6wr")
+
+[node name="Settings" type="Node" parent="."]
+script = ExtResource("41_spsmc")
 
 [connection signal="visibility_changed" from="MenuHandler/CardChooser" to="MenuHandler/CardChooser" method="_on_visibility_changed"]
 [connection signal="playLevel" from="MenuHandler/MainMenu" to="." method="playLevel"]

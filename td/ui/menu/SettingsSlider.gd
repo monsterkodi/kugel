@@ -15,21 +15,25 @@ signal valueChanged
         text = v  
         if label: label.text = text
 
-@export var value: float = 0.0 :
+@export var value: float :
     set(v): 
 
-        if v > value:
-            Post.menuSound.emit("slider")
-        elif v < value:
-            Post.menuSound.emit("slider_down")
+        if not Engine.is_editor_hint():
+            if v > value:
+                Post.menuSound.emit("slider")
+            elif v < value:
+                Post.menuSound.emit("slider_down")
             
         value = v
+        
         if slider: slider.value = v
-        if valueLabel: 
-            if valueStep != 1.0:
-                valueLabel.text = Utils.trimFloat(v, 1)
-            else:
-                valueLabel.text = str(int(v))
+        
+        if not Engine.is_editor_hint():
+            if valueLabel: 
+                if valueStep != 1.0:
+                    valueLabel.text = Utils.trimFloat(v, 1)
+                else:
+                    valueLabel.text = str(int(v))
         
 @export var valueMin: float = 0.0 :
     set(v): 
@@ -75,10 +79,10 @@ func _ready():
     add_child(valueLabel)
     
     text      = text
+    value     = value
     valueMin  = valueMin
     valueMax  = valueMax
     valueStep = valueStep
-    value     = value
     
 func setFocus():
     
@@ -92,4 +96,6 @@ func unsetFocus():
 func onValueChanged(v):
     
     value = v
-    valueChanged.emit(v)
+    if not Engine.is_editor_hint():
+        #Log.log("onValueChanged", v)
+        valueChanged.emit(v)

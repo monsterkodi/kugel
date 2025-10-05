@@ -5,7 +5,7 @@ var savegame : SaveGame
 func _ready(): 
     
     savegame = SaveGame.new()
-    Log.log("Saver.ready")
+    #Log.log("Saver.ready")
 
 func save():
 
@@ -13,6 +13,7 @@ func save():
     if savegame and savegame.data.has("Level"):
         levelData = savegame.data.Level
     savegame = SaveGame.new()
+    Settings.save(savegame.data)
     get_tree().call_group("save", "on_save", savegame.data)
     if levelData:
         savegame.data.Level = levelData
@@ -30,4 +31,6 @@ func load():
     if ResourceLoader.exists("user://savegame.tres"):
         savegame = load("user://savegame.tres")
         if savegame:
+            #Log.log("load settings")
+            Settings.load(savegame.data)
             get_tree().call_group("save", "on_load", savegame.data)

@@ -27,13 +27,13 @@ signal levelStart
 signal levelReset
 signal levelEnd
 signal levelLoaded
+signal mainMenu
 signal menuVanish
 signal menuAppear
 signal menuSound
 signal gameSound
 signal statChanged 
 signal enemySpeed # speed
-signal mainMenu
 signal newGame
 signal resumeGame
 signal restartLevel

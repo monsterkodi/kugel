@@ -5,6 +5,10 @@ func _ready():
     %Follow.target  = %Player
     %Follow.current = true
     
+func followCameraPosition():
+    
+    return %Follow.global_position
+    
 func toggleFreeFlight():
     
     if %Follow.current:

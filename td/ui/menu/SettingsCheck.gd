@@ -1,5 +1,7 @@
-class_name CheckSetting
+class_name SettingsCheck
 extends CheckButton
+
+signal valueChanged
 
 const activeColor  = Color(1, 0, 0)
 const passiveColor = Color(0.4, 0.4, 0.4)
@@ -21,6 +23,8 @@ func _ready():
     connect("toggled",       onToggle)
     
 func onToggle(v):
+    
+    valueChanged.emit(v)
     if v:
         Post.menuSound.emit("check")
     else:

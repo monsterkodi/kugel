@@ -76,8 +76,8 @@ func bounce():
         #Log.log(damage, body.mass)
         body.addDamage(damage)
         body.apply_central_impulse(impulse.normalized() * impulsePower * pow(body.mass, 0.75))
-        
-    %fire.play()
+     
+    Post.gameSound.emit(self, "sentinel")   
     
     tween = create_tween()
     tween.set_trans(Tween.TRANS_LINEAR)

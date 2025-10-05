@@ -89,7 +89,7 @@ func lookUp():
 
 func shoot():
     
-    %fire.play()
+    Post.gameSound.emit(self, "sniper")
     %SniperGlow.visible = false
     %SniperRay.shoot()
     reloadTimer.start(interval)

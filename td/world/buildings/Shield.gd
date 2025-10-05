@@ -24,6 +24,7 @@ func onHit():
     
     setHitPoints(hitPoints - 1)
     Post.shieldDamaged.emit(self)
+    Post.gameSound.emit(self, "shieldHit")
     
 func addLayer():
     
@@ -51,9 +52,9 @@ func setHitPoints(hp):
 
 func onShieldDown():
     
-    Log.log("onShieldDown")
     set_physics_process(false)
     get_parent_node_3d().remove_child.call_deferred(self)
+    Post.gameSound.emit(self, "shieldDown")
     queue_free()
 
 func _on_body_entered(body: Node3D):

@@ -107,10 +107,9 @@ func applyDamage(damage:float, source:PhysicsBody3D):
         setMass(mass-damage)
         health = mass-0.5
         if health <= 0:
-            %died.pitch_scale = randf_range(0.5, 2.0)
-            %died.play()
+            Post.gameSound.emit(self, "enemyDied")
             die()
             
     if source is Bullet:
-        %hit.play()
+        Post.gameSound.emit(self, "enemyHit")
         source.queue_free()

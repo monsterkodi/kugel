@@ -30,8 +30,6 @@ func applyCards():
     
     %Collector.setRadius(7 + 7 * rangeCards)
     
-    #Log.log("pill", %LaserPointer.laserDamage, %LaserPointer.laserRange, %Collector.radius)
-
 func _physics_process(delta:float):
     
     if not player: return
@@ -63,25 +61,19 @@ func _integrate_forces(state: PhysicsDirectBodyState3D):
     var newContactCount = get_contact_count() 
     
     if contactCount == 0 and newContactCount == 1:
-        var impulse = state.get_contact_impulse(0).length()
-        %land.max_db = linear_to_db(clampf(impulse/100.0, 0.0, 1.0))
-        %land.play()
+        Post.gameSound.emit(self, "land", state.get_contact_impulse(0).length())
     
     contactCount = newContactCount
     
     if contactCount > 1:
-        if not %hit.playing:
-            var impulse = state.get_contact_impulse(1).length()
-            %hit.max_db = linear_to_db(clampf(impulse/100.0, 0.0, 1.0))
-            %hit.pitch_scale = 2.0 - clampf(impulse/100.0, 0.0, 1.0)
-            %hit.play()
+        Post.gameSound.emit(self, "hit", state.get_contact_impulse(1).length())
     
     state.linear_velocity = state.linear_velocity.limit_length(speed)
     
     if Input.is_action_pressed("jump") and %JumpBlock.is_stopped():
         if contactCount > 0:
             %JumpTimer.start()
-            %jump.play()
+            Post.gameSound.emit(self, "jump")
             
     if not %JumpTimer.is_stopped():
         apply_central_impulse(Vector3.UP * 100 * %JumpTimer.time_left/%JumpTimer.wait_time)
@@ -92,10 +84,9 @@ func _integrate_forces(state: PhysicsDirectBodyState3D):
         %DashBlock.start()
         %DashTimer.start()
         if global_position.y < 0.1:
-            %dash.set_volume_linear(0.2)
+            Post.gameSound.emit(self, "dash")
         else:
-            %dash.set_volume_linear(0.05)
-        %dash.play()
+            Post.gameSound.emit(self, "dashAir")
     if dash < 0.96 and not %DashBlock.is_stopped():
         %DashBlock.stop()
         
@@ -123,27 +114,6 @@ func calcDashDir(delta:float):
         dir = dir.normalized()
     else:
         dir = -global_basis.z
-    
-    #var xinp = Input.get_joy_axis(0, JOY_AXIS_LEFT_X) 
-    #var yinp = Input.get_joy_axis(0, JOY_AXIS_LEFT_Y) 
-    
-    #const deadzone = 0.25
-    #if absf(xinp) < deadzone: xinp = 0
-    #if absf(yinp) < deadzone: yinp = 0
-#
-    #if Input.is_key_pressed(KEY_UP):    yinp -= dt*60 
-    #if Input.is_key_pressed(KEY_DOWN):  yinp += dt*60 
-    #if Input.is_key_pressed(KEY_A):     xinp -= dt*60 
-    #if Input.is_key_pressed(KEY_D):     xinp += dt*60 
-    #if Input.is_key_pressed(KEY_W):     yinp -= dt*60 
-    #if Input.is_key_pressed(KEY_S):     yinp += dt*60 
-    #
-    #if xinp or yinp:
-        #if absf(xinp) > 0: dir += xinp  * global_transform.basis.x
-        #if absf(yinp) > 0: dir += yinp  * global_transform.basis.z
-        #dir = dir.normalized()
-    #else:
-        #dir = -global_basis.z
     
     if Input.is_key_pressed(KEY_LEFT):   mouseRot -= dt
     if Input.is_key_pressed(KEY_RIGHT):  mouseRot += dt
@@ -180,29 +150,7 @@ func readInput(delta:float):
     if Input.is_action_pressed("right"):        %strafe.add( dt)
     if Input.is_action_pressed("left"):         %strafe.add(-dt)
 
-    #if Input.is_action_pressed("faster"): faster()
-    #if Input.is_action_pressed("slower"): slower()
-
-#func faster():
-    #
-    #speed *= 1.01; speed = clampf(speed, MIN_SPEED, MAX_SPEED); Log.log("speed", speed)
-    
-#func slower():
-    #
-    #speed *= 0.99; speed = clampf(speed, MIN_SPEED, MAX_SPEED); Log.log("speed", speed)
-
 func _input(event: InputEvent):
     
     if event is InputEventMouseMotion:
         mouseDelta = event.relative
-
-#func _unhandled_input(event: InputEvent):
-    #
-    #if event is InputEventMouseButton:
-        #if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-            #get_viewport().set_input_as_handled()
-            #faster()
-        #elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-            #get_viewport().set_input_as_handled()
-            #slower()
-            
