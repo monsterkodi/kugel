@@ -54,7 +54,7 @@ func placeBuilding():
     #Log.log("placeBuilding", building.name)
     Post.buildingBought.emit(building.name)
     building.inert = false
-    if targetSlot != get_parent_node_3d():
+    if targetSlot != get_node("/root/World").currentLevel:
         if targetSlot.get_child_count():
             var old = targetSlot.get_child(0)
             if old:
@@ -87,7 +87,7 @@ func _process(delta:float):
     if visible and ghost and vehicle:
         if ghost is Shield:
             targetPos  = Vector3.ZERO
-            targetSlot = get_parent_node_3d()
+            targetSlot = get_node("/root/World").currentLevel
         else:
             findTargetPos()
         ghost.global_position = ghost.global_position.lerp(targetPos, 0.1)

@@ -24,7 +24,7 @@ func statChanged(statName, value):
 func buildingSold():
     
     showButtons()
-    %Buttons.get_child(-1).grab_focus()
+    #%Buttons.get_child(-1).grab_focus()
         
 func buildingPlaced(building):
     

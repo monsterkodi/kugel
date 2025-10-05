@@ -80,7 +80,7 @@ func gameResumed():
     
 func resetLevel(data:Dictionary):
 
-    assert(data)
+    assert(data != null and data is Dictionary)
     if not data.has("Level"): data.Level = {}
         
     if not data.Level.has(name):

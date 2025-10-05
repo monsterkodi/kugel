@@ -40,4 +40,4 @@ func onRetry():
 
 func onMainMenu():
     
-    %MenuHandler.appear(%MainMenu)
+    Post.mainMenu.emit()

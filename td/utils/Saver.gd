@@ -5,7 +5,8 @@ var savegame : SaveGame
 func _ready(): 
     
     savegame = SaveGame.new()
-    #Log.log("Saver.ready")
+    assert(savegame.data != null)
+    Log.log("Saver.ready")
 
 func save():
 
