@@ -6,19 +6,21 @@ var volume    = {
     "dashAir":      0.1, 
     "collect":      0.05, 
     "enemyHit":     0.1, 
-    "sniper":       1.0, 
+    "sniper":       1.0,
     "land":         0.5, 
     "turret":       0.2, 
     "laser":        0.2,
-    "enemySpawned": 0.3 }
+    "sentinel":     0.3,
+    "countdown":    0.05,
+    "enemySpawned": 0.2 }
     
-var maxdb     = { }
+var maxdb     = { "countdown": 0.1 }
 var maxdist   = { "enemySpawned": 60.0, "shieldHit": 120.0, "baseHit": 120.0 }
 var seqsPitch = { "collect": [1.0, 1.125, 1.25, 1.375, 1.5 ] }
 var seqsIndex = { "collect": 0 }
 var randPitch = { "turret": [1.0, 0.9, 0.8, 0.7, 0.6]}
-var poly      = { "collect": 8, "dash": 3, "dashAir": 3, "land": 3, "laserDamage": 4, "baseHit": 3, "shieldHit": 3 }
-var pool      = { "enemyHit": 32, "enemyDied": 32, "enemySpawned": 8, "sentinel": 8, "sniper": 8, "turret": 8, "laser": 4 }
+var poly      = { "collect": 8, "dash": 3, "dashAir": 3, "land": 3, "laserDamage": 4, "baseHit": 3, "shieldHit": 3, "countdown": 16, "build": 4 }
+var pool      = { "enemyHit": 32, "enemyDied": 32, "enemySpawned": 8, "sentinel": 24, "sniper": 8, "turret": 8, "laser": 8 }
 var soundPool = {}
 var poolQueue = {}
 
@@ -75,6 +77,13 @@ func _process(delta: float):
                             sound.pitch_scale = 1.0+item.factor*0.125
                         "enemyDied", "enemyHit", "sniper", "sentinel", "turret":
                             sound.pitch_scale = getRandPitch(key)
+                            var vol = 1.0
+                            if volume.has(key):
+                                vol = volume[key]
+                            sound.volume_linear = vol * randf_range(0.2, 1.0)
+                        "laser":
+                            Log.log("laser", item.pos, item.factor)
+                            sound.pitch_scale = item.factor
                         
                     sound.play()
                     break
@@ -125,7 +134,7 @@ func gameSound(source:Node3D, action:String, factor:float = 0.0):
                 #Log.log("baseHit", factor, sound.pitch_scale)
             "laserDamage":
                 #Log.log("laserDamage", factor, 1.0/factor, 0.15/factor, clampf(0.15/factor, 0.2, 2.0))
-                sound.volume_linear = clampf(factor, 0.0, 1.0)
+                sound.volume_linear = clampf(factor/2, 0.0, 1.0)
                 sound.pitch_scale   = clampf(0.15/factor, 0.2, 2.0)
                 
         sound.global_position = source.global_position        

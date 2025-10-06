@@ -2,12 +2,13 @@
 
 importer="oggvorbisstr"
 type="AudioStreamOggVorbis"
-uid="uid://cy3bjex0ajscb"
-valid=false
+uid="uid://bfvtwcrn7v516"
+path="res://.godot/imported/laser6.ogg-f380e6f5a857586db65bad002d2ff2ce.oggvorbisstr"
 
 [deps]
 
 source_file="res://sounds/laser6.ogg"
+dest_files=["res://.godot/imported/laser6.ogg-f380e6f5a857586db65bad002d2ff2ce.oggvorbisstr"]
 
 [params]
 

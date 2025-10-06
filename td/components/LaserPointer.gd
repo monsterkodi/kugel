@@ -53,14 +53,21 @@ func _physics_process(delta:float):
     if collider and collider.is_inside_tree():
         setLength(global_position.distance_to(collider.global_position))
         if collider is Enemy and collider.health > 0 and collider.spawned:
-            #if not %laser.playing:
-                #%laser.play()
-            Post.gameSound.emit(self, "laser")   
+            #Post.gameSound.emit(self, "laser", 1.0 + fmod(get_parent_node_3d().global_position.length_squared(), 1.0))   
+            #Post.gameSound.emit(self, "laser", 1.0 + fmod(global_position.length(), 1.0))   
+            if not %laser.playing:
+                %laser.play()
+            #%laser.pitch_scale = 0.5 + fmod(get_parent_node_3d().global_position.length(), 0.5) - fmod(global_position.length(), 1.0) * 0.05
+            #%laser.pitch_scale = 0.75 + fmod(global_position.length(), 1.0) * 0.2
+            %laser.volume_linear = 0.05 + fmod(global_position.length(), 1.0) * 0.05
             laser.set_surface_override_material(0, activeMat)
             var damage = delta * maxf(0.5, laserDamage * pow(collider.mass, 1.0/2.0))
             #Log.log("damage", damage, collider.health, laserDamage * collider.health)
             if get_parent() is Pill:
                 Post.gameSound.emit(self, "laserDamage", minf(damage, delta * collider.mass))
+                %laser.pitch_scale = 0.15
+            else:
+                %laser.pitch_scale = 0.18 + fmod(get_parent_node_3d().global_position.length(), 0.1)
             collider.addDamage(damage)
             return
     else:

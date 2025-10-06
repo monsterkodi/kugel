@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=3 uid="uid://b6mskrm1n176r"]
+[gd_scene load_steps=54 format=3 uid="uid://b6mskrm1n176r"]
 
 [ext_resource type="Script" uid="uid://b6inujglidn5n" path="res://world/gd/World.gd" id="1_eu7l1"]
 [ext_resource type="PackedScene" uid="uid://baj5gp1mlm380" path="res://world/Player.tscn" id="3_wygdx"]
@@ -23,6 +23,7 @@
 [ext_resource type="AudioStream" uid="uid://bof0k0dnyl672" path="res://sounds/vanish.wav" id="15_8u1wm"]
 [ext_resource type="Script" uid="uid://srdtmvh7y33a" path="res://world/MenuSound.gd" id="15_ortil"]
 [ext_resource type="PackedScene" uid="uid://bhawut27oexi" path="res://ui/menu/PermViewer.tscn" id="15_pbtp0"]
+[ext_resource type="AudioStream" uid="uid://cnen1mt8flp16" path="res://sounds/countdown5.ogg" id="16_gny34"]
 [ext_resource type="Script" uid="uid://dbjdt42valv4b" path="res://world/GameSound.gd" id="16_ppjuv"]
 [ext_resource type="AudioStream" uid="uid://b4v3ixqrfwvoc" path="res://sounds/enemyDied.wav" id="17_dh4u6"]
 [ext_resource type="PackedScene" uid="uid://d3bgtynatvwu2" path="res://ui/menu/CheatMenu.tscn" id="18_3j5ad"]
@@ -30,11 +31,11 @@
 [ext_resource type="AudioStream" uid="uid://eiva2xina8lj" path="res://sounds/dashAir.wav" id="20_1b1jl"]
 [ext_resource type="AudioStream" uid="uid://3l177144a67i" path="res://sounds/jump.wav" id="20_ne8ba"]
 [ext_resource type="AudioStream" uid="uid://q5kof0mmgyhy" path="res://sounds/land.wav" id="22_spsmc"]
-[ext_resource type="AudioStream" uid="uid://dy8acua65vkpd" path="res://sounds/enemySpawned.wav" id="23_1b1jl"]
+[ext_resource type="AudioStream" uid="uid://w2417alcgyju" path="res://sounds/bass1.ogg" id="23_pp1rp"]
 [ext_resource type="PackedScene" uid="uid://crdyanslu6b0r" path="res://ui/menu/MainMenu.tscn" id="23_vqsdb"]
+[ext_resource type="AudioStream" uid="uid://dy8acua65vkpd" path="res://sounds/enemySpawned.wav" id="24_1qwr2"]
 [ext_resource type="PackedScene" uid="uid://dlje6krlhyfml" path="res://ui/menu/CreditsMenu.tscn" id="24_ph6wr"]
 [ext_resource type="PackedScene" uid="uid://c23bh5moajx3o" path="res://ui/menu/ResultMenu.tscn" id="24_rteg8"]
-[ext_resource type="AudioStream" uid="uid://co4s3l0xfgsga" path="res://sounds/sentinel.wav" id="24_slova"]
 [ext_resource type="AudioStream" uid="uid://3o6rhpp3qbvy" path="res://sounds/collect.wav" id="25_lgic5"]
 [ext_resource type="AudioStream" uid="uid://dg4wvv3hpfust" path="res://sounds/enemyHit.wav" id="25_ne8ba"]
 [ext_resource type="AudioStream" uid="uid://dgugs7kv8til" path="res://sounds/sniper.ogg" id="26_pp1rp"]
@@ -42,11 +43,15 @@
 [ext_resource type="AudioStream" uid="uid://bxo7wghaeklw7" path="res://sounds/shieldDown.ogg" id="29_am0rx"]
 [ext_resource type="Script" uid="uid://x1xttp2nj2hm" path="res://world/MusicHandler.gd" id="29_e08lr"]
 [ext_resource type="AudioStream" uid="uid://bg7m6gjpx8o2b" path="res://sounds/baseHit.ogg" id="29_pp1rp"]
+[ext_resource type="AudioStream" uid="uid://i7mx7ivy3jm7" path="res://sounds/laser3.ogg" id="30_pp1rp"]
 [ext_resource type="AudioStream" uid="uid://ycx3756fctdk" path="res://sounds/sell.wav" id="32_gny34"]
 [ext_resource type="AudioStream" uid="uid://bl44vpoxfxnie" path="res://sounds/laserDamage.wav" id="32_pp1rp"]
 [ext_resource type="AudioStream" uid="uid://cjym82y8f1cfb" path="res://music/MenuMusicCredits.mp3" id="33_ppjuv"]
 [ext_resource type="Script" uid="uid://be584uc1qm16n" path="res://world/Settings.gd" id="41_spsmc"]
 [ext_resource type="AudioStream" uid="uid://cn5y1sktxy34k" path="res://music/MenuMusic.ogg" id="42_iftwb"]
+[ext_resource type="AudioStream" uid="uid://c6vnkgnksrhyo" path="res://music/ambient1.ogg" id="49_1qwr2"]
+[ext_resource type="AudioStream" uid="uid://dg44jxmhd5pwp" path="res://music/ambient2.ogg" id="50_6hf6m"]
+[ext_resource type="AudioStream" uid="uid://em1roxvp5urv" path="res://music/ambient3.ogg" id="51_virqv"]
 
 [sub_resource type="Environment" id="Environment_ig7tw"]
 background_mode = 1
@@ -152,7 +157,7 @@ unique_name_in_owner = true
 script = ExtResource("16_ppjuv")
 
 [node name="countdown" type="AudioStreamPlayer3D" parent="GameSound"]
-stream = ExtResource("25_lgic5")
+stream = ExtResource("16_gny34")
 
 [node name="collect" type="AudioStreamPlayer3D" parent="GameSound"]
 stream = ExtResource("25_lgic5")
@@ -168,21 +173,15 @@ stream = ExtResource("20_1b1jl")
 
 [node name="jump" type="AudioStreamPlayer3D" parent="GameSound"]
 stream = ExtResource("20_ne8ba")
-attenuation_model = 1
 
 [node name="land" type="AudioStreamPlayer3D" parent="GameSound"]
 stream = ExtResource("22_spsmc")
-attenuation_model = 1
 
 [node name="sentinel" type="AudioStreamPlayer3D" parent="GameSound"]
-stream = ExtResource("24_slova")
-attenuation_model = 1
-volume_db = -6.0
-unit_size = 6.0
-bus = &"Game"
+stream = ExtResource("23_pp1rp")
 
 [node name="enemySpawned" type="AudioStreamPlayer3D" parent="GameSound"]
-stream = ExtResource("23_1b1jl")
+stream = ExtResource("24_1qwr2")
 
 [node name="enemyDied" type="AudioStreamPlayer3D" parent="GameSound"]
 stream = ExtResource("17_dh4u6")
@@ -209,6 +208,7 @@ stream = ExtResource("29_pp1rp")
 stream = ExtResource("29_am0rx")
 
 [node name="laser" type="AudioStreamPlayer3D" parent="GameSound"]
+stream = ExtResource("30_pp1rp")
 
 [node name="laserDamage" type="AudioStreamPlayer3D" parent="GameSound"]
 stream = ExtResource("32_pp1rp")
@@ -287,6 +287,21 @@ bus = &"Menu Music"
 unique_name_in_owner = true
 stream = ExtResource("42_iftwb")
 bus = &"Menu Music"
+
+[node name="Ambient1" type="AudioStreamPlayer" parent="MusicHandler"]
+unique_name_in_owner = true
+stream = ExtResource("49_1qwr2")
+bus = &"Music"
+
+[node name="Ambient2" type="AudioStreamPlayer" parent="MusicHandler"]
+unique_name_in_owner = true
+stream = ExtResource("50_6hf6m")
+bus = &"Music"
+
+[node name="Ambient3" type="AudioStreamPlayer" parent="MusicHandler"]
+unique_name_in_owner = true
+stream = ExtResource("51_virqv")
+bus = &"Music"
 
 [node name="Settings" type="Node" parent="."]
 script = ExtResource("41_spsmc")

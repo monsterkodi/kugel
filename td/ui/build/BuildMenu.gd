@@ -23,8 +23,14 @@ func statChanged(statName, value):
     
 func buildingSold():
     
+    var index = focusedButton().get_index()
+    var building = focusedButton().name
     showButtons()
-    #%Buttons.get_child(-1).grab_focus()
+    var button = buildingButton(building)
+    if button:
+        button.grab_focus()
+    else:
+        %Buttons.get_child(index).grab_focus()
         
 func buildingPlaced(building):
     
@@ -54,6 +60,12 @@ func focusedButton():
     
     for button in %Buttons.get_children():
         if button.has_focus(): return button
+    return null
+    
+func buildingButton(building):
+
+    for button in %Buttons.get_children():
+        if button.name == building: return button
     return null
     
 func buildingSlotChanged(slot):
