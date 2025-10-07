@@ -8,6 +8,7 @@ const SCENE_VIEWPORT = preload("uid://bfs4v0hjfo8pg")
 
 func onQuit():      Post.quitGame.emit()
 func onSettings():  Post.settings.emit(self)
+func onHelp():      %MenuHandler.appear(%HelpMenu)
 func onCredits():   %MenuHandler.appear(%CreditsMenu)
 func onNewGame():   Post.newGame.emit()
 

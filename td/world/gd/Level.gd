@@ -145,7 +145,7 @@ func loadLevel(data:Dictionary):
     if not data.Level.has(name): return
     
     var ld = data.Level[name]
-    Log.log("loadLevel", name, "inert", inert, ld)
+    #Log.log("loadLevel", name, "inert", inert, ld)
     
     if ld.has("highscore"):
         highscore = ld.highscore

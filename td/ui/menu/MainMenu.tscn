@@ -56,6 +56,17 @@ text = "Settings
 script = ExtResource("3_7ml3v")
 metadata/_custom_type_script = "uid://db85fb86bo305"
 
+[node name="Help" type="Button" parent="VBoxContainer/Menu/Buttons"]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("2_guig7")
+text = "Help
+"
+
+[node name="FocusOnHover" type="Node" parent="VBoxContainer/Menu/Buttons/Help"]
+script = ExtResource("3_7ml3v")
+metadata/_custom_type_script = "uid://db85fb86bo305"
+
 [node name="Credits" type="Button" parent="VBoxContainer/Menu/Buttons"]
 layout_mode = 2
 mouse_default_cursor_shape = 2
@@ -90,6 +101,7 @@ script = ExtResource("3_7ml3v")
 metadata/_custom_type_script = "uid://db85fb86bo305"
 
 [connection signal="pressed" from="VBoxContainer/Menu/Buttons/Settings" to="." method="onSettings"]
+[connection signal="pressed" from="VBoxContainer/Menu/Buttons/Help" to="." method="onHelp"]
 [connection signal="pressed" from="VBoxContainer/Menu/Buttons/Credits" to="." method="onCredits"]
 [connection signal="pressed" from="VBoxContainer/Menu/Buttons/New Game" to="." method="onNewGame"]
 [connection signal="pressed" from="VBoxContainer/Menu/Buttons/Quit" to="." method="onQuit"]

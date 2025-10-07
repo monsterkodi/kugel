@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dlje6krlhyfml"]
 
-[ext_resource type="Script" uid="uid://dw3n8xx600poa" path="res://ui/menu/CreditsMenu.gd" id="1_otcbb"]
+[ext_resource type="Script" path="res://ui/menu/CreditsMenu.gd" id="1_otcbb"]
 [ext_resource type="Theme" uid="uid://ciw4u7b7yfp0t" path="res://ui/theme/CreditsMenuTheme.tres" id="2_a2aex"]
 
 [node name="CreditsMenu" type="PanelContainer"]

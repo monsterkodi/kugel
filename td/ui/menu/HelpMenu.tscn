@@ -1,0 +1,295 @@
+[gd_scene load_steps=9 format=3 uid="uid://d7c8f4mncc7h"]
+
+[ext_resource type="Theme" uid="uid://cgnaytnm7fcug" path="res://ui/theme/HelpMenuTheme.tres" id="1_35x6h"]
+[ext_resource type="Script" uid="uid://b10gesmbbtqcn" path="res://ui/menu/HelpMenu.gd" id="2_8m6h0"]
+[ext_resource type="Script" uid="uid://db85fb86bo305" path="res://ui/menu/FocusOnHover.gd" id="4_s55ql"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wk2i3"]
+content_margin_left = 25.0
+content_margin_right = 25.0
+bg_color = Color(0.1, 0.1, 0.1, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+expand_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e1212"]
+bg_color = Color(0.52156866, 0, 0, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+expand_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7pchu"]
+bg_color = Color(0.068920076, 0.068920076, 0.068920076, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+expand_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uuvfj"]
+bg_color = Color(0.52156866, 0, 0, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+expand_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1kdj8"]
+bg_color = Color(0.46666667, 0, 0, 1)
+border_color = Color(0, 0, 0, 0)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+expand_margin_bottom = 10.0
+shadow_size = 4
+
+[node name="HelpMenu" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 2
+theme = ExtResource("1_35x6h")
+script = ExtResource("2_8m6h0")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="Help" type="GridContainer" parent="PanelContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(1600, 1000)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+theme_override_constants/h_separation = 25
+theme_override_constants/v_separation = 25
+columns = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Help"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Overview"
+
+[node name="Overview" type="RichTextLabel" parent="PanelContainer/Help"]
+clip_contents = false
+custom_minimum_size = Vector2(1400, 0)
+layout_mode = 2
+size_flags_vertical = 0
+text = "Use the glass pill to protect the base (blue sphere) from the enemies (red orbs) as long as possible.
+Each time an enemy hits the base, it looses a hitpoint.
+When all hitpoints are gone, the current run is over and you have to start again."
+fit_content = true
+
+[node name="Label2" type="Label" parent="PanelContainer/Help"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "How to play"
+
+[node name="HowToPlay" type="RichTextLabel" parent="PanelContainer/Help"]
+layout_mode = 2
+text = "In the beginning, spawned enemies are weak and you can kill them directly with the glass pill.
+Over time they get stronger and you need the help of defense towers to defeat them. 
+You can buy those with the currency you gain by collecting enemy corpses (little black balls)."
+fit_content = true
+
+[node name="Label4" type="Label" parent="PanelContainer/Help"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Controls"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/Help"]
+layout_mode = 2
+theme_override_constants/separation = 29
+
+[node name="Controls" type="RichTextLabel" parent="PanelContainer/Help/VBoxContainer"]
+layout_mode = 2
+text = "The game was designed to be played with a gamepad:"
+fit_content = true
+
+[node name="GridContainer2" type="GridContainer" parent="PanelContainer/Help/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label5" type="Label" parent="PanelContainer/Help/VBoxContainer/GridContainer2"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 0
+text = "Gamepad"
+
+[node name="GridContainer" type="GridContainer" parent="PanelContainer/Help/VBoxContainer/GridContainer2"]
+layout_mode = 2
+theme_override_constants/h_separation = 25
+theme_override_constants/v_separation = 4
+columns = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Help/VBoxContainer/GridContainer2/GridContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "Left stick"
+
+[node name="Label2" type="RichTextLabel" parent="PanelContainer/Help/VBoxContainer/GridContainer2/GridContainer"]
+custom_minimum_size = Vector2(800, 0)
+layout_mode = 2
+text = "Move the glass pill"
+
+[node name="Label3" type="Label" parent="PanelContainer/Help/VBoxContainer/GridContainer2/GridContainer"]
+layout_mode = 2
+text = "Right stick"
+
+[node name="Label4" type="RichTextLabel" parent="PanelContainer/Help/VBoxContainer/GridContainer2/GridContainer"]
+layout_mode = 2
+text = "Steering and camera altitude"
+
+[node name="Label5" type="Label" parent="PanelContainer/Help/VBoxContainer/GridContainer2/GridContainer"]
+layout_mode = 2
+text = "X"
+
+[node name="Label6" type="RichTextLabel" parent="PanelContainer/Help/VBoxContainer/GridContainer2/GridContainer"]
+layout_mode = 2
+text = "Build Menu"
+
+[node name="Label7" type="Label" parent="PanelContainer/Help/VBoxContainer/GridContainer2/GridContainer"]
+layout_mode = 2
+text = "A"
+
+[node name="Label8" type="RichTextLabel" parent="PanelContainer/Help/VBoxContainer/GridContainer2/GridContainer"]
+layout_mode = 2
+text = "Jump"
+
+[node name="Label9" type="Label" parent="PanelContainer/Help/VBoxContainer/GridContainer2/GridContainer"]
+layout_mode = 2
+text = "B"
+
+[node name="Label10" type="RichTextLabel" parent="PanelContainer/Help/VBoxContainer/GridContainer2/GridContainer"]
+layout_mode = 2
+text = "Dash"
+
+[node name="Label11" type="Label" parent="PanelContainer/Help/VBoxContainer/GridContainer2/GridContainer"]
+layout_mode = 2
+text = "Bumpers"
+
+[node name="Label12" type="RichTextLabel" parent="PanelContainer/Help/VBoxContainer/GridContainer2/GridContainer"]
+layout_mode = 2
+text = "Increase/Decrease spawn speed"
+
+[node name="Controls2" type="RichTextLabel" parent="PanelContainer/Help/VBoxContainer"]
+layout_mode = 2
+text = "But it is also playable with keyboard and mouse:"
+fit_content = true
+
+[node name="GridContainer3" type="GridContainer" parent="PanelContainer/Help/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label5" type="Label" parent="PanelContainer/Help/VBoxContainer/GridContainer3"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 0
+text = "Keyboard"
+
+[node name="GridContainer" type="GridContainer" parent="PanelContainer/Help/VBoxContainer/GridContainer3"]
+layout_mode = 2
+theme_override_constants/h_separation = 25
+theme_override_constants/v_separation = 4
+columns = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Help/VBoxContainer/GridContainer3/GridContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "WASD"
+
+[node name="Label2" type="RichTextLabel" parent="PanelContainer/Help/VBoxContainer/GridContainer3/GridContainer"]
+custom_minimum_size = Vector2(800, 0)
+layout_mode = 2
+text = "Move the glass pill"
+
+[node name="Label3" type="Label" parent="PanelContainer/Help/VBoxContainer/GridContainer3/GridContainer"]
+layout_mode = 2
+text = "Cursor keys"
+
+[node name="Label4" type="RichTextLabel" parent="PanelContainer/Help/VBoxContainer/GridContainer3/GridContainer"]
+layout_mode = 2
+text = "Steering and camera altitude"
+
+[node name="Label5" type="Label" parent="PanelContainer/Help/VBoxContainer/GridContainer3/GridContainer"]
+layout_mode = 2
+text = "Tab"
+
+[node name="Label6" type="RichTextLabel" parent="PanelContainer/Help/VBoxContainer/GridContainer3/GridContainer"]
+layout_mode = 2
+text = "Build Menu"
+
+[node name="Label7" type="Label" parent="PanelContainer/Help/VBoxContainer/GridContainer3/GridContainer"]
+layout_mode = 2
+text = "Ctrl"
+
+[node name="Label8" type="RichTextLabel" parent="PanelContainer/Help/VBoxContainer/GridContainer3/GridContainer"]
+layout_mode = 2
+text = "Jump"
+
+[node name="Label9" type="Label" parent="PanelContainer/Help/VBoxContainer/GridContainer3/GridContainer"]
+layout_mode = 2
+text = "Space"
+
+[node name="Label10" type="RichTextLabel" parent="PanelContainer/Help/VBoxContainer/GridContainer3/GridContainer"]
+layout_mode = 2
+text = "Dash"
+
+[node name="Label11" type="Label" parent="PanelContainer/Help/VBoxContainer/GridContainer3/GridContainer"]
+layout_mode = 2
+text = "Page up/down"
+
+[node name="Label12" type="RichTextLabel" parent="PanelContainer/Help/VBoxContainer/GridContainer3/GridContainer"]
+layout_mode = 2
+text = "Increase/Decrease spawn speed"
+
+[node name="Label3" type="Label" parent="PanelContainer/Help"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "The HUD"
+
+[node name="HUD" type="RichTextLabel" parent="PanelContainer/Help"]
+layout_mode = 2
+text = "The top right corner shows the current score (number of red orbs spawned).
+The top left corner shows the available currency.
+The blue circles in the top center show how many hitpoints are left. 
+The red circles in the top center show when the next upgrade card will be available.
+"
+fit_content = true
+
+[node name="BackContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_constants/margin_left = 45
+theme_override_constants/margin_bottom = 10
+
+[node name="Back" type="Button" parent="BackContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0.31670618, 0.31670618, 0.31670618, 1)
+theme_override_colors/font_focus_color = Color(1, 0.8627451, 0, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.86081076, 0, 1)
+theme_override_colors/font_hover_color = Color(0.9490196, 0.45490196, 0, 1)
+theme_override_font_sizes/font_size = 84
+theme_override_styles/normal = SubResource("StyleBoxFlat_wk2i3")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_e1212")
+theme_override_styles/hover = SubResource("StyleBoxFlat_7pchu")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_uuvfj")
+theme_override_styles/focus = SubResource("StyleBoxFlat_1kdj8")
+text = "Back"
+icon_alignment = 1
+
+[node name="FocusOnHover" type="Node" parent="BackContainer/Back"]
+script = ExtResource("4_s55ql")
+metadata/_custom_type_script = "uid://db85fb86bo305"
+
+[connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
+[connection signal="pressed" from="BackContainer/Back" to="." method="back"]

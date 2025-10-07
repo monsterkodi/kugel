@@ -6,7 +6,7 @@ func _ready():
     
     savegame = SaveGame.new()
     assert(savegame.data != null)
-    Log.log("Saver.ready")
+    #Log.log("Saver.ready")
 
 func save():
 
@@ -32,6 +32,6 @@ func load():
     if ResourceLoader.exists("user://savegame.tres"):
         savegame = load("user://savegame.tres")
         if savegame:
-            Log.log("load", savegame.data)
+            #Log.log("load", savegame.data)
             Settings.load(savegame.data)
             get_tree().call_group("save", "on_load", savegame.data)

@@ -83,7 +83,7 @@ static func save(data):
         
 static func apply(dict):
     
-    Log.log("dict", dict)
+    #Log.log("dict", dict)
     for key in dict:
         applySetting(key, dict[key])
         
