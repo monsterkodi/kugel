@@ -5,6 +5,7 @@ extends Menu
 
 const CARD_BUTTON = preload("uid://cj3gelhoeb5ps")
 const CARD_SIZE   = Vector2i(375,325)
+const DOT_SIZE    = 30
     
 func setCards(cards:Array):
     
@@ -27,8 +28,8 @@ func addCardButton(card:Card):
     
     var button = CARD_BUTTON.instantiate()
     cardButtons.add_child(button)
+    button.setSize(CARD_SIZE, DOT_SIZE)
     button.setCard(card)
-    button.setSize(CARD_SIZE)
     button.pressed.connect(cardChosen.bind(card))
 
 func cardChosen(card):

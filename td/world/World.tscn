@@ -281,6 +281,7 @@ script = ExtResource("29_e08lr")
 [node name="MenuMusicCredits" type="AudioStreamPlayer" parent="MusicHandler"]
 unique_name_in_owner = true
 stream = ExtResource("33_ppjuv")
+volume_db = -4.022
 bus = &"Menu Music"
 
 [node name="MenuMusic" type="AudioStreamPlayer" parent="MusicHandler"]

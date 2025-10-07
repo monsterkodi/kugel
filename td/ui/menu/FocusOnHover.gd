@@ -11,9 +11,9 @@ func onHover():
     
     get_parent().grab_focus()
     if get_parent() is Button:
-        get_parent().button_pressed = true
+        get_parent().set_pressed(true)
 
 func onLeave():
 
     if get_parent() is Button:
-        get_parent().button_pressed = false
+        get_parent().set_pressed(false)

@@ -11,6 +11,12 @@ func _on_cheat_pressed():     %MenuHandler.appear(%CheatMenu)
 func _ready():
     
     Utils.wrapFocusVertical(%Buttons)
+    
+func appear():
+    
+    %Cheat.visible = Settings.settings.cheatsEnabled
+    
+    super.appear()
 
 func appeared():
     

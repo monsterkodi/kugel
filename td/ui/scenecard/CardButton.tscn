@@ -12,6 +12,7 @@ offset_right = 500.0
 offset_bottom = 500.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
+toggle_mode = true
 icon = SubResource("ViewportTexture_4734n")
 icon_alignment = 1
 vertical_icon_alignment = 2

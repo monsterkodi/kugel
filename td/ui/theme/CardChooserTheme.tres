@@ -3,13 +3,13 @@
 [ext_resource type="FontFile" uid="uid://dfqo0cb4uy7kl" path="res://ui/theme/Rounded.ttf" id="1_xm1rw"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h3fqn"]
-bg_color = Color(1, 0, 0, 1)
+content_margin_bottom = 50.0
+bg_color = Color(0.46666667, 0, 0, 1)
 border_color = Color(0, 0, 0, 0)
 corner_radius_top_left = 25
 corner_radius_top_right = 25
 corner_radius_bottom_right = 25
 corner_radius_bottom_left = 25
-expand_margin_bottom = 50.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i132y"]
 bg_color = Color(0.068920076, 0.068920076, 0.068920076, 1)
@@ -21,21 +21,21 @@ expand_margin_bottom = 50.0
 shadow_size = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nj0oh"]
+content_margin_bottom = 50.0
 bg_color = Color(0.52156866, 0, 0, 1)
 corner_radius_top_left = 25
 corner_radius_top_right = 25
 corner_radius_bottom_right = 25
 corner_radius_bottom_left = 25
-expand_margin_bottom = 50.0
 shadow_size = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_778oo"]
+content_margin_bottom = 50.0
 bg_color = Color(0.1, 0.1, 0.1, 1)
 corner_radius_top_left = 25
 corner_radius_top_right = 25
 corner_radius_bottom_right = 25
 corner_radius_bottom_left = 25
-expand_margin_bottom = 50.0
 shadow_size = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xm1rw"]
@@ -52,8 +52,8 @@ corner_radius_bottom_left = 50
 [resource]
 default_font = ExtResource("1_xm1rw")
 default_font_size = 42
-Button/colors/font_hover_pressed_color = Color(1, 1, 0, 1)
-Button/colors/font_pressed_color = Color(1, 1, 0, 1)
+Button/colors/font_hover_pressed_color = Color(0.9490196, 0.45490196, 0, 1)
+Button/colors/font_pressed_color = Color(0.9490196, 0.45490196, 0, 1)
 Button/styles/focus = SubResource("StyleBoxFlat_h3fqn")
 Button/styles/hover = SubResource("StyleBoxFlat_i132y")
 Button/styles/hover_pressed = SubResource("StyleBoxFlat_nj0oh")

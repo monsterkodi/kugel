@@ -4,7 +4,7 @@
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qbwus"]
 content_margin_bottom = 25.0
-bg_color = Color(1, 0, 0, 1)
+bg_color = Color(0.46666667, 0, 0, 1)
 border_color = Color(0, 0, 0, 0)
 corner_radius_top_left = 25
 corner_radius_top_right = 25
@@ -61,6 +61,10 @@ corner_radius_bottom_left = 50
 [resource]
 default_font = ExtResource("1_qbwus")
 default_font_size = 18
+Button/colors/font_focus_color = Color(0.9490196, 0.45490196, 0, 1)
+Button/colors/font_hover_color = Color(0.9490196, 0.45490196, 0, 1)
+Button/colors/font_hover_pressed_color = Color(0.9490196, 0.45490196, 0, 1)
+Button/colors/font_pressed_color = Color(0.9490196, 0.45490196, 0, 1)
 Button/styles/focus = SubResource("StyleBoxFlat_qbwus")
 Button/styles/hover = SubResource("StyleBoxFlat_tpx4w")
 Button/styles/hover_pressed = SubResource("StyleBoxFlat_q46md")

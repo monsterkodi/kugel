@@ -6,12 +6,12 @@ extends Button
 
 @export var card:Card
 
+var dotSize  = 15
 const CIRCLE = preload("uid://c2q8strea6bfu")
 
 func _ready():
 
-    if has_node("Dots"):
-        dots = %Dots
+    if has_node("Dots"): dots = %Dots
     if card: setCard(card)
     
 func setScene(scene):
@@ -24,8 +24,6 @@ func setCardWithName(n:String):
         
 func setCard(c:Card):
     
-    #Log.log("setCard", c.res.name, c.lvl)
-    
     card = c
     if card.get_parent() == null:
         add_child(card)
@@ -36,19 +34,37 @@ func setCard(c:Card):
     if card.res.type == CardRes.CardType.PERMANENT:
         setColor(Color(0.3, 0.3, 1.0, 1.0))
     
-    setDots(c.lvl)
+    if dots:
+        setDots(c.lvl)
         
 func setDots(numDots):
     
-    Utils.freeChildren(%Dots)
+    assert(dots)
+    Utils.freeChildren(dots)
+    
+    dots.offset_bottom = dotSize/2
+    dots.add_theme_constant_override("separation", dotSize/3)
     
     if numDots > 1:
-        #Log.log("numDots", numDots)
         for i in range(numDots):
             var dot = CIRCLE.instantiate()
-            dot.diameter = sceneViewport.size.y/6.0
+            dot.diameter = dotSize
             dot.color = Color(0.3, 0.3, 1.0, 1.0)
-            %Dots.add_child(dot)
+            dots.add_child(dot)
+
+func _toggled(on:bool):
+    
+    if dots:
+        if on:
+            setDotsColor(Color("f27400"))
+        else:
+            setDotsColor(Color(0.3, 0.3, 1.0, 1.0))
+        
+func setDotsColor(color:Color):
+    
+    if dots.get_child_count() > 0:
+        for dot in dots.get_children(): 
+            dot.color = color
         
 func setColor(color:Color):
     
@@ -57,8 +73,7 @@ func setColor(color:Color):
     add_theme_stylebox_override("normal", sb)
     add_theme_color_override("font_color", color)
     
-func setSize(sceneSize:Vector2i):
+func setSize(sceneSize:Vector2i, dot_size = 15):
     
+    dotSize = dot_size
     sceneViewport.size = sceneSize / get_window().content_scale_factor
-    if dots:
-        dots.offset_bottom = sceneViewport.size.y/18.0

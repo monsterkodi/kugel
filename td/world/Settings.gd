@@ -2,18 +2,19 @@ class_name Settings
 extends Node
 
 static var defaults = {
-    "timeScale":    1.0,
-    "enemySpeed":   1.0,
-    "brightness":   1.0,
-    "hires":        false,
-    "volumeMaster": 1.0,
-    "volumeMusic":  0.5,
-    "volumeGame":   1.0,
-    "volumeMenu":   1.0,
-    "clock":        false,
-    "fullscreen":   false,
-    "mouseLock":    false,
-    "mouseHide":    false,
+    "timeScale":     1.0,
+    "enemySpeed":    1.0,
+    "brightness":    1.0,
+    "hires":         false,
+    "volumeMaster":  1.0,
+    "volumeMusic":   1.0,
+    "volumeGame":    1.0,
+    "volumeMenu":    1.0,
+    "clock":         false,
+    "fullscreen":    false,
+    "mouseLock":     true,
+    "mouseHide":     true,
+    "cheatsEnabled": false
 }
 
 static var settings = {}
@@ -24,20 +25,25 @@ static func applySetting(key, value):
     
     match key:
         
-        "timeScale":    setTimeScale(value)
-        "enemySpeed":   Info.setEnemySpeed(value)
-        "brightness":   node("Camera/Light").light_energy = value
-        "hires":        setHires(value)
-        "volumeMaster": AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), linear_to_db(value))
-        "volumeGame":   AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Game"),   linear_to_db(value))
-        "volumeMenu":   AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Menu"),   linear_to_db(value))
-        "volumeMusic":  
-                        AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"),       linear_to_db(value))
-                        AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Menu Music"),  linear_to_db(value))
-        "clock":        HudClock.showClock = value
-        "fullscreen":   setFullscreen(value)
-        "mouseLock":    node("MouseHandler").mouseLock = value
-        "mouseHide":    node("MouseHandler").mouseHide = value
+        "timeScale":     setTimeScale(value)
+        "enemySpeed":    Info.setEnemySpeed(value)
+        "brightness":    node("Camera/Light").light_energy = value
+        "hires":         setHires(value)
+        "volumeMaster":  AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), linear_to_db(value))
+        "volumeGame":    AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Game"),   linear_to_db(value))
+        "volumeMenu":    AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Menu"),   linear_to_db(value))
+        "volumeMusic":   
+                         AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"),       linear_to_db(value))
+                         AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Menu Music"),  linear_to_db(value))
+        "clock":         HudClock.showClock = value
+        "fullscreen":    setFullscreen(value)
+        "mouseLock":     node("MouseHandler").mouseLock = value
+        "mouseHide":     node("MouseHandler").mouseHide = value
+        "cheatsEnabled": setCheatsEnabled(value)
+    
+static func setCheatsEnabled(value):
+    
+    Engine.get_main_loop().root.get_node("/root/World").find_child("SettingsMenu").find_child("timeScale").visible = value
     
 static func setTimeScale(value):
     

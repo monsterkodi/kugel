@@ -19,11 +19,16 @@ func _ready():
     add_child(ambientTimer)
     ambientTimer.timeout.connect(randomAmbient) 
     
-func stop():
+func stop(fadeMenuMusic=true):
     
     ambientTimer.stop()
     for child in get_children():
-        child.stop()
+        if child is AudioStreamPlayer and child.playing:
+            if child == %MenuMusic:
+                if fadeMenuMusic:
+                    fadeOutMenuMusic()
+            else:
+                child.stop()
         
 func mainMenu(): playMenuMusic()
 
@@ -40,20 +45,24 @@ func menuVanish(menu:Control):
 
 func playMenuMusic():
     
-    stop()
+    stop(false)
     %MenuMusic.play()
     
 func levelStart():
     
-    stop()
+    randomAmbient()    
         
+func randomAmbient():
+    
+    stop()
     ambientCount = 0
-    match world.currentLevel.name:
-        "Linea":     ambient = %Ambient1
-        "Circulus":  ambient = %Ambient2
-        "Quadratum": ambient = %Ambient3
+    match randi_range(1,3):
+        1: ambient = %Ambient1
+        2: ambient = %Ambient2
+        3: ambient = %Ambient3
+        
     ambient.play()
-
+    
 func ambientFinished():
 
     ambientCount += 1
@@ -62,13 +71,16 @@ func ambientFinished():
     else:
         ambientCount = 0
         ambientTimer.start(120)        
-        
-func randomAmbient():
+
+func fadeOutMenuMusic():
     
-    match randi_range(1,3):
-        1: ambient = %Ambient1
-        2: ambient = %Ambient2
-        3: ambient = %Ambient3
-        
-    ambient.play()
+    var tween = create_tween()
+    tween.tween_method(menuMusicFade, 1.0, 0.0, 3.0)
+    
+func menuMusicFade(value):
+    
+    %MenuMusic.volume_linear = value * Settings.settings.volumeMusic
+    if value == 0.0:
+        %MenuMusic.stop()
+        %MenuMusic.volume_linear = Settings.settings.volumeMusic
     

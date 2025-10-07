@@ -64,17 +64,6 @@ text = "Cards
 script = ExtResource("3_1q10k")
 metadata/_custom_type_script = "uid://db85fb86bo305"
 
-[node name="Cheat" type="Button" parent="PanelContainer/Buttons"]
-layout_mode = 2
-mouse_default_cursor_shape = 2
-theme = ExtResource("2_8tehv")
-text = "Cheat
-"
-
-[node name="FocusOnHover" type="Node" parent="PanelContainer/Buttons/Cheat"]
-script = ExtResource("3_1q10k")
-metadata/_custom_type_script = "uid://db85fb86bo305"
-
 [node name="Settings" type="Button" parent="PanelContainer/Buttons"]
 layout_mode = 2
 mouse_default_cursor_shape = 2
@@ -83,6 +72,18 @@ text = "Settings
 "
 
 [node name="FocusOnHover" type="Node" parent="PanelContainer/Buttons/Settings"]
+script = ExtResource("3_1q10k")
+metadata/_custom_type_script = "uid://db85fb86bo305"
+
+[node name="Cheat" type="Button" parent="PanelContainer/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("2_8tehv")
+text = "Cheat
+"
+
+[node name="FocusOnHover" type="Node" parent="PanelContainer/Buttons/Cheat"]
 script = ExtResource("3_1q10k")
 metadata/_custom_type_script = "uid://db85fb86bo305"
 
@@ -101,6 +102,6 @@ metadata/_custom_type_script = "uid://db85fb86bo305"
 [connection signal="pressed" from="PanelContainer/Buttons/Resume" to="." method="_on_resume_pressed"]
 [connection signal="pressed" from="PanelContainer/Buttons/Restart" to="." method="_on_restart_pressed"]
 [connection signal="pressed" from="PanelContainer/Buttons/Cards" to="." method="_on_cards_pressed"]
-[connection signal="pressed" from="PanelContainer/Buttons/Cheat" to="." method="_on_cheat_pressed"]
 [connection signal="pressed" from="PanelContainer/Buttons/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="PanelContainer/Buttons/Cheat" to="." method="_on_cheat_pressed"]
 [connection signal="pressed" from="PanelContainer/Buttons/Main Menu" to="." method="_on_main_menu_pressed"]
