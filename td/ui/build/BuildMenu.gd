@@ -108,7 +108,8 @@ func showButtons():
     
     var buildings = Info.buildingNamesSortedByPrice()
     
-    if Info.isAnyBuildingPlaced("Shield"):
+    var level = get_node("/root/World").currentLevel
+    if level.isAnyBuildingPlaced("Shield"):
         buildings = buildings.filter(func(b): return b != "Shield")
         
     for building in buildings:

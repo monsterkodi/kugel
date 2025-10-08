@@ -33,20 +33,14 @@ func addCardButton(card:Card):
     button.pressed.connect(cardChosen.bind(card))
 
 func cardChosen(card):
+    
     Post.cardChosen.emit(card)
 
 func _input(event: InputEvent):
-
-    if Input.is_action_pressed("pause"):
-        accept_event()
-        return
     
-    if Input.is_action_pressed("build"):
-        accept_event()
-        return
-        
-    if event.is_action_pressed("ui_cancel"):
-        accept_event()
-        return
+    for action in ["pause", "build", "ui_cancel"]:
+        if event.is_action_pressed(action):
+            accept_event()
+            return
     
     super._input(event)

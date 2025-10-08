@@ -21,6 +21,7 @@ var passiveDotColor = Color(0.02,0.02,0.02)
 var mass        : float
 var velocity    : float
 var active      = false
+var inert       = false
 
 var spawnedBody : RigidBody3D
 var level       : Level
@@ -37,7 +38,9 @@ func _ready():
     velocity = velocity_initial
     mass     = mass_initial
     
-    Post.subscribe(self)
+    inert = level.inert
+    if not inert:
+        Post.subscribe(self)
     
     var sf = 0.62
     var sc = Vector3(sf, sf, sf)
@@ -72,6 +75,8 @@ func load(dict:Dictionary):
     mass     = dict.mass
         
 func activate():
+    
+    if inert: return
     
     active = true
     %Dot.color = activeDotColor

@@ -15,7 +15,7 @@ func _ready():
     set_process(false)
     
     if inert:
-        #Log.log("Level._ready", name, "inert:", inert, "load inert?")
+        #Log.log("Level._ready load inert level", name)
         loadLevel(Saver.savegame.data)
     
 func start():
@@ -38,7 +38,7 @@ func showBuildSlots():
 func applyCards():
     
     var rings = Info.cardLvl(Card.SlotRing)
-    #Log.log("rings", rings)
+
     %SlotRing1.visible = true
     %SlotRing2.visible = (rings >= 1)
     %SlotRing3.visible = (rings >= 2)
@@ -56,7 +56,7 @@ func levelEnd():
     
     var es = Stats.numEnemiesSpawned
     highscore = maxi(es, highscore)
-    Log.log("levelEnd", name, es, highscore)
+    #Log.log("levelEnd", name, es, highscore)
     
     if es >= trophyLimit[2]: 
         trophyCount[2] += 1
@@ -98,15 +98,15 @@ func resetLevel(data:Dictionary):
     ld.erase("enemies")
     ld.erase("spawners")
     ld.player = get_node("/root/World/Player").save()
-    Log.log("resetLevel", name, data.Level[name])
+    #Log.log("resetLevel", name, data.Level[name])
 
 func clearLevel(data:Dictionary):
     
-    Log.log("clearLevel", data)
+    #Log.log("clearLevel", data)
     if data.has("Level"): 
         data.Level[name] = {}
         data.Level[name].highscore = highscore
-        Log.log("clearLevel", name, data.Level[name])
+        #Log.log("clearLevel", name, data.Level[name])
 
 func saveLevel(data:Dictionary):
     
@@ -137,11 +137,13 @@ func saveLevel(data:Dictionary):
         ld.spawners.append(spawner.save())
 
     data.Level[name] = ld
-    Log.log("saveLevel", name, data.Level[name])
+    #Log.log("levelSaved", name)
+    Post.levelSaved.emit(name)
 
 func loadLevel(data:Dictionary):
     
     if not data.has("Level"): return
+    #Log.log("loadLevel", name, "inert", inert)
     if not data.Level.has(name): return
     
     var ld = data.Level[name]
@@ -180,7 +182,7 @@ func loadLevel(data:Dictionary):
             if building.type == "Shield":
                 add_child(bld)
                 bld.global_position = Vector3.ZERO
-                Log.log("SHIELD LOADED", Info.isAnyBuildingPlaced("Shield"))
+                #Log.log("SHIELD LOADED", isAnyBuildingPlaced("Shield"))
             else:
                 var slot = slotForPos(building.position)
                 assert(slot)
@@ -215,3 +217,21 @@ func visibleSlotForPos(pos):
     var slots = Utils.filterTree(self, func(n:Node): return n is Slot and n.visible and n.get_parent().visible)
     return Utils.closestNode(slots, pos)
     
+func allPlacedBuildings():
+    
+    return Utils.childrenWithClass(self, "Building")
+    
+func allPlacedBuildingsOfType(type):
+    
+    return allPlacedBuildings().filter(func(b): return b.type == type)
+    
+func isAnyBuildingPlaced(type):
+    
+    return allPlacedBuildingsOfType(type).size() > 0
+
+func firstPlacedBuildingOfType(type):  
+    
+    var buildings = allPlacedBuildingsOfType(type)
+    if buildings.size():
+        return buildings[0]
+    return null

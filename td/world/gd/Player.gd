@@ -51,7 +51,7 @@ func startLevel():
     
     #if %BattleCards.countCards(Card.Shield):
         #%BattleCards.useCard(Card.Shield)
-        #if not Info.isAnyBuildingPlaced("Shield"):
+        #if not currentLevel().isAnyBuildingPlaced("Shield"):
             #addShield()
     #else: 
         #delShield()
@@ -101,19 +101,21 @@ func load(dict:Dictionary):
     deck.fromDict(dict.deck)
     perm.fromDict(dict.perm)
     battle.fromDict(dict.battle)
+        
+func currentLevel(): return get_node("/root/World").currentLevel
             
 func addShield():
     
     Log.log("addShield")
     var shield = SHIELD.instantiate()
     shield.inert = false
-    get_parent_node_3d().add_child(shield)
+    currentLevel().add_child(shield)
     shield.global_position = Vector3.ZERO
 
 func delShield():
     
     Log.log("delShield")
-    if Info.isAnyBuildingPlaced("Shield"):
+    if currentLevel().isAnyBuildingPlaced("Shield"):
         Post.statChanged.emit("shieldHitPoints", 0)
         get_node("/root/World/Shield").free()
 

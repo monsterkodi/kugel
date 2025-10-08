@@ -148,23 +148,3 @@ func buildingNamesSortedByPrice() -> Array:
     names.sort_custom(func(a,b): return priceForBuilding(a) > priceForBuilding(b))
     return names
     
-func allPlacedBuildings():
-    
-    if world.currentLevel:
-        return Utils.childrenWithClass(world.currentLevel, "Building")
-    return []
-    
-func allPlacedBuildingsOfType(type):
-    
-    return allPlacedBuildings().filter(func(b): return b.type == type)
-    
-func isAnyBuildingPlaced(type):
-    
-    return allPlacedBuildingsOfType(type).size() > 0
-
-func firstPlacedBuildingOfType(type):  
-    
-    var buildings = allPlacedBuildingsOfType(type)
-    if buildings.size():
-        return buildings[0]
-    return null

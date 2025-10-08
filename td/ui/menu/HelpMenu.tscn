@@ -110,7 +110,7 @@ theme_override_constants/separation = 29
 
 [node name="Controls" type="RichTextLabel" parent="PanelContainer/Help/VBoxContainer"]
 layout_mode = 2
-text = "The game was designed to be played with a gamepad:"
+text = "Gamepad"
 fit_content = true
 
 [node name="GridContainer2" type="GridContainer" parent="PanelContainer/Help/VBoxContainer"]
@@ -180,7 +180,7 @@ text = "Increase/Decrease spawn speed"
 
 [node name="Controls2" type="RichTextLabel" parent="PanelContainer/Help/VBoxContainer"]
 layout_mode = 2
-text = "But it is also playable with keyboard and mouse:"
+text = "Keyboard"
 fit_content = true
 
 [node name="GridContainer3" type="GridContainer" parent="PanelContainer/Help/VBoxContainer"]
@@ -201,12 +201,22 @@ columns = 2
 [node name="Label" type="Label" parent="PanelContainer/Help/VBoxContainer/GridContainer3/GridContainer"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
-text = "WASD"
+text = "W A S D"
 
 [node name="Label2" type="RichTextLabel" parent="PanelContainer/Help/VBoxContainer/GridContainer3/GridContainer"]
 custom_minimum_size = Vector2(800, 0)
 layout_mode = 2
 text = "Move the glass pill"
+
+[node name="Label13" type="Label" parent="PanelContainer/Help/VBoxContainer/GridContainer3/GridContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "Q E"
+
+[node name="Label14" type="RichTextLabel" parent="PanelContainer/Help/VBoxContainer/GridContainer3/GridContainer"]
+custom_minimum_size = Vector2(800, 0)
+layout_mode = 2
+text = "Camera altitude"
 
 [node name="Label3" type="Label" parent="PanelContainer/Help/VBoxContainer/GridContainer3/GridContainer"]
 layout_mode = 2
@@ -214,7 +224,7 @@ text = "Cursor keys"
 
 [node name="Label4" type="RichTextLabel" parent="PanelContainer/Help/VBoxContainer/GridContainer3/GridContainer"]
 layout_mode = 2
-text = "Steering and camera altitude"
+text = "Steering and move forward/backward"
 
 [node name="Label5" type="Label" parent="PanelContainer/Help/VBoxContainer/GridContainer3/GridContainer"]
 layout_mode = 2
@@ -274,10 +284,6 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 4
-theme_override_colors/font_color = Color(0.31670618, 0.31670618, 0.31670618, 1)
-theme_override_colors/font_focus_color = Color(1, 0.8627451, 0, 1)
-theme_override_colors/font_pressed_color = Color(1, 0.86081076, 0, 1)
-theme_override_colors/font_hover_color = Color(0.9490196, 0.45490196, 0, 1)
 theme_override_font_sizes/font_size = 84
 theme_override_styles/normal = SubResource("StyleBoxFlat_wk2i3")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_e1212")

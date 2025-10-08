@@ -4,7 +4,10 @@ extends Menu
 func appeared():
     
     %Back.grab_focus()
+    super.appeared()
 
 func back():
     
-    %MenuHandler.appear(%MainMenu)
+    backMenu = %MainMenu
+    backFrom = "top"
+    super.back()

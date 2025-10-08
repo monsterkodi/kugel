@@ -5,6 +5,8 @@ var world : World
 var ambientCount = 0
 var ambientTimer : Timer
 var ambient : AudioStreamPlayer
+const menuMusicVolume = db_to_linear(-9)
+const menuMusicFadeTime = 9
 
 func _ready():
     
@@ -33,24 +35,26 @@ func stop(fadeMenuMusic=true):
 func mainMenu(): playMenuMusic()
 
 func menuAppear(menu:Control):
-    
-    if menu.name == "CreditsMenu":
-        stop()
-        %MenuMusicCredits.play()
+    pass
+    #if menu.name == "CreditsMenu":
+        #stop()
+        #%MenuMusicCredits.play()
         
 func menuVanish(menu:Control):
-    
-    if menu.name == "CreditsMenu":
-        playMenuMusic()
+    pass
+    #if menu.name == "CreditsMenu":
+        #playMenuMusic()
 
 func playMenuMusic():
     
     stop(false)
+    %MenuMusic.volume_linear = menuMusicVolume
     %MenuMusic.play()
     
 func levelStart():
     
-    randomAmbient()    
+    stop()
+    get_tree().create_timer(menuMusicFadeTime + 4).timeout.connect(randomAmbient)
         
 func randomAmbient():
     
@@ -75,7 +79,7 @@ func ambientFinished():
 func fadeOutMenuMusic():
     
     var tween = create_tween()
-    tween.tween_method(menuMusicFade, 1.0, 0.0, 3.0)
+    tween.tween_method(menuMusicFade, menuMusicVolume, 0.0, menuMusicFadeTime)
     
 func menuMusicFade(value):
     

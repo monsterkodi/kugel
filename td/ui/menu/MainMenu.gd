@@ -15,6 +15,31 @@ func onNewGame():   Post.newGame.emit()
 const LEVEL_BUTTON = preload("uid://thwlxijax7nj")
 const LEVEL_SIZE   = Vector2i(550,400)
 
+var lastFocused = null
+
+func _ready():
+    
+    Post.subscribe(self)
+    super._ready()
+    
+func levelSaved(levelName):
+    
+    Log.log("mainMenu.levelSaved", levelName)
+    var index = 0
+    var scene = null
+    match levelName:
+        "Linea":     index = 0; scene = load("uid://btl7cihfnbl6u")
+        "Circulus":  index = 1; scene = load("uid://wo631fluqa0p")
+        "Quadratum": index = 2; scene = load("uid://0ilo4a8dvk77")
+        
+    if scene:
+        var button = levelButtons.get_child(index)    
+        button.setScene(scene)
+        var level = button.viewport.scene.get_child(-1)
+        if level is Level:
+            level.showBuildSlots()
+        levelInfo(button, levelName)
+
 func back(): 
     
     if %Quit.has_focus():
@@ -22,33 +47,29 @@ func back():
     else:
         %Quit.grab_focus()
     
-func vanished():
-    
-    Utils.freeChildren(levelButtons)    
-    
 func appear():
 
-    Utils.freeChildren(levelButtons)
-    
-    var button1 : Button = addLevelButton(load("uid://btl7cihfnbl6u"))
-    var button2 : Button = addLevelButton(load("uid://wo631fluqa0p"))
-    var button3 : Button = addLevelButton(load("uid://0ilo4a8dvk77"))
+    if levelButtons.get_child_count() == 0:
+        
+        var button1 : Button = addLevelButton(load("uid://btl7cihfnbl6u"))
+        var button2 : Button = addLevelButton(load("uid://wo631fluqa0p"))
+        var button3 : Button = addLevelButton(load("uid://0ilo4a8dvk77"))
 
-    button1.focus_neighbor_left  = button3.get_path()
-    button1.focus_neighbor_right = button2.get_path()
-    button2.focus_neighbor_left  = button1.get_path()
-    button2.focus_neighbor_right = button3.get_path()
-    button3.focus_neighbor_left  = button2.get_path()
-    button3.focus_neighbor_right = button1.get_path()
+        button1.focus_neighbor_left  = button3.get_path()
+        button1.focus_neighbor_right = button2.get_path()
+        button2.focus_neighbor_left  = button1.get_path()
+        button2.focus_neighbor_right = button3.get_path()
+        button3.focus_neighbor_left  = button2.get_path()
+        button3.focus_neighbor_right = button1.get_path()
 
-    button1.focus_neighbor_top = %Buttons.get_child(-1).get_path()
-    button2.focus_neighbor_top = %Buttons.get_child(-1).get_path()
-    button3.focus_neighbor_top = %Buttons.get_child(-1).get_path()
-    
-    if Saver.savegame.data.has("Level"):
-        levelInfo(button1, "Linea")
-        levelInfo(button2, "Circulus")
-        levelInfo(button3, "Quadratum")
+        button1.focus_neighbor_top = %Buttons.get_child(-1).get_path()
+        button2.focus_neighbor_top = %Buttons.get_child(-1).get_path()
+        button3.focus_neighbor_top = %Buttons.get_child(-1).get_path()
+        
+        if Saver.savegame.data.has("Level"):
+            levelInfo(button1, "Linea")
+            levelInfo(button2, "Circulus")
+            levelInfo(button3, "Quadratum")
             
     super.appear()
 
@@ -148,9 +169,17 @@ func trophyInfo(button, levelData):
     button.add_child(leftSide)
 
 func appeared():
-        
-    levelButtons.get_child(1).grab_focus()
+    
+    if lastFocused:
+        lastFocused.grab_focus()
+    else:    
+        levelButtons.get_child(1).grab_focus()
     super.appeared()
+    
+func vanish():
+    
+    lastFocused = Utils.focusedChild(self)
+    super.vanish()
 
 func addLevelButton(scene):
     
@@ -171,8 +200,10 @@ func addLevelButton(scene):
     camera.look_at(Vector3.FORWARD*10)
     camera.far = 1000
     
-    var environment : Environment = button.viewport.scene.environment.environment
-    environment.fog_density = 0.0
+    button.viewport.scene.environment.free()
+    var environment = get_node("/root/World/Environment").duplicate()
+    button.viewport.scene.add_child(environment)
+    button.viewport.scene.move_child(environment, environment.get_index()-1)
     
     return button
 

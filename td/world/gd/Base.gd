@@ -49,7 +49,8 @@ func setHitPoints(hp):
 func updateDots():
     
     var dots = hitPoints
-    var shield = Info.firstPlacedBuildingOfType("Shield")
+    var level = Utils.firstParentWithClass(self, "Level")
+    var shield = level.firstPlacedBuildingOfType("Shield")
     if shield:
         dots += shield.hitPoints
     %DotRing.numDots = dots

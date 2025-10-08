@@ -100,12 +100,12 @@ expand_margin_bottom = 25.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4l1ig"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5y4im"]
-content_margin_left = 25.0
-content_margin_top = 25.0
-content_margin_right = 25.0
-content_margin_bottom = 25.0
-bg_color = Color(0.05, 0.05, 0.05, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ixdfl"]
+content_margin_left = 200.0
+content_margin_top = 100.0
+content_margin_right = 200.0
+content_margin_bottom = 100.0
+bg_color = Color(0.09, 0.09, 0.09, 1)
 corner_radius_top_left = 50
 corner_radius_top_right = 50
 corner_radius_bottom_right = 50
@@ -144,4 +144,4 @@ HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_wyuo3")
 HSlider/styles/slider = SubResource("StyleBoxFlat_k525k")
 Label/colors/font_color = Color(0.38, 0.38, 0.38, 1)
 Label/styles/normal = SubResource("StyleBoxEmpty_4l1ig")
-PanelContainer/styles/panel = SubResource("StyleBoxFlat_5y4im")
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_ixdfl")

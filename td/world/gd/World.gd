@@ -105,7 +105,7 @@ func cardChosen(card:Card):
     if card.isPermanent():
         %Player.perm.addCard(card)
         if card.res.name == Card.ShieldLayer:
-            var shield = Info.firstPlacedBuildingOfType("Shield")
+            var shield = currentLevel.firstPlacedBuildingOfType("Shield")
             if shield: shield.addLayer()
     elif card.isOnce():
         if card.res.name == "Money":

@@ -22,11 +22,14 @@ func _ready():
     
     Post.subscribe(self)
     
-func _unhandled_input(event: InputEvent):
-    
-    if event.is_action_pressed("ui_cancel"):
-        if get_tree().paused:
-            Log.log("MENU HANDLER CANCEL!")
+func _input(event: InputEvent):
+
+    pass    
+    #if event is InputEventKey or event is InputEventJoypadButton:
+        #Log.log("MenuHandler._input", event, event.as_text())
+    #if event.is_action_pressed("ui_cancel"):
+        #if get_tree().paused:
+            #Log.log("MENU HANDLER CANCEL!")
                 
 func hideAllMenus():
     

@@ -42,11 +42,14 @@ shadow_size = 4
 anti_aliasing = false
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ahg8i"]
-bg_color = Color(0.15, 0.15, 0.15, 1)
+bg_color = Color(0, 0, 0, 1)
 
 [resource]
 default_font = ExtResource("1_5rh8q")
 default_font_size = 27
+Button/colors/font_color = Color(0.33028352, 0.33028352, 0.33028352, 1)
+Button/colors/font_focus_color = Color(0.9490196, 0.45490196, 0, 1)
+Button/colors/font_hover_color = Color(0.9490196, 0.45490196, 0, 1)
 Button/colors/font_hover_pressed_color = Color(1, 1, 0, 1)
 Button/colors/font_pressed_color = Color(1, 1, 0, 1)
 Button/styles/focus = SubResource("StyleBoxFlat_h3fqn")
@@ -54,6 +57,6 @@ Button/styles/hover = SubResource("StyleBoxFlat_i132y")
 Button/styles/hover_pressed = SubResource("StyleBoxFlat_nj0oh")
 Button/styles/normal = SubResource("StyleBoxFlat_p1g0i")
 Button/styles/pressed = SubResource("StyleBoxFlat_nj0oh")
-Label/colors/font_color = Color(0.7172371, 0.011477869, 0, 1)
+Label/colors/font_color = Color(0.9490196, 0.45490196, 0, 1)
 PanelContainer/styles/panel = SubResource("StyleBoxFlat_ahg8i")
 RichTextLabel/colors/default_color = Color(0.62219584, 0.62219584, 0.62219584, 1)

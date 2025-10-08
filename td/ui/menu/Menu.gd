@@ -6,7 +6,6 @@ var backFrom = "bottom"
 
 func _ready():
     
-    #Log.log("new Menu", self)
     set_process_input(false)
     
 func back():
@@ -26,7 +25,7 @@ func _input(event: InputEvent):
     
     if visible:
         if event.is_action_pressed("ui_cancel"):
-            #Log.log("Menu.cancel", self)
+            Log.log("Menu._input cancel", self, event, event.as_text())
             get_viewport().set_input_as_handled()
-            accept_event()
+            #accept_event()
             back()

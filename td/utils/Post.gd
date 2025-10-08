@@ -27,6 +27,7 @@ signal levelStart
 signal levelReset
 signal levelEnd
 signal levelLoaded
+signal levelSaved
 signal mainMenu
 signal menuVanish
 signal menuAppear

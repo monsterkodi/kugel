@@ -3,4 +3,6 @@ extends Menu
 
 func back():
     
-    %MenuHandler.appear(%MainMenu)
+    backMenu = %MainMenu
+    backFrom = "top"
+    super.back()
