@@ -189,7 +189,8 @@ func restartLevel():
 func clearLevel():
     Log.log("clearLevel", currentLevel)
     if currentLevel:
-        currentLevel.clearLevel(Saver.savegame.data)
+        #currentLevel.clearLevel(Saver.savegame.data)
+        currentLevel.resetLevel(Saver.savegame.data)
         currentLevel.free()
 
 func resetLevel():

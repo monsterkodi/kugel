@@ -34,9 +34,7 @@ func _input(event: InputEvent):
                 repeatTimers[action].start(REPEAT_DELAY)
                 emitAction(action)
             else:
-                if get_tree().paused:
-                    Log.log("handled", action, event.get_class())
-                else:
+                if not get_tree().paused:
                     stopActionRepeat(action)
                 
         elif event.is_action_released(action):
