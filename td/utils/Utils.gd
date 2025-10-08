@@ -121,6 +121,13 @@ func freeChildren(node:Node):
         child.queue_free()
     assert(node.get_child_count() == 0)
 
+func freeChildWithName(node:Node, childName:String):
+    
+    for child in node.get_children():
+        if child.name == childName:
+            child.free()
+            return
+
 func resourcesInDir(dir:String) -> Array[Resource]:
     
     var resources:Array[Resource] = []

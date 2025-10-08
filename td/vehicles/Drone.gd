@@ -7,7 +7,7 @@ var MIN_SPEED    = 10.0
 var MAX_SPEED    = 20.0
 var MAX_ALTI     = 3.0
 
-var STEER_SPEED  = 1.5
+var STEER_SPEED  = 0.1
 
 @onready var body: Node3D = %Body
 
@@ -15,11 +15,11 @@ func _physics_process(delta:float):
     
     readInput()
     
-    var dt = delta * speed
+    var dt = delta * speed / Engine.time_scale
     
     var fs = Vector2(%strafe.value, %forward.value).limit_length()
 
-    rotate_object_local(Vector3.UP, -steer * delta * STEER_SPEED)
+    rotate_object_local(Vector3.UP, -steer * dt * STEER_SPEED)
     translate_object_local(Vector3.FORWARD * fs.y * dt)
     translate_object_local(Vector3.RIGHT   * fs.x * dt)
     

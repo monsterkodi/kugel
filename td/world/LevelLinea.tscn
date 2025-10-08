@@ -20,7 +20,7 @@ size = Vector2(300, 300)
 size = Vector2(30, 30)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_71jv4"]
-size = Vector2(30, 40)
+size = Vector2(30, 45)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x17i5"]
 render_priority = -50
@@ -61,7 +61,7 @@ skeleton = NodePath("../..")
 surface_material_override/0 = ExtResource("3_88e6q")
 
 [node name="SpawnCircle" type="MeshInstance3D" parent="Floor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.005, -40)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.005, -45)
 layers = 3
 cast_shadow = 0
 mesh = SubResource("PlaneMesh_x17i5")
@@ -69,7 +69,7 @@ skeleton = NodePath("../..")
 surface_material_override/0 = ExtResource("4_71jv4")
 
 [node name="Bridge" type="MeshInstance3D" parent="Floor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -20)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -22.5)
 layers = 3
 cast_shadow = 0
 mesh = SubResource("PlaneMesh_71jv4")
@@ -153,7 +153,7 @@ unique_name_in_owner = true
 transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, 0, 0, 0)
 
 [node name="Spawner" parent="Spawners/Node3D1" instance=ExtResource("8_d8rf8")]
-transform = Transform3D(1.2665987e-07, 0, -1, 0, 1, 0, 1, 0, 1.2665987e-07, 0, 0, -40)
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, -45)
 spawnee = ExtResource("9_hx0sm")
 
 [node name="Enemies" type="Node3D" parent="."]

@@ -8,7 +8,7 @@ func _ready():
     
     Post.subscribe(self)
 
-func levelStart():  updateButtons()
+func levelStart(): updateButtons()
     
 func updateButtons():
     
@@ -24,7 +24,7 @@ func cardChosen(card):
     
     #Log.log("cardChosen", card.res.name)
     if card.isBattleCard():
-        addCardButton(card)
+        addCardButton(Card.withName(card.res.name))
 
 func addCardButton(card:Card):
     

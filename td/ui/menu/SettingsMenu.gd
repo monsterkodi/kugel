@@ -9,6 +9,9 @@ func _ready():
     for child in settingsChildren():
         child.valueChanged.connect(valueChanged.bind(child.name))
     
+    %volumeMaster.slider.focus_neighbor_top = %cheatsEnabled.get_path()
+    %cheatsEnabled.focus_neighbor_bottom = %volumeMaster.slider.get_path()
+    
     super._ready()
     
 func settingsChildren(): 

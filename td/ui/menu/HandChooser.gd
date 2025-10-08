@@ -57,7 +57,7 @@ func getDeckButton(cardName):
 
 func appeared():
     
-    %Done.grab_focus()            
+    %Battle.grab_focus()            
     super.appeared()
 
 func buttonPressed(button):
@@ -96,19 +96,20 @@ func moveDeckCardToHand(button):
         button.card.lvl -= 1
         button.setDots(button.card.lvl)
         var newCard = Card.withName(button.card.res.name)
-        %Player.hand.addCard(newCard, false)
-        var handButton = addHandButton(newCard)
-        handButton.grab_focus()
+        %Player.hand.addCard(newCard)
+        addHandButton(newCard)
     else:
-        %Player.hand.addCard(button.card, false)
+        %Player.hand.addCard(button.card)
         Utils.setParent(button, %Hand)
         button.setSize(HAND_SIZE)
         button.grab_focus()
+        
+func back(): onBattle()
 
-func _on_done_pressed():
+func onBattle():
     
     %MenuHandler.vanish(self, "top").tween_callback(func():Post.handChosen.emit())
 
-func _on_cards_pressed():
+func onCards():
     
     %MenuHandler.appear(%PermViewer, "right")

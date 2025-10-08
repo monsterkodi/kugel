@@ -180,6 +180,20 @@ size_flags_horizontal = 4
 theme = ExtResource("1_rd3qm")
 theme_override_constants/separation = -10
 
+[node name="timeScale" type="HBoxContainer" parent="PanelContainer/MarginContainer/Grid/GameSettings"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(460, 20)
+layout_mode = 2
+size_flags_vertical = 4
+script = ExtResource("3_emk4v")
+text = "Time Scale"
+value = 3.5
+valueMin = 0.5
+valueMax = 4.0
+valueStep = 0.1
+metadata/_custom_type_script = "uid://dxpjww7lq0w6w"
+
 [node name="mouseLock" type="CheckButton" parent="PanelContainer/MarginContainer/Grid/GameSettings"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(360, 0)
@@ -210,20 +224,6 @@ theme = ExtResource("1_rd3qm")
 text = "Cheats"
 script = ExtResource("4_008yk")
 
-[node name="timeScale" type="HBoxContainer" parent="PanelContainer/MarginContainer/Grid/GameSettings"]
-unique_name_in_owner = true
-visible = false
-custom_minimum_size = Vector2(460, 20)
-layout_mode = 2
-size_flags_vertical = 4
-script = ExtResource("3_emk4v")
-text = "Time Scale"
-value = 2.5
-valueMin = 0.5
-valueMax = 4.0
-valueStep = 0.1
-metadata/_custom_type_script = "uid://dxpjww7lq0w6w"
-
 [connection signal="resized" from="." to="." method="onResize"]
 [connection signal="valueChanged" from="PanelContainer/MarginContainer/Grid/AudioSettings/volumeMaster" to="." method="onMasterVolume"]
 [connection signal="valueChanged" from="PanelContainer/MarginContainer/Grid/AudioSettings/volumeMusic" to="." method="onMusicVolume"]
@@ -233,7 +233,7 @@ metadata/_custom_type_script = "uid://dxpjww7lq0w6w"
 [connection signal="toggled" from="PanelContainer/MarginContainer/Grid/DisplaySettings/hiresContainer/hires" to="." method="onHires"]
 [connection signal="toggled" from="PanelContainer/MarginContainer/Grid/DisplaySettings/fullscreen" to="." method="onFullscreen"]
 [connection signal="toggled" from="PanelContainer/MarginContainer/Grid/DisplaySettings/clock" to="." method="onClock"]
+[connection signal="valueChanged" from="PanelContainer/MarginContainer/Grid/GameSettings/timeScale" to="." method="onTimescale"]
 [connection signal="toggled" from="PanelContainer/MarginContainer/Grid/GameSettings/mouseLock" to="." method="onMouseLock"]
 [connection signal="toggled" from="PanelContainer/MarginContainer/Grid/GameSettings/mouseHide" to="." method="onMouseHide"]
 [connection signal="toggled" from="PanelContainer/MarginContainer/Grid/GameSettings/cheatsEnabled" to="." method="onMouseHide"]
-[connection signal="valueChanged" from="PanelContainer/MarginContainer/Grid/GameSettings/timeScale" to="." method="onTimescale"]

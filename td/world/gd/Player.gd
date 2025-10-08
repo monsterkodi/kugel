@@ -21,6 +21,9 @@ func _ready():
     perm   = Deck.new()
     battle = Deck.new()
     
+    hand.stacked   = false
+    battle.stacked = false
+    
     add_child(deck)
     add_child(hand)
     add_child(perm)

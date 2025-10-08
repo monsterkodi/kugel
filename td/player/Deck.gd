@@ -1,13 +1,15 @@
 class_name Deck
 extends Node
 
+var stacked = true
+
 func clear():
     
     Utils.freeChildren(self)
 
-func addCard(card:Card, unique=true):
+func addCard(card:Card):
     
-    if unique:
+    if stacked:
         delCard(getCard(card.res.name))
     Utils.setParent(card, self)
     
@@ -19,9 +21,10 @@ func delCard(card:Card):
     
 func cardLvl(cardName:String) -> int:
     
+    var lvl = 0
     for card in get_children():
-        if card.res.name == cardName: return card.lvl
-    return 0
+        if card.res.name == cardName: lvl += card.lvl
+    return lvl
     
 func getCard(cardName:String) -> Card:
     

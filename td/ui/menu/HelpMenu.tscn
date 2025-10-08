@@ -84,7 +84,7 @@ layout_mode = 2
 size_flags_vertical = 0
 text = "Use the glass pill to protect the base (blue sphere) from the enemies (red orbs) as long as possible.
 Each time an enemy hits the base, it looses a hitpoint.
-When all hitpoints are gone, the current run is over and you have to start again."
+When all hitpoints are gone, the current run is over and you have to start over again."
 fit_content = true
 
 [node name="Label2" type="Label" parent="PanelContainer/Help"]
@@ -96,7 +96,25 @@ text = "How to play"
 layout_mode = 2
 text = "In the beginning, spawned enemies are weak and you can kill them directly with the glass pill.
 Over time they get stronger and you need the help of defense towers to defeat them. 
-You can buy those with the currency you gain by collecting enemy corpses (little black balls)."
+Buy those with the currency you gain when collecting enemy corpses."
+fit_content = true
+
+[node name="Label5" type="Label" parent="PanelContainer/Help"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Cards"
+
+[node name="Upgrades" type="RichTextLabel" parent="PanelContainer/Help"]
+layout_mode = 2
+text = "You can choose one of three random cards at increasing intervals. 
+Their benefits are applied in the current run as well as all future runs of the same level.
+
+They come in two flavors: Upgrade and Battle.
+
+Upgrade cards improve certain aspects of the turrets or the pill.
+
+Battle cards let you place a tower or a base shield for free.
+At each start of a run you can choose a limited subset from your Battle cards. The limit is upgradable."
 fit_content = true
 
 [node name="Label4" type="Label" parent="PanelContainer/Help"]
@@ -104,7 +122,114 @@ layout_mode = 2
 size_flags_vertical = 0
 text = "Controls"
 
+[node name="GridContainer" type="GridContainer" parent="PanelContainer/Help"]
+layout_mode = 2
+theme_override_constants/h_separation = 25
+theme_override_constants/v_separation = 4
+columns = 3
+
+[node name="Label14" type="RichTextLabel" parent="PanelContainer/Help/GridContainer"]
+custom_minimum_size = Vector2(300, 50)
+layout_mode = 2
+text = "Gamepad"
+
+[node name="Label15" type="RichTextLabel" parent="PanelContainer/Help/GridContainer"]
+custom_minimum_size = Vector2(450, 0)
+layout_mode = 2
+
+[node name="Label16" type="RichTextLabel" parent="PanelContainer/Help/GridContainer"]
+layout_mode = 2
+text = "Keyboard"
+
+[node name="Label" type="Label" parent="PanelContainer/Help/GridContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "Left stick"
+
+[node name="Label2" type="RichTextLabel" parent="PanelContainer/Help/GridContainer"]
+layout_mode = 2
+text = "Move"
+
+[node name="Label13" type="Label" parent="PanelContainer/Help/GridContainer"]
+layout_mode = 2
+text = "W A S D Up Down"
+
+[node name="Label3" type="Label" parent="PanelContainer/Help/GridContainer"]
+layout_mode = 2
+text = "Right stick horizontal"
+
+[node name="Label4" type="RichTextLabel" parent="PanelContainer/Help/GridContainer"]
+layout_mode = 2
+text = "Steer"
+
+[node name="Label17" type="Label" parent="PanelContainer/Help/GridContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "Left Right"
+
+[node name="Label22" type="Label" parent="PanelContainer/Help/GridContainer"]
+layout_mode = 2
+text = "Right stick vertical"
+
+[node name="Label23" type="RichTextLabel" parent="PanelContainer/Help/GridContainer"]
+layout_mode = 2
+text = "Camera altitude"
+
+[node name="Label24" type="Label" parent="PanelContainer/Help/GridContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "Q E"
+
+[node name="Label5" type="Label" parent="PanelContainer/Help/GridContainer"]
+layout_mode = 2
+text = "X"
+
+[node name="Label6" type="RichTextLabel" parent="PanelContainer/Help/GridContainer"]
+layout_mode = 2
+text = "Build menu"
+
+[node name="Label18" type="Label" parent="PanelContainer/Help/GridContainer"]
+layout_mode = 2
+text = "Tab"
+
+[node name="Label7" type="Label" parent="PanelContainer/Help/GridContainer"]
+layout_mode = 2
+text = "A"
+
+[node name="Label8" type="RichTextLabel" parent="PanelContainer/Help/GridContainer"]
+layout_mode = 2
+text = "Jump"
+
+[node name="Label19" type="Label" parent="PanelContainer/Help/GridContainer"]
+layout_mode = 2
+text = "Ctrl"
+
+[node name="Label9" type="Label" parent="PanelContainer/Help/GridContainer"]
+layout_mode = 2
+text = "B"
+
+[node name="Label10" type="RichTextLabel" parent="PanelContainer/Help/GridContainer"]
+layout_mode = 2
+text = "Dash"
+
+[node name="Label20" type="Label" parent="PanelContainer/Help/GridContainer"]
+layout_mode = 2
+text = "Space"
+
+[node name="Label11" type="Label" parent="PanelContainer/Help/GridContainer"]
+layout_mode = 2
+text = "Bumpers"
+
+[node name="Label12" type="RichTextLabel" parent="PanelContainer/Help/GridContainer"]
+layout_mode = 2
+text = "Increase/Decrease spawn speed"
+
+[node name="Label21" type="Label" parent="PanelContainer/Help/GridContainer"]
+layout_mode = 2
+text = "PageUp PageDown"
+
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/Help"]
+visible = false
 layout_mode = 2
 theme_override_constants/separation = 29
 
@@ -116,68 +241,6 @@ fit_content = true
 [node name="GridContainer2" type="GridContainer" parent="PanelContainer/Help/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label5" type="Label" parent="PanelContainer/Help/VBoxContainer/GridContainer2"]
-visible = false
-layout_mode = 2
-size_flags_vertical = 0
-text = "Gamepad"
-
-[node name="GridContainer" type="GridContainer" parent="PanelContainer/Help/VBoxContainer/GridContainer2"]
-layout_mode = 2
-theme_override_constants/h_separation = 25
-theme_override_constants/v_separation = 4
-columns = 2
-
-[node name="Label" type="Label" parent="PanelContainer/Help/VBoxContainer/GridContainer2/GridContainer"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-text = "Left stick"
-
-[node name="Label2" type="RichTextLabel" parent="PanelContainer/Help/VBoxContainer/GridContainer2/GridContainer"]
-custom_minimum_size = Vector2(800, 0)
-layout_mode = 2
-text = "Move the glass pill"
-
-[node name="Label3" type="Label" parent="PanelContainer/Help/VBoxContainer/GridContainer2/GridContainer"]
-layout_mode = 2
-text = "Right stick"
-
-[node name="Label4" type="RichTextLabel" parent="PanelContainer/Help/VBoxContainer/GridContainer2/GridContainer"]
-layout_mode = 2
-text = "Steering and camera altitude"
-
-[node name="Label5" type="Label" parent="PanelContainer/Help/VBoxContainer/GridContainer2/GridContainer"]
-layout_mode = 2
-text = "X"
-
-[node name="Label6" type="RichTextLabel" parent="PanelContainer/Help/VBoxContainer/GridContainer2/GridContainer"]
-layout_mode = 2
-text = "Build Menu"
-
-[node name="Label7" type="Label" parent="PanelContainer/Help/VBoxContainer/GridContainer2/GridContainer"]
-layout_mode = 2
-text = "A"
-
-[node name="Label8" type="RichTextLabel" parent="PanelContainer/Help/VBoxContainer/GridContainer2/GridContainer"]
-layout_mode = 2
-text = "Jump"
-
-[node name="Label9" type="Label" parent="PanelContainer/Help/VBoxContainer/GridContainer2/GridContainer"]
-layout_mode = 2
-text = "B"
-
-[node name="Label10" type="RichTextLabel" parent="PanelContainer/Help/VBoxContainer/GridContainer2/GridContainer"]
-layout_mode = 2
-text = "Dash"
-
-[node name="Label11" type="Label" parent="PanelContainer/Help/VBoxContainer/GridContainer2/GridContainer"]
-layout_mode = 2
-text = "Bumpers"
-
-[node name="Label12" type="RichTextLabel" parent="PanelContainer/Help/VBoxContainer/GridContainer2/GridContainer"]
-layout_mode = 2
-text = "Increase/Decrease spawn speed"
-
 [node name="Controls2" type="RichTextLabel" parent="PanelContainer/Help/VBoxContainer"]
 layout_mode = 2
 text = "Keyboard"
@@ -186,65 +249,33 @@ fit_content = true
 [node name="GridContainer3" type="GridContainer" parent="PanelContainer/Help/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label5" type="Label" parent="PanelContainer/Help/VBoxContainer/GridContainer3"]
-visible = false
-layout_mode = 2
-size_flags_vertical = 0
-text = "Keyboard"
-
 [node name="GridContainer" type="GridContainer" parent="PanelContainer/Help/VBoxContainer/GridContainer3"]
 layout_mode = 2
 theme_override_constants/h_separation = 25
 theme_override_constants/v_separation = 4
 columns = 2
 
-[node name="Label" type="Label" parent="PanelContainer/Help/VBoxContainer/GridContainer3/GridContainer"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-text = "W A S D"
-
 [node name="Label2" type="RichTextLabel" parent="PanelContainer/Help/VBoxContainer/GridContainer3/GridContainer"]
 custom_minimum_size = Vector2(800, 0)
 layout_mode = 2
 text = "Move the glass pill"
-
-[node name="Label13" type="Label" parent="PanelContainer/Help/VBoxContainer/GridContainer3/GridContainer"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-text = "Q E"
 
 [node name="Label14" type="RichTextLabel" parent="PanelContainer/Help/VBoxContainer/GridContainer3/GridContainer"]
 custom_minimum_size = Vector2(800, 0)
 layout_mode = 2
 text = "Camera altitude"
 
-[node name="Label3" type="Label" parent="PanelContainer/Help/VBoxContainer/GridContainer3/GridContainer"]
-layout_mode = 2
-text = "Cursor keys"
-
 [node name="Label4" type="RichTextLabel" parent="PanelContainer/Help/VBoxContainer/GridContainer3/GridContainer"]
 layout_mode = 2
 text = "Steering and move forward/backward"
-
-[node name="Label5" type="Label" parent="PanelContainer/Help/VBoxContainer/GridContainer3/GridContainer"]
-layout_mode = 2
-text = "Tab"
 
 [node name="Label6" type="RichTextLabel" parent="PanelContainer/Help/VBoxContainer/GridContainer3/GridContainer"]
 layout_mode = 2
 text = "Build Menu"
 
-[node name="Label7" type="Label" parent="PanelContainer/Help/VBoxContainer/GridContainer3/GridContainer"]
-layout_mode = 2
-text = "Ctrl"
-
 [node name="Label8" type="RichTextLabel" parent="PanelContainer/Help/VBoxContainer/GridContainer3/GridContainer"]
 layout_mode = 2
 text = "Jump"
-
-[node name="Label9" type="Label" parent="PanelContainer/Help/VBoxContainer/GridContainer3/GridContainer"]
-layout_mode = 2
-text = "Space"
 
 [node name="Label10" type="RichTextLabel" parent="PanelContainer/Help/VBoxContainer/GridContainer3/GridContainer"]
 layout_mode = 2
@@ -261,13 +292,13 @@ text = "Increase/Decrease spawn speed"
 [node name="Label3" type="Label" parent="PanelContainer/Help"]
 layout_mode = 2
 size_flags_vertical = 0
-text = "The HUD"
+text = "HUD"
 
 [node name="HUD" type="RichTextLabel" parent="PanelContainer/Help"]
 layout_mode = 2
-text = "The top right corner shows the current score (number of red orbs spawned).
-The top left corner shows the available currency.
-The blue circles in the top center show how many hitpoints are left. 
+text = "The top left number shows the available currency.
+The top right number shows the current score (number of enemies spawned).
+The blue circles in the top center show how many shield and base hitpoints are left. 
 The red circles in the top center show when the next upgrade card will be available.
 "
 fit_content = true

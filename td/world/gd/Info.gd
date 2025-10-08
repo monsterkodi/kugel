@@ -44,6 +44,7 @@ func startLevel():
 func setEnemySpeed(speed:float):
 
     enemySpeed = clampf(speed, 1.0, 5.0)
+    Post.gameSound.emit(get_node("/root/World/Camera").followCam, "enemySpeed", enemySpeed)
     Post.enemySpeed.emit(enemySpeed)
     
 func fasterEnemySpeed(): setEnemySpeed(enemySpeed + 0.5)

@@ -185,6 +185,9 @@ stream = ExtResource("23_pp1rp")
 [node name="enemySpawned" type="AudioStreamPlayer3D" parent="GameSound"]
 stream = ExtResource("24_1qwr2")
 
+[node name="enemySpeed" type="AudioStreamPlayer3D" parent="GameSound"]
+stream = ExtResource("16_gny34")
+
 [node name="enemyDied" type="AudioStreamPlayer3D" parent="GameSound"]
 stream = ExtResource("17_dh4u6")
 

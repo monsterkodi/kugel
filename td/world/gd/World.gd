@@ -115,9 +115,7 @@ func cardChosen(card:Card):
     else:
         assert(card.isBattleCard())
         %Player.deck.addCard(card)
-        var battleCard = Card.withName(card.res.name)
-        Log.log("add battle card", battleCard.res.name, battleCard.lvl)
-        %Player.battle.addCard(battleCard, false)
+        %Player.battle.addCard(Card.withName(card.res.name))
         
     Post.applyCards.emit()
     
@@ -209,8 +207,9 @@ func playLevel(levelRes):
         
 func handChosen():
 
+    %Player.battle.clear()
     for card in %Player.hand.get_children():
-        %Player.battle.addCard(Card.withName(card.res.name), false)
+        %Player.battle.addCard(Card.withName(card.res.name))
         
     Post.levelStart.emit()
     resumeGame()

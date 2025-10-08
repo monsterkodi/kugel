@@ -6,12 +6,13 @@
 
 [node name="CardSniperSpeed" type="Node3D"]
 script = ExtResource("1_dypkl")
-lookAt = Vector3(60.15, -10.1, -28.75)
+lookAt = Vector3(62.78, -5.79, -18.71)
 
 [node name="CardSetup" parent="." instance=ExtResource("2_t0sbq")]
 cameraOffset = Vector2(0, 0.68)
-cameraFov = 11.511
-cameraTargetY = 0.674
+cameraDistance = 2.6620000000000004
+cameraFov = 17.346
+cameraTargetY = 0.606
 cameraHeight = 0.01
 
 [node name="Sniper" parent="." instance=ExtResource("3_x83mi")]

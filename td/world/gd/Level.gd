@@ -89,6 +89,7 @@ func resetLevel(data:Dictionary):
     var ld = data.Level[name]
     ld.highscore      = highscore
     ld.trophyCount    = trophyCount
+    ld.lastScore      = Stats.numEnemiesSpawned
     ld.enemiesSpawned = 0
     ld.walletBalance  = 0
     ld.baseHitPoints  = 3

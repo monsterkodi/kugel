@@ -10,6 +10,8 @@ var MAX_SPEED = 6
 var mouseRot     = 0.0
 var mouseDelta   = Vector2.ZERO
 var dashDir      = Vector3.FORWARD
+var dashPower    = 200
+var jumpPower    = 100
 var contactCount = 0
 
 func _ready():
@@ -28,6 +30,9 @@ func applyCards():
     %LaserPointer.laserDamage = pow(powerCards+1, 3)
     %LaserPointer.radiusBase = 0.04 + powerCards * 0.04
     
+    dashPower = 170 + 30 * pow(powerCards+1, 1.5)
+    jumpPower = 80 + 20 * pow(powerCards+1, 1.5)
+    
     %Collector.setRadius(7 + 7 * rangeCards)
     
 func _physics_process(delta:float):
@@ -36,7 +41,7 @@ func _physics_process(delta:float):
     
     var dt = delta * speed / Engine.time_scale
     
-    readInput(dt)
+    readInput()
 
     var fs = Vector2(%strafe.value, %forward.value).limit_length()
         
@@ -45,7 +50,7 @@ func _physics_process(delta:float):
     force -= player.transform.basis.z * fs.y * dt * 1000
     
     apply_central_force(force)
-    apply_torque(Vector3(0, -%steer.value*dt*100, 0))
+    apply_torque(Vector3(0, -%steer.value*dt/Engine.time_scale*150, 0))
         
     apply_torque(Vector3(0, -mouseDelta.x*dt*1.5, 0))
     mouseDelta = Vector2.ZERO
@@ -76,7 +81,7 @@ func _integrate_forces(state: PhysicsDirectBodyState3D):
             Post.gameSound.emit(self, "jump")
             
     if not %JumpTimer.is_stopped():
-        apply_central_impulse(Vector3.UP * 100 * %JumpTimer.time_left/%JumpTimer.wait_time)
+        apply_central_impulse(Vector3.UP * jumpPower * %JumpTimer.time_left/%JumpTimer.wait_time)
                     
     if dash > 0.99 and %DashBlock.is_stopped():
         state.linear_velocity.x = 0
@@ -94,7 +99,7 @@ func _integrate_forces(state: PhysicsDirectBodyState3D):
         if contactCount > 1:
             %DashTimer.stop()
         else:
-            apply_central_impulse(dashDir * 200 * %DashTimer.time_left/%DashTimer.wait_time)
+            apply_central_impulse(dashDir * dashPower * %DashTimer.time_left/%DashTimer.wait_time)
 
 func calcDashDir(delta:float):
     
@@ -125,30 +130,28 @@ func calcDashDir(delta:float):
     
     dashDir = lerp(dashDir, dir, dt*0.2)  
     
-func readInput(delta:float):
-    
-    var dt = 1
+func readInput():
     
     %forward.zero()
-    %forward.add(-Input.get_joy_axis(0, JOY_AXIS_LEFT_Y)*dt)
-    #%forward.add(-Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y))
+    %forward.add(-Input.get_joy_axis(0, JOY_AXIS_LEFT_Y))
+
     dash = Input.get_joy_axis(0, JOY_AXIS_TRIGGER_RIGHT)
     if Input.is_action_just_pressed("dash"):    dash = 1
     
-    if Input.is_action_pressed("forward"):      %forward.add( dt)
-    if Input.is_action_pressed("backward"):     %forward.add(-dt)
-    if Input.is_key_pressed(KEY_UP):            %forward.add( dt)
-    if Input.is_key_pressed(KEY_DOWN):          %forward.add(-dt)
+    if Input.is_action_pressed("forward"):      %forward.add( 1)
+    if Input.is_action_pressed("backward"):     %forward.add(-1)
+    if Input.is_key_pressed(KEY_UP):            %forward.add( 1)
+    if Input.is_key_pressed(KEY_DOWN):          %forward.add(-1)
     
     %steer.zero()
-    %steer.add(Input.get_joy_axis(0, JOY_AXIS_RIGHT_X)*dt)
-    if Input.is_action_pressed("steer_right"):  %steer.add( dt)
-    if Input.is_action_pressed("steer_left"):   %steer.add(-dt)
+    %steer.add(Input.get_joy_axis(0, JOY_AXIS_RIGHT_X))
+    if Input.is_action_pressed("steer_right"):  %steer.add( 1)
+    if Input.is_action_pressed("steer_left"):   %steer.add(-1)
     
     %strafe.zero()
-    %strafe.add(Input.get_joy_axis(0, JOY_AXIS_LEFT_X)*dt)
-    if Input.is_action_pressed("right"):        %strafe.add( dt)
-    if Input.is_action_pressed("left"):         %strafe.add(-dt)
+    %strafe.add(Input.get_joy_axis(0, JOY_AXIS_LEFT_X))
+    if Input.is_action_pressed("right"):        %strafe.add( 1)
+    if Input.is_action_pressed("left"):         %strafe.add(-1)
 
 func _input(event: InputEvent):
     

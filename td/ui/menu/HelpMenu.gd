@@ -8,6 +8,6 @@ func appeared():
 
 func back():
     
-    backMenu = %MainMenu
-    backFrom = "top"
-    super.back()
+    if is_processing_input():
+        backFrom = "top"
+        super.back()

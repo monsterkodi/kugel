@@ -32,7 +32,7 @@ func _physics_process(delta:float):
     var pt = get_parent_node_3d()
     pt.transform = target.transform.interpolate_with(pt.transform, INTERPOL)
     
-    dist += zoom * ZOOM_SPEED * delta 
+    dist += zoom * ZOOM_SPEED * delta / Engine.time_scale
     dist = clampf(dist, 0, 1)
     
     alti  = lerpf(MIN_ALTI,  MAX_ALTI,  dist)

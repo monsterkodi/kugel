@@ -137,10 +137,37 @@ size_flags_vertical = 6
 theme = ExtResource("3_7pchu")
 columns = 5
 
+[node name="BattleMargin" type="MarginContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+theme_override_constants/margin_right = 50
+
+[node name="Battle" type="Button" parent="BattleMargin"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0.31670618, 0.31670618, 0.31670618, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.86081076, 0, 1)
+theme_override_font_sizes/font_size = 84
+theme_override_styles/normal = SubResource("StyleBoxFlat_wk2i3")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_e1212")
+theme_override_styles/hover = SubResource("StyleBoxFlat_7pchu")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_uuvfj")
+theme_override_styles/focus = SubResource("StyleBoxFlat_1kdj8")
+text = "Battle"
+icon_alignment = 1
+
+[node name="FocusOnHover" type="Node" parent="BattleMargin/Battle"]
+script = ExtResource("3_e1212")
+metadata/_custom_type_script = "uid://db85fb86bo305"
+
 [node name="CardsMargin" type="MarginContainer" parent="."]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 4
+theme_override_constants/margin_top = 250
 theme_override_constants/margin_right = 50
 
 [node name="Cards" type="Button" parent="CardsMargin"]
@@ -163,33 +190,6 @@ icon_alignment = 1
 script = ExtResource("3_e1212")
 metadata/_custom_type_script = "uid://db85fb86bo305"
 
-[node name="DoneMargin" type="MarginContainer" parent="."]
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 4
-theme_override_constants/margin_top = 250
-theme_override_constants/margin_right = 50
-
-[node name="Done" type="Button" parent="DoneMargin"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 4
-theme_override_colors/font_color = Color(0.31670618, 0.31670618, 0.31670618, 1)
-theme_override_colors/font_pressed_color = Color(1, 0.86081076, 0, 1)
-theme_override_font_sizes/font_size = 84
-theme_override_styles/normal = SubResource("StyleBoxFlat_wk2i3")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_e1212")
-theme_override_styles/hover = SubResource("StyleBoxFlat_7pchu")
-theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_uuvfj")
-theme_override_styles/focus = SubResource("StyleBoxFlat_1kdj8")
-text = "Play"
-icon_alignment = 1
-
-[node name="FocusOnHover" type="Node" parent="DoneMargin/Done"]
-script = ExtResource("3_e1212")
-metadata/_custom_type_script = "uid://db85fb86bo305"
-
 [connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
-[connection signal="pressed" from="CardsMargin/Cards" to="." method="_on_cards_pressed"]
-[connection signal="pressed" from="DoneMargin/Done" to="." method="_on_done_pressed"]
+[connection signal="pressed" from="BattleMargin/Battle" to="." method="onBattle"]
+[connection signal="pressed" from="CardsMargin/Cards" to="." method="onCards"]

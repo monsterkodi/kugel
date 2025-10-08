@@ -24,7 +24,7 @@ metadata/_custom_type_script = "uid://vl5uuupklejb"
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_constants/separation = 20
+theme_override_constants/separation = 50
 
 [node name="Levels" type="PanelContainer" parent="VBoxContainer"]
 layout_mode = 2
@@ -42,68 +42,66 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 theme = ExtResource("2_guig7")
 
-[node name="Buttons" type="VBoxContainer" parent="VBoxContainer/Menu"]
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer/Menu"]
+layout_mode = 2
+theme_override_constants/h_separation = 20
+columns = 2
+
+[node name="Buttons" type="VBoxContainer" parent="VBoxContainer/Menu/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="Settings" type="Button" parent="VBoxContainer/Menu/Buttons"]
+[node name="Settings" type="Button" parent="VBoxContainer/Menu/GridContainer/Buttons"]
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme = ExtResource("2_guig7")
 text = "Settings
 "
 
-[node name="FocusOnHover" type="Node" parent="VBoxContainer/Menu/Buttons/Settings"]
+[node name="FocusOnHover" type="Node" parent="VBoxContainer/Menu/GridContainer/Buttons/Settings"]
 script = ExtResource("3_7ml3v")
 metadata/_custom_type_script = "uid://db85fb86bo305"
 
-[node name="Help" type="Button" parent="VBoxContainer/Menu/Buttons"]
-layout_mode = 2
-mouse_default_cursor_shape = 2
-theme = ExtResource("2_guig7")
-text = "Help
-"
-
-[node name="FocusOnHover" type="Node" parent="VBoxContainer/Menu/Buttons/Help"]
-script = ExtResource("3_7ml3v")
-metadata/_custom_type_script = "uid://db85fb86bo305"
-
-[node name="Credits" type="Button" parent="VBoxContainer/Menu/Buttons"]
-layout_mode = 2
-mouse_default_cursor_shape = 2
-theme = ExtResource("2_guig7")
-text = "Credits
-"
-
-[node name="FocusOnHover" type="Node" parent="VBoxContainer/Menu/Buttons/Credits"]
-script = ExtResource("3_7ml3v")
-metadata/_custom_type_script = "uid://db85fb86bo305"
-
-[node name="New Game" type="Button" parent="VBoxContainer/Menu/Buttons"]
-visible = false
-layout_mode = 2
-mouse_default_cursor_shape = 2
-theme = ExtResource("2_guig7")
-text = "New Game"
-
-[node name="FocusOnHover" type="Node" parent="VBoxContainer/Menu/Buttons/New Game"]
-script = ExtResource("3_7ml3v")
-metadata/_custom_type_script = "uid://db85fb86bo305"
-
-[node name="Quit" type="Button" parent="VBoxContainer/Menu/Buttons"]
+[node name="Quit" type="Button" parent="VBoxContainer/Menu/GridContainer/Buttons"]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme = ExtResource("2_guig7")
 text = "Quit"
 
-[node name="FocusOnHover" type="Node" parent="VBoxContainer/Menu/Buttons/Quit"]
+[node name="FocusOnHover" type="Node" parent="VBoxContainer/Menu/GridContainer/Buttons/Quit"]
 script = ExtResource("3_7ml3v")
 metadata/_custom_type_script = "uid://db85fb86bo305"
 
-[connection signal="pressed" from="VBoxContainer/Menu/Buttons/Settings" to="." method="onSettings"]
-[connection signal="pressed" from="VBoxContainer/Menu/Buttons/Help" to="." method="onHelp"]
-[connection signal="pressed" from="VBoxContainer/Menu/Buttons/Credits" to="." method="onCredits"]
-[connection signal="pressed" from="VBoxContainer/Menu/Buttons/New Game" to="." method="onNewGame"]
-[connection signal="pressed" from="VBoxContainer/Menu/Buttons/Quit" to="." method="onQuit"]
+[node name="Buttons2" type="VBoxContainer" parent="VBoxContainer/Menu/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Help" type="Button" parent="VBoxContainer/Menu/GridContainer/Buttons2"]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("2_guig7")
+text = "Help
+"
+
+[node name="FocusOnHover" type="Node" parent="VBoxContainer/Menu/GridContainer/Buttons2/Help"]
+script = ExtResource("3_7ml3v")
+metadata/_custom_type_script = "uid://db85fb86bo305"
+
+[node name="Credits" type="Button" parent="VBoxContainer/Menu/GridContainer/Buttons2"]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("2_guig7")
+text = "Credits
+"
+
+[node name="FocusOnHover" type="Node" parent="VBoxContainer/Menu/GridContainer/Buttons2/Credits"]
+script = ExtResource("3_7ml3v")
+metadata/_custom_type_script = "uid://db85fb86bo305"
+
+[connection signal="pressed" from="VBoxContainer/Menu/GridContainer/Buttons/Settings" to="." method="onSettings"]
+[connection signal="pressed" from="VBoxContainer/Menu/GridContainer/Buttons/Quit" to="." method="onQuit"]
+[connection signal="pressed" from="VBoxContainer/Menu/GridContainer/Buttons2/Help" to="." method="onHelp"]
+[connection signal="pressed" from="VBoxContainer/Menu/GridContainer/Buttons2/Credits" to="." method="onCredits"]
