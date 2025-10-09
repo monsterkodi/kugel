@@ -10,7 +10,13 @@ var deadColor : Color = Color(0,0,0)
 
 func _ready():
     
-    Utils.level(self).get_node("MultiMesh").add("enemy", self)
+    var level = Utils.level(self)
+    level.get_node("MultiMesh").add("enemy", self)
+    if level.inert:
+        freeze = true
+        set_process(false)
+        set_physics_process(false)
+        %Attraction.disable()
 
 func _exit_tree():
     

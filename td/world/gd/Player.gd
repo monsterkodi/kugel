@@ -53,24 +53,28 @@ func startLevel():
         global_position = Vector3.ZERO + Vector3.BACK
     
 func loadVehicle(vehicle_name:String):
-    
-    if vehicle: vehicle.queue_free()
+    var oldTrans
+    if vehicle: 
+        oldTrans = vehicle.global_transform
+        vehicle.queue_free()
+    else:
+        oldTrans = global_transform
     vehicleName = vehicle_name
     var res = "res://vehicles/{0}.tscn".format([vehicleName])
     vehicle = load(res).instantiate()
     #if vehicle_name == "Pill":
     get_parent_node_3d().add_child(vehicle)
-    vehicle.transform = transform
     vehicle.player = self
+    vehicle.global_transform = oldTrans
     
-    var followCam = get_node("/root/World/Camera").followCam
-    match vehicle_name:
-        "Pill":
-            followCam.MIN_ALTI   = 2.5
-            followCam.MAX_ALTI   = 20.0
-        "Heli":
-            followCam.MIN_ALTI   = 0.5
-            followCam.MAX_ALTI   = 10.0
+    #var followCam = get_node("/root/World/Camera").followCam
+    #match vehicle_name:
+        #"Pill":
+            #followCam.MIN_ALTI   = 2.5
+            #followCam.MAX_ALTI   = 20.0
+        #"Heli":
+            #followCam.MIN_ALTI   = 0.5
+            #followCam.MAX_ALTI   = 10.0
 
     #else:
         #add_child(vehicle)

@@ -15,12 +15,13 @@ func _ready():
     set_process(false)
     
     if inert:
+        process_mode = Node.PROCESS_MODE_DISABLED
         #Log.log("Level._ready load inert level", name)
         loadLevel(Saver.savegame.data)
     
 func start():
     
-    #Log.log("Level.start")
+    Log.log("Level.start", get_path())
     add_to_group("game")
     set_process(true)
     Post.subscribe(self)

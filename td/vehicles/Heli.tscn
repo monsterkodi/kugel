@@ -1,16 +1,17 @@
-[gd_scene load_steps=14 format=3 uid="uid://sfii31yqj6q5"]
+[gd_scene load_steps=16 format=3 uid="uid://sfii31yqj6q5"]
 
 [ext_resource type="PhysicsMaterial" uid="uid://bd5vcwy55ekyh" path="res://materials/physics/HeliPhysics.tres" id="1_jiwrc"]
 [ext_resource type="Script" uid="uid://d2xxvx1034q51" path="res://vehicles/Heli.gd" id="1_oh2j6"]
-[ext_resource type="Material" uid="uid://lx8t0tfuvrrw" path="res://materials/LackRed.tres" id="2_1sirc"]
 [ext_resource type="PackedScene" uid="uid://dehmjc447yvug" path="res://vehicles/Capsule.tscn" id="3_2ngpf"]
 [ext_resource type="Material" uid="uid://c53lxv23v2wwu" path="res://materials/ThrusterMaterial.tres" id="3_c1c7q"]
+[ext_resource type="Material" uid="uid://vyhfqa37hcxi" path="res://materials/LackBlue.tres" id="3_wao3g"]
 [ext_resource type="Script" uid="uid://bvt1w1upmd45v" path="res://utils/Interpol.gd" id="6_aeb42"]
 [ext_resource type="PackedScene" uid="uid://drhbf00kh3tau" path="res://components/Collector.tscn" id="7_jiwrc"]
 [ext_resource type="PackedScene" uid="uid://bv5vo4rgym2a7" path="res://components/LaserPointer.tscn" id="8_wao3g"]
+[ext_resource type="Script" uid="uid://bqflf4vw8mem1" path="res://addons/lines_and_trails_3d/trail_3d.gd" id="9_ygudo"]
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_2ngpf"]
-height = 0.7
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wao3g"]
+height = 1.3
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_2ngpf"]
 height = 1.0
@@ -39,6 +40,11 @@ disable_fog = true
 disable_specular_occlusion = true
 albedo_color = Color(1.7212527, 0.8493732, 0, 0.34509805)
 
+[sub_resource type="Curve" id="Curve_nv7a7"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+metadata/_snap_enabled = true
+
 [node name="Heli" type="RigidBody3D"]
 collision_mask = 3221225990
 axis_lock_angular_x = true
@@ -55,8 +61,8 @@ angular_damp = 50.0
 script = ExtResource("1_oh2j6")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, 0)
-shape = SubResource("CylinderShape3D_2ngpf")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, 0)
+shape = SubResource("CapsuleShape3D_wao3g")
 
 [node name="Body" type="Node3D" parent="."]
 unique_name_in_owner = true
@@ -67,12 +73,13 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -0.5, 0, 1, -2.1855694e-08, 0, 0.012331188, 0)
 mesh = SubResource("CapsuleMesh_2ngpf")
 skeleton = NodePath("../..")
-surface_material_override/0 = ExtResource("2_1sirc")
+surface_material_override/0 = ExtResource("3_wao3g")
 
 [node name="Capsule" parent="Body" instance=ExtResource("3_2ngpf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1306501, 0)
 
 [node name="Thrusters" type="Node3D" parent="."]
+visible = false
 
 [node name="TA" type="Node3D" parent="Thrusters"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, -0.28439707)
@@ -136,3 +143,27 @@ radiusBase = 0.04
 laserRange = 5.0
 passiveMat = SubResource("StandardMaterial3D_ygudo")
 activeMat = SubResource("StandardMaterial3D_nv7a7")
+
+[node name="DashTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.3
+one_shot = true
+
+[node name="DashBlock" type="Timer" parent="."]
+unique_name_in_owner = true
+one_shot = true
+
+[node name="trail" type="MeshInstance3D" parent="."]
+process_mode = 1
+process_priority = 9999
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+cast_shadow = 0
+script = ExtResource("9_ygudo")
+max_section_length = 0.2
+time_limit = 0.4
+length_limit = 10.0
+width = 0.3
+width_curve = SubResource("Curve_nv7a7")
+color = Color(0.22599989, 0.13999999, 1, 0.14901961)
+billboard_mode = 3
+material_type = 2
