@@ -10,12 +10,12 @@ const ENEMY = preload("uid://cqn35mciqmm8s")
 
 func _ready():
     
-    Log.log("Level._ready", name, "inert:", inert)
+    #Log.log("Level._ready", name, "inert:", inert)
             
     set_process(false)
     
     if inert:
-        Log.log("Level._ready load inert level", name)
+        #Log.log("Level._ready load inert level", name)
         loadLevel(Saver.savegame.data)
     
 func start():

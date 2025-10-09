@@ -5,7 +5,7 @@ var speed        = 15.0
 
 var MIN_SPEED    = 10.0
 var MAX_SPEED    = 20.0
-var MAX_ALTI     = 3.0
+#var MAX_ALTI     = 3.0
 
 var STEER_SPEED  = 0.1
 

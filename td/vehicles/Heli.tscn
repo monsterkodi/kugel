@@ -1,12 +1,16 @@
-[gd_scene load_steps=11 format=3 uid="uid://sfii31yqj6q5"]
+[gd_scene load_steps=14 format=3 uid="uid://sfii31yqj6q5"]
 
-[ext_resource type="PhysicsMaterial" uid="uid://dms3d8q358dik" path="res://materials/physics/PlayerPhysics.tres" id="1_aeb42"]
+[ext_resource type="PhysicsMaterial" uid="uid://bd5vcwy55ekyh" path="res://materials/physics/HeliPhysics.tres" id="1_jiwrc"]
 [ext_resource type="Script" uid="uid://d2xxvx1034q51" path="res://vehicles/Heli.gd" id="1_oh2j6"]
 [ext_resource type="Material" uid="uid://lx8t0tfuvrrw" path="res://materials/LackRed.tres" id="2_1sirc"]
 [ext_resource type="PackedScene" uid="uid://dehmjc447yvug" path="res://vehicles/Capsule.tscn" id="3_2ngpf"]
 [ext_resource type="Material" uid="uid://c53lxv23v2wwu" path="res://materials/ThrusterMaterial.tres" id="3_c1c7q"]
 [ext_resource type="Script" uid="uid://bvt1w1upmd45v" path="res://utils/Interpol.gd" id="6_aeb42"]
 [ext_resource type="PackedScene" uid="uid://drhbf00kh3tau" path="res://components/Collector.tscn" id="7_jiwrc"]
+[ext_resource type="PackedScene" uid="uid://bv5vo4rgym2a7" path="res://components/LaserPointer.tscn" id="8_wao3g"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_2ngpf"]
+height = 0.7
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_2ngpf"]
 height = 1.0
@@ -15,15 +19,44 @@ height = 1.0
 height = 0.5
 is_hemisphere = true
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_2ngpf"]
-height = 0.7
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ygudo"]
+transparency = 1
+blend_mode = 4
+depth_draw_mode = 1
+shading_mode = 0
+disable_ambient_light = true
+disable_fog = true
+disable_specular_occlusion = true
+albedo_color = Color(0, 0, 0, 0.7058824)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nv7a7"]
+transparency = 1
+blend_mode = 4
+depth_draw_mode = 1
+shading_mode = 0
+disable_ambient_light = true
+disable_fog = true
+disable_specular_occlusion = true
+albedo_color = Color(1.7212527, 0.8493732, 0, 0.34509805)
 
 [node name="Heli" type="RigidBody3D"]
-collision_mask = 6
+collision_mask = 3221225990
+axis_lock_angular_x = true
+axis_lock_angular_z = true
 mass = 20.0
-physics_material_override = ExtResource("1_aeb42")
+physics_material_override = ExtResource("1_jiwrc")
 gravity_scale = 0.0
+can_sleep = false
+continuous_cd = true
+contact_monitor = true
+max_contacts_reported = 2
+linear_damp = 20.0
+angular_damp = 50.0
 script = ExtResource("1_oh2j6")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, 0)
+shape = SubResource("CylinderShape3D_2ngpf")
 
 [node name="Body" type="Node3D" parent="."]
 unique_name_in_owner = true
@@ -85,9 +118,21 @@ script = ExtResource("6_aeb42")
 secs = 0.1
 metadata/_custom_type_script = "uid://bvt1w1upmd45v"
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, 0)
-shape = SubResource("CylinderShape3D_2ngpf")
+[node name="steer" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("6_aeb42")
+secs = 0.0
+metadata/_custom_type_script = "uid://bvt1w1upmd45v"
 
 [node name="Collector" parent="." instance=ExtResource("7_jiwrc")]
+unique_name_in_owner = true
 radius = 4
+
+[node name="LaserPointer" parent="." instance=ExtResource("8_wao3g")]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+radiusTip = 0.01
+radiusBase = 0.04
+laserRange = 5.0
+passiveMat = SubResource("StandardMaterial3D_ygudo")
+activeMat = SubResource("StandardMaterial3D_nv7a7")

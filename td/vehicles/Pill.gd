@@ -1,11 +1,10 @@
-class_name Pill extends RigidBody3D
+class_name Pill 
+extends RigidBody3D
 
 var player: Node3D
 var speed = 6
+var steerSpeed = 150
 var dash  = 0
-
-var MIN_SPEED = 3
-var MAX_SPEED = 6
 
 var mouseRot     = 0.0
 var mouseDelta   = Vector2.ZERO
@@ -17,7 +16,7 @@ var contactCount = 0
 func _ready():
     
     name = "Pill"
-    global_position = Vector3.UP
+    #global_position = Vector3.UP
     applyCards()
     Post.subscribe(self)
     
@@ -50,7 +49,7 @@ func _physics_process(delta:float):
     force -= player.transform.basis.z * fs.y * dt * 1000
     
     apply_central_force(force)
-    apply_torque(Vector3(0, -%steer.value*dt/Engine.time_scale*150, 0))
+    apply_torque(Vector3(0, -%steer.value*dt/Engine.time_scale*steerSpeed, 0))
         
     apply_torque(Vector3(0, -mouseDelta.x*dt*1.5, 0))
     mouseDelta = Vector2.ZERO

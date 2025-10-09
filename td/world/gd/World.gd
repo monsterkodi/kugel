@@ -216,7 +216,7 @@ func handChosen():
 
 func loadLevel(levelRes):
     
-    Log.log("loadLevel", levelRes)
+    #Log.log("loadLevel", levelRes)
 
     currentLevelRes = levelRes
     #Log.log("level instantiate")
@@ -232,7 +232,7 @@ func loadLevel(levelRes):
     var isFresh = true
     if Saver.savegame.data.has("Level") and Saver.savegame.data.Level.has(currentLevel.name):
         if Saver.savegame.data.Level[currentLevel.name]:
-            Log.log("late load level")
+            #Log.log("late load level")
             currentLevel.loadLevel(Saver.savegame.data)
             isFresh = not Saver.savegame.data.Level[currentLevel.name].has("gameTime")
             Post.levelLoaded.emit()

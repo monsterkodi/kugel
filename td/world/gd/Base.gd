@@ -50,7 +50,7 @@ func updateDots():
     var shield = level.firstPlacedBuildingOfType("Shield")
     if shield:
         dots += shield.hitPoints
-    Log.log("dots", level.name, dots, get_path())
+    #Log.log("dots", level.name, dots, get_path())
     %DotRing.numDots = dots
         
 func onDeath():
