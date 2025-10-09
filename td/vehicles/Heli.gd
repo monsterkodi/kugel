@@ -1,19 +1,23 @@
 class_name Heli
 extends RigidBody3D
-
-var player: Node3D :
-    set(p): player = p; global_transform = p.global_transform
   
 var speed        = 10.0
 var maxSpeed     = 10.0
 var ascendSpeed  = 15000
 var steerSpeed   = 1000
 var moveSpeed    = 30000
+var maxVelocity  = 20.0
 
 var MAX_ALTI     = 10.0
 var contactCount = 0
 var dashPower    = 200
 var dash         = 0
+
+@onready var beamPivot: Node3D = %BeamPivot
+@onready var collector: Node3D = %Collector
+
+var player : Player :
+    set(p) : player = p; global_position = p.global_position
 
 func _ready():
     
@@ -32,7 +36,7 @@ func applyCards():
     
     dashPower = 170 + 30 * pow(powerCards+1, 1.5)
     
-    %Collector.setRadius(17 + 17 * rangeCards)
+    %Collector.setRadius(7 + 7 * rangeCards)
 
 func _physics_process(delta:float):
     
@@ -55,19 +59,18 @@ func _physics_process(delta:float):
     var force = Vector3.ZERO
     force += player.transform.basis.x * fs.x * dt * moveSpeed
     force -= player.transform.basis.z * fs.y * dt * moveSpeed
+    force.y = 0.0
     force += player.transform.basis.y * %ascend.value * dt * ascendSpeed * alti_soft
-    
+
     apply_central_force(force)
     apply_torque(Vector3(0, -%steer.value*dt/Engine.time_scale*steerSpeed, 0))
     
     global_position.y = clamp(global_position.y, 0, MAX_ALTI)
     
     player.transform = transform
-
+    
 func _integrate_forces(state: PhysicsDirectBodyState3D):
     
-    #state.linear_velocity = state.linear_velocity.limit_length(maxSpeed)
-
     var newContactCount = get_contact_count() 
     
     if contactCount == 0 and newContactCount == 1:
@@ -97,31 +100,37 @@ func _integrate_forces(state: PhysicsDirectBodyState3D):
             %DashTimer.stop()
         else:
             var dashDir = -global_basis.z
+            dashDir.y = 0.0
             apply_central_impulse(dashDir * dashPower * %DashTimer.time_left/%DashTimer.wait_time)
     
 func readInput():
 
-    dash = Input.get_joy_axis(0, JOY_AXIS_TRIGGER_RIGHT)
-    if Input.is_action_just_pressed("dash"):    dash = 1
+    dash = 0
+    if Input.is_action_just_pressed("dash"): dash = 1
 
+    %forward.zero()
     %ascend.zero()
-    #%ascend.add(Input.get_joy_axis(0, JOY_AXIS_TRIGGER_RIGHT))
-    %ascend.add(-Input.get_joy_axis(0, JOY_AXIS_TRIGGER_LEFT))
+    %steer.zero()
+
+    var triggerLeft = Input.get_joy_axis(0, JOY_AXIS_TRIGGER_LEFT)
+    if triggerLeft > 0.1:
+        if global_position.y > 0.1:
+            %ascend.add(-triggerLeft)
+        else:
+            %forward.add(-triggerLeft)
     
-    #if Input.is_action_pressed("alt_right"): %ascend.add(1)
     if Input.is_action_pressed("alt_down"):  %ascend.add(1)
     if Input.is_key_pressed(KEY_R):    %ascend.add( 1)
     if Input.is_key_pressed(KEY_F):    %ascend.add(-1)
     if Input.is_key_pressed(KEY_UP):   %ascend.add(1)
     if Input.is_key_pressed(KEY_DOWN): %ascend.add(-1)
     
-    %forward.zero()
     %forward.add(-Input.get_joy_axis(0, JOY_AXIS_LEFT_Y))
+    %forward.add(Input.get_joy_axis(0, JOY_AXIS_TRIGGER_RIGHT))
     
     if Input.is_action_pressed("forward"):      %forward.add(1)
     if Input.is_action_pressed("backward"):     %forward.add(-1)
     
-    %steer.zero()
     %steer.add(Input.get_joy_axis(0, JOY_AXIS_RIGHT_X))
     if Input.is_action_pressed("steer_right"):  %steer.add(1)
     if Input.is_action_pressed("steer_left"):   %steer.add(-1)

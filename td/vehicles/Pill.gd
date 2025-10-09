@@ -13,6 +13,8 @@ var dashPower    = 200
 var jumpPower    = 100
 var contactCount = 0
 
+@onready var collector: Node3D = %Collector
+
 func _ready():
     
     name = "Pill"
