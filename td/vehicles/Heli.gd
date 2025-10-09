@@ -6,8 +6,8 @@ var player: Node3D :
   
 var speed        = 10.0
 var maxSpeed     = 10.0
-var ascendSpeed  = 5000
-var steerSpeed   = 1500
+var ascendSpeed  = 15000
+var steerSpeed   = 1000
 var moveSpeed    = 30000
 
 var MAX_ALTI     = 10.0
@@ -55,7 +55,7 @@ func _physics_process(delta:float):
     apply_central_force(force)
     apply_torque(Vector3(0, -%steer.value*dt/Engine.time_scale*steerSpeed, 0))
     
-    #position.y = clamp(position.y, 0, MAX_ALTI)
+    position.y = clamp(position.y, 0, MAX_ALTI)
     
     player.transform = transform
 
@@ -82,12 +82,10 @@ func readInput():
     if Input.is_key_pressed(KEY_UP):            %forward.add(1)
     if Input.is_key_pressed(KEY_DOWN):          %forward.add(-1)
     
-    %strafe.zero()
-    %strafe.add(Input.get_joy_axis(0, JOY_AXIS_LEFT_X))
-    if Input.is_action_pressed("right"):        %strafe.add(1)
-    if Input.is_action_pressed("left"):         %strafe.add(-1)
-
     %steer.zero()
     %steer.add(Input.get_joy_axis(0, JOY_AXIS_RIGHT_X))
     if Input.is_action_pressed("steer_right"):  %steer.add(1)
     if Input.is_action_pressed("steer_left"):   %steer.add(-1)
+
+    if Input.is_action_pressed("right"):        %steer.add(0.4)
+    if Input.is_action_pressed("left"):         %steer.add(-0.4)

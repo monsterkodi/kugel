@@ -121,7 +121,7 @@ metadata/_custom_type_script = "uid://bvt1w1upmd45v"
 [node name="steer" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("6_aeb42")
-secs = 0.0
+secs = 0.5
 metadata/_custom_type_script = "uid://bvt1w1upmd45v"
 
 [node name="Collector" parent="." instance=ExtResource("7_jiwrc")]
