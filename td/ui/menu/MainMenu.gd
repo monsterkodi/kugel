@@ -98,6 +98,7 @@ func addLevelButton(scene):
     var level = button.viewport.scene.get_child(-1)
     if level is Level:
         level.showBuildSlots()
+        level.get_node("Base").updateDots()
     
     var camera = button.viewport.scene.camera
     camera.global_position = Vector3(0, 10, 0) + Vector3.BACK*10

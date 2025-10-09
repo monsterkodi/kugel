@@ -1,17 +1,17 @@
 [gd_scene load_steps=22 format=3 uid="uid://btl7cihfnbl6u"]
 
-[ext_resource type="Script" uid="uid://bkoetr2wxx1wf" path="res://world/gd/LevelLinea.gd" id="1_ucptv"]
-[ext_resource type="PhysicsMaterial" uid="uid://dq1r6votcqh1x" path="res://materials/physics/FloorPhysics.tres" id="2_ietfk"]
-[ext_resource type="Material" uid="uid://kotd4yt27t51" path="res://materials/FloorMaterial.tres" id="3_88e6q"]
-[ext_resource type="Material" uid="uid://dpx5qvy28judg" path="res://materials/CircleMaterial.tres" id="4_71jv4"]
-[ext_resource type="PackedScene" uid="uid://ck8f443nev0dm" path="res://world/Slot.tscn" id="5_2c7m3"]
-[ext_resource type="PackedScene" uid="uid://cssayoomcrb8o" path="res://world/Spawner.tscn" id="8_d8rf8"]
-[ext_resource type="PackedScene" uid="uid://cqn35mciqmm8s" path="res://world/Enemy.tscn" id="9_hx0sm"]
-[ext_resource type="PackedScene" uid="uid://b0ky2r6dv835o" path="res://world/Base.tscn" id="10_0kbn8"]
-[ext_resource type="PackedScene" uid="uid://c2avn203eitto" path="res://world/MultiMesh.tscn" id="11_ietfk"]
-[ext_resource type="PackedScene" uid="uid://dt4vauql4gx0y" path="res://components/HalfCapsule.tscn" id="11_ocqm5"]
-[ext_resource type="Script" uid="uid://c5hsf15hvj6m" path="res://world/Bounds.gd" id="11_x17i5"]
-[ext_resource type="PackedScene" uid="uid://b8phu2uow5j4d" path="res://world/clocks/Clock.tscn" id="12_tue7t"]
+[ext_resource type="Script" uid="uid://bkoetr2wxx1wf" path="res://world/gd/LevelLinea.gd" id="1_qud4v"]
+[ext_resource type="PhysicsMaterial" uid="uid://dq1r6votcqh1x" path="res://materials/physics/FloorPhysics.tres" id="2_g1tr3"]
+[ext_resource type="Material" uid="uid://kotd4yt27t51" path="res://materials/FloorMaterial.tres" id="3_5h6kx"]
+[ext_resource type="Material" uid="uid://dpx5qvy28judg" path="res://materials/CircleMaterial.tres" id="4_tv7ku"]
+[ext_resource type="PackedScene" uid="uid://ck8f443nev0dm" path="res://world/Slot.tscn" id="5_h07cp"]
+[ext_resource type="PackedScene" uid="uid://cssayoomcrb8o" path="res://world/Spawner.tscn" id="6_7h0ua"]
+[ext_resource type="PackedScene" uid="uid://cqn35mciqmm8s" path="res://world/Enemy.tscn" id="7_humwk"]
+[ext_resource type="PackedScene" uid="uid://b0ky2r6dv835o" path="res://world/Base.tscn" id="8_5lr4c"]
+[ext_resource type="PackedScene" uid="uid://dt4vauql4gx0y" path="res://components/HalfCapsule.tscn" id="9_ac128"]
+[ext_resource type="Script" uid="uid://c5hsf15hvj6m" path="res://world/Bounds.gd" id="10_11pty"]
+[ext_resource type="PackedScene" uid="uid://c2avn203eitto" path="res://world/MultiMesh.tscn" id="11_auqju"]
+[ext_resource type="PackedScene" uid="uid://b8phu2uow5j4d" path="res://world/clocks/Clock.tscn" id="12_8bmml"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_dn5x0"]
 size = Vector2(300, 300)
@@ -43,14 +43,14 @@ albedo_color = Color(0, 0, 1, 1)
 radius = 14.0
 height = 69.0
 
-[node name="LevelLinea" type="Node3D"]
+[node name="Linea" type="Node3D"]
 process_mode = 1
-script = ExtResource("1_ucptv")
+script = ExtResource("1_qud4v")
 
 [node name="Floor" type="StaticBody3D" parent="."]
 collision_layer = 2147483648
 collision_mask = 59
-physics_material_override = ExtResource("2_ietfk")
+physics_material_override = ExtResource("2_g1tr3")
 
 [node name="CenterCircle" type="MeshInstance3D" parent="Floor"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.01, 0)
@@ -58,7 +58,7 @@ layers = 3
 cast_shadow = 0
 mesh = SubResource("PlaneMesh_dn5x0")
 skeleton = NodePath("../..")
-surface_material_override/0 = ExtResource("3_88e6q")
+surface_material_override/0 = ExtResource("3_5h6kx")
 
 [node name="SpawnCircle" type="MeshInstance3D" parent="Floor"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.005, -45)
@@ -66,7 +66,7 @@ layers = 3
 cast_shadow = 0
 mesh = SubResource("PlaneMesh_x17i5")
 skeleton = NodePath("../..")
-surface_material_override/0 = ExtResource("4_71jv4")
+surface_material_override/0 = ExtResource("4_tv7ku")
 
 [node name="Bridge" type="MeshInstance3D" parent="Floor"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -22.5)
@@ -83,23 +83,23 @@ shape = SubResource("WorldBoundaryShape3D_ucptv")
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8)
 
-[node name="Slot1" parent="Floor/SlotRing1" instance=ExtResource("5_2c7m3")]
+[node name="Slot1" parent="Floor/SlotRing1" instance=ExtResource("5_h07cp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0)
 
-[node name="Slot2" parent="Floor/SlotRing1" instance=ExtResource("5_2c7m3")]
+[node name="Slot2" parent="Floor/SlotRing1" instance=ExtResource("5_h07cp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
 
-[node name="Slot3" parent="Floor/SlotRing1" instance=ExtResource("5_2c7m3")]
+[node name="Slot3" parent="Floor/SlotRing1" instance=ExtResource("5_h07cp")]
 
 [node name="SlotRing2" type="Node3D" parent="Floor"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -13)
 visible = false
 
-[node name="Slot1" parent="Floor/SlotRing2" instance=ExtResource("5_2c7m3")]
+[node name="Slot1" parent="Floor/SlotRing2" instance=ExtResource("5_h07cp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0)
 
-[node name="Slot2" parent="Floor/SlotRing2" instance=ExtResource("5_2c7m3")]
+[node name="Slot2" parent="Floor/SlotRing2" instance=ExtResource("5_h07cp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
 
 [node name="SlotRing3" type="Node3D" parent="Floor"]
@@ -107,10 +107,10 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -18)
 visible = false
 
-[node name="Slot1" parent="Floor/SlotRing3" instance=ExtResource("5_2c7m3")]
+[node name="Slot1" parent="Floor/SlotRing3" instance=ExtResource("5_h07cp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0)
 
-[node name="Slot2" parent="Floor/SlotRing3" instance=ExtResource("5_2c7m3")]
+[node name="Slot2" parent="Floor/SlotRing3" instance=ExtResource("5_h07cp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
 
 [node name="SlotRing4" type="Node3D" parent="Floor"]
@@ -118,10 +118,10 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -23)
 visible = false
 
-[node name="Slot1" parent="Floor/SlotRing4" instance=ExtResource("5_2c7m3")]
+[node name="Slot1" parent="Floor/SlotRing4" instance=ExtResource("5_h07cp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0)
 
-[node name="Slot2" parent="Floor/SlotRing4" instance=ExtResource("5_2c7m3")]
+[node name="Slot2" parent="Floor/SlotRing4" instance=ExtResource("5_h07cp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
 
 [node name="SlotRing5" type="Node3D" parent="Floor"]
@@ -129,10 +129,10 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -28)
 visible = false
 
-[node name="Slot1" parent="Floor/SlotRing5" instance=ExtResource("5_2c7m3")]
+[node name="Slot1" parent="Floor/SlotRing5" instance=ExtResource("5_h07cp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0)
 
-[node name="Slot2" parent="Floor/SlotRing5" instance=ExtResource("5_2c7m3")]
+[node name="Slot2" parent="Floor/SlotRing5" instance=ExtResource("5_h07cp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
 
 [node name="SlotRing6" type="Node3D" parent="Floor"]
@@ -140,10 +140,10 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -33)
 visible = false
 
-[node name="Slot1" parent="Floor/SlotRing6" instance=ExtResource("5_2c7m3")]
+[node name="Slot1" parent="Floor/SlotRing6" instance=ExtResource("5_h07cp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0)
 
-[node name="Slot2" parent="Floor/SlotRing6" instance=ExtResource("5_2c7m3")]
+[node name="Slot2" parent="Floor/SlotRing6" instance=ExtResource("5_h07cp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
 
 [node name="Spawners" type="Node3D" parent="."]
@@ -152,9 +152,9 @@ unique_name_in_owner = true
 [node name="Node3D1" type="Node3D" parent="Spawners"]
 transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, 0, 0, 0)
 
-[node name="Spawner" parent="Spawners/Node3D1" instance=ExtResource("8_d8rf8")]
+[node name="Spawner" parent="Spawners/Node3D1" instance=ExtResource("6_7h0ua")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, -45)
-spawnee = ExtResource("9_hx0sm")
+spawnee = ExtResource("7_humwk")
 
 [node name="Enemies" type="Node3D" parent="."]
 unique_name_in_owner = true
@@ -162,26 +162,26 @@ unique_name_in_owner = true
 [node name="Bullets" type="Node3D" parent="."]
 unique_name_in_owner = true
 
-[node name="Base" parent="." instance=ExtResource("10_0kbn8")]
+[node name="Base" parent="." instance=ExtResource("8_5lr4c")]
 unique_name_in_owner = true
 
 [node name="Axis" type="Node3D" parent="."]
 visible = false
 
-[node name="Axis X" parent="Axis" instance=ExtResource("11_ocqm5")]
+[node name="Axis X" parent="Axis" instance=ExtResource("9_ac128")]
 transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
 radius = 0.1
 segments = 12
 rings = 8
 material = SubResource("StandardMaterial3D_sypgb")
 
-[node name="Axis Y" parent="Axis" instance=ExtResource("11_ocqm5")]
+[node name="Axis Y" parent="Axis" instance=ExtResource("9_ac128")]
 radius = 0.1
 segments = 12
 rings = 8
 material = SubResource("StandardMaterial3D_dn5x0")
 
-[node name="Axis Z" parent="Axis" instance=ExtResource("11_ocqm5")]
+[node name="Axis Z" parent="Axis" instance=ExtResource("9_ac128")]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
 radius = 0.1
 segments = 12
@@ -193,17 +193,17 @@ collision_layer = 536870912
 collision_mask = 48
 input_ray_pickable = false
 monitorable = false
-script = ExtResource("11_x17i5")
+script = ExtResource("10_11pty")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Bounds"]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, -20)
 shape = SubResource("CapsuleShape3D_71jv4")
 debug_fill = false
 
-[node name="MultiMesh" parent="." instance=ExtResource("11_ietfk")]
+[node name="MultiMesh" parent="." instance=ExtResource("11_auqju")]
 unique_name_in_owner = true
 
-[node name="Clock" parent="." instance=ExtResource("12_tue7t")]
+[node name="Clock" parent="." instance=ExtResource("12_8bmml")]
 unique_name_in_owner = true
 seconds_min = 0.4
 

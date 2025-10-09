@@ -1,8 +1,7 @@
-class_name LevelCirculus
+class_name Circulus
 extends Level
 
 func _ready():
     
-    name = "Circulus"
     super._ready()
     

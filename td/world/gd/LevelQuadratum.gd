@@ -1,7 +1,6 @@
-class_name LevelQuadratum
+class_name Quadratum
 extends Level
 
 func _ready():
     
-    name = "Quadratum"
     super._ready()

@@ -1,9 +1,51 @@
-[gd_scene load_steps=3 format=3 uid="uid://bor1c7b4js8xp"]
+[gd_scene load_steps=5 format=3 uid="uid://bor1c7b4js8xp"]
 
 [ext_resource type="Script" uid="uid://ca5wdnbicw4m3" path="res://ui/cards/CardMoney.gd" id="1_2qw37"]
 [ext_resource type="PackedScene" uid="uid://bfy4mqj2hlcl0" path="res://ui/cards/CardSetup.tscn" id="2_klhla"]
+[ext_resource type="Material" uid="uid://oqqf1d861hhq" path="res://materials/TrophyGoldMaterial.tres" id="3_ex1ts"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_pnlnq"]
+height = 0.2
 
 [node name="CardMoney" type="Node3D"]
 script = ExtResource("1_2qw37")
 
 [node name="CardSetup" parent="." instance=ExtResource("2_klhla")]
+cameraOffset = Vector2(0.07, 0)
+cameraDistance = 1.6640000000000001
+cameraFov = 15.216999999999999
+cameraTargetY = 0.01
+cameraHeight = 1.551
+
+[node name="Node3D" type="Node3D" parent="."]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4414221, 0.08404821, 0.40025985)
+mesh = SubResource("CylinderMesh_pnlnq")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("3_ex1ts")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.06855661, 0.2935012, 0.017182589)
+mesh = SubResource("CylinderMesh_pnlnq")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("3_ex1ts")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="Node3D"]
+transform = Transform3D(0.9954112, -0.09568939, 0, 0.09568939, 0.9954112, 0, 0, 0, 1, 0.4463033, 0.54147834, -0.27473283)
+mesh = SubResource("CylinderMesh_pnlnq")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("3_ex1ts")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Node3D"]
+transform = Transform3D(0.7733536, -0.38995636, -0.49985826, 0, 0.7884511, -0.6150974, 0.63397497, 0.4756878, 0.60975146, -0.3123306, 0.3801185, 0.65661836)
+mesh = SubResource("CylinderMesh_pnlnq")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("3_ex1ts")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Node3D"]
+transform = Transform3D(-0.064515054, 0.29575527, 0.9530826, -0.024344739, 0.95432174, -0.29778752, -0.9976196, -0.04241434, -0.05436805, 1.1207378, 0.21185708, -0.06929946)
+mesh = SubResource("CylinderMesh_pnlnq")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("3_ex1ts")

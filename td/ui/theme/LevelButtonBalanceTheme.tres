@@ -1,0 +1,17 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://dstnyurutnm4c"]
+
+[ext_resource type="FontFile" uid="uid://dfqo0cb4uy7kl" path="res://ui/theme/Rounded.ttf" id="1_5hx1o"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uimcc"]
+content_margin_left = 10.0
+content_margin_top = 2.0
+content_margin_right = 10.0
+content_margin_bottom = 2.0
+bg_color = Color(0.08, 0.08, 0.08, 1)
+corner_radius_bottom_right = 10
+
+[resource]
+default_font = ExtResource("1_5hx1o")
+default_font_size = 24
+Label/colors/font_color = Color(0.735357, 0.735357, 1, 1)
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_uimcc")

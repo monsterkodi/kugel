@@ -7,7 +7,7 @@ const SCENE_VIEWPORT = preload("uid://bfs4v0hjfo8pg")
 
 func setScene(scene:PackedScene):
     
-    text = scene.resource_path.get_file().get_basename().replace("Level", "")
+    text = scene.resource_path.get_file().get_basename()
     viewport.setScene(scene)
     
 func setColor(color:Color):
@@ -28,6 +28,7 @@ func levelInfo(levelName):
         var levelData = Saver.savegame.data.Level[levelName]
         
         trophyInfo(levelData)
+        balanceInfo(levelData)
         spawnedInfo(levelData)
         highscoreInfo(levelData)
         
@@ -53,11 +54,36 @@ func spawnedInfo(levelData):
         
     topSide.add_child(panel)
     viewport.add_child(topSide)
+
+func balanceInfo(levelData):
+    
+    Utils.freeChildWithName(viewport, "balance")
+
+    if not levelData.enemiesSpawned: return
+    
+    var balance = Label.new()
+    balance.text = str(levelData.balance)
+    balance.vertical_alignment   = VERTICAL_ALIGNMENT_CENTER
+    balance.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+
+    var topSide = MarginContainer.new()
+    topSide.name = "balance"
+    topSide.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE, Control.PRESET_MODE_MINSIZE, 0)
+
+    var panel = PanelContainer.new()
+    panel.theme = preload("uid://dstnyurutnm4c")
+    panel.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+    panel.add_child(balance)
         
+    topSide.add_child(panel)
+    viewport.add_child(topSide)
+            
 func highscoreInfo(levelData):
        
     Utils.freeChildWithName(self, "highscore") 
-        
+
+    if not levelData.highscore: return
+
     var highscore = Label.new()
     highscore.text = str(levelData.highscore)
     highscore.vertical_alignment   = VERTICAL_ALIGNMENT_CENTER

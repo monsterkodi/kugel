@@ -1,15 +1,12 @@
 class_name Base extends Node3D
 
 var hitPoints : int
-var world     : World
 
 func _ready():
     
-    world = get_node("/root/World")
     Post.subscribe(self)
     if not hitPoints:
         setHitPoints(3)
-    #Log.log("base ready", hitPoints)
     
 func gameResume(): updateDots()
     
@@ -53,6 +50,7 @@ func updateDots():
     var shield = level.firstPlacedBuildingOfType("Shield")
     if shield:
         dots += shield.hitPoints
+    Log.log("dots", level.name, dots, get_path())
     %DotRing.numDots = dots
         
 func onDeath():

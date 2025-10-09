@@ -1,9 +1,7 @@
-class_name LevelLinea 
+class_name Linea 
 extends Level
 
 func _ready():
-    
-    name = "Linea"
     
     trophyLimit = [250, 500, 1000]
     

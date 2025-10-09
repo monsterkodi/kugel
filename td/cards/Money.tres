@@ -1,5 +1,6 @@
-[gd_resource type="Resource" script_class="CardRes" load_steps=2 format=3 uid="uid://qhg4x816wuyi"]
+[gd_resource type="Resource" script_class="CardRes" load_steps=3 format=3 uid="uid://qhg4x816wuyi"]
 
+[ext_resource type="PackedScene" uid="uid://bor1c7b4js8xp" path="res://ui/cards/CardMoney.tscn" id="1_ext1w"]
 [ext_resource type="Script" uid="uid://dcn508r6heipo" path="res://player/CardRes.gd" id="1_ha4ns"]
 
 [resource]
@@ -7,7 +8,8 @@ script = ExtResource("1_ha4ns")
 name = &"Money"
 type = 3
 text = "Some extra money"
+scene = ExtResource("1_ext1w")
 data = {
-"amount": 100
+"amount": 250
 }
 metadata/_custom_type_script = "uid://dcn508r6heipo"

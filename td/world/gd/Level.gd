@@ -10,12 +10,12 @@ const ENEMY = preload("uid://cqn35mciqmm8s")
 
 func _ready():
     
-    #Log.log("Level._ready", name, "inert:", inert)
+    Log.log("Level._ready", name, "inert:", inert)
             
     set_process(false)
     
     if inert:
-        #Log.log("Level._ready load inert level", name)
+        Log.log("Level._ready load inert level", name)
         loadLevel(Saver.savegame.data)
     
 func start():
@@ -91,7 +91,7 @@ func resetLevel(data:Dictionary):
     ld.trophyCount    = trophyCount
     ld.lastScore      = Stats.numEnemiesSpawned
     ld.enemiesSpawned = 0
-    ld.walletBalance  = 0
+    ld.balance        = 0
     ld.baseHitPoints  = 3
     ld.erase("gameTime")
     ld.erase("clock")
@@ -118,7 +118,7 @@ func saveLevel(data:Dictionary):
     
     ld.highscore      = highscore
     ld.enemiesSpawned = Stats.numEnemiesSpawned
-    ld.walletBalance  = Wallet.balance
+    ld.balance        = Wallet.balance
     ld.clock          = %Clock.save()
     ld.gameTime       = Info.gameTime
     ld.baseHitPoints  = %Base.hitPoints
@@ -160,8 +160,8 @@ func loadLevel(data:Dictionary):
     if ld.has("player"): 
         get_node("/root/World/Player").load(ld.player)   
     
-    if ld.has("walletBalance"):
-        Wallet.setBalance(ld.walletBalance) 
+    if ld.has("balance"):
+        Wallet.setBalance(ld.balance) 
         
     if ld.has("baseHitPoints"):
         %Base.setHitPoints(ld.baseHitPoints)

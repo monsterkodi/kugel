@@ -84,6 +84,10 @@ func nextSetOfCards():
     
     var allCards:Array[CardRes] = Card.allRes()
     var cards:Array[Card] = []
+
+    #var moneyRes = allCards[allCards.find_custom(func(c): return c.name == Card.Money)]
+    #allCards.erase(moneyRes)
+    #cards.append(Card.new(moneyRes))
     
     if cardLvl(Card.SlotRing) < 3 and isUnlockedCard(Card.SlotRing):
         #Log.log("nextSetOfCards add Slot Ring")
