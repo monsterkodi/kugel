@@ -50,18 +50,17 @@ func startLevel():
     
     if not vehicle:
         loadVehicle("Pill")
-        global_position = Vector3.ZERO + Vector3.BACK
     
 func loadVehicle(vehicle_name:String):
     
-    var oldTrans
+    var oldTrans : Transform3D
     var corpses = []
     if vehicle: 
         oldTrans = vehicle.global_transform
         corpses = vehicle.collector.corpses
         vehicle.queue_free()
     else:
-        oldTrans = global_transform
+        oldTrans = Transform3D.IDENTITY.translated(Vector3.BACK)
     vehicleName = vehicle_name
     var res = "res://vehicles/{0}.tscn".format([vehicleName])
     vehicle = load(res).instantiate()
@@ -107,27 +106,11 @@ func load(dict:Dictionary):
         
 func currentLevel(): return get_node("/root/World").currentLevel
             
-func addShield():
-    
-    Log.log("addShield")
-    var shield = SHIELD.instantiate()
-    shield.inert = false
-    currentLevel().add_child(shield)
-    shield.global_position = Vector3.ZERO
-
-func delShield():
-    
-    Log.log("delShield")
-    if currentLevel().isAnyBuildingPlaced("Shield"):
-        Post.statChanged.emit("shieldHitPoints", 0)
-        get_node("/root/World/Shield").free()
-
 func _unhandled_input(_event: InputEvent):
     
-    if Input.is_action_just_pressed("alt_up", true):
+    if Input.is_action_just_pressed("flying", true):
         get_viewport().set_input_as_handled()
         position.y = 0
         match vehicleName:
             "Pill": loadVehicle("Heli")
             "Heli": loadVehicle("Pill")
-            #"Car":  loadVehicle("Heli")

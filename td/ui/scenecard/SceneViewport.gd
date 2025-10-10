@@ -1,4 +1,5 @@
-class_name SceneViewport extends SubViewport
+class_name SceneViewport 
+extends SubViewport
 
 @onready var scene: CardScene = %Scene
 

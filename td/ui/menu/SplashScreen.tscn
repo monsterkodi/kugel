@@ -1,0 +1,53 @@
+[gd_scene load_steps=5 format=3 uid="uid://cudpbcnxqis10"]
+
+[ext_resource type="Script" uid="uid://cbvs7awkb1w14" path="res://ui/menu/SplashScreen.gd" id="1_mbb0e"]
+[ext_resource type="PackedScene" uid="uid://bfs4v0hjfo8pg" path="res://ui/scenecard/SceneViewport.tscn" id="3_cm6ch"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cm6ch"]
+content_margin_top = 50.0
+content_margin_bottom = 50.0
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3dtk5"]
+content_margin_bottom = 50.0
+
+[node name="SplashScreen" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("1_mbb0e")
+metadata/_custom_type_script = "uid://vl5uuupklejb"
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+stretch = true
+
+[node name="SceneViewport" parent="SubViewportContainer" instance=ExtResource("3_cm6ch")]
+unique_name_in_owner = true
+size = Vector2i(1920, 1080)
+render_target_update_mode = 4
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_font_sizes/font_size = 250
+theme_override_styles/normal = SubResource("StyleBoxFlat_cm6ch")
+text = "koogl"
+horizontal_alignment = 1
+
+[node name="any key" type="Label" parent="."]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxEmpty_3dtk5")
+text = "press a key"
+horizontal_alignment = 1
+
+[connection signal="resized" from="." to="." method="onResize"]

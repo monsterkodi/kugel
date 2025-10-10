@@ -13,7 +13,6 @@ var contactCount = 0
 var dashPower    = 200
 var dash         = 0
 
-@onready var beamPivot: Node3D = %BeamPivot
 @onready var collector: Node3D = %Collector
 
 var player : Player :

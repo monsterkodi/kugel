@@ -17,7 +17,11 @@ func _ready():
 
     loadGame()
     
-    Post.mainMenu.emit()
+    #Post.mainMenu.emit()
+    get_tree().paused = true
+    #%MenuHandler.appear(%SplashScreen)
+    %SplashScreen.visible = true
+    %MenuHandler.activeMenu = %SplashScreen
         
 func mainMenu():
     

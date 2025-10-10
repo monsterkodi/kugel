@@ -1,3 +1,6 @@
+// https://godotshaders.com/shader/godot-4-2-colored-glass/
+// https://godotshaders.com/author/ras/
+
 shader_type spatial;
 render_mode diffuse_burley, specular_schlick_ggx, blend_mix, depth_draw_always, cull_disabled;
 

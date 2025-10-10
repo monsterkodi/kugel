@@ -44,6 +44,7 @@ point_count = 2
 metadata/_snap_enabled = true
 
 [node name="Heli" type="RigidBody3D"]
+process_mode = 1
 collision_mask = 3221225990
 axis_lock_angular_x = true
 axis_lock_angular_z = true

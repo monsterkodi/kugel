@@ -1,4 +1,4 @@
-[gd_scene load_steps=56 format=3 uid="uid://b6mskrm1n176r"]
+[gd_scene load_steps=57 format=3 uid="uid://b6mskrm1n176r"]
 
 [ext_resource type="Script" uid="uid://b6inujglidn5n" path="res://world/gd/World.gd" id="1_eu7l1"]
 [ext_resource type="PackedScene" uid="uid://baj5gp1mlm380" path="res://world/Player.tscn" id="3_wygdx"]
@@ -49,6 +49,7 @@
 [ext_resource type="AudioStream" uid="uid://cjym82y8f1cfb" path="res://music/MenuMusicCredits.mp3" id="33_ppjuv"]
 [ext_resource type="Script" uid="uid://be584uc1qm16n" path="res://world/Settings.gd" id="41_spsmc"]
 [ext_resource type="PackedScene" uid="uid://d7c8f4mncc7h" path="res://ui/menu/HelpMenu.tscn" id="46_6hf6m"]
+[ext_resource type="PackedScene" uid="uid://cudpbcnxqis10" path="res://ui/menu/SplashScreen.tscn" id="47_gsb0j"]
 [ext_resource type="AudioStream" uid="uid://c6vnkgnksrhyo" path="res://music/ambient1.ogg" id="49_1qwr2"]
 [ext_resource type="AudioStream" uid="uid://c6phisxpwrikv" path="res://music/no tek no.mp3" id="49_6hf6m"]
 [ext_resource type="AudioStream" uid="uid://dg44jxmhd5pwp" path="res://music/ambient2.ogg" id="50_6hf6m"]
@@ -283,6 +284,10 @@ visible = false
 unique_name_in_owner = true
 process_mode = 2
 visible = false
+
+[node name="SplashScreen" parent="MenuHandler" instance=ExtResource("47_gsb0j")]
+unique_name_in_owner = true
+process_mode = 2
 
 [node name="MusicHandler" type="Node" parent="."]
 unique_name_in_owner = true
