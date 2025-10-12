@@ -12,14 +12,10 @@ func _ready():
     
     Info.player = %Player
 
-    #Log.log("apply defaults")
     Settings.apply(Settings.defaults)
 
     loadGame()
     
-    #Post.mainMenu.emit()
-    #get_tree().paused = true
-    #%MenuHandler.appear(%SplashScreen)
     %SplashScreen.visible = true
     %MenuHandler.activeMenu = %SplashScreen
     %MusicHandler.playMenuMusic()
@@ -78,42 +74,41 @@ func baseDestroyed():
 
 func chooseCard():
     
-    #assert(%Player.nextCardIn <= 0)
-        
-    if %Player.cardLevel <= Info.maxCardLevel:
+    var cards = currentLevel.cards
+    if cards.cardLevel <= Info.maxCardLevel:
         pauseGame()
-        #Log.log("level", %Player.cardLevel, "next in", %Player.nextCardIn)
-        %MenuHandler.showCardChooser(Info.nextSetOfCards())
+        %MenuHandler.showCardChooser(cards.nextSetOfCards())
     else:
         var cardRes = Card.resWithName(Card.Money)
-        Log.log("money level reached!", %Player.cardLevel, Info.maxCardLevel)
+        Log.log("money level reached!", cards.cardLevel, Info.maxCardLevel)
         Wallet.addPrice(cardRes.data.amount)
     
 func enemySpawned():
     
     if %SplashScreen.visible: return
-    #Log.log("level", %Player.cardLevel, "next in", %Player.nextCardIn)
     
-    %Player.nextCardIn -= 1
+    var cards = currentLevel.cards
+    cards.nextCardIn -= 1
     
-    if %Player.nextCardIn <= 0:
+    if cards.nextCardIn <= 0:
         Post.preChooseAnim.emit()
-        %Player.cardLevel += 1
-        %Player.nextCardIn = Info.nextCardAtLevel(%Player.cardLevel)
-
-    #Log.log("cardLevel", %Player.cardLevel, %Player.nextCardIn)
+        cards.cardLevel += 1
+        cards.nextCardIn = cards.nextCardAtLevel()
 
 func cardSold(card:Card):
     
     if card.isPermanent():
-        %Player.perm.delCard(card)
-        %Player.cardLevel -= 1
-        %Player.nextCardIn = clamp(%Player.nextCardIn, 0, Info.nextCardAtLevel(%Player.cardLevel))
+        var cards = currentLevel.cards
+        cards.perm.delCard(card)
+        cards.cardLevel -= 1
+        cards.nextCardIn = clamp(cards.nextCardIn, 0, cards.nextCardAtLevel())
 
 func cardChosen(card:Card):
         
+    var cards = currentLevel.cards
+    
     if card.isPermanent():
-        %Player.perm.addCard(card)
+        cards.perm.addCard(card)
         if card.res.name == Card.ShieldLayer:
             var shield = currentLevel.firstPlacedBuildingOfType("Shield")
             if shield: shield.addLayer()
@@ -124,8 +119,8 @@ func cardChosen(card:Card):
             Log.log("???", card.res.name)
     else:
         assert(card.isBattleCard())
-        %Player.deck.addCard(card)
-        %Player.battle.addCard(Card.withName(card.res.name))
+        cards.deck.addCard(card)
+        cards.battle.addCard(Card.withName(card.res.name))
         
     Post.applyCards.emit()
     
@@ -251,7 +246,7 @@ func loadLevel(levelRes):
     Post.applyCards.emit()
     #Log.log("emit levelStart")
     
-    if isFresh and %Player.deck.get_child_count():
+    if isFresh and currentLevel.cards.deck.get_child_count():
         %MenuHandler.appear(%HandChooser)
     else:
         Post.levelStart.emit()

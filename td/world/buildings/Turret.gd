@@ -25,7 +25,7 @@ func _ready():
     if not global_position.is_zero_approx():
         look_at(Vector3.ZERO)
         
-    applyCards()
+    if level(): applyCards()
     
     if target:
         $BarrelTarget.look_at(target.global_position)
@@ -36,9 +36,9 @@ func _ready():
     
 func applyCards():
     
-    var speedCards = Info.permLvl(Card.TurretSpeed)
-    var rangeCards = Info.permLvl(Card.TurretRange)
-    powerCards     = Info.permLvl(Card.TurretPower)
+    var speedCards = level().cards.permLvl(Card.TurretSpeed)
+    var rangeCards = level().cards.permLvl(Card.TurretRange)
+    powerCards     = level().cards.permLvl(Card.TurretPower)
     
     interval = 0.5  - speedCards * 0.07
     velocity = 5.0  + powerCards * 5.0

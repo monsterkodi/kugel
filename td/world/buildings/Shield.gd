@@ -6,7 +6,8 @@ func _ready():
 
     name = "Shield"
     
-    setHitPoints(Info.maxShieldHitPoints())
+    if level():
+        setHitPoints(level().cards.maxShieldHitPoints())
     #Log.log("Shield._ready", inert)
     %ShieldBody.position = Vector3.ZERO
     global_position = Vector3.ZERO

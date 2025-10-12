@@ -13,7 +13,8 @@ func levelStart(): updateButtons()
 func updateButtons():
     
     Utils.freeChildren(%Cards)
-    for card in %Player.battle.get_children():
+    var cards = get_node("/root/World").currentLevel.cards
+    for card in cards.battle.get_children():
         #if card.res.name == Card.Shield: continue
         #Log.log(card.res.name, card.lvl)
         addCardButton(card)
@@ -50,7 +51,9 @@ func useCard(cardName:String):
             %Cards.remove_child(button)
             button.free()
             break
-    %Player.battle.delCard(%Player.battle.getCard(cardName))
+            
+    var cards = get_node("/root/World").currentLevel.cards
+    cards.battle.delCard(cards.battle.getCard(cardName))
     
 func levelEnd():
     

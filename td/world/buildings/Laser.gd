@@ -14,7 +14,7 @@ func _ready():
     else:
         lookUp()
         
-    applyCards()
+    if level(): applyCards()
     
     %LaserPointer.rc.add_exception(%Base)
 
@@ -22,9 +22,9 @@ func _ready():
     
 func applyCards():
     
-    setSensorRadius(5.0 + Info.permLvl(Card.LaserRange) * 1.5)
-    rotSpeed = PI * 0.25 + Info.permLvl(Card.LaserSpeed) * PI * 0.25
-    %LaserPointer.laserDamage = pow(Info.permLvl(Card.LaserPower)+1, 1.5)
+    setSensorRadius(5.0 + level().cards.permLvl(Card.LaserRange) * 1.5)
+    rotSpeed = PI * 0.25 + level().cards.permLvl(Card.LaserSpeed) * PI * 0.25
+    %LaserPointer.laserDamage = pow(level().cards.permLvl(Card.LaserPower)+1, 1.5)
 
 func setSensorRadius(r:float):  
 

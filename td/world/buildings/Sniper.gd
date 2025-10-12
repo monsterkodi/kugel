@@ -16,7 +16,7 @@ func _ready():
     if not global_position.is_zero_approx():
         look_at(Vector3.ZERO)
         
-    applyCards()
+    if level(): applyCards()
     
     if target:
         %BarrelTarget.look_at(target.global_position)
@@ -29,8 +29,8 @@ func _ready():
         
 func applyCards():
     
-    var speedCards = Info.permLvl(Card.SniperSpeed)
-    var rangeCards = Info.permLvl(Card.SniperRange)
+    var speedCards = level().cards.permLvl(Card.SniperSpeed)
+    var rangeCards = level().cards.permLvl(Card.SniperRange)
     
     setSensorRadius(4.0 + rangeCards * 1.0)
     

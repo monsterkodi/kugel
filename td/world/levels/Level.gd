@@ -5,12 +5,16 @@ var inert       = true
 var highscore   = 0
 var trophyLimit = [2000, 4000, 10000]
 var trophyCount = [0, 0, 0]
+var cards : Cards
 
 const ENEMY = preload("uid://cqn35mciqmm8s")
 
 func _ready():
     
     #Log.log("Level._ready", name, "inert:", inert)
+    
+    cards = Cards.new()
+    add_child(cards)
             
     set_process(false)
     
@@ -44,7 +48,7 @@ func showBuildSlots():
     
 func applyCards():
     
-    var rings = Info.cardLvl(Card.SlotRing)
+    var rings = cards.cardLvl(Card.SlotRing)
 
     %SlotRing1.visible = true
     %SlotRing2.visible = (rings >= 1)
@@ -72,6 +76,7 @@ func levelEnd():
     elif es >= trophyLimit[0]:
         trophyCount[0] += 1
     
+    cards.reset()
     resetLevel(Saver.savegame.data)
     Saver.save()
 
@@ -89,6 +94,8 @@ func resetLevel(data:Dictionary):
 
     assert(data != null and data is Dictionary)
     if not data.has("Level"): data.Level = {}
+        
+    cards.battle.clear() # is this the right place?
         
     if not data.Level.has(name):
         saveLevel(data)
@@ -132,6 +139,7 @@ func saveLevel(data:Dictionary):
     ld.trophyCount    = trophyCount
 
     ld.player = get_node("/root/World/Player").save()
+    ld.cards  = cards.save()
 
     ld.buildings = []
     get_tree().call_group("building", "saveBuilding", ld.buildings)
@@ -164,8 +172,11 @@ func loadLevel(data:Dictionary):
     if ld.has("enemiesSpawned"):
         Stats.setNumEnemiesSpawned(ld.enemiesSpawned)
         
-    if ld.has("player"): 
+    if ld.has("player") and not inert: 
         get_node("/root/World/Player").load(ld.player)   
+        
+    if ld.has("cards"):
+        cards.load(ld.cards)
     
     if ld.has("balance"):
         Wallet.setBalance(ld.balance) 
@@ -245,26 +256,3 @@ func firstPlacedBuildingOfType(type):
         return buildings[0]
     return null
     
-#func maxShieldHitPoints() -> int:
-    #
-    #return 1 + permLvl(Card.ShieldLayer)
-#
-#func battleCardSlots() -> int:
-    #
-    #return permLvl(Card.BattleCard)
-#
-#func permLvl(cardName:String) -> int:
-    #
-    #return player.perm.cardLvl(cardName)
-#
-#func deckLvl(cardName:String) -> int:
-    #
-    #return player.deck.cardLvl(cardName)
-#
-#func handLvl(cardName:String) -> int:
-    #
-    #return player.hand.cardLvl(cardName)
-    #
-#func cardLvl(cardName:String) -> int:
-    #
-    #return deckLvl(cardName) + permLvl(cardName) + handLvl(cardName)    

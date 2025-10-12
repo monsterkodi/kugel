@@ -41,16 +41,21 @@ func preChooseAnimDone():
 
 func update():
     
+    var world = get_node("/root/World")
+    
+    if not world.currentLevel: return
+    
     if tween and tween.is_running(): return
     
-    var numCards = Info.nextCardAtLevel(player.cardLevel)
+    var cards = world.currentLevel.cards
+    var numCards = cards.nextCardAtLevel()
     
     if numCards != %Dots.get_child_count(): 
         initDots(numCards)
     
     for i in range(numCards):
-        if i > numCards-player.nextCardIn: %Dots.get_child(i).color = Color("343434ff")
-        else:                              %Dots.get_child(i).color = Color("ff0000ff")
+        if i > numCards-cards.nextCardIn: %Dots.get_child(i).color = Color("343434ff")
+        else:                             %Dots.get_child(i).color = Color("ff0000ff")
 
     #Log.log("progress", numCards-player.nextCardIn, player.nextCardIn, numCards)
 

@@ -1,52 +1,15 @@
 class_name Player
 extends Node3D
 
-const SHIELD = preload("uid://busmvxaat6dqv")
-
 var vehicleName = "Pill"
 var vehicle     : Node3D
-var nextCardIn  : int
-var cardLevel   : int
-
-var deck   : Deck
-var hand   : Deck
-var perm   : Deck
-var battle : Deck
 
 func _ready():
     
     #Log.log("ready player one", get_parent_node_3d())
-    deck   = Deck.new()
-    hand   = Deck.new()
-    perm   = Deck.new()
-    battle = Deck.new()
-    
-    hand.stacked   = false
-    battle.stacked = false
-    
-    add_child(deck)
-    add_child(hand)
-    add_child(perm)
-    add_child(battle)
-    
     Post.subscribe(self)
     
-func levelReset():
-    
-    Log.log("Player.levelReset")
-    battle.clear()
-    
 func startLevel():
-    
-    cardLevel  = 0
-    nextCardIn = 5
-
-    deck  .clear()
-    hand  .clear()
-    perm  .clear()
-    battle.clear()
-    
-    perm.addCard(Card.withName(Card.BattleCard))
     
     if not vehicle:
         loadVehicle("Pill")
@@ -80,13 +43,6 @@ func save() -> Dictionary:
     dict.vehicle_transform = vehicle.transform
     dict.vehicle_velocity  = vehicle.linear_velocity
     
-    dict.hand              = hand.toDict()
-    dict.deck              = deck.toDict()
-    dict.perm              = perm.toDict()
-    dict.battle            = battle.toDict()
-    dict.nextCardIn        = nextCardIn
-    dict.cardLevel         = cardLevel
-    
     return dict
     
 func load(dict:Dictionary):
@@ -95,14 +51,6 @@ func load(dict:Dictionary):
     global_transform         = dict.transform
     vehicle.transform        = dict.vehicle_transform
     vehicle.linear_velocity  = dict.vehicle_velocity
-        
-    cardLevel  = maxi(dict.cardLevel, 0)
-    nextCardIn = clampi(dict.nextCardIn, 1, Info.nextCardAtLevel(cardLevel))
-    
-    hand.fromDict(dict.hand)
-    deck.fromDict(dict.deck)
-    perm.fromDict(dict.perm)
-    battle.fromDict(dict.battle)
         
 func currentLevel(): return get_node("/root/World").currentLevel
             

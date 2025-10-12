@@ -16,7 +16,8 @@ func _on_visibility_changed():
 func update():
     
     Utils.freeChildren(%Deck)
-    for card in %Player.perm.sortedCards():
+    var cards = get_node("/root/World").currentLevel.cards
+    for card in cards.perm.sortedCards():
         var button = CARD_BUTTON.instantiate()
         button.pressed.connect(buttonPressed.bind(button))
         %Deck.add_child(button)

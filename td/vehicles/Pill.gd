@@ -21,7 +21,7 @@ var maxVelocity  = 20.0
 func _ready():
     
     name = "Pill"
-    #global_position = Vector3.UP
+
     applyCards()
     Post.subscribe(self)
     
@@ -34,8 +34,9 @@ func stopLoops():
     
 func applyCards():
     
-    var rangeCards = Info.permLvl(Card.PillRange)
-    var powerCards = Info.permLvl(Card.PillPower)
+    var cards = get_node("/root/World").currentLevel.cards
+    var rangeCards = cards.permLvl(Card.PillRange)
+    var powerCards = cards.permLvl(Card.PillPower)
     
     %LaserPointer.laserRange  = 3 + 2 * rangeCards
     %LaserPointer.laserDamage = pow(powerCards+1, 3)

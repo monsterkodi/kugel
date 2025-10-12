@@ -22,15 +22,15 @@ var colorSrc = 0.0
 
 func _ready():
     
-    applyCards()
+    if level(): applyCards()
     
     super._ready()
     
 func applyCards():
     
-    powerCards = Info.permLvl(Card.SentinelPower)
-    speedCards = Info.permLvl(Card.SentinelSpeed)
-    rangeCards = Info.permLvl(Card.SentinelRange)
+    powerCards = level().cards.permLvl(Card.SentinelPower)
+    speedCards = level().cards.permLvl(Card.SentinelSpeed)
+    rangeCards = level().cards.permLvl(Card.SentinelRange)
     
     impulseDamage  = pow(powerCards+1, 2.0) 
     impulsePower   = pow(powerCards+1, 2.0) 

@@ -7,15 +7,17 @@ func allPermCards():
     
     var allCards:Array[CardRes] = Card.allRes()
 
+    var cards = get_node("/root/World").currentLevel.cards
+
     for cardRes in allCards:    
         if cardRes.type == CardRes.CardType.PERMANENT and cardRes.maxLvl > 0:
-            if Info.cardLvl(cardRes.name) < cardRes.maxLvl:
-                var card = %Player.perm.getCard(cardRes.name)
+            if cards.cardLvl(cardRes.name) < cardRes.maxLvl:
+                var card = cards.perm.getCard(cardRes.name)
                 if card: 
                     card.lvl = clampi(card.lvl+1, 1, cardRes.maxLvl) 
                 else:
-                    %Player.perm.addCard(Card.new(cardRes))
-                %Player.cardLevel += 1
+                    cards.perm.addCard(Card.new(cardRes))
+                cards.cardLevel += 1
     
     Post.applyCards.emit()
 
@@ -23,15 +25,17 @@ func allBattleCards():
     
     var allCards:Array[CardRes] = Card.allRes()
 
+    var cards = get_node("/root/World").currentLevel.cards
+
     for cardRes in allCards:    
         if cardRes.type == CardRes.CardType.BATTLE and cardRes.maxLvl > 0:
-            if Info.cardLvl(cardRes.name) < cardRes.maxLvl:
-                var card = %Player.deck.getCard(cardRes.name)
+            if cards.cardLvl(cardRes.name) < cardRes.maxLvl:
+                var card = cards.deck.getCard(cardRes.name)
                 if card: 
                     card.lvl = clampi(card.lvl+1, 1, cardRes.maxLvl) 
                 else:
-                    %Player.deck.addCard(Card.new(cardRes))
-                %Player.cardLevel += 1
+                    cards.deck.addCard(Card.new(cardRes))
+                cards.cardLevel += 1
     
 func appeared():
     
