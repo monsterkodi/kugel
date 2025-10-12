@@ -10,8 +10,6 @@ func _ready():
     
     Post.subscribe(self)
     
-    Info.player = %Player
-
     Settings.apply(Settings.defaults)
 
     loadGame()

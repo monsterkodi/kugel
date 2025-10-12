@@ -8,6 +8,7 @@
 content_margin_top = 50.0
 content_margin_bottom = 50.0
 bg_color = Color(0, 0, 0, 1)
+draw_center = false
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3dtk5"]
 content_margin_bottom = 50.0

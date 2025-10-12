@@ -227,15 +227,21 @@ func loadLevel(data:Dictionary):
             var spawner = spawners[index]
             spawner.load(ld.spawners[index])
 
+func slots():
+    
+    return Utils.filterTree(self, func(n:Node): return n is Slot)
+
+func visibleSlots():
+    
+    return Utils.filterTree(self, func(n:Node): return n is Slot and n.visible and n.get_parent().visible)
+
 func slotForPos(pos):
     
-    var slots = Utils.filterTree(self, func(n:Node): return n is Slot)
-    return Utils.closestNode(slots, pos)
+    return Utils.closestNode(slots(), pos)
 
 func visibleSlotForPos(pos):
     
-    var slots = Utils.filterTree(self, func(n:Node): return n is Slot and n.visible and n.get_parent().visible)
-    return Utils.closestNode(slots, pos)
+    return Utils.closestNode(visibleSlots(), pos)
     
 func allPlacedBuildings():
     

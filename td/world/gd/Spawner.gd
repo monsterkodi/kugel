@@ -13,7 +13,7 @@ extends Node3D
 @export var velocity_increment = 0.05
 @export var velocity_max       = 1750.0
 @export var ident              = 0 
-@export var curve:Curve
+@export var curve : Curve
 
 var activeDotColor  = Color(1,0,0)
 var passiveDotColor = Color(0.02,0.02,0.02)
@@ -34,7 +34,7 @@ func _ready():
 
     level = Utils.firstParentWithClass(self, "Level")
     enemies = level.get_node("Enemies")
-    
+    assert(enemies)
     velocity = velocity_initial
     mass     = mass_initial
     
@@ -96,7 +96,7 @@ func statChanged(statName, value):
     
     match statName:
         "numEnemiesSpawned":
-            if value >= activation_level:
+            if not active and value >= activation_level:
                 %Hole.set_surface_override_material(0, spawnerHoleActiveMaterial)
                 activate()
                 nextSpawnLoop()
@@ -113,10 +113,12 @@ func startLevel():
 
 func nextSpawnLoop():    
     
+    assert(spawnedBody == null)
     spawnedBody = spawnee.instantiate()
     spawnedBody.collision_layer = 0
     spawnedBody.freeze = true
     spawnedBody.setMass(mass)
+    spawnedBody.process_mode = Node.PROCESS_MODE_DISABLED
     
     if enemies.get_child_count() > 2000:
         Log.log("too many enemies!", enemies.get_child_count())
@@ -124,6 +126,7 @@ func nextSpawnLoop():
             if enemies.get_child_count() > 2000:
                 enemies.get_child(0).queue_free()
         Log.log("too many enemies?", enemies.get_child_count())
+    
     enemies.add_child(spawnedBody)
     
     spawnedBody.global_position = %SpawnPoint.global_position
@@ -132,8 +135,6 @@ func nextSpawnLoop():
     mass      = minf(mass, mass_max)
     velocity += velocity_increment
     velocity  = minf(velocity, velocity_max)
-    
-    #Log.log("mass", mass, "vel", velocity, "scale", spawnedBody.scale.x)
     
     %Body.scale  = spawnedBody.scale
     %Hole.scale  = spawnedBody.scale
@@ -163,6 +164,7 @@ func clockTick():
     spawnedBody.global_position.y = 1.2*%Body.scale.x
     spawnedBody.collision_layer = Layer.LayerEnemy
     spawnedBody.freeze = false
+    spawnedBody.process_mode = Node.PROCESS_MODE_PAUSABLE
     spawnedBody.apply_central_impulse(%SpawnPoint.global_basis.x.normalized() * velocity*mass)
     spawnedBody.spawned = true
     spawnedBody = null

@@ -14,7 +14,6 @@ var buildingNames:PackedStringArray
 
 var gameTime     : float
 var enemySpeed   : float
-var player       : Player
 var world        : World
 var maxCardLevel : int
 

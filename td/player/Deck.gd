@@ -22,8 +22,10 @@ func delCard(card:Card):
 func cardLvl(cardName:String) -> int:
     
     var lvl = 0
+    
     for card in get_children():
         if card.res.name == cardName: lvl += card.lvl
+
     return lvl
     
 func getCard(cardName:String) -> Card:
@@ -37,12 +39,12 @@ func toDict() -> Dictionary:
     var dict = {"cards": []}
     for card in get_children():
         dict.cards.append({"card":card.res.name, "lvl":card.lvl})
-    Log.log("Deck.toDict", name, dict)
+    #Log.log("Deck.toDict", name, dict)
     return dict
     
 func fromDict(dict:Dictionary):
     
-    Log.log("Deck.fromDict", name, dict)
+    #Log.log("Deck.fromDict", name, dict)
     Utils.freeChildren(self)
     for cardDict in dict.cards:
         var card = Card.withName(cardDict.card)

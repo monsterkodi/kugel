@@ -23,5 +23,6 @@ func update():
     for index in range(numSlots):
         var slot:Slot = slotRes.instantiate()
         add_child(slot)
-        slot.global_position = Vector3(0,0,-radius).rotated(Vector3.UP, deg_to_rad(index * 360.0 / numSlots))
+        #slot.global_position = Vector3(0,0,-radius).rotated(Vector3.UP, deg_to_rad(index * 360.0 / numSlots))
+        slot.position = Vector3(0,0,-radius).rotated(Vector3.UP, deg_to_rad(index * 360.0 / numSlots))
         

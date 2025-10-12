@@ -21,6 +21,7 @@ func loadLevel():
 
     level = viewport.setLevel(SPLASH, false)
     level.set_process_input(false)
+    level.get_node("Clock").startLevel()
     level.start()
 
 func back():
