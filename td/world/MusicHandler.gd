@@ -47,9 +47,10 @@ func menuVanish(menu:Control):
 
 func playMenuMusic():
     
-    stop(false)
-    %MenuMusic.volume_linear = menuMusicVolume
-    %MenuMusic.play()
+    if not %MenuMusic.playing:
+        stop(false)
+        #%MenuMusic.volume_linear = menuMusicVolume
+        %MenuMusic.play()
     
 func levelStart():
     
@@ -83,8 +84,9 @@ func fadeOutMenuMusic():
     
 func menuMusicFade(value):
     
-    %MenuMusic.volume_linear = value * Settings.settings.volumeMusic
+    %MenuMusic.volume_linear = value
     if value == 0.0:
         %MenuMusic.stop()
-        %MenuMusic.volume_linear = Settings.settings.volumeMusic
+        %MenuMusic.volume_linear = 1.0
+        #%MenuMusic.volume_linear = Settings.settings.volumeMusic
     

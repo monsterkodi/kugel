@@ -34,6 +34,7 @@ signal menuAppear
 signal menuDidAppear
 signal menuSound
 signal gameSound
+signal gameLoop
 signal statChanged 
 signal enemySpeed # speed
 signal newGame

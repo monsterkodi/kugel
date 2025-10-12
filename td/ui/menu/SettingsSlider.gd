@@ -18,11 +18,9 @@ signal valueChanged
 @export var value: float :
     set(v): 
 
-        if not Engine.is_editor_hint():
-            if v > value:
-                Post.menuSound.emit("slider")
-            elif v < value:
-                Post.menuSound.emit("slider_down")
+        if slider and not Engine.is_editor_hint():
+            var factor = (value - slider.min_value) / (slider.max_value - slider.min_value)
+            Post.menuSound.emit("slider", 1.0 + factor)
             
         value = v
         

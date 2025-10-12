@@ -27,6 +27,12 @@ func start():
     Post.subscribe(self)
     %Clock.start()
     
+    var shield = firstPlacedBuildingOfType("Shield")
+    if shield:
+        Post.statChanged.emit("shieldHitPoints", shield.hitPoints)
+    else:
+        Post.statChanged.emit("shieldHitPoints", 0)
+    
 func showBuildSlots():
 
     %SlotRing1.visible = true
@@ -238,3 +244,27 @@ func firstPlacedBuildingOfType(type):
     if buildings.size():
         return buildings[0]
     return null
+    
+#func maxShieldHitPoints() -> int:
+    #
+    #return 1 + permLvl(Card.ShieldLayer)
+#
+#func battleCardSlots() -> int:
+    #
+    #return permLvl(Card.BattleCard)
+#
+#func permLvl(cardName:String) -> int:
+    #
+    #return player.perm.cardLvl(cardName)
+#
+#func deckLvl(cardName:String) -> int:
+    #
+    #return player.deck.cardLvl(cardName)
+#
+#func handLvl(cardName:String) -> int:
+    #
+    #return player.hand.cardLvl(cardName)
+    #
+#func cardLvl(cardName:String) -> int:
+    #
+    #return deckLvl(cardName) + permLvl(cardName) + handLvl(cardName)    

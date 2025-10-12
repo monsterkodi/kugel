@@ -18,10 +18,11 @@ func _ready():
     loadGame()
     
     #Post.mainMenu.emit()
-    get_tree().paused = true
+    #get_tree().paused = true
     #%MenuHandler.appear(%SplashScreen)
     %SplashScreen.visible = true
     %MenuHandler.activeMenu = %SplashScreen
+    %MusicHandler.playMenuMusic()
         
 func mainMenu():
     
@@ -66,6 +67,10 @@ func _unhandled_input(event: InputEvent):
             
 func baseDestroyed():
     
+    if %SplashScreen.visible: 
+        %SplashScreen.loadLevel()
+        return
+    
     Post.levelEnd.emit()
     pauseGame()
     %MenuHandler.appear(%ResultMenu)
@@ -86,6 +91,7 @@ func chooseCard():
     
 func enemySpawned():
     
+    if %SplashScreen.visible: return
     #Log.log("level", %Player.cardLevel, "next in", %Player.nextCardIn)
     
     %Player.nextCardIn -= 1

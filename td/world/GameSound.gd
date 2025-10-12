@@ -12,15 +12,16 @@ var volume    = {
     "laser":        0.2,
     "sentinel":     0.3,
     "countdown":    0.05,
-    "enemySpawned": 0.2 }
+    "enemySpawned": 0.4 }
     
 var maxdb     = { "countdown": 0.1, "enemySpeed": 0.3 }
 var maxdist   = { "enemySpawned": 60.0, "shieldHit": 120.0, "baseHit": 120.0 }
 var seqsPitch = { "collect": [1.0, 1.125, 1.25, 1.375, 1.5 ] }
 var seqsIndex = { "collect": 0 }
 var randPitch = { "turret": [1.0, 0.9, 0.8, 0.7, 0.6]}
-var poly      = { "collect": 8, "dash": 3, "dashAir": 3, "land": 3, "laserDamage": 4, "baseHit": 3, "shieldHit": 3, "countdown": 16, "build": 4, "enemySpeed": 4 }
+var poly      = { "collect": 8, "dash": 3, "dashAir": 3, "land": 3, "laserDamage": 4, "baseHit": 3, "shieldHit": 3, "countdown": 16, "build": 4, "enemySpeed": 4, "drop": 2 }
 var pool      = { "enemyHit": 32, "enemyDied": 32, "enemySpawned": 8, "sentinel": 24, "sniper": 8, "turret": 8, "laser": 8 }
+var loop      = { "move": 1.0 }
 var soundPool = {}
 var poolQueue = {}
 
@@ -143,3 +144,21 @@ func gameSound(source:Node3D, action:String, factor:float = 0.0):
         sound.play()
         
     else: Log.log("can't find sound for action", action)
+
+func gameLoop(source:Node3D, action:String, factor:float = 0.0, pitch:float = 1.0):
+    
+    var sound:AudioStreamPlayer3D = find_child(action)
+    if factor and not sound.playing:
+        sound.play()
+    elif factor == 0 and sound.playing:
+        sound.stop()
+        return
+    sound.global_position = source.global_position  
+    sound.volume_linear = factor
+    sound.pitch_scale   = maxf(0.001, pitch)
+    
+func gamePaused():
+    
+    for action in loop:
+        var sound:AudioStreamPlayer3D = find_child(action)
+        sound.stop()

@@ -7,7 +7,6 @@ var targetPos    : Vector3
 var rotSpeed     : float
 var shootTween   : Tween
 var powerCards   : int
-var level        : Level
 var bullets      : Node3D
 
 var interval  = 1.0
@@ -20,9 +19,8 @@ var mass      = 1.0
 
 func _ready():
     
-    level = Utils.level(self)
-    if level:
-        bullets = level.get_node("Bullets")
+    if level():
+        bullets = level().get_node("Bullets")
     
     if not global_position.is_zero_approx():
         look_at(Vector3.ZERO)

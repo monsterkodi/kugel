@@ -1,12 +1,9 @@
-[gd_scene load_steps=30 format=3 uid="uid://wo631fluqa0p"]
+[gd_scene load_steps=18 format=3 uid="uid://wo631fluqa0p"]
 
-[ext_resource type="Script" uid="uid://c7pjmf60m2ova" path="res://world/gd/LevelCirculus.gd" id="1_oqdyc"]
+[ext_resource type="Script" uid="uid://c7pjmf60m2ova" path="res://world/levels/Circulus.gd" id="1_oqdyc"]
 [ext_resource type="PhysicsMaterial" uid="uid://dq1r6votcqh1x" path="res://materials/physics/FloorPhysics.tres" id="2_aawjn"]
 [ext_resource type="Material" uid="uid://kotd4yt27t51" path="res://materials/FloorMaterial.tres" id="3_exd8p"]
 [ext_resource type="Script" uid="uid://7c1aiis7pati" path="res://world/gd/SlotRing.gd" id="4_ejvb7"]
-[ext_resource type="Shader" uid="uid://dscrnc7k3wda7" path="res://materials/shader/WaveRingMaterial.gdshader" id="5_aq6mw"]
-[ext_resource type="Material" uid="uid://deqkf3j301h5d" path="res://materials/DotCirclesMaterial.tres" id="6_5wkp6"]
-[ext_resource type="Shader" uid="uid://colhoamqrtuej" path="res://materials/shader/DotCirclesMaterial.gdshader" id="7_4ndod"]
 [ext_resource type="PackedScene" uid="uid://cssayoomcrb8o" path="res://world/Spawner.tscn" id="8_bbb74"]
 [ext_resource type="PackedScene" uid="uid://cqn35mciqmm8s" path="res://world/Enemy.tscn" id="9_0slm2"]
 [ext_resource type="PackedScene" uid="uid://b0ky2r6dv835o" path="res://world/Base.tscn" id="10_ckrk5"]
@@ -20,70 +17,6 @@ size = Vector2(1000, 1000)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_dn5x0"]
 size = Vector3(1000, 1, 1000)
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_052yy"]
-size = Vector2(1, 1)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_vkdmv"]
-render_priority = -2
-shader = ExtResource("5_aq6mw")
-shader_parameter/wave_count = 8.0
-shader_parameter/ring_color = Color(0.07, 0.07, 0.07, 1)
-shader_parameter/ring_radius = 0.3330000158175
-shader_parameter/ring_width = 0.166000007885
-shader_parameter/inner_strength = 0.01600000076
-shader_parameter/outer_strength = 0.032
-shader_parameter/depth_bias = 2.0
-shader_parameter/phase_degrees = 90.0
-shader_parameter/wave_degrees = 180.0
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_f0k3j"]
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_5sqgi"]
-size = Vector2(2.5, 2.5)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_052yy"]
-render_priority = -2
-shader = ExtResource("5_aq6mw")
-shader_parameter/wave_count = 24.0
-shader_parameter/ring_color = Color(0.07, 0.07, 0.07, 1)
-shader_parameter/ring_radius = 0.4030000191425
-shader_parameter/ring_width = 0.0650000030875
-shader_parameter/inner_strength = 0.0070000003325
-shader_parameter/outer_strength = 0.010000000475
-shader_parameter/depth_bias = 2.0
-shader_parameter/phase_degrees = 0.0
-shader_parameter/wave_degrees = 180.0
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_jnau8"]
-size = Vector2(3, 3)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_awxuj"]
-render_priority = -1
-shader = ExtResource("7_4ndod")
-shader_parameter/dotColor = Color(1, 1, 1, 1)
-shader_parameter/circleCount = 32.0
-shader_parameter/ringRadius = 0.9010000427975
-shader_parameter/circleRadius = 0.0670000031825
-shader_parameter/depth_bias = 4.0
-shader_parameter/phase_degrees = 0.0
-shader_parameter/wave_degrees = 180.0
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_vkdmv"]
-size = Vector2(4, 4)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_jnau8"]
-render_priority = -2
-shader = ExtResource("5_aq6mw")
-shader_parameter/wave_count = 32.0
-shader_parameter/ring_color = Color(0.07, 0.07, 0.07, 1)
-shader_parameter/ring_radius = 0.4210000199975
-shader_parameter/ring_width = 0.0400000019
-shader_parameter/inner_strength = 0.0050000002375
-shader_parameter/outer_strength = 0.0070000003325
-shader_parameter/depth_bias = 2.0
-shader_parameter/phase_degrees = 0.0
-shader_parameter/wave_degrees = 180.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sypgb"]
 albedo_color = Color(1, 0, 0, 1)
@@ -172,53 +105,6 @@ script = ExtResource("4_ejvb7")
 numSlots = 48
 radius = 30.0
 metadata/_custom_type_script = "uid://7c1aiis7pati"
-metadata/_edit_lock_ = true
-
-[node name="Waves" type="Node3D" parent="Floor"]
-transform = Transform3D(14.8, 0, 0, 0, 14.8, 0, 0, 0, 14.8, 0, 0, 0)
-visible = false
-metadata/_edit_lock_ = true
-
-[node name="RingWave1" type="MeshInstance3D" parent="Floor/Waves"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0030175415)
-visible = false
-cast_shadow = 0
-mesh = SubResource("PlaneMesh_052yy")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("ShaderMaterial_vkdmv")
-metadata/_edit_lock_ = true
-
-[node name="RingDots1" type="MeshInstance3D" parent="Floor/Waves"]
-visible = false
-cast_shadow = 0
-mesh = SubResource("PlaneMesh_f0k3j")
-skeleton = NodePath("../..")
-surface_material_override/0 = ExtResource("6_5wkp6")
-metadata/_edit_lock_ = true
-
-[node name="RingWave2" type="MeshInstance3D" parent="Floor/Waves"]
-visible = false
-cast_shadow = 0
-mesh = SubResource("PlaneMesh_5sqgi")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("ShaderMaterial_052yy")
-metadata/_edit_lock_ = true
-
-[node name="RingDots2" type="MeshInstance3D" parent="Floor/Waves"]
-visible = false
-cast_shadow = 0
-mesh = SubResource("PlaneMesh_jnau8")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("ShaderMaterial_awxuj")
-metadata/_edit_lock_ = true
-
-[node name="RingWave3" type="MeshInstance3D" parent="Floor/Waves"]
-transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0.003017477, 0, 0)
-visible = false
-cast_shadow = 0
-mesh = SubResource("PlaneMesh_vkdmv")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("ShaderMaterial_jnau8")
 metadata/_edit_lock_ = true
 
 [node name="Spawners" type="Node3D" parent="."]

@@ -10,8 +10,11 @@ var mouseRot     = 0.0
 var mouseDelta   = Vector2.ZERO
 var dashDir      = Vector3.FORWARD
 var dashPower    = 200
+var jumpDir      = 1
 var jumpPower    = 100
 var contactCount = 0
+
+var maxVelocity  = 20.0
 
 @onready var collector: Node3D = %Collector
 
@@ -21,6 +24,13 @@ func _ready():
     #global_position = Vector3.UP
     applyCards()
     Post.subscribe(self)
+    
+func gamePaused(): stopLoops()
+func _exit_tree(): stopLoops()
+
+func stopLoops():
+    
+    Post.gameLoop.emit(self, "move", 0, 0)
     
 func applyCards():
     
@@ -59,6 +69,10 @@ func _physics_process(delta:float):
     calcDashDir(dt)
      
     %LaserPointer.setDir(dashDir)
+    
+    var moveVolume = clampf(linear_velocity.length() / maxVelocity, 0.0, 1.0)
+    #Post.gameLoop.emit(self, "move", moveVolume / 8.0, moveVolume*2.0)
+    Post.gameLoop.emit(self, "move", maxf(0.0, 0.05 - global_position.y), moveVolume)
 
     player.transform = transform
     
@@ -66,8 +80,12 @@ func _integrate_forces(state: PhysicsDirectBodyState3D):
    
     var newContactCount = get_contact_count() 
     
+    var doJump = Input.is_action_just_pressed("jump")
+    
     if contactCount == 0 and newContactCount == 1:
         Post.gameSound.emit(self, "land", state.get_contact_impulse(0).length())
+        doJump = Input.is_action_pressed("jump")
+        %JumpBlock.stop()
     
     contactCount = newContactCount
     
@@ -76,13 +94,27 @@ func _integrate_forces(state: PhysicsDirectBodyState3D):
     
     state.linear_velocity = state.linear_velocity.limit_length(speed)
     
-    if Input.is_action_pressed("jump") and %JumpBlock.is_stopped():
+    if doJump and %JumpBlock.is_stopped():
+        var jumpSound
         if contactCount > 0:
+            jumpDir = 1
+            jumpSound = "jump"
+        else:
+            jumpDir = -1
+            jumpSound = "drop"
+        
+        if jumpDir > 0 or global_position.y > 0.1:    
             %JumpTimer.start()
-            Post.gameSound.emit(self, "jump")
+            %JumpBlock.start()
+            Post.gameSound.emit(self, jumpSound)
             
     if not %JumpTimer.is_stopped():
-        apply_central_impulse(Vector3.UP * jumpPower * %JumpTimer.time_left/%JumpTimer.wait_time)
+        var jumpImpulse 
+        if jumpDir > 0:
+            jumpImpulse = Vector3.UP * jumpPower * %JumpTimer.time_left/%JumpTimer.wait_time
+        else: 
+            jumpImpulse = -global_position.y * Vector3.UP * jumpPower * (1.0 - %JumpTimer.time_left/%JumpTimer.wait_time)
+        apply_central_impulse(jumpImpulse)
                     
     if dash > 0.99 and %DashBlock.is_stopped():
         state.linear_velocity.x = 0
@@ -137,7 +169,8 @@ func readInput():
     %forward.add(-Input.get_joy_axis(0, JOY_AXIS_LEFT_Y))
 
     dash = Input.get_joy_axis(0, JOY_AXIS_TRIGGER_RIGHT)
-    if Input.is_action_just_pressed("dash"):    dash = 1
+    #if Input.is_action_just_pressed("dash"):    dash = 1
+    if Input.is_action_pressed("dash"):    dash = 1
     
     if Input.is_action_pressed("forward"):      %forward.add( 1)
     if Input.is_action_pressed("backward"):     %forward.add(-1)

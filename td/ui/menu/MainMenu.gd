@@ -105,10 +105,7 @@ func addLevelButton(scene):
     camera.look_at(Vector3.FORWARD*10)
     camera.far = 1000
     
-    button.viewport.scene.environment.free()
-    var environment = get_node("/root/World/Environment").duplicate()
-    button.viewport.scene.add_child(environment)
-    button.viewport.scene.move_child(environment, environment.get_index()-1)
+    button.viewport.setEnvironment(get_node("/root/World/Environment"))
     
     return button
 

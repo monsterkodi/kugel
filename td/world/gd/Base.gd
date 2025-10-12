@@ -52,7 +52,7 @@ func updateDots():
         dots += shield.hitPoints
     #Log.log("dots", level.name, dots, get_path())
     %DotRing.numDots = dots
-        
+    
 func onDeath():
 
     Post.gameSound.emit(self, "baseDied")

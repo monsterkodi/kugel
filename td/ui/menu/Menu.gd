@@ -12,7 +12,7 @@ func back():
     
     set_process_input(false)  
     if backMenu:
-        %MenuHandler.appear(backMenu, backFrom)
+        %MenuHandler.call_deferred("appear", backMenu, backFrom)
         backMenu = null
     else:
         %MenuHandler.vanish(self)

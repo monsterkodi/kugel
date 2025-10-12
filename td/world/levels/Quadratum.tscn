@@ -1,6 +1,6 @@
 [gd_scene load_steps=18 format=3 uid="uid://0ilo4a8dvk77"]
 
-[ext_resource type="Script" uid="uid://3s4y3jcajln7" path="res://world/gd/LevelQuadratum.gd" id="1_o1746"]
+[ext_resource type="Script" uid="uid://3s4y3jcajln7" path="res://world/levels/Quadratum.gd" id="1_o1746"]
 [ext_resource type="PhysicsMaterial" uid="uid://dq1r6votcqh1x" path="res://materials/physics/FloorPhysics.tres" id="2_dql6q"]
 [ext_resource type="Script" uid="uid://bw5xh3lmty08b" path="res://world/gd/SlotSquare.gd" id="3_n1g5s"]
 [ext_resource type="PackedScene" uid="uid://cssayoomcrb8o" path="res://world/Spawner.tscn" id="4_ldgrd"]

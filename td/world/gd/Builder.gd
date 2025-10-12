@@ -68,6 +68,7 @@ func placeBuilding():
                     building.free()
                     Post.buildingSold.emit()
                     return
+                    
     Post.gameSound.emit(targetSlot, "build")
     #%build.global_position = targetPos
     #%build.play()

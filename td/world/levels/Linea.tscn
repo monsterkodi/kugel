@@ -1,6 +1,6 @@
 [gd_scene load_steps=22 format=3 uid="uid://btl7cihfnbl6u"]
 
-[ext_resource type="Script" uid="uid://bkoetr2wxx1wf" path="res://world/gd/LevelLinea.gd" id="1_qud4v"]
+[ext_resource type="Script" uid="uid://bkoetr2wxx1wf" path="res://world/levels/Linea.gd" id="1_qud4v"]
 [ext_resource type="PhysicsMaterial" uid="uid://dq1r6votcqh1x" path="res://materials/physics/FloorPhysics.tres" id="2_g1tr3"]
 [ext_resource type="Material" uid="uid://kotd4yt27t51" path="res://materials/FloorMaterial.tres" id="3_5h6kx"]
 [ext_resource type="Material" uid="uid://dpx5qvy28judg" path="res://materials/CircleMaterial.tres" id="4_tv7ku"]

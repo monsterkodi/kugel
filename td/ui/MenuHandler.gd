@@ -50,9 +50,9 @@ func appear(menu:Control, from="bottom"):
         
     activeMenu = menu
     
-    menu.appear()
-        
     Post.menuAppear.emit(menu)
+    
+    menu.appear()
         
     appearTween = create_tween()
     appearTween.set_ease(MENU_EASE)

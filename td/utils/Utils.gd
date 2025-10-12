@@ -128,6 +128,13 @@ func freeChildWithName(node:Node, childName:String):
             child.free()
             return
 
+func freeChildWithClass(node:Node, className:String):
+    
+    for child in node.get_children():
+        if isClass(child, className):
+            child.free()
+            return
+
 func resourcesInDir(dir:String) -> Array[Resource]:
     
     var resources:Array[Resource] = []

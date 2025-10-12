@@ -78,7 +78,8 @@ func nextCardAtLevel(cardLevel:int) -> int:
     
 func highscoreForCurrentLevel():
     
-    return world.currentLevel.highscore
+    if world.currentLevel:
+        return world.currentLevel.highscore
     
 func nextSetOfCards():
     

@@ -23,6 +23,14 @@ func _ready():
     name = "Heli"
     applyCards()
     Post.subscribe(self)
+
+func gamePaused(): stopLoops()    
+func _exit_tree(): stopLoops()    
+    
+func stopLoops():
+    
+    Post.gameLoop.emit(self, "drive", 0, 0)
+    Post.gameLoop.emit(self, "fly", 0, 0)
     
 func applyCards():
     
@@ -66,6 +74,14 @@ func _physics_process(delta:float):
     
     global_position.y = clamp(global_position.y, 0, MAX_ALTI)
     
+    var volume = clampf(linear_velocity.length() / maxVelocity, 0.0, 1.0)
+    if global_position.y < 0.05: 
+        Post.gameLoop.emit(self, "drive", volume, 1.0 + volume)
+        Post.gameLoop.emit(self, "fly", 0, 0)
+    else:
+        Post.gameLoop.emit(self, "fly", volume, 0.25 + volume * 0.75)
+        Post.gameLoop.emit(self, "drive", 0, 0)
+
     player.transform = transform
     
 func _integrate_forces(state: PhysicsDirectBodyState3D):
@@ -105,7 +121,8 @@ func _integrate_forces(state: PhysicsDirectBodyState3D):
 func readInput():
 
     dash = 0
-    if Input.is_action_just_pressed("dash"): dash = 1
+    #if Input.is_action_just_pressed("dash"): dash = 1
+    if Input.is_action_pressed("dash"): dash = 1
 
     %forward.zero()
     %ascend.zero()

@@ -79,20 +79,25 @@ metadata/_custom_type_script = "uid://bvt1w1upmd45v"
 unique_name_in_owner = true
 wait_time = 0.1
 one_shot = true
+ignore_time_scale = true
 
 [node name="JumpBlock" type="Timer" parent="."]
 unique_name_in_owner = true
-wait_time = 0.2
+wait_time = 0.12
 one_shot = true
+ignore_time_scale = true
 
 [node name="DashTimer" type="Timer" parent="."]
 unique_name_in_owner = true
 wait_time = 0.3
 one_shot = true
+ignore_time_scale = true
 
 [node name="DashBlock" type="Timer" parent="."]
 unique_name_in_owner = true
+wait_time = 0.5
 one_shot = true
+ignore_time_scale = true
 
 [node name="Collector" parent="." instance=ExtResource("5_n8mu1")]
 unique_name_in_owner = true

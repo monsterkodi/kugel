@@ -29,3 +29,7 @@ func saveBuilding(array:Array):
     dict.res      = scene_file_path
     dict.position = global_position
     array.append(dict)
+
+func level():
+    
+    return Utils.firstParentWithClass(self, "Level")

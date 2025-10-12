@@ -2,13 +2,13 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://nsltxxqt8o4"
-path="res://.godot/imported/sliderDown.wav-2d900ebf35d979d692fab4181086d6e6.sample"
+uid="uid://bnljkl4oo0akv"
+path="res://.godot/imported/move4.wav-626fc8cbd883a29cf27ee1d14bd56cb6.sample"
 
 [deps]
 
-source_file="res://sounds/sliderDown.wav"
-dest_files=["res://.godot/imported/sliderDown.wav-2d900ebf35d979d692fab4181086d6e6.sample"]
+source_file="res://sounds/move4.wav"
+dest_files=["res://.godot/imported/move4.wav-626fc8cbd883a29cf27ee1d14bd56cb6.sample"]
 
 [params]
 

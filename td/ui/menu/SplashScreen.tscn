@@ -1,5 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://cudpbcnxqis10"]
+[gd_scene load_steps=6 format=3 uid="uid://cudpbcnxqis10"]
 
+[ext_resource type="Theme" uid="uid://ckyraj7s1r8rl" path="res://ui/theme/SplashScreenTheme.tres" id="1_cm6ch"]
 [ext_resource type="Script" uid="uid://cbvs7awkb1w14" path="res://ui/menu/SplashScreen.gd" id="1_mbb0e"]
 [ext_resource type="PackedScene" uid="uid://bfs4v0hjfo8pg" path="res://ui/scenecard/SceneViewport.tscn" id="3_cm6ch"]
 
@@ -19,6 +20,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+theme = ExtResource("1_cm6ch")
 script = ExtResource("1_mbb0e")
 metadata/_custom_type_script = "uid://vl5uuupklejb"
 

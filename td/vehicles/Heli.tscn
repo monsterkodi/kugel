@@ -152,6 +152,7 @@ one_shot = true
 
 [node name="DashBlock" type="Timer" parent="."]
 unique_name_in_owner = true
+wait_time = 0.5
 one_shot = true
 
 [node name="trail" type="MeshInstance3D" parent="."]

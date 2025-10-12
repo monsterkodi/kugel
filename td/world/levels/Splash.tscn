@@ -1,0 +1,188 @@
+[gd_scene load_steps=18 format=3 uid="uid://qtgb1as1bp7l"]
+
+[ext_resource type="Script" uid="uid://6xelt7xat77x" path="res://world/levels/Splash.gd" id="1_tgvhy"]
+[ext_resource type="PhysicsMaterial" uid="uid://dq1r6votcqh1x" path="res://materials/physics/FloorPhysics.tres" id="2_iv6rh"]
+[ext_resource type="Material" uid="uid://kotd4yt27t51" path="res://materials/FloorMaterial.tres" id="3_1w7en"]
+[ext_resource type="Script" uid="uid://7c1aiis7pati" path="res://world/gd/SlotRing.gd" id="4_folmg"]
+[ext_resource type="PackedScene" uid="uid://cssayoomcrb8o" path="res://world/Spawner.tscn" id="8_siri6"]
+[ext_resource type="PackedScene" uid="uid://cqn35mciqmm8s" path="res://world/Enemy.tscn" id="9_b5cm1"]
+[ext_resource type="PackedScene" uid="uid://b0ky2r6dv835o" path="res://world/Base.tscn" id="10_aq4yt"]
+[ext_resource type="PackedScene" uid="uid://dt4vauql4gx0y" path="res://components/HalfCapsule.tscn" id="11_rq5l7"]
+[ext_resource type="Script" uid="uid://c5hsf15hvj6m" path="res://world/Bounds.gd" id="12_gtjn5"]
+[ext_resource type="PackedScene" uid="uid://c2avn203eitto" path="res://world/MultiMesh.tscn" id="13_6lp0q"]
+[ext_resource type="PackedScene" uid="uid://cq3x2vgl4xff0" path="res://world/clocks/RingClock.tscn" id="14_w2ja6"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_dn5x0"]
+size = Vector2(500, 500)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dn5x0"]
+size = Vector3(500, 1, 500)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sypgb"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dn5x0"]
+albedo_color = Color(0, 1, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d6u53"]
+albedo_color = Color(0, 0, 1, 1)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_052yy"]
+radius = 25.0
+
+[node name="Splash" type="Node3D"]
+process_mode = 1
+script = ExtResource("1_tgvhy")
+
+[node name="Floor" type="StaticBody3D" parent="."]
+collision_layer = 2147483648
+collision_mask = 59
+physics_material_override = ExtResource("2_iv6rh")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+layers = 3
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_dn5x0")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("3_1w7en")
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("BoxShape3D_dn5x0")
+metadata/_edit_lock_ = true
+
+[node name="SlotsRings" type="Node3D" parent="Floor"]
+metadata/_edit_lock_ = true
+
+[node name="SlotRing1" type="Node3D" parent="Floor/SlotsRings"]
+unique_name_in_owner = true
+script = ExtResource("4_folmg")
+radius = 5.5
+metadata/_custom_type_script = "uid://7c1aiis7pati"
+metadata/_edit_lock_ = true
+
+[node name="SlotRing2" type="Node3D" parent="Floor/SlotsRings"]
+unique_name_in_owner = true
+script = ExtResource("4_folmg")
+numSlots = 16
+radius = 10.2
+metadata/_custom_type_script = "uid://7c1aiis7pati"
+metadata/_edit_lock_ = true
+
+[node name="Spawners" type="Node3D" parent="."]
+unique_name_in_owner = true
+
+[node name="Node3D1" type="Node3D" parent="Spawners"]
+transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, 0, 0, 0)
+
+[node name="Spawner" parent="Spawners/Node3D1" instance=ExtResource("8_siri6")]
+transform = Transform3D(1.2665987e-07, 0, -1, 0, 1, 0, 1, 0, 1.2665987e-07, 0, 0, -20)
+spawnee = ExtResource("9_b5cm1")
+ident = 1
+
+[node name="Node3D2" type="Node3D" parent="Spawners"]
+transform = Transform3D(0.7071067, 0, 0.7071067, 0, 1, 0, -0.7071067, 0, 0.7071067, 0, 0, 0)
+
+[node name="Spawner" parent="Spawners/Node3D2" instance=ExtResource("8_siri6")]
+transform = Transform3D(1.3113416e-07, 0, -1, 0, 1, 0, 1, 0, 1.3113416e-07, 0, 0, -20)
+spawnee = ExtResource("9_b5cm1")
+ident = 8
+
+[node name="Node3D3" type="Node3D" parent="Spawners"]
+transform = Transform3D(0.7071067, 0, -0.7071067, 0, 1, 0, 0.7071067, 0, 0.7071067, 0, 0, 0)
+
+[node name="Spawner" parent="Spawners/Node3D3" instance=ExtResource("8_siri6")]
+transform = Transform3D(1.3113416e-07, 0, -1, 0, 1, 0, 1, 0, 1.3113416e-07, 0, 0, -20)
+spawnee = ExtResource("9_b5cm1")
+ident = 2
+
+[node name="Node3D4" type="Node3D" parent="Spawners"]
+transform = Transform3D(-4.3711385e-08, 0, -0.9999999, 0, 1, 0, 0.9999999, 0, -4.3711385e-08, 0, 0, 0)
+
+[node name="Spawner" parent="Spawners/Node3D4" instance=ExtResource("8_siri6")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, -20)
+spawnee = ExtResource("9_b5cm1")
+ident = 3
+
+[node name="Node3D5" type="Node3D" parent="Spawners"]
+transform = Transform3D(-4.3711385e-08, 0, 0.9999999, 0, 1, 0, -0.9999999, 0, -4.3711385e-08, 0, 0, 0)
+
+[node name="Spawner" parent="Spawners/Node3D5" instance=ExtResource("8_siri6")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, -20)
+spawnee = ExtResource("9_b5cm1")
+ident = 7
+
+[node name="Node3D6" type="Node3D" parent="Spawners"]
+transform = Transform3D(-0.7071067, 0, 0.7071067, 0, 1, 0, -0.7071067, 0, -0.7071067, 0, 0, 0)
+
+[node name="Spawner" parent="Spawners/Node3D6" instance=ExtResource("8_siri6")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, -20)
+spawnee = ExtResource("9_b5cm1")
+ident = 6
+
+[node name="Node3D7" type="Node3D" parent="Spawners"]
+transform = Transform3D(-0.7071067, 0, -0.7071067, 0, 1, 0, 0.7071067, 0, -0.7071067, 0, 0, 0)
+
+[node name="Spawner" parent="Spawners/Node3D7" instance=ExtResource("8_siri6")]
+transform = Transform3D(-8.940697e-08, 0, -1, 0, 1, 0, 1, 0, -8.940697e-08, 0, 0, -20)
+spawnee = ExtResource("9_b5cm1")
+ident = 4
+
+[node name="Node3D8" type="Node3D" parent="Spawners"]
+transform = Transform3D(-0.9999999, 0, -8.742277e-08, 0, 1, 0, 8.742277e-08, 0, -0.9999999, 0, 0, 0)
+
+[node name="Spawner" parent="Spawners/Node3D8" instance=ExtResource("8_siri6")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, -20)
+spawnee = ExtResource("9_b5cm1")
+ident = 5
+
+[node name="Enemies" type="Node3D" parent="."]
+unique_name_in_owner = true
+
+[node name="Bullets" type="Node3D" parent="."]
+unique_name_in_owner = true
+
+[node name="Base" parent="." instance=ExtResource("10_aq4yt")]
+unique_name_in_owner = true
+
+[node name="Axis" type="Node3D" parent="."]
+visible = false
+
+[node name="Axis X" parent="Axis" instance=ExtResource("11_rq5l7")]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
+radius = 0.1
+segments = 12
+rings = 8
+material = SubResource("StandardMaterial3D_sypgb")
+
+[node name="Axis Y" parent="Axis" instance=ExtResource("11_rq5l7")]
+radius = 0.1
+segments = 12
+rings = 8
+material = SubResource("StandardMaterial3D_dn5x0")
+
+[node name="Axis Z" parent="Axis" instance=ExtResource("11_rq5l7")]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+radius = 0.1
+segments = 12
+rings = 8
+material = SubResource("StandardMaterial3D_d6u53")
+
+[node name="Bounds" type="Area3D" parent="."]
+collision_layer = 536870912
+collision_mask = 48
+monitorable = false
+script = ExtResource("12_gtjn5")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Bounds"]
+shape = SubResource("SphereShape3D_052yy")
+
+[node name="MultiMesh" parent="." instance=ExtResource("13_6lp0q")]
+
+[node name="Clock" parent="." instance=ExtResource("14_w2ja6")]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+visible = false
+
+[connection signal="body_exited" from="Bounds" to="Bounds" method="bodyExit"]
