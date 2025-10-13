@@ -6,7 +6,7 @@ extends Node3D
 @export var activation_level:int = 0
 
 @export_range(1.0, 10.0,  1.0) var mass_initial       = 1.0
-@export_range(0.0, 100,  0.1)  var velocity_initial   = 10.0
+@export_range(0.0, 100,  0.1)  var velocity_initial   = 2.5
 
 @export var mass_increment     = 0.2
 @export var mass_max           = 2000.0
@@ -159,7 +159,7 @@ func clockTick():
     
     if not active: return
     if not spawnedBody: return
-    
+    #Log.log("velocity", velocity)
     spawnedBody.setMass(mass)
     spawnedBody.global_position.y = 1.2*%Body.scale.x
     spawnedBody.collision_layer = Layer.LayerEnemy

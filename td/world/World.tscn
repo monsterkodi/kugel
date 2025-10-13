@@ -1,4 +1,4 @@
-[gd_scene load_steps=64 format=3 uid="uid://b6mskrm1n176r"]
+[gd_scene load_steps=63 format=3 uid="uid://b6mskrm1n176r"]
 
 [ext_resource type="Script" uid="uid://b6inujglidn5n" path="res://world/gd/World.gd" id="1_eu7l1"]
 [ext_resource type="PackedScene" uid="uid://baj5gp1mlm380" path="res://world/Player.tscn" id="3_wygdx"]
@@ -29,7 +29,6 @@
 [ext_resource type="AudioStream" uid="uid://b4v3ixqrfwvoc" path="res://sounds/enemyDied.wav" id="17_dh4u6"]
 [ext_resource type="PackedScene" uid="uid://d3bgtynatvwu2" path="res://ui/menu/CheatMenu.tscn" id="18_3j5ad"]
 [ext_resource type="AudioStream" uid="uid://i3hmn07k1oju" path="res://sounds/hit.wav" id="19_rnc6a"]
-[ext_resource type="AudioStream" uid="uid://eiva2xina8lj" path="res://sounds/dashAir.wav" id="20_1b1jl"]
 [ext_resource type="AudioStream" uid="uid://3l177144a67i" path="res://sounds/jump.wav" id="20_ne8ba"]
 [ext_resource type="AudioStream" uid="uid://cbxndtcynoumf" path="res://sounds/drop.wav" id="21_xkg0r"]
 [ext_resource type="AudioStream" uid="uid://q5kof0mmgyhy" path="res://sounds/land.wav" id="22_spsmc"]
@@ -52,8 +51,8 @@
 [ext_resource type="AudioStream" uid="uid://bl44vpoxfxnie" path="res://sounds/laserDamage.wav" id="32_pp1rp"]
 [ext_resource type="AudioStream" uid="uid://cjym82y8f1cfb" path="res://music/MenuMusicCredits.mp3" id="33_ppjuv"]
 [ext_resource type="AudioStream" uid="uid://cqn1yejjn2ce1" path="res://sounds/move2.wav" id="34_gn68c"]
-[ext_resource type="AudioStream" uid="uid://dmaeym1asryim" path="res://sounds/move6.wav" id="34_hpevq"]
 [ext_resource type="AudioStream" uid="uid://t01t6vr2pfak" path="res://sounds/move8.wav" id="34_xkg0r"]
+[ext_resource type="AudioStream" uid="uid://ch8m0ix01qkly" path="res://sounds/move1.wav" id="40_65q4b"]
 [ext_resource type="Script" uid="uid://be584uc1qm16n" path="res://world/Settings.gd" id="41_spsmc"]
 [ext_resource type="PackedScene" uid="uid://d7c8f4mncc7h" path="res://ui/menu/HelpMenu.tscn" id="46_6hf6m"]
 [ext_resource type="PackedScene" uid="uid://cudpbcnxqis10" path="res://ui/menu/SplashScreen.tscn" id="47_gsb0j"]
@@ -180,7 +179,8 @@ stream = ExtResource("19_rnc6a")
 stream = ExtResource("10_lgic5")
 
 [node name="dashAir" type="AudioStreamPlayer3D" parent="GameSound"]
-stream = ExtResource("20_1b1jl")
+stream = ExtResource("10_lgic5")
+pitch_scale = 1.5
 
 [node name="jump" type="AudioStreamPlayer3D" parent="GameSound"]
 stream = ExtResource("20_ne8ba")
@@ -249,10 +249,10 @@ stream = ExtResource("32_gny34")
 stream = ExtResource("34_xkg0r")
 
 [node name="drive" type="AudioStreamPlayer3D" parent="GameSound"]
-stream = ExtResource("34_hpevq")
+stream = ExtResource("34_gn68c")
 
 [node name="fly" type="AudioStreamPlayer3D" parent="GameSound"]
-stream = ExtResource("34_gn68c")
+stream = ExtResource("40_65q4b")
 
 [node name="MouseHandler" parent="." groups=["game"] instance=ExtResource("6_p1v5b")]
 seconds = 1.0

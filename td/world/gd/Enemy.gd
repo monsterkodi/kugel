@@ -103,7 +103,7 @@ func _integrate_forces(state: PhysicsDirectBodyState3D):
                 applyDamage(damage, collider)
             elif collider and collider.collision_layer == Layer.LayerFloor:
                 if contactCount == 0 and newContactCount == 1:
-                    Post.gameSound.emit(self, "enemyBounce", mass / 10, minf(state.get_contact_impulse(i).length()*0.01, 1.0))
+                    Post.gameSound.emit(self, "enemyBounce", mass / 10, minf(state.get_contact_impulse(i).length()*0.003, 1.0))
                 
         if damageAccum:
             applyDamage(damageAccum, null)

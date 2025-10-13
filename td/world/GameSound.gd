@@ -2,33 +2,23 @@ class_name  GameSound
 extends Node
 
 var volume    = { 
-    "dash":           0.7, 
-    "dashAir":        0.1, 
-    "collect":        0.05, 
-    "enemyHit":       0.1, 
-    "enemyBounce":    0.3, 
-    "enemyCollision": 0.3, 
+    "collect":        0.1, 
     "baseHit":        0.4,
     "baseDied":       0.4,
-    "shieldHit":      0.4,
     "shieldDown":     0.4,
-    "sniper":         0.1,
-    "sniperFlute":    0.2,
-    "land":           0.5, 
-    "turret":         0.2, 
-    "laser":          0.2,
-    "sentinel":       0.3,
-    "countdown":      0.05,
-    "enemySpawned":   0.5 }
+    "sniper":         0.5,
+    "sniperFlute":    0.5,
+    "countdown":      0.2,
+    "enemySpawned":   1.0 }
     
-var maxdb     = { "countdown": 0.1, "enemySpeed": 0.3 }
+var maxdb     = { "countdown": 0.2, "enemySpeed": 0.5 }
 var maxdist   = { "enemySpawned": 100.0, "shieldHit": 120.0, "baseHit": 120.0, "enemyBounce": 30.0, "move": 15.0 }
-var seqsPitch = { "collect": [1.0, 1.125, 1.25, 1.375, 1.5 ] }
-var seqsIndex = { "collect": 0 }
+var seqsPitch = {}
+var seqsIndex = {}
 var randPitch = { "turret": [1.0, 0.9, 0.8, 0.7, 0.6]}
 var poly      = { "collect": 8, "dash": 3, "dashAir": 3, "land": 3, "laserDamage": 4, "baseHit": 3, "shieldHit": 3, "countdown": 16, "build": 4, "enemySpeed": 4, "drop": 2 }
-var pool      = { "enemyBounce": 16, "enemyCollision": 16, "enemyHit": 16, "enemyDied": 16, "enemySpawned": 8, "sentinel": 24, "sniper": 4, "sniperFlute": 4, "turret": 8, "laser": 8 }
-var loop      = { "move": 1.0 }
+var pool      = { "enemyBounce": 16, "enemyCollision": 16, "enemyHit": 16, "enemyDied": 16, "enemySpawned": 3, "sentinel": 24, "sniper": 2, "sniperFlute": 2, "turret": 8, "laser": 4 }
+var loop      = [ "move", "fly", "drive" ]
 var soundPool = {}
 var poolQueue = {}
 
@@ -159,16 +149,16 @@ func gameSound(source:Node3D, action:String, factor:float = 0.0, vol:float = 1.0
         
     else: Log.log("can't find sound for action", action)
 
-func gameLoop(source:Node3D, action:String, factor:float = 0.0, pitch:float = 1.0):
+func gameLoop(source:Node3D, action:String, vol:float = 0.0, pitch:float = 1.0):
     
     var sound:AudioStreamPlayer3D = find_child(action)
-    if factor and not sound.playing:
+    if vol and not sound.playing:
         sound.play()
-    elif factor == 0 and sound.playing:
+    elif vol <= 0 and sound.playing:
         sound.stop()
         return
     sound.global_position = source.global_position  
-    sound.volume_linear = factor
+    sound.volume_linear = vol
     sound.pitch_scale   = maxf(0.001, pitch)
     
 func gamePaused():

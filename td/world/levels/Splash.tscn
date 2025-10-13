@@ -191,7 +191,7 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
 script = ExtResource("13_jk0iu")
 seconds_initial = 2.0
-fast_decrement_factor = 0.991
-slow_decrement_factor = 0.991
+fast_decrement_factor = 0.994
+slow_decrement_factor = 0.995
 
 [connection signal="body_exited" from="Bounds" to="Bounds" method="bodyExit"]

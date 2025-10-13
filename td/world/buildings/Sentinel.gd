@@ -34,7 +34,7 @@ func applyCards():
     
     impulseDamage  = pow(powerCards+1, 2.0) 
     impulsePower   = pow(powerCards+1, 2.0) * 5
-    %Sensor.linear_damp = 0.25 + powerCards * 0.075
+    %Sensor.linear_damp = 0.3 + powerCards * 0.05
     reloadTime     = 1.5  - speedCards * 0.2 
     chargeTime     = 2.0  - speedCards * 0.3
     setSensorRadius(4.5 + rangeCards * 1.0)

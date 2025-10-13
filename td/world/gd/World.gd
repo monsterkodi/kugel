@@ -68,7 +68,6 @@ func baseDestroyed():
     Post.levelEnd.emit()
     pauseGame()
     %MenuHandler.appear(%ResultMenu)
-    resetLevel()
 
 func chooseCard():
     
@@ -203,6 +202,9 @@ func resetLevel():
 
 func retryLevel():
     
+    clearLevel()
+    Saver.save()
+
     loadLevel(currentLevelRes)
     
 func playLevel(levelRes):

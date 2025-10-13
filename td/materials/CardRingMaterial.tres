@@ -3,6 +3,7 @@
 [ext_resource type="Shader" uid="uid://dro5b7dn6nbaq" path="res://materials/visual/ClockRing.tres" id="1_1030e"]
 
 [resource]
+resource_local_to_scene = true
 render_priority = -5
 shader = ExtResource("1_1030e")
 shader_parameter/SegmentColor = Color(1, 0, 0, 1)

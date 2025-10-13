@@ -76,7 +76,8 @@ func levelEnd():
     elif es >= trophyLimit[0]:
         trophyCount[0] += 1
     
-    cards.reset()
+    cards.battle.clear()
+
     resetLevel(Saver.savegame.data)
     Saver.save()
 
@@ -94,12 +95,10 @@ func resetLevel(data:Dictionary):
 
     assert(data != null and data is Dictionary)
     if not data.has("Level"): data.Level = {}
-        
-    cards.battle.clear() # is this the right place?
-        
+                
     if not data.Level.has(name):
         saveLevel(data)
-        
+    
     var ld = data.Level[name]
     ld.highscore      = highscore
     ld.trophyCount    = trophyCount
@@ -113,16 +112,9 @@ func resetLevel(data:Dictionary):
     ld.erase("enemies")
     ld.erase("spawners")
     ld.player = get_node("/root/World/Player").save()
+    ld.cards  = cards.save()
     Log.log("resetLevel", name, data.Level[name])
-    Post.levelSaved.emit(name)
-
-#func clearLevel(data:Dictionary):
-    #
-    ##Log.log("clearLevel", data)
-    #if data.has("Level"): 
-        #data.Level[name] = {}
-        #data.Level[name].highscore = highscore
-        #Log.log("clearLevel", name, data.Level[name])
+    Post.levelSaved.emit(name) # to update main menu level cards
 
 func saveLevel(data:Dictionary):
     
