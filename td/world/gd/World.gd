@@ -122,6 +122,7 @@ func cardChosen(card:Card):
         
     Post.applyCards.emit()
     
+    Saver.save()
     resumeGame()
 
 func newGame():
@@ -209,10 +210,12 @@ func playLevel(levelRes):
     loadLevel(levelRes)
         
 func handChosen():
+    
+    var cards = currentLevel.cards
 
-    %Player.battle.clear()
-    for card in %Player.hand.get_children():
-        %Player.battle.addCard(Card.withName(card.res.name))
+    cards.battle.clear()
+    for card in cards.hand.get_children():
+        cards.battle.addCard(Card.withName(card.res.name))
         
     Post.levelStart.emit()
     resumeGame()
@@ -244,7 +247,7 @@ func loadLevel(levelRes):
     Post.applyCards.emit()
     #Log.log("emit levelStart")
     
-    if isFresh and currentLevel.cards.deck.get_child_count():
+    if isFresh and (currentLevel.cards.deck.get_child_count() or currentLevel.cards.hand.get_child_count()):
         %MenuHandler.appear(%HandChooser)
     else:
         Post.levelStart.emit()

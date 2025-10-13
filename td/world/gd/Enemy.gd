@@ -1,8 +1,9 @@
 class_name Enemy extends RigidBody3D
 
-var health      = 1.0
-var damageAccum = 0.0
-var spawned     = false
+var health       = 1.0
+var damageAccum  = 0.0
+var spawned      = false
+var contactCount = 0
 
 func alive(): return health > 0
 func dead():  return health <= 0
@@ -86,21 +87,29 @@ func level_reset():
     makeCorpse()
     
 func _integrate_forces(state: PhysicsDirectBodyState3D):
-    
+
+    var newContactCount = get_contact_count() 
+            
     if global_position.y < -1.0:
         #Log.log("enemy below ground")
         queue_free()
         return
     if alive():
-        for i in range(get_contact_count()):
+        for i in range(newContactCount):
             var collider:PhysicsBody3D = state.get_contact_collider_object(i)
             if collider and collider.collision_layer != Layer.LayerFloor:
                 var damage = minf(state.get_contact_impulse(i).length()*0.1, 1.5)
+                Post.gameSound.emit(self, "enemyCollision", mass / 5, minf(state.get_contact_impulse(i).length()*0.001, 1.0))
                 applyDamage(damage, collider)
+            elif collider and collider.collision_layer == Layer.LayerFloor:
+                if contactCount == 0 and newContactCount == 1:
+                    Post.gameSound.emit(self, "enemyBounce", mass / 10, minf(state.get_contact_impulse(i).length()*0.01, 1.0))
                 
         if damageAccum:
             applyDamage(damageAccum, null)
             damageAccum = 0
+            
+    contactCount = newContactCount
             
 func addDamage(damage:float):
     

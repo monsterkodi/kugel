@@ -9,10 +9,13 @@ func _ready():
         setHitPoints(3)
     
 func gameResume(): updateDots()
+
+func clockFactor(factor):
     
-func _process(delta:float):
+    %DotRing.rotation_degrees.y = -factor*360.0
+        
+func _physics_process(delta:float):
     
-    %DotRing.rotate(Vector3.UP, -delta*0.2)
     if %SphereBody.global_position.y < 0.25:
         %SphereBody.global_position.y = 0.25
 

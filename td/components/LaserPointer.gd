@@ -60,7 +60,7 @@ func _physics_process(delta:float):
             #%laser.pitch_scale = 0.5 + fmod(get_parent_node_3d().global_position.length(), 0.5) - fmod(global_position.length(), 1.0) * 0.05
             #%laser.pitch_scale = 0.75 + fmod(global_position.length(), 1.0) * 0.2
             #%laser.volume_linear = 0.05 + fmod(global_position.length(), 1.0) * 0.05
-            %laser.volume_linear = 0.15 + fmod(global_position.length(), 1.0) * 0.05
+            %laser.volume_linear = 0.1 + fmod(global_position.length(), 1.0) * 0.05
             laser.set_surface_override_material(0, activeMat)
             var damage = delta * maxf(0.5, laserDamage * pow(collider.mass, 1.0/2.0))
             #Log.log("damage", damage, collider.health, laserDamage * collider.health)

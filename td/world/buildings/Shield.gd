@@ -64,3 +64,8 @@ func _on_body_entered(body: Node3D):
         if body.alive():
             onHit()
             body.die()
+
+func _physics_process(delta:float):
+    
+    if %ShieldBody.global_position.y < 0.0:
+        %ShieldBody.global_position.y = 0.0

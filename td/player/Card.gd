@@ -67,10 +67,10 @@ static func resWithName(cardName:String) -> CardRes:
     assert(false)
     return null
 
-static func withName(cardName:String, lvl = 1) -> Card:
+static func withName(cardName:String, l = 1) -> Card:
     
     var cardRes = resWithName(cardName)
-    if cardRes: return Card.new(cardRes, lvl)
+    if cardRes: return Card.new(cardRes, l)
     assert(false)
     return null
 

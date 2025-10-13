@@ -34,7 +34,7 @@ func applyCards():
     
     setSensorRadius(4.0 + rangeCards * 1.0)
     
-    interval = 4.0  - speedCards * 0.2
+    interval = 6.0  - speedCards * 0.5
     rotSpeed = PI * 0.2 + speedCards * PI * 0.2
 
 func setSensorRadius(r:float):  
@@ -90,6 +90,7 @@ func lookUp():
 func shoot():
     
     Post.gameSound.emit(self, "sniper")
+    Post.gameSound.emit(self, "sniperFlute")
     %SniperGlow.visible = false
     %SniperRay.shoot()
     reloadTimer.start(interval)

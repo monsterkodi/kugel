@@ -9,8 +9,10 @@ func clear():
 
 func addCard(card:Card):
     
-    if stacked:
-        delCard(getCard(card.res.name))
+    if stacked and cardLvl(card.res.name):
+        #delCard(getCard(card.res.name))
+        getCard(card.res.name).lvl += 1
+        return
     Utils.setParent(card, self)
     
 func delCard(card:Card):

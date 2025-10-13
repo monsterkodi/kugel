@@ -33,7 +33,7 @@ func applyCards():
     rangeCards = level().cards.permLvl(Card.SentinelRange)
     
     impulseDamage  = pow(powerCards+1, 2.0) 
-    impulsePower   = pow(powerCards+1, 2.0) 
+    impulsePower   = pow(powerCards+1, 2.0) * 5
     %Sensor.linear_damp = 0.25 + powerCards * 0.075
     reloadTime     = 1.5  - speedCards * 0.2 
     chargeTime     = 2.0  - speedCards * 0.3
@@ -41,9 +41,9 @@ func applyCards():
 
 func _physics_process(delta: float):
     
-    torus.rotate_y(delta)
-    
-    if tween and tween.is_running(): return
+    if tween and tween.is_running():
+        torus.rotate_y(delta * tween.get_total_elapsed_time())
+        return
     
     if sensorBodies.size():
         charge()

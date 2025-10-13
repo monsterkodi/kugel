@@ -20,14 +20,16 @@ func _on_visibility_changed():
 func updateHand():
     
     Utils.freeChildren(%Hand)
-    %Hand.custom_minimum_size.x = Info.battleCardSlots() * 300 + (Info.battleCardSlots() - 1) * 50
-    for card in %Player.hand.get_children():
+    var cards = get_node("/root/World").currentLevel.cards
+    %Hand.custom_minimum_size.x = cards.battleCardSlots() * 300 + (cards.battleCardSlots() - 1) * 50
+    for card in cards.hand.get_children():
         addHandButton(card)
                 
 func updateDeck():
     
     Utils.freeChildren(%Deck)
-    for card in %Player.deck.sortedCards():
+    var cards = get_node("/root/World").currentLevel.cards
+    for card in cards.deck.sortedCards():
         addDeckButton(card)
 
 func addHandButton(card):
@@ -70,7 +72,10 @@ func buttonPressed(button):
 func moveHandCardToDeck(button):
     
     assert(button)
-    if %Player.deck.cardLvl(button.card.res.name) >= 1:
+    
+    var cards = get_node("/root/World").currentLevel.cards
+    
+    if cards.deck.cardLvl(button.card.res.name) >= 1:
         
         var deckButton = getDeckButton(button.card.res.name)
         assert(deckButton)
@@ -78,28 +83,30 @@ func moveHandCardToDeck(button):
         deckButton.setDots(deckButton.card.lvl)
         deckButton.grab_focus()
         
-        %Player.hand.delCard(button.card)
+        cards.hand.delCard(button.card)
         %Hand.remove_child(button)
         button.queue_free()
     else:
-        %Player.deck.addCard(button.card)
+        cards.deck.addCard(button.card)
         Utils.setParent(button, %Deck)
         button.setSize(DECK_SIZE)
         button.grab_focus()
     
 func moveDeckCardToHand(button):
     
-    if %Player.hand.get_child_count() == Info.battleCardSlots():
+    var cards = get_node("/root/World").currentLevel.cards
+    
+    if cards.hand.get_child_count() == cards.battleCardSlots():
         moveHandCardToDeck(%Hand.get_child(0))
         
     if button.card.lvl > 1:
         button.card.lvl -= 1
         button.setDots(button.card.lvl)
         var newCard = Card.withName(button.card.res.name)
-        %Player.hand.addCard(newCard)
+        cards.hand.addCard(newCard)
         addHandButton(newCard)
     else:
-        %Player.hand.addCard(button.card)
+        cards.hand.addCard(button.card)
         Utils.setParent(button, %Hand)
         button.setSize(HAND_SIZE)
         button.grab_focus()

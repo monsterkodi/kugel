@@ -2,8 +2,9 @@ class_name SplashScreen
 extends Menu
 
 @onready var viewport: SceneViewport = %SceneViewport
-const SPLASH = preload("uid://qtgb1as1bp7l")
 @onready var viewportContainer: SubViewportContainer = %SubViewportContainer
+
+const SPLASH = preload("uid://qtgb1as1bp7l")
 
 var level
 
@@ -27,7 +28,6 @@ func loadLevel():
 func back():
     
     backMenu = %MainMenu
-    #backFrom = "top"
     level.process_mode = Node.PROCESS_MODE_DISABLED
     get_tree().paused = true
     super.back()
@@ -39,10 +39,7 @@ func vanished():
 func onResize():
 
     if not viewport: return
-    #if get_window().content_scale_mode == Window.CONTENT_SCALE_MODE_CANVAS_ITEMS:
     viewportContainer.size = get_window().size
-    #else:
-        #viewport.size = get_window().content_scale_size
 
 func _input(event: InputEvent):
     

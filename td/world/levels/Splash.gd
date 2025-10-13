@@ -10,14 +10,16 @@ func _ready():
     super._ready()
     
     cards.perm.addCard(Card.withName(Card.ShieldLayer, 5))
-    cards.perm.addCard(Card.withName(Card.LaserSpeed,  5))
-    cards.perm.addCard(Card.withName(Card.LaserPower,  5))
     cards.perm.addCard(Card.withName(Card.SniperSpeed, 5))
+    cards.perm.addCard(Card.withName(Card.LaserSpeed,  5))
+    cards.perm.addCard(Card.withName(Card.LaserPower,  2))
     
     var shield = SHIELD.instantiate()
+    shield.inert = false
     add_child(shield)
     
     shield.setHitPoints(cards.maxShieldHitPoints())
+    shield.gameResume()
     
     for slot in %SlotRing1.get_children():
         slot.add_child(SNIPER.instantiate())
@@ -29,3 +31,6 @@ func _ready():
         spawner.get_node("Ident").visible = false
         spawner.velocity_initial = 1.0
         spawner.velocity         = 1.0
+        
+        spawner.mass_increment     = 0.33
+        spawner.velocity_increment = 0.04

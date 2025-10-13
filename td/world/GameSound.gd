@@ -2,25 +2,32 @@ class_name  GameSound
 extends Node
 
 var volume    = { 
-    "dash":         0.7, 
-    "dashAir":      0.1, 
-    "collect":      0.05, 
-    "enemyHit":     0.1, 
-    "sniper":       1.0,
-    "land":         0.5, 
-    "turret":       0.2, 
-    "laser":        0.2,
-    "sentinel":     0.3,
-    "countdown":    0.05,
-    "enemySpawned": 0.4 }
+    "dash":           0.7, 
+    "dashAir":        0.1, 
+    "collect":        0.05, 
+    "enemyHit":       0.1, 
+    "enemyBounce":    0.3, 
+    "enemyCollision": 0.3, 
+    "baseHit":        0.4,
+    "baseDied":       0.4,
+    "shieldHit":      0.4,
+    "shieldDown":     0.4,
+    "sniper":         0.1,
+    "sniperFlute":    0.2,
+    "land":           0.5, 
+    "turret":         0.2, 
+    "laser":          0.2,
+    "sentinel":       0.3,
+    "countdown":      0.05,
+    "enemySpawned":   0.5 }
     
 var maxdb     = { "countdown": 0.1, "enemySpeed": 0.3 }
-var maxdist   = { "enemySpawned": 60.0, "shieldHit": 120.0, "baseHit": 120.0 }
+var maxdist   = { "enemySpawned": 100.0, "shieldHit": 120.0, "baseHit": 120.0, "enemyBounce": 30.0, "move": 15.0 }
 var seqsPitch = { "collect": [1.0, 1.125, 1.25, 1.375, 1.5 ] }
 var seqsIndex = { "collect": 0 }
 var randPitch = { "turret": [1.0, 0.9, 0.8, 0.7, 0.6]}
 var poly      = { "collect": 8, "dash": 3, "dashAir": 3, "land": 3, "laserDamage": 4, "baseHit": 3, "shieldHit": 3, "countdown": 16, "build": 4, "enemySpeed": 4, "drop": 2 }
-var pool      = { "enemyHit": 32, "enemyDied": 32, "enemySpawned": 8, "sentinel": 24, "sniper": 8, "turret": 8, "laser": 8 }
+var pool      = { "enemyBounce": 16, "enemyCollision": 16, "enemyHit": 16, "enemyDied": 16, "enemySpawned": 8, "sentinel": 24, "sniper": 4, "sniperFlute": 4, "turret": 8, "laser": 8 }
 var loop      = { "move": 1.0 }
 var soundPool = {}
 var poolQueue = {}
@@ -36,9 +43,11 @@ func _ready():
         var sound : AudioStreamPlayer3D = child
         #Log.log("sound", sound.name)
         sound.bus = &"Game" 
-        sound.max_distance = 50.0
+        sound.max_distance = 70.0
         #sound.attenuation_model = AudioStreamPlayer3D.ATTENUATION_INVERSE_SQUARE_DISTANCE
         sound.attenuation_model = AudioStreamPlayer3D.ATTENUATION_INVERSE_DISTANCE
+        #sound.attenuation_model = AudioStreamPlayer3D.ATTENUATION_LOGARITHMIC
+        
         if poly.has(sound.name):
             sound.max_polyphony = poly[sound.name]
         if volume.has(sound.name):
@@ -76,11 +85,16 @@ func _process(delta: float):
                     match key:
                         "enemySpawned":
                             sound.pitch_scale = 1.0+item.factor*0.125
-                        "enemyDied", "enemyHit", "sniper", "sentinel", "turret":
+                        "enemyCollision", "enemyBounce":
+                            var vol = 1.0
+                            if volume.has(key): vol = volume[key]
+                            sound.volume_linear = vol * item.volume
+                            sound.pitch_scale = clampf(4.0 - item.factor, 1.0, 4.0)
+                            #Log.log(key, item.factor, item.volume, vol * item.volume, sound.pitch_scale)
+                        "enemyDied", "enemyHit", "sniper", "sniperFlute", "sentinel", "turret":
                             sound.pitch_scale = getRandPitch(key)
                             var vol = 1.0
-                            if volume.has(key):
-                                vol = volume[key]
+                            if volume.has(key): vol = volume[key]
                             sound.volume_linear = vol * randf_range(0.2, 1.0)
                         "laser":
                             #Log.log("laser", item.pos, item.factor)
@@ -106,10 +120,10 @@ func getSeqsPitch(key):
         return seqsPitch[key][seqsIndex[key]]
     return 1.0
 
-func gameSound(source:Node3D, action:String, factor:float = 0.0):
+func gameSound(source:Node3D, action:String, factor:float = 0.0, vol:float = 1.0):
     
     if pool.has(action):
-        poolQueue[action].append({"pos":source.global_position, "factor":factor})
+        poolQueue[action].append({"pos":source.global_position, "factor":factor, "volume":vol})
         return
     
     var sound:AudioStreamPlayer3D = find_child(action)

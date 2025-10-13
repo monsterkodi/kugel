@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://qtgb1as1bp7l"]
+[gd_scene load_steps=20 format=3 uid="uid://qtgb1as1bp7l"]
 
 [ext_resource type="Script" uid="uid://6xelt7xat77x" path="res://world/levels/Splash.gd" id="1_tgvhy"]
 [ext_resource type="PhysicsMaterial" uid="uid://dq1r6votcqh1x" path="res://materials/physics/FloorPhysics.tres" id="2_iv6rh"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" uid="uid://c5hsf15hvj6m" path="res://world/Bounds.gd" id="12_gtjn5"]
 [ext_resource type="PackedScene" uid="uid://cet3rocvskr1v" path="res://world/clocks/SplashClock.tscn" id="12_jk0iu"]
 [ext_resource type="PackedScene" uid="uid://c2avn203eitto" path="res://world/MultiMesh.tscn" id="13_6lp0q"]
+[ext_resource type="Script" uid="uid://cke6bextiktjd" path="res://world/clocks/SplashClock.gd" id="13_jk0iu"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_dn5x0"]
 size = Vector2(500, 500)
@@ -54,11 +55,11 @@ shape = SubResource("BoxShape3D_dn5x0")
 metadata/_edit_lock_ = true
 
 [node name="SlotsRings" type="Node3D" parent="Floor"]
-transform = Transform3D(0.98061466, 0, 0.19594614, 0, 1, 0, -0.19594614, 0, 0.98061466, 0, 0, 0)
 metadata/_edit_lock_ = true
 
 [node name="SlotRing1" type="Node3D" parent="Floor/SlotsRings"]
 unique_name_in_owner = true
+transform = Transform3D(0.99026805, 0, 0.1391731, 0, 1, 0, -0.1391731, 0, 0.99026805, 0, 0, 0)
 script = ExtResource("4_folmg")
 radius = 5.5
 metadata/_custom_type_script = "uid://7c1aiis7pati"
@@ -66,6 +67,7 @@ metadata/_edit_lock_ = true
 
 [node name="SlotRing2" type="Node3D" parent="Floor/SlotsRings"]
 unique_name_in_owner = true
+transform = Transform3D(0.98061466, 0, 0.19594614, 0, 1, 0, -0.19594614, 0, 0.98061466, 0, 0, 0)
 script = ExtResource("4_folmg")
 numSlots = 16
 radius = 10.2
@@ -187,6 +189,9 @@ shape = SubResource("SphereShape3D_052yy")
 [node name="Clock" parent="." instance=ExtResource("12_jk0iu")]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+script = ExtResource("13_jk0iu")
 seconds_initial = 2.0
+fast_decrement_factor = 0.991
+slow_decrement_factor = 0.991
 
 [connection signal="body_exited" from="Bounds" to="Bounds" method="bodyExit"]
