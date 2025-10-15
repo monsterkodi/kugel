@@ -18,7 +18,7 @@ func save():
     get_tree().call_group("save", "on_save", savegame.data)
     if levelData:
         savegame.data.Level = levelData
-    Log.log("save", savegame.data)
+    #Log.log("save", savegame.data)
     ResourceSaver.save(savegame, "user://savegame.tres")
 
 func clear():

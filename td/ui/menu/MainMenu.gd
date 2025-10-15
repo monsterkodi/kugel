@@ -23,7 +23,7 @@ func _ready():
     
 func levelSaved(levelName):
     
-    Log.log("mainMenu.levelSaved", levelName)
+    #Log.log("mainMenu.levelSaved", levelName)
     var index = 0
     var scene = null
     match levelName:

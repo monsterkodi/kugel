@@ -7,6 +7,7 @@ func _ready():
     name = "Shield"
     
     if level():
+        Log.log("Shield._ready", inert, level().cards.maxShieldHitPoints())
         setHitPoints(level().cards.maxShieldHitPoints())
     #Log.log("Shield._ready", inert)
     %ShieldBody.position = Vector3.ZERO
@@ -46,6 +47,7 @@ func setHitPoints(hp):
     while %Halos.get_child_count() < hitPoints:
         var clone = %Halos.get_child(0).duplicate()
         var s = clone.scale.x + ((3.0/hitPoints)*%Halos.get_child_count())
+        Log.log("clone", s)
         clone.scale = Vector3(s,s,s)
         %Halos.add_child(clone)
     while %Halos.get_child_count() > hitPoints:

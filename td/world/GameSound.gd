@@ -16,8 +16,19 @@ var maxdist   = { "enemySpawned": 100.0, "shieldHit": 120.0, "baseHit": 120.0, "
 var seqsPitch = {}
 var seqsIndex = {}
 var randPitch = { "turret": [1.0, 0.9, 0.8, 0.7, 0.6]}
-var poly      = { "collect": 8, "dash": 3, "dashAir": 3, "land": 3, "laserDamage": 4, "baseHit": 3, "shieldHit": 3, "countdown": 16, "build": 4, "enemySpeed": 4, "drop": 2 }
-var pool      = { "enemyBounce": 16, "enemyCollision": 16, "enemyHit": 16, "enemyDied": 16, "enemySpawned": 3, "sentinel": 24, "sniper": 2, "sniperFlute": 2, "turret": 8, "laser": 4 }
+var poly      = {   "collect": 8, 
+                    "dash": 3, 
+                    "dashAir": 3, 
+                    "land": 3, 
+                    "laserDamage": 4, 
+                    "baseHit": 3, 
+                    "shieldHit": 3, 
+                    "countdown": 16, 
+                    "build": 4, 
+                    "sell": 4, 
+                    "enemySpeed": 4, 
+                    "drop": 2 }
+var pool      = { "enemyBounce": 16, "enemyCollision": 16, "enemyHit": 16, "enemyDied": 16, "enemySpawned": 3, "sentinel": 24, "sniper": 6, "sniperFlute": 6, "turret": 8, "laser": 4 }
 var loop      = [ "move", "fly", "drive" ]
 var soundPool = {}
 var poolQueue = {}

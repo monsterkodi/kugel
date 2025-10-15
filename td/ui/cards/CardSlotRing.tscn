@@ -9,11 +9,11 @@
 script = ExtResource("1_3k186")
 
 [node name="CardSetup" parent="." instance=ExtResource("2_qjbgm")]
-cameraOffset = Vector2(0, -0.3)
-cameraDistance = 1.428
-cameraFov = 58.233
-cameraTargetY = 0.062
-cameraHeight = 2.1849999999999996
+cameraOffset = Vector2(0, -2.22)
+cameraDistance = 3.56
+cameraFov = 47.944
+cameraTargetY = 0.01
+cameraHeight = 4.548
 
 [node name="SlotRing" parent="." instance=ExtResource("3_hv2nw")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.72, 3)

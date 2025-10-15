@@ -67,7 +67,7 @@ func levelEnd():
     
     var es = Stats.numEnemiesSpawned
     highscore = maxi(es, highscore)
-    Log.log("levelEnd", name, es, highscore)
+    #Log.log("levelEnd", name, es, highscore)
     
     if es >= trophyLimit[2]: 
         trophyCount[2] += 1
@@ -113,7 +113,7 @@ func resetLevel(data:Dictionary):
     ld.erase("spawners")
     ld.player = get_node("/root/World/Player").save()
     ld.cards  = cards.save()
-    Log.log("resetLevel", name, data.Level[name])
+    #Log.log("resetLevel", name, data.Level[name])
     Post.levelSaved.emit(name) # to update main menu level cards
 
 func saveLevel(data:Dictionary):

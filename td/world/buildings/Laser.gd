@@ -14,6 +14,8 @@ func _ready():
     else:
         lookUp()
         
+    setSensorRadius(5.0)
+    
     if level(): applyCards()
     
     %LaserPointer.rc.add_exception(%Base)

@@ -65,9 +65,9 @@ func baseDestroyed():
         %SplashScreen.loadLevel()
         return
     
-    Post.levelEnd.emit()
     pauseGame()
     %MenuHandler.appear(%ResultMenu)
+    Post.levelEnd.emit()
 
 func chooseCard():
     
@@ -188,7 +188,7 @@ func restartLevel():
     loadLevel(currentLevelRes)
     
 func clearLevel():
-    Log.log("clearLevel", currentLevel)
+    #Log.log("clearLevel", currentLevel)
     if currentLevel:
         #currentLevel.clearLevel(Saver.savegame.data)
         currentLevel.resetLevel(Saver.savegame.data)
@@ -258,7 +258,7 @@ func loadLevel(levelRes):
 func saveLevel():
     
     if currentLevel:
-        Log.log("save and free current level", currentLevel)
+        #Log.log("save and free current level", currentLevel)
         
         currentLevel.saveLevel(Saver.savegame.data)
         saveGame()

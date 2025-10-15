@@ -69,7 +69,10 @@ func placeBuilding():
                     Post.buildingSold.emit()
                     return
                     
-    Post.gameSound.emit(targetSlot, "build")
+    if building.name == "Shield":
+        Post.gameSound.emit(targetSlot, "shieldHit")
+    else:
+        Post.gameSound.emit(targetSlot, "build")
     #%build.global_position = targetPos
     #%build.play()
     targetSlot.add_child(building)
@@ -141,6 +144,8 @@ func buildingGhost(ghostName:String):
         #if mesh is MeshInstance3D:
         if Utils.isClass(mesh, "HalfCapsuleTurret"):
             mesh.material = GHOST_MATERIAL
+        elif Utils.isClass(mesh, "HalfCapsuleRounded"):
+            mesh.material = GHOST_MATERIAL            
         elif Utils.isClass(mesh, "MeshInstance3D") or mesh.has_method("set_surface_override_material"):
             mesh.set_surface_override_material(0, GHOST_MATERIAL)
         else:

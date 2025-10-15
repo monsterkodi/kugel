@@ -1,24 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://dtqv7hehg68qo"]
+[gd_scene load_steps=4 format=3 uid="uid://dtqv7hehg68qo"]
 
 [ext_resource type="Script" uid="uid://dtd6jq4u0cjjb" path="res://ui/cards/CardShield.gd" id="1_qb6w7"]
-[ext_resource type="Material" uid="uid://f1ntunbkapvi" path="res://materials/BaseShieldMaterial.tres" id="2_bcye7"]
 [ext_resource type="PackedScene" uid="uid://bfy4mqj2hlcl0" path="res://ui/cards/CardSetup.tscn" id="3_bn8wk"]
 [ext_resource type="PackedScene" uid="uid://busmvxaat6dqv" path="res://world/buildings/Shield.tscn" id="4_bcye7"]
 
-[sub_resource type="SphereMesh" id="SphereMesh_mp8yc"]
-radial_segments = 48
-rings = 24
-
 [node name="CardShield" type="Node3D"]
 script = ExtResource("1_qb6w7")
-
-[node name="HaloMesh" type="MeshInstance3D" parent="."]
-transform = Transform3D(3.77, 0, 0, 0, 3.77, 0, 0, 0, 3.77, 0, 0.098, 0)
-visible = false
-transparency = 0.66
-mesh = SubResource("SphereMesh_mp8yc")
-skeleton = NodePath("../../../..")
-surface_material_override/0 = ExtResource("2_bcye7")
 
 [node name="CardSetup" parent="." instance=ExtResource("3_bn8wk")]
 cameraOffset = Vector2(0, 0.82)
