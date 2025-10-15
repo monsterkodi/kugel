@@ -66,8 +66,8 @@ func baseDestroyed():
         return
     
     pauseGame()
-    %MenuHandler.appear(%ResultMenu)
     Post.levelEnd.emit()
+    %MenuHandler.appear(%ResultMenu)
 
 func chooseCard():
     
