@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://mqbiqpms0g07" path="res://ui/menu/SettingsMenu.gd" id="1_7nnky"]
 [ext_resource type="Theme" uid="uid://clh031dvmhoxe" path="res://ui/theme/SettingsMenuTheme.tres" id="1_rd3qm"]
 [ext_resource type="Script" uid="uid://dxpjww7lq0w6w" path="res://ui/menu/SettingsSlider.gd" id="3_emk4v"]
-[ext_resource type="Script" uid="uid://bauyopqilftye" path="res://ui/menu/SettingsCheck.gd" id="4_008yk"]
+[ext_resource type="Script" path="res://ui/menu/SettingsCheck.gd" id="4_008yk"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7nnky"]
 
@@ -141,7 +141,6 @@ size_flags_vertical = 4
 theme = ExtResource("1_rd3qm")
 text = "High DPI"
 script = ExtResource("4_008yk")
-metadata/_custom_type_script = "uid://bauyopqilftye"
 
 [node name="hiresValue" type="Label" parent="PanelContainer/MarginContainer/Grid/DisplaySettings/hiresContainer"]
 unique_name_in_owner = true
@@ -154,7 +153,6 @@ size_flags_horizontal = 0
 theme = ExtResource("1_rd3qm")
 text = "Fullscreen"
 script = ExtResource("4_008yk")
-metadata/_custom_type_script = "uid://bauyopqilftye"
 
 [node name="clock" type="CheckButton" parent="PanelContainer/MarginContainer/Grid/DisplaySettings"]
 unique_name_in_owner = true
@@ -163,7 +161,6 @@ size_flags_horizontal = 0
 theme = ExtResource("1_rd3qm")
 text = "Clock"
 script = ExtResource("4_008yk")
-metadata/_custom_type_script = "uid://bauyopqilftye"
 
 [node name="GameLabel" type="Label" parent="PanelContainer/MarginContainer/Grid"]
 layout_mode = 2
@@ -188,7 +185,7 @@ layout_mode = 2
 size_flags_vertical = 4
 script = ExtResource("3_emk4v")
 text = "Time Scale"
-value = 3.5
+value = 4.0
 valueMin = 0.5
 valueMax = 4.0
 valueStep = 0.1

@@ -1,8 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://dehmjc447yvug"]
+[gd_scene load_steps=4 format=3 uid="uid://dehmjc447yvug"]
 
 [ext_resource type="Material" uid="uid://bcomnioqak46l" path="res://materials/PillMaterial.tres" id="1_ievty"]
-[ext_resource type="Material" uid="uid://lx8t0tfuvrrw" path="res://materials/LackRed.tres" id="2_f2ncf"]
-[ext_resource type="Shader" uid="uid://bcp4dvhrevdt7" path="res://materials/shader/ColoredGlass.gdshader" id="3_ovndg"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_5m86e"]
 radius = 0.25
@@ -13,22 +11,6 @@ radial_segments = 32
 radius = 0.25
 height = 1.0
 radial_segments = 32
-rings = 1
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_vevl4"]
-radius = 0.02
-height = 0.325
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_vevl4"]
-render_priority = 0
-shader = ExtResource("3_ovndg")
-shader_parameter/albedo = Color(1, 1, 1, 0)
-shader_parameter/roughness = 0.15
-shader_parameter/refraction = 0.02
-shader_parameter/edge_color = Color(0.18431373, 0, 0, 0.2)
-shader_parameter/surface_contribution = 0.2
-shader_parameter/specular_contribution = 0.2
-shader_parameter/refraction_contribution = 1.0
 
 [node name="Capsule" type="Node3D"]
 
@@ -36,20 +18,11 @@ shader_parameter/refraction_contribution = 1.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 transparency = 0.01
 mesh = SubResource("CapsuleMesh_5m86e")
-skeleton = NodePath("../..")
 surface_material_override/0 = ExtResource("1_ievty")
 
 [node name="Capsule Shadow" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.99, 0, 0, 0, 0.99, 0, 0, 0, 0.99, 0, 0.5, 0)
 layers = 2
-transparency = 0.01
+transparency = 1.0
 mesh = SubResource("CapsuleMesh_vj03p")
 skeleton = NodePath("../..")
-surface_material_override/0 = ExtResource("2_f2ncf")
-
-[node name="Capsule Speed" type="MeshInstance3D" parent="."]
-transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 0.07378474, 0.3470441)
-visible = false
-mesh = SubResource("CapsuleMesh_vevl4")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("ShaderMaterial_vevl4")

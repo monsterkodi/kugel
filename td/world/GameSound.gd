@@ -8,6 +8,7 @@ var volume    = {
     "shieldDown":     0.4,
     "sniper":         0.5,
     "sniperFlute":    0.5,
+    "sell":           0.2,
     "countdown":      0.2,
     "enemySpawned":   1.0 }
     

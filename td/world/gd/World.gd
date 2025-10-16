@@ -1,8 +1,9 @@
 class_name World
 extends Node
 
-var currentLevel    : Level
-var currentLevelRes : PackedScene
+var currentLevelName : String
+var currentLevel     : Level
+var currentLevelRes  : PackedScene
      
 func _ready():
     
@@ -230,6 +231,7 @@ func loadLevel(levelRes):
     #Log.log("level instantiate")
     currentLevel = levelRes.instantiate()
     currentLevel.inert = false
+    currentLevelName = currentLevel.name
     #Log.log("level add")
     add_child(currentLevel)
     #Log.log("level start")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=64 format=3 uid="uid://b6mskrm1n176r"]
+[gd_scene load_steps=63 format=3 uid="uid://b6mskrm1n176r"]
 
 [ext_resource type="Script" uid="uid://b6inujglidn5n" path="res://world/gd/World.gd" id="1_eu7l1"]
 [ext_resource type="PackedScene" uid="uid://baj5gp1mlm380" path="res://world/Player.tscn" id="3_wygdx"]
@@ -11,7 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://bwlnpgve3gc86" path="res://ui/build/BuildMenu.tscn" id="9_crsqw"]
 [ext_resource type="Script" uid="uid://cjj7kxg86ixf" path="res://ui/MenuHandler.gd" id="9_ww6ps"]
 [ext_resource type="PackedScene" uid="uid://dhm8ww2fqxfua" path="res://ui/hud/Hud.tscn" id="10_8mymi"]
-[ext_resource type="AudioStream" uid="uid://7f3g0uqvgglx" path="res://sounds/focus3.wav" id="10_hpevq"]
+[ext_resource type="AudioStream" uid="uid://7f3g0uqvgglx" path="res://sounds/focus.wav" id="10_hpevq"]
 [ext_resource type="AudioStream" uid="uid://b3hx6tnio5c56" path="res://sounds/dash.wav" id="10_lgic5"]
 [ext_resource type="PackedScene" uid="uid://dqn51jaojemgy" path="res://ui/menu/SettingsMenu.tscn" id="11_0n6y5"]
 [ext_resource type="AudioStream" uid="uid://nsltxxqt8o4" path="res://sounds/slider.wav" id="12_6ogeo"]
@@ -19,12 +19,12 @@
 [ext_resource type="PackedScene" uid="uid://dm1uyl1udh0ph" path="res://ui/menu/CardChooser.tscn" id="12_gqh78"]
 [ext_resource type="AudioStream" uid="uid://c72oq8yck07n7" path="res://sounds/uncheck.wav" id="13_tqxmq"]
 [ext_resource type="AudioStream" uid="uid://bidd6amsc4ltf" path="res://sounds/check.wav" id="13_xkg0r"]
-[ext_resource type="AudioStream" uid="uid://ddqisxty0d53n" path="res://sounds/button2.wav" id="14_sac7u"]
+[ext_resource type="AudioStream" uid="uid://ddqisxty0d53n" path="res://sounds/button.wav" id="14_sac7u"]
 [ext_resource type="PackedScene" uid="uid://cj01e8082l0kk" path="res://ui/menu/HandChooser.tscn" id="14_x3yhk"]
 [ext_resource type="AudioStream" uid="uid://bof0k0dnyl672" path="res://sounds/vanish.wav" id="15_8u1wm"]
 [ext_resource type="Script" uid="uid://srdtmvh7y33a" path="res://world/MenuSound.gd" id="15_ortil"]
 [ext_resource type="PackedScene" uid="uid://bhawut27oexi" path="res://ui/menu/PermViewer.tscn" id="15_pbtp0"]
-[ext_resource type="AudioStream" uid="uid://cnen1mt8flp16" path="res://sounds/countdown.ogg" id="16_gny34"]
+[ext_resource type="AudioStream" uid="uid://cnen1mt8flp16" path="res://sounds/enemySpeed.ogg" id="16_gny34"]
 [ext_resource type="Script" uid="uid://dbjdt42valv4b" path="res://world/GameSound.gd" id="16_ppjuv"]
 [ext_resource type="AudioStream" uid="uid://b4v3ixqrfwvoc" path="res://sounds/enemyDied.wav" id="17_dh4u6"]
 [ext_resource type="PackedScene" uid="uid://d3bgtynatvwu2" path="res://ui/menu/CheatMenu.tscn" id="18_3j5ad"]
@@ -32,7 +32,7 @@
 [ext_resource type="AudioStream" uid="uid://3l177144a67i" path="res://sounds/jump.wav" id="20_ne8ba"]
 [ext_resource type="AudioStream" uid="uid://cbxndtcynoumf" path="res://sounds/drop.wav" id="21_xkg0r"]
 [ext_resource type="AudioStream" uid="uid://q5kof0mmgyhy" path="res://sounds/land.wav" id="22_spsmc"]
-[ext_resource type="AudioStream" uid="uid://w2417alcgyju" path="res://sounds/bass1.ogg" id="23_pp1rp"]
+[ext_resource type="AudioStream" uid="uid://w2417alcgyju" path="res://sounds/sentinel.ogg" id="23_pp1rp"]
 [ext_resource type="PackedScene" uid="uid://crdyanslu6b0r" path="res://ui/menu/MainMenu.tscn" id="23_vqsdb"]
 [ext_resource type="AudioStream" uid="uid://dy8acua65vkpd" path="res://sounds/enemySpawned.wav" id="24_1qwr2"]
 [ext_resource type="PackedScene" uid="uid://dlje6krlhyfml" path="res://ui/menu/CreditsMenu.tscn" id="24_ph6wr"]
@@ -40,40 +40,46 @@
 [ext_resource type="AudioStream" uid="uid://3o6rhpp3qbvy" path="res://sounds/collect.wav" id="25_lgic5"]
 [ext_resource type="AudioStream" uid="uid://dg4wvv3hpfust" path="res://sounds/enemyHit.wav" id="25_ne8ba"]
 [ext_resource type="AudioStream" uid="uid://ckw17i1yxquct" path="res://sounds/turret.wav" id="27_iftwb"]
-[ext_resource type="AudioStream" uid="uid://yuqw70px4heb" path="res://sounds/bass6.ogg" id="28_65q4b"]
-[ext_resource type="AudioStream" uid="uid://bxcfonqwpdj6i" path="res://sounds/enemyCollision2.wav" id="29_65q4b"]
+[ext_resource type="AudioStream" uid="uid://yuqw70px4heb" path="res://sounds/enemyCollision.ogg" id="28_65q4b"]
+[ext_resource type="AudioStream" uid="uid://bxcfonqwpdj6i" path="res://sounds/enemyBounce.wav" id="29_65q4b"]
 [ext_resource type="AudioStream" uid="uid://bxo7wghaeklw7" path="res://sounds/shieldDown.ogg" id="29_am0rx"]
 [ext_resource type="Script" uid="uid://x1xttp2nj2hm" path="res://world/MusicHandler.gd" id="29_e08lr"]
 [ext_resource type="AudioStream" uid="uid://bimyt0xseaahw" path="res://sounds/sniperFlute.wav" id="29_mj0sa"]
 [ext_resource type="AudioStream" uid="uid://5e1cvgvd4mpt" path="res://sounds/sniper.wav" id="29_p2s4n"]
 [ext_resource type="AudioStream" uid="uid://bg7m6gjpx8o2b" path="res://sounds/baseHit.ogg" id="29_pp1rp"]
 [ext_resource type="AudioStream" uid="uid://bl44vpoxfxnie" path="res://sounds/laserDamage.wav" id="32_pp1rp"]
-[ext_resource type="AudioStream" uid="uid://cjym82y8f1cfb" path="res://music/MenuMusicCredits.mp3" id="33_ppjuv"]
-[ext_resource type="AudioStream" uid="uid://cqn1yejjn2ce1" path="res://sounds/move2.wav" id="34_gn68c"]
-[ext_resource type="AudioStream" uid="uid://t01t6vr2pfak" path="res://sounds/move8.wav" id="34_xkg0r"]
-[ext_resource type="AudioStream" uid="uid://cksn6q126cva" path="res://sounds/bass12.ogg" id="36_65q4b"]
-[ext_resource type="AudioStream" uid="uid://bixx715f8pvx0" path="res://sounds/laser9.wav" id="37_65q4b"]
-[ext_resource type="AudioStream" uid="uid://ch8m0ix01qkly" path="res://sounds/move1.wav" id="40_65q4b"]
+[ext_resource type="AudioStream" uid="uid://cqn1yejjn2ce1" path="res://sounds/drive.wav" id="34_gn68c"]
+[ext_resource type="AudioStream" uid="uid://t01t6vr2pfak" path="res://sounds/move.wav" id="34_xkg0r"]
+[ext_resource type="AudioStream" uid="uid://cksn6q126cva" path="res://sounds/build.ogg" id="36_65q4b"]
+[ext_resource type="AudioStream" uid="uid://bixx715f8pvx0" path="res://sounds/sell.wav" id="37_65q4b"]
+[ext_resource type="AudioStream" uid="uid://ch8m0ix01qkly" path="res://sounds/fly.wav" id="40_65q4b"]
 [ext_resource type="Script" uid="uid://be584uc1qm16n" path="res://world/Settings.gd" id="41_spsmc"]
 [ext_resource type="PackedScene" uid="uid://d7c8f4mncc7h" path="res://ui/menu/HelpMenu.tscn" id="46_6hf6m"]
 [ext_resource type="PackedScene" uid="uid://cudpbcnxqis10" path="res://ui/menu/SplashScreen.tscn" id="47_gsb0j"]
 [ext_resource type="AudioStream" uid="uid://c6vnkgnksrhyo" path="res://music/ambient1.ogg" id="49_1qwr2"]
-[ext_resource type="AudioStream" uid="uid://c6phisxpwrikv" path="res://music/no tek no.mp3" id="49_6hf6m"]
+[ext_resource type="AudioStream" uid="uid://c6phisxpwrikv" path="res://music/menuMusic.mp3" id="49_6hf6m"]
 [ext_resource type="AudioStream" uid="uid://dg44jxmhd5pwp" path="res://music/ambient2.ogg" id="50_6hf6m"]
 [ext_resource type="AudioStream" uid="uid://em1roxvp5urv" path="res://music/ambient3.ogg" id="51_virqv"]
 [ext_resource type="Script" uid="uid://crpx0kg4slj7w" path="res://world/InputHandler.gd" id="54_virqv"]
 
 [sub_resource type="Environment" id="Environment_ig7tw"]
-background_mode = 1
 background_color = Color(0.2522139, 0.2522139, 0.2522139, 1)
-ambient_light_source = 2
+background_energy_multiplier = 0.0
+ambient_light_source = 1
 ambient_light_color = Color(0.2484, 0.2484, 0.2484, 1)
+reflected_light_source = 1
+tonemap_mode = 2
 ssao_intensity = 16.0
 ssao_power = 0.123703785
 sdfgi_read_sky_light = false
 sdfgi_min_cell_size = 0.1
 sdfgi_y_scale = 0
 glow_enabled = true
+glow_levels/2 = 1.0
+glow_levels/3 = 0.7
+glow_levels/4 = 0.5
+glow_levels/5 = 0.0
+glow_normalized = true
 glow_blend_mode = 1
 fog_enabled = true
 fog_mode = 1
@@ -320,12 +326,6 @@ process_mode = 3
 [node name="MusicHandler" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("29_e08lr")
-
-[node name="MenuMusicCredits" type="AudioStreamPlayer" parent="MusicHandler"]
-unique_name_in_owner = true
-stream = ExtResource("33_ppjuv")
-volume_db = -4.022
-bus = &"Menu Music"
 
 [node name="MenuMusic" type="AudioStreamPlayer" parent="MusicHandler"]
 unique_name_in_owner = true

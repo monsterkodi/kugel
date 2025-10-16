@@ -1,9 +1,8 @@
-[gd_scene load_steps=16 format=3 uid="uid://sfii31yqj6q5"]
+[gd_scene load_steps=14 format=3 uid="uid://sfii31yqj6q5"]
 
 [ext_resource type="PhysicsMaterial" uid="uid://bd5vcwy55ekyh" path="res://materials/physics/HeliPhysics.tres" id="1_jiwrc"]
 [ext_resource type="Script" uid="uid://d2xxvx1034q51" path="res://vehicles/Heli.gd" id="1_oh2j6"]
 [ext_resource type="PackedScene" uid="uid://dehmjc447yvug" path="res://vehicles/Capsule.tscn" id="3_2ngpf"]
-[ext_resource type="Material" uid="uid://c53lxv23v2wwu" path="res://materials/ThrusterMaterial.tres" id="3_c1c7q"]
 [ext_resource type="Material" uid="uid://blh6gpegqy43e" path="res://materials/HeliMaterial.tres" id="3_gpeab"]
 [ext_resource type="PackedScene" uid="uid://bitvsxi4updhc" path="res://components/HalfCapsuleFlattened.tscn" id="5_nv7a7"]
 [ext_resource type="Script" uid="uid://bvt1w1upmd45v" path="res://utils/Interpol.gd" id="6_aeb42"]
@@ -13,10 +12,6 @@
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wao3g"]
 height = 1.3
-
-[sub_resource type="SphereMesh" id="SphereMesh_oh2j6"]
-height = 0.5
-is_hemisphere = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ygudo"]
 transparency = 1
@@ -78,37 +73,6 @@ material = ExtResource("3_gpeab")
 transform = Transform3D(-1, 8.742278e-08, 0, -8.742278e-08, -1, 0, 0, 0, 1, 0, 0, 0)
 height = 0.21
 material = ExtResource("3_gpeab")
-
-[node name="Thrusters" type="Node3D" parent="."]
-visible = false
-
-[node name="TA" type="Node3D" parent="Thrusters"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, -0.28439707)
-
-[node name="ThrustA" type="MeshInstance3D" parent="Thrusters/TA"]
-unique_name_in_owner = true
-transform = Transform3D(0.4, 0, 0, 0, 0.6, 0, 0, 0, 0.4, 0, -0.3, 0)
-mesh = SubResource("SphereMesh_oh2j6")
-skeleton = NodePath("../../..")
-surface_material_override/0 = ExtResource("3_c1c7q")
-
-[node name="TB" type="Node3D" parent="Thrusters"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.24114352, 0.3, 0.14292729)
-
-[node name="ThrustB" type="MeshInstance3D" parent="Thrusters/TB"]
-transform = Transform3D(0.4, 0, 0, 0, 0.6, 0, 0, 0, 0.4, 0, -0.3, 0)
-mesh = SubResource("SphereMesh_oh2j6")
-skeleton = NodePath("../../..")
-surface_material_override/0 = ExtResource("3_c1c7q")
-
-[node name="TC" type="Node3D" parent="Thrusters"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.24719566, 0.3, 0.14340425)
-
-[node name="ThrustC" type="MeshInstance3D" parent="Thrusters/TC"]
-transform = Transform3D(0.4, 0, 0, 0, 0.6, 0, 0, 0, 0.4, 0, -0.3, 0)
-mesh = SubResource("SphereMesh_oh2j6")
-skeleton = NodePath("../../..")
-surface_material_override/0 = ExtResource("3_c1c7q")
 
 [node name="forward" type="Node" parent="."]
 unique_name_in_owner = true

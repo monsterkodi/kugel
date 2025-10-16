@@ -1,17 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://cog25x4x6herp"]
+[gd_scene load_steps=3 format=3 uid="uid://cog25x4x6herp"]
 
 [ext_resource type="Script" uid="uid://bybe85vovlq8r" path="res://components/SniperRay.gd" id="1_vwbjh"]
 [ext_resource type="Material" uid="uid://bwflknsbn8pdc" path="res://materials/SniperRayMaterial.tres" id="2_hxfj1"]
-[ext_resource type="AudioStream" uid="uid://bg0jpjpu0c130" path="res://sounds/laser.wav" id="2_v6xjo"]
 
 [node name="SniperRay" type="Node3D"]
 script = ExtResource("1_vwbjh")
 material = ExtResource("2_hxfj1")
-
-[node name="sound" type="AudioStreamPlayer3D" parent="."]
-unique_name_in_owner = true
-stream = ExtResource("2_v6xjo")
-attenuation_model = 2
-volume_db = -15.0
-unit_size = 6.0
-max_db = 0.0

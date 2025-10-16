@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dv3202qh60p3m" path="res://world/buildings/Sentinel.gd" id="1_qcgqa"]
 [ext_resource type="PhysicsMaterial" uid="uid://dq1r6votcqh1x" path="res://materials/physics/FloorPhysics.tres" id="2_hnxf5"]
-[ext_resource type="Material" uid="uid://h718n8hodgi1" path="res://materials/WireframeMaterial.tres" id="3_qbpwj"]
+[ext_resource type="Material" uid="uid://h718n8hodgi1" path="res://materials/SentinelMaterial.tres" id="3_qbpwj"]
 [ext_resource type="Material" uid="uid://dan1xogmknu6d" path="res://materials/BouncerGlowMaterial.tres" id="4_nln6s"]
 [ext_resource type="Shader" uid="uid://b7lpd6h1smubj" path="res://materials/visual/CircleMatVis.tres" id="5_6wf06"]
 [ext_resource type="PackedScene" uid="uid://bmyq0wms5x6rm" path="res://components/HalfCapsuleRounded.tscn" id="6_bugby"]

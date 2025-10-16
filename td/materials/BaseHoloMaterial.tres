@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://1nbr7m78c0uq"]
 
-[ext_resource type="Shader" uid="uid://c4m2ofmj7gfhv" path="res://materials/shader/HologramMaterial.gdshader" id="1_hd4cu"]
+[ext_resource type="Shader" uid="uid://c4m2ofmj7gfhv" path="res://materials/shader/BaseHoloMaterial.gdshader" id="1_hd4cu"]
 
 [resource]
 render_priority = 9

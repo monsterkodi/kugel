@@ -33,7 +33,7 @@ func applyCards():
     rangeCards = level().cards.permLvl(Card.SentinelRange)
     
     impulseDamage  = pow(powerCards+1, 2.0) 
-    impulsePower   = pow(powerCards+1, 2.0) * 5
+    impulsePower   = 4.0 + pow(powerCards+1, 2.0) 
     %Sensor.linear_damp = 0.3 + powerCards * 0.05
     reloadTime     = 1.5  - speedCards * 0.2 
     chargeTime     = 2.0  - speedCards * 0.3

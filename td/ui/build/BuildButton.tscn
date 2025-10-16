@@ -1,7 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://cr3id28aepog"]
+[gd_scene load_steps=6 format=3 uid="uid://cr3id28aepog"]
 
 [ext_resource type="Theme" uid="uid://rnx540ue12et" path="res://ui/theme/BuildMenuTheme.tres" id="1_x6k1r"]
-[ext_resource type="ButtonGroup" uid="uid://dmsauvumaa32t" path="res://ui/build/BuildMenuButtonGroup.tres" id="2_01aab"]
 [ext_resource type="Script" uid="uid://cpjqnu0u8dxtx" path="res://ui/build/BuildButton.gd" id="3_01aab"]
 [ext_resource type="Script" uid="uid://db85fb86bo305" path="res://ui/menu/FocusOnHover.gd" id="4_713dh"]
 [ext_resource type="PackedScene" uid="uid://bfs4v0hjfo8pg" path="res://ui/scenecard/SceneViewport.tscn" id="5_01aab"]
@@ -16,7 +15,6 @@ anchor_bottom = 1.0
 pivot_offset = Vector2(0, 75)
 theme = ExtResource("1_x6k1r")
 toggle_mode = true
-button_group = ExtResource("2_01aab")
 icon = SubResource("ViewportTexture_x6k1r")
 script = ExtResource("3_01aab")
 metadata/_edit_use_anchors_ = true

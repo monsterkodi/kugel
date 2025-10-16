@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c42hpa6ij4j3j" path="res://world/gd/Spawner.gd" id="1_5q6u0"]
 [ext_resource type="Material" uid="uid://chltotc0ohct" path="res://materials/SpawnerHoleActiveMaterial.tres" id="2_gfquv"]
-[ext_resource type="Shader" uid="uid://cj78indyh2su8" path="res://materials/shader/GooMaterial.gdshader" id="2_xgr6b"]
+[ext_resource type="Shader" uid="uid://cj78indyh2su8" path="res://materials/shader/SpawnerMaterial.gdshader" id="2_xgr6b"]
 [ext_resource type="PackedScene" uid="uid://rrmwg2lfk7xs" path="res://world/Dot.tscn" id="3_xgr6b"]
 [ext_resource type="Material" uid="uid://deqkf3j301h5d" path="res://materials/DotCirclesMaterial.tres" id="6_7j3mf"]
 

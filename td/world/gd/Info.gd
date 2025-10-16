@@ -9,7 +9,7 @@ const BUILDING_PRICES = {
                     "Pole":     2,
                     "Sell":     0
                     }
-
+                    
 var buildingNames:PackedStringArray
 
 var gameTime     : float
@@ -70,4 +70,11 @@ func buildingNamesSortedByPrice() -> Array:
     var names = Array(buildingNames)
     names.sort_custom(func(a,b): return priceForBuilding(a) > priceForBuilding(b))
     return names
+    
+func trophyLimitsForLevel(levelName):
+    
+    if levelName == "Linea":
+        return [250, 500, 1000]
+    else:
+        return [2000, 4000, 10000]
     

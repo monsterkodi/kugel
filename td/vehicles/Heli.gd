@@ -122,7 +122,6 @@ func _integrate_forces(state: PhysicsDirectBodyState3D):
 func readInput():
 
     dash = 0
-    #if Input.is_action_just_pressed("dash"): dash = 1
     if Input.is_action_pressed("dash"): dash = 1
 
     %forward.zero()
@@ -142,15 +141,11 @@ func readInput():
     if Input.is_key_pressed(KEY_UP):   %ascend.add(1)
     if Input.is_key_pressed(KEY_DOWN): %ascend.add(-1)
     
-    %forward.add(-Input.get_joy_axis(0, JOY_AXIS_LEFT_Y))
-    %forward.add(Input.get_joy_axis(0, JOY_AXIS_TRIGGER_RIGHT))
-    
-    if Input.is_action_pressed("forward"):      %forward.add(1)
-    if Input.is_action_pressed("backward"):     %forward.add(-1)
-    
-    %steer.add(Input.get_joy_axis(0, JOY_AXIS_RIGHT_X))
-    if Input.is_action_pressed("steer_right"):  %steer.add(1)
-    if Input.is_action_pressed("steer_left"):   %steer.add(-1)
+    %forward.add( Input.get_joy_axis(0, JOY_AXIS_TRIGGER_RIGHT))
+
+    var steerForward = Input.get_vector("steer_left", "steer_right", "backward", "forward")
+    %forward.add(steerForward.y)    
+    %steer.add(steerForward.x)
 
     if Input.is_action_pressed("right"):        %steer.add(0.4)
     if Input.is_action_pressed("left"):         %steer.add(-0.4)

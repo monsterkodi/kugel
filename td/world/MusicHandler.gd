@@ -36,20 +36,14 @@ func mainMenu(): playMenuMusic()
 
 func menuAppear(menu:Control):
     pass
-    #if menu.name == "CreditsMenu":
-        #stop()
-        #%MenuMusicCredits.play()
         
 func menuVanish(menu:Control):
     pass
-    #if menu.name == "CreditsMenu":
-        #playMenuMusic()
 
 func playMenuMusic():
     
     if not %MenuMusic.playing:
         stop(false)
-        #%MenuMusic.volume_linear = menuMusicVolume
         %MenuMusic.play()
     
 func levelStart():
@@ -88,5 +82,4 @@ func menuMusicFade(value):
     if value == 0.0:
         %MenuMusic.stop()
         %MenuMusic.volume_linear = 1.0
-        #%MenuMusic.volume_linear = Settings.settings.volumeMusic
     

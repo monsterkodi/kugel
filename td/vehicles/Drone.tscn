@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://bifcnnq8lc03w"]
 
 [ext_resource type="Script" uid="uid://bq6di37l1gyjw" path="res://vehicles/Drone.gd" id="2_6qb8p"]
-[ext_resource type="Material" uid="uid://vyhfqa37hcxi" path="res://materials/LackBlue.tres" id="2_tjqyq"]
+[ext_resource type="Material" uid="uid://vyhfqa37hcxi" path="res://materials/TurretMaterial.tres" id="2_tjqyq"]
 [ext_resource type="Script" uid="uid://bvt1w1upmd45v" path="res://utils/Interpol.gd" id="6_ks2wa"]
 
 [sub_resource type="TorusMesh" id="TorusMesh_0eloc"]

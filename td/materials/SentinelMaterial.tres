@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://h718n8hodgi1"]
+
+[ext_resource type="Shader" uid="uid://dc6pmq6cjk0a" path="res://materials/shader/SentinelMaterial.gdshader" id="1_xnjo8"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_xnjo8")
+shader_parameter/albedo = Color(0.20903994, 0.1612, 0.52, 1)
+shader_parameter/wire_color = Color(0.24209662, 0.23009998, 0.59, 1)
+shader_parameter/wire_width = 1.0000000475000002
+shader_parameter/wire_smoothness = 0.01

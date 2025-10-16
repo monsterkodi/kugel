@@ -3,7 +3,6 @@ extends Node3D
 
 var inert       = true
 var highscore   = 0
-var trophyLimit = [2000, 4000, 10000]
 var trophyCount = [0, 0, 0]
 var cards : Cards
 
@@ -68,7 +67,7 @@ func levelEnd():
     var es = Stats.numEnemiesSpawned
     highscore = maxi(es, highscore)
     #Log.log("levelEnd", name, es, highscore)
-    
+    var trophyLimit = Info.trophyLimitsForLevel(name)
     if es >= trophyLimit[2]: 
         trophyCount[2] += 1
     elif es >= trophyLimit[1]:

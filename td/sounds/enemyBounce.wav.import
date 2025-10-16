@@ -2,13 +2,13 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://7f3g0uqvgglx"
-path="res://.godot/imported/focus.wav-586511d99bb22b35b994107ccbcef45f.sample"
+uid="uid://bxcfonqwpdj6i"
+path="res://.godot/imported/enemyBounce.wav-73f2d312deb87fb6562854e9ae8e9006.sample"
 
 [deps]
 
-source_file="res://sounds/focus.wav"
-dest_files=["res://.godot/imported/focus.wav-586511d99bb22b35b994107ccbcef45f.sample"]
+source_file="res://sounds/enemyBounce.wav"
+dest_files=["res://.godot/imported/enemyBounce.wav-73f2d312deb87fb6562854e9ae8e9006.sample"]
 
 [params]
 

@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bv5vo4rgym2a7"]
 
 [ext_resource type="Script" uid="uid://bj7jcc21dm18n" path="res://components/LaserPointer.gd" id="1_g00a2"]
-[ext_resource type="AudioStream" uid="uid://cft0fnjhlcv6d" path="res://sounds/laser2.wav" id="2_4vta8"]
+[ext_resource type="AudioStream" uid="uid://cft0fnjhlcv6d" path="res://sounds/laser.wav" id="2_4vta8"]
 
 [node name="LaserPointer" type="Node3D"]
 script = ExtResource("1_g00a2")

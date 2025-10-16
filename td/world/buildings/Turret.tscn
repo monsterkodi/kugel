@@ -1,7 +1,7 @@
 [gd_scene load_steps=16 format=3 uid="uid://kktahfiaqllg"]
 
 [ext_resource type="Script" uid="uid://tsel3doxtedq" path="res://world/buildings/Turret.gd" id="1_w3f5i"]
-[ext_resource type="Material" uid="uid://vyhfqa37hcxi" path="res://materials/LackBlue.tres" id="2_vc5tq"]
+[ext_resource type="Material" uid="uid://vyhfqa37hcxi" path="res://materials/TurretMaterial.tres" id="2_vc5tq"]
 [ext_resource type="PhysicsMaterial" uid="uid://cxmvb6atqbyf0" path="res://materials/physics/DefaultPhysics.tres" id="3_vc5tq"]
 [ext_resource type="PackedScene" uid="uid://b4x04vstro86m" path="res://world/Bullet.tscn" id="5_lugvd"]
 [ext_resource type="Shader" uid="uid://b7lpd6h1smubj" path="res://materials/visual/CircleMatVis.tres" id="6_wsb1a"]

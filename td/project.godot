@@ -23,7 +23,6 @@ Post="*res://utils/Post.gd"
 Stats="*res://utils/Stats.gd"
 Wallet="*res://world/gd/Wallet.gd"
 Utils="*res://utils/Utils.gd"
-fps_graph="*res://addons/fps_graph/fps_graph.tscn"
 Info="*res://world/gd/Info.gd"
 Saver="*res://utils/Saver.gd"
 
@@ -41,6 +40,7 @@ gdscript/warnings/integer_division=0
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
+window/size/mode=4
 window/size/borderless=true
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
@@ -59,7 +59,7 @@ cozy_cube/gizmo_presets={}
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/anthonyec.camera_preview/plugin.cfg", "res://addons/area_lights/plugin.cfg", "res://addons/editor_commands/plugin.cfg", "res://addons/fps_graph/plugin.cfg", "res://addons/lines_and_trails_3d/plugin.cfg", "res://addons/log/plugin.cfg", "res://addons/script-name-on-top/plugin.cfg", "res://addons/script-tabs/plugin.cfg", "res://addons/tile_path_3d/plugin.cfg")
+enabled=PackedStringArray("res://addons/lines_and_trails_3d/plugin.cfg", "res://addons/log/plugin.cfg", "res://addons/script-name-on-top/plugin.cfg", "res://addons/script-tabs/plugin.cfg")
 
 [exec]
 
@@ -69,7 +69,6 @@ script/shortcut=""
 
 folder_colors={
 "res://addons/": "gray",
-"res://addons/editor_commands/": "yellow",
 "res://addons/fps_graph/": "yellow",
 "res://addons/log/": "orange",
 "res://components/": "orange",
@@ -170,11 +169,13 @@ tilt_down={
 steer_left={
 "deadzone": 0.2,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194319,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+, Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":2,"axis_value":-1.0,"script":null)
 ]
 }
 steer_right={
 "deadzone": 0.2,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194321,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+, Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":2,"axis_value":1.0,"script":null)
 ]
 }
 quit={

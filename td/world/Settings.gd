@@ -5,13 +5,13 @@ static var defaults = {
     "timeScale":     1.0,
     "enemySpeed":    1.0,
     "brightness":    1.0,
-    "hires":         false,
+    "hires":         true,
     "volumeMaster":  1.0,
     "volumeMusic":   1.0,
     "volumeGame":    1.0,
     "volumeMenu":    1.0,
     "clock":         false,
-    "fullscreen":    false,
+    "fullscreen":    true,
     "mouseLock":     true,
     "mouseHide":     true,
     "cheatsEnabled": false
@@ -65,7 +65,7 @@ static func setHires(value):
 static func setFullscreen(value):
     
     if value:
-        DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+        DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
     else:
         DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
         DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_BORDERLESS, false)

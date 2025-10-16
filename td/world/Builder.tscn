@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://r6v0jx4rvh70" path="res://world/gd/Builder.gd" id="1_0gt1h"]
 [ext_resource type="Material" uid="uid://bqhwhtt3kc30s" path="res://materials/BuilderGhostMaterial.tres" id="2_3mury"]
-[ext_resource type="Material" uid="uid://vyhfqa37hcxi" path="res://materials/LackBlue.tres" id="3_i3ey7"]
+[ext_resource type="Material" uid="uid://vyhfqa37hcxi" path="res://materials/TurretMaterial.tres" id="3_i3ey7"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_0gt1h"]
 top_radius = 0.2
