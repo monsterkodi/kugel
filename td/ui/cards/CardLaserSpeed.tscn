@@ -21,5 +21,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
 cameraOffset = Vector2(0, -0.53)
 cameraDistance = 2.517
 cameraFov = 42.173
-cameraTargetY = 1.7329999999999999
+cameraTargetY = 1.733
 cameraHeight = 3.506

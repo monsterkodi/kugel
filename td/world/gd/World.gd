@@ -41,25 +41,7 @@ func _unhandled_input(event: InputEvent):
     
     if Input.is_action_just_pressed("faster"): Info.fasterEnemySpeed()
     if Input.is_action_just_pressed("slower"): Info.slowerEnemySpeed()
-    
-    if event is InputEventKey and event.pressed  and event.keycode and not event.is_echo():
-        
-        if event.as_text() in ["Ctrl+Shift+D", "Alt+Z"]:
-            #Log.log("fake zen key", event.as_text())
-            EngineDebugger.send_message("editor:shortcut", ["Ctrl+Shift+F11"])
-        if event.keycode not in [KEY_CTRL, KEY_META, KEY_ALT, KEY_SHIFT]:
-            if  Input.is_key_pressed(KEY_CTRL) or \
-                Input.is_key_pressed(KEY_META) or \
-                Input.is_key_pressed(KEY_ALT)  or \
-                Input.is_key_pressed(KEY_SHIFT):
                 
-                var shortcut = event.as_text()
-                #shortcut = shortcut.replace("Option", "Alt")
-                #Log.log("editor key", shortcut)
-                EngineDebugger.send_message("editor:shortcut", [shortcut])
-            #else:
-                #Log.log("unknown key", event.as_text(), Input.is_key_pressed(KEY_CTRL), Input.is_key_pressed(KEY_META), Input.is_key_pressed(KEY_ALT))
-            
 func baseDestroyed():
     
     if %SplashScreen.visible: 
@@ -68,6 +50,7 @@ func baseDestroyed():
     
     pauseGame()
     Post.levelEnd.emit()
+    currentLevel.save(Saver.savegame.data)
     %MenuHandler.appear(%ResultMenu)
 
 func chooseCard():
@@ -180,32 +163,16 @@ func settings(backMenu:Menu):
     
     %SettingsMenu.backMenu = backMenu
     %MenuHandler.appear(%SettingsMenu)
-
-func restartLevel():
-    
-    Log.log("restartLevel")
-    clearLevel()
-    saveGame()
-    loadLevel(currentLevelRes)
     
 func clearLevel():
-    #Log.log("clearLevel", currentLevel)
+    Log.log("clearLevel", currentLevel)
     if currentLevel:
-        #currentLevel.clearLevel(Saver.savegame.data)
-        currentLevel.resetLevel(Saver.savegame.data)
-        currentLevel.free()
-
-func resetLevel():
-    Log.log("resetLevel", currentLevel)
-    if currentLevel:
-        Post.levelReset.emit()
+        currentLevel.clear(Saver.savegame.data)
+        Saver.save()
         currentLevel.free()
 
 func retryLevel():
     
-    clearLevel()
-    Saver.save()
-
     loadLevel(currentLevelRes)
     
 func playLevel(levelRes):
@@ -225,31 +192,22 @@ func handChosen():
 
 func loadLevel(levelRes):
     
-    #Log.log("loadLevel", levelRes)
-
     currentLevelRes = levelRes
-    #Log.log("level instantiate")
     currentLevel = levelRes.instantiate()
     currentLevel.inert = false
     currentLevelName = currentLevel.name
-    #Log.log("level add")
     add_child(currentLevel)
-    #Log.log("level start")
     currentLevel.start()
-    #Log.log("emit startLevel")
     Post.startLevel.emit()
     
     var isFresh = true
     if Saver.savegame.data.has("Level") and Saver.savegame.data.Level.has(currentLevel.name):
         if Saver.savegame.data.Level[currentLevel.name]:
-            #Log.log("late load level")
             currentLevel.loadLevel(Saver.savegame.data)
             isFresh = not Saver.savegame.data.Level[currentLevel.name].has("gameTime")
             Post.levelLoaded.emit()
 
-    #Log.log("emit applyCards")
     Post.applyCards.emit()
-    #Log.log("emit levelStart")
     
     if isFresh and (currentLevel.cards.deck.get_child_count() or currentLevel.cards.hand.get_child_count()):
         %MenuHandler.appear(%HandChooser)
@@ -260,9 +218,8 @@ func loadLevel(levelRes):
 func saveLevel():
     
     if currentLevel:
-        #Log.log("save and free current level", currentLevel)
         
-        currentLevel.saveLevel(Saver.savegame.data)
+        currentLevel.save(Saver.savegame.data)
         saveGame()
-            
+        Post.levelSaved.emit(currentLevel.name)
         currentLevel.free()

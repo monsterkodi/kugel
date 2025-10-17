@@ -17,6 +17,9 @@ func _ready():
     
     %Laser2.set_process(false)
     %Laser2.set_physics_process(false)
+    
+    %Laser.setSensorRadius(2.5)
+    %Laser2.setSensorRadius(2.5)
 
     update()
 

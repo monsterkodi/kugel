@@ -10,5 +10,7 @@ extends CardLaser
 func _ready():
     
     super._ready()
+    
+    %Laser.activate()
+    
     lookAt = lookAt
-    #%Laser.get_node("BarrelPivot").look_at(Vector3(3, 0, 0))

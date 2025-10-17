@@ -59,4 +59,3 @@ func levelEnd():
     
     visible = false
     Utils.freeChildren(%Cards)
-    

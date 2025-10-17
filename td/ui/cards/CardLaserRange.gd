@@ -6,4 +6,4 @@ func _ready():
     super._ready()
     
     %Laser.get_node("BarrelPivot").look_at(Vector3(6, 0, -6))
-    %Laser.setSensorRadius(3.0)
+    %Laser.setSensorRadius(8.0)

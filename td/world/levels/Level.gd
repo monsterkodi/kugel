@@ -77,9 +77,6 @@ func levelEnd():
     
     cards.battle.clear()
 
-    resetLevel(Saver.savegame.data)
-    Saver.save()
-
 func gamePaused():
     
     set_physics_process(false)
@@ -90,13 +87,13 @@ func gameResumed():
     set_physics_process(true)
     set_process(true)
     
-func resetLevel(data:Dictionary):
+func clear(data:Dictionary):
 
     assert(data != null and data is Dictionary)
     if not data.has("Level"): data.Level = {}
                 
     if not data.Level.has(name):
-        saveLevel(data)
+        save(data)
     
     var ld = data.Level[name]
     ld.highscore      = highscore
@@ -112,10 +109,10 @@ func resetLevel(data:Dictionary):
     ld.erase("spawners")
     ld.player = get_node("/root/World/Player").save()
     ld.cards  = cards.save()
-    #Log.log("resetLevel", name, data.Level[name])
+    Log.log("clear", name, data.Level[name])
     Post.levelSaved.emit(name) # to update main menu level cards
 
-func saveLevel(data:Dictionary):
+func save(data:Dictionary):
     
     if not data.has("Level"): data.Level = {}
     
@@ -147,7 +144,7 @@ func saveLevel(data:Dictionary):
 
     data.Level[name] = ld
     #Log.log("levelSaved", name)
-    Post.levelSaved.emit(name)
+    #Post.levelSaved.emit(name)
 
 func loadLevel(data:Dictionary):
     

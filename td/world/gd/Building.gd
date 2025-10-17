@@ -30,6 +30,4 @@ func saveBuilding(array:Array):
     dict.position = global_position
     array.append(dict)
 
-func level():
-    
-    return Utils.firstParentWithClass(self, "Level")
+func level(): return Utils.level(self)

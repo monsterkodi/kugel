@@ -1,15 +1,15 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://deqkf3j301h5d"]
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://b4iyuv8ruqsgy"]
 
-[ext_resource type="Shader" uid="uid://colhoamqrtuej" path="res://materials/shader/DotCirclesMaterial.gdshader" id="1_jh1op"]
+[ext_resource type="Shader" uid="uid://colhoamqrtuej" path="res://materials/shader/DotCirclesMaterial.gdshader" id="1_0lrkj"]
 
 [resource]
 resource_local_to_scene = true
 render_priority = -1
-shader = ExtResource("1_jh1op")
+shader = ExtResource("1_0lrkj")
 shader_parameter/dotColor = Color(0.5591614, 0.5591614, 1.1638972, 1)
 shader_parameter/circleCount = 1.0
 shader_parameter/ringRadius = 0.800000038
-shader_parameter/circleRadius = 0.2000000095
+shader_parameter/circleRadius = 0.10000000475
 shader_parameter/depth_bias = 4.0
 shader_parameter/phase_degrees = 0.0
 shader_parameter/wave_degrees = 0.0

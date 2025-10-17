@@ -23,6 +23,7 @@ disable_specular_occlusion = true
 albedo_color = Color(0, 0, 0, 0.7058824)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vj03p"]
+render_priority = 1
 transparency = 1
 blend_mode = 4
 depth_draw_mode = 1
@@ -30,7 +31,7 @@ shading_mode = 0
 disable_ambient_light = true
 disable_fog = true
 disable_specular_occlusion = true
-albedo_color = Color(1.7212527, 0.8493732, 0, 0.34509805)
+albedo_color = Color(1.8247963, 1.5767143, 0, 0.78000003)
 
 [sub_resource type="Curve" id="Curve_s4ewv"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]

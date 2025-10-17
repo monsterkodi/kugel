@@ -2,7 +2,6 @@ class_name PauseMenu
 extends Menu
 
 func _on_resume_pressed():    if is_processing_input(): Post.resumeGame.emit()
-func _on_restart_pressed():   if is_processing_input(): Post.restartLevel.emit()
 func _on_main_menu_pressed(): if is_processing_input(): Post.mainMenu.emit()
 func _on_settings_pressed():  if is_processing_input(): Post.settings.emit(self)
 func _on_help_pressed():      if is_processing_input(): %HelpMenu.backMenu = self; %MenuHandler.appear(%HelpMenu)

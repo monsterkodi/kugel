@@ -1,13 +1,16 @@
-[gd_scene load_steps=10 format=3 uid="uid://b0ky2r6dv835o"]
+[gd_scene load_steps=11 format=3 uid="uid://b0ky2r6dv835o"]
 
 [ext_resource type="Script" uid="uid://cpee8s6q4uj4u" path="res://world/gd/Base.gd" id="1_swcnr"]
-[ext_resource type="PackedScene" uid="uid://du4vmk7nmw83o" path="res://world/DotRing.tscn" id="3_8t0lk"]
+[ext_resource type="Material" uid="uid://b4iyuv8ruqsgy" path="res://materials/BaseDotsMaterial.tres" id="3_8t0lk"]
 [ext_resource type="PhysicsMaterial" uid="uid://bibgiktcbn65s" path="res://materials/physics/ShieldPhysics.tres" id="3_xybkm"]
 [ext_resource type="Material" uid="uid://1nbr7m78c0uq" path="res://materials/BaseHoloMaterial.tres" id="4_8t0lk"]
 [ext_resource type="PackedScene" uid="uid://b1t7aquxiadko" path="res://components/Attraction.tscn" id="5_22hco"]
 [ext_resource type="Material" uid="uid://sqyrj2rfc5lt" path="res://materials/CircularMaterial.tres" id="6_4p605"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_lf5p6"]
+size = Vector2(3, 3)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_h0tio"]
 size = Vector2(3, 3)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_0k0ig"]
@@ -28,13 +31,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.017252505, 0)
 mesh = SubResource("PlaneMesh_lf5p6")
 surface_material_override/0 = ExtResource("6_4p605")
 
-[node name="DotRing" parent="." instance=ExtResource("3_8t0lk")]
+[node name="DotRing" type="MeshInstance3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.03, 0)
-radius = 1.2
-numDots = 12
-dotRadius = 0.06999999999999999
-dotColor = Color(0.27619392, 0.25766784, 1.353256, 1)
+mesh = SubResource("PlaneMesh_h0tio")
+skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("3_8t0lk")
 
 [node name="SphereBody" type="RigidBody3D" parent="."]
 unique_name_in_owner = true

@@ -5,7 +5,7 @@ const CARD_SIZE : Vector2i = Vector2i(300,225)
 
 func appear():
     
-    var levelName = get_node("/root/World").currentLevelName
+    var levelName = get_node("/root/World").currentLevel.name
     
     %Retry.grab_focus()
     
@@ -40,11 +40,18 @@ func appear():
     %CardButton3.setSize(CARD_SIZE)
     
     super.appear()
+
+func back():
+    
+    Post.clearLevel.emit()
+    super.back()
     
 func onRetry():
     
+    Post.clearLevel.emit()
     Post.retryLevel.emit()
 
 func onMainMenu():
     
+    Post.clearLevel.emit()
     Post.mainMenu.emit()

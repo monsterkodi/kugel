@@ -49,12 +49,14 @@ func setHitPoints(hp):
 func updateDots():
     
     var dots = hitPoints
-    var level = Utils.firstParentWithClass(self, "Level")
+    var level = Utils.level(self)
     var shield = level.firstPlacedBuildingOfType("Shield")
     if shield:
         dots += shield.hitPoints
     #Log.log("dots", level.name, dots, get_path())
-    %DotRing.numDots = dots
+    #%DotRing.numDots = dots
+    var mat:ShaderMaterial = %DotRing.get_surface_override_material(0)
+    mat.set_shader_parameter("circleCount", dots)
     
 func onDeath():
 

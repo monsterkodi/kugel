@@ -89,3 +89,5 @@ func _on_sensor_body_exited(body: Node3D):
 func lookUp():
     
     setTargetPos(global_position + Vector3.UP*2)
+
+func activate(): %LaserPointer.activate()

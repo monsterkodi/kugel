@@ -23,6 +23,7 @@ signal gamePaused
 signal gameResume
 signal startLevel
 signal retryLevel
+signal clearLevel
 signal levelStart
 signal levelReset
 signal levelEnd
@@ -39,7 +40,6 @@ signal statChanged
 signal enemySpeed # speed
 signal newGame
 signal resumeGame
-signal restartLevel
 signal settings
 signal quitGame
 signal clockFactor

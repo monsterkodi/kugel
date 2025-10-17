@@ -8,7 +8,7 @@
 [ext_resource type="Theme" uid="uid://ckxlwln5s1u4b" path="res://ui/theme/PauseMenuTheme.tres" id="4_riwhs"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s1m8r"]
-bg_color = Color(0.048554122, 0.048554122, 0.048554122, 1)
+bg_color = Color(0, 0, 0, 1)
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_riwhs"]
 viewport_path = NodePath("Scene")
@@ -99,7 +99,9 @@ layout_mode = 2
 
 [node name="CardButton1" parent="VBoxContainer/Unlocks/VBoxContainer/HBoxContainer/VBoxContainer" instance=ExtResource("3_6j3nk")]
 unique_name_in_owner = true
+process_mode = 4
 layout_mode = 2
+focus_behavior_recursive = 1
 icon = SubResource("ViewportTexture_riwhs")
 
 [node name="LockValue1" type="Label" parent="VBoxContainer/Unlocks/VBoxContainer/HBoxContainer/VBoxContainer"]
@@ -116,7 +118,9 @@ layout_mode = 2
 
 [node name="CardButton2" parent="VBoxContainer/Unlocks/VBoxContainer/HBoxContainer/VBoxContainer2" instance=ExtResource("3_6j3nk")]
 unique_name_in_owner = true
+process_mode = 4
 layout_mode = 2
+focus_behavior_recursive = 1
 icon = SubResource("ViewportTexture_s1m8r")
 
 [node name="LockValue2" type="Label" parent="VBoxContainer/Unlocks/VBoxContainer/HBoxContainer/VBoxContainer2"]
@@ -133,7 +137,9 @@ layout_mode = 2
 
 [node name="CardButton3" parent="VBoxContainer/Unlocks/VBoxContainer/HBoxContainer/VBoxContainer3" instance=ExtResource("3_6j3nk")]
 unique_name_in_owner = true
+process_mode = 4
 layout_mode = 2
+focus_behavior_recursive = 1
 icon = SubResource("ViewportTexture_gy74k")
 
 [node name="LockValue3" type="Label" parent="VBoxContainer/Unlocks/VBoxContainer/HBoxContainer/VBoxContainer3"]

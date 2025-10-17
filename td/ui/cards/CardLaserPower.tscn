@@ -13,15 +13,8 @@ metadata/_custom_type_script = "uid://oykyay4qgbv2"
 unique_name_in_owner = true
 
 [node name="CardSetup" parent="." instance=ExtResource("3_auhku")]
-cameraOffset = Vector2(0.44, 0.09)
+cameraOffset = Vector2(0.51, 0.23)
 cameraDistance = 4.007
-cameraFov = 19.058
-cameraTargetY = 1.224
+cameraFov = 25.093
+cameraTargetY = 1.294
 cameraHeight = 0.01
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.6333809, 0.63543826, 0.4416411, 0, 0.5707136, -0.82114923, -0.7738402, -0.52010024, -0.36147907, 0, 0, 0)
-light_color = Color(1, 0, 0, 1)
-light_energy = 4.745
-light_specular = 16.0
-shadow_enabled = true

@@ -28,12 +28,12 @@ corner_radius_bottom_left = 25
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4l1ig"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5y4im"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a0sbl"]
 content_margin_left = 25.0
 content_margin_top = 25.0
 content_margin_right = 25.0
 content_margin_bottom = 25.0
-bg_color = Color(0, 0, 0, 1)
+bg_color = Color(0.050980393, 0.050980393, 0.050980393, 1)
 corner_radius_top_left = 50
 corner_radius_top_right = 50
 corner_radius_bottom_right = 50
@@ -81,6 +81,6 @@ Button/styles/pressed = SubResource("StyleBoxFlat_nopln")
 Label/colors/font_color = Color(0.26239687, 0.26239687, 0.26239687, 1)
 Label/constants/line_spacing = 0
 Label/styles/normal = SubResource("StyleBoxEmpty_4l1ig")
-PanelContainer/styles/panel = SubResource("StyleBoxFlat_5y4im")
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_a0sbl")
 ProgressBar/styles/background = SubResource("StyleBoxFlat_xmb7r")
 ProgressBar/styles/fill = SubResource("StyleBoxFlat_woh0j")

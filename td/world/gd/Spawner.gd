@@ -32,7 +32,7 @@ const spawnerHoleActiveMaterial  = preload("uid://chltotc0ohct")
                                                 
 func _ready():
 
-    level = Utils.firstParentWithClass(self, "Level")
+    level = Utils.level(self)
     enemies = level.get_node("Enemies")
     assert(enemies)
     velocity = velocity_initial
@@ -50,6 +50,8 @@ func _ready():
     
     if not level.inert and ident:
         %IdentRing.get_surface_override_material(0).set_shader_parameter("circleCount", float(ident))
+    else:
+        %IdentRing.visible = false
     
     if activation_level == 0:
         activate()
