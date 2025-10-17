@@ -28,7 +28,7 @@ content_margin_bottom = 10.0
 
 [sub_resource type="Gradient" id="Gradient_ks410"]
 offsets = PackedFloat32Array(0.32325888, 0.34954008, 0.7003942, 0.7358739)
-colors = PackedColorArray(0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1)
+colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_epdrl"]
 gradient = SubResource("Gradient_ks410")

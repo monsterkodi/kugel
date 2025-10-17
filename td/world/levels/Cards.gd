@@ -96,7 +96,6 @@ func nextSetOfCards():
     #cards.append(Card.new(moneyRes))
     
     if cardLvl(Card.SlotRing) < 3 and isUnlockedCard(Card.SlotRing):
-        #Log.log("nextSetOfCards add Slot Ring")
         var cardRes = allCards[allCards.find_custom(func(c): return c.name == Card.SlotRing)]
         allCards.erase(cardRes)
         cards.append(Card.new(cardRes, cardLvl(Card.SlotRing)+1))
@@ -105,19 +104,16 @@ func nextSetOfCards():
         
         if allCards.is_empty():
             cards.append(Card.withName(Card.Money))
-            continue
-        
-        assert(not allCards.is_empty())
-        var cardRes = allCards[randi_range(0, allCards.size()-1)]
-        if cardRes.maxLvl > 0:
-            var lvl = cardLvl(cardRes.name)
-            if lvl >= cardRes.maxLvl:
-                allCards.erase(cardRes)
+        else:
+            var cardRes = allCards[randi_range(0, allCards.size()-1)]
+            allCards.erase(cardRes)
+            if cardRes.maxLvl > 0:
+                if cardLvl(cardRes.name) >= cardRes.maxLvl:
+                    continue
+            if cardRes.name == Card.ShieldLayer and cardLvl(Card.Shield) == 0:
                 continue
-        if cardRes.type == CardRes.CardType.TROPHY or isLockedCard(cardRes.name):
-            allCards.erase(cardRes)
-            continue
-        cards.append(Card.new(cardRes, cardLvl(cardRes.name)+1))
-        if cardRes.maxLvl > 0:
-            allCards.erase(cardRes)
+            if cardRes.type == CardRes.CardType.TROPHY or isLockedCard(cardRes.name):
+                continue
+            cards.append(Card.new(cardRes, cardLvl(cardRes.name)+1))
+            
     return cards

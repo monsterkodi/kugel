@@ -5,4 +5,4 @@ func _ready():
     
     super._ready()
     
-    %Turret.setSensorRadius(2.5)
+    %Turret.setSensorRadius(4.0)

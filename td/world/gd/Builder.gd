@@ -5,7 +5,7 @@ var appearTween : Tween
 var vehicle     : Node3D
 var ghost       : Node3D
 var targetSlot  : Node3D
-var targetPos   = Vector3(5, 0, 0)
+var targetPos   = Vector3(0, 5, 0)
 
 const GHOST_MATERIAL = preload("res://materials/BuilderGhostMaterial.tres")
 @onready var beamPivot: Node3D = %BeamPivot
@@ -108,7 +108,7 @@ func findTargetPos():
     if slot:
         
         if targetSlot != slot:
-            targetPos  = slot.global_position
+            targetPos  = slot.global_position + Vector3.UP * 0.01
             targetSlot = slot
             Post.buildingSlotChanged.emit(targetSlot)
             if slot.get_child_count() == 0:
@@ -134,14 +134,16 @@ func buildingGhost(ghostName:String):
     ghost = load("res://world/buildings/%s.tscn" % ghostName).instantiate()
     ghost.name = ghostName
 
-    get_parent_node_3d().add_child(ghost)
+    #get_parent_node_3d().add_child(ghost)
+    get_node("/root/World").currentLevel.add_child(ghost)
     ghost.global_position = targetPos
+    ghost.process_mode = Node.PROCESS_MODE_DISABLED
+    ghost.set_physics_process(false)
     #ghost.scale = Vector3(1.1, 1.1, 1.1)
     if not ghost.global_position.is_zero_approx():
         ghost.look_at(Vector3.ZERO)
     var meshes = ghost.find_children("*Mesh*")
     for mesh in meshes:
-        #if mesh is MeshInstance3D:
         if Utils.isClass(mesh, "HalfCapsuleTurret"):
             mesh.material = GHOST_MATERIAL
         elif Utils.isClass(mesh, "HalfCapsuleRounded"):

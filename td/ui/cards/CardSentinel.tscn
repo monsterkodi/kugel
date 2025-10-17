@@ -7,7 +7,7 @@
 [node name="CardSentinel" type="Node3D"]
 script = ExtResource("1_a1pdd")
 
-[node name="Bouncer" parent="." instance=ExtResource("2_lokca")]
+[node name="Sentinel" parent="." instance=ExtResource("2_lokca")]
 unique_name_in_owner = true
 
 [node name="CardSetup" parent="." instance=ExtResource("2_a1pdd")]

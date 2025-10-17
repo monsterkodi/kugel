@@ -6,7 +6,6 @@ const CARD_SIZE : Vector2i = Vector2i(300,225)
 func appear():
     
     var levelName = get_node("/root/World").currentLevelName
-    var hs = Info.highscoreForCurrentLevel()
     
     %Retry.grab_focus()
     
@@ -14,6 +13,7 @@ func appear():
     assert(Saver.savegame.data.Level.has(levelName))
     
     var data = Saver.savegame.data.Level[levelName]
+    var hs = data.highscore
     
     %ScoreValue.text       = str(data.lastScore)
     %TimeValue.text        = Utils.timeStr(Info.gameTime)

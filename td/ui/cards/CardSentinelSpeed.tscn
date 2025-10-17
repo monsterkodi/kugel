@@ -7,14 +7,14 @@
 [node name="CardSentinelSpeed" type="Node3D"]
 script = ExtResource("1_7yv34")
 
-[node name="Bouncer1" parent="." instance=ExtResource("2_sv5i8")]
+[node name="Sentinel1" parent="." instance=ExtResource("2_sv5i8")]
 unique_name_in_owner = true
 
-[node name="Bouncer2" parent="." instance=ExtResource("2_sv5i8")]
+[node name="Sentinel2" parent="." instance=ExtResource("2_sv5i8")]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 2)
 
-[node name="Bouncer3" parent="." instance=ExtResource("2_sv5i8")]
+[node name="Sentinel3" parent="." instance=ExtResource("2_sv5i8")]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 2)
 

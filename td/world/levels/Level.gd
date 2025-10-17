@@ -123,6 +123,7 @@ func saveLevel(data:Dictionary):
     
     ld.highscore      = highscore
     ld.enemiesSpawned = Stats.numEnemiesSpawned
+    ld.lastScore      = Stats.numEnemiesSpawned
     ld.balance        = Wallet.balance
     ld.clock          = %Clock.save()
     ld.gameTime       = Info.gameTime

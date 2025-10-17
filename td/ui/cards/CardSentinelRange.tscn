@@ -7,7 +7,7 @@
 [node name="CardSentinelRange" type="Node3D"]
 script = ExtResource("1_afr0h")
 
-[node name="Bouncer" parent="." instance=ExtResource("2_ncakv")]
+[node name="Sentinel" parent="." instance=ExtResource("2_ncakv")]
 unique_name_in_owner = true
 
 [node name="CardSetup" parent="." instance=ExtResource("3_dt4uu")]
